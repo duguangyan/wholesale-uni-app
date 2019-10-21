@@ -1,0 +1,26 @@
+.err.data-v-7a1a23f0 {
+  text-align: center;
+}
+.err > ._img.data-v-7a1a23f0 {
+    margin-top: 200rpx;
+    width: 240rpx;
+    height: 240rpx;
+}
+.err .p.data-v-7a1a23f0 {
+    color: #999;
+    width: 220rpx;
+    margin: 0 auto;
+    font-size: 24rpx;
+}
+.err .btn.data-v-7a1a23f0 {
+    width: 140rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    margin: 0 auto;
+    background: #FC2D2D;
+    border-radius: 60rpx;
+    color: #fff;
+    margin-top: 40rpx;
+    font-size: 28rpx;
+}
+

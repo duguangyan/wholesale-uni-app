@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "商品列表",
+  "usingComponents": {
+    "panel": "/components/search/Panel",
+    "good": "/components/common/Good"
+  }
+}

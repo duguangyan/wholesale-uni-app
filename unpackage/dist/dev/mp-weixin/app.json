@@ -1,0 +1,66 @@
+{
+  "pages": [
+    "pages/main/main",
+    "pages/login/login",
+    "pages/user/user",
+    "pages/order/order",
+    "pages/user/setting/setting",
+    "pages/user/protocal/protocal",
+    "pages/user/about/about",
+    "pages/user/info/info",
+    "pages/user/nickname/nickname",
+    "pages/user/addlist/addlist",
+    "pages/user/addedit/addedit",
+    "pages/user/collection/collection",
+    "pages/user/order/list",
+    "pages/user/order/finish",
+    "pages/user/order/freight",
+    "pages/user/order/detail",
+    "pages/user/order/success",
+    "pages/user/pay/success",
+    "pages/order/goodsDetail/goodsDetail",
+    "pages/order/prompt/prompt",
+    "pages/order/submit/submit",
+    "pages/order/paySuccess/paySuccess",
+    "pages/order/orderSuccess/orderSuccess",
+    "pages/main/search/search",
+    "pages/order/goodsList/goodsList",
+    "pages/common/err/err",
+    "pages/common/webview/webview"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "沁绿农业APP",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#FFFFFF",
+    "onReachBottomDistance": 151
+  },
+  "tabBar": {
+    "color": "#D9D9D9",
+    "selectedColor": "#FC2D2D",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/main/main",
+        "text": "首页",
+        "iconPath": "static/img/1.1.png",
+        "selectedIconPath": "static/img/1.2.png"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "text": "进货单",
+        "iconPath": "static/img/2.1.png",
+        "selectedIconPath": "static/img/2.2.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "static/img/3.1.png",
+        "selectedIconPath": "static/img/3.2.png"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap97.json"
+}

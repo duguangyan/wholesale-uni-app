@@ -1,0 +1,150 @@
+.main.data-v-2593b801 {
+  width: 100%;
+}
+.main .seach.data-v-2593b801 {
+    width: 670rpx;
+    height: 60rpx;
+    margin: 0 auto;
+    position: fixed;
+    top: 130rpx;
+    left: 40rpx;
+    z-index: 99999;
+}
+.main .seach .bg.data-v-2593b801 {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      opacity: .4;
+      border-radius: 30rpx;
+}
+.main .seach .name.data-v-2593b801 {
+      text-align: center;
+      position: absolute;
+      top: 15rpx;
+      left: 300rpx;
+}
+.main .seach .img.data-v-2593b801 {
+      width: 30rpx;
+      height: 30rpx;
+      position: absolute;
+      left: 260rpx;
+      top: 6rpx;
+}
+.main .seach .img > image.data-v-2593b801 {
+        width: 100%;
+        height: 100%;
+}
+.main .seles .content.data-v-2593b801 {
+    margin: 0 30rpx;
+}
+.main .seles .content .item.data-v-2593b801 {
+      width: 340rpx;
+      height: 520rpx;
+      border-radius: 10rpx;
+      overflow: hidden;
+}
+.main .seles .content .item .warp.data-v-2593b801 {
+        padding: 4rpx;
+}
+.main .seles .content .item .warp .add.data-v-2593b801 {
+          position: relative;
+          top: 10rpx;
+}
+.main .seles .content .item .img.data-v-2593b801 {
+        width: 340rpx;
+        height: 355rpx;
+}
+.main .seles .content .item .img > image.data-v-2593b801 {
+          width: 100%;
+          height: 100%;
+}
+.main .seles .content .item.data-v-2593b801:nth-child(even) {
+      position: relative;
+      left: 20rpx;
+}
+.main .seles .title.data-v-2593b801 {
+    width: 300rpx;
+    height: 40rpx;
+    margin: 30rpx auto;
+}
+.main .seles .title > image.data-v-2593b801 {
+      width: 100%;
+      height: 100%;
+}
+.main .advs.data-v-2593b801 {
+    width: 690rpx;
+    height: 140rpx;
+    margin: 0 auto;
+}
+.main .advs > image.data-v-2593b801 {
+      width: 100%;
+      height: 100%;
+}
+.main .nav.data-v-2593b801 {
+    margin: 20rpx 0;
+}
+.main .nav .li.data-v-2593b801 {
+      width: 20%;
+      text-align: center;
+}
+.main .nav .li .name.data-v-2593b801 {
+        margin-top: 4rpx;
+}
+.main .nav .li .img.data-v-2593b801 {
+        width: 96rpx;
+        height: 96rpx;
+        margin: 0 auto;
+}
+.main .nav .li .img > image.data-v-2593b801 {
+          width: 100%;
+          height: 100%;
+}
+.main .index-top-warp.data-v-2593b801 {
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+}
+.main .index-top-warp swiper.data-v-2593b801 {
+      height: 460rpx;
+}
+.main .index-top-warp swiper-item.data-v-2593b801 {
+      height: 460rpx;
+}
+.main .index-top-warp .swiper-item image.data-v-2593b801 {
+      width: 100%;
+      height: 460rpx;
+}
+.main .index-top-warp .nav.data-v-2593b801 {
+      padding: 0 40rpx;
+      text-align: left;
+      height: 200rpx;
+      position: relative;
+}
+.main .index-top-warp .nav.data-v-2593b801:after {
+        content: "";
+        height: 100rpx;
+        width: 1rpx;
+        background: #fff;
+        display: inline-block;
+        position: absolute;
+        top: 50rpx;
+        left: 355rpx;
+        z-index: 9999;
+}
+.main .index-top-warp .nav image.data-v-2593b801 {
+        width: 100rpx;
+        height: 100rpx;
+}
+.main .index-top-warp .nav .item.data-v-2593b801 {
+        text-align: center;
+}
+.main .seach.data-v-2593b801 {
+    top: 80rpx !important;
+}
+.main .seach .name.data-v-2593b801 {
+      top: 14rpx !important;
+}
+.main .seach .img.data-v-2593b801 {
+      top: 12rpx !important;
+}
+

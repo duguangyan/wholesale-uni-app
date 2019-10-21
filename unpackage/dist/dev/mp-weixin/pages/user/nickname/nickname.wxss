@@ -1,0 +1,27 @@
+.nickname.data-v-9cbcca9c {
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+.nickname .sub-btn.data-v-9cbcca9c {
+    position: absolute;
+    top: 0rpx;
+    right: 0rpx;
+    z-index: 99999;
+    height: 88rpx;
+    width: 120rpx;
+    line-height: 100rpx;
+}
+.nickname .input.data-v-9cbcca9c {
+    margin-top: 20rpx;
+    background-color: #fff;
+    height: 100rpx;
+    padding-left: 30rpx;
+}
+.nickname input.data-v-9cbcca9c {
+    line-height: 100rpx;
+    font-size: 30rpx;
+    color: #000;
+    border: none;
+    outline: none;
+}
+

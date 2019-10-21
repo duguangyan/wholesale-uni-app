@@ -1,0 +1,33 @@
+.success .top.data-v-65ddddf0 {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  text-align: center;
+}
+.success .content.data-v-65ddddf0 {
+  text-align: center;
+  margin-top: 100px;
+}
+.success .content .img.data-v-65ddddf0 {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+}
+.success .content .img > ._img.data-v-65ddddf0 {
+      width: 100%;
+}
+.success .content .d2.data-v-65ddddf0 {
+    width: 200px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.success .content .d2 > ._p.data-v-65ddddf0 {
+      display: inline-block;
+      border: 1px solid #f0f0f0;
+      padding: 5px;
+      border-radius: 20px;
+}
+.success .content .d2.data-v-65ddddf0 :first-child {
+      margin-right: 10px;
+}
+

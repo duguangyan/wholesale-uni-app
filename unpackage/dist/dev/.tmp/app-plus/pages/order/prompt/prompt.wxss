@@ -1,0 +1,23 @@
+.freight-prompt.data-v-49b91777 {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+.freight-prompt .address.data-v-49b91777 {
+    margin-top: 20rpx;
+    background-color: #fff;
+    line-height: 100rpx;
+    font-size: 30rpx;
+    padding-left: 30rpx;
+}
+.freight-prompt input.data-v-49b91777 {
+    border: none;
+    outline: none;
+    padding-left: 20rpx;
+}
+.freight-prompt .prompt.data-v-49b91777 {
+    color: #666;
+    font-size: 24rpx;
+    margin-top: 20rpx;
+    padding-left: 30rpx;
+}
+

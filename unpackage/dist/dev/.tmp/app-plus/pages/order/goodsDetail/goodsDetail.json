@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "商品详情",
+  "usingComponents": {
+    "share": "/components/good/Share",
+    "standard": "/components/good/Standard",
+    "player": "/components/common/Player"
+  }
+}

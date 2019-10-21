@@ -1,0 +1,50 @@
+.icon-img2.data-v-775afd49, .icon-img.data-v-775afd49 {
+  width: 22rpx;
+  height: 22rpx;
+}
+.icon-img2 > ._img.data-v-775afd49, .icon-img > ._img.data-v-775afd49 {
+    width: 100%;
+    height: 100%;
+}
+.setting.data-v-775afd49 {
+  position: relative;
+}
+.setting.data-v-775afd49::before {
+    content: '';
+    display: block;
+    z-index: -1;
+    position: absolute;
+    background-color: #f5f5f5;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+}
+.setting .list.data-v-775afd49 {
+    margin-top: 20rpx;
+}
+.setting .list .li.data-v-775afd49 {
+      height: 100rpx;
+      line-height: 100rpx;
+      background: #fff;
+      padding: 0 30rpx;
+      border-bottom: 1rpx solid #F5F5F5;
+}
+.setting .list .li .icon.data-v-775afd49 {
+        width: 44rpx;
+        height: 44rpx;
+}
+.setting .list .li .icon ._img.data-v-775afd49 {
+          width: 100%;
+          height: 100%;
+}
+.setting .exit.data-v-775afd49 {
+    width: 640rpx;
+    line-height: 80rpx;
+    border-radius: 40rpx;
+    background-color: #FC2D2D;
+    text-align: center;
+    margin: 40rpx auto auto auto;
+    color: #fff;
+}
+
