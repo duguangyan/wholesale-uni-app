@@ -4,7 +4,7 @@
 			<div class="top cf">
 				<div class="search fll">
 					<div class="icon-30">
-						<img src="@/static/img/icon-search2.png" width="15" height="15" alt />
+						<img :class="{'platform':platform==2}" src="@/static/img/icon-search2.png" />
 					</div>
 					<input class="fs28" v-model="search" placeholder="输入商品名称" />
 				</div>
@@ -41,14 +41,16 @@
 				search: "",
 				records: [],
 				loading: false,
-				index: ''
+				index: '',
+				platform: 0,
 			};
 		},
 		components:{
 			Dialog
 		},
 		onLoad() {
-			
+			// 设备样式兼容
+			this.platform = uni.getStorageSync('platform');
 		},
 		onShow() {
 			this.getRecord();
@@ -120,6 +122,10 @@
 
 <style lang="scss" scoped>
 	.search {
+		width: 750upx;
+		overflow-x: hidden;
+		background: #fff;
+		height: 100vh;
 		li {
 			list-style: none;
 		}
@@ -128,7 +134,7 @@
 			width: 40upx;
 			height: 40upx;
 			position: relative;
-			left: -90upx;
+			left: -82upx;
 
 			>img {
 				width: 100%;
@@ -140,21 +146,24 @@
 			position: relative;
 
 			.search {
-				width: 550upx;
+				width: 590upx;
 				height: 60upx;
 				border-radius: 60upx;
 				background-color: #F5F5F5;
 				position: relative;
-				left: 50upx;
+				left: 30upx;
 				top: 10upx;
 				overflow: hidden;
 
 				input {
 					position: absolute;
-					top: 0;
-					left: 80upx;
-					width: 100%;
-					height: 100%;
+					top: 14upx;
+					left: 68upx;
+					width: 84%;
+					height: 40upx;
+					min-height:40upx;
+					font-size: 28upx;
+					overflow: hidden;
 					text-align: left;
 				}
 
@@ -162,13 +171,26 @@
 					width: 36upx;
 					height: 36upx;
 					position: absolute;
-					left: 30upx;
+					left: 20upx;
 					top: 8upx;
 
 					>img {
 						width: 100%;
 						height: 100%;
 					}
+				}
+				
+				/* #ifdef APP-PLUS || APP-PLUS-NVUE */
+				.icon-30 {
+					width: 30upx;
+					height: 30upx;
+					top: 12upx;
+				}
+				/* #endif */
+				
+				.platform{
+					position: relative;
+					top: -10upx;
 				}
 			}
 
@@ -178,7 +200,7 @@
 
 			.flr {
 				position: absolute;
-				right: 60upx;
+				right: 40upx;
 				top: 20upx;
 			}
 		}
@@ -208,9 +230,9 @@
 
 			li {
 				display: inline-block;
-				padding: 18upx 26upx;
+				padding: 10upx 26upx;
 				background-color: #f4f4f4;
-				border-radius: 30upx;
+				border-radius: 50upx;
 				color: #333;
 				margin-bottom: 20upx;
 				margin-right: 20upx;

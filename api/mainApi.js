@@ -8,4 +8,13 @@ const getHomeList = data => {
   })
 }
 
-export { getHomeList }
+const addHit = data => {
+  return request({
+    url: '/api/act/ad/addHit',
+    method: 'post',
+    data,
+    type: 'form'
+  })
+}
+
+export { getHomeList, addHit }

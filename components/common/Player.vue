@@ -1,14 +1,15 @@
 <template>
-  <div v-show="show" class="player">
-    <div name="mask">
-      <div v-show="show" class="mask" @click="close"></div>
-    </div>
-    <div name="body">
-      <div v-show="show" class="body">
-        <video ref="player" :src="src" width="100%" height="400" controls></video>
-      </div>
-    </div>
-  </div>
+  <view v-show="show" class="player">
+    <view name="mask">
+      <view v-show="show" class="mask" @click="close"></view>
+    </view>
+    <view name="body">
+      <view v-show="show" class="body" >
+        <video @ended="close" id="myVideo" :autoplay='autoplay' ref="player" :src="src" width="100%" height="400" controls></video>
+      </view>
+    </view>
+	<view class="xx" @click="close">x</view>
+  </view>
 </template>
 <script>
 var vm = {
@@ -23,21 +24,26 @@ var vm = {
       default: ""
     }
   },
-  watch:{
-    src(val){
-      vm.$refs.player.src = val
-      vm.$refs.player.load()
-    }
-  },
   data() {
     vm = this;
-    return {};
+    return {
+		autoplay: true,
+		videoCtx:''
+	};
   },
-  created() {},
-  mounted() {},
+  created() {
+	// console.log('created')
+	
+  },
+  mounted() {
+	
+  },
   methods: {
     close() {
-      vm.$emit("close", false);
+		setTimeout(()=>{
+			vm.$emit("close", false);
+		},300)
+      
     }
   }
 };
@@ -46,34 +52,53 @@ export default vm;
 
 <style lang="scss" scoped>
 .player {
-  position: fixed;
+  
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 99;
+  overflow: hidden;
   height: 1000upx;
   // background: red;
+  .xx{
+  	  position: absolute;
+  	  z-index: 999;
+  	  bottom: 100upx;
+  	  left: 50%;
+	  margin-left: -50upx;
+  	  color: #fff;
+  	  font-size: 60upx;
+  	  width: 100upx;
+  	  height: 100upx;
+  	  background: #000;
+  	  border-radius: 50%;
+	  text-align: center;
+	  line-height: 90upx;
+  }
   .mask {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.3);
+	height: 100%;
   }
   .body {
     background-color: #fff;
-
-    position: fixed;
+	height: 750upx;
+    position: absolute;
     z-index: 2;
     width: 100%;
     left: 0;
-    bottom: 0;
+    top: 0;
     color: #000;
 	>video{
-		width: 100% !important;
+		width: 750upx;
+		height: 100%;
 	}
     .h1 {
       font-size: 28upx;

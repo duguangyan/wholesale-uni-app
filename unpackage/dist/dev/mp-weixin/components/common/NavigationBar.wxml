@@ -1,0 +1,1 @@
+<view class="navigationBar data-v-0f2e79a6"><view class="content cf data-v-0f2e79a6"><view data-event-opts="{{[['tap',[['goBack',['$event']]]]]}}" class="img fll data-v-0f2e79a6" bindtap="__e"><image src="../../static/img/tag-back.png" class="data-v-0f2e79a6"></image></view><view class="{{['title fs28 data-v-0f2e79a6',(platform==1)?'Android':'']}}">{{title}}</view></view></view>

@@ -1,0 +1,1 @@
+<view class="video data-v-bedbc3b2"><video src="{{url}}" autoplay="{{true}}" controls class="data-v-bedbc3b2"></video></view>

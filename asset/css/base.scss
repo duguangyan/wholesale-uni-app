@@ -1,3 +1,6 @@
+page{
+	background: #F7F7F7;
+}
 a{
 	text-decoration:none;
 	color: #333;
@@ -65,7 +68,9 @@ a{
 .text-gray {
     color: #666;
 }
-
+.text-000 {
+    color: #000;
+}
 .text-333 {
     color: #333;
 }
@@ -116,7 +121,7 @@ a{
 }
 /* 背景颜色 */
 .bg-red{
-  background-color: #c81a29;
+  background-color: #FC2D2D;
 }
 .bg-yellow{
 	background-color: #F29800;

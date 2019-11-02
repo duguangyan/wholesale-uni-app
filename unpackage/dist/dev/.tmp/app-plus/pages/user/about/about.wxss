@@ -1,13 +1,13 @@
 .about.data-v-1b9c0ae4 {
   text-align: center;
   color: #999;
-  font-size: 24rpx;
+  font-size: 28rpx;
 }
 .about .img.data-v-1b9c0ae4 {
     width: 100rpx;
     height: 100rpx;
     margin: 0 auto;
-    margin-top: 200rpx;
+    margin-top: 340rpx;
 }
 .about .img > ._img.data-v-1b9c0ae4 {
       width: 100%;
@@ -17,9 +17,9 @@
     margin-top: 360rpx;
 }
 .about .text.data-v-1b9c0ae4 {
-    margin-top: 72rpx;
+    margin-top: 36rpx;
 }
 .about .text.data-v-1b9c0ae4:last-child {
-      margin-top: 26rpx;
+      margin-top: 14rpx;
 }
 

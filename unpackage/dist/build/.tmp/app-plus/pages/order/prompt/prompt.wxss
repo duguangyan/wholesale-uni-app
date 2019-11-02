@@ -1,20 +1,26 @@
-.freight-prompt.data-v-74612b0a {
+.freight-prompt.data-v-2885a1ca {
   min-height: 100vh;
   background-color: #f5f5f5;
 }
-.freight-prompt .address.data-v-74612b0a {
+.freight-prompt .address.data-v-2885a1ca {
     margin-top: 20rpx;
     background-color: #fff;
     line-height: 100rpx;
     font-size: 30rpx;
     padding-left: 30rpx;
 }
-.freight-prompt input.data-v-74612b0a {
+.freight-prompt .address ._span.data-v-2885a1ca {
+      width: 140rpx;
+}
+.freight-prompt input.data-v-2885a1ca {
     border: none;
     outline: none;
     padding-left: 20rpx;
+    position: relative;
+    top: 26rpx;
+    width: 200rpx;
 }
-.freight-prompt .prompt.data-v-74612b0a {
+.freight-prompt .prompt.data-v-2885a1ca {
     color: #666;
     font-size: 24rpx;
     margin-top: 20rpx;

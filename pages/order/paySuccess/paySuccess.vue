@@ -6,15 +6,16 @@
 		        <img src="@/static/img/icon-finsh-order.png" alt="图片">
 		      </div>
 		      <div class="d1 fs-20 text-333 mt-20">
-		        支付完成
+		        交易已完成
 		      </div>
-		      <div class="text-red mt-10" v-if="this.query.payPrice">￥{{this.query.payPrice}}</div>
+		      <div class="text-red mt-10" v-if="this.payPrice">￥{{this.payPrice}}</div>
 		      <div class="d2 flex text-333">
 		        <p class="flex-1" @click="checkOrderDetal">查看订单</p>
 		      </div>
 		    </div>
 		    <AdvertisingPosition></AdvertisingPosition>
 		    <StrictlyGoods></StrictlyGoods>
+			<Dialog :title='title' :confirmText='confirmText' :cancelText='cancelText' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
 		  </div>
 	</view>
 </template>
@@ -22,24 +23,41 @@
 <script>
 	 import StrictlyGoods from '@/components/common/StrictlyGoods.vue'
 	  import AdvertisingPosition from '@/components/common/AdvertisingPosition.vue'
+	  import Dialog from '@/components/common/Dialog.vue'
 	export default {
 		data() {
 			return {
-				orderSn:''
+				orderSn:'',
+				payPrice:'',
+				title:'请确认微信支付是否完成',
+				cancelText:'遇到问题',
+				confirmText:'已完成',
+				isShow: true
 			};
 		},
 		components:{
 			StrictlyGoods,
-			AdvertisingPosition
+			AdvertisingPosition,
+			Dialog
 		},
 		onLoad(options) {
-			this.orderSn = options.orderSn
+			this.orderSn = options.orderId
+			this.payPrice = options.payPrice
 		},
 		onShow() {
 			
 			
 		},
 		methods: {
+			doConfirm(){
+				this.isShow = false
+				
+			},
+			doCancel(){
+				uni.navigateTo({
+					url:'/pages/user/order/detail?orderId='+this.orderSn
+				})
+			},
 		      // 广告位url跳转
 		      goPath(url) {
 		        if (url) {
@@ -50,7 +68,7 @@
 		      checkOrderDetal() {
 		        // 详情需要 orderId, shopId
 				uni.navigateTo({
-					url:'/pages/order/goodsDetail/goodsDetail?orderId='+this.orderSn
+					url:'/pages/user/order/detail?orderId='+this.orderSn
 				})
 		      },
 		      // 返回首页
@@ -74,11 +92,13 @@
     }
     .content{
       text-align: center;
-      margin-top: 200upx;
+      padding-top: 150upx;
+	  background: #fff;
+	  padding-bottom: 40upx;
       .img{
         width: 80upx;
         height: 80upx;
-        margin: 0 auto;
+        margin: 10upx auto;
         >img{
           width: 100%;
 		  height: 100%;
@@ -95,7 +115,7 @@
           border-radius: 40upx;
         }
         :first-child{
-          margin-right: 20upx;
+          margin-right: 40upx;
         }
       }
     }

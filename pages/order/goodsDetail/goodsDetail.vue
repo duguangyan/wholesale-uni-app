@@ -1,5 +1,5 @@
 <template>
-	<div class="good-detail">
+	<div class="good-detail" v-if="opt">
 		<!-- <div>
 			<img slot="tag" class="tag" width="27" height="27" src="@/static/img/tag-back3.png" @click="$router.go(-1)" />
 			<div>
@@ -16,7 +16,8 @@
 				</mt-swipe-item>
 			</mt-swipe>
 		</div> -->
-
+		
+		<!-- <Player class="Player" :src="videoUrl" :show="isPlayer" @close="closePlayer" /> -->
 		<view class="top">
 			<view class="tips cf">
 				<view class="fll" @click="goBack" v-if="false">
@@ -36,7 +37,7 @@
 								<swiper-item v-for="(item,index) in imageList" :key="index">
 									<view class="swiper-item">
 										<div v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
-											<image class='img1' src="../../../static/img/play.png" mode=""></image>
+											<image class='img1' src="../../../static/img/play.png" mode="aspectFit"></image>
 										</div>
 										 <image :src="item.imgUrl"></image>
 									</view>
@@ -49,52 +50,56 @@
 		</view>
 
 		<div class="overall">
-			<div v-if="good.goods.showStyle===3 || good.goods.showStyle===1 && good.goodsSkuList.length > 1">
-				<span class="price">{{good.goods.minPrice}}</span>
-				<div v-if="good.goodsSkuList.length > 1">
-					<span>&nbsp;~&nbsp;</span>
-					<span class="price">{{good.goods.maxPrice}}</span>
-					<span class="unit">{{'/'+good.goods.unitName}}</span>
-				</div>
+			<div v-if="good.goods.showStyle==3 || good.goods.showStyle==1">
+				<span class="price">{{good.goods.minPrice || 0}} <span class="fs24 text-000" v-if="good.goodsSkuList.length <= 1">{{'/'+good.goods.unitName}}</span></span>
+				<span v-if="good.goodsSkuList.length > 1">
+					<span class="text-red">&nbsp;~&nbsp;</span>
+					<span class="price"><span>{{good.goods.maxPrice || 0}}</span></span>
+					<span class="unit" v-if="good.goods.unitName">{{'/'+good.goods.unitName}}</span>
+				</span>
 			</div>
-			<div v-else-if="good.goods.showStyle===2">
-				<div v-for="(item,index) in good.goodsList" :key="index">
+			<div v-if="good.goods.showStyle==2" class="flex">
+				<div v-for="(item,index) in good.goodsList" :key="index" class="flex-1">
 					<div class="multi-price">
-						{{item.price}}
-						<span>/{{good.goods.unitName}}</span>
+						{{item.price || 0}}</span>
+						<span v-if="good.goods.unitName">/{{good.goods.unitName}}</span>
 					</div>
 					<div class="multi-sta">{{item.startNum}}{{good.goods.unitName}}起批</div>
 				</div>
 			</div>
-			<div v-else>
-				<span class="price">{{good.goods.minPrice}}</span>
-				<span class="unit">{{'/'+good.goods.unitName}}</span>
+			<div v-if="good.goods.showStyle!=1 && good.goods.showStyle!=2 && good.goods.showStyle!=3">
+				<span class="price" v-if="good.goods.minPrice">{{good.goods.minPrice || 0}} <span v-if="good.goods.maxPrice">~ {{good.goods.maxPrice || 0}}</span></span>
+				<span class="unit" v-if="good.goods.unitName">{{'/'+good.goods.unitName}}</span>
 			</div>
 		</div>
 
 		<div class="good-name">{{good.goods.name}}</div>
 
 		<div class="info">
-			<span>{{good.goods.hits}}人看过</span>
-			<span>{{good.goods.spuSalesNum}}订单数</span>
-			<div v-if="postType!==0" tag="span" @click="goPostSetting(good.goods.postSettingId)">运费说明&gt;</div>
+			<span>{{good.goods.hits || 0}}人看过</span>
+			<span>{{good.goods.spuSalesNum || 0}}订单数</span>
+			<div v-if="postType!==0" class="span" @click="goPostSetting(good.goods.postSettingId)">运费说明 <div class="icon-right"><img src="@/static/img/icon-right.png"></div> </div>
 			<span v-else class="limit-block">全国包邮</span>
 		</div>
+		
+		<div v-if="good.goods.showStyle==3 || good.goods.showStyle==1 && good.goodsSkuList.length > 1" class="standard">
+		      <div class="tag1">
+		        <span>—</span>  <span>规格</span> <span>—</span>
+		      </div>
+		      <li v-for="(item,index) in good.standardList" :key="index" v-if="index<3">
+		        <span v-for="(sta,staIdx) in item" :key="staIdx" :class="{'fix-block':staIdx == item.length-1}">{{sta}}</span>
+		      </li>
+		      <div v-if="good.standardList.length > 3" class="check-more" @click="isStandard = true">查看更多
+				<div class="icon">
+					<img src="@/static/img/tag-go.png">
+				</div>
+			  </div>
+		    </div>
 
-		<div v-if="good.goods.showStyle===3 || good.goods.showStyle===1 && good.goodsSkuList.length > 1" class="standard">
-			<div class="tag1">
-				<span>—</span> <span class="d"></span> <span>规格</span> <span class="d"></span><span>—</span>
-			</div>
-			<li v-for="(item,index) in good.standardList" :key="index" v-show="index<3">
-				<span v-for="(sta,staIdx) in item" :key="staIdx" :class="{'fix-block':staIdx === item.length-1}">{{sta}}</span>
-			</li>
-			<div v-if="good.standardList.length > 3" class="check-more" @click="isStandard = true">查看更多&gt;</div>
-		</div>
-
-		<div class="block"></div>
+		<div class="line" v-if="good.goods.showStyle==3 || good.goods.showStyle==1 && good.goodsSkuList.length > 1"></div>
 		<div class="props">
 			<div class="tag1">
-				<span>—</span> <span class="d"></span> <span>商品属性</span> <span class="d"></span><span>—</span>
+				<span>—</span> <span>商品属性</span> <span>—</span>
 			</div>
 			<li v-for="(item,index) in good.goodsDetailAttrList" :key="index">
 				<span>{{item.name}}:</span>
@@ -103,21 +108,29 @@
 			</li>
 		</div>
 
-		<div class="line"></div>
+		<div class="line" v-if="good.goodsDetailAttrList.length>0"></div>
 
 		<div class="det">
 			<div class="tag1">
-				<span>—</span> <span class="d"></span> <span>商品详情</span> <span class="d"></span><span>—</span>
+				<span>—</span>  <span>商品详情</span> <span>—</span>
 			</div>
 			<div class="txt">{{good.goods.detail}}</div>
-			<img class="img" mode="widthFix" v-for="(item,index) in imageList" :key="index" :src="item.imgUrl" width="100%" alt />
+			<div class="tag2" v-for="(item,index) in imageList" :key="index" >
+				<!-- <div v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
+					<image class='img2' src="../../../static/img/play.png" mode=""></image>
+				</div> -->
+				<img class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
+			</div>
+			
 		</div>
+
+		<div class="goodsTitle" v-if="isGoodsTitle">{{goodsTitle}}</div>
 
 		<div class="operator flex">
 			<div class="fir flex-1">
 				<div @click="changeCollect">
 					<img class="icon-18" :src="good.hasColletion?'../../../static/img/icon-collect2.png':'../../../static/img/icon-collect.png'" />
-					<div>收藏</div>
+					<div>{{good.hasColletion?'已收藏':'收藏'}}</div>
 				</div>
 				<div tag="div" @click="goCart">
 					<div class="icon-15">
@@ -130,12 +143,33 @@
 				</div>
 			</div>
 
+			
 			<div class="flex-2" v-if="good.isInvalid || good.goods.status!==3">
-				<div class="add" @click="$router.push('/')">再去逛逛</div>
+				<div class="add" @click="goHome">再去逛逛</div>
 			</div>
+			
 			<div class="flex-2 flex" v-if="!good.isInvalid || good.goods.status===3">
+				
+				<!--  #ifdef  H5 || APP-PLUS -->
 				<div class="add flex-1" @click="showConfirm('/cart')">加入进货单</div>
 				<div class="buy flex-1" @click="showConfirm('/submit')">立即购买</div>
+				<!--  #endif -->
+				
+				<!--  #ifdef  MP-WEIXIN -->
+				<div class="add flex-1">
+					<form @submit="showConfirm1($event,'/cart')" report-submit="true">
+						<button form-type="submit">加入进货单</button>
+					</form>
+				</div>
+				<div class="buy flex-1">
+					<form @submit="showConfirm1($event,'/submit')" report-submit="true">
+						<button form-type="submit">立即购买</button>
+					</form>
+				</div>
+				<!--  #endif -->
+				
+				
+				
 			</div>
 		</div>
 
@@ -155,18 +189,20 @@
 							{{totalPrice}}
 							<span>/{{good.goods.unitName}}</span>
 						</div>
-						<img class="icon-155" src="@/static/img/tag-close2.png" width="15" height="15" @click="isSure = false" />
+						<img class="icon-155" src="@/static/img/tag-close2.png" @click="isSure = false" />
 					</div>
 
 					<!-- 多规格 -->
 					<div v-if="good.goods.showStyle!=2" class="standard">
 						<div v-for="(spec,index) in good.goodsDetailSpecList" :key="spec.id">
 							<div class="sta-name">{{spec.name}}</div>
-							<div class="sta-item">
-								<div v-for="(opt,ii) in spec.goodsDetailSpecValueList" :key="ii">
+							<div class="sta-item cf">
+								<div class='fll' v-for="(opt,ii) in spec.goodsDetailSpecValueList" :key="ii">
 									<div v-if="index == deep - 1">
-										<span :class="[!getStatus(opt.value)&&curs[index]['key']==opt.value?'actived':'',getStatus(opt.value)?'disabled':'']"
-										 :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}{{good.sufName}}/{{good.goods.unitName}}</span>
+										<!-- <span :class="[!getStatus(opt.value)&&curs[index]['key']==opt.value?'actived':'',getStatus(opt.value)?'disabled':'']"
+										 :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}{{good.sufName}}/{{good.goods.unitName}}</span> -->
+										 <span :class="[!getStatus(opt.value)&&curs[index]['key']==opt.value?'actived':'',getStatus(opt.value)?'disabled':'']"
+										  :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}{{good.sufName}}</span>
 									</div>
 									<div v-if="index != deep - 1">
 										<span :class="{actived: curs[index]['key']===opt.value}" :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}</span>
@@ -179,9 +215,9 @@
 					<div class="count">
 						<span class="fg1">数量</span>
 						<div class="input cf">
-							<div class="fll" v-show="nums>startNum" @click="doDecrease">-</div>
+							<div class="fll" v-show="nums>startNum" @tap="doDecrease">-</div>
 							<input class="fll" v-model="nums" type="number" @blur="checkNum($event)" />
-							<div class="flr" v-show="nums<stock"  @click="doIncrease">+</div>
+							<div class="flr" v-show="nums<stock"  @tap="doIncrease">+</div>
 						</div>
 
 					</div>
@@ -196,7 +232,7 @@
 
 		<Share :img='imageList[0].imgUrl' :name="good.goods.name" :shopId='shopId' :goodsId='goodsId' :show="isShare" @close="isShare = false" />
 		<Standard v-if="good.standardList.length>3" :show="isStandard" :list="good.standardList" @close="isStandard = false" />
-		<Player :src="videoUrl" :show="isPlayer" @close="isPlayer = false" />
+		
 	</div>
 </template>
 
@@ -214,16 +250,19 @@
 		setCollect,
 		removeCollect,
 		getGoodNums,
-		getPostItem
+		getPostItem,
+		getHasCollect
 	} from "@/api/goodsApi.js";
+	import {getSetFormId} from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	import util from '@/utils/util.js'
 	export default {
 		data() {
 			return {
+				opt: false,
 				indicatorDots: false,
-				autoplay: true,
-				interval: 3000,
+				autoplay: false,
+				interval: 5000,
 				duration: 500,
 				shopId: '',
 				goodsId: '',
@@ -257,8 +296,9 @@
 				counter: 0,
 				isSure: false,
 				isShare: false,
-				nav: ""
-
+				nav: "",
+				isGoodsTitle: false,
+				goodsTitle:''
 			};
 		},
 		components: {
@@ -276,159 +316,190 @@
 			this.goodsId = options.goodsId;
 		},
 		onShow() {
+			
+			
 			if (uni.getStorageSync("access_token")) {
 				getGoodNums({
 					status: ""
 				}).then(data => {
-					this.counter = data.data.itemNum;
+					if(data.code == '1000'){
+						this.counter = data.data.itemNum;
+					}
+					
 				});
 			}
-
 			getDetail({
 				shopId: this.shopId,
 				goodsId: this.goodsId
 			}).then(data => {
-				let d = data.data.goodsDetail;
-				d.hasColletion = data.data.hasColletion;
-				d.standardList = [];
-
-				//处理金额
-				d.goods.minPrice = util.formatMoney(d.goods.minPrice, 2);
-				d.goods.maxPrice = util.formatMoney(d.goods.maxPrice, 2);
-				
-				// 处理视频和图片
-				let imageList = [];
-				d.goodsImgVOList.forEach(item => {
-					if (item.type != 2) {
-						imageList.push(item);
-					} else {
-						this.videoObj[item.sort] = item.imgUrl;
-					}
-				});
-				this.imageList = imageList;
-				this.total = imageList.length;
-
-				if (d.goods.unitName == null) {
-					d.goods.unitName = d.goodsDetailSpecList[0].name;
-				}
-
-				const setNode = (node, key) => {
-					node[key] = {};
-					return node[key];
-				};
-
-				// 生成规格树
-				let tree = {};
-				// let specLen = d.goodsDetailSpecList.length;
-				let parentNodes = [tree];
-
-				d.goodsDetailSpecList.forEach(spec => {
-					// 为每个父节点插入子节点
-					parentNodes.forEach(node => {
-						let nodes = [];
-						spec.goodsDetailSpecValueList.forEach((val, index) => {
-							// 重置当前遍历的父节点
-							nodes[index] = setNode(node, val.value);
-						});
-						parentNodes = nodes;
-					});
-				});
-
-				let sufName;
-				let isSection =
-					d.goods.showStyle == 1 && d.goodsSkuList.length > 1 ? true : false;
-				// if (isSection) {
-				//   sufName = d.goodsDetailSpecList[0].valueSuffix;
-				// } else {
-				//   sufName = "";
-				// }
-				sufName = d.goodsDetailSpecList[0].valueSuffix || "";
-
-				let grades = JSON.parse(d.goodsSkuList[0].priceExp);
-				if (d.goods.showStyle == 2) {
-					d.goodsSkuList[0].price = grades[0].price;
-					d.goodsSkuList[0].startNum = grades[0].startQuantity;
-				}
-
-				// 配置节点
-				let isInvalid = /* 是否无效效商品 */ true;
-				d.goodsSkuList.forEach((sku, exIndex) => {
-					let curNode = tree;
-					let len = sku.attrValueList.length;
-					d.standardList[exIndex] = [];
-
-					sku.attrValueList.forEach((val, index) => {
-						curNode = curNode[val.value];
-						if (len - 1 == index) {
-							// 配置参数
-							curNode.disabled = !!(sku.stock < sku.startNum);
-							curNode.price = sku.price;
-							curNode.stock = sku.stock;
-							curNode.id = sku.id;
-							curNode.startNum = sku.startNum;
-
-						}
-
-						// 顺便处理规格
-						if (isSection) {
-							d.standardList[exIndex].push(`${val.value}${d.goods.unitName}起批`);
-							d.standardList[exIndex].push(
-								`${val.value}${sufName}/${d.goods.unitName}`
-							);
+				if(data.code == '1000'){
+					let d = data.data.goodsDetail;
+					d.hasColletion = data.data.hasColletion;
+					d.standardList = [];
+					
+					//处理金额
+					d.goods.minPrice = util.formatMoney(d.goods.minPrice, 2);
+					d.goods.maxPrice = util.formatMoney(d.goods.maxPrice, 2);
+					
+					// 处理视频和图片
+					let imageList = [];
+					d.goodsImgVOList.forEach(item => {
+						if (item.type != 2) {
+							imageList.push(item);
 						} else {
-							d.standardList[exIndex].push(val.value);
+							this.videoObj[item.sort] = item.imgUrl;
 						}
-
-						// 累计无效次
-						isInvalid = isInvalid && curNode.disabled;
 					});
-					d.standardList[exIndex].push(`￥${sku.price}/${d.goods.unitName}`);
-				});
-				d.tree = tree;
-				d.isInvalid = isInvalid;
-
-				if (d.goods.status != 3) {
-					T.tips("商品已下架啦,看下其它的吧");
-				}
-
-				if (d.goods.showStyle == 2) {
-					let sku = d.goodsSkuList[0].attrValueList[0];
-					d.goodsList = [];
-					// let grades = JSON.parse(d.goodsSkuList[0].priceExp);
-
-					grades.forEach((item, index) => {
-						d.goodsList.push({
-							startNum: item.startQuantity,
-							price: item.price,
-							unit: sku.name,
-							id: sku.skuId
+					this.imageList = imageList;
+					this.total = imageList.length;
+					
+					if (d.goods.unitName == null) {
+						d.goods.unitName = d.goodsDetailSpecList[0].name;
+					}
+					
+					const setNode = (node, key) => {
+						node[key] = {};
+						return node[key];
+					};
+					
+					// 生成规格树
+					let tree = {};
+					// let specLen = d.goodsDetailSpecList.length;
+					let parentNodes = [tree];
+					
+					d.goodsDetailSpecList.forEach(spec => {
+						// 为每个父节点插入子节点
+						parentNodes.forEach(node => {
+							let nodes = [];
+							spec.goodsDetailSpecValueList.forEach((val, index) => {
+								// 重置当前遍历的父节点
+								nodes[index] = setNode(node, val.value);
+							});
+							parentNodes = nodes;
 						});
 					});
-				}
-
-				d.sufName = sufName;
-
-				this.good = d || {};
-
-				// 商品购买面板
-				this.deep = this.good.goodsDetailSpecList.length;
-				this.good.goodsDetailSpecList.forEach(spec => {
-					this.curs.push({
-						key: spec.goodsDetailSpecValueList[0].value,
-						disabled: undefined
+					
+					let sufName;
+					let isSection =
+						d.goods.showStyle == 1 && d.goodsSkuList.length > 1 ? true : false;
+					// if (isSection) {
+					//   sufName = d.goodsDetailSpecList[0].valueSuffix;
+					// } else {
+					//   sufName = "";
+					// }
+					sufName = d.goodsDetailSpecList[0].valueSuffix || "";
+					
+					let grades = JSON.parse(d.goodsSkuList[0].priceExp);
+					if (d.goods.showStyle == 2) {
+						d.goodsSkuList[0].price = grades[0].price;
+						d.goodsSkuList[0].startNum = grades[0].startQuantity;
+					}
+					
+					// 配置节点
+					let isInvalid = /* 是否无效效商品 */ true;
+					d.goodsSkuList.forEach((sku, exIndex) => {
+						let curNode = tree;
+						let len = sku.attrValueList.length;
+						d.standardList[exIndex] = [];
+					
+						sku.attrValueList.forEach((val, index) => {
+							curNode = curNode[val.value];
+							if (len - 1 == index) {
+								// 配置参数
+								curNode.disabled = !!(sku.stock < sku.startNum);
+								curNode.price = sku.price;
+								curNode.stock = sku.stock;
+								curNode.id = sku.id;
+								curNode.startNum = sku.startNum;
+							}
+							// 顺便处理规格
+							if (isSection) {
+								d.standardList[exIndex].push(`${val.value}${d.goods.unitName}起批`);
+								d.standardList[exIndex].push(
+									`${val.value}${sufName}/${d.goods.unitName}`
+								);
+							} else {
+								d.standardList[exIndex].push(val.value);
+							}
+					
+							// 累计无效次
+							isInvalid = isInvalid && curNode.disabled;
+						});
+						d.standardList[exIndex].push(`￥${sku.price}/${d.goods.unitName}`);
 					});
-				});
-				this.calcPrice();
-
-				// 获得邮费方案
-				getPostItem({
-					id: d.goods.postSettingId
-				}).then(data => {
-					this.postType = data.data.type;
-				});
+					d.tree = tree;
+					d.isInvalid = isInvalid;
+					
+					if (d.goods.status != 3) {
+						T.tips("商品已下架啦,看下其它的吧");
+					}
+					
+					if (d.goods.showStyle == 2) {
+						let sku = d.goodsSkuList[0].attrValueList[0];
+						d.goodsList = [];
+						// let grades = JSON.parse(d.goodsSkuList[0].priceExp);
+					
+						grades.forEach((item, index) => {
+							d.goodsList.push({
+								startNum: item.startQuantity,
+								price: item.price,
+								unit: sku.name,
+								id: sku.skuId
+							});
+						});
+					}
+					
+					d.sufName = sufName;
+					
+					this.good = d || {};
+					
+					// 商品购买面板
+					this.deep = this.good.goodsDetailSpecList.length;
+					this.good.goodsDetailSpecList.forEach(spec => {
+						this.curs.push({
+							key: spec.goodsDetailSpecValueList[0].value,
+							disabled: undefined
+						});
+					});
+					this.calcPrice();
+					this.opt = true
+					// 获得邮费方案
+					getPostItem({
+						id: d.goods.postSettingId
+					}).then(data => {
+						this.postType = data.data.type;
+					});
+					
+					
+					// 判断商品是否备收藏
+					this.getHasCollect(this.goodsId)
+				}
+				
 			});
 		},
 		methods: {
+			// 判断是否备收藏
+			getHasCollect(id){
+				let data = {
+					targetId: id
+				}
+				getHasCollect(data).then(res=>{
+					this.good.hasColletion = res.data
+				})
+			},
+			closePlayer(){
+				this.isPlayer = false;
+				this.videoUrl = '';
+			},
+			submitInfo(e){
+				console.log(e.detail.formId)
+				
+			},
+			goHome(){
+				uni.switchTab({
+					url:'/pages/main/main'
+				})
+			},
 			doIncrease() {
 				if (this.nums < this.stock) {
 					// this.nums = oldval;
@@ -551,9 +622,9 @@
 						let submitData = JSON.stringify({
 							addressId: "",
 							goodsCount: this.nums,
-							goodsId: this.goodId,
+							goodsId: this.goodsId,
 							shopId: this.shopId,
-							skuId: node.id
+							skuId: node.id,
 							// userId: localStorage.getItem("uid")
 						})
 						uni.navigateTo({
@@ -583,16 +654,27 @@
 					getGoodNums({
 						status: ""
 					}).then(data => {
-						this.counter = data.data.itemNum
-						this.isSure = false
-						T.tips(this.good.goods.name + '已成功加入进货单')
+						if(data.code == '1000'){
+							this.counter = data.data.itemNum
+							this.isSure = false
+							T.tips('已成功加入进货单')
+						}else{
+							this.goodsTitle = res.message
+							this.isGoodsTitle = true
+							setTimeout(()=>{
+								this.isGoodsTitle = false
+							},1500)
+						}
 					});
 				}
 			},
 			play(item) {
 				if(item.type == 3){
 					this.videoUrl = this.videoObj[item.sort];
-					this.isPlayer = true;
+					uni.navigateTo({
+						url:'/pages/order/goodsDetail/video/video?url='+this.videoUrl
+					})
+					//this.isPlayer = true;
 				}
 				
 			},
@@ -600,19 +682,42 @@
 			changeBanner(index) {
 				this.cur = index;
 			},
+			// #ifdef  APP-PLUS || H5
 			showConfirm(nav) {
 				this.nav = nav;
 				this.isSure = true;
 			},
+			// #endif
+			// #ifdef  MP-WEIXIN
+			showConfirm1(e,nav) {
+				let formId = e.detail.formId;
+				let data = {
+					userId : uni.getStorageSync('uid'),
+					appId  : uni.getStorageSync('appid'),
+					formId : formId
+				}
+				// 获取formId
+				getSetFormId(data)
+				console.log('formId',formId)
+				this.nav = nav;
+				this.isSure = true;
+			},
+			// #endif
 			changeCollect() {
 				this.good.hasColletion = !this.good.hasColletion;
-
+				if(this.good.hasColletion){
+					T.tips('已收藏')
+				}else{
+					T.tips('取消收藏')
+				}
 				this.good.hasColletion ?
 					setCollect({
-						goodsId: this.good.goods.id
+						goodsId: this.good.goods.id,
+						isLoading:1
 					}) :
 					removeCollect({
-						goodsId: this.good.goods.id
+						goodsId: this.good.goods.id,
+						isLoading:1
 					});
 			}
 		},
@@ -621,6 +726,14 @@
 </script>
 
 <style lang="scss" scoped>
+	// .Player{
+	// 	position: fixed;
+	// 	height: 750upx;
+	// 	top: 0;
+	// }
+	.opt{
+		opacity: 0;
+	}
 	.img1{
 		width: 100upx !important;
 		height: 100upx !important;
@@ -632,7 +745,10 @@
 	}
 	.good-detail {
 		padding-bottom: 120upx;
-
+		width: 750upx;
+		overflow-x: hidden;
+		background: #fff;
+		height: 100vh;
 		.img-con {
 			position: absolute;
 			width: 100upx;
@@ -672,7 +788,7 @@
 
 		.fix-block {
 			display: block;
-			width: 120upx;
+			// width: 120upx;
 			text-align: right;
 		}
 
@@ -690,6 +806,19 @@
 			font-size: 24upx;
 			color: #999;
 			margin-top: 20upx;
+			position: relative;
+			.icon{
+				width: 22upx;
+				height: 22upx;
+				position: absolute;
+				top: 4upx;
+				left: 50%;
+				margin-left: 50upx;
+				>img{
+					width: 100%;
+					height: 100%;
+				}
+			}
 		}
 
 		.block {
@@ -700,7 +829,7 @@
 
 		.cart-text {
 			position: relative;
-
+			top: 8upx;
 			&>div {
 				display: block;
 				position: absolute;
@@ -712,7 +841,7 @@
 				border-radius: 50%;
 				text-align: center;
 				right: 4upx;
-				top: -52upx;
+				top: -60upx;
 
 				&::after {
 					content: attr(counter);
@@ -745,6 +874,7 @@
 		// }
 
 		.overall {
+			
 			.flex-l {
 				justify-content: flex-start;
 			}
@@ -758,12 +888,13 @@
 			line-height: 1;
 			padding-top: 30upx;
 			padding-bottom: 16upx;
-			color: #f5222d;
+			color: #FC2D2D;
 			display: flex;
 
 			&>div {
 				// width: 100upx;
-				width: 33.3%;
+				color: #333 !important;
+				width: 100%;
 			}
 
 			.title {
@@ -775,23 +906,23 @@
 
 			.price {
 				font-size: 40upx;
-
+				color: #f5222d;
 				&::before {
-					font-size: 24upx;
+					font-size: 28upx;
 					content: "￥";
 					display: inline-block;
 				}
 			}
 
 			.unit {
-				color: #000000;
+				color: #333;
 				font-size: 24upx;
 				line-height: 40upx;
 				transform: translateY(2upx);
 			}
 
 			.multi-price {
-				font-size: 26upx;
+				font-size: 28upx;
 				font-weight: bold;
 				color: #f5222d;
 				text-align: center;
@@ -834,14 +965,31 @@
 			@extend .mc15;
 			font-size: 20upx;
 			background-color: #e6faed;
-			padding: 20upx;
+			padding:0 20upx;
 			color: #49c173;
 			display: flex;
 			justify-content: space-between;
+			border-radius: 3px;
+			overflow: hidden;
+			position: relative;
+			height: 60upx;
+			line-height: 60upx;
+			.icon-right{
+				width: 12upx;
+				height: 12upx;
+				img{
+					width: 100%;
+					height: 100%;
+				}
+				display: inline-block;
+			}
+			.span{
+				height: 100%;
+			}
 		}
 
 		.standard {
-			padding: 24upx 30upx;
+			padding: 0upx 30upx 30upx 30upx;
 			margin-top: 24upx;
 
 			li {
@@ -864,13 +1012,29 @@
 				}
 			}
 		}
-
+		.tag2{
+			position: relative;
+			.img2{
+				width: 100upx !important;
+				height: 100upx !important;
+				position: absolute;
+				left: 50%;
+				margin-left: -50upx;
+				top: 50%;
+				margin-top: -50upx;
+			}
+		}
 		.tag1 {
 			text-align: center;
-
+			position: relative;
+			padding: 10upx 0;
+			color: #000;
+			font-weight: 600;
+			font-size: 32upx;
+			// margin-top: 30upx;
 			span {
 				margin: 0 10upx;
-				color: #666;
+				color: #333;
 			}
 
 			.d {
@@ -885,7 +1049,7 @@
 		}
 
 		.props {
-			padding: 24upx 30upx;
+			padding: 34upx 30upx 30upx 30upx;
 
 			// margin-top: 12upx;
 			li {
@@ -894,22 +1058,25 @@
 				color: #999;
 				display: flex;
 				position: relative;
-
+					
 				span:first-child {
 					width: 160upx;
 					display: inline-block;
 				}
-
-				&::after {
-					content: "";
-					height: 1upx;
-					display: block;
-					position: absolute;
-					bottom: 0;
-					background-color: #f0f0f0;
-					width: 100%;
-					transform: scaleY(0.5);
-				}
+				border-bottom:1upx solid #f0f0f0;
+				// &::after {
+				// 	content: "";
+				// 	height: 1upx;
+				// 	display: block;
+				// 	position: absolute;
+				// 	bottom: 0;
+				// 	background-color: #f0f0f0;
+				// 	width: 100%;
+				// 	transform: scaleY(0.5);
+				// }
+			}
+			li:last-child{
+				border-bottom:none;
 			}
 		}
 
@@ -920,8 +1087,9 @@
 		}
 
 		.det {
-			padding: 40upx 0;
-
+			text-align: center;
+			margin-bottom: 120upx;
+			margin-top: 30upx;
 			.img {
 				width: 100%;
 			}
@@ -935,7 +1103,19 @@
 				padding: 0 30upx;
 			}
 		}
-
+		.goodsTitle{
+			position: fixed;
+			height: 80upx;
+			line-height: 80upx;
+			width: 100%;
+			bottom: 100upx;
+			text-align: center;
+			left: 0;
+			opacity: .3;
+			font-size: 28upx;
+			background: #000;
+			color: #fff;
+		}
 		.operator {
 			position: fixed;
 			height: 100upx;
@@ -949,10 +1129,11 @@
 			background-color: #fff;
 
 			.icon-18 {
-				width: 36upx;
-				height: 34upx;
+				width: 44upx;
+				height: 44upx;
 				margin: 0 auto;
-
+				position: relative;
+				top: 2upx;
 				>img {
 					width: 100%;
 					height: 100%;
@@ -960,11 +1141,11 @@
 			}
 
 			.icon-15 {
-				width: 30upx;
-				height: 34upx;
+				width: 44upx;
+				height: 44upx;
 				margin: 0 auto;
-
-
+				position: relative;
+				top: 4upx;
 				>img {
 					width: 100%;
 					height: 100%;
@@ -983,6 +1164,9 @@
 				// }
 			}
 
+			
+			
+			/*  #ifdef  H5 || APP-PLUS  */
 			.add {
 				width: 256upx;
 				color: #fefefe;
@@ -990,7 +1174,7 @@
 				background-color: #ffd07f;
 				line-height: 100upx;
 			}
-
+			
 			.buy {
 				width: 256upx;
 				color: #fefefe;
@@ -998,6 +1182,39 @@
 				background-color: #fc2d2d;
 				line-height: 100upx;
 			}
+			/*  #endif  */
+			
+			
+			/*  #ifdef  MP-WEIXIN  */
+			.add {
+				width: 256upx;
+				color: #fefefe;
+				font-size: 30upx;
+				background-color: #ffd07f;
+				line-height: 100upx;
+			}
+			.buy {
+				width: 256upx;
+				color: #fefefe;
+				font-size: 30upx;
+				background-color: #fc2d2d;
+				line-height: 100upx;
+				
+			}
+			.buy,.add{
+				button{
+					background: none;
+					padding: 0;
+					margin: 0;
+					color: #FFFFFF;
+					line-height:100upx;
+				}
+				button::after{
+					border:none;
+				}
+			}
+			/*  #endif  */
+			
 		}
 
 		.index-top-warp {
@@ -1092,8 +1309,10 @@
 			-webkit-overflow-scrolling: touch;
 
 			.icon-155 {
-				width: 30upx;
-				height: 30upx;
+				width: 44upx;
+				height: 44upx;
+				position: relative;
+				left: -50upx;
 			}
 
 			.icon-90 {
@@ -1103,6 +1322,7 @@
 
 			.standard {
 				border-bottom: 1upx solid #f0f0f0;
+				padding-left: 0upx !important;
 			}
 
 			.sta-name {
@@ -1112,27 +1332,37 @@
 			}
 
 			.sta-item {
+				
+				.fll{
+					// width: 150upx;
+					margin-right: 60upx;
+				}
 				span {
 					display: inline-block;
-					margin-right: 60upx;
+					// margin-right: 60upx;
+					padding: 0 20upx;
 					margin-top: 30upx;
-					width: 150upx;
+					// width: 150upx;
 					line-height: 50upx;
-					border-radius: 24upx;
+					border-radius: 50upx;
 					text-align: center;
 					color: #666;
 					font-size: 24upx;
-					box-shadow: 0 0 0 1upx #666;
+					// box-shadow: 0 0 0 1upx #666;
+					border: 1upx solid #D9D9D9;
 					transition: all 0.5s;
 
 					&.actived {
-						box-shadow: 0 0 0 1upx #fc2d2d;
+						border: 1upx solid #fc2d2d;
+						// box-shadow: 0 0 0 1upx #fc2d2d;
 						color: #fc2d2d;
 					}
 
 					&.disabled {
-						box-shadow: 0 0 0 1upx #bebebe;
-						color: #bebebe;
+						border: 1upx solid #F5F5F5;
+						// box-shadow: 0 0 0 1upx #bebebe;
+						color: #666;
+						background: #F5F5F5;
 					}
 				}
 			}
@@ -1149,7 +1379,7 @@
 
 			.body {
 				background-color: #fff;
-				padding: 20upx;
+				padding:20upx 30upx;
 				position: fixed;
 				width: 100%;
 				max-height: 1000upx;
@@ -1197,7 +1427,7 @@
 					border-bottom: #f0f0f0 solid 1upx;
 					font-size: 30upx;
 					padding-top: 24upx;
-					margin-top: 74upx;
+					margin-top: 30upx;
 					position: relative;
 
 					.input {
@@ -1205,7 +1435,8 @@
 						right: 60upx;
 						>div{
 							position: relative;
-							top: 4upx;
+							top: -20upx;
+							font-size: 60upx;
 						}
 					}
 
@@ -1245,7 +1476,7 @@
 				}
 
 				.btn {
-					margin-top: 96upx;
+					margin-top: 50upx;
 					width: 640upx;
 					line-height: 80upx;
 					background-color: #fc2d2d;
@@ -1253,8 +1484,7 @@
 					border-radius: 40upx;
 					font-size: 32upx;
 					text-align: center;
-					margin-left: auto;
-					margin-right: auto;
+					margin-left: 30upx;
 				}
 			}
 

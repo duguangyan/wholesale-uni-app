@@ -1,25 +1,28 @@
-.nickname.data-v-9cbcca9c {
+.nickname.data-v-68ad0494 {
   height: 100vh;
   background-color: #f0f0f0;
 }
-.nickname .sub-btn.data-v-9cbcca9c {
+.nickname .sub-btn.data-v-68ad0494 {
     position: absolute;
-    top: 0rpx;
+    top: 20rpx;
     right: 0rpx;
     z-index: 99999;
     height: 88rpx;
     width: 120rpx;
     line-height: 100rpx;
 }
-.nickname .input.data-v-9cbcca9c {
+.nickname .input.data-v-68ad0494 {
     margin-top: 20rpx;
     background-color: #fff;
     height: 100rpx;
+    line-height: 100rpx;
     padding-left: 30rpx;
 }
-.nickname input.data-v-9cbcca9c {
+.nickname input.data-v-68ad0494 {
     line-height: 100rpx;
+    height: 100rpx;
     font-size: 30rpx;
+    width: 600rpx;
     color: #000;
     border: none;
     outline: none;

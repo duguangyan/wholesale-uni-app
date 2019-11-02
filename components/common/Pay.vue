@@ -15,26 +15,26 @@
 
 				<div class="price">￥{{price}}</div>
 
-				<div class="way">
+				<div class="way" >
 					<li @click="checkPayNav(0)">
 						<div class="wx-icon">
 							<img class="icon" src="@/static/img/icon-wechat.png" width="30" height="30" alt="">
 						</div>
 						
 						<span class="fg1">微信支付</span>
-						<div class="img-icon flr">
+						<div class="img-icon flr" :class="{'platform':platform==2}">
 							<img v-if="isWx" :src="checkIndex===0?icon.Checked:icon.Uncheck" width="20" height="20" alt="">
 						</div>
 						
 					</li>
 					
-					<!-- #ifdef H5 || APP-PLUS -->  
+					<!-- #ifdef H5 || APP-PLUS  -->  
 					<li @click="checkPayNav(1)" v-if="isWx">
 						<div class="wx-icon">
 							<img class="icon" src="@/static/img/icon-alli.png" width="30" height="30" alt="">
 						</div>
 						<span class="fg1">支付宝支付</span>
-						<div class="img-icon flr">
+						<div class="img-icon flr" :class="{'platform':platform==2}">
 							<img :src="checkIndex===1?icon.Checked:icon.Uncheck" width="20" height="20" alt="">
 						</div>
 					</li>
@@ -47,7 +47,7 @@
 		</transition>
 	</div>
 </template>
-checkPayNav
+
 <script>
 	import Uncheck from '@/static/img/icon-uncheck.png'
 	import Checked from '@/static/img/icon-checked.png'
@@ -74,6 +74,10 @@ checkPayNav
 			orderId: {
 				type: String,
 				default: ''
+			},
+			platform:{
+				type: Number,
+				default: 0
 			}
 		},
 		data() {
@@ -90,11 +94,11 @@ checkPayNav
 				clock: true
 			}
 		},
-		created() {
-
+		onload() {
+			
 		},
-		mounted() {
-
+		onshow() {
+			
 		},
 		methods: {
 			wXpay() {
@@ -102,6 +106,7 @@ checkPayNav
 			},
 			checkPayNav(index) {
 				this.checkIndex = index
+				this.clock = true
 			},
 			close() {
 				vm.$emit('close', false)
@@ -161,34 +166,20 @@ checkPayNav
 					this.clock = true
 				}
 			},
-			// 微信App支付
-			AppWXpay(){
+			// 小程序支付
+			WXAppPay(){
 				let _this = this
 				if (this.orderId !== '') {
 					let data = {
-						payChannelEnum: 'WEIXIN_PAY',
-						payWay:'APP_PAY',
-						orderId: this.orderId
+						payChannelEnum:'WEIXIN_PAY',
+						payWay:'APPLET',
+						orderId: this.orderId,
+						openId: uni.getStorageSync('openid')
 					}
 					payAlipayByWap(data).then(res => {
 						if (res.code === '1000') {
 							console.log(JSON.stringify(res))
-							//let wxPayResp = res.data.wxPayResp;
-							
-							let wxPayResp = {
-							        "appId": "wx26baf2267dd24e83",
-							        "partnerId": "1558367061",
-							        "prepayId": "wx21114929147847bc897abbae1647213800",
-							        "packageName": "Sign=WXPay",
-							        "noncestr": "XNxCt1OVWY9Y4Irf4kRETeNpXlKMjEbq",
-							        "timestamp": "1571629769",
-							        "sign": "238267BFCADE944D1FC5B2D0338238956F72D76257EFB5F1FC99A314829C7224",
-							        "signType": null,
-							        "payUrl": null,
-							        "codeUrl": null,
-							        "payOrderId": null,
-							        "outTradeNo": null
-							    }
+							let wxPayResp = res.data.wxPayResp;
 							let obj = {
 								appid: wxPayResp.appId,
 								noncestr: wxPayResp.noncestr,
@@ -198,7 +189,8 @@ checkPayNav
 								timestamp: wxPayResp.timestamp,
 								sign: wxPayResp.sign // 根据签名算法生成签名
 							}
-							let orderInfo = JSON.stringify(obj);
+							orderInfo = JSON.stringify(obj);
+							
 							console.log('orderInfo',orderInfo)
 							uni.requestPayment({
 							    provider: 'wxpay',
@@ -206,22 +198,18 @@ checkPayNav
 							    success: function (res) {
 									_this.clock = true
 							        console.log('success:' + JSON.stringify(res));
-									uni.showModal({
-										content:JSON.stringify(res),
-										success() {
-											
-										}
+									uni.reLaunch({
+										url:'/pages/user/pay/success?payPrice='+_this.price+'&orderId='+_this.orderId
 									})
+									
 							    },
 							    fail: function (err) {
 									_this.clock = true
 							        console.log('fail:' + JSON.stringify(err));
-									uni.showModal({
-										content:JSON.stringify(err),
-										success() {
-											
-										}
-									})
+									T.tips('支付失败')
+									uni.redirectTo({
+									    url: '/pages/user/order/detail?orderId='+_this.orderId
+									});
 							    }
 							});
 						} else {
@@ -237,41 +225,71 @@ checkPayNav
 					this.clock = true
 				}
 			},
-			// 支付宝App支付
-			AppAlipay(){
+			// App支付
+			AppPay(payChannelEnum){
 				let _this = this
 				if (this.orderId !== '') {
 					let data = {
-						payChannelEnum: 'ALI_PAY',
+						payChannelEnum,
 						payWay:'APP_PAY',
 						orderId: this.orderId
 					}
 					payAlipayByWap(data).then(res => {
 						if (res.code === '1000') {
-							console.log(JSON.stringify(res));
+							console.log(JSON.stringify(res))
 							let wxPayResp = res.data.wxPayResp;
-							let obj = {
-								appid: wxPayResp.appId,
-								noncestr: wxPayResp.noncestr,
-								package: 'Sign=WXPay', // 固定值，以微信支付文档为主
-								partnerid: wxPayResp.partnerId,
-								prepayid: wxPayResp.prepayId,
-								timestamp: wxPayResp.timestamp,
-								sign: wxPayResp.sign // 根据签名算法生成签名
+							let orderInfo = ''
+							if(payChannelEnum == 'WEIXIN_PAY' ){
+								let obj = {
+									appid: wxPayResp.appId,
+									noncestr: wxPayResp.noncestr,
+									package: 'Sign=WXPay', // 固定值，以微信支付文档为主
+									partnerid: wxPayResp.partnerId,
+									prepayid: wxPayResp.prepayId,
+									timestamp: wxPayResp.timestamp,
+									sign: wxPayResp.sign // 根据签名算法生成签名
+								}
+								orderInfo = JSON.stringify(obj);
+							}else{
+								orderInfo = res.data.returnHtml
 							}
-							let orderInfo = JSON.stringify(obj);
 							
-							
+							console.log('orderInfo',orderInfo)
 							uni.requestPayment({
-							    provider: 'alipay',
+							    provider: payChannelEnum == 'WEIXIN_PAY' ? 'wxpay' : 'alipay',
 							    orderInfo, //微信、支付宝订单数据
 							    success: function (res) {
 									_this.clock = true
 							        console.log('success:' + JSON.stringify(res));
+									uni.reLaunch({
+										url:'/pages/user/pay/success?payPrice='+_this.price+'&orderId='+_this.orderId
+									})
+									// uni.showModal({
+									// 	content:JSON.stringify(res),
+									// 	success() {
+									// 		uni.navigateTo({
+									// 			url:'/pages/user/pay/success?payPrice='+_this.price+'&orderId='+_this.orderId
+									// 		})
+									// 	}
+									// })
+									
 							    },
 							    fail: function (err) {
 									_this.clock = true
 							        console.log('fail:' + JSON.stringify(err));
+									T.tips('支付失败')
+									uni.redirectTo({
+									    url: '/pages/user/order/detail?orderId='+_this.orderId
+									});
+									// uni.showModal({
+									// 	content:JSON.stringify(err),
+									// 	success() {
+											
+									// 	}
+									// })
+									// uni.navigateTo({
+									// 	url:'/pages/user/order/detail?orderId='+_this.orderId
+									// })
 							    }
 							});
 						} else {
@@ -294,19 +312,22 @@ checkPayNav
 					// #ifdef H5
 					this.h5WXpay()
 					// #endif
-					// #ifdef APP-PLUS || MP-WEIXIN
-					this.AppWXpay()
+					// #ifdef APP-PLUS
+					this.AppPay('WEIXIN_PAY')
+					// #endif
+					
+					// #ifdef MP-WEIXIN
+					this.WXAppPay()
 					// #endif
 				} else { // 支付宝网页支付
 					
 					// #ifdef H5
 					this.h5Alipay()
 					// #endif
-					// #ifdef APP-PLUS || MP-WEIXIN
-					this.AppAlipay()
+					// #ifdef APP-PLUS
+					this.AppPay('ALI_PAY')
 					// #endif
 				}
-				this.$emit('doPay', this.way)
 			}
 		}
 	}
@@ -331,6 +352,11 @@ checkPayNav
 			height: 100%;
 		}
 	}
+	
+	.platform{
+		margin-top: 25upx;
+	}
+	
 	.close-icon{
 		width: 30upx;
 		height: 30upx;
@@ -393,7 +419,7 @@ checkPayNav
 				font-size: 46upx;
 				text-align: center;
 			}
-
+			
 			.way {
 				margin-top: 46upx;
 				position: relative;
@@ -438,6 +464,7 @@ checkPayNav
 					margin-top: 72upx;
 				}
 			}
+			
 		}
 
 		.mask-enter-active,

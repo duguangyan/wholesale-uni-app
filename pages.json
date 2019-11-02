@@ -4,6 +4,7 @@
 			"path": "pages/main/main",
 			"style": {
 				"navigationBarTitleText": "沁绿农业",
+				"enablePullDownRefresh": true,
 				"navigationStyle":"custom",
 				"app-plus":{
 					"titleView":false
@@ -75,7 +76,8 @@
         }, {
             "path" : "pages/user/order/list",
             "style" : {
-				"navigationBarTitleText": "我的订单" 
+				"navigationBarTitleText": "我的订单" ,
+				"enablePullDownRefresh": true
 			}
         }, {
             "path" : "pages/user/order/finish",
@@ -95,7 +97,7 @@
         }, {
             "path" : "pages/user/order/success",
             "style" : {
-				"navigationBarTitleText": "订单完成" 
+				"navigationBarTitleText": "交易已完成" 
 			}
         }, {
             "path" : "pages/user/pay/success",
@@ -153,7 +155,80 @@
         }
         ,{
             "path" : "pages/common/webview/webview",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "网络地址" 
+			}
+        }
+        ,{
+            "path" : "pages/login/binding/binding",
+            "style" : {
+				"navigationBarTitleText": "绑定手机号" 
+			}
+        }
+        ,{
+            "path" : "pages/middle/middle",
+            "style" : {
+				"navigationBarTitleText": "状态",
+				"navigationStyle":"custom",
+				"app-plus":{
+					"titleView":false
+				}
+				
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/release",
+            "style" : {
+				"navigationBarTitleText": "发布商品" 
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/varieties/varieties",
+            "style" : {
+				"navigationBarTitleText": "选择品种" 
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/attribute/attribute",
+            "style" : {
+				"navigationBarTitleText": "选择属性" 
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/price/price",
+            "style" : {
+				"navigationBarTitleText": "设置价格" 
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/attribute/add/add",
+            "style" : {
+				"navigationBarTitleText": "添加属性" 
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/account/account",
+            "style" : {
+				"navigationBarTitleText": "我的账户" 
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/account/record/record",
+            "style" : {
+				"navigationBarTitleText": "账单记录" 
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/account/bankcard/bankcard",
+            "style" : {
+				"navigationBarTitleText": "银行卡" 
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/account/payps/payps",
+            "style" : {
+				"navigationBarTitleText": "支付密码" 
+			}
         }
     ],
 	"tabBar": {
@@ -166,8 +241,8 @@
 			"iconPath": "static/img/1.1.png",
 			"selectedIconPath": "static/img/1.2.png"
 		}, {
-			"pagePath": "pages/order/order",
-			"text": "进货单",
+			"pagePath": "pages/middle/middle",
+			"text": "状态",
 			"iconPath": "static/img/2.1.png",
 			"selectedIconPath": "static/img/2.2.png"
 		}, {

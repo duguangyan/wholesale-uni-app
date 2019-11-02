@@ -1,6 +1,6 @@
 <template>
   <!--  广告位  -->
-  <div class="advertising">
+  <div class="advertising" v-if="adSets && adSets.length>0">
     <div class="div cf">
         <div class="img fll" v-for="(item,index) in adSets" :key="index">
           <img @click="goPath(item)" :src="item.path" alt="广告">
@@ -31,10 +31,14 @@ export default {
     // 广告位url跳转
     goPath(item) {
       if (item.type === 1) {
-              location.href = item.url
-            }else if(item.type === 5){
-              this.$router.push({ path: 'gooddetail/' + item.id +'/'+item.url})
-            }
+			  uni.navigateTo({
+			  	url:'/pages/common/webview/webview?url='+item.url
+			  })
+		}else if(item.type === 5){
+			uni.navigateTo({
+				url:'/pages/user/order/detail?shopId='+item.id+'&goodsId='+item.url
+			})
+		}
     },
     // 获取广告位数据
     getAdPositione() {

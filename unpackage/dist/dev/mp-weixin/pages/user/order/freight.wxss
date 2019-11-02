@@ -1,20 +1,20 @@
-.freight.data-v-0f956345 {
+.freight.data-v-93d5e3b2 {
   /*.river {*/
   /*  height: 10upx;*/
   /*  background-color: #f0f0f0;*/
   /*  width: 100%;*/
   /*}*/
 }
-.freight .icon-50.data-v-0f956345 {
+.freight .icon-50.data-v-93d5e3b2 {
     width: 100rpx;
     height: 100rpx;
     margin-right: 20rpx;
 }
-.freight .icon-50 > ._img.data-v-0f956345 {
+.freight .icon-50 > ._img.data-v-93d5e3b2 {
       width: 100%;
       height: 100%;
 }
-.freight .top.data-v-0f956345 {
+.freight .top.data-v-93d5e3b2 {
     position: fixed;
     top: 0;
     width: 100%;
@@ -22,7 +22,7 @@
     z-index: 99999;
     border-bottom: 20rpx solid #f0f0f0;
 }
-.freight .top > .title.data-v-0f956345 {
+.freight .top > .title.data-v-93d5e3b2 {
       border-top: 1rpx solid #e6e6e6;
       height: 140rpx;
       padding: 0 16rpx;
@@ -40,25 +40,25 @@
           -ms-flex-align: center;
               align-items: center;
 }
-.freight .top > .title ._img.data-v-0f956345 {
+.freight .top > .title ._img.data-v-93d5e3b2 {
         margin-right: 20rpx;
 }
-.freight .top > .title .type.data-v-0f956345 {
+.freight .top > .title .type.data-v-93d5e3b2 {
         color: #000;
         font-size: 28rpx;
 }
-.freight .top > .title .code.data-v-0f956345 {
+.freight .top > .title .code.data-v-93d5e3b2 {
         color: #999;
         font-size: 24rpx;
         margin-top: 6rpx;
 }
-.freight .body.data-v-0f956345 {
+.freight .body.data-v-93d5e3b2 {
     margin-top: 160rpx;
     padding-bottom: 160rpx;
     padding-right: 30rpx;
     position: relative;
 }
-.freight .body.data-v-0f956345::after {
+.freight .body.data-v-93d5e3b2::after {
       content: '';
       display: block;
       position: absolute;
@@ -69,7 +69,7 @@
       left: 44rpx;
       z-index: 0;
 }
-.freight .body ._li.data-v-0f956345 {
+.freight .body ._li.data-v-93d5e3b2 {
       list-style: none;
       display: -webkit-box;
       display: -webkit-flex;
@@ -79,12 +79,12 @@
       width: 100%;
       position: relative;
 }
-.freight .body ._li .l.data-v-0f956345 {
+.freight .body ._li .l.data-v-93d5e3b2 {
         padding: 0 46rpx;
         position: relative;
         z-index: 2;
 }
-.freight .body ._li .r.data-v-0f956345 {
+.freight .body ._li .r.data-v-93d5e3b2 {
         border-bottom: 1rpx solid #d9d9d9;
         color: #999;
         word-break: break-all;
@@ -93,16 +93,16 @@
             -ms-flex-positive: 1;
                 flex-grow: 1;
 }
-.freight .body ._li .time.data-v-0f956345 {
+.freight .body ._li .time.data-v-93d5e3b2 {
         font-size: 20rpx;
 }
-.freight .body ._li .status.data-v-0f956345 {
+.freight .body ._li .status.data-v-93d5e3b2 {
         font-size: 24rpx;
         line-height: 2;
         margin-top: 8rpx;
         padding-bottom: 20rpx;
 }
-.freight .body ._li .point.data-v-0f956345 {
+.freight .body ._li .point.data-v-93d5e3b2 {
         width: 16rpx;
         height: 16rpx;
         border-radius: 50%;
@@ -116,13 +116,13 @@
             -ms-transform: translateX(-50%);
                 transform: translateX(-50%);
 }
-.freight .body ._li .point > ._img.data-v-0f956345 {
+.freight .body ._li .point > ._img.data-v-93d5e3b2 {
           width: 100%;
           height: 100%;
           position: relative;
           top: -10rpx;
 }
-.freight .body ._li:first-child .point.data-v-0f956345 {
+.freight .body ._li:first-child .point.data-v-93d5e3b2 {
         width: 30rpx;
         height: 30rpx;
         background-size: cover;

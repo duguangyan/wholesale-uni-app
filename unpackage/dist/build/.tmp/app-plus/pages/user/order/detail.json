@@ -2,6 +2,7 @@
   "navigationBarTitleText": "订单详情",
   "usingComponents": {
     "good": "/components/order/Good",
-    "pay": "/components/common/Pay"
+    "pay": "/components/common/Pay",
+    "dialog": "/components/common/Dialog"
   }
 }

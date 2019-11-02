@@ -9,10 +9,16 @@
     font-size: 30rpx;
     padding-left: 30rpx;
 }
+.freight-prompt .address ._span.data-v-49b91777 {
+      width: 140rpx;
+}
 .freight-prompt input.data-v-49b91777 {
     border: none;
     outline: none;
     padding-left: 20rpx;
+    position: relative;
+    top: 26rpx;
+    width: 200rpx;
 }
 .freight-prompt .prompt.data-v-49b91777 {
     color: #666;

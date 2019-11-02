@@ -1,4 +1,4 @@
-.head-icon.data-v-0e8f739c {
+.head-icon.data-v-2cf4b214 {
   width: 100rpx;
   height: 100rpx;
   position: absolute;
@@ -7,31 +7,31 @@
   border-radius: 50%;
   overflow: hidden;
 }
-.head-icon > ._img.data-v-0e8f739c {
+.head-icon > ._img.data-v-2cf4b214 {
     width: 100%;
     height: 100%;
 }
-.list ._li.data-v-0e8f739c {
+.list ._li.data-v-2cf4b214 {
   position: relative;
 }
-.icon.data-v-0e8f739c {
+.icon.data-v-2cf4b214 {
   width: 22rpx;
   height: 22rpx;
   position: absolute;
   right: 30rpx;
   top: 0rpx;
 }
-.icon > ._img.data-v-0e8f739c {
+.icon > ._img.data-v-2cf4b214 {
     width: 100%;
     height: 100%;
 }
-.op0.data-v-0e8f739c {
+.op0.data-v-2cf4b214 {
   opacity: 0;
 }
-.gray.data-v-0e8f739c {
+.gray.data-v-2cf4b214 {
   color: #999;
 }
-.arrange.data-v-0e8f739c, .info .avatar.data-v-0e8f739c, .info ._li.data-v-0e8f739c {
+.arrange.data-v-2cf4b214, .info .avatar.data-v-2cf4b214, .info ._li.data-v-2cf4b214 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -47,23 +47,23 @@
   padding-left: 30rpx;
   padding-right: 20rpx;
 }
-.info.data-v-0e8f739c {
+.info.data-v-2cf4b214 {
   height: 100vh;
   background-color: #f5f5f5;
   color: #333;
   font-size: 30rpx;
   position: relative;
 }
-.info .avatar.data-v-0e8f739c {
+.info .avatar.data-v-2cf4b214 {
     position: relative;
     background-color: #fff;
-    margin-top: 50rpx;
+    margin-top: 20rpx;
     line-height: 140rpx;
 }
-.info .avatar > ._img.data-v-0e8f739c {
+.info .avatar > ._img.data-v-2cf4b214 {
       border-radius: 50%;
 }
-.info .avatar input.data-v-0e8f739c {
+.info .avatar input.data-v-2cf4b214 {
       position: absolute;
       width: 200rpx;
       height: 140rpx;
@@ -71,20 +71,20 @@
       z-index: 2;
       right: 0;
 }
-.info .list.data-v-0e8f739c {
+.info .list.data-v-2cf4b214 {
     margin-top: 20rpx;
 }
-.info ._li.data-v-0e8f739c {
+.info ._li.data-v-2cf4b214 {
     list-style: none;
     background-color: #fff;
     line-height: 100rpx;
     text-align: center;
     position: relative;
 }
-.info ._li.data-v-0e8f739c:not(:last-child) {
+.info ._li.data-v-2cf4b214:not(:last-child) {
       border-bottom: 1rpx solid #f0f0f0;
 }
-.info ._li .gray.data-v-0e8f739c {
+.info ._li .gray.data-v-2cf4b214 {
       position: absolute;
       right: 100rpx;
 }

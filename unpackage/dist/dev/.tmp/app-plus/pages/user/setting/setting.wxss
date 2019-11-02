@@ -31,8 +31,8 @@
       border-bottom: 1rpx solid #F5F5F5;
 }
 .setting .list .li .icon.data-v-34d93514 {
-        width: 44rpx;
-        height: 44rpx;
+        width: 22rpx;
+        height: 22rpx;
 }
 .setting .list .li .icon ._img.data-v-34d93514 {
           width: 100%;

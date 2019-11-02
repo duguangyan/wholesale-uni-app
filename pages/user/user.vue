@@ -16,9 +16,9 @@
 			    <view v-if="isLogin" @click="goInfo">
 			      <view class="uid fs28" v-if="nickName">{{nickName}}</view>
 			      <view class="uid fs28" v-if="!nickName">ID:{{uid}}</view>
-			      <view class="phone fs24">{{dPhone}}</view>
+			      <view class="phone fs24  mgt-30">{{dPhone}}</view>
 			    </view>
-			    <view class="fs30 mgl-20" v-else @click="goLogin">点击登录</view>
+			    <view class="fs30 mgl-20" v-if="!isLogin" @click="goLogin">点击登录</view>
 			  </view>
 			</view>
 		</view>
@@ -26,20 +26,20 @@
 		
         <!-- 我的订单 -->
         <view class="order">
-          <view class="title cf">
-            <view class="p1 fll">我的订单</view>
+          <view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
+            <view class="p1 fll fs28">我的订单</view>
 			<view class="img flr">
 				<image src="../../static/img/tag-go.png"/>
 			</view>
-			<view class="p2 text-999 fs24 flr" @click="goOrderList('')">全部订单</view>
+			<view class="p2 text-999 fs24 flr">全部订单</view>
           </view>
           <view class="tags">
             <view class="li" v-for="(item,index) in titles" :key="index" @click="goOrderList(index)">
-				<view class="img">
+				<view class="img" :class="{'Android4': platform == 1}">
 					<image :src="item.u"/>
 				</view>
               
-              <view class="fs24">{{item.t}}</view>
+              <view class="fs24" :class="{'Android3': platform == 1}">{{item.t}}</view>
             </view>
           </view>
         </view>
@@ -47,37 +47,45 @@
         <!-- 我的收藏 -->
         <view class="collection">
           <view class="body cf" @click="goCollection">
-            <view class="fs36 fll">我的收藏</view>
+            <view class="fs36 fll fs28" :class="{'Android2': platform == 1}">我的收藏</view>
             <view class="img flr">
               <image src="../../static/img/tag-go.png"/>
             </view>
           </view>
         </view>
+		 <!-- <TabBar :checkIndex='checkIndex'></TabBar> -->
       </view>
+	 
 	</view>  
 </template>
 
 <script>
+	import TabBar from '@/components/common/TabBar.vue'
     export default {
         data() {
             return {
+				checkIndex:2,
               titles:[
                 {t: '待付款', u: '/static/img/icon-waitpay.png'},
                 {t: '待发货', u: '/static/img/icon-waitsend.png'},
                 {t: '待收货', u: '/static/img/icon-waitrecive.png'},
-                {t: '完成', u: '/static/img/icon-done.png'},
+                {t: '已完成', u: '/static/img/icon-done.png'},
               ],
               isLogin: false,
               uid: '',
               phone: '',
               headimageUrl: '/static/img/icon-user.png',
-			  nickName:''
+			  nickName:'',
+			  platform: 0
             }
         },
+		components:{TabBar},
 		onLoad() {
 			
 		},
 		onShow() {
+			// 设备样式兼容
+			this.platform = uni.getStorageSync('platform');
 			// 获取phone 和 uid
 			this.phone = uni.getStorageSync('phone')
 			this.uid = uni.getStorageSync('uid')
@@ -85,7 +93,7 @@
 			let imageUrl = uni.getStorageSync('headImgUrl')
 			this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png'
 			// 判断是否登录
-			if(this.phone && this.uid ) this.isLogin = true
+			this.isLogin = this.uid!='' 
 		},
 		computed: {
 		    dPhone() {
@@ -131,12 +139,41 @@
 </script>
 
 <style lang="scss" scoped>
-
+.Android1{
+	position: relative;
+	top: 24upx !important;
+}
+.Android2{
+	position: relative;
+	top: 2upx !important;
+}
+.Android3{
+	position: relative;
+	top: 10upx !important;
+}
+.Android4{
+	position: relative;
+	top: -6upx !important;
+}
 .fg1 {
   flex-grow: 1;
 }
 .mine {
+	// padding-bottom: 100upx;
+	.bb1{
+		position: fixed;
+		height: 0.5upx;
+		bottom: 0upx;
+		background: #f0f0f0;
+		width: 100%;
+	}
+	.collection{
+		border-bottom: 0.5upx solid #f0f0f0;
+		margin-left: 30upx;
+	}
 	position: relative;
+	height: 100vh;
+	background: #fff;
 	/* #ifdef APP-PLUS || H5 */  
 	.top{
 		width: 100%;
@@ -164,12 +201,12 @@
 			  }
 		}
 		.status {
-		  padding: 0upx 20upx 33upx 40upx;
+		  padding: 0upx 20upx 33upx 30upx;
 		  display: flex;
 		  justify-content: flex-start;
 		  align-items: center;
 			position: relative;
-			top: 160upx;
+			top: 140upx;
 			.img{
 				width: 90upx;
 				height: 90upx;
@@ -233,8 +270,7 @@
   
     
     .content {
-      margin-left: 8upx;
-      font-size: 20upx;
+      margin-left: 20upx;
       color: #fff;
     }
     .uid{
@@ -246,9 +282,13 @@
   }
   .order {
     padding: 14upx 20upx 20upx 20upx;
+	border-bottom: 20upx solid #f0f0f0;
     .title {
-		border-bottom: 1upx solid #F5F5F5;
+		border-bottom: 1upx solid #f0f0f0;
 		padding-bottom: 20upx;
+		height: 60upx;
+		position: relative;
+		top: 14upx;
 	  .img{
 		  width: 20upx;
 		  height: 20upx;
@@ -266,6 +306,9 @@
       & > .p1{
         color: #333;
         font-weight: blod;
+		position: relative;
+		top: 10upx;
+		left: 10upx;
       }
       &>image{
         margin-left: 4upx;
@@ -277,7 +320,7 @@
       justify-content: space-between;
       align-items: center;
       text-align: center;
-	  padding-top: 20upx;
+	  padding-top: 45upx;
       .li {
         list-style: none;
         font-size: 12upx;
@@ -295,15 +338,9 @@
     }
   }
   .collection {
-    &::before {
-      content: '';
-      display: block;
-      height: 18upx;
-      background-color: #f5f5f5;
-      width: 100%;
-    }
+    
     .body {
-      padding: 0 30upx;
+      padding: 0 30upx 0upx 0upx;
       color: #333;
       line-height: 100upx;
 	  .img{

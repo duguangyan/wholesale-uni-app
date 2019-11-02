@@ -4,12 +4,14 @@
 }
 .success .content.data-v-e5acbff6 {
   text-align: center;
-  margin-top: 200rpx;
+  padding-top: 150rpx;
+  padding-bottom: 40rpx;
+  background: #fff;
 }
 .success .content .img.data-v-e5acbff6 {
     width: 80rpx;
     height: 80rpx;
-    margin: 0 auto;
+    margin: 10rpx auto;
 }
 .success .content .img > ._img.data-v-e5acbff6 {
       width: 100%;

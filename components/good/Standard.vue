@@ -5,7 +5,7 @@
     </transition>
     <transition name="body">
       <div v-show="show" class="body">
-        <img src="@/static/img/tag-close2.png" width="15" height="15" @click="close" />
+        <img class="icon-30" src="@/static/img/tag-close2.png" @click="close" />
         <li v-for="(item,index) in list" :key="index">
           <span v-for="sta in item" :key="sta">{{sta}}</span>
         </li>
@@ -48,6 +48,11 @@ export default vm;
   right: 0;
   bottom: 0;
   z-index: 99;
+  .icon-30{
+	  width: 44upx;
+	  height: 44upx;
+	  
+  }
   .mask {
     position: fixed;
     top: 0;
@@ -59,7 +64,7 @@ export default vm;
   }
   .body {
     background-color: #fff;
-    padding: 74upx 30upx;
+    padding: 74upx 0upx;
     position: fixed;
     z-index: 2;
     width: 100%;
@@ -73,6 +78,7 @@ export default vm;
       content: '规格';
       text-align: left;
       color: #000;
+	  margin-left: 30upx;
       font-weight: bold;
     }
     img{
@@ -81,6 +87,7 @@ export default vm;
       top: 30upx;
     }
     li {
+	  padding: 0 30upx;
       line-height: 80upx;
       font-size: 24upx;
       color: #999;

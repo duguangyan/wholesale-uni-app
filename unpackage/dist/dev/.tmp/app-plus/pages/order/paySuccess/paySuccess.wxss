@@ -6,12 +6,14 @@
 }
 .success .content.data-v-373b7d97 {
   text-align: center;
-  margin-top: 200rpx;
+  padding-top: 150rpx;
+  background: #fff;
+  padding-bottom: 40rpx;
 }
 .success .content .img.data-v-373b7d97 {
     width: 80rpx;
     height: 80rpx;
-    margin: 0 auto;
+    margin: 10rpx auto;
 }
 .success .content .img > ._img.data-v-373b7d97 {
       width: 100%;
@@ -29,6 +31,6 @@
       border-radius: 40rpx;
 }
 .success .content .d2.data-v-373b7d97 :first-child {
-      margin-right: 20rpx;
+      margin-right: 40rpx;
 }
 

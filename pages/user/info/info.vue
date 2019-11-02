@@ -3,19 +3,30 @@
 		<div class="info">
 			<div class="avatar cf">
 				<span>我的头像</span>
+				<!--  #ifdef  H5 -->
 				<div class="head-icon flr">
 					<img :src="headImgUrl" width="50" height="50" alt />
 				</div>
-
 				<div class="icon flr">
 					<img src="@/static/img/tag-go.png" width="10" height="10" alt />
 				</div>
 				<input type="file" id="file" @change='onUpload' />
+				<!--  #endif -->
+				
+				<!--  #ifdef  APP-PLUS || MP-WEIXIN -->
+				<div class="head-icon flr" @click="onUpload">
+					<img :src="headImgUrl || '@/static/img/icon-user.png'" width="50" height="50" alt />
+				</div>
+				<div class="icon flr" @click="onUpload">
+					<img src="@/static/img/tag-go.png" width="10" height="10" alt />
+				</div>
+				<!--  #endif -->
+				
 			</div>
 			<div class="list">
 				<li @click='goNickName'>
 					<span>我的昵称</span>
-					<span class="gray">{{person.nickName}}</span>
+					<span class="gray">{{person.nickName || "上上农夫"}}</span>
 					<div class="icon">
 						<img src="@/static/img/tag-go.png" width="10" height="10" alt />
 					</div>
@@ -58,8 +69,7 @@
 		},
 		onShow() {
 			this.person.phone = uni.getStorageSync('phone')
-			this.headImgUrl = uni.getStorageSync('headImgUrl') !== 'null' ? uni.getStorageSync('headImgUrl') :
-				'/static/images/icon-user.png'
+			this.headImgUrl = uni.getStorageSync('headImgUrl') !== 'null' ? uni.getStorageSync('headImgUrl') : '/static/images/icon-user.png'
 			// .substring(1, 2)
 			let nickName = uni.getStorageSync('nickName')
 			this.person.nickName = nickName === 'null' ? '' : uni.getStorageSync('nickName')
@@ -79,7 +89,7 @@
 			},
 			// 上传头像
 			onUpload(e) {
-				
+				let _this = this
 				// #ifdef H5
 				let file = e.target.files[0];
 				let formdata = new FormData();
@@ -96,20 +106,20 @@
 				// #endif
 				
 				// #ifdef APP-PLUS || MP-WEIXIN 
-				let _this = this
+				
 				uni.chooseImage({
 				    count: 1, //默认9
 				    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 				    sourceType: ['album','camera'], //从相册选择
 				    success: function (res) {
 						const tempFilePaths = res.tempFilePaths;
-						let url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : '/upms/userImg/upload'
+						let url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'https://m.qinlvny.com/upms/userImg/upload'
 						uni.uploadFile({
 							url: url, //仅为示例，非真实的接口地址
 							filePath: tempFilePaths[0],
 							name: 'file',
 							success: (uploadFileRes) => {
-								console.log(uploadFileRes.data);
+								console.log(uploadFileRes);
 								let res = JSON.parse(uploadFileRes.data)
 								if (res.code === '1000') {
 									_this.uploadUserHeadImg(res.data)
@@ -129,12 +139,13 @@
 			},
 			uploadUserHeadImg(url) {
 				let data = {
-					headImage: url
+					headImgUrl: url
 				}
+				
 				postUpdateNickname(data).then(res => {
 					if (res.code === '1000') {
 						this.headImgUrl = url
-						localStorage.setItem('headImgUrl', url)
+						uni.setStorageSync('headImgUrl',url)
 						T.tips(res.message || '头像上传成功')
 					} else {
 						T.tips(res.message || '上传图片失败')
@@ -212,7 +223,7 @@
 		.avatar {
 			position: relative;
 			background-color: #fff;
-			margin-top: 50upx;
+			margin-top: 20upx;
 			>img {
 				border-radius: 50%;
 			}

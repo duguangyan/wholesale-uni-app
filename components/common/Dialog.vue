@@ -62,24 +62,24 @@ export default {
     right: 0;
     bottom: 0;
     width: 100%;
-    z-index: 99;
+    z-index: 9999;
   }
   .mask-bg {
     background-color: rgba(0, 0, 0, 0.3);
   }
   .body {
     position: fixed;
-    z-index: 100;
+    z-index: 99999;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
-    border-radius: 10upx;
+    border-radius: 20upx;
     width: 500upx;
     padding: 76upx 30upx 30upx;
     text-align: center;
     .title {
-      font-size: 40upx;
+      font-size: 32upx;
       color: #000;
       margin-bottom: 96upx;
     }
@@ -89,13 +89,15 @@ export default {
       justify-content: space-between;
     }
     .btn {
-      width: 200upx;
+      width: 230upx;
       line-height: 80upx;
       border-radius: 40upx;
-	  font-size: 40upx;
+	  font-size: 32upx;
       &.cancel {
         color: #333;
-        box-shadow: 0 0 0 1upx #d9d9d9 inset;
+        // box-shadow: 0 0 0 1upx #d9d9d9 inset;
+		border: 1upx solid #d9d9d9;
+		color: #333;
       }
       &.confirm {
         background-color: #fc2d2d;

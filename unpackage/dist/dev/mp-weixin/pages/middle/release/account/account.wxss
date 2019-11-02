@@ -1,0 +1,12 @@
+.account .btn.data-v-3f86369c {
+  margin: 0 30rpx;
+  margin-top: 500rpx;
+}
+.account .top.data-v-3f86369c {
+  height: 300rpx;
+  line-height: 300rpx;
+  background: #007AFF;
+  color: #fff;
+  text-align: center;
+}
+

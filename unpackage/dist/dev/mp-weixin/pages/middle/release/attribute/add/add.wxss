@@ -1,0 +1,16 @@
+.add .edit.data-v-fb995032 {
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: right;
+  position: relative;
+  right: 30rpx;
+  color: #007AFF;
+}
+.add .content.data-v-fb995032 {
+  padding: 0 30rpx;
+}
+.add .content button.data-v-fb995032 {
+    margin-top: 300rpx;
+    background: #007AFF !important;
+}
+

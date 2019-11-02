@@ -51,15 +51,8 @@ export default {
       postOrderLogisticsQuery(data).then(res => {
         if (res.code === '1000') {
           this.info = res.data
-        } else {
-          this.goBack(_this)
-        }
-      }).catch( err => {
-        console.log(err.message)
-        this.goBack(_this)
+        } 
       })
-    } else {
-      this.goBack(_this)
     }
   },
   methods: {

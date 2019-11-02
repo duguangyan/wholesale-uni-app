@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<div class="nickname">
-		    <div class="sub-btn" @click="saveNickName">确定</div>
+		    <div class="sub-btn fs30" @click="saveNickName">确定</div>
 		    <div class="input">
-		      <input v-model="nickName" placeholder="请输入昵称" />
+		      <input v-model="nickName" maxlength="20" placeholder="请输入昵称" @input="doInput" />
 		    </div>
 		  </div>
 	</view>
@@ -12,6 +12,7 @@
 <script>
 	import { postUpdateNickname } from '@/api/userApi.js'
 	import validator from '@/utils/validator.js'
+	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
@@ -23,6 +24,11 @@
 		  this.nickName = nickName === 'null' ? '' : uni.getStorageSync('nickName')
 		},
 		methods: {
+			doInput(){
+				if( 0<this.nickName.length&&this.nickName.length>12 ){
+					T.tips('昵称在1~20个字符之间')
+				}
+			},
 		    nickNameChange: function (e) {
 		       uni.setStorageSync('nickName', e)
 		    },
@@ -58,11 +64,12 @@
 .nickname {
   .sub-btn{
     position: absolute;
-    top: 0upx;
+    top: 20upx;
     right: 0upx;
     z-index: 99999;
     height: 88upx;
     width: 120upx;
+	
     line-height: 100upx;
   }
   height: 100vh;
@@ -71,11 +78,14 @@
     margin-top: 20upx;
     background-color: #fff;
     height: 100upx;
+	line-height: 100upx;
     padding-left: 30upx;
   }
   input {
     line-height: 100upx;
+	height: 100upx;
     font-size: 30upx;
+	width: 600upx;
     color: #000;
     border: none;
     outline: none;

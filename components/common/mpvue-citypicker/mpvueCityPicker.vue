@@ -67,7 +67,8 @@
 			// 遍历json，返回省级对象数组
 			getProvinceArr(id) {
 				let data = {
-					parentId: id
+					parentId: id,
+					isLoading:1
 				}
 				getChildrenByPId(data).then(res => {
 					if (res.code === '1000') {
@@ -150,13 +151,15 @@
 					// 第一级发生滚动
 
 					let data1 = {
-						parentId: this.provinceDataList[changePickerValue[0]].id
+						parentId: this.provinceDataList[changePickerValue[0]].id,
+						isLoading: 1
 					}
 					getChildrenByPId(data1).then(res => {
 						if (res.code === '1000') {
 							this.cityDataList = res.data
 							let data2 = {
-								parentId: this.cityDataList[changePickerValue[1]].id
+								parentId: this.cityDataList[changePickerValue[1]].id,
+								isLoading: 1
 							}
 							getChildrenByPId(data2).then(res => {
 								if (res.code === '1000') {
@@ -178,7 +181,8 @@
 					// 第二级滚动
 					// this.areaDataList =areaData[changePickerValue[0]][changePickerValue[1]];
 					let data = {
-						parentId: this.cityDataList[changePickerValue[1]].id
+						parentId: this.cityDataList[changePickerValue[1]].id,
+						isLoading: 1
 					}
 					getChildrenByPId(data).then(res => {
 						if (res.code === '1000') {

@@ -1,5 +1,7 @@
 .err.data-v-2fc7759e {
   text-align: center;
+  height: 100vh;
+  background: #fff;
 }
 .err > ._img.data-v-2fc7759e {
     margin-top: 200rpx;

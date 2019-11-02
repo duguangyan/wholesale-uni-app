@@ -3,19 +3,19 @@
 		<div class="setting">
 		    <div class="list">
 		      <div class="cf li" @click="goProtocal">
-		        <div class="fll">服务条款与协议</div>
+		        <div class="fll fs28">服务条款与协议</div>
 		        <div class="icon flr">
 		          <img src="@/static/img/tag-go.png" />
 		        </div>
 		      </div>
 		      <div class="cf li"  @click="goAbout">
-		        <div class="fll">关于我们</div>
+		        <div class="fll fs28">关于我们</div>
 		        <div class="icon flr">
 		          <img src="@/static/img/tag-go.png" />
 		        </div>
 		      </div>
 		    </div>
-		    <div class="exit" @click="showDialog" v-if="isLogin">退出登录</div>
+		    <div class="exit fs32" @click="showDialog" v-if="isLogin">退出登录</div>
 		  </div>
 	</view>
 </template>
@@ -28,7 +28,7 @@
 			};
 		},
 		onShow() {
-			this.isLogin = localStorage.getItem('access_token')
+			this.isLogin = uni.getStorageSync('access_token')
 		},
 		methods:{
 			showDialog() {
@@ -38,10 +38,14 @@
 				  confirmText: '退出',
 			      success: function (res) {
 			          if (res.confirm) {
-			              let isPhone = localStorage.getItem('isPhone')
-			              localStorage.clear() // 清除缓存
-			              localStorage.setItem('isPhone', isPhone)
-			              self.$router.go(-1) // 返回上一层
+			              let records = uni.getStorageSync('records')
+						  let platform = uni.getStorageSync('platform')
+			              uni.clearStorageSync() // 清除缓存
+						  uni.setStorageSync('records',records)
+						  uni.setStorageSync('platform',platform)
+			              uni.switchTab({
+			              	url:'/pages/user/user'
+			              })
 			          } else if (res.cancel) {
 			              console.log('用户点击取消');
 			          }
@@ -94,8 +98,8 @@
 		padding: 0 30upx;
 		border-bottom: 1upx solid #F5F5F5;
 		.icon{
-			width: 44upx;
-			height: 44upx;
+			width: 22upx;
+			height: 22upx;
 			img{
 				width: 100%;
 				height: 100%;

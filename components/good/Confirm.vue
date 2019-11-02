@@ -63,7 +63,7 @@
 <script>
 import { addToCart } from "@/api/goodsApi.js";
 import util from '@/utils/util.js'
-
+import T from '@/utils/tips.js'
 export default {
   name: "good-confirm",
   props: {
@@ -210,14 +210,14 @@ export default {
         }
       }
       if (isInvalid) {
-        return this.$tips("请选择所有的项");
+        return T.tips("请选择所有的项");
       }
       if (this.nav.match(/cart/)) {
         addToCart({
           skuId: node.id,
           num: this.nums
         }).then(data => {
-          // this.$router.push(this.nav);
+      
           this.$emit("update");
         });
       } else {
@@ -236,7 +236,9 @@ export default {
 			})
     
         } else {
-          this.$router.push(this.nav);
+			uni.switchTab({
+				url:'/pages/order/order'
+			})
         }
       }
     }

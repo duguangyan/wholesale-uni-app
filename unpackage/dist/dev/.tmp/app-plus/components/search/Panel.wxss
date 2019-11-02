@@ -1,4 +1,10 @@
 @charset "UTF-8";
+.Android > ._span.data-v-179b0d2c {
+  display: inline-block !important;
+  height: 2rpx !important;
+  width: 20rpx !important;
+  background: #333 !important;
+}
 .panel.data-v-179b0d2c {
   position: fixed;
   top: 0;
@@ -8,9 +14,10 @@
   z-index: 99;
 }
 .panel .price-area.data-v-179b0d2c {
-    text-align: center;
+    text-align: left;
     position: relative;
-    padding-top: 50rpx;
+    padding-top: 80rpx;
+    left: 30rpx;
 }
 .panel .price-area.data-v-179b0d2c::before {
       content: "\4EF7\683C\533A\95F4";
@@ -26,14 +33,17 @@
 .panel .price-area input.data-v-179b0d2c {
       border: none;
       outline: none;
-      height: 48rpx;
-      border-radius: 24rpx;
+      border-radius: 36rpx;
       background-color: #f5f5f5;
-      width: 200rpx;
+      width: 230rpx;
       display: inline-block;
-      padding: 0 24rpx;
+      padding: 10rpx 24rpx;
       font-size: 24rpx;
       text-align: center;
+      height: 36rpx;
+      min-height: 36rpx;
+      font-size: 24rpx;
+      padding: 14rpx 0;
 }
 .panel .price-area input.data-v-179b0d2c::-webkit-input-placeholder {
         color: #cccccc;
@@ -51,7 +61,11 @@
       margin-left: 16rpx;
       margin-right: 16rpx;
       position: relative;
-      top: -15rpx;
+      top: -28rpx;
+      display: inline-block;
+      width: 20rpx;
+      height: 2rpx;
+      background: #333;
 }
 .panel .mask.data-v-179b0d2c {
     position: fixed;
@@ -68,7 +82,7 @@
 }
 .panel .body.data-v-179b0d2c {
     background-color: #fff;
-    padding: 54rpx 24rpx 20rpx 24rpx;
+    padding: 0rpx 24rpx 20rpx 0rpx;
     position: fixed;
     z-index: 2;
     width: 580rpx;
@@ -96,27 +110,32 @@
       width: 520rpx;
       background-color: #fff;
       padding-bottom: 30rpx;
+      left: 190rpx;
 }
 .panel .body .reset.data-v-179b0d2c {
-      width: 200rpx;
-      -webkit-box-shadow: 0 0 0 1rpx #e6e6e6 inset;
-              box-shadow: 0 0 0 1rpx #e6e6e6 inset;
+      width: 199rpx;
       color: #000;
       border-radius: 40rpx;
+      border: 1rpx solid #e6e6e6;
+      height: 79rpx;
+      line-height: 81rpx;
 }
 .panel .body .confirm.data-v-179b0d2c {
       color: #fff;
       background-color: #fc2d2d;
-      width: 300rpx;
+      width: 280rpx;
       border-radius: 40rpx;
+      position: relative;
+      left: 0rpx;
+      height: 80rpx;
+      line-height: 82rpx;
 }
 .panel .body .location.data-v-179b0d2c {
-      margin: 50rpx 0;
+      margin: 40rpx 0;
       overflow-y: auto;
       -webkit-transition: height 0.5s;
       -o-transition: height 0.5s;
       transition: height 0.5s;
-      margin-left: -62rpx;
 }
 .panel .body .location > ._section.data-v-179b0d2c {
         display: -webkit-box;
@@ -144,16 +163,16 @@
         display: block;
         color: #000;
         font-size: 24rpx;
-        margin-left: 62rpx;
+        margin-left: 44rpx;
         font-weight: bold;
 }
 .panel .body .location ._li.data-v-179b0d2c {
-        padding: 8rpx 20rpx;
+        padding: 6rpx 30rpx;
         line-height: 44rpx;
-        border-radius: 22rpx;
+        border-radius: 56rpx;
         background-color: #f5f5f5;
-        margin-top: 20rpx;
-        margin-left: 62rpx;
+        margin-top: 40rpx;
+        margin-left: 40rpx;
         color: #666;
         font-size: 24rpx;
         text-align: center;

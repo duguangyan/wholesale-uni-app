@@ -96,7 +96,7 @@ export default {
     minNums() {},
     plusNums() {},
     navigate() {
-      //this.$router.push(this.nav);
+     
     }
   }
 };

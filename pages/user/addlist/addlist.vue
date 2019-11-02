@@ -1,29 +1,32 @@
 <template>
 	<view>
 		<div class="list">
-			<div slot="icon" v-if="list.length > 0" class="icon" @click="goAddedit(0)">添加地址</div>
+			
 
-			<div class="no-data" v-if="list.length<=0">
+			<div class="no-data" v-if="!hasOrders">
 				<img src="@/static/img/icon-address-no.png" alt="图片">
-				<p class="text-999 fs-12">还没有收货地址哦 去添加一个吧</p>
+				<p class="text-999 fs28">还没有收货地址哦 去添加一个吧</p>
 				<div class="bg-red" @click="goAddedit(0)">添加新地址</div>
 			</div>
-			<div class="list" v-if="list.length>0">
-				<li v-for="item in list" :key="item.id">
-					<div @click="goBlack(item)">
+			<div class="list" v-if="hasOrders">
+				<li v-for="(item,index) in list" :key="index">
+					<div class="back" @click="goBlack(item)">
 						<div class="upon">
 							<span class="name">{{item.name}}</span>
 							<span class="phone">{{item.phone}}</span>
 						</div>
 						<div class="low">
-							<span v-show="item.isDefault" class="tag">默认</span>
+							<span v-if="item.def" class="tag" :class="{'Android': platform == 1}">默认</span>
 							<span class="address">{{item.address}}</span>
 						</div>
 					</div>
 					<div class="edit" @click="goAddedit(item.id)">编辑</div>
 				</li>
+				<div v-if="list.length > 0" class="icon" @click="goAddedit(0)">添加地址</div>
 			</div>
+			
 		</div>
+		
 	</view>
 </template>
 
@@ -37,15 +40,18 @@
 				list: [
 
 				],
-				from: ''
+				from: '',
+				hasOrders: true,
+				platform: 0
 			};
 		},
 		onLoad(options) {
 			this.from = options.from || ''
-			// 获取用户地址列表
-			this.getUserAddresList()
+			
 		},
 		onShow() {
+			// 设备样式兼容
+			this.platform = uni.getStorageSync('platform');
 			// 获取用户地址列表
 			this.getUserAddresList()
 		},
@@ -63,10 +69,12 @@
 			getUserAddresList() {
 				getUserAddressList().then(res => {
 					if (res.code === '1000') {
-						this.list = res.data
+						this.list = []
+						this.list = res.data;
+						this.hasOrders = this.list.length > 0;
+					}else{
+						this.hasOrders = this.orders.length > 0
 					}
-				}).catch(err => {
-					uni.showToast(err.message || '地址列表获取错误')
 				})
 			},
 			goAddedit(id) {
@@ -82,15 +90,36 @@
 
 <style lang="scss" scoped>
 	.icon{
-		text-align: right;
-		position: relative;
-		left: -30upx;
-		font-size: 30upx;
-		padding: 20upx 0;
+		width: 640upx;
+		line-height: 80upx;
+		text-align: center;
+		color: #fff;
+		background-color: #d9d9d9;
+		border-radius: 40upx;
+		font-size: 32upx;
+		margin: 40upx auto auto;
+		background: #fc2d2d;
+		position: fixed;
+		bottom: 20upx;
+		left: 50%;
+		margin-left: -320upx;
 	}
 	.list {
-		border-top: 1upx solid #f0f0f0;
-
+		// border-top: 1upx solid #f0f0f0;
+		&::after {
+			content: '';
+			display: block;
+			height: 1upx;
+			background-color: #f0f0f0;
+			position: absolute;
+			top: 1upx;
+			left: 30upx;
+			z-index: 2;
+			width: 100%;
+		}
+		height: 100vh;
+		background: #fff;
+		padding-bottom: 200upx;
 		.no-data {
 			height: 100%;
 			text-align: center;
@@ -112,8 +141,10 @@
 			}
 
 			p {
-				width: 200upx;
-				margin: 32upx auto;
+				width: 240upx;
+				margin: 20upx auto;
+				margin-top: 0;
+				font-size: 28upx;
 			}
 		}
 
@@ -125,10 +156,10 @@
 				background-color: #f0f0f0;
 				position: absolute;
 				bottom: 1upx;
-				left: 30upx;
 				z-index: 2;
 				width: 100%;
 			}
+			
 
 			overflow: hidden;
 			position: relative;
@@ -138,7 +169,9 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-
+			.back{
+				width: 80%;
+			}
 			.low {
 				max-width: 750upx;
 				text-overflow: ellipsis;
@@ -177,7 +210,9 @@
 				padding: 2upx 6upx;
 				margin-right: 10upx;
 			}
-
+			.Android{
+				padding-top: 6upx;
+			}
 			.address {
 				font-size: 20upx;
 				color: #999;
@@ -190,7 +225,7 @@
 				padding: 0 24upx;
 				position: relative;
 				color: #999;
-
+				font-size: 28upx;
 				&::before {
 					content: '';
 					display: block;

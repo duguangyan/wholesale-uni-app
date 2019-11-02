@@ -4,11 +4,11 @@
 }
 .goods .title.data-v-37cf186e {
     text-align: center;
-    padding: 30rpx 0;
+    padding: 5rpx 0;
     margin: 0 auto;
-    margin-top: 40rpx;
-    width: 300rpx;
-    height: 40rpx;
+    margin-top: 20rpx;
+    width: 265rpx;
+    height: 43rpx;
 }
 .goods .title > ._img.data-v-37cf186e {
       width: 100%;
@@ -22,14 +22,14 @@
 }
 .goods .items ._ul ._li.data-v-37cf186e {
       background: #fff;
-      border-radius: 20rpx;
+      border-radius: 10rpx;
       margin-top: 20rpx;
       width: 340rpx;
       height: 520rpx;
       overflow: hidden;
 }
-.goods .items ._ul ._li .content.data-v-37cf186e {
-        padding: 10rpx;
+.goods .items ._ul ._li .content .cf.data-v-37cf186e {
+        padding: 0 10rpx;
 }
 .goods .items ._ul ._li .content .cf .flr.data-v-37cf186e {
           position: relative;
@@ -37,9 +37,9 @@
           top: 10rpx;
 }
 .goods .items ._ul ._li .content .name.data-v-37cf186e {
-          margin: 10rpx 0 20rpx 0;
-          font-size: 28rpx;
-          height: 76rpx;
+        margin: 10rpx 20rpx 20rpx 20rpx;
+        font-size: 28rpx;
+        height: 76rpx;
 }
 .goods .items ._ul ._li .img.data-v-37cf186e {
         width: 340rpx;

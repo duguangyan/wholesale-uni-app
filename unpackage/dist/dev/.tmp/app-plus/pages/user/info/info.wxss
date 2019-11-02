@@ -57,7 +57,7 @@
 .info .avatar.data-v-0e8f739c {
     position: relative;
     background-color: #fff;
-    margin-top: 50rpx;
+    margin-top: 20rpx;
     line-height: 140rpx;
 }
 .info .avatar > ._img.data-v-0e8f739c {

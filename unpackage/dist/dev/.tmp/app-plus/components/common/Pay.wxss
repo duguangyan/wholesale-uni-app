@@ -15,6 +15,9 @@
     width: 100%;
     height: 100%;
 }
+.platform.data-v-37614a5e {
+  margin-top: 25rpx;
+}
 .close-icon.data-v-37614a5e {
   width: 30rpx;
   height: 30rpx;

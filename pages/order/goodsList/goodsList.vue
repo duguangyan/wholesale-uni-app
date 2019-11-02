@@ -12,11 +12,11 @@
 			</div>
 		</div>
 
-		<div class="sort-bar">
+		<div class="sort-bar" :class="{'platform':platform==2, 'Android': platform == 1}">
 			<div :class="['general',curOpt==='gen-asc' || curOpt==='gen-desc'?'actived':'']" @click="doUniSort">
 				<span>综合排序</span>
-				<img class="upon" :src="curOpt==='gen-asc'?icon.UponAct:icon.Upon" />
-				<img class="downon" :src="curOpt==='gen-desc'?icon.DownonAct:icon.Downon"/>
+				<!-- <img class="upon" :src="curOpt==='gen-asc'?icon.UponAct:icon.Upon" />
+				<img class="downon" :src="curOpt==='gen-desc'?icon.DownonAct:icon.Downon"/> -->
 			</div>
 			<div :class="['fil-price',(curOpt==='pri-desc'||curOpt==='pri-asc')?'actived':'']" @click="doPriceSort">
 				<span>价格</span>
@@ -30,13 +30,13 @@
 			</div>
 		</div>
 
-		<div class="list" v-if="list.length>0">
+		<div class="list" v-if="!hasData">
 			<Good v-for="(item,index) in list" :key="index" :item="item" :level="2" />
 			<p class='center-p fs20 text-999'>{{loading?'数据加载中...':'数据加载完毕'}}</p>
 		</div>
-		<div class="no-data" v-if="list.length<=0">
+		<div class="no-data" v-if="hasData">
 			<img src="@/static/img/icon-search-no.png">
-			<p class="fs20 text-999">哦噢，没有搜到您的商品 换个关键词试试</p>
+			<p class="fs24 text-999">哦噢，没有搜到您的商品 换个关键词试试</p>
 		</div>
 		<Panel :show="isShow" @close="panelClose" @filter="doFilter" />
 	</div>
@@ -55,12 +55,15 @@
 	import {
 		getList
 	} from "@/api/goodsApi.js";
+	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
 				loading: false,
+				hasData: false,
 				search: {
 					// attrValueList: ["string"],
+					platform:0,
 					keywords: '',
 					pageIndex: 1,
 					pageSize: 10,
@@ -80,7 +83,8 @@
 					FilterAct
 				},
 				curOpt: "gen-desc",
-				isShow: false
+				isShow: false,
+				platform: 0
 			};
 		},
 		components: {
@@ -88,6 +92,8 @@
 		},
 		onLoad(options) {
 			this.search.keywords = options.search
+			// 设备样式兼容
+			this.platform = uni.getStorageSync('platform');
 			this.load();
 		},
 		onReachBottom() {
@@ -118,19 +124,21 @@
 				}
 				
 				this.search.pageIndex = 1;
+				this.list = [];
 				this.load();
 			},
 			doUniSort() {
 				this.search.sortColumn = "universal";
 				if (this.curOpt === "gen-desc") {
 					this.curOpt = "gen-asc";
-					this.search.sortType = 1;
+					//this.search.sortType = 1;
 				} else {
 					this.curOpt = "gen-desc";
-					this.search.sortType = 0;
+					//this.search.sortType = 0;
 				}
-				
+				this.search.sortType = 1;
 				this.search.pageIndex = 1;
+				this.list = [];
 				this.load();
 			},
 			load() {
@@ -141,8 +149,16 @@
 					}
 				}
 				getList(params).then(data => {
-					this.list = this.list.concat(data.data.records)
-					this.loading = this.list.length < data.data.total
+					if(data.code == '1000'){
+						
+						this.list = this.list.concat(data.data.records)
+						this.hasData = this.list.length <= 0
+						this.loading = this.list.length < data.data.total
+					}else{
+						T.tips(data.message || '操作失败')
+						this.hasData = this.list.length <= 0
+					}
+					
 				});
 			},
 			loadMore() {
@@ -165,13 +181,15 @@
 
 <style lang="scss" scoped>
 	.list {
+		height: 100vh;
+		background: #fff;
 		.center-p{
 			text-align: center;
 			margin: 20upx 0;
 		}
 		.no-data{
 			text-align: center;
-			margin-top: 50upx;
+			margin-top: 150upx;
 			>p{
 				width: 220upx;
 				margin: 0 auto;
@@ -185,21 +203,24 @@
 			position: relative;
 
 			.search {
-				width: 550upx;
+				width: 590upx;
 				height: 60upx;
 				border-radius: 60upx;
 				background-color: #F5F5F5;
 				position: relative;
-				left: 50upx;
+				left: 30upx;
 				top: 10upx;
 				overflow: hidden;
 
 				input {
 					position: absolute;
-					top: 0;
-					left: 80upx;
-					width: 100%;
-					height: 100%;
+					top: 12upx;
+					left: 68upx;
+					width: 84%;
+					height: 40upx;
+					min-height:40upx;
+					font-size: 28upx;
+					overflow: hidden;
 					text-align: left;
 				}
 
@@ -207,8 +228,8 @@
 					width: 36upx;
 					height: 36upx;
 					position: absolute;
-					left: 30upx;
-					top: 8upx;
+					left: 22upx;
+					top: 6upx;
 
 					>img {
 						width: 100%;
@@ -223,7 +244,7 @@
 
 			.flr {
 				position: absolute;
-				right: 60upx;
+				right: 30upx;
 				top: 20upx;
 			}
 		}
@@ -241,13 +262,13 @@
 		}
 
 		.sort-bar {
-			height: 80upx;
+			height: 120upx;
 			display: flex;
 			padding: 0 30upx;
 			align-items: center;
 			justify-content: space-between;
 			color: #999;
-			font-size: 24upx;
+			font-size: 28upx;
 			.icon-sx{
 				width: 16upx;
 				height: 20upx;
@@ -259,10 +280,10 @@
 
 				&.actived {
 					color: #000;
-					font-size: 26upx;
+					font-size: 28upx;
 				}
 
-				transition: font-size 0.2s;
+				// transition: font-size 0.2s;
 			}
 
 			.fil-price,
@@ -279,13 +300,43 @@
 			}
 
 			.upon {
-				top: 10upx;
+				top: 12upx;
 			}
 
 			.downon {
-				bottom: 10upx;
+				bottom: 12upx;
 			}
 			
+			.Android{
+				.upon {
+					top: 8upx;
+				}
+				
+				.downon {
+					bottom: 8upx;
+				}
+			}
+			
+			/* #ifdef APP-PLUS */  
+			// .upon {
+			// 	top: 8upx !important;
+			// }
+			
+			// .downon {
+			// 	bottom: 8upx !important;
+			// }
+			/* #endif */
+		
 		}
+		// .platform{
+		// 	.upon {
+		// 		top: 4upx !important;
+		// 	}
+			
+		// 	.downon {
+		// 		bottom: 4upx!important;
+		// 	}
+			
+		// }
 	}
 </style>

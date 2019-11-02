@@ -1,121 +1,131 @@
+.list.data-v-65b013e1 {
+  height: 100vh;
+  background: #fff;
+}
 .list .center-p.data-v-65b013e1 {
-  text-align: center;
-  margin: 20rpx 0;
+    text-align: center;
+    margin: 20rpx 0;
 }
 .list .no-data.data-v-65b013e1 {
-  text-align: center;
-  margin-top: 50rpx;
+    text-align: center;
+    margin-top: 150rpx;
 }
 .list .no-data > ._p.data-v-65b013e1 {
-    width: 220rpx;
-    margin: 0 auto;
+      width: 220rpx;
+      margin: 0 auto;
 }
 .list .no-data > ._img.data-v-65b013e1 {
-    width: 240rpx;
-    height: 240rpx;
+      width: 240rpx;
+      height: 240rpx;
 }
 .list .top.data-v-65b013e1 {
-  position: relative;
+    position: relative;
 }
 .list .top .search.data-v-65b013e1 {
-    width: 550rpx;
-    height: 60rpx;
-    border-radius: 60rpx;
-    background-color: #F5F5F5;
-    position: relative;
-    left: 50rpx;
-    top: 10rpx;
-    overflow: hidden;
+      width: 590rpx;
+      height: 60rpx;
+      border-radius: 60rpx;
+      background-color: #F5F5F5;
+      position: relative;
+      left: 30rpx;
+      top: 10rpx;
+      overflow: hidden;
 }
 .list .top .search input.data-v-65b013e1 {
-      position: absolute;
-      top: 0;
-      left: 80rpx;
-      width: 100%;
-      height: 100%;
-      text-align: left;
+        position: absolute;
+        top: 12rpx;
+        left: 68rpx;
+        width: 84%;
+        height: 40rpx;
+        min-height: 40rpx;
+        font-size: 28rpx;
+        overflow: hidden;
+        text-align: left;
 }
 .list .top .search .icon-30.data-v-65b013e1 {
-      width: 36rpx;
-      height: 36rpx;
-      position: absolute;
-      left: 30rpx;
-      top: 8rpx;
+        width: 36rpx;
+        height: 36rpx;
+        position: absolute;
+        left: 22rpx;
+        top: 6rpx;
 }
 .list .top .search .icon-30 > ._img.data-v-65b013e1 {
-        width: 100%;
-        height: 100%;
+          width: 100%;
+          height: 100%;
 }
 .list .top .fll.data-v-65b013e1 {
-    text-align: center;
+      text-align: center;
 }
 .list .top .flr.data-v-65b013e1 {
-    position: absolute;
-    right: 60rpx;
-    top: 20rpx;
+      position: absolute;
+      right: 30rpx;
+      top: 20rpx;
 }
 .list .icon-30.data-v-65b013e1 {
-  width: 30rpx;
-  height: 30rpx;
+    width: 30rpx;
+    height: 30rpx;
 }
 .list .icon-30 > ._img.data-v-65b013e1 {
-    width: 100%;
-    height: 100%;
+      width: 100%;
+      height: 100%;
 }
 .list ._li.data-v-65b013e1 {
-  list-style: none;
+    list-style: none;
 }
 .list .sort-bar.data-v-65b013e1 {
-  height: 80rpx;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 0 30rpx;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  color: #999;
-  font-size: 24rpx;
+    height: 120rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 0 30rpx;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    color: #999;
+    font-size: 28rpx;
 }
 .list .sort-bar .icon-sx.data-v-65b013e1 {
-    width: 16rpx;
-    height: 20rpx;
+      width: 16rpx;
+      height: 20rpx;
 }
 .list .sort-bar .general.data-v-65b013e1,
-  .list .sort-bar .fil-price.data-v-65b013e1,
-  .list .sort-bar .filter.data-v-65b013e1 {
-    position: relative;
-    -webkit-transition: font-size 0.2s;
-    -o-transition: font-size 0.2s;
-    transition: font-size 0.2s;
+    .list .sort-bar .fil-price.data-v-65b013e1,
+    .list .sort-bar .filter.data-v-65b013e1 {
+      position: relative;
 }
 .list .sort-bar .general.actived.data-v-65b013e1,
-    .list .sort-bar .fil-price.actived.data-v-65b013e1,
-    .list .sort-bar .filter.actived.data-v-65b013e1 {
-      color: #000;
-      font-size: 26rpx;
+      .list .sort-bar .fil-price.actived.data-v-65b013e1,
+      .list .sort-bar .filter.actived.data-v-65b013e1 {
+        color: #000;
+        font-size: 28rpx;
 }
 .list .sort-bar .fil-price.data-v-65b013e1,
-  .list .sort-bar .general.data-v-65b013e1 {
-    padding-right: 16rpx;
+    .list .sort-bar .general.data-v-65b013e1 {
+      padding-right: 16rpx;
 }
 .list .sort-bar .upon.data-v-65b013e1,
-  .list .sort-bar .downon.data-v-65b013e1 {
-    position: absolute;
-    right: 0;
-    width: 12rpx;
-    height: 8rpx;
+    .list .sort-bar .downon.data-v-65b013e1 {
+      position: absolute;
+      right: 0;
+      width: 12rpx;
+      height: 8rpx;
 }
 .list .sort-bar .upon.data-v-65b013e1 {
-    top: 10rpx;
+      top: 12rpx;
 }
 .list .sort-bar .downon.data-v-65b013e1 {
-    bottom: 10rpx;
+      bottom: 12rpx;
+}
+.list .sort-bar .Android .upon.data-v-65b013e1 {
+      top: 8rpx;
+}
+.list .sort-bar .Android .downon.data-v-65b013e1 {
+      bottom: 8rpx;
 }
 

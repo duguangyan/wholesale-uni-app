@@ -1,21 +1,21 @@
 <template>
 	<div class="cart">
-		<div class="edit cf" v-if="list.length > 0">
-			<div class="title fll">进货单({{validTotal}})</div>
-			<div class="icon flr" @click="isEdit = !isEdit">{{isEdit?'完成':'编辑'}}</div>
+		<div class="edit cf" v-if="!hasData">
+			<div class="title fll fs38">进货单({{validTotal}})</div>
+			<div class="icon flr fs30" @click="isEdit = !isEdit">{{isEdit?'完成':'编辑'}}</div>
 		</div>
-		<div class="cart-nodata" v-if="list.length<=0">
+		<div class="cart-nodata" v-if="hasData">
 			<div class="img">
 				<img src="@/static/img/icon-cart-nodata.png" alt="图片">
 			</div>
-			<div class="p text-999 fs-12">
+			<div class="p text-999 fs28">
 				进货单上还没有商品赶快去添加吧！
 			</div>
-			<div class="bg-red text-fff shop-btn" @click="goHome">去购物</div>
+			<div class="text-fff shop-btn" @click="goHome">去购物</div>
 		</div>
-		<div class="list" v-if="list.length>0">
-			<div v-for="(item,index) in list" :key="index" style="margin-top: 10upx">
-				<div class="cf parent-title">
+		<div class="list" v-if="!hasData">
+			<div v-for="(item,index) in list" :key="index" style="margin-top: 10upx" :class="{'Android': platform == 1}">
+				<div class="cf parent-title"  >
 					<div class="fll parent-icon" @click="checkParentIcon(index)">
 						<img :src="item.checked !== 0 ? Checked : Uncheck" alt="icon">
 					</div>
@@ -36,16 +36,16 @@
 							<img :src="it.imgUrl || defaultUrl" alt="图片">
 						</div>
 						<div class="fll ml-10 info">
-							<p class="fs28 p1 ellipsis ellipsis-line2">{{it.goodsName || ''}}</p>
-							<p class="p4 text-666 fs20 ellipsis ellipsis-line3">{{it.skuDesc || '--'}}</p>
+							<p class="fs28 p1 ellipsis ellipsis-line2" @click="goDetail(item.shopId, it.goodsId)">{{it.goodsName || ''}}</p>
+							<p class="p4 text-666 fs20 ellipsis ellipsis-line3" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p>
 							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
-							<p v-if="it.status !== 4" class="text-red fs-14 p2">￥ <span class="fs-18">{{it.price}}</span></p>
+							<p v-if="it.status !== 4" class="text-red fs-14 p2" @click="goDetail(item.shopId, it.goodsId)">￥ <span class="fs-18">{{it.price}}</span></p>
 							<p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p>
 							<!-- 数量操作 -->
 							<div class="count" v-if="!isEdit && it.status !== 4">
 								<span :class="{ 'text-999' : it.isColor999 }" @click="doCalculation(0,index,idx)">-</span>
 								
-								<input type="text" v-model="it.num" @click="clickInput(index,idx)" @change="changInput($event,index,idx)" />
+								<input type="number" v-model="it.num" @click="clickInput(index,idx)" @change="changInput($event,index,idx)" />
 								
 								<span @click="doCalculation(1,index,idx)">+</span>
 							</div>
@@ -56,7 +56,7 @@
 			</div>
 		</div>
 
-		<div class="footer" v-if="list.length > 0">
+		<div class="footer" :class="{'footer-Android': platform == 1}" v-if="list.length>0">
 			<div v-if="isEdit">
 				<div class="del" @click="preDel">删除</div>
 			</div>
@@ -64,8 +64,8 @@
 				<div class="icon-img fll">
 					<img :src="isCheckAll?Checked:Uncheck" alt width="17" height="17" @click="checkAll" />
 				</div>
-				<span class="fll" @click="checkAll">全选</span>
-				<div class="total-money fll">
+				<span class="fll checkall fs28" @click="checkAll">全选</span>
+				<div class="total-money fll fs28">
 					合计:&nbsp;
 					<span class="money">{{totalMoney}}</span>
 				</div>
@@ -73,6 +73,8 @@
 			</div>
 		</div>
 		<Dialog :title='title' :confirmText='confirmText' :cancelText='cancelText' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
+		
+		<!-- <TabBar :checkIndex='checkIndex'></TabBar> -->
 	</div>
 </template>
 
@@ -83,6 +85,8 @@
 	import Dialog from '@/components/common/Dialog.vue'
 	import util from '@/utils/util.js'
 	import T from '@/utils/tips.js'
+	import validator from '@/utils/validator.js'
+	import TabBar from '@/components/common/TabBar.vue'
 	import {
 		getCartOrderList,
 		getCartCheck,
@@ -94,6 +98,8 @@
 	export default {
 		data() {
 			return {
+				checkIndex: 1,
+				hasData: false,
 				title:'您确定删除商品吗?',
 				confirmText:'删除',
 				cancelText:'再想想',
@@ -111,11 +117,12 @@
 				clickNum: 0, //点击商品当前数量
 				isColor999: false, // 数量减法最低颜色
 				isclock: false, // 锁
-				clock: true
+				clock: true,
+				platform:0
 			}
 		},
 		components: {
-			Dialog
+			Dialog, TabBar
 		},
 		onLoad() {
 
@@ -123,6 +130,8 @@
 		onShow() {
 			// 获取进货单列表
 			this.getCartOrderList()
+			// 设备样式兼容
+			this.platform = uni.getStorageSync('platform');
 		},
 		methods: {
 			doConfirm(){
@@ -133,8 +142,8 @@
 			},
 			// 去详情
 			goDetail(shopId, orderId) {
-				this.$router.push({
-					path: '/gooddetail/' + shopId + '/' + orderId
+				uni.navigateTo({
+					url:'/pages/order/goodsDetail/goodsDetail?shopId='+shopId+'&goodsId='+orderId
 				})
 			},
 			// 结算
@@ -144,7 +153,7 @@
 				let cartIdList = []
 				this.list.forEach(item => {
 					item.items.forEach(it => {
-						if (it.checked === 1) {
+						if (it.checked == 1 && item.status != 4) {
 							cartIdList.push(it.cartId)
 						}
 					})
@@ -171,7 +180,6 @@
 			},
 			// 去结算
 			goPay() {
-				// this.$router.push('/submit')
 				if (this.totalMoney > 0) {
 					this.submit()
 				} else {
@@ -199,18 +207,18 @@
 			      let val = e.target.value
 			      if (validator.isNumber(val)) {
 			        if (val < this.list[index].items[idx].startNum) {
-			          Toast('数量不能小于起批量:'+this.list[index].items[idx].startNum)
+			          T.tips('数量不能小于起批量:'+this.list[index].items[idx].startNum)
 			          this.list[index].items[idx].num = this.list[index].items[idx].startNum
 			          this.changeNum(index,idx,this.list[index].items[idx].skuId, this.list[index].items[idx].startNum)
 			        } else if(val > this.list[index].items[idx].stock){
-			          Toast('数量不能超过库存量:'+this.list[index].items[idx].stock)
+			          T.tips('数量不能超过库存量:'+this.list[index].items[idx].stock)
 			          this.list[index].items[idx].num = this.list[index].items[idx].stock
 			          this.changeNum(index,idx,this.list[index].items[idx].skuId, this.list[index].items[idx].stock)
 			        }else {
 			          this.changeNum(index,idx,this.list[index].items[idx].skuId, val)
 			        }
 			      } else {
-			        Toast('请输入正确的数量')
+			        T.tips('请输入正确的数量')
 			        this.changeNum(index,idx,this.list[index].items[idx].skuId, this.list[index].items[idx].startNum)
 			      }
 			    },
@@ -222,12 +230,14 @@
 				}
 				let data = {
 					num,
-					skuId
+					skuId,
+					isLoading:1
 				}
 				this.isclock = true
 				getCartChangeNum(data).then(res => {
 					if (res.code === '1000') {
 						this.list[index].items[idx].num = res.data.num
+						this.list[index].items[idx].price = res.data.price
 						this.list[index].items[idx].totalPrice = res.data.totalPrice
 						this.list[index].items[idx].isColor999 = false
 						this.calculationTotalMoney()
@@ -253,7 +263,7 @@
 			          console.log(this.clickNum)
 			          this.changeNum(index,idx,this.list[index].items[idx].skuId,num)
 			        } else {
-			          Toast('数量不能小于起批量:'+this.list[index].items[idx].startNum)
+			          T.tips('数量不能小于起批量:'+this.list[index].items[idx].startNum)
 			        }
 			      } else {
 			        if(this.list[index].items[idx].num < this.list[index].items[idx].stock){
@@ -261,7 +271,7 @@
 			          num++
 			          this.changeNum(index,idx,this.list[index].items[idx].skuId,num)
 			        } else {
-			          Toast('购买数量不能超过库存量:'+this.list[index].items[idx].stock)
+			          T.tips('购买数量不能超过库存量:'+this.list[index].items[idx].stock)
 			        }
 			
 			      }
@@ -363,8 +373,10 @@
 				})
 			},
 			getCartOrderList() {
+				this.list = []
 				getCartOrderList().then((res) => {
 					if (res.code === '1000') {
+						this.hasData = res.data.cartLines.length <= 0
 						if (res.data.cartLines && res.data.cartLines.length > 0) {
 							this.list = res.data.cartLines
 							if (this.list.length > 0) {
@@ -439,6 +451,14 @@
 </script>
 <style lang="scss" scoped>
 	.cart {
+		// padding-bottom: 100upx;
+		.bb1{
+			position: fixed;
+			height: 0.5upx;
+			bottom: 0upx;
+			background: #f0f0f0;
+			width: 100%;
+		}
 		min-height: 100vh;
 		padding-bottom: 140upx;
 		background-color: #f0f0f0;
@@ -451,9 +471,9 @@
 		.edit {
 			text-align: right;
 			background-color: #fff;
-			padding: 10upx 30upx 10upx 10upx;
+			padding: 10upx 30upx 20upx 10upx;
 			position: relative;
-			margin-top: 60upx;
+			padding-top: 80upx;
 			.title {
 				text-align: center;
 				width: 100%;
@@ -461,10 +481,9 @@
 			/* #ifdef MP-WEIXIN */  
 			.icon {
 				position: absolute;
-				top: 10upx;
+				top: 84upx;
 				right: 215upx;
 				text-underline: underline ;
-				font-size: 24upx;
 				border: 1upx solid #e2e2e2;
 				border-radius: 10upx;
 				padding: 10upx;
@@ -473,8 +492,8 @@
 			/* #ifdef APP-PLUS || H5 */
 			.icon {
 				position: absolute;
-				top: 10upx;
-				right: 60upx;
+				top: 86upx;
+				right: 30upx;
 				text-underline: underline ;
 			}
 			/* #endif */
@@ -484,39 +503,44 @@
 			margin-top: 100upx;
 			margin-bottom: 30upx;
 			overflow: auto;
-
 			.count {
 				position: absolute;
-				bottom: 4upx;
-				right: 20upx;
+				bottom: 20upx;
+				right: 16upx;
 				display: flex;
 				align-items: center;
 
 				span {
-					font-size: 60upx;
+					font-size: 40upx;
 					position: relative;
 					top: -4upx;
 					margin: 0 20upx;
 				}
 
 				input {
-					width: 100upx;
-					height: 60upx;
-					line-height: 60upx;
+					width: 60upx;
+					height: 20upx !important;
+					line-height: 20upx !important;
 					background-color: #f5f5f5;
 					margin-left: 8upx;
 					margin-right: 8upx;
-					font-size: 32upx;
+					font-size: 24upx;
 					color: #333;
 					text-align: center;
 					border: none;
 					outline: none;
+					border-radius: 3upx;
+					overflow: hidden;
 				}
 			}
 
 			.parent-title {
+				margin-top: 20upx;
 				.text {
 					margin-left: 20upx;
+					font-size: 30upx;
+					position: relative;
+					top: 2upx;
 				}
 
 				.plat {
@@ -531,23 +555,26 @@
 				}
 
 				.parent-icon {
-					width: 34upx;
-					height: 34upx;
-					margin: 4upx 0upx 0 30upx;
-
+					width: 36upx;
+					height: 36upx;
+					margin: 0upx 0upx 0 30upx;
+					position: relative;
+					top: -4upx;
 					img {
 						width: 100%;
 						height: 100%;
 					}
 				}
 			}
+			
+			
 
 			ul {
-				margin-top: 20upx;
+				margin-top: 10upx;
 
 				li {
 					background: #fff;
-					padding: 20upx 30upx;
+					padding: 20upx 30upx 30upx 30upx;
 					border-bottom: 1upx solid #F5F5F5;
 					position: relative;
 
@@ -579,11 +606,14 @@
 						width: 400upx;
 						margin-left: 20upx;
 						.p1{
-							height: 80upx;
+							 // height: 80upx;
+							 line-height: 40upx;
+							// margin-top: 8upx;
 						}
 						.p2 {
 							position: absolute;
-							bottom: 20upx;
+							bottom: 30upx;
+							font-size: 32upx;
 						}
 
 						.p3 {
@@ -603,10 +633,18 @@
 
 						.p4 {
 							background: #F5F5F5;
-							border-radius: 10upx;
+							border-radius: 20upx;
 							display: inline-block;
-							padding: 0upx 8upx 4upx 8upx;
+							padding: 4upx 14upx;
+							font-size: 20upx;
+							
 						}
+						
+						/* #ifdef APP-PLUS */  
+						.p4 {
+							padding-bottom: 8upx;
+						}
+						/* #endif */ 
 					}
 
 					.info-edit {
@@ -615,9 +653,30 @@
 				}
 			}
 		}
-
+		.Android{
+			.parent-title {
+				margin-top: 30upx !important;
+				.text{
+					top: 8upx !important;
+				}
+				.parent-icon{
+					top: 6upx!important;
+				}
+			}
+			ul{
+				li{
+					.info{
+						.p4{
+							margin-top: 20upx !important;
+							padding-top: 8upx !important;
+						}
+					}
+				}
+			}
+			
+		}
 		.cart-nodata {
-			padding-top: 200upx;
+			padding-top: 400upx;
 
 			.img {
 				width: 240upx;
@@ -631,7 +690,7 @@
 			}
 
 			.p {
-				width: 360upx;
+				width: 250upx;
 				margin: 0 auto;
 				text-align: center;
 				line-height: 40upx;
@@ -646,20 +705,19 @@
 				border-radius: 60upx;
 				margin-top: 20upx;
 				font-size: 28upx;
+				background: #FC2D2D;
 			}
 		}
 
 		.list {
 			margin-top: 20upx;
 			background-color: #fff;
-			padding-top: 30upx;
 
 			.title {
 				img:first-child {
 					margin-right: 30upx;
 					transform: translateY(2upx);
 				}
-
 				padding: 0 0 10upx 30upx;
 				display: flex;
 				justify-content: flex-start;
@@ -676,6 +734,7 @@
 		}
 
 		.footer {
+			
 			>div {
 				width: 100%;
 				padding-top: 30upx;
@@ -689,18 +748,22 @@
 			font-size: 24upx;
 			color: #000;
 			position: fixed;
-			z-index: 999999;
-			bottom: 0upx;
+			z-index: 999;
+			bottom: 1upx;
 			left: 0;
 			width: 100%;
 			padding: 0 30upx;
-
+			.checkall{
+				position: relative;
+				top: -2upx;
+			}
 			.icon-img {
 
 				width: 34upx;
 				height: 34upx;
 				margin-right: 16upx;
-
+				position: relative;
+				top: -2upx;
 				>img {
 					width: 100%;
 					height: 100%;
@@ -711,13 +774,14 @@
 			.total-money {
 				flex-grow: 1;
 				margin-left: 30upx;
-
+				
 				span {
 					margin-left: 8upx;
 					color: #fc2d2d;
-					font-size: 32upx;
+					font-size: 34upx;
 					line-height: 24upx;
-
+					position: relative;
+					top: 2upx;
 					&::before {
 						content: '￥';
 						display: inline-block;
@@ -736,6 +800,7 @@
 				position: relative;
 				left: -60upx;
 				top: -15upx;
+				font-size: 30upx;
 			}
 
 			.del {
@@ -746,8 +811,17 @@
 				text-align: center;
 				border-radius: 32upx;
 				position: absolute;
-				right: 60upx;
+				right: 90upx;
 				top: 15upx;
+			}
+		}
+		.footer-Android{
+			>div{
+				padding-top: 50rpx;
+
+			}
+			.icon-img{
+				top: -2rpx;
 			}
 		}
 	}

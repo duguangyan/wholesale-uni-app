@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "选择属性",
+  "usingComponents": {
+    "uni-icons": "/components/uni-icons/uni-icons",
+    "uni-list": "/components/uni-list/uni-list",
+    "uni-list-item": "/components/uni-list-item/uni-list-item",
+    "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker"
+  }
+}

@@ -7,7 +7,7 @@
       <div class="d1 fs-20 text-333 mt-20">
         交易完成
       </div>
-      <div class="d2 flex text-333">
+      <div class="d2 flex text-333 fs32">
         <p class="flex-1" @click="checkOrderDetal">查看订单</p>
         <p class="flex-1" @click="goHome">返回首页</p>
       </div>
@@ -68,11 +68,13 @@
     }
     .content{
       text-align: center;
-      margin-top: 200upx;
+      padding-top: 150upx;
+	  padding-bottom: 40upx;
+	  background: #fff;
       .img{
         width: 80upx;
         height: 80upx;
-        margin: 0 auto;
+        margin: 10upx auto;
         >img{
           width: 100%;
 		  height: 100%;

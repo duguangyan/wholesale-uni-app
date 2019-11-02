@@ -1,49 +1,59 @@
-.ordlist.data-v-7471f58c {
+.ordlist.data-v-7079f42c {
   min-height: 100vh;
   background-color: #f5f5f5;
 }
-.ordlist .ts-center.data-v-7471f58c {
+.ordlist .ts-center.data-v-7079f42c {
     text-align: center;
 }
-.ordlist .top-warp.data-v-7471f58c {
+.ordlist .top-warp.data-v-7079f42c {
     position: fixed;
     top: 0;
     width: 100%;
     background: #fff;
     z-index: 99999;
 }
-.ordlist .load-text.data-v-7471f58c {
+.ordlist .load-text.data-v-7079f42c {
     padding: 20rpx 0;
 }
-.ordlist .order-no-data.data-v-7471f58c {
+.ordlist .order-no-data.data-v-7079f42c {
     text-align: center;
-    padding-top: 240rpx;
+    padding-top: 340rpx;
 }
-.ordlist .order-no-data > ._img.data-v-7471f58c {
+.ordlist .order-no-data > ._img.data-v-7079f42c {
       width: 240rpx;
       height: 240rpx;
 }
-.ordlist ._li.data-v-7471f58c {
+.ordlist ._li.data-v-7079f42c {
     list-style: none;
 }
-.ordlist .tags-con.data-v-7471f58c {
+.ordlist .tags-con.data-v-7079f42c {
     background-color: #fff;
     position: relative;
 }
-.ordlist .tags-con .tabs.data-v-7471f58c {
-      height: 70rpx;
-      line-height: 70rpx;
+.ordlist .tags-con .tabs.data-v-7079f42c {
+      height: 80rpx;
+      line-height: 80rpx;
+      position: relative;
 }
-.ordlist .tags-con .tabs .navActive.data-v-7471f58c {
-        border-bottom: 4rpx solid #fc2d2d;
-        color: #fc2d2d;
-}
-.ordlist .tags-con .tabs .li.data-v-7471f58c {
-        text-align: center;
-        margin: 0 35rpx;
+.ordlist .tags-con .tabs .li.data-v-7079f42c {
         font-size: 30rpx;
+        width: 20%;
+        text-align: center;
+        position: relative;
 }
-.ordlist .tags-con .flag.data-v-7471f58c {
+.ordlist .tags-con .tabs .li .navActive.data-v-7079f42c {
+          color: #fc2d2d;
+}
+.ordlist .tags-con .tabs .li ._i.data-v-7079f42c {
+          position: absolute;
+          bottom: 0;
+          height: 6rpx;
+          width: 20%;
+          display: block;
+          background: #fc2d2d;
+          margin-left: 40%;
+}
+.ordlist .tags-con .flag.data-v-7079f42c {
       width: 34rpx;
       height: 6rpx;
       position: absolute;
@@ -55,15 +65,15 @@
       -o-transition: left 0.5s;
       transition: left 0.5s;
 }
-.ordlist .list.data-v-7471f58c {
+.ordlist .list.data-v-7079f42c {
     margin-top: 100rpx;
 }
-.ordlist .list ._li.data-v-7471f58c {
-      padding: 15rpx;
+.ordlist .list ._li.data-v-7079f42c {
+      padding: 30rpx;
       background-color: #fff;
-      margin-top: 10rpx;
+      margin-bottom: 20rpx;
 }
-.ordlist .list .title.data-v-7471f58c {
+.ordlist .list .title.data-v-7079f42c {
       padding: 0 0 5rpx 0;
       display: -webkit-box;
       display: -webkit-flex;
@@ -75,34 +85,39 @@
               justify-content: flex-start;
       font-size: 24rpx;
 }
-.ordlist .list .title .icon.data-v-7471f58c {
-        width: 30rpx;
-        height: 30rpx;
+.ordlist .list .title .icon.data-v-7079f42c {
+        width: 36rpx;
+        height: 36rpx;
+        margin-right: 10rpx;
 }
-.ordlist .list .title .icon > ._img.data-v-7471f58c {
+.ordlist .list .title .icon > ._img.data-v-7079f42c {
           width: 100%;
           height: 100%;
 }
-.ordlist .list .title .platform.data-v-7471f58c {
+.ordlist .list .title .Android.data-v-7079f42c {
+        position: relative;
+        top: -8rpx;
+}
+.ordlist .list .title .platform.data-v-7079f42c {
         color: #000;
         margin-left: 5rpx;
-        font-weight: bold;
         -webkit-box-flex: 1;
         -webkit-flex-grow: 1;
             -ms-flex-positive: 1;
                 flex-grow: 1;
+        color: #333;
 }
-.ordlist .list .title .status.data-v-7471f58c {
+.ordlist .list .title .status.data-v-7079f42c {
         color: #fc2d2d;
 }
-.ordlist .list .accu.data-v-7471f58c {
+.ordlist .list .accu.data-v-7079f42c {
       margin-top: -5rpx;
       text-align: right;
 }
-.ordlist .list .accu ._span.data-v-7471f58c {
+.ordlist .list .accu ._span.data-v-7079f42c {
         font-weight: bold;
 }
-.ordlist .list .operator.data-v-7471f58c {
+.ordlist .list .operator.data-v-7079f42c {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -113,17 +128,17 @@
               justify-content: flex-end;
       margin-top: 30rpx;
 }
-.ordlist .list .operator > ._div.data-v-7471f58c {
+.ordlist .list .operator > ._div.data-v-7079f42c {
         width: 140rpx;
         line-height: 60rpx;
         border: 1rpx solid #d9d9d9;
-        border-radius: 30rpx;
+        border-radius: 60rpx;
         text-align: center;
         margin-left: 20rpx;
         font-size: 24rpx;
         color: #666;
 }
-.ordlist .list .operator > ._div.receive.data-v-7471f58c {
+.ordlist .list .operator > ._div.receive.data-v-7079f42c {
           color: #FC2D2D;
           border: 1rpx solid #FC2D2D;
 }

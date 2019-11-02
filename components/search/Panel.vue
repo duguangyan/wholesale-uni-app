@@ -21,10 +21,10 @@
         </div>
 
         <!-- 价格区间 -->
-        <div class="price-area">
-          <input v-model="filter.priceBegin" type="text" placeholder="最低价" @blur="valiPriceBegin" />
-          <span>-</span>
-          <input v-model="filter.priceEnd" type="text" placeholder="最高价" @blur="valiPriceEnd" />
+        <div class="price-area"  :calss="{'Android': platform == 3}">
+          <input v-model="filter.priceBegin" type="number" placeholder="最低价" @blur="valiPriceBegin" />
+          <span></span>
+          <input v-model="filter.priceEnd" type="number" placeholder="最高价" @blur="valiPriceEnd" />
         </div>
         <div class="weight"></div>
         <div class="operator">
@@ -49,18 +49,9 @@ export default {
       default: false
     }
   },
-  mounted() {
-    getArea().then(data => {
-      let d = data.data;
-      let res = [];
-      d.forEach(item => {
-        item !== null && res.push(item);
-      });
-      this.list = res;
-    });
-  },
   data() {
     return {
+  		platform: 0,
       list: [],
       isMoreLocat: false,
       isMoreBtn: false,
@@ -76,6 +67,19 @@ export default {
       isMinOk: true,
       isMaxOk: true
     };
+  },
+  mounted() {
+	  // 设备样式兼容
+	  this.platform = uni.getStorageSync('platform');
+	  console.log('platform:',this.platform)
+    getArea().then(data => {
+      let d = data.data;
+      let res = [];
+      d.forEach(item => {
+        item !== null && res.push(item);
+      });
+      this.list = res;
+    });
   },
   methods: {
 	  getAreas(area){
@@ -125,6 +129,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ .Android{
+	  >span{
+		  display: inline-block !important;
+		  height: 2upx !important;
+		  width: 20upx !important;
+		  background: #333 !important;
+	  }
+  }
 .panel {
   position: fixed;
   top: 0;
@@ -132,10 +144,12 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 99;
+ 
   .price-area {
-    text-align: center;
+    text-align: left;
     position: relative;
-    padding-top: 50upx;
+    padding-top: 80upx;
+	left: 30upx;
     &::before {
       content: "价格区间";
       display: block;
@@ -152,14 +166,17 @@ export default {
     input {
       border: none;
       outline: none;
-      height: 48upx;
-      border-radius: 24upx;
+      border-radius: 36upx;
       background-color: #f5f5f5;
-      width: 200upx;
+      width: 230upx;
       display: inline-block;
-      padding: 0 24upx;
+      padding: 10upx 24upx;
       font-size: 24upx;
       text-align: center;
+	  height: 36upx;
+	  min-height:36upx;
+	  font-size: 24upx;
+	  padding: 14upx 0;
       &::placeholder {
         color: #cccccc;
       }
@@ -168,7 +185,11 @@ export default {
       margin-left: 16upx;
       margin-right: 16upx;
 	  position: relative;
-	  top: -15upx;
+	  top: -28upx;
+	  display: inline-block;
+	  width: 20upx;
+	  height: 2upx;
+	  background: #333;
     }
   }
   .mask {
@@ -186,7 +207,7 @@ export default {
   }
   .body {
     background-color: #fff;
-    padding: 54upx 24upx 20upx 24upx;
+    padding: 0upx 24upx 20upx 0upx;
     position: fixed;
     z-index: 2;
     width: 580upx;
@@ -207,21 +228,29 @@ export default {
       width: 520upx;
       background-color: #fff;
       padding-bottom: 30upx;
+	  left: 190upx;
     }
     .reset {
-      width: 200upx;
-      box-shadow: 0 0 0 1upx #e6e6e6 inset;
+      width: 199upx;
+      // box-shadow: 0 0 0 1upx #e6e6e6 inset;
       color: #000;
       border-radius: 40upx;
+	  border: 1upx solid #e6e6e6;
+	  height: 79upx;
+	  line-height: 81upx;
     }
     .confirm {
       color: #fff;
       background-color: #fc2d2d;
-      width: 300upx;
+      width: 280upx;
       border-radius: 40upx;
+	  position: relative;
+	  left: 0upx;
+	  height: 80upx;
+	  line-height: 82upx;
     }
     .location {
-      margin: 50upx 0;
+      margin: 40upx 0;
       overflow-y: auto;
       transition: height 0.5s;
       & > section {
@@ -240,18 +269,18 @@ export default {
         display: block;
         color: #000;
         font-size: 24upx;
-        margin-left: 62upx;
+        margin-left: 44upx;
         font-weight: bold;
       }
-      margin-left: -62upx;
+      
       li {
         // width: 42upx;
-        padding: 8upx 20upx;
+        padding: 6upx 30upx;
         line-height: 44upx;
-        border-radius: 22upx;
+        border-radius: 56upx;
         background-color: #f5f5f5;
-        margin-top: 20upx;
-        margin-left: 62upx;
+        margin-top: 40upx;
+        margin-left: 40upx;
         color: #666;
         font-size: 24upx;
         text-align: center;

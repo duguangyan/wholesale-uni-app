@@ -1,39 +1,41 @@
-.fg1.data-v-556fd8f1 {
+.fg1.data-v-df63bf72 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
 }
-.mine.data-v-556fd8f1 {
+.mine.data-v-df63bf72 {
   position: relative;
+  height: 100vh;
+  background: #fff;
 }
-.mine .top.data-v-556fd8f1 {
+.mine .top.data-v-df63bf72 {
     width: 100%;
     height: 300rpx;
 }
-.mine .top .img.data-v-556fd8f1 {
+.mine .top .img.data-v-df63bf72 {
       width: 100%;
       height: 300rpx;
       overflow: hidden;
       position: absolute;
       top: 0;
 }
-.mine .top .img > image.data-v-556fd8f1 {
+.mine .top .img > image.data-v-df63bf72 {
         width: 100%;
         height: 100%;
 }
-.mine .top .setting.data-v-556fd8f1 {
+.mine .top .setting.data-v-df63bf72 {
       width: 48rpx;
       height: 48rpx;
       position: absolute;
       right: 30rpx;
       top: 100rpx;
 }
-.mine .top .setting > image.data-v-556fd8f1 {
+.mine .top .setting > image.data-v-df63bf72 {
         width: 100%;
         height: 100%;
 }
-.mine .top .status.data-v-556fd8f1 {
+.mine .top .status.data-v-df63bf72 {
       padding: 0rpx 20rpx 33rpx 40rpx;
       display: -webkit-box;
       display: -webkit-flex;
@@ -50,54 +52,57 @@
       position: relative;
       top: 160rpx;
 }
-.mine .top .status .img.data-v-556fd8f1 {
+.mine .top .status .img.data-v-df63bf72 {
         width: 90rpx;
         height: 90rpx;
         position: relative;
         z-index: 999999;
 }
-.mine .top .status .img > image.data-v-556fd8f1 {
+.mine .top .status .img > image.data-v-df63bf72 {
           border-radius: 50%;
           width: 100%;
           height: 100%;
 }
-.mine .top .content.data-v-556fd8f1 {
+.mine .top .content.data-v-df63bf72 {
       margin-left: 8rpx;
       font-size: 20rpx;
       color: #fff;
 }
-.mine .top .phone.data-v-556fd8f1 {
+.mine .top .phone.data-v-df63bf72 {
       margin-top: 2rpx;
 }
-.mine .order.data-v-556fd8f1 {
+.mine .order.data-v-df63bf72 {
     padding: 14rpx 20rpx 20rpx 20rpx;
 }
-.mine .order .title.data-v-556fd8f1 {
+.mine .order .title.data-v-df63bf72 {
       border-bottom: 1rpx solid #F5F5F5;
       padding-bottom: 20rpx;
+      height: 60rpx;
 }
-.mine .order .title .img.data-v-556fd8f1 {
+.mine .order .title .img.data-v-df63bf72 {
         width: 20rpx;
         height: 20rpx;
 }
-.mine .order .title .img > image.data-v-556fd8f1 {
+.mine .order .title .img > image.data-v-df63bf72 {
           width: 100%;
           height: 100%;
 }
-.mine .order .title > .p2.data-v-556fd8f1 {
+.mine .order .title > .p2.data-v-df63bf72 {
         color: #999;
         margin-right: 4rpx;
         position: relative;
         top: 14rpx;
 }
-.mine .order .title > .p1.data-v-556fd8f1 {
+.mine .order .title > .p1.data-v-df63bf72 {
         color: #333;
         font-weight: blod;
+        position: relative;
+        top: 10rpx;
 }
-.mine .order .title > image.data-v-556fd8f1 {
+.mine .order .title > image.data-v-df63bf72 {
         margin-left: 4rpx;
 }
-.mine .order .tags.data-v-556fd8f1 {
+.mine .order .tags.data-v-df63bf72 {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -112,39 +117,39 @@
           -ms-flex-align: center;
               align-items: center;
       text-align: center;
-      padding-top: 20rpx;
+      padding-top: 45rpx;
 }
-.mine .order .tags .li.data-v-556fd8f1 {
+.mine .order .tags .li.data-v-df63bf72 {
         list-style: none;
         font-size: 12rpx;
         color: #010101;
 }
-.mine .order .tags .li .img.data-v-556fd8f1 {
+.mine .order .tags .li .img.data-v-df63bf72 {
           width: 48rpx;
           height: 48rpx;
           margin: 0 auto;
 }
-.mine .order .tags .li .img > image.data-v-556fd8f1 {
+.mine .order .tags .li .img > image.data-v-df63bf72 {
             width: 100%;
             height: 100%;
 }
-.mine .collection.data-v-556fd8f1::before {
+.mine .collection.data-v-df63bf72::before {
     content: '';
     display: block;
     height: 18rpx;
     background-color: #f5f5f5;
     width: 100%;
 }
-.mine .collection .body.data-v-556fd8f1 {
+.mine .collection .body.data-v-df63bf72 {
     padding: 0 30rpx;
     color: #333;
     line-height: 100rpx;
 }
-.mine .collection .body .img.data-v-556fd8f1 {
+.mine .collection .body .img.data-v-df63bf72 {
       width: 20rpx;
       height: 20rpx;
 }
-.mine .collection .body .img > image.data-v-556fd8f1 {
+.mine .collection .body .img > image.data-v-df63bf72 {
         width: 100%;
         height: 100%;
 }

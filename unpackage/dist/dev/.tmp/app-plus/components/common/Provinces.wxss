@@ -8,8 +8,8 @@
   z-index: 99;
 }
 .province .icon-30.data-v-c29521a8 {
-    width: 30rpx !important;
-    height: 30rpx !important;
+    width: 36rpx !important;
+    height: 36rpx !important;
     position: absolute;
     right: 30rpx;
     top: 30rpx;

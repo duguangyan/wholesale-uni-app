@@ -58,7 +58,7 @@ const getFreightPrompt = data => {
   return request({
     url: '/api/goods/postSolution/selectSolution',
     method: 'post',
-    // type: 'form',
+    type: 'form',
     data
   })
 }
@@ -70,8 +70,18 @@ const getPostItem = data => {
     data
   })
 }
+// 判断是否备收藏
+const getHasCollect = data => {
+  return request({
+    url: '/api/cart/collect/hasCollect',
+    data,
+    type: 'form'
+  })
+}
+
 
 export {
+	getHasCollect,
   getList,
   getDetail,
   setCollect,

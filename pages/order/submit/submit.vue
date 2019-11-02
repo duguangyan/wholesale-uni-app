@@ -2,8 +2,8 @@
 	<view>
 		<div class="submit">
 		    <div class="address" @click="goAddress">
-		      <div v-if="address == null" class="addAd" to="/adedit">请添加收货地址</div>
-		      <div v-if="address != null" class="div">
+		      <div v-if="address == ''" class="addAd" to="/adedit">请添加收货地址</div>
+		      <div v-if="address != ''" class="div">
 		        <div class="ad-title">收货人: {{address.name}}</div>
 		        <div
 		          class="ad-det"
@@ -29,7 +29,7 @@
 		        <ul>
 		          <li class="cf" v-for="(it,idx) in item.goodsParamList" :key="idx">
 		            <div class="fll img">
-		              <img :src="it.imgUrl || defaultUrl" alt="图片" />
+		              <img :src="it.imgUri || defaultUrl" alt="图片" />
 		            </div>
 		            <div class="fll mgl-20 info fs28">
 		              <p class="fs-16 p1 cf">
@@ -37,7 +37,7 @@
 						</p>
 		              <p class="text-666 fs24 cf mt-10">
 		                <span class="fll p4">{{it.skuDesc || ''}}</span>
-		                <span class="flr text-999">x {{it.goodsCount}}</span>
+		                <span class="flr text-999 p5">x {{it.goodsCount}}</span>
 		              </p>
 		              <p class=" fs24 p2">￥ <span class="fs28">{{it.goodsMoney}}</span></p>
 		            </div>
@@ -62,7 +62,7 @@
 		        合计:&ensp;
 		        <span>{{totalMoney}}</span>
 		      </div>
-		      <div class="btn" v-bind:class="{ active: address !== '' }" @click="showPay">提交订单</div>
+		      <div class="btn" v-bind:class="{ 'active': address !== '','platform1':platform==2 }" @click="showPay">提交订单</div>
 		    </div>
 		    <!--    // orderId：支付订单-->
 		    <!--    // show：支付上拉框是否弹起-->
@@ -72,12 +72,16 @@
 		    <!--    // function doPay: 点击支付按钮事件-->
 		    <Pay
 		      :orderId="payOrderId"
+			  :platform='platform'
 		      ref="pay"
 		      :show="isPay"
 		      @close="doClose"
 		      :price="totalMoney"
 		      v-on:doPay="doPay"
 		    />
+			
+			
+			
 		  </div>
 	</view>
 </template>
@@ -101,20 +105,22 @@
 				isBuyNow:'',
 				submitData:'',
 				list: [], //数据列表
-				      defaultUrl:
-				        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2180358788,168891397&fm=26&gp=0.jpg",
-				      isPay: false,
-				      Checked,
-				      Uncheck,
-				      Plat,
-				      totalNum: 0, // 总数量
-				      totalMoney: 0, // 总金额
-				      address: "", // 地址
-				      message: "", //留言
-				      deliverMoney: 0, // 运费
-				      payOrderId: "", //订单ID
-				      cartIdList: "", // cartlist
-				      totalCount: "" // 总数量
+				  defaultUrl:
+					"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2180358788,168891397&fm=26&gp=0.jpg",
+				  isPay: false,
+				  Checked,
+				  Uncheck,
+				  Plat,
+				  totalNum: 0, // 总数量
+				  totalMoney: 0, // 总金额
+				  address: "", // 地址
+				  message: "", //留言
+				  deliverMoney: 0, // 运费
+				  payOrderId: "", //订单ID
+				  cartIdList: "", // cartlist
+				  totalCount: "" ,// 总数量
+				  hasSuccessShow: false,
+				  platform:0
 			};
 		},
 		components:{
@@ -125,20 +131,28 @@
 			this.isBuyNow = options.isBuyNow;
 		},
 		onShow() {
-			
+			// 设备样式兼容
+			this.platform = uni.getStorageSync('platform');
 			// 上一级传递参数：结算返回的数据
 				if (this.isBuyNow) {
 				  let submitData = JSON.parse(this.submitData);
-				  if (uni.getStorageSync("address")) {
-					this.address = JSON.parse(uni.getStorageSync("address"));
-					submitData.addressId = JSON.parse(uni.getStorageSync("address")).id;
-				  }
+				  
 				  buyGood(submitData).then(data => {
+					this.address = data.data.address || '';
 					this.list = data.data.shopList;
 					this.totalMoney = data.data.totalMoney;
 					this.deliverMoney = data.data.deliverMoney;
 					this.cartIdList = data.data.cartIdList;
 					this.totalCount = data.data.totalCount;
+					
+					if (uni.getStorageSync("address")) {
+						this.address = JSON.parse(uni.getStorageSync("address"));
+						submitData.addressId = JSON.parse(uni.getStorageSync("address")).id;
+						setTimeout(()=>{
+							uni.setStorageSync('address','')
+						},300)
+					}
+					
 				  });
 				} else {
 				  if (this.submitData) {
@@ -155,6 +169,10 @@
 					this.address = JSON.parse(uni.getStorageSync("address"));
 					// 根据地址获取运费
 					this.getOrderCartByAddress(this.address.id);
+					setTimeout(()=>{
+						uni.setStorageSync('address','')
+					},300)
+					
 				  } else {
 					// 获取默认地址
 					this.getAddressDefAddress();
@@ -162,12 +180,19 @@
 				}
 		},
 		methods: {
+			
 		    // 确认支付
-		    doPay() {},
+		    doPay(e) {
+				this.isPay = false
+				this.hasSuccessShow = true
+			},
 		    // 关闭支付显示
 		    doClose() {
 		      this.isPay = false;
-		      // this.$router.go(-1)
+			  uni.redirectTo({
+			      url: '/pages/user/order/detail?orderId='+this.payOrderId
+			  });
+			  
 		    },
 			// 去选择地址
 			goAddress(){
@@ -177,6 +202,10 @@
 			},
 		    // 显示支付
 		    showPay() {
+				if(this.address == ''){
+					T.tips('请选择收货地址')
+					return false
+				}
 		      let list = {
 		        shopParamList: this.list,
 		        postscript: this.message,
@@ -231,14 +260,19 @@
 		    },
 		    // 去详情
 		    goDetail(shopId, orderId) {
-		      this.$router.push({ path: "/gooddetail/" + shopId + "/" + orderId });
+				uni.navigateTo({
+					url:'/pages/user/order/detail?shopId='+shopId+'&goodsId='+orderId
+				})
 		    },
 		    // 获取默认地址
 		    getAddressDefAddress() {
 		      getAddressDefAddress().then(res => {
 		        if (res.code === "1000") {
-		          this.address = res.data;
-		          this.getOrderCartByAddress(this.address.id);
+					if(res.data){
+						 this.address = res.data;
+						 this.getOrderCartByAddress(this.address.id);
+					}
+		          
 		        }
 		      });
 		    },
@@ -309,14 +343,18 @@
       }
     }
     .parent-title {
-      margin-top: 40upx;
+      margin-top: 30upx;
       .text {
         margin-left: 20upx;
-        font-size: 28upx;
+        font-size: 30upx;
+		position: relative;
+		top: -4upx;
       }
       .plat {
-        width: 34upx;
-        height: 34upx;
+        width: 40upx;
+        height: 40upx;
+		position: relative;
+		top: -7upx;
         > img {
           width: 100%;
 		  height: 100%;
@@ -358,12 +396,21 @@
         }
         .info {
           width: 460upx;
+		  
+		  .s1{
+			  width: 320upx;
+		  }
 		  .p1{
 			  height: 80upx;
+			  .flr{
+				  position: relative;
+				  right: -20upx;
+			  }
 		  }
           .p2 {
             position: absolute;
-            bottom: 20upx;
+            bottom: 0upx;
+			color: #fc2d2d;
           }
           .p3 {
             display: inline-block;
@@ -379,11 +426,17 @@
             bottom: 20upx;
           }
           .p4 {
-            background: #f5f5f5;
-            border-radius: 10upx;
+            background: #F5F5F5;
+            border-radius: 20rpx;
             display: inline-block;
-            padding: 0upx 8upx 4upx 8upx;
+            padding: 4rpx 14rpx;
+			margin-top: 2upx;
           }
+		  .p5{
+			  position: relative;
+			  top: -38upx;
+			  right: -20upx;
+		  }
         }
         .info-edit {
           width: 460upx;
@@ -434,7 +487,8 @@
       line-height: 64upx;
       text-align: center;
       border-radius: 32upx;
-      box-shadow: 0 0 0 1upx #d9d9d9 inset;
+      // box-shadow: 0 0 0 1upx #d9d9d9 inset;
+	  border: 1upx solid #d9d9d9;
       font-size: 28upx;
       color: #000;
       position: relative;
@@ -505,7 +559,9 @@
         margin-left: 20upx;
         font-size: 24upx;
         border: none;
+		width: 88%;
         outline: none;
+		color: #333;
       }
     }
   }
@@ -523,7 +579,7 @@
     justify-content: flex-start;
     font-size: 30upx;
     .nums {
-      color: #666;
+      color: #000;
       margin-right: 30upx;
     }
     .total-price {
@@ -531,16 +587,17 @@
       span {
         color: #f5222d;
         font-weight: bold;
+		font-size: 32upx;
         &::before {
           content: "￥";
           font-weight: normal;
-          font-size: 24upx;
+          font-size: 28upx;
           display: inline-block;
         }
       }
     }
     .btn {
-      background-color: #999;
+      background-color: #d9d9d9;
       color: #fff;
       text-align: center;
       border-radius: 36upx;
@@ -552,6 +609,9 @@
     .active {
       background-color: #fc2d2d;
     }
+	.platform1{
+		top: 15upx !important;
+	}
   }
 }
 </style>

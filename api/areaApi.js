@@ -6,4 +6,11 @@ const getArea = data => {
   })
 }
 
-export { getArea }
+const getProvinces = data => {
+  return request({
+    url: '/api/upms/area/getChildrenByPId',
+    data
+  })
+}
+
+export {getArea, getProvinces }

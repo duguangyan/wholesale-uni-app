@@ -1,31 +1,29 @@
 <template>
 	<view>
 		<div class="edit">
-			<div class="icon" @click="preSave">保存</div>
+			
 			<div class="body">
 				<div class="cf item">
 					<span class="fll">收货人姓名</span>
-					<input class="flr" placeholder="真实姓名" v-model="address.name" @change="getName" />
+					<input class="flr" maxlength='20' placeholder="真实姓名" v-model="address.name"  />
 				</div>
 				
 				<div class="cf item">
 					<span class="fll">手机号码</span>
-					<input class="flr" placeholder="输入手机号码" v-model="address.phone" @change="getPhone" />
+					<input type="number" maxlength='12' class="flr" placeholder="输入手机号码" v-model="address.phone" />
 				</div>
 				
-
 				<div class="cf item" @click="showPicker">
 					<span class="fll">所在地区</span>
-					<input class="flr" disabled v-model="fullAddress" />
+					<input class="flr" placeholder="请选择地址" disabled v-model="fullAddress" />
 					<div class="tag-go">
 						<img src="@/static/img/tag-go.png" width="10" height="10" alt class="pr" />
 					</div>
-			
 				</div>
 				
-				<div class="cf item">
+				<div class="cf item itemLastChild">
 					<span class="fll">详细地址</span>
-					<input class="flr" placeholder="如道路,小区门牌号等详细地址" v-model="address.address" @change="getAddressDetall"></input>
+					<input class="flr" maxlength='50' placeholder="如道路,小区门牌号等详细地址" v-model="address.address"></input>
 				</div>
 				
 				<div class="mt10 cf set-default">
@@ -36,7 +34,7 @@
 				<div class="del" v-if="id" @click="preDel(id)">删除地址</div>
 			</div>
 			<!-- <AreaSelector :show="isPicker" :close="close" @area="area"></AreaSelector> -->
-			
+			<div class="icon" @click="preSave">保存</div>
 			<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
 			 @onCancel="onCancel" @onConfirm="onConfirm"></mpvue-city-picker>
 			 
@@ -95,7 +93,8 @@
 			let _this = this
 			if (this.id) {
 				let data = {
-					id: this.id
+					id: this.id,
+					isLoading:1
 				}
 				getAddressById(data).then(res => {
 					if (res.code === '1000') {
@@ -273,10 +272,19 @@
 <style lang="scss" scoped>
 .edit {
 	.icon{
-		text-align: right;
-		line-height: 100upx;
-		position: relative;
-		right: 30upx;
+		width: 640upx;
+		line-height: 80upx;
+		text-align: center;
+		color: #fff;
+		background-color: #d9d9d9;
+		border-radius: 40upx;
+		font-size: 32upx;
+		margin: 40upx auto auto;
+		background: #fc2d2d;
+		position: fixed;
+		bottom: 20upx;
+		left: 50%;
+		margin-left: -320upx;
 	}
 	.item{
 		background: #fff;
@@ -288,38 +296,44 @@
 		input{
 			height: 98upx;
 			line-height: 98upx;
-			border-bottom: 1upx solid #e2e2e2;
+			border-bottom: 1upx solid #f0f0f0;
 			width: 500upx;
+			color: #666;
 		}
+		
 		.tag-go{
 			position: absolute;
-			right: 0;
-			top: 10upx;
+			right: 30upx;
+		}
+	}
+	.itemLastChild {
+		input{
+			border-bottom: none !important;
 		}
 	}
 	.tag-go{
-		width: 44upx;
-		height: 44upx;
+		width: 22upx;
+		height: 22upx;
 		>img{
 			width: 100%;
 			height: 100%;
 		}
 	}
   .set-default{
-    height: 40px;
-    line-height: 40px;
+    height: 100upx;
+    line-height: 100upx;
     background: #fff;
-    padding: 0 10px;
+    padding: 0 30upx;
     .flr{
       position: relative;
-      top: 8px;
+      top: 32upx;
     }
   }
   .pr {
-    transform: translateX(-5px);
+    transform: translateX(-5upx);
   }
   .mt10 {
-    margin-top: 10px;
+    margin-top: 10upx;
   }
   min-height: 100vh;
   background-color: #f5f5f5;
@@ -328,8 +342,8 @@
   }
   .del {
     @extend .mt10;
-    font-size: 14px;
-    line-height: 50px;
+    font-size: 28upx;
+    line-height: 100upx;
     color: #fc2d2d;
     text-align: center;
     background-color: #fff;

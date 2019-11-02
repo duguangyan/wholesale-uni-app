@@ -1,8 +1,8 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/main"],[
 /* 0 */
-/*!**********************************!*\
-  !*** D:/zl/uniapp-qinlv/main.js ***!
-  \**********************************/
+/*!************************************!*\
+  !*** D:/zl/cloud-shop-app/main.js ***!
+  \************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -36,9 +36,9 @@ createApp(app).$mount();
 /* 7 */,
 /* 8 */,
 /* 9 */
-/*!**********************************!*\
-  !*** D:/zl/uniapp-qinlv/App.vue ***!
-  \**********************************/
+/*!************************************!*\
+  !*** D:/zl/cloud-shop-app/App.vue ***!
+  \************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -69,14 +69,14 @@ var component = Object(_ms_HBuilderX_plugins_uniapp_cli_node_modules_vue_loader_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "zl/uniapp-qinlv/App.vue"
+component.options.__file = "zl/cloud-shop-app/App.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 /* 10 */
-/*!***********************************************************!*\
-  !*** D:/zl/uniapp-qinlv/App.vue?vue&type=script&lang=js& ***!
-  \***********************************************************/
+/*!*************************************************************!*\
+  !*** D:/zl/cloud-shop-app/App.vue?vue&type=script&lang=js& ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -89,9 +89,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 /* 11 */
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-custom-block-loader??ref--0-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/zl/uniapp-qinlv/App.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-custom-block-loader??ref--0-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/zl/cloud-shop-app/App.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -100,6 +100,14 @@ __webpack_require__.r(__webpack_exports__);
 {
   onLaunch: function onLaunch() {
     console.log('App Launch');
+
+    // 获取code
+    // uni.login({
+    // 	provider:'weixin',
+    // 	success(e) {
+    // 		console.log('code',JSON.stringify(e))
+    // 	}
+    // })
 
     // 版本更新
     if (uni.getUpdateManager) {
@@ -123,6 +131,128 @@ __webpack_require__.r(__webpack_exports__);
 
       });
     }
+
+    // 获取 appid
+    uni.setStorageSync('appid', 'wxf89e01a251ab43f7');
+
+    // 判断设备  android:1 , ios:2 , 运行在开发者工具上: 3
+    console.log(uni.getSystemInfoSync());
+    switch (uni.getSystemInfoSync().platform) {
+      case 'android':
+        console.log('运行Android上');
+        // uni.setStorageSync('platform', '4')
+
+        switch (uni.getSystemInfoSync().brand) {
+          case 'OPPO':
+            console.log('运行OPPO上');
+            uni.setStorageSync('platform', '1');
+            break;
+          case 'HUAWEI':
+            console.log('运行华为上');
+            uni.setStorageSync('platform', '4');
+            break;}
+
+
+        break;
+      case 'ios':
+        console.log('运行iOS上');
+        uni.setStorageSync('platform', '2');
+        break;
+      default:
+        console.log('运行在开发者工具上');
+        uni.setStorageSync('platform', '3');
+        break;}
+
+
+
+
+
+    // 版本更新
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // 版本更新
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   },
   onShow: function onShow() {
     console.log('App Show');
@@ -135,9 +265,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 /* 12 */
-/*!*******************************************************************!*\
-  !*** D:/zl/uniapp-qinlv/App.vue?vue&type=style&index=0&lang=css& ***!
-  \*******************************************************************/
+/*!*********************************************************************!*\
+  !*** D:/zl/cloud-shop-app/App.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -150,9 +280,9 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 /* 13 */
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--6-oneOf-1-0!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--6-oneOf-1-1!./node_modules/css-loader??ref--6-oneOf-1-2!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-oneOf-1-3!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-custom-block-loader??ref--0-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/zl/uniapp-qinlv/App.vue?vue&type=style&index=0&lang=css& ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--6-oneOf-1-0!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--6-oneOf-1-1!./node_modules/css-loader??ref--6-oneOf-1-2!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-oneOf-1-3!./node_modules/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-custom-block-loader??ref--0-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/zl/cloud-shop-app/App.vue?vue&type=style&index=0&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

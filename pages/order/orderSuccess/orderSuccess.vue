@@ -5,10 +5,10 @@
 				<div class="img">
 					<img src="@/static/img/icon-finsh-order.png" alt="图片">
 				</div>
-				<div class="d1 fs-20 text-333 mt-20">
+				<div class="d1 fs38 text-333 mt-20">
 					交易完成
 				</div>
-				<div class="d2 flex text-333">
+				<div class="d2 flex text-333 fs28">
 					<p class="flex-1" @click="checkOrderDetal">查看订单</p>
 					<p class="flex-1" @click="goHome">返回首页</p>
 				</div>
@@ -67,37 +67,36 @@
 			top: 0;
 		}
 
-		.content {
-			text-align: center;
-			margin-top: 200upx;
-
-			.img {
-				width: 80upx;
-				height: 80upx;
-				margin: 0 auto;
-
-				>img {
-					width: 100%;
-					height: 100%;
-				}
-			}
-			.flex-1:first-child {
-					margin-right: 20upx;
-				}
-			.d2 {
-				width: 400upx;
-				margin: 0 auto;
-				margin-top: 40upx;
-
-				>p {
-					display: inline-block;
-					border: 1upx solid #f0f0f0;
-					padding: 10upx;
-					border-radius: 20upx;
-				}
-
-				
-			}
+		.content{
+		  text-align: center;
+		  padding-top: 80upx;
+		  padding-bottom: 40upx;
+		  background: #fff;
+		  .img{
+		    width: 80upx;
+		    height: 80upx;
+		    margin: 20upx auto;
+			position: relative;
+			top: -10upx;
+		    >img{
+		      width: 100%;
+			  height: 100%;
+		    }
+		  }
+		  .d2{
+		    width: 200px;
+		    margin: 0 auto;
+		    margin-top: 20px;
+		    >p{
+		      display: inline-block;
+		      border: 1px solid #f0f0f0;
+		      padding: 5px;
+		      border-radius: 20px;
+		    }
+		    :first-child{
+		      margin-right: 20px;
+		    }
+		  }
 		}
 	}
 </style>

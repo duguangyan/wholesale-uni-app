@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "订单完成",
+  "navigationBarTitleText": "交易已完成",
   "usingComponents": {
     "strictly-goods": "/components/common/StrictlyGoods"
   }

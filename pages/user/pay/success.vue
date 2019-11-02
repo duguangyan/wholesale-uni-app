@@ -4,12 +4,13 @@
       <div class="img">
         <img src="@/static/img/icon-finsh-order.png" alt="图片">
       </div>
-      <div class="d1 fs-20 text-333 mt-20">
+      <div class="d1 fs38 text-333 mt-20">
         支付完成
       </div>
       <div class="text-red mt-10" v-if="payPrice">￥{{payPrice}}</div>
-      <div class="d2 flex text-333">
-        <p class="flex-1" @click="checkOrderDetal">查看订单</p>
+      <div class="d2 flex text-333 fs28">
+		<p class="flex-1" @click="checkOrderDetal">查看订单</p>
+		<p class="flex-1" @click="goHome">返回首页</p>
       </div>
     </div>
     <AdvertisingPosition></AdvertisingPosition>
@@ -28,7 +29,7 @@
       return {
         query: '', // 获取传递参数
         adPositione: '', // 获取广告位信息
-		orderid:'',
+		orderId:'',
 		payPrice:''
       }
     },
@@ -37,7 +38,7 @@
       AdvertisingPosition
     },
     onLoad(options) {
-      this.orderid = options.orderSn
+      this.orderId = options.orderId
 	  this.payPrice = options.payPrice
     },
     methods: {
@@ -51,12 +52,12 @@
       checkOrderDetal() {
         // 详情需要 orderId, shopId
 		uni.navigateTo({
-			url:'/pages/user/order/detail?orderid=' + this.orderid
+			url:'/pages/user/order/detail?orderId=' + this.orderId
 		})
       },
       // 返回首页
       goHome() {
-		  uni.navigateTo({
+		  uni.switchTab({
 		  	url:'/pages/main/main'
 		  })
       }
@@ -74,13 +75,18 @@
     }
     .content{
       text-align: center;
-      margin-top: 100px;
+      padding-top: 80upx;
+	  padding-bottom: 40upx;
+	  background: #fff;
       .img{
-        width: 40px;
-        height: 40px;
-        margin: 0 auto;
+        width: 80upx;
+        height: 80upx;
+        margin: 20upx auto;
+		position: relative;
+		top: -10upx;
         >img{
           width: 100%;
+		  height: 100%;
         }
       }
       .d2{
@@ -94,7 +100,7 @@
           border-radius: 20px;
         }
         :first-child{
-          margin-right: 10px;
+          margin-right: 20px;
         }
       }
     }

@@ -4,6 +4,13 @@
   padding-bottom: 140rpx;
   background-color: #f0f0f0;
 }
+.cart .bb1.data-v-109e8254 {
+    position: fixed;
+    height: 0.5rpx;
+    bottom: 0rpx;
+    background: #f0f0f0;
+    width: 100%;
+}
 .cart .yuan.data-v-109e8254 {
     width: 18px;
     height: 18px;
@@ -13,9 +20,9 @@
 .cart .edit.data-v-109e8254 {
     text-align: right;
     background-color: #fff;
-    padding: 10rpx 30rpx 10rpx 10rpx;
+    padding: 10rpx 30rpx 20rpx 10rpx;
     position: relative;
-    margin-top: 60rpx;
+    padding-top: 80rpx;
 }
 .cart .edit .title.data-v-109e8254 {
       text-align: center;
@@ -23,8 +30,8 @@
 }
 .cart .edit .icon.data-v-109e8254 {
       position: absolute;
-      top: 10rpx;
-      right: 60rpx;
+      top: 86rpx;
+      right: 30rpx;
       text-underline: underline;
 }
 .cart .list.data-v-109e8254 {
@@ -34,8 +41,8 @@
 }
 .cart .list .count.data-v-109e8254 {
       position: absolute;
-      bottom: 4rpx;
-      right: 20rpx;
+      bottom: 20rpx;
+      right: 16rpx;
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -46,51 +53,61 @@
               align-items: center;
 }
 .cart .list .count ._span.data-v-109e8254 {
-        font-size: 60rpx;
+        font-size: 40rpx;
         position: relative;
         top: -4rpx;
         margin: 0 20rpx;
 }
 .cart .list .count input.data-v-109e8254 {
-        width: 100rpx;
-        height: 60rpx;
-        line-height: 60rpx;
+        width: 60rpx;
+        height: 20rpx !important;
+        line-height: 20rpx !important;
         background-color: #f5f5f5;
         margin-left: 8rpx;
         margin-right: 8rpx;
-        font-size: 32rpx;
+        font-size: 24rpx;
         color: #333;
         text-align: center;
         border: none;
         outline: none;
+        border-radius: 3rpx;
+        overflow: hidden;
+}
+.cart .list .parent-title.data-v-109e8254 {
+      margin-top: 20rpx;
 }
 .cart .list .parent-title .text.data-v-109e8254 {
-      margin-left: 20rpx;
+        margin-left: 20rpx;
+        font-size: 30rpx;
+        position: relative;
+        top: 2rpx;
 }
 .cart .list .parent-title .plat.data-v-109e8254 {
-      width: 40rpx;
-      height: 40rpx;
-      margin-left: 30rpx;
+        width: 40rpx;
+        height: 40rpx;
+        margin-left: 30rpx;
 }
 .cart .list .parent-title .plat > ._img.data-v-109e8254 {
-        width: 100%;
-        height: 100%;
+          width: 100%;
+          height: 100%;
 }
 .cart .list .parent-title .parent-icon.data-v-109e8254 {
-      width: 34rpx;
-      height: 34rpx;
-      margin: 4rpx 0rpx 0 30rpx;
+        width: 36rpx;
+        height: 36rpx;
+        margin: 0rpx 0rpx 0 30rpx;
+        position: relative;
+        top: -4rpx;
 }
 .cart .list .parent-title .parent-icon ._img.data-v-109e8254 {
-        width: 100%;
-        height: 100%;
+          width: 100%;
+          height: 100%;
 }
 .cart .list ._ul.data-v-109e8254 {
-      margin-top: 20rpx;
+      margin-top: 10rpx;
 }
 .cart .list ._ul ._li.data-v-109e8254 {
         background: #fff;
-        padding: 20rpx 30rpx;
+        padding: 20rpx 30rpx 30rpx 30rpx;
         border-bottom: 1rpx solid #F5F5F5;
         position: relative;
 }
@@ -119,11 +136,12 @@
           margin-left: 20rpx;
 }
 .cart .list ._ul ._li .info .p1.data-v-109e8254 {
-            height: 80rpx;
+            line-height: 40rpx;
 }
 .cart .list ._ul ._li .info .p2.data-v-109e8254 {
             position: absolute;
-            bottom: 20rpx;
+            bottom: 30rpx;
+            font-size: 32rpx;
 }
 .cart .list ._ul ._li .info .p3.data-v-109e8254 {
             display: inline-block;
@@ -141,15 +159,32 @@
 }
 .cart .list ._ul ._li .info .p4.data-v-109e8254 {
             background: #F5F5F5;
-            border-radius: 10rpx;
+            border-radius: 20rpx;
             display: inline-block;
-            padding: 0rpx 8rpx 4rpx 8rpx;
+            padding: 4rpx 14rpx;
+            font-size: 20rpx;
+}
+.cart .list ._ul ._li .info .p4.data-v-109e8254 {
+            padding-bottom: 8rpx;
 }
 .cart .list ._ul ._li .info-edit.data-v-109e8254 {
           width: 460rpx;
 }
+.cart .Android .parent-title.data-v-109e8254 {
+    margin-top: 30rpx !important;
+}
+.cart .Android .parent-title .text.data-v-109e8254 {
+      top: 8rpx !important;
+}
+.cart .Android .parent-title .parent-icon.data-v-109e8254 {
+      top: 6rpx !important;
+}
+.cart .Android ._ul ._li .info .p4.data-v-109e8254 {
+    margin-top: 20rpx !important;
+    padding-top: 8rpx !important;
+}
 .cart .cart-nodata.data-v-109e8254 {
-    padding-top: 200rpx;
+    padding-top: 400rpx;
 }
 .cart .cart-nodata .img.data-v-109e8254 {
       width: 240rpx;
@@ -161,7 +196,7 @@
         height: 100%;
 }
 .cart .cart-nodata .p.data-v-109e8254 {
-      width: 360rpx;
+      width: 250rpx;
       margin: 0 auto;
       text-align: center;
       line-height: 40rpx;
@@ -175,11 +210,11 @@
       border-radius: 60rpx;
       margin-top: 20rpx;
       font-size: 28rpx;
+      background: #FC2D2D;
 }
 .cart .list.data-v-109e8254 {
     margin-top: 20rpx;
     background-color: #fff;
-    padding-top: 30rpx;
 }
 .cart .list .title.data-v-109e8254 {
       padding: 0 0 10rpx 30rpx;
@@ -230,8 +265,8 @@
     font-size: 24rpx;
     color: #000;
     position: fixed;
-    z-index: 999999;
-    bottom: 0rpx;
+    z-index: 999;
+    bottom: 1rpx;
     left: 0;
     width: 100%;
     padding: 0 30rpx;
@@ -240,10 +275,16 @@
       width: 100%;
       padding-top: 30rpx;
 }
+.cart .footer .checkall.data-v-109e8254 {
+      position: relative;
+      top: -2rpx;
+}
 .cart .footer .icon-img.data-v-109e8254 {
       width: 34rpx;
       height: 34rpx;
       margin-right: 16rpx;
+      position: relative;
+      top: -2rpx;
 }
 .cart .footer .icon-img > ._img.data-v-109e8254 {
         width: 100%;
@@ -259,8 +300,10 @@
 .cart .footer .total-money ._span.data-v-109e8254 {
         margin-left: 8rpx;
         color: #fc2d2d;
-        font-size: 32rpx;
+        font-size: 34rpx;
         line-height: 24rpx;
+        position: relative;
+        top: 2rpx;
 }
 .cart .footer .total-money ._span.data-v-109e8254::before {
           content: '\FFE5';
@@ -277,6 +320,7 @@
       position: relative;
       left: -60rpx;
       top: -15rpx;
+      font-size: 30rpx;
 }
 .cart .footer .del.data-v-109e8254 {
       width: 150rpx;
@@ -286,7 +330,13 @@
       text-align: center;
       border-radius: 32rpx;
       position: absolute;
-      right: 60rpx;
+      right: 90rpx;
       top: 15rpx;
+}
+.cart .footer-Android > ._div.data-v-109e8254 {
+    padding-top: 50rpx;
+}
+.cart .footer-Android .icon-img.data-v-109e8254 {
+    top: -2rpx;
 }
 

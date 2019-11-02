@@ -1,32 +1,51 @@
 .player.data-v-9ac51870 {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 99;
+  overflow: hidden;
   height: 1000rpx;
 }
+.player .xx.data-v-9ac51870 {
+    position: absolute;
+    z-index: 999;
+    bottom: 100rpx;
+    left: 50%;
+    margin-left: -50rpx;
+    color: #fff;
+    font-size: 60rpx;
+    width: 100rpx;
+    height: 100rpx;
+    background: #000;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 90rpx;
+}
 .player .mask.data-v-9ac51870 {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.3);
+    height: 100%;
 }
 .player .body.data-v-9ac51870 {
     background-color: #fff;
-    position: fixed;
+    height: 750rpx;
+    position: absolute;
     z-index: 2;
     width: 100%;
     left: 0;
-    bottom: 0;
+    top: 0;
     color: #000;
 }
 .player .body > video.data-v-9ac51870 {
-      width: 100% !important;
+      width: 750rpx;
+      height: 100%;
 }
 .player .body .h1.data-v-9ac51870 {
       font-size: 28rpx;

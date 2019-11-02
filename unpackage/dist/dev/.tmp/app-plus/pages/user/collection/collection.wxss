@@ -1,12 +1,21 @@
+.btn.data-v-a87cda1c {
+  width: 640rpx;
+  line-height: 80rpx;
+  text-align: center;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  margin: 40rpx auto auto;
+  background: #fc2d2d;
+  position: fixed;
+  bottom: 120rpx;
+  left: 50%;
+  margin-left: -320rpx;
+}
 .collection.data-v-a87cda1c {
+  padding-top: 160rpx;
   min-height: 100vh;
   background-color: #f5f5f5;
-}
-.collection .title.data-v-a87cda1c {
-    text-align: right;
-    background-color: #fff;
-    line-height: 100rpx;
-    padding-right: 30rpx;
 }
 .collection .load-text.data-v-a87cda1c {
     padding: 20rpx 0;
@@ -17,14 +26,15 @@
 }
 .collection .collection-no-data.data-v-a87cda1c {
     text-align: center;
-    padding-top: 160rpx;
+    padding-top: 300rpx;
 }
 .collection .collection-no-data > ._img.data-v-a87cda1c {
       width: 240rpx;
       height: 240rpx;
 }
 .collection .collection-no-data > ._div.data-v-a87cda1c {
-      width: 420rpx;
+      width: 300rpx;
+      line-height: 40rpx;
       margin: 0 auto;
 }
 .collection .list.data-v-a87cda1c {
@@ -119,8 +129,8 @@
     transition: all .5s linear;
 }
 .collection .footer .icon.data-v-a87cda1c {
-      width: 44rpx;
-      height: 44rpx;
+      width: 40rpx;
+      height: 40rpx;
 }
 .collection .footer .icon > ._img.data-v-a87cda1c {
         width: 100%;

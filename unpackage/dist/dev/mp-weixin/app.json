@@ -26,7 +26,18 @@
     "pages/main/search/search",
     "pages/order/goodsList/goodsList",
     "pages/common/err/err",
-    "pages/common/webview/webview"
+    "pages/common/webview/webview",
+    "pages/login/binding/binding",
+    "pages/middle/middle",
+    "pages/middle/release/release",
+    "pages/middle/release/varieties/varieties",
+    "pages/middle/release/attribute/attribute",
+    "pages/middle/release/price/price",
+    "pages/middle/release/attribute/add/add",
+    "pages/middle/release/account/account",
+    "pages/middle/release/account/record/record",
+    "pages/middle/release/account/bankcard/bankcard",
+    "pages/middle/release/account/payps/payps"
   ],
   "subPackages": [],
   "window": {
@@ -48,8 +59,8 @@
         "selectedIconPath": "static/img/1.2.png"
       },
       {
-        "pagePath": "pages/order/order",
-        "text": "进货单",
+        "pagePath": "pages/middle/middle",
+        "text": "状态",
         "iconPath": "static/img/2.1.png",
         "selectedIconPath": "static/img/2.2.png"
       },
@@ -61,6 +72,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap97.json"
+  "usingComponents": {}
 }

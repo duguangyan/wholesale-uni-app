@@ -53,8 +53,8 @@ export default vm;
   bottom: 0;
   z-index: 99;
   .icon-30{
-	  width: 30upx !important;
-	  height: 30upx !important;
+	  width: 36upx !important;
+	  height: 36upx !important;
 	  position: absolute;
 	  right: 30upx;
 	  top: 30upx;

@@ -1,12 +1,33 @@
 .icon.data-v-faa6081c {
-  text-align: right;
-  position: relative;
-  left: -30rpx;
-  font-size: 30rpx;
-  padding: 20rpx 0;
+  width: 640rpx;
+  line-height: 80rpx;
+  text-align: center;
+  color: #fff;
+  background-color: #d9d9d9;
+  border-radius: 40rpx;
+  font-size: 32rpx;
+  margin: 40rpx auto auto;
+  background: #fc2d2d;
+  position: fixed;
+  bottom: 20rpx;
+  left: 50%;
+  margin-left: -320rpx;
 }
 .list.data-v-faa6081c {
-  border-top: 1rpx solid #f0f0f0;
+  height: 100vh;
+  background: #fff;
+  padding-bottom: 200rpx;
+}
+.list.data-v-faa6081c::after {
+    content: '';
+    display: block;
+    height: 1rpx;
+    background-color: #f0f0f0;
+    position: absolute;
+    top: 1rpx;
+    left: 30rpx;
+    z-index: 2;
+    width: 100%;
 }
 .list .no-data.data-v-faa6081c {
     height: 100%;
@@ -27,8 +48,10 @@
       font-size: 30rpx;
 }
 .list .no-data ._p.data-v-faa6081c {
-      width: 200rpx;
-      margin: 32rpx auto;
+      width: 240rpx;
+      margin: 20rpx auto;
+      margin-top: 0;
+      font-size: 28rpx;
 }
 .list ._li.data-v-faa6081c {
     overflow: hidden;
@@ -55,9 +78,11 @@
       background-color: #f0f0f0;
       position: absolute;
       bottom: 1rpx;
-      left: 30rpx;
       z-index: 2;
       width: 100%;
+}
+.list ._li .back.data-v-faa6081c {
+      width: 80%;
 }
 .list ._li .low.data-v-faa6081c {
       max-width: 750rpx;
@@ -97,6 +122,9 @@
       padding: 2rpx 6rpx;
       margin-right: 10rpx;
 }
+.list ._li .Android.data-v-faa6081c {
+      padding-top: 6rpx;
+}
 .list ._li .address.data-v-faa6081c {
       font-size: 20rpx;
       color: #999;
@@ -108,6 +136,7 @@
       padding: 0 24rpx;
       position: relative;
       color: #999;
+      font-size: 28rpx;
 }
 .list ._li .edit.data-v-faa6081c::before {
         content: '';

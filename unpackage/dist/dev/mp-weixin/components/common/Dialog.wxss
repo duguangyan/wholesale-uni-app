@@ -1,35 +1,35 @@
-.dialog .mask.data-v-39b96aa2 {
+.dialog .mask.data-v-ecba14de {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
-  z-index: 99;
+  z-index: 9999;
 }
-.dialog .mask-bg.data-v-39b96aa2 {
+.dialog .mask-bg.data-v-ecba14de {
   background-color: rgba(0, 0, 0, 0.3);
 }
-.dialog .body.data-v-39b96aa2 {
+.dialog .body.data-v-ecba14de {
   position: fixed;
-  z-index: 100;
+  z-index: 99999;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   background-color: #fff;
-  border-radius: 10rpx;
+  border-radius: 20rpx;
   width: 500rpx;
   padding: 76rpx 30rpx 30rpx;
   text-align: center;
 }
-.dialog .body .title.data-v-39b96aa2 {
-    font-size: 40rpx;
+.dialog .body .title.data-v-ecba14de {
+    font-size: 32rpx;
     color: #000;
     margin-bottom: 96rpx;
 }
-.dialog .body .footer.data-v-39b96aa2 {
+.dialog .body .footer.data-v-ecba14de {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -43,23 +43,23 @@
         -ms-flex-pack: justify;
             justify-content: space-between;
 }
-.dialog .body .btn.data-v-39b96aa2 {
-    width: 200rpx;
+.dialog .body .btn.data-v-ecba14de {
+    width: 230rpx;
     line-height: 80rpx;
     border-radius: 40rpx;
-    font-size: 40rpx;
+    font-size: 32rpx;
 }
-.dialog .body .btn.cancel.data-v-39b96aa2 {
+.dialog .body .btn.cancel.data-v-ecba14de {
       color: #333;
-      -webkit-box-shadow: 0 0 0 1rpx #d9d9d9 inset;
-              box-shadow: 0 0 0 1rpx #d9d9d9 inset;
+      border: 1rpx solid #d9d9d9;
+      color: #333;
 }
-.dialog .body .btn.confirm.data-v-39b96aa2 {
+.dialog .body .btn.confirm.data-v-ecba14de {
       background-color: #fc2d2d;
       color: #fff;
 }
-.dialog .mask-enter-active.data-v-39b96aa2,
-.dialog .body-enter-active.data-v-39b96aa2 {
+.dialog .mask-enter-active.data-v-ecba14de,
+.dialog .body-enter-active.data-v-ecba14de {
   -webkit-transition: all 0.5s;
   -o-transition: all 0.5s;
   transition: all 0.5s;
@@ -67,22 +67,22 @@
       -ms-transform-origin: left;
           transform-origin: left;
 }
-.dialog .mask-enter.data-v-39b96aa2,
-.dialog .body-enter.data-v-39b96aa2 {
+.dialog .mask-enter.data-v-ecba14de,
+.dialog .body-enter.data-v-ecba14de {
   opacity: 0;
 }
-.dialog .body-enter.data-v-39b96aa2 {
+.dialog .body-enter.data-v-ecba14de {
   -webkit-transform: scale(0.5) translate(-50%, -50%);
       -ms-transform: scale(0.5) translate(-50%, -50%);
           transform: scale(0.5) translate(-50%, -50%);
 }
-.dialog .body-enter-to.data-v-39b96aa2 {
+.dialog .body-enter-to.data-v-ecba14de {
   -webkit-transform: scale(1) translate(-50%, -50%);
       -ms-transform: scale(1) translate(-50%, -50%);
           transform: scale(1) translate(-50%, -50%);
 }
-.dialog .mask-enter-to.data-v-39b96aa2,
-.dialog .body-enter-to.data-v-39b96aa2 {
+.dialog .mask-enter-to.data-v-ecba14de,
+.dialog .body-enter-to.data-v-ecba14de {
   opacity: 1;
 }
 

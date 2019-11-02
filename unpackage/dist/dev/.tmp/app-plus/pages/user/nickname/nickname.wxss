@@ -4,7 +4,7 @@
 }
 .nickname .sub-btn.data-v-9cbcca9c {
     position: absolute;
-    top: 0rpx;
+    top: 20rpx;
     right: 0rpx;
     z-index: 99999;
     height: 88rpx;
@@ -15,11 +15,14 @@
     margin-top: 20rpx;
     background-color: #fff;
     height: 100rpx;
+    line-height: 100rpx;
     padding-left: 30rpx;
 }
 .nickname input.data-v-9cbcca9c {
     line-height: 100rpx;
+    height: 100rpx;
     font-size: 30rpx;
+    width: 600rpx;
     color: #000;
     border: none;
     outline: none;
