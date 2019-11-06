@@ -6,7 +6,7 @@
 					<div class="icon-30">
 						<img :class="{'platform':platform==2}" src="@/static/img/icon-search2.png" />
 					</div>
-					<input class="fs28" v-model="search" placeholder="输入商品名称" />
+					<input class="fs28" type="text" confirm-type="search" @confirm="toSearch($event)" v-model="search" placeholder="输入商品名称" />
 				</div>
 				<div class="flr">
 					<div class="icon fs28 text-333" @click="toSearch($event)">搜索</div>

@@ -259,6 +259,7 @@ function verificationAmount(num){
   }
 }
 
+// 数字转换成金额
 function isPriceNumber(_keyword){
   if(_keyword == "0" || _keyword == "0." || _keyword == "0.0" || _keyword == "0.00"){
     _keyword = "0"; return true;
@@ -283,7 +284,82 @@ function isPriceNumber(_keyword){
     return false;
   }
 }
+
+// 时间戳转年月日时分秒
+function timestampToTime(timestamp) {
+	var date = new Date();//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+	var Y = date.getFullYear() + '';
+	var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+	var D = (date.getDate() < 10 ? '0'+date.getDate() : date.getDate()) + ' ';
+	var h = (date.getHours() < 10 ? '0'+date.getHours() : date.getHours()) + ':';
+	var m = (date.getMinutes() < 10 ? '0'+date.getMinutes() : date.getMinutes()) + ':';
+	var s = (date.getSeconds() < 10 ? '0'+date.getSeconds() : date.getSeconds());
+	
+	return  Y+M+D+h+m+s;
+	// console.log(strDate) //2019-08-01 09:55:26
+}
+
+// function MillisecondToDate(msd) {
+//     var time = parseFloat(msd) / 1000;
+//     if (null != time && "" != time) {
+//         if (time > 60 && time < 60 * 60) {
+//             time = parseInt(time / 60.0) + "分" + parseInt((parseFloat(time / 60.0) -
+//                 parseInt(time / 60.0)) * 60) + "秒";
+//         }
+//         // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+//         else if (time >= 60 * 60) {
+//             time = parseInt(time / 3600.0) + "时" + parseInt((parseFloat(time / 3600.0) -
+//                 parseInt(time / 3600.0)) * 60) + "分" +
+//                 parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
+//                 parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + "秒";
+//         }
+//         else {
+//             time = parseInt(time) + "秒";
+//         }
+//     }
+//     return time;
+// }
+
+// 剩余天时分秒
+ function getLeftTime(endtime){
+	let nowtime = new Date().getTime();
+	let lasttime = (endtime - nowtime)/1000;
+	if(lasttime > 0){
+		let lastdate = parseInt(lasttime/3600/24);
+		let lasthours = parseInt(lasttime/3600%24);
+		let lastminutes = parseInt(lasttime/60%60);
+		let lastseconds = parseInt(lasttime%60);
+		let strtime = lastdate + '' + '天' + '' + lasthours + '' + '时' + '' + lastminutes + '' + '分'+ '' + lastseconds + '' + '秒';
+		return strtime
+	}
+	return ''
+}
+
+// 时间戳转时分
+function MillisecondToDate(msd) {
+    var time = (parseFloat(msd) - Date.parse(new Date()))  / 1000;
+    if (null != time && "" != time) {
+        if (time > 60 && time < 60 * 60) {
+            time = parseInt(time / 60.0) + ":" + parseInt((parseFloat(time / 60.0) -
+                parseInt(time / 60.0)) * 60) + " ";
+        }
+        // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+        else if (time >= 60 * 60) {
+            time = parseInt(time / 3600.0) + ":" + parseInt((parseFloat(time / 3600.0) -
+                parseInt(time / 3600.0)) * 60) + ":" +
+                parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
+                parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + " ";
+        }
+        else {
+            time = parseInt(time) + " ";
+        }
+    }
+    return time;
+}
 module.exports = {
+	getLeftTime,
+	MillisecondToDate,
+  timestampToTime,
   isPriceNumber,
   verificationAmount,
   fmoney,

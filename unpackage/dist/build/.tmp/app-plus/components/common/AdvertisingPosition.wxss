@@ -1,20 +1,20 @@
-.advertising.data-v-bc3ce64e {
+.advertising.data-v-724faba8 {
   height: 140rpx;
   padding: 0 30rpx;
   overflow: hidden;
   width: 100%;
   margin-top: 40rpx;
 }
-.advertising .div .img.data-v-bc3ce64e:last-child {
+.advertising .div .img.data-v-724faba8:last-child {
     margin-left: 50rpx;
 }
-.advertising .div .img.data-v-bc3ce64e {
+.advertising .div .img.data-v-724faba8 {
     width: 320rpx;
     height: 140rpx;
     border-radius: 10rpx;
     overflow: hidden;
 }
-.advertising .div .img > ._img.data-v-bc3ce64e {
+.advertising .div .img > ._img.data-v-724faba8 {
       width: 100%;
       height: 100%;
 }

@@ -1,11 +1,11 @@
-.middle .shipper.data-v-f9f5b914 {
+.middle .shipper.data-v-cebdc6ca {
   margin: 300rpx 0 100rpx 0;
   padding: 0 60rpx;
 }
-.middle .shipper button.data-v-f9f5b914 {
+.middle .shipper button.data-v-cebdc6ca {
     margin-top: 100rpx;
 }
-.middle .agency .bar.data-v-f9f5b914 {
+.middle .agency .bar.data-v-cebdc6ca {
   width: 100rpx;
   height: 100rpx;
   line-height: 100rpx;
@@ -21,23 +21,23 @@
   -webkit-box-shadow: 1rpx 1rpx 1rpx #999;
           box-shadow: 1rpx 1rpx 1rpx #999;
 }
-.middle .agency .orders.data-v-f9f5b914 {
+.middle .agency .orders.data-v-cebdc6ca {
   margin-top: 40rpx;
 }
-.middle .agency .goods uni-list-item.data-v-f9f5b914 {
+.middle .agency .goods uni-list-item.data-v-cebdc6ca {
   background: #E5E5E5;
 }
-.middle .agency .goods .title.data-v-f9f5b914 {
+.middle .agency .goods .title.data-v-cebdc6ca {
   line-height: 100rpx;
   background: #666;
   color: #fff;
   padding: 0 30rpx;
 }
-.middle .agency .goods .flex.data-v-f9f5b914 {
+.middle .agency .goods .flex.data-v-cebdc6ca {
   text-align: center;
   margin: 0 auto;
 }
-.middle .agency .goods .flex .img.data-v-f9f5b914 {
+.middle .agency .goods .flex .img.data-v-cebdc6ca {
     margin: 40rpx auto;
     margin-bottom: 20rpx;
     width: 60rpx;
@@ -45,24 +45,24 @@
     border-radius: 50%;
     background: #888888;
 }
-.middle .agency .goods .flex .img > ._img.data-v-f9f5b914 {
+.middle .agency .goods .flex .img > ._img.data-v-cebdc6ca {
       width: 100%;
       height: 100%;
 }
-.middle .agency .top.data-v-f9f5b914 {
+.middle .agency .top.data-v-cebdc6ca {
   padding-top: 100rpx;
   background: #FE9A2E;
   height: 200rpx;
   text-align: center;
 }
-.middle .agency .top .time.data-v-f9f5b914 {
+.middle .agency .top .time.data-v-cebdc6ca {
     height: 100rpx;
     line-height: 100rpx;
 }
-.middle .agency .top .flex-1.data-v-f9f5b914 {
+.middle .agency .top .flex-1.data-v-cebdc6ca {
     border-right: 1rpx solid #fff;
 }
-.middle .agency .top .flex-1.data-v-f9f5b914:last-child {
+.middle .agency .top .flex-1.data-v-cebdc6ca:last-child {
     border-right: none;
 }
 

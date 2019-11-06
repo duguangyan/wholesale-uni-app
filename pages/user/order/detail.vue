@@ -15,10 +15,12 @@
   <!--      状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭-->
         <div class="title" v-if="order.shopOrder">{{statusText}}</div>
 <!--        <div class="sub">大口大口大口大口</div>-->
-        <div class="sub tick cf" v-if="order.leftTimeTip">
+        <div class="sub tick cf" v-if="order.expiresTime && order.expiresTime>0">
 			<div class="icon fll" :class="{'Android': platform == 1}">
 				<img src="@/static/img/icon-tick.png" width="10" height="10" alt="">
 			</div>
+			<span v-if="status == 0" class="fll fs24">剩{{expiresTime}}自动关闭</span>
+			<span v-if="status == 3" class="fll fs24">剩{{expiresTime}}系统将自动确认收货</span>
         </div>
       </div>
     </div>
@@ -109,6 +111,7 @@ import Good from '@/components/order/Good'
 import Pay from '@/components/common/Pay'
 import { getOrderDetailById, postOrderCancel, postOrderConfirm } from '@/api/userApi.js'
 import T from '@/utils/tips.js'
+import util from '@/utils/util.js'
 import Dialog from '@/components/common/Dialog.vue'
 export default {
   name: 'orddetail',
@@ -126,7 +129,9 @@ export default {
       nowIndexPrice: 0,
 	  isOrderDialog:0,
 	  isPay:0,
-	  platform:0
+	  platform:0,
+	  timer:'',
+	  expiresTime: ''
     }
   },
   components: {
@@ -169,7 +174,8 @@ export default {
 			      if (res.code === '1000') {
 			        _this.status = -1
 			        _this.statusText = '已取消'
-					_this.order.leftTimeTip = ''
+					_this.expiresTime = ''
+					 clearInterval(this.timer)
 					_this.isShow = false
 			      } else {
 			        T.tips(res.message || '取消订单失败')
@@ -256,6 +262,17 @@ export default {
       getOrderDetailById(data).then(res => {
         if (res.code === '1000') {
           this.order = res.data[0]
+
+		 if(this.order.shopOrder.status == 0 || this.order.shopOrder.status == 3){
+			 let expiresTime = this.order.expiresTime
+			 this.timer = setInterval(()=>{
+				  expiresTime = expiresTime - 1000
+				  this.expiresTime =  this.order.shopOrder.status == 0 ? util.MillisecondToDate(expiresTime) : util.getLeftTime(expiresTime)
+				  if(expiresTime<= 0){
+					  clearInterval(this.timer)
+				  }
+			 },1000)
+		 }
           this.statusText = ''
           if(this.order.shopOrder) {
             this.status = this.order.shopOrder.status;

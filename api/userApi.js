@@ -229,8 +229,19 @@ const openIdByCode = data => {
   })
 }
 
+// 获取版本号判断是否更新
+const appUpdate = data => {
+  return request({
+    url: '/api/upms/appUpdate/getByCode',
+    data,
+    type: 'form',
+  })
+}
+
+
 
 export {
+  appUpdate,
   openIdByCode,
   weixinLogin,
   getSetFormId,

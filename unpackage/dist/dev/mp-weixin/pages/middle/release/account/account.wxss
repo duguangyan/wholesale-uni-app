@@ -1,8 +1,8 @@
-.account .btn.data-v-3f86369c {
+.account .btn.data-v-bbf08ba6 {
   margin: 0 30rpx;
   margin-top: 500rpx;
 }
-.account .top.data-v-3f86369c {
+.account .top.data-v-bbf08ba6 {
   height: 300rpx;
   line-height: 300rpx;
   background: #007AFF;

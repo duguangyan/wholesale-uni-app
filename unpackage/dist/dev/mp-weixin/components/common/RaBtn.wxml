@@ -1,1 +1,1 @@
-<view data-event-opts="{{[['tap',[['trigger',['$event']]]]]}}" class="{{['_div data-v-132705f4','radius-btn',isCheck===1?'checked':'']}}" bindtap="__e"><view class="point _div data-v-132705f4"></view></view>
+<view data-event-opts="{{[['tap',[['trigger',['$event']]]]]}}" class="{{['_div data-v-cbb036ce','radius-btn',isCheck===1?'checked':'']}}" bindtap="__e"><view class="point _div data-v-cbb036ce"></view></view>

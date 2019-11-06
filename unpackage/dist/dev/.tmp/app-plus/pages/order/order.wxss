@@ -1,4 +1,7 @@
 @charset "UTF-8";
+.access_token.data-v-109e8254 {
+  background: #000;
+}
 .cart.data-v-109e8254 {
   min-height: 100vh;
   padding-bottom: 140rpx;
@@ -325,8 +328,9 @@
 .cart .footer .del.data-v-109e8254 {
       width: 150rpx;
       line-height: 60rpx;
+      height: 60rpx;
       color: #fc2d2d;
-      border: 1rpx solid #fc2d2d;
+      border: 2rpx solid #fc2d2d;
       text-align: center;
       border-radius: 32rpx;
       position: absolute;

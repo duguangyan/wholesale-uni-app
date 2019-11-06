@@ -70,50 +70,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*每个页面公共css */
 page{
 	background: #F7F7F7;
@@ -225,7 +181,7 @@ page{
 }
 /* 背景颜色 */
 .bg-red{
-  background-color: #c81a29;
+  background-color: #FC2D2D;
 }
 .bg-yellow{
 	background-color: #F29800;

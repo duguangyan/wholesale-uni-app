@@ -1,4 +1,4 @@
-.add .edit.data-v-fb995032 {
+.add .edit.data-v-06c28abc {
   height: 100rpx;
   line-height: 100rpx;
   text-align: right;
@@ -6,10 +6,10 @@
   right: 30rpx;
   color: #007AFF;
 }
-.add .content.data-v-fb995032 {
+.add .content.data-v-06c28abc {
   padding: 0 30rpx;
 }
-.add .content button.data-v-fb995032 {
+.add .content button.data-v-06c28abc {
     margin-top: 300rpx;
     background: #007AFF !important;
 }

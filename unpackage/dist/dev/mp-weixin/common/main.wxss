@@ -70,103 +70,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*每个页面公共css */
 page{
 	background: #F7F7F7;
@@ -219,7 +122,7 @@ page{
 }
 /*文字颜色  */
 .text-theme {
-    color: #c81a29;
+    color: #FE3B0B;
 }
 .text-white {
     color: #fff;
@@ -955,4 +858,17 @@ word-spacing-30{
 }
 .cf:after{display:block;clear:both;content:"";visibility:hidden;height:0}
 .cf{zoom:1}
+.big-btn{
+	width:640rpx;
+	height:80rpx;
+	line-height: 80rpx;
+	text-align: center;
+	margin: 0 auto;
+	background:rgba(254,59,11,1);
+	border-radius:40rpx;
+	color: #fff;
+	font-size: 32rpx;
+}
+.small-btn{
+}
 

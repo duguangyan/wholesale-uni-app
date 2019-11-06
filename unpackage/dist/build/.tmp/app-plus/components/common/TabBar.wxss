@@ -1,0 +1,35 @@
+.TabBar.data-v-46db0a16 {
+  height: 100rpx;
+  width: 100%;
+  position: fixed;
+  z-index: 999999;
+  bottom: 0;
+  background: #fff;
+  border-top: 0.5rpx solid #f5f5f5;
+}
+.TabBar .list.data-v-46db0a16 {
+    width: 80%;
+    margin: 0 auto;
+}
+.TabBar .list .item.data-v-46db0a16 {
+      font-size: 22rpx;
+      text-align: center;
+      margin-top: 10rpx;
+}
+.TabBar .list .item .icon.data-v-46db0a16 {
+        width: 48rpx;
+        height: 48rpx;
+        margin: 0 auto;
+}
+.TabBar .list .item .icon image.data-v-46db0a16 {
+          width: 100%;
+          height: 100%;
+}
+.TabBar .list .item .text.data-v-46db0a16 {
+        color: #D9D9D9;
+        margin-top: 10rpx;
+}
+.TabBar .list .item .active.data-v-46db0a16 {
+        color: #FC2D2D;
+}
+

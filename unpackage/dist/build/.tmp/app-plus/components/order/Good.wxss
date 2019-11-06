@@ -1,44 +1,47 @@
-.item.data-v-6540255f {
+.item.data-v-fca26cc6 {
   font-size: 24rpx;
   color: #000;
   padding: 20rpx 0;
 }
-.item .content.data-v-6540255f {
+.item .content.data-v-fca26cc6 {
     width: 60%;
     margin-left: 20rpx;
 }
-.item .content2.data-v-6540255f {
+.item .content2.data-v-fca26cc6 {
     position: relative;
 }
-.item .photo.data-v-6540255f {
+.item .photo.data-v-fca26cc6 {
     width: 160rpx;
     height: 160rpx;
     border-radius: 10rpx;
     overflow: hidden;
     background: red;
 }
-.item .photo > image.data-v-6540255f {
+.item .photo > image.data-v-fca26cc6 {
       width: 160rpx;
       height: 160rpx;
       text-align: center;
 }
-.item .name.data-v-6540255f {
-    height: 80rpx;
+.item .name.data-v-fca26cc6 {
     width: 90%;
     line-height: 40rpx;
 }
-.item .standard.data-v-6540255f {
-    padding: 4rpx 10rpx;
+.item .Android.data-v-fca26cc6 {
+    padding-top: 10rpx !important;
+}
+.item .standard.data-v-fca26cc6 {
+    padding: 6rpx 14rpx;
+    border-radius: 22rpx;
     background-color: #f5f5f5;
     font-size: 20rpx;
     color: #666;
     display: inline-block;
     margin-top: 20rpx;
 }
-.item .num.data-v-6540255f {
+.item .num.data-v-fca26cc6 {
     position: absolute;
     color: #999;
-    top: 56rpx;
+    top: 46rpx;
     right: 0;
 }
 

@@ -1,7 +1,7 @@
-// const apiUrl = 'http://m.qinlvny.com'; // 正式
+ const apiUrl = 'http://m.qinlvny.com'; // 正式
 // let apiUrl = 'http://duu-u.imwork.net:27307'; // 开发
- let apiUrl = 'http://192.168.0.202:7000'; // 开发
-const versionNumber = 'V1.0.4'; //版本号
+// let apiUrl = 'http://192.168.0.202:7000'; // 开发
+const versionNumber = 'V1.0.7'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:7000') {
 	uni.setStorageSync('v', versionNumber);
@@ -56,9 +56,8 @@ const request = function(params = {}) {
 		// }catch(e){
 		// 	//TODO handle the exception
 		// }
-		
 		let newUrl = params.url;
-		// #ifdef MP-WEIXIN || APP-PLUS
+		// #ifdef MP-WEIXIN || APP-PLUS || H5
 		if (params.url.indexOf('/api') != -1) {
 			newUrl = newUrl.split('/api')[1]
 		}  
@@ -96,9 +95,14 @@ const request = function(params = {}) {
 				} else {
 					// 请求成功非1000	
 					if(res.code == '1011'){
-						uni.navigateTo({
-							url:'/pages/login/login'
-						})
+						if(newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder'){
+							uni.removeStorageSync('access_token')
+							uni.navigateTo({
+								url:'/pages/login/login'
+							})
+						}
+						
+						
 						// let content = '登录过期，请重新登录！'
 						// if(uni.getStorageSync('access_token') == '') {
 						// 	content = '请先登录！'
@@ -134,68 +138,80 @@ const request = function(params = {}) {
 							client_secret:'xx',
 							refresh_token: uni.getStorageSync('refresh_token')
 						}
-						
+						console.log('tokenData',tokenData)
+						console.log('apiUrl',apiUrl + '/oauth/oauth/token')
 						uni.request({
 							url: apiUrl + '/oauth/oauth/token',
 							method: 'POST',
 							data: tokenData,
 							header:{
-								'content-type':'application/multipart/form-data'
+								'content-type':'application/x-www-form-urlencoded'
 							},
 							success(res) { 
-								if(res.code == '1000'){
+								console.log('1',res)
+								if(res.data && res.data.access_token){
+									uni.setStorageSync('access_token', res.data.access_token)
+									uni.setStorageSync('refresh_token', res.data.refresh_token)
 									uni.request({
 										url: apiUrl + newUrl,
 										method: params.method || 'GET',
 										data: params.data,
 										header,
 										success(res) {
+											console.log('2',res)
 											if(res.code == '1000'){
 												resolve(res);
 											}else{
 												uni.showToast({
-												    title: '标题',
-												    duration: '请求数据错误'
+												    title: '请求数据错误',
+												    duration: 2000,
+													icon :'none'
 												});
 											}
 										},
 										fail() {
 											uni.showToast({
-											    title: '标题',
-											    duration: '请求数据错误'
+											    title: '请求数据错误',
+											    duration: 2000,
+												icon :'none'
 											});
 										}
 									})
-								} else{
-									uni.showToast({
-									    title: '标题',
-									    duration: '请求数据错误'
-									});
+								} else {
+									// uni.showToast({
+									//     title: '请求数据错误',
+									//     duration: 2000,
+									// 	icon :'none'
+									// });
+									uni.navigateTo({
+										url:'/pages/login/login'
+									})
 								}
 							},
 							fail(err) {
 								uni.showToast({
-								    title: '标题',
-								    duration: '请求数据错误'
+								    title: '请求数据错误',
+								    duration: 2000,
+									icon :'none'
 								});
 							}
 						})
 					} else {
-						if(!uni.getStorageSync('access_token')){
-							// 防止重复进入错误页面
-							if(uni.getStorageSync('err') != 1){
-								uni.navigateTo({
-									url:'/pages/common/err/err?redirect=' + JSON.stringify(params)
-								})
+						if(res.code != '9999') {
+							if(!uni.getStorageSync('access_token')){
+								// 防止重复进入错误页面
+								if(uni.getStorageSync('err') != 1){
+									uni.navigateTo({
+										url:'/pages/common/err/err?redirect=' + JSON.stringify(params)
+									})
+								}
 							}
 						}
 					}
-					 resolve(res);
+					resolve(res);
 				}
 			},
 			fail(err) {
-				
-				
 				// 请求失败处理
 				if (err.errMsg || err.errMsg === "request:fail timeout") {
 					uni.showToast({

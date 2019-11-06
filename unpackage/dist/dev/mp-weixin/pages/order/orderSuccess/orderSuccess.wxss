@@ -1,36 +1,36 @@
-.success .top.data-v-3d02bf35 {
+.success .top.data-v-96dacdcc {
   position: fixed;
   top: 0;
 }
-.success .content.data-v-3d02bf35 {
+.success .content.data-v-96dacdcc {
   text-align: center;
   padding-top: 80rpx;
   padding-bottom: 40rpx;
   background: #fff;
 }
-.success .content .img.data-v-3d02bf35 {
+.success .content .img.data-v-96dacdcc {
     width: 80rpx;
     height: 80rpx;
     margin: 20rpx auto;
     position: relative;
     top: -10rpx;
 }
-.success .content .img > ._img.data-v-3d02bf35 {
+.success .content .img > ._img.data-v-96dacdcc {
       width: 100%;
       height: 100%;
 }
-.success .content .d2.data-v-3d02bf35 {
+.success .content .d2.data-v-96dacdcc {
     width: 200px;
     margin: 0 auto;
     margin-top: 20px;
 }
-.success .content .d2 > ._p.data-v-3d02bf35 {
+.success .content .d2 > ._p.data-v-96dacdcc {
       display: inline-block;
       border: 1px solid #f0f0f0;
       padding: 5px;
       border-radius: 20px;
 }
-.success .content .d2.data-v-3d02bf35 :first-child {
+.success .content .d2.data-v-96dacdcc :first-child {
       margin-right: 20px;
 }
 

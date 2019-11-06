@@ -3,6 +3,7 @@
   "usingComponents": {
     "share": "/components/good/Share",
     "standard": "/components/good/Standard",
-    "player": "/components/common/Player"
+    "player": "/components/common/Player",
+    "swiper-dot": "/components/common/SwiperDot"
   }
 }

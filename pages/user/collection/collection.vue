@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<scroll-view>
 		<NavigationBar title="收藏" :isClick="isClick" :clickTitle="clickTitle" @doClick="doClick"></NavigationBar>
 		<div class="collection">
 			
@@ -15,9 +15,9 @@
 							<img :src="item.isCheck ? Checked : Uncheck" alt="icon">
 						</div>
 						<div class="fll img" @click="goDetail(item.id, item.goodsId)">
-							<img :src="item.imgUrl" alt="图片">
+							<image :lazy-load="true" :src="item.imgUrl" alt="图片">
 						</div>
-						<div class="fll ml-10 info" v-bind:class="{ 'info-edit' : !isEdit }">
+						<div class="fll ml-10 info" v-bind:class="{ 'info-edit' : !isEdit }" @click="goDetail(item.id, item.goodsId)">
 							<p class="fs28 p1 ellipsis-line2">{{item.name}}</p>
 							<p class="p4 text-666 fs24">{{item.skuDesc || ''}}</p>
 							<p v-if="item.status !== 4" class="text-red fs28 p2">￥ <span class="fs36">{{item.price}}</span></p>
@@ -44,7 +44,7 @@
 		
 		
 		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
-	</view>
+	</scroll-view>
 </template>
 
 <script>
@@ -316,7 +316,7 @@
 						border-radius: 20upx;
 						overflow: hidden;
 
-						img {
+						image {
 							width: 100%;
 							height: 100%;
 						}
@@ -343,7 +343,7 @@
 							font-size: 24upx;
 							position: absolute;
 							bottom: 20upx;
-							margin-left: -60upx;
+							// margin-left: -60upx;
 						}
 
 						.p4 {

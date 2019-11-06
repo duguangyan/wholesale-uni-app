@@ -1,4 +1,4 @@
-.radius-btn.data-v-132705f4 {
+.radius-btn.data-v-cbb036ce {
   width: 45px;
   height: 24px;
   border-radius: 12px;
@@ -10,7 +10,7 @@
   transition: background-color 0.5s;
   background-color: #F5F5F5;
 }
-.radius-btn .point.data-v-132705f4 {
+.radius-btn .point.data-v-cbb036ce {
     display: block;
     width: 22px;
     height: 22px;
@@ -25,12 +25,12 @@
     -o-transition: all 0.5s;
     transition: all 0.5s;
 }
-.radius-btn.checked.data-v-132705f4 {
+.radius-btn.checked.data-v-cbb036ce {
     background-color: #FC2D2D;
     -webkit-box-shadow: 0 0 0 1px #FC2D2D;
             box-shadow: 0 0 0 1px #FC2D2D;
 }
-.radius-btn.checked .point.data-v-132705f4 {
+.radius-btn.checked .point.data-v-cbb036ce {
       left: 50%;
       -webkit-box-shadow: 0 0 0 1px #D60909;
               box-shadow: 0 0 0 1px #D60909;

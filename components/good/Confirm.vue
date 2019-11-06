@@ -258,7 +258,11 @@ export default {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   .standard {
-    border-bottom: 2upx solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+	max-height: 200px;
+	overflow-y: auto;
+	height: 200px;
+	padding-left: 2px;
   }
   .sta-name {
     color: #333;
@@ -351,7 +355,7 @@ export default {
       border-bottom: #f0f0f0 solid 1upx;
       font-size: 30upx;
       padding-top: 24upx;
-      margin-top: 74upx;
+      // margin-top: 74upx;
 	  position: relative;
 	  .flr{
 		  position: absolute;

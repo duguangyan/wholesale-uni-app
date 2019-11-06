@@ -1,32 +1,34 @@
-.success .top.data-v-e1174de6 {
+.success .top.data-v-7136bbed {
   position: fixed;
   top: 0;
 }
-.success .content.data-v-e1174de6 {
+.success .content.data-v-7136bbed {
   text-align: center;
-  margin-top: 200rpx;
+  padding-top: 150rpx;
+  padding-bottom: 40rpx;
+  background: #fff;
 }
-.success .content .img.data-v-e1174de6 {
+.success .content .img.data-v-7136bbed {
     width: 80rpx;
     height: 80rpx;
-    margin: 0 auto;
+    margin: 10rpx auto;
 }
-.success .content .img > ._img.data-v-e1174de6 {
+.success .content .img > ._img.data-v-7136bbed {
       width: 100%;
       height: 100%;
 }
-.success .content .d2.data-v-e1174de6 {
+.success .content .d2.data-v-7136bbed {
     width: 400rpx;
     margin: 0 auto;
     margin-top: 40rpx;
 }
-.success .content .d2 > ._p.data-v-e1174de6 {
+.success .content .d2 > ._p.data-v-7136bbed {
       display: inline-block;
       border: 1rpx solid #f0f0f0;
       padding: 10rpx;
       border-radius: 40rpx;
 }
-.success .content .d2.data-v-e1174de6 :first-child {
+.success .content .d2.data-v-7136bbed :first-child {
       margin-right: 20rpx;
 }
 

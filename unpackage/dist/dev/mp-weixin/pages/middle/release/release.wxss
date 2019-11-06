@@ -1,7 +1,7 @@
-.relesase .btn.data-v-4895b96e {
+.relesase .btn.data-v-0eff39e9 {
   margin: 30rpx 40rpx;
 }
-.relesase .tips.data-v-4895b96e {
+.relesase .tips.data-v-0eff39e9 {
   text-align: center;
   height: 100rpx;
   line-height: 100rpx;
@@ -9,48 +9,48 @@
   padding: 0 30rpx;
   margin-bottom: 40rpx;
 }
-.relesase .footer.data-v-4895b96e {
+.relesase .footer.data-v-0eff39e9 {
   margin: 30rpx;
 }
-.relesase .footer .textarea.data-v-4895b96e {
+.relesase .footer .textarea.data-v-0eff39e9 {
     background: #eee;
     padding: 20rpx;
     margin-top: 20rpx;
     position: relative;
 }
-.relesase .footer .textarea textarea.data-v-4895b96e {
+.relesase .footer .textarea textarea.data-v-0eff39e9 {
       width: 100%;
 }
-.relesase .footer .textarea .num.data-v-4895b96e {
+.relesase .footer .textarea .num.data-v-0eff39e9 {
       position: absolute;
       right: 30rpx;
       bottom: 30rpx;
       z-index: 99999;
 }
-.relesase .content.data-v-4895b96e {
+.relesase .content.data-v-0eff39e9 {
   margin: 40rpx 0;
   padding: 0 30rpx;
 }
-.relesase .content .title .name.data-v-4895b96e {
+.relesase .content .title .name.data-v-0eff39e9 {
     margin-bottom: 20rpx;
 }
-.relesase .content .title .input.data-v-4895b96e {
+.relesase .content .title .input.data-v-0eff39e9 {
     background: #E5E5E5;
     color: #333;
     padding-left: 10rpx;
 }
-.relesase .top.data-v-4895b96e {
+.relesase .top.data-v-0eff39e9 {
   background: #eee;
   padding: 50rpx 0;
 }
-.relesase .top .camera.data-v-4895b96e {
+.relesase .top .camera.data-v-0eff39e9 {
     text-align: center;
 }
-.relesase .top .camera uni-icons.data-v-4895b96e {
+.relesase .top .camera uni-icons.data-v-0eff39e9 {
       margin: 0 auto;
       text-align: center;
 }
-.relesase .top .camera .fs28.data-v-4895b96e {
+.relesase .top .camera .fs28.data-v-0eff39e9 {
       margin-bottom: 20rpx;
 }
 

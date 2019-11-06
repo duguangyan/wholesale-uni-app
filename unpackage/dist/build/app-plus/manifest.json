@@ -7,8 +7,8 @@
   "id": "__UNI__E3A114F",
   "name": "上上农夫",
   "version": {
-    "name": "1.0.4",
-    "code": 104
+    "name": "1.0.7",
+    "code": 107
   },
   "description": "上上农夫专业的红薯销售平台，提供全国最优质的红薯",
   "launch_path": "__uniappview.html",
@@ -85,13 +85,25 @@
       },
       "splashscreen": {
         "android": {
-          "xhdpi": "C:/Users/ZZT/Desktop/应用市场/01启动-应用市场720-1280.png"
+          "xhdpi": "C:/Users/ZZT/Desktop/默认图/720-1242.png",
+          "hdpi": "C:/Users/ZZT/Desktop/默认图/480-762.png",
+          "xxhdpi": "C:/Users/ZZT/Desktop/默认图/1080-1882.png"
         },
         "ios": {
           "iphone": {
-            "portrait-896h@3x": "C:/Users/ZZT/Desktop/01启动-应用市场1242-2688.png",
-            "retina55": "C:/Users/ZZT/Desktop/应用市场/04启动-应用市场1242-2208.png",
-            "retina47": "C:/Users/ZZT/Desktop/应用市场/登录-加载页750-1334.png"
+            "portrait-896h@3x": "C:/Users/ZZT/Desktop/默认图/1242-2688.png",
+            "retina55": "C:/Users/ZZT/Desktop/默认图/1242-2208.png",
+            "retina47": "C:/Users/ZZT/Desktop/默认图/750-1334.png",
+            "landscape-896h@3x": "C:/Users/ZZT/Desktop/默认图/1242-2688-1.png",
+            "portrait-896h@2x": "C:/Users/ZZT/Desktop/默认图/828-1792.png",
+            "landscape-896h@2x": "C:/Users/ZZT/Desktop/默认图/828-1792-1.png",
+            "iphonex": "C:/Users/ZZT/Desktop/默认图/1125-2436-2.png",
+            "iphonexl": "C:/Users/ZZT/Desktop/默认图/1125-2436-1.png",
+            "retina55l": "C:/Users/ZZT/Desktop/默认图/1242-2208-2.png",
+            "retina47l": "C:/Users/ZZT/Desktop/默认图/750-1334-2.png",
+            "retina40": "C:/Users/ZZT/Desktop/默认图/640-1136.png",
+            "retina40l": "C:/Users/ZZT/Desktop/默认图/640-1136-2.png",
+            "retina35": "C:/Users/ZZT/Desktop/默认图/640-960.png"
           }
         }
       },
@@ -151,20 +163,20 @@
           "alipay": {},
           "weixin": {
             "appid": "wx26baf2267dd24e83",
-            "UniversalLinks": "https://m.qinlvny.com/static/apple-app-site-association"
+            "UniversalLinks": "https://m.qinlvny.com/static/"
           }
         },
         "share": {
           "weixin": {
             "appid": "wx26baf2267dd24e83",
-            "UniversalLinks": "https://m.qinlvny.com/static/apple-app-site-association"
+            "UniversalLinks": "https://m.qinlvny.com/static/"
           }
         },
         "oauth": {
           "weixin": {
             "appid": "wx26baf2267dd24e83",
             "appsecret": "3acbb7d4ad8582d32e7f8da7a07878fc",
-            "UniversalLinks": "https://m.qinlvny.com/static/apple-app-site-association"
+            "UniversalLinks": "https://m.qinlvny.com/static/"
           }
         },
         "audio": {
@@ -189,6 +201,7 @@
     },
     "tabBar": {
       "color": "#D9D9D9",
+      "borderStyle": "rgba(255,255,255,0.4)",
       "selectedColor": "#FC2D2D",
       "backgroundColor": "#ffffff",
       "list": [
@@ -211,7 +224,6 @@
           "selectedIconPath": "static/img/3.2.png"
         }
       ],
-      "borderStyle": "rgba(0,0,0,0.4)",
       "height": "50px",
       "child": [
         "lauchwebview"

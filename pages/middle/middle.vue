@@ -1,12 +1,11 @@
 <template>
 	<view class="middle">
 		<!-- 代办 -->
-		<view class="shipper" v-if="false">
+		<view class="shipper" v-if="status==0">
 			<button type="primary" v-for="(item,index) in shippers" :key="index">{{item}}</button>
 		</view>
 		<!-- 货主 -->
-		<view class="agency" v-if="true">
-			
+		<view class="agency" v-if="status==1">
 			<view class="top fs28 text-fff">
 				<view class="time">2019年9月</view>
 				<view class="flex fs32">
@@ -55,8 +54,8 @@
 			
 			<view class="bar" @click="goRelease">+</view>
 		</view>
-		<!-- 卖家 -->
-		<view class="buyer" v-if="false"></view>
+		<!-- 买家 -->
+		<view class="buyer" v-if="status==2"></view>
 	</view>
 </template>
 
@@ -66,6 +65,7 @@
 	export default {
 		data() {
 			return {
+				status: 1, // 登录用户状态
 				shippers:['我是代办','我要卖货'],
 				spListValue: '158.55',
 				spGoods:[{

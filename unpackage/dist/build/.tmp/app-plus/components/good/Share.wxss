@@ -1,4 +1,4 @@
-.share.data-v-1a3da917 {
+.share.data-v-10c8202b {
   position: fixed;
   top: 0;
   left: 0;
@@ -6,16 +6,16 @@
   bottom: 0;
   z-index: 99;
 }
-.share .icon-50.data-v-1a3da917 {
+.share .icon-50.data-v-10c8202b {
     width: 100rpx;
     height: 100rpx;
 }
-.share button.data-v-1a3da917 {
+.share button.data-v-10c8202b {
     position: absolute;
     opacity: 0;
     height: 100rpx;
 }
-.share .mask.data-v-1a3da917 {
+.share .mask.data-v-10c8202b {
     position: fixed;
     top: 0;
     left: 0;
@@ -24,7 +24,7 @@
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.3);
 }
-.share .body.data-v-1a3da917 {
+.share .body.data-v-10c8202b {
     background-color: #fff;
     padding: 74rpx 0rpx;
     position: fixed;
@@ -48,48 +48,48 @@
     text-align: center;
     color: #333;
 }
-.share .body .d-1.data-v-1a3da917 {
+.share .body .d-1.data-v-10c8202b {
       left: 138rpx;
 }
-.share .body .d-2.data-v-1a3da917 {
+.share .body .d-2.data-v-10c8202b {
       right: 138rpx;
 }
-.share .body > ._div.data-v-1a3da917 {
+.share .body > ._div.data-v-10c8202b {
       position: relative;
 }
-.share .body ._img.data-v-1a3da917 {
+.share .body ._img.data-v-10c8202b {
       margin-bottom: 20rpx;
 }
-.share .mask-enter-active.data-v-1a3da917,
-  .share .mask-leave-active.data-v-1a3da917,
-  .share .body-enter-active.data-v-1a3da917,
-  .share .body-leave-active.data-v-1a3da917 {
+.share .mask-enter-active.data-v-10c8202b,
+  .share .mask-leave-active.data-v-10c8202b,
+  .share .body-enter-active.data-v-10c8202b,
+  .share .body-leave-active.data-v-10c8202b {
     -webkit-transition: all 0.5s;
     -o-transition: all 0.5s;
     transition: all 0.5s;
 }
-.share .mask-enter.data-v-1a3da917,
-  .share .body-enter.data-v-1a3da917,
-  .share .mask-leave-to.data-v-1a3da917,
-  .share .body-leave-to.data-v-1a3da917 {
+.share .mask-enter.data-v-10c8202b,
+  .share .body-enter.data-v-10c8202b,
+  .share .mask-leave-to.data-v-10c8202b,
+  .share .body-leave-to.data-v-10c8202b {
     opacity: 0;
 }
-.share .body-enter.data-v-1a3da917,
-  .share .body-leave-to.data-v-1a3da917 {
+.share .body-enter.data-v-10c8202b,
+  .share .body-leave-to.data-v-10c8202b {
     -webkit-transform: translateY(100%);
         -ms-transform: translateY(100%);
             transform: translateY(100%);
 }
-.share .body-enter-to.data-v-1a3da917,
-  .share .body-leave.data-v-1a3da917 {
+.share .body-enter-to.data-v-10c8202b,
+  .share .body-leave.data-v-10c8202b {
     -webkit-transform: translateY(0%);
         -ms-transform: translateY(0%);
             transform: translateY(0%);
 }
-.share .mask-enter-to.data-v-1a3da917,
-  .share .body-enter-to.data-v-1a3da917,
-  .share .mask-leave.data-v-1a3da917,
-  .share .body-leave.data-v-1a3da917 {
+.share .mask-enter-to.data-v-10c8202b,
+  .share .body-enter-to.data-v-10c8202b,
+  .share .mask-leave.data-v-10c8202b,
+  .share .body-leave.data-v-10c8202b {
     opacity: 1;
 }
 

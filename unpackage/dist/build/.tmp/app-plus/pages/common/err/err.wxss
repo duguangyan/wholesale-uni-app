@@ -1,20 +1,20 @@
-.err.data-v-3369be95 {
+.err.data-v-9c5afae4 {
   text-align: center;
   height: 100vh;
   background: #fff;
 }
-.err > ._img.data-v-3369be95 {
+.err > ._img.data-v-9c5afae4 {
     margin-top: 200rpx;
     width: 240rpx;
     height: 240rpx;
 }
-.err .p.data-v-3369be95 {
+.err .p.data-v-9c5afae4 {
     color: #999;
     width: 220rpx;
     margin: 0 auto;
     font-size: 24rpx;
 }
-.err .btn.data-v-3369be95 {
+.err .btn.data-v-9c5afae4 {
     width: 140rpx;
     height: 60rpx;
     line-height: 60rpx;

@@ -5,7 +5,7 @@
 				<div class="icon-30">
 					<img src="@/static/img/icon-search2.png" width="15" height="15" alt />
 				</div>
-				<input class="fs28" v-model="search.keywords" :placeholder="search.keywords || '请输入搜索内容'" />
+				<input class="fs28" type='text' confirm-type="search" @confirm="doSearch($event)" v-model="search.keywords" :placeholder="search.keywords || '请输入搜索内容'" />
 			</div>
 			<div class="flr">
 				<div class="icon fs28 text-333" @click="doSearch($event)">搜索</div>

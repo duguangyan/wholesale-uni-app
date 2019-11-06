@@ -67,6 +67,9 @@
       height: 2rpx;
       background: #333;
 }
+.panel .price-area ._span.data-v-179b0d2c {
+      top: -8rpx;
+}
 .panel .mask.data-v-179b0d2c {
     position: fixed;
     top: 0;

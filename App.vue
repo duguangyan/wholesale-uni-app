@@ -2,16 +2,38 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch');
-			
-			// 获取code
-			// uni.login({
-			// 	provider:'weixin',
-			// 	success(e) {
-			// 		console.log('code',JSON.stringify(e))
-			// 	}
-			// })
 	
-			// 版本更新
+			// 获取 appid
+			uni.setStorageSync('appid', 'wxf89e01a251ab43f7')
+			
+			// 判断设备  android:10 , ios:2 , 运行在开发者工具上: 3
+			switch (uni.getSystemInfoSync().platform) {
+				case 'android':
+					console.log('运行Android上')
+					uni.setStorageSync('platformAndroid', '10')
+					switch(uni.getSystemInfoSync().brand){
+						case 'OPPO':
+							console.log('运行OPPO上')
+							uni.setStorageSync('platform', '1')
+							break;
+						case 'HUAWEI':
+							console.log('运行华为上')
+							uni.setStorageSync('platform', '4')
+							break;	
+					}
+					break;
+				case 'ios':
+					console.log('运行iOS上')
+					uni.setStorageSync('platform', '2')
+					break;
+				default:
+					console.log('运行在开发者工具上')
+					uni.setStorageSync('platform', '3')
+					break;
+			}
+	
+			// 版本更新 (微信小程序)
+			// #ifdef MP-WEIXIN
 			if (uni.getUpdateManager) {
 				const updateManager = uni.getUpdateManager();
 				console.log('updata version', updateManager);
@@ -33,132 +55,13 @@
 
 				})
 			}
-	
-			// 获取 appid
-			uni.setStorageSync('appid', 'wxf89e01a251ab43f7')
-
-			// 判断设备  android:1 , ios:2 , 运行在开发者工具上: 3
-			console.log(uni.getSystemInfoSync())
-			switch (uni.getSystemInfoSync().platform) {
-				case 'android':
-					console.log('运行Android上')
-					// uni.setStorageSync('platform', '4')
-					
-					switch(uni.getSystemInfoSync().brand){
-						case 'OPPO':
-							console.log('运行OPPO上')
-							uni.setStorageSync('platform', '1')
-							break;
-						case 'HUAWEI':
-							console.log('运行华为上')
-							uni.setStorageSync('platform', '4')
-							break;	
-					}
-					
-					break;
-				case 'ios':
-					console.log('运行iOS上')
-					uni.setStorageSync('platform', '2')
-					break;
-				default:
-					console.log('运行在开发者工具上')
-					uni.setStorageSync('platform', '3')
-					break;
-			}
-			
-			
-			
-			
-			// 版本更新
-			// #ifdef APP-PLUS  
-			// plus.runtime.getProperty(plus.runtime.appid, function(widgetInfo) {  
-			//     uni.request({  
-			//         url: 'http://www.example.com/update/',  
-			//         data: {  
-			//             version: widgetInfo.version,  
-			//             name: widgetInfo.name  
-			//         },  
-			//         success: (result) => {  
-			//             var data = result.data;  
-			//             if (data.update && data.wgtUrl) {  
-			//                 uni.downloadFile({  
-			//                     url: data.wgtUrl,  
-			//                     success: (downloadResult) => {  
-			//                         if (downloadResult.statusCode === 200) {  
-			//                             plus.runtime.install(downloadResult.tempFilePath, {  
-			//                                 force: false  
-			//                             }, function() {  
-			//                                 console.log('install success...');  
-			//                                 plus.runtime.restart();  
-			//                             }, function(e) {  
-			//                                 console.error('install fail...');  
-			//                             });  
-			//                         }  
-			//                     }  
-			//                 });  
-			//             }  
-			//         }  
-			//     });  
-			// });  
 			// #endif
-			
-			// 版本更新
-			//#ifdef APP-PLUS
-			 //    var server = "https://www.example.com/update"; //检查更新地址  
-			 //    var req = { //升级检测数据  
-			 //        "appid": plus.runtime.appid,  
-			 //        "version": plus.runtime.version  
-			 //    };  
-				// console.log('req',req)
-				
-				
-				
-				// uni.showModal({
-				//     title: '提示',
-				//     content: JSON.stringify(req),
-				//     success: function (res) {
-				//         if (res.confirm) {
-				//             console.log('用户点击确定');
-				// 			if(uni.getStorageSync('platform') == 1){
-				// 				plus.runtime.openURL('https://www.pgyer.com/xOXH');  
-				// 			}else if(uni.getStorageSync('platform') == 2) {
-				// 				plus.runtime.openURL('https://www.pgyer.com/xOXH');  
-				// 			}
-							
-				//         } else if (res.cancel) {
-				//             console.log('用户点击取消');
-				//         }
-				//     }
-				// });
-			    // uni.request({  
-			    //     url: server,  
-			    //     data: req,  
-			    //     success: (res) => {  
-			    //         if (res.code == '1000') {  
-			    //             uni.showModal({ //提醒用户更新  
-			    //                 title: "更新提示",  
-			    //                 content: res.data.note,  
-			    //                 success: (res) => {  
-			    //                     if (res.confirm) {  
-							// 			if(uni.getStorageSync('platform') == 1){ // 安卓
-							// 				plus.runtime.openURL(res.data.url);  
-							// 			} else if(uni.getStorageSync('platform') == 2){ // ios
-							// 				plus.runtime.openURL(res.data.url);  
-							// 			}
-			                            
-			    //                     }  
-			    //                 }  
-			    //             })  
-			    //         }  
-			    //     }  
-			    // })  
-			    //#endif 
+		
 			
 
 		},
 		onShow: function() {
 			console.log('App Show');
-
 		},
 		onHide: function() {
 			console.log('App Hide');
@@ -169,4 +72,5 @@
 <style>
 	/*每个页面公共css */
 	@import "./asset/css/base.scss";
+	@import "./asset/css/common.scss";
 </style>

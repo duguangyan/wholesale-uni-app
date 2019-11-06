@@ -1,42 +1,69 @@
-.fg1.data-v-df63bf72 {
+.Android1.data-v-0056c67e {
+  position: relative;
+  top: 24rpx !important;
+}
+.Android2.data-v-0056c67e {
+  position: relative;
+  top: 2rpx !important;
+}
+.Android3.data-v-0056c67e {
+  position: relative;
+  top: 10rpx !important;
+}
+.Android4.data-v-0056c67e {
+  position: relative;
+  top: -6rpx !important;
+}
+.fg1.data-v-0056c67e {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
 }
-.mine.data-v-df63bf72 {
+.mine.data-v-0056c67e {
   position: relative;
   height: 100vh;
   background: #fff;
 }
-.mine .top.data-v-df63bf72 {
+.mine .bb1.data-v-0056c67e {
+    position: fixed;
+    height: 0.5rpx;
+    bottom: 0rpx;
+    background: #f0f0f0;
+    width: 100%;
+}
+.mine .collection.data-v-0056c67e {
+    border-bottom: 0.5rpx solid #f0f0f0;
+    margin-left: 30rpx;
+}
+.mine .top.data-v-0056c67e {
     width: 100%;
     height: 300rpx;
 }
-.mine .top .img.data-v-df63bf72 {
+.mine .top .img.data-v-0056c67e {
       width: 100%;
       height: 300rpx;
       overflow: hidden;
       position: absolute;
       top: 0;
 }
-.mine .top .img > image.data-v-df63bf72 {
+.mine .top .img > image.data-v-0056c67e {
         width: 100%;
         height: 100%;
 }
-.mine .top .setting.data-v-df63bf72 {
+.mine .top .setting.data-v-0056c67e {
       width: 48rpx;
       height: 48rpx;
       position: absolute;
       right: 30rpx;
       top: 100rpx;
 }
-.mine .top .setting > image.data-v-df63bf72 {
+.mine .top .setting > image.data-v-0056c67e {
         width: 100%;
         height: 100%;
 }
-.mine .top .status.data-v-df63bf72 {
-      padding: 0rpx 20rpx 33rpx 40rpx;
+.mine .top .status.data-v-0056c67e {
+      padding: 0rpx 20rpx 33rpx 30rpx;
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -50,59 +77,62 @@
           -ms-flex-align: center;
               align-items: center;
       position: relative;
-      top: 160rpx;
+      top: 140rpx;
 }
-.mine .top .status .img.data-v-df63bf72 {
+.mine .top .status .img.data-v-0056c67e {
         width: 90rpx;
         height: 90rpx;
         position: relative;
         z-index: 999999;
 }
-.mine .top .status .img > image.data-v-df63bf72 {
+.mine .top .status .img > image.data-v-0056c67e {
           border-radius: 50%;
           width: 100%;
           height: 100%;
 }
-.mine .top .content.data-v-df63bf72 {
-      margin-left: 8rpx;
-      font-size: 20rpx;
+.mine .top .content.data-v-0056c67e {
+      margin-left: 20rpx;
       color: #fff;
 }
-.mine .top .phone.data-v-df63bf72 {
+.mine .top .phone.data-v-0056c67e {
       margin-top: 2rpx;
 }
-.mine .order.data-v-df63bf72 {
+.mine .order.data-v-0056c67e {
     padding: 14rpx 20rpx 20rpx 20rpx;
+    border-bottom: 20rpx solid #f0f0f0;
 }
-.mine .order .title.data-v-df63bf72 {
-      border-bottom: 1rpx solid #F5F5F5;
+.mine .order .title.data-v-0056c67e {
+      border-bottom: 1rpx solid #f0f0f0;
       padding-bottom: 20rpx;
       height: 60rpx;
+      position: relative;
+      top: 14rpx;
 }
-.mine .order .title .img.data-v-df63bf72 {
+.mine .order .title .img.data-v-0056c67e {
         width: 20rpx;
         height: 20rpx;
 }
-.mine .order .title .img > image.data-v-df63bf72 {
+.mine .order .title .img > image.data-v-0056c67e {
           width: 100%;
           height: 100%;
 }
-.mine .order .title > .p2.data-v-df63bf72 {
+.mine .order .title > .p2.data-v-0056c67e {
         color: #999;
         margin-right: 4rpx;
         position: relative;
         top: 14rpx;
 }
-.mine .order .title > .p1.data-v-df63bf72 {
+.mine .order .title > .p1.data-v-0056c67e {
         color: #333;
         font-weight: blod;
         position: relative;
         top: 10rpx;
+        left: 10rpx;
 }
-.mine .order .title > image.data-v-df63bf72 {
+.mine .order .title > image.data-v-0056c67e {
         margin-left: 4rpx;
 }
-.mine .order .tags.data-v-df63bf72 {
+.mine .order .tags.data-v-0056c67e {
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -119,37 +149,30 @@
       text-align: center;
       padding-top: 45rpx;
 }
-.mine .order .tags .li.data-v-df63bf72 {
+.mine .order .tags .li.data-v-0056c67e {
         list-style: none;
         font-size: 12rpx;
         color: #010101;
 }
-.mine .order .tags .li .img.data-v-df63bf72 {
+.mine .order .tags .li .img.data-v-0056c67e {
           width: 48rpx;
           height: 48rpx;
           margin: 0 auto;
 }
-.mine .order .tags .li .img > image.data-v-df63bf72 {
+.mine .order .tags .li .img > image.data-v-0056c67e {
             width: 100%;
             height: 100%;
 }
-.mine .collection.data-v-df63bf72::before {
-    content: '';
-    display: block;
-    height: 18rpx;
-    background-color: #f5f5f5;
-    width: 100%;
-}
-.mine .collection .body.data-v-df63bf72 {
-    padding: 0 30rpx;
+.mine .collection .body.data-v-0056c67e {
+    padding: 0 30rpx 0rpx 0rpx;
     color: #333;
     line-height: 100rpx;
 }
-.mine .collection .body .img.data-v-df63bf72 {
+.mine .collection .body .img.data-v-0056c67e {
       width: 20rpx;
       height: 20rpx;
 }
-.mine .collection .body .img > image.data-v-df63bf72 {
+.mine .collection .body .img > image.data-v-0056c67e {
         width: 100%;
         height: 100%;
 }

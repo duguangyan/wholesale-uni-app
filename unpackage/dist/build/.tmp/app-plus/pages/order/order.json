@@ -3,6 +3,7 @@
   "navigationStyle": "custom",
   "titleView": false,
   "usingComponents": {
-    "dialog": "/components/common/Dialog"
+    "dialog": "/components/common/Dialog",
+    "tab-bar": "/components/common/TabBar"
   }
 }

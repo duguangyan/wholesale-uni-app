@@ -16,6 +16,16 @@ let isNickName = function (nickName) {
 }
 
 /**
+ * @param {string} str  判断用户密码为英文字母或者汉字，限6-50个字符
+ * @returns {Boolean}
+ */
+let isPassword = function (pass) {
+  // 去掉前后空格
+    let password = pass.replace(/^\s+|\s+$/g,"")
+    return password.length>=6 && password.length<51
+}
+
+/**
  * @param {string} str  判断详细地址为英文字母或者汉字，限5-120个字符
  * @returns {Boolean}
  */
@@ -48,6 +58,7 @@ export default {
   isNumber,
   isMoney,
   isPhone,
+  isPassword,
   isNickName,
   isAddressDetall
 }

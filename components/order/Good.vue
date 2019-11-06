@@ -1,17 +1,20 @@
 <template>
-  <div class="item cf">
-    <div class="photo fll">
-      <image :src="item.imgUrl"/>
-    </div>
-    <div class="content fll">
-      <div class="name ellipsis-line2">{{item.goodsName}}</div>
-      <div class="standard" :class="{'Android': platform == 1}">{{item.skuDesc}}</div>
-    </div>
-    <div class="content2 flr">
-      <div class="price">￥{{item.price}}</div>
-      <div class="num">x{{item.num}}</div>
-    </div>
-  </div>
+	<view>
+		<scroll-view class="item cf">
+		  <div class="photo fll">
+		    <image :src="item.imgUrl" :lazy-load="true" />
+		  </div>
+		  <div class="content fll">
+		    <div class="name ellipsis-line2">{{item.goodsName}}</div>
+		    <div class="standard" :class="{'Android': platform == 1}">{{item.skuDesc}}</div>
+		  </div>
+		  <div class="content2 flr">
+		    <div class="price">￥{{item.price}}</div>
+		    <div class="num">x{{item.num}}</div>
+		  </div>
+		</scroll-view>
+	</view>
+  
 </template>
 
 <script>

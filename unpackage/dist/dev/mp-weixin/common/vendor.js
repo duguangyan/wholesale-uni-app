@@ -1501,9 +1501,9 @@ uni$1;exports.default = _default;
 /***/ }),
 
 /***/ 106:
-/*!***********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-address-no.png ***!
-  \***********************************************************/
+/*!**************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-address-no.png ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1512,9 +1512,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+
 /***/ }),
 
 /***/ 123:
-/*!**************************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-collection-no.png ***!
-  \**************************************************************/
+/*!*****************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-collection-no.png ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1523,9 +1523,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+
 /***/ }),
 
 /***/ 132:
-/*!*********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-order-no.png ***!
-  \*********************************************************/
+/*!************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-order-no.png ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1641,9 +1641,9 @@ function normalizeComponent (
 /***/ }),
 
 /***/ 141:
-/*!*******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-finish.png ***!
-  \*******************************************************/
+/*!**********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-finish.png ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1652,9 +1652,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACO
 /***/ }),
 
 /***/ 15:
-/*!*******************************************!*\
-  !*** D:/zl/cloud-shop-app/store/index.js ***!
-  \*******************************************/
+/*!**********************************************!*\
+  !*** D:/zl/wholesale-uni-app/store/index.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1690,9 +1690,9 @@ store;exports.default = _default;
 /***/ }),
 
 /***/ 150:
-/*!****************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-bus.png ***!
-  \****************************************************/
+/*!*******************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-bus.png ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -1701,9 +1701,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABX
 /***/ }),
 
 /***/ 159:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-order-4.png ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-order-4.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2663,9 +2663,9 @@ var index_esm = {
 /***/ }),
 
 /***/ 160:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-order-2.png ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-order-2.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2674,9 +2674,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAAC+CAYAAACR
 /***/ }),
 
 /***/ 161:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-order-5.png ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-order-5.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2685,9 +2685,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAAC+CAYAAACR
 /***/ }),
 
 /***/ 162:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-order-1.png ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-order-1.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2696,9 +2696,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAAC+CAYAAACR
 /***/ }),
 
 /***/ 163:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-order-3.png ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-order-3.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2707,9 +2707,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASIAAAC+CAYAAACR
 /***/ }),
 
 /***/ 164:
-/*!*****************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-tick.png ***!
-  \*****************************************************/
+/*!********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-tick.png ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2718,9 +2718,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADg
 /***/ }),
 
 /***/ 165:
-/*!*********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-location.png ***!
-  \*********************************************************/
+/*!************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-location.png ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2729,9 +2729,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABX
 /***/ }),
 
 /***/ 174:
-/*!************************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-finsh-order.png ***!
-  \************************************************************/
+/*!***************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-finsh-order.png ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2740,9 +2740,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACO
 /***/ }),
 
 /***/ 191:
-/*!******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-right.png ***!
-  \******************************************************/
+/*!*********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-right.png ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2751,9 +2751,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACN
 /***/ }),
 
 /***/ 192:
-/*!*****************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-cart.png ***!
-  \*****************************************************/
+/*!********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-cart.png ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2762,9 +2762,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAe
 /***/ }),
 
 /***/ 193:
-/*!******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/tag-close2.png ***!
-  \******************************************************/
+/*!*********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/tag-close2.png ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2773,9 +2773,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABX
 /***/ }),
 
 /***/ 196:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-collect.png ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-collect.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2784,9 +2784,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAe
 /***/ }),
 
 /***/ 197:
-/*!*********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-collect2.png ***!
-  \*********************************************************/
+/*!************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-collect2.png ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2795,9 +2795,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAe
 /***/ }),
 
 /***/ 198:
-/*!********************************************!*\
-  !*** D:/zl/cloud-shop-app/api/goodsApi.js ***!
-  \********************************************/
+/*!***********************************************!*\
+  !*** D:/zl/wholesale-uni-app/api/goodsApi.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8849,9 +8849,9 @@ internalMixin(Vue);
 /***/ }),
 
 /***/ 207:
-/*!*******************************************!*\
-  !*** D:/zl/cloud-shop-app/api/areaApi.js ***!
-  \*******************************************/
+/*!**********************************************!*\
+  !*** D:/zl/wholesale-uni-app/api/areaApi.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8874,9 +8874,9 @@ var getProvinces = function getProvinces(data) {
 /***/ }),
 
 /***/ 214:
-/*!***************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/bg-line.png ***!
-  \***************************************************/
+/*!******************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/bg-line.png ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -8885,9 +8885,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAu4AAAAECAIAAABe
 /***/ }),
 
 /***/ 23:
-/*!*******************************************!*\
-  !*** D:/zl/cloud-shop-app/api/mainApi.js ***!
-  \*******************************************/
+/*!**********************************************!*\
+  !*** D:/zl/wholesale-uni-app/api/mainApi.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8914,9 +8914,9 @@ var addHit = function addHit(data) {
 /***/ }),
 
 /***/ 239:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-search2.png ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-search2.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -8925,17 +8925,17 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 /***/ }),
 
 /***/ 24:
-/*!*******************************************!*\
-  !*** D:/zl/cloud-shop-app/api/request.js ***!
-  \*******************************************/
+/*!**********************************************!*\
+  !*** D:/zl/wholesale-uni-app/api/request.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) { // const apiUrl = 'http://m.qinlvny.com'; // 正式
+/* WEBPACK VAR INJECTION */(function(uni) {var apiUrl = 'http://m.qinlvny.com'; // 正式
 // let apiUrl = 'http://duu-u.imwork.net:27307'; // 开发
-var apiUrl = 'http://192.168.0.202:7000'; // 开发
-var versionNumber = 'V1.0.4'; //版本号
+// let apiUrl = 'http://192.168.0.202:7000'; // 开发
+var versionNumber = 'V1.0.7'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:7000') {
   uni.setStorageSync('v', versionNumber);
@@ -8990,7 +8990,6 @@ var request = function request() {var params = arguments.length > 0 && arguments
     // }catch(e){
     // 	//TODO handle the exception
     // }
-
     var newUrl = params.url;
 
     if (params.url.indexOf('/api') != -1) {
@@ -9030,8 +9029,13 @@ var request = function request() {var params = arguments.length > 0 && arguments
         } else {
           // 请求成功非1000	
           if (res.code == '1011') {
-            uni.navigateTo({
-              url: '/pages/login/login' });
+            if (newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder') {
+              uni.removeStorageSync('access_token');
+              uni.navigateTo({
+                url: '/pages/login/login' });
+
+            }
+
 
             // let content = '登录过期，请重新登录！'
             // if(uni.getStorageSync('access_token') == '') {
@@ -9068,59 +9072,73 @@ var request = function request() {var params = arguments.length > 0 && arguments
               client_secret: 'xx',
               refresh_token: uni.getStorageSync('refresh_token') };
 
-
+            console.log('tokenData', tokenData);
+            console.log('apiUrl', apiUrl + '/oauth/oauth/token');
             uni.request({
               url: apiUrl + '/oauth/oauth/token',
               method: 'POST',
               data: tokenData,
               header: {
-                'content-type': 'application/multipart/form-data' },
+                'content-type': 'application/x-www-form-urlencoded' },
 
               success: function success(res) {
-                if (res.code == '1000') {
+                console.log('1', res);
+                if (res.data && res.data.access_token) {
+                  uni.setStorageSync('access_token', res.data.access_token);
+                  uni.setStorageSync('refresh_token', res.data.refresh_token);
                   uni.request({
                     url: apiUrl + newUrl,
                     method: params.method || 'GET',
                     data: params.data,
                     header: header,
                     success: function success(res) {
+                      console.log('2', res);
                       if (res.code == '1000') {
                         resolve(res);
                       } else {
                         uni.showToast({
-                          title: '标题',
-                          duration: '请求数据错误' });
+                          title: '请求数据错误',
+                          duration: 2000,
+                          icon: 'none' });
 
                       }
                     },
                     fail: function fail() {
                       uni.showToast({
-                        title: '标题',
-                        duration: '请求数据错误' });
+                        title: '请求数据错误',
+                        duration: 2000,
+                        icon: 'none' });
 
                     } });
 
                 } else {
-                  uni.showToast({
-                    title: '标题',
-                    duration: '请求数据错误' });
+                  // uni.showToast({
+                  //     title: '请求数据错误',
+                  //     duration: 2000,
+                  // 	icon :'none'
+                  // });
+                  uni.navigateTo({
+                    url: '/pages/login/login' });
 
                 }
               },
               fail: function fail(err) {
                 uni.showToast({
-                  title: '标题',
-                  duration: '请求数据错误' });
+                  title: '请求数据错误',
+                  duration: 2000,
+                  icon: 'none' });
 
               } });
 
           } else {
-            if (!uni.getStorageSync('access_token')) {
-              // 防止重复进入错误页面
-              if (uni.getStorageSync('err') != 1) {
-                uni.navigateTo({
-                  url: '/pages/common/err/err?redirect=' + JSON.stringify(params) });
+            if (res.code != '9999') {
+              if (!uni.getStorageSync('access_token')) {
+                // 防止重复进入错误页面
+                if (uni.getStorageSync('err') != 1) {
+                  uni.navigateTo({
+                    url: '/pages/common/err/err?redirect=' + JSON.stringify(params) });
 
+                }
               }
             }
           }
@@ -9128,8 +9146,6 @@ var request = function request() {var params = arguments.length > 0 && arguments
         }
       },
       fail: function fail(err) {
-
-
         // 请求失败处理
         if (err.errMsg || err.errMsg === "request:fail timeout") {
           uni.showToast({
@@ -9157,9 +9173,9 @@ module.exports = {
 /***/ }),
 
 /***/ 240:
-/*!*******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-delete.png ***!
-  \*******************************************************/
+/*!**********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-delete.png ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9168,9 +9184,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 /***/ }),
 
 /***/ 249:
-/*!**********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-search-no.png ***!
-  \**********************************************************/
+/*!*************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-search-no.png ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9179,9 +9195,325 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+
 /***/ }),
 
 /***/ 25:
-/*!******************************************!*\
-  !*** D:/zl/cloud-shop-app/utils/tips.js ***!
-  \******************************************/
+/*!**********************************************!*\
+  !*** D:/zl/wholesale-uni-app/api/userApi.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.getUserInfoData = exports.postUserSms = exports.postUserLogin = exports.postUserHeadImg = exports.getUserAddressList = exports.getChildrenByPId = exports.postUserAddressInsert = exports.getAddressById = exports.postAddressUpdate = exports.postUpdateNickname = exports.postAddressDelete = exports.getCollectGoodsList = exports.getOrderPageMyOrder = exports.postUserImgUpload = exports.getOrderDetailById = exports.postOrderCancel = exports.postOrderConfirm = exports.postOrderLogisticsQuery = exports.getCollectGoodsRemove = exports.getAdPositioneById = exports.getPageLayout = exports.getSetFormId = exports.weixinLogin = exports.openIdByCode = exports.appUpdate = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
+
+
+// 用户登录
+var postUserLogin = function postUserLogin(data) {
+  return (0, _request.request)({
+    url: '/api/oauth/oauth/token',
+    method: 'post',
+    data: data,
+    type: 'form' });
+
+};
+
+// 用户获取验证码
+exports.postUserLogin = postUserLogin;var postUserSms = function postUserSms(data) {
+  return (0, _request.request)({
+    url: '/api/oauth/validate/code/sms',
+    data: data,
+    method: 'post',
+    type: 'form' });
+
+};
+
+// 获取用户信息
+exports.postUserSms = postUserSms;var getUserInfoData = function getUserInfoData(data) {
+  return (0, _request.request)({
+    url: '/api/upms/user/getUserInfo',
+    data: data });
+
+};
+
+// 跟新用户头像
+exports.getUserInfoData = getUserInfoData;var postUserHeadImg = function postUserHeadImg(data) {
+  return (0, _request.request)({
+    url: '/api/upms/userImg/upload',
+    data: data,
+    method: 'post',
+    type: 'form' });
+
+};
+
+// 根据ID获取父级地址
+exports.postUserHeadImg = postUserHeadImg;var getUserAddressList = function getUserAddressList(data) {
+  return (0, _request.request)({
+    url: '/api/upms/address/getUserAddressList',
+    data: data });
+
+};
+
+// 获取用户地址列表
+exports.getUserAddressList = getUserAddressList;var getChildrenByPId = function getChildrenByPId(data) {
+  return (0, _request.request)({
+    url: '/api/upms/area/getChildrenByPId',
+    data: data,
+    type: 'form' });
+
+};
+
+// 保存用户收货地址
+exports.getChildrenByPId = getChildrenByPId;var postUserAddressInsert = function postUserAddressInsert(data) {
+  return (0, _request.request)({
+    url: '/api/upms/address/insert',
+    data: data,
+    method: 'post',
+    type: 'form' });
+
+};
+
+// 根据ID获取地区地址
+exports.postUserAddressInsert = postUserAddressInsert;var getAddressById = function getAddressById(data) {
+  return (0, _request.request)({
+    url: '/api/upms/address/getById',
+    data: data,
+    type: 'form' });
+
+};
+
+// 根据ID更新地址
+exports.getAddressById = getAddressById;var postAddressUpdate = function postAddressUpdate(data) {
+  return (0, _request.request)({
+    url: '/api/upms/address/update',
+    data: data,
+    method: 'post',
+    type: 'form' });
+
+};
+
+// 删除地址
+exports.postAddressUpdate = postAddressUpdate;var postAddressDelete = function postAddressDelete(data) {
+  return (0, _request.request)({
+    url: '/api/upms/address/delete',
+    data: data,
+    method: 'post',
+    type: 'form' });
+
+};
+
+// 更新昵称
+exports.postAddressDelete = postAddressDelete;var postUpdateNickname = function postUpdateNickname(data) {
+  return (0, _request.request)({
+    url: '/api/upms/user/updateInfo',
+    data: data,
+    method: 'post',
+    type: 'form' });
+
+};
+
+// 获取用户商品收藏商品
+exports.postUpdateNickname = postUpdateNickname;var getCollectGoodsList = function getCollectGoodsList(data) {
+  return (0, _request.request)({
+    url: '/api/cart/collect/goods/list',
+    data: data,
+    type: 'form' });
+
+};
+
+
+// 订单列表
+exports.getCollectGoodsList = getCollectGoodsList;var getOrderPageMyOrder = function getOrderPageMyOrder(data) {
+  return (0, _request.request)({
+    url: '/api/order/order/pageMyOrder',
+    data: data,
+    type: 'form' });
+
+};
+
+// 上传图片
+exports.getOrderPageMyOrder = getOrderPageMyOrder;var postUserImgUpload = function postUserImgUpload(data) {
+  return (0, _request.request)({
+    url: '/api/upms/userImg/upload',
+    data: data,
+    method: 'post',
+    type: 'file' });
+
+};
+
+// 用户订单详情
+exports.postUserImgUpload = postUserImgUpload;var getOrderDetailById = function getOrderDetailById(data) {
+  return (0, _request.request)({
+    url: '/api/order/order/myOrderInfo',
+    data: data,
+    type: 'form' });
+
+};
+
+// 取消订单
+exports.getOrderDetailById = getOrderDetailById;var postOrderCancel = function postOrderCancel(data) {
+  return (0, _request.request)({
+    url: '/api/order/order/cancel',
+    data: data,
+    method: 'post',
+    type: 'form' });
+
+};
+
+// 确认收货
+exports.postOrderCancel = postOrderCancel;var postOrderConfirm = function postOrderConfirm(data) {
+  return (0, _request.request)({
+    url: '/api/order/order/confirm',
+    data: data,
+    method: 'post',
+    type: 'form' });
+
+};
+
+// 查看物流信息
+exports.postOrderConfirm = postOrderConfirm;var postOrderLogisticsQuery = function postOrderLogisticsQuery(data) {
+  return (0, _request.request)({
+    url: '/api/order/order/logisticsQuery',
+    data: data,
+    type: 'form' });
+
+};
+
+// 移除收藏商品ids
+exports.postOrderLogisticsQuery = postOrderLogisticsQuery;var getCollectGoodsRemove = function getCollectGoodsRemove(data) {
+  return (0, _request.request)({
+    url: '/api/cart/collect/goods/remove',
+    data: data,
+    type: 'form' });
+
+};
+
+// 根据ID查询广告位
+exports.getCollectGoodsRemove = getCollectGoodsRemove;var getAdPositioneById = function getAdPositioneById(data) {
+  return (0, _request.request)({
+    url: '/api/act/adPosition/getById',
+    data: data,
+    type: 'form' });
+
+};
+
+// 严选好物
+exports.getAdPositioneById = getAdPositioneById;var getPageLayout = function getPageLayout(data) {
+  return (0, _request.request)({
+    url: '/api/act/pageLayout/getListByParentId',
+    data: data,
+    type: 'form' });
+
+};
+
+
+// formId 提交
+exports.getPageLayout = getPageLayout;var getSetFormId = function getSetFormId(data) {
+  return (0, _request.request)({
+    url: '/api/wechat/accessInterface/setFormId',
+    data: data,
+    type: 'form',
+    method: 'post' });
+
+};
+
+// 微信登录
+exports.getSetFormId = getSetFormId;var weixinLogin = function weixinLogin(data) {
+  return (0, _request.request)({
+    url: '/api/oauth/socialLogin/weixin',
+    data: data,
+    type: 'form',
+    method: 'post' });
+
+};
+
+// 获取openid
+exports.weixinLogin = weixinLogin;var openIdByCode = function openIdByCode(data) {
+  return (0, _request.request)({
+    url: '/api/oauth/userConnection/openIdByCode',
+    data: data,
+    type: 'form' });
+
+};
+
+// 获取版本号判断是否更新
+exports.openIdByCode = openIdByCode;var appUpdate = function appUpdate(data) {
+  return (0, _request.request)({
+    url: '/api/upms/appUpdate/getByCode',
+    data: data,
+    type: 'form' });
+
+};exports.appUpdate = appUpdate;
+
+/***/ }),
+
+/***/ 252:
+/*!********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-upon.png ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAHCAYAAADebrddAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBMkM3QURDMkNFNDMxMUU5QjlBMzkzRUNBRDE3NkQxNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBMkM3QURDM0NFNDMxMUU5QjlBMzkzRUNBRDE3NkQxNSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkEyQzdBREMwQ0U0MzExRTlCOUEzOTNFQ0FEMTc2RDE1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkEyQzdBREMxQ0U0MzExRTlCOUEzOTNFQ0FEMTc2RDE1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+wUgxlQAAAHVJREFUeNpi3Lx5MwMaEAfiyUAcA8S/kCVY0BQyA/EKIHYA4o9AnIosyYSmuBWqEARSgDgbl2J/IC5D09yHpBmuWAmIFwIxI5piNiBeBcQKMMWcQLwGiPkZsANRIN4IxFwgD04BYkOoxB8g/oxFgywQ9wMEGACeMxAbXrt+kAAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 253:
+/*!**********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-downon.png ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAHCAYAAADebrddAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBNDc4MTc2N0NFNDMxMUU5ODYwOThBNjEzRUZDMkRGMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBNDc4MTc2OENFNDMxMUU5ODYwOThBNjEzRUZDMkRGMiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkE0NzgxNzY1Q0U0MzExRTk4NjA5OEE2MTNFRkMyREYyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkE0NzgxNzY2Q0U0MzExRTk4NjA5OEE2MTNFRkMyREYyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+5IIMZgAAAHtJREFUeNpi3Lx58ywGBoYQBuyAC4jZoex5LECiAIgtgFiXATc4D8Q5TEDiGxD7A/FrHAo/AnEoEH9nggrcB+JwIP6NpvA/EMcD8V0QhwlJYj8QF6Ep7gLijTAOE5rkFCCeA2UfAOJqZEkWLG7MBmIBIM4F4r/IEgABBgBifBVtyJGADgAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 254:
+/*!**********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-filter.png ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACEYr13AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDRkE1MTcxNUNFNDMxMUU5ODEyOEQzQUY3NjhFMkUyNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDRkE1MTcxNkNFNDMxMUU5ODEyOEQzQUY3NjhFMkUyNyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkNGQTUxNzEzQ0U0MzExRTk4MTI4RDNBRjc2OEUyRTI3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkNGQTUxNzE0Q0U0MzExRTk4MTI4RDNBRjc2OEUyRTI3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+LHlSXAAAAVdJREFUeNqclM0rBHEYx2fHS3nJxYVaB+RMlCgX5z2pLcLBH0CSaC9u3g7Yi9QcSVv4MygpB4rD3kjJyWnLkvB56js1pvXbNU99Zn7PM/N8f88888ykgiDIe563AHXe/+3Y55BJmGyWMYFNOW/QAqkq2Ga3ytkxgSO4hiZYqWHXOeiHR9gzgS9Ygm9YhbQjuRXWtc5B2ZdzAWfQDNsOAdugE67gxAJ+7GIZpmGkQnIXLKvSsOJfAvZMu2pUXueobajCU7gMg37sJiv/WRVkI/EhmFWFuWhCXKAEBa17I/FhVWR9enAJmH06mliKB+oTTN8YrGnz+yQCPTAODdDuJxCwyW1UTwZrraA7sraRH9UjPFUTaIMDmJFvb2ARtuS/ugQG9JH1qfvzcAgd8KEe3LkEJnW+gSkoyn+xr9A1B6HZrO9rKot/3VRJ4NzeL0zoV/fuatKPAAMApGA9PNvsKzoAAAAASUVORK5CYII="
+
+/***/ }),
+
+/***/ 255:
+/*!*********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-upon2.png ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAHCAYAAADebrddAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDMzk1QjMzQ0NFNDMxMUU5OUMzOUVGOUUzMjM3RUJENSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDMzk1QjMzRENFNDMxMUU5OUMzOUVGOUUzMjM3RUJENSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkMzOTVCMzNBQ0U0MzExRTk5QzM5RUY5RTMyMzdFQkQ1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkMzOTVCMzNCQ0U0MzExRTk5QzM5RUY5RTMyMzdFQkQ1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+7m9yjAAAAGBJREFUeNpiYMAE4kC8CojZGAgAZiDeD8T/gXg2IcUdUIUwnI1LoT8Q/0NT/BOIHdAVKgHxBzSFMPwKiBVgCjmB+BwOhTB8EYi5QB6aCcReUI1/gPgjEP9Aw/xALAsQYACANyM4txCB5gAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 256:
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-downon2.png ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAHCAYAAADebrddAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCMThCRkM1RUNFNDMxMUU5ODJCREZDOTdFRkM0MDM5OSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCMThCRkM1RkNFNDMxMUU5ODJCREZDOTdFRkM0MDM5OSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkIxOEJGQzVDQ0U0MzExRTk4MkJERkM5N0VGQzQwMzk5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkIxOEJGQzVEQ0U0MzExRTk4MkJERkM5N0VGQzQwMzk5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+BsN5UwAAAFlJREFUeNpiZGBgmAXEIQzYARcQs0PZ82ACl4D4Px58Dog5YSYoAvErHAo/ALEyupWOQPwLTeE/IPbH4USGHDTFHQwEwGyowv1AzExIMRsQrwZiCXQJgAADAIFxHf/8GXVlAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 257:
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-filter2.png ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACEYr13AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEQ0RGRDY4N0NFNDMxMUU5QjA3MEE5MDAwQzIzODcwNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEQ0RGRDY4OENFNDMxMUU5QjA3MEE5MDAwQzIzODcwNSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkRDREZENjg1Q0U0MzExRTlCMDcwQTkwMDBDMjM4NzA1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkRDREZENjg2Q0U0MzExRTlCMDcwQTkwMDBDMjM4NzA1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+qw4oYwAAASRJREFUeNpiYGBg6AfiP0D8nwy8GIgZbpGpGYTfgQxIgHK+ATEXA2HABMQXoHqqYAKnoQL1RBiQBFX7AIg5YII2QPwPiL8CsQwezTxA/AxqQAS65EqoxBI8BjRB1ZwAYkZ0SXkg/g51iQUWzbJQF4LkLXHZ0AK14TgWGxZB5VYwEPDjU6jCUCRxY6jNIBcqoEcJMvgCxMugbGUkcTOoi1ZDQx+nAQzQVIkLfEEXYGEgHYCivBZq+VVyDFACYkcgZgViYSYyDADFBhs0TIyIdYEiEpsTmg5Alj8mZAAfEE8D4mgoHxQD+UDcDuW/w2eAARCfAWJVaOjnAPFCIJYA4l/QMLiCTWM7Wp4/D8Tq+PI2LgDSPAWaL26SEspeUKf5E6MYIMAAXnpaDrasK94AAAAASUVORK5CYII="
+
+/***/ }),
+
+/***/ 26:
+/*!*********************************************!*\
+  !*** D:/zl/wholesale-uni-app/utils/tips.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9197,72 +9529,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 {
   tips: tips };exports.default = _default;
-
-/***/ }),
-
-/***/ 252:
-/*!*****************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-upon.png ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAHCAYAAADebrddAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBMkM3QURDMkNFNDMxMUU5QjlBMzkzRUNBRDE3NkQxNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBMkM3QURDM0NFNDMxMUU5QjlBMzkzRUNBRDE3NkQxNSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkEyQzdBREMwQ0U0MzExRTlCOUEzOTNFQ0FEMTc2RDE1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkEyQzdBREMxQ0U0MzExRTlCOUEzOTNFQ0FEMTc2RDE1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+wUgxlQAAAHVJREFUeNpi3Lx5MwMaEAfiyUAcA8S/kCVY0BQyA/EKIHYA4o9AnIosyYSmuBWqEARSgDgbl2J/IC5D09yHpBmuWAmIFwIxI5piNiBeBcQKMMWcQLwGiPkZsANRIN4IxFwgD04BYkOoxB8g/oxFgywQ9wMEGACeMxAbXrt+kAAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 253:
-/*!*******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-downon.png ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAHCAYAAADebrddAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBNDc4MTc2N0NFNDMxMUU5ODYwOThBNjEzRUZDMkRGMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBNDc4MTc2OENFNDMxMUU5ODYwOThBNjEzRUZDMkRGMiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkE0NzgxNzY1Q0U0MzExRTk4NjA5OEE2MTNFRkMyREYyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkE0NzgxNzY2Q0U0MzExRTk4NjA5OEE2MTNFRkMyREYyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+5IIMZgAAAHtJREFUeNpi3Lx58ywGBoYQBuyAC4jZoex5LECiAIgtgFiXATc4D8Q5TEDiGxD7A/FrHAo/AnEoEH9nggrcB+JwIP6NpvA/EMcD8V0QhwlJYj8QF6Ep7gLijTAOE5rkFCCeA2UfAOJqZEkWLG7MBmIBIM4F4r/IEgABBgBifBVtyJGADgAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 254:
-/*!*******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-filter.png ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACEYr13AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDRkE1MTcxNUNFNDMxMUU5ODEyOEQzQUY3NjhFMkUyNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDRkE1MTcxNkNFNDMxMUU5ODEyOEQzQUY3NjhFMkUyNyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkNGQTUxNzEzQ0U0MzExRTk4MTI4RDNBRjc2OEUyRTI3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkNGQTUxNzE0Q0U0MzExRTk4MTI4RDNBRjc2OEUyRTI3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+LHlSXAAAAVdJREFUeNqclM0rBHEYx2fHS3nJxYVaB+RMlCgX5z2pLcLBH0CSaC9u3g7Yi9QcSVv4MygpB4rD3kjJyWnLkvB56js1pvXbNU99Zn7PM/N8f88888ykgiDIe563AHXe/+3Y55BJmGyWMYFNOW/QAqkq2Ga3ytkxgSO4hiZYqWHXOeiHR9gzgS9Ygm9YhbQjuRXWtc5B2ZdzAWfQDNsOAdugE67gxAJ+7GIZpmGkQnIXLKvSsOJfAvZMu2pUXueobajCU7gMg37sJiv/WRVkI/EhmFWFuWhCXKAEBa17I/FhVWR9enAJmH06mliKB+oTTN8YrGnz+yQCPTAODdDuJxCwyW1UTwZrraA7sraRH9UjPFUTaIMDmJFvb2ARtuS/ugQG9JH1qfvzcAgd8KEe3LkEJnW+gSkoyn+xr9A1B6HZrO9rKot/3VRJ4NzeL0zoV/fuatKPAAMApGA9PNvsKzoAAAAASUVORK5CYII="
-
-/***/ }),
-
-/***/ 255:
-/*!******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-upon2.png ***!
-  \******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAHCAYAAADebrddAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDMzk1QjMzQ0NFNDMxMUU5OUMzOUVGOUUzMjM3RUJENSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDMzk1QjMzRENFNDMxMUU5OUMzOUVGOUUzMjM3RUJENSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkMzOTVCMzNBQ0U0MzExRTk5QzM5RUY5RTMyMzdFQkQ1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkMzOTVCMzNCQ0U0MzExRTk5QzM5RUY5RTMyMzdFQkQ1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+7m9yjAAAAGBJREFUeNpiYMAE4kC8CojZGAgAZiDeD8T/gXg2IcUdUIUwnI1LoT8Q/0NT/BOIHdAVKgHxBzSFMPwKiBVgCjmB+BwOhTB8EYi5QB6aCcReUI1/gPgjEP9Aw/xALAsQYACANyM4txCB5gAAAABJRU5ErkJggg=="
-
-/***/ }),
-
-/***/ 256:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-downon2.png ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAHCAYAAADebrddAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpCMThCRkM1RUNFNDMxMUU5ODJCREZDOTdFRkM0MDM5OSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpCMThCRkM1RkNFNDMxMUU5ODJCREZDOTdFRkM0MDM5OSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkIxOEJGQzVDQ0U0MzExRTk4MkJERkM5N0VGQzQwMzk5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkIxOEJGQzVEQ0U0MzExRTk4MkJERkM5N0VGQzQwMzk5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+BsN5UwAAAFlJREFUeNpiZGBgmAXEIQzYARcQs0PZ82ACl4D4Px58Dog5YSYoAvErHAo/ALEyupWOQPwLTeE/IPbH4USGHDTFHQwEwGyowv1AzExIMRsQrwZiCXQJgAADAIFxHf/8GXVlAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 257:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-filter2.png ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACEYr13AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEQ0RGRDY4N0NFNDMxMUU5QjA3MEE5MDAwQzIzODcwNSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEQ0RGRDY4OENFNDMxMUU5QjA3MEE5MDAwQzIzODcwNSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkRDREZENjg1Q0U0MzExRTlCMDcwQTkwMDBDMjM4NzA1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkRDREZENjg2Q0U0MzExRTlCMDcwQTkwMDBDMjM4NzA1Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+qw4oYwAAASRJREFUeNpiYGBg6AfiP0D8nwy8GIgZbpGpGYTfgQxIgHK+ATEXA2HABMQXoHqqYAKnoQL1RBiQBFX7AIg5YII2QPwPiL8CsQwezTxA/AxqQAS65EqoxBI8BjRB1ZwAYkZ0SXkg/g51iQUWzbJQF4LkLXHZ0AK14TgWGxZB5VYwEPDjU6jCUCRxY6jNIBcqoEcJMvgCxMugbGUkcTOoi1ZDQx+nAQzQVIkLfEEXYGEgHYCivBZq+VVyDFACYkcgZgViYSYyDADFBhs0TIyIdYEiEpsTmg5Alj8mZAAfEE8D4mgoHxQD+UDcDuW/w2eAARCfAWJVaOjnAPFCIJYA4l/QMLiCTWM7Wp4/D8Tq+PI2LgDSPAWaL26SEspeUKf5E6MYIMAAXnpaDrasK94AAAAASUVORK5CYII="
 
 /***/ }),
 
@@ -9297,10 +9563,73 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 316:
-/*!*************************************************************************************!*\
-  !*** D:/zl/cloud-shop-app/components/common/mpvue-citypicker/city-data/province.js ***!
-  \*************************************************************************************/
+/***/ 35:
+/*!**************************************************!*\
+  !*** D:/zl/wholesale-uni-app/utils/validator.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * @param {string} str  判断是否是手机号
+                                                                                                      * @returns {Boolean}
+                                                                                                      */
+var isPhone = function isPhone(phone) {
+  return !/^1[2345789]\d{9}$/.test(phone);
+};
+/**
+    * @param {string} str  判断用户昵称为英文字母或者汉字，限4-30个字符
+    * @returns {Boolean}
+    */
+var isNickName = function isNickName(nickName) {
+  // 去掉前后空格
+  var name = nickName.replace(/^\s+|\s+$/g, "");
+  return name.length >= 2 && name.length < 21;
+};
+
+/**
+    * @param {string} str  判断详细地址为英文字母或者汉字，限5-120个字符
+    * @returns {Boolean}
+    */
+var isAddressDetall = function isAddressDetall(address) {
+  return /^[\u4e00-\u9fa5\w]{5,120}$/.test(address);
+};
+
+/**
+    * @param {string} str  判断是否是正确的金额
+    * @returns {Boolean}
+    */
+var isMoney = function isMoney(money) {
+  return !/^[0-9]*(\.[0-9]{1,2})?$/.test(money);
+};
+
+/**
+    * @param {string} str  判断是否是大于0的数字
+    * @returns {Boolean}
+    */
+var isNumber = function isInteger(obj) {
+  var reg = /^[-+]?\d+$/;
+  if (!reg.test(obj)) {
+    return false;
+  } else {
+    return true;
+  }
+};var _default =
+
+{
+  isNumber: isNumber,
+  isMoney: isMoney,
+  isPhone: isPhone,
+  isNickName: isNickName,
+  isAddressDetall: isAddressDetall };exports.default = _default;
+
+/***/ }),
+
+/***/ 386:
+/*!****************************************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/components/common/mpvue-citypicker/city-data/province.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9447,10 +9776,10 @@ provinceData;exports.default = _default;
 
 /***/ }),
 
-/***/ 317:
-/*!*********************************************************************************!*\
-  !*** D:/zl/cloud-shop-app/components/common/mpvue-citypicker/city-data/city.js ***!
-  \*********************************************************************************/
+/***/ 387:
+/*!************************************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/components/common/mpvue-citypicker/city-data/city.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10961,10 +11290,10 @@ cityData;exports.default = _default;
 
 /***/ }),
 
-/***/ 318:
-/*!*********************************************************************************!*\
-  !*** D:/zl/cloud-shop-app/components/common/mpvue-citypicker/city-data/area.js ***!
-  \*********************************************************************************/
+/***/ 388:
+/*!************************************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/components/common/mpvue-citypicker/city-data/area.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23514,10 +23843,22 @@ areaData;exports.default = _default;
 
 /***/ }),
 
-/***/ 338:
-/*!*****************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/tag-close.png ***!
-  \*****************************************************/
+/***/ 4:
+/*!******************************************!*\
+  !*** D:/zl/wholesale-uni-app/pages.json ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/***/ }),
+
+/***/ 408:
+/*!********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/tag-close.png ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -23525,10 +23866,10 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
-/***/ 339:
-/*!*******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-wechat.png ***!
-  \*******************************************************/
+/***/ 409:
+/*!**********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-wechat.png ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -23536,73 +23877,10 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABx
 
 /***/ }),
 
-/***/ 34:
-/*!***********************************************!*\
-  !*** D:/zl/cloud-shop-app/utils/validator.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * @param {string} str  判断是否是手机号
-                                                                                                      * @returns {Boolean}
-                                                                                                      */
-var isPhone = function isPhone(phone) {
-  return !/^1[2345789]\d{9}$/.test(phone);
-};
-/**
-    * @param {string} str  判断用户昵称为英文字母或者汉字，限4-30个字符
-    * @returns {Boolean}
-    */
-var isNickName = function isNickName(nickName) {
-  // 去掉前后空格
-  var name = nickName.replace(/^\s+|\s+$/g, "");
-  return name.length >= 2 && name.length < 21;
-};
-
-/**
-    * @param {string} str  判断详细地址为英文字母或者汉字，限5-120个字符
-    * @returns {Boolean}
-    */
-var isAddressDetall = function isAddressDetall(address) {
-  return /^[\u4e00-\u9fa5\w]{5,120}$/.test(address);
-};
-
-/**
-    * @param {string} str  判断是否是正确的金额
-    * @returns {Boolean}
-    */
-var isMoney = function isMoney(money) {
-  return !/^[0-9]*(\.[0-9]{1,2})?$/.test(money);
-};
-
-/**
-    * @param {string} str  判断是否是大于0的数字
-    * @returns {Boolean}
-    */
-var isNumber = function isInteger(obj) {
-  var reg = /^[-+]?\d+$/;
-  if (!reg.test(obj)) {
-    return false;
-  } else {
-    return true;
-  }
-};var _default =
-
-{
-  isNumber: isNumber,
-  isMoney: isMoney,
-  isPhone: isPhone,
-  isNickName: isNickName,
-  isAddressDetall: isAddressDetall };exports.default = _default;
-
-/***/ }),
-
-/***/ 342:
-/*!******************************************!*\
-  !*** D:/zl/cloud-shop-app/api/payApi.js ***!
-  \******************************************/
+/***/ 412:
+/*!*********************************************!*\
+  !*** D:/zl/wholesale-uni-app/api/payApi.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23631,251 +23909,10 @@ exports.payAlipayByWap = payAlipayByWap;var payWXpayByWap = function payWXpayByW
 
 /***/ }),
 
-/***/ 35:
-/*!*******************************************!*\
-  !*** D:/zl/cloud-shop-app/api/userApi.js ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getUserInfoData = exports.postUserSms = exports.postUserLogin = exports.postUserHeadImg = exports.getUserAddressList = exports.getChildrenByPId = exports.postUserAddressInsert = exports.getAddressById = exports.postAddressUpdate = exports.postUpdateNickname = exports.postAddressDelete = exports.getCollectGoodsList = exports.getOrderPageMyOrder = exports.postUserImgUpload = exports.getOrderDetailById = exports.postOrderCancel = exports.postOrderConfirm = exports.postOrderLogisticsQuery = exports.getCollectGoodsRemove = exports.getAdPositioneById = exports.getPageLayout = exports.getSetFormId = exports.weixinLogin = exports.openIdByCode = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
-
-
-// 用户登录
-var postUserLogin = function postUserLogin(data) {
-  return (0, _request.request)({
-    url: '/api/oauth/oauth/token',
-    method: 'post',
-    data: data,
-    type: 'form' });
-
-};
-
-// 用户获取验证码
-exports.postUserLogin = postUserLogin;var postUserSms = function postUserSms(data) {
-  return (0, _request.request)({
-    url: '/api/oauth/validate/code/sms',
-    data: data,
-    method: 'post',
-    type: 'form' });
-
-};
-
-// 获取用户信息
-exports.postUserSms = postUserSms;var getUserInfoData = function getUserInfoData(data) {
-  return (0, _request.request)({
-    url: '/api/upms/user/getUserInfo',
-    data: data });
-
-};
-
-// 跟新用户头像
-exports.getUserInfoData = getUserInfoData;var postUserHeadImg = function postUserHeadImg(data) {
-  return (0, _request.request)({
-    url: '/api/upms/userImg/upload',
-    data: data,
-    method: 'post',
-    type: 'form' });
-
-};
-
-// 根据ID获取父级地址
-exports.postUserHeadImg = postUserHeadImg;var getUserAddressList = function getUserAddressList(data) {
-  return (0, _request.request)({
-    url: '/api/upms/address/getUserAddressList',
-    data: data });
-
-};
-
-// 获取用户地址列表
-exports.getUserAddressList = getUserAddressList;var getChildrenByPId = function getChildrenByPId(data) {
-  return (0, _request.request)({
-    url: '/api/upms/area/getChildrenByPId',
-    data: data,
-    type: 'form' });
-
-};
-
-// 保存用户收货地址
-exports.getChildrenByPId = getChildrenByPId;var postUserAddressInsert = function postUserAddressInsert(data) {
-  return (0, _request.request)({
-    url: '/api/upms/address/insert',
-    data: data,
-    method: 'post',
-    type: 'form' });
-
-};
-
-// 根据ID获取地区地址
-exports.postUserAddressInsert = postUserAddressInsert;var getAddressById = function getAddressById(data) {
-  return (0, _request.request)({
-    url: '/api/upms/address/getById',
-    data: data,
-    type: 'form' });
-
-};
-
-// 根据ID更新地址
-exports.getAddressById = getAddressById;var postAddressUpdate = function postAddressUpdate(data) {
-  return (0, _request.request)({
-    url: '/api/upms/address/update',
-    data: data,
-    method: 'post',
-    type: 'form' });
-
-};
-
-// 删除地址
-exports.postAddressUpdate = postAddressUpdate;var postAddressDelete = function postAddressDelete(data) {
-  return (0, _request.request)({
-    url: '/api/upms/address/delete',
-    data: data,
-    method: 'post',
-    type: 'form' });
-
-};
-
-// 更新昵称
-exports.postAddressDelete = postAddressDelete;var postUpdateNickname = function postUpdateNickname(data) {
-  return (0, _request.request)({
-    url: '/api/upms/user/updateInfo',
-    data: data,
-    method: 'post',
-    type: 'form' });
-
-};
-
-// 获取用户商品收藏商品
-exports.postUpdateNickname = postUpdateNickname;var getCollectGoodsList = function getCollectGoodsList(data) {
-  return (0, _request.request)({
-    url: '/api/cart/collect/goods/list',
-    data: data,
-    type: 'form' });
-
-};
-
-
-// 订单列表
-exports.getCollectGoodsList = getCollectGoodsList;var getOrderPageMyOrder = function getOrderPageMyOrder(data) {
-  return (0, _request.request)({
-    url: '/api/order/order/pageMyOrder',
-    data: data,
-    type: 'form' });
-
-};
-
-// 上传图片
-exports.getOrderPageMyOrder = getOrderPageMyOrder;var postUserImgUpload = function postUserImgUpload(data) {
-  return (0, _request.request)({
-    url: '/api/upms/userImg/upload',
-    data: data,
-    method: 'post',
-    type: 'file' });
-
-};
-
-// 用户订单详情
-exports.postUserImgUpload = postUserImgUpload;var getOrderDetailById = function getOrderDetailById(data) {
-  return (0, _request.request)({
-    url: '/api/order/order/myOrderInfo',
-    data: data,
-    type: 'form' });
-
-};
-
-// 取消订单
-exports.getOrderDetailById = getOrderDetailById;var postOrderCancel = function postOrderCancel(data) {
-  return (0, _request.request)({
-    url: '/api/order/order/cancel',
-    data: data,
-    method: 'post',
-    type: 'form' });
-
-};
-
-// 确认收货
-exports.postOrderCancel = postOrderCancel;var postOrderConfirm = function postOrderConfirm(data) {
-  return (0, _request.request)({
-    url: '/api/order/order/confirm',
-    data: data,
-    method: 'post',
-    type: 'form' });
-
-};
-
-// 查看物流信息
-exports.postOrderConfirm = postOrderConfirm;var postOrderLogisticsQuery = function postOrderLogisticsQuery(data) {
-  return (0, _request.request)({
-    url: '/api/order/order/logisticsQuery',
-    data: data,
-    type: 'form' });
-
-};
-
-// 移除收藏商品ids
-exports.postOrderLogisticsQuery = postOrderLogisticsQuery;var getCollectGoodsRemove = function getCollectGoodsRemove(data) {
-  return (0, _request.request)({
-    url: '/api/cart/collect/goods/remove',
-    data: data,
-    type: 'form' });
-
-};
-
-// 根据ID查询广告位
-exports.getCollectGoodsRemove = getCollectGoodsRemove;var getAdPositioneById = function getAdPositioneById(data) {
-  return (0, _request.request)({
-    url: '/api/act/adPosition/getById',
-    data: data,
-    type: 'form' });
-
-};
-
-// 严选好物
-exports.getAdPositioneById = getAdPositioneById;var getPageLayout = function getPageLayout(data) {
-  return (0, _request.request)({
-    url: '/api/act/pageLayout/getListByParentId',
-    data: data,
-    type: 'form' });
-
-};
-
-
-// formId 提交
-exports.getPageLayout = getPageLayout;var getSetFormId = function getSetFormId(data) {
-  return (0, _request.request)({
-    url: '/api/wechat/accessInterface/setFormId',
-    data: data,
-    type: 'form',
-    method: 'post' });
-
-};
-
-// 微信登录
-exports.getSetFormId = getSetFormId;var weixinLogin = function weixinLogin(data) {
-  return (0, _request.request)({
-    url: '/api/oauth/socialLogin/weixin',
-    data: data,
-    type: 'form',
-    method: 'post' });
-
-};
-
-// 获取openid
-exports.weixinLogin = weixinLogin;var openIdByCode = function openIdByCode(data) {
-  return (0, _request.request)({
-    url: '/api/oauth/userConnection/openIdByCode',
-    data: data,
-    type: 'form' });
-
-};exports.openIdByCode = openIdByCode;
-
-/***/ }),
-
-/***/ 362:
-/*!*******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-moment.png ***!
-  \*******************************************************/
+/***/ 432:
+/*!**********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-moment.png ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -23883,10 +23920,10 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw
 
 /***/ }),
 
-/***/ 393:
-/*!******************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-aimup.png ***!
-  \******************************************************/
+/***/ 470:
+/*!*********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-aimup.png ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -23894,10 +23931,10 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 
 /***/ }),
 
-/***/ 394:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-aimdown.png ***!
-  \********************************************************/
+/***/ 471:
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-aimdown.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -23905,22 +23942,10 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 
 /***/ }),
 
-/***/ 4:
-/*!***************************************!*\
-  !*** D:/zl/cloud-shop-app/pages.json ***!
-  \***************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/***/ }),
-
-/***/ 400:
-/*!****************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-min.png ***!
-  \****************************************************/
+/***/ 477:
+/*!*******************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-min.png ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -23928,10 +23953,10 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 
 /***/ }),
 
-/***/ 401:
-/*!*****************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-plus.png ***!
-  \*****************************************************/
+/***/ 478:
+/*!********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-plus.png ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -24827,9 +24852,9 @@ main();
 /***/ }),
 
 /***/ 50:
-/*!************************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-cart-nodata.png ***!
-  \************************************************************/
+/*!***************************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-cart-nodata.png ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -24838,9 +24863,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+
 /***/ }),
 
 /***/ 53:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-checked.png ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-checked.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -24849,9 +24874,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAYAAAA6
 /***/ }),
 
 /***/ 54:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-uncheck.png ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-uncheck.png ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -24860,9 +24885,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAYAAAA6
 /***/ }),
 
 /***/ 55:
-/*!*****************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-plat.png ***!
-  \*****************************************************/
+/*!********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-plat.png ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -24871,9 +24896,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 /***/ }),
 
 /***/ 56:
-/*!******************************************!*\
-  !*** D:/zl/cloud-shop-app/utils/util.js ***!
-  \******************************************/
+/*!*********************************************!*\
+  !*** D:/zl/wholesale-uni-app/utils/util.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25139,6 +25164,7 @@ function verificationAmount(num) {
   }
 }
 
+// 数字转换成金额
 function isPriceNumber(_keyword) {
   if (_keyword == "0" || _keyword == "0." || _keyword == "0.0" || _keyword == "0.00") {
     _keyword = "0";return true;
@@ -25163,7 +25189,82 @@ function isPriceNumber(_keyword) {
     return false;
   }
 }
+
+// 时间戳转年月日时分秒
+function timestampToTime(timestamp) {
+  var date = new Date(); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+  var Y = date.getFullYear() + '';
+  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+  var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+  var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+  var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+  var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+
+  return Y + M + D + h + m + s;
+  // console.log(strDate) //2019-08-01 09:55:26
+}
+
+// function MillisecondToDate(msd) {
+//     var time = parseFloat(msd) / 1000;
+//     if (null != time && "" != time) {
+//         if (time > 60 && time < 60 * 60) {
+//             time = parseInt(time / 60.0) + "分" + parseInt((parseFloat(time / 60.0) -
+//                 parseInt(time / 60.0)) * 60) + "秒";
+//         }
+//         // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+//         else if (time >= 60 * 60) {
+//             time = parseInt(time / 3600.0) + "时" + parseInt((parseFloat(time / 3600.0) -
+//                 parseInt(time / 3600.0)) * 60) + "分" +
+//                 parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
+//                 parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + "秒";
+//         }
+//         else {
+//             time = parseInt(time) + "秒";
+//         }
+//     }
+//     return time;
+// }
+
+// 剩余天时分秒
+function getLeftTime(endtime) {
+  var nowtime = new Date().getTime();
+  var lasttime = (endtime - nowtime) / 1000;
+  if (lasttime > 0) {
+    var lastdate = parseInt(lasttime / 3600 / 24);
+    var lasthours = parseInt(lasttime / 3600 % 24);
+    var lastminutes = parseInt(lasttime / 60 % 60);
+    var lastseconds = parseInt(lasttime % 60);
+    var strtime = lastdate + '' + '天' + '' + lasthours + '' + '时' + '' + lastminutes + '' + '分' + '' + lastseconds + '' + '秒';
+    return strtime;
+  }
+  return '';
+}
+
+// 时间戳转时分
+function MillisecondToDate(msd) {
+  var time = (parseFloat(msd) - Date.parse(new Date())) / 1000;
+  if (null != time && "" != time) {
+    if (time > 60 && time < 60 * 60) {
+      time = parseInt(time / 60.0) + ":" + parseInt((parseFloat(time / 60.0) -
+      parseInt(time / 60.0)) * 60) + " ";
+    }
+    // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+    else if (time >= 60 * 60) {
+        time = parseInt(time / 3600.0) + ":" + parseInt((parseFloat(time / 3600.0) -
+        parseInt(time / 3600.0)) * 60) + ":" +
+        parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
+        parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + " ";
+      } else
+      {
+        time = parseInt(time) + " ";
+      }
+  }
+  return time;
+}
 module.exports = {
+  getLeftTime: getLeftTime,
+  MillisecondToDate: MillisecondToDate,
+  timestampToTime: timestampToTime,
   isPriceNumber: isPriceNumber,
   verificationAmount: verificationAmount,
   fmoney: fmoney,
@@ -25188,9 +25289,9 @@ module.exports = {
 /***/ }),
 
 /***/ 57:
-/*!*******************************************!*\
-  !*** D:/zl/cloud-shop-app/api/cartApi.js ***!
-  \*******************************************/
+/*!**********************************************!*\
+  !*** D:/zl/wholesale-uni-app/api/cartApi.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25281,9 +25382,9 @@ module.exports = {"_from":"@dcloudio/uni-stat@next","_id":"@dcloudio/uni-stat@2.
 /***/ }),
 
 /***/ 64:
-/*!**************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/tag-go.png ***!
-  \**************************************************/
+/*!*****************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/tag-go.png ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -25292,21 +25393,21 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACN
 /***/ }),
 
 /***/ 7:
-/*!********************************************************!*\
-  !*** D:/zl/cloud-shop-app/pages.json?{"type":"style"} ***!
-  \********************************************************/
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/pages.json?{"type":"style"} ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "沁绿农业", "enablePullDownRefresh": true, "navigationStyle": "custom", "usingComponents": { "tab-bar": "/components/common/TabBar" } }, "pages/login/login": { "navigationBarTitleText": "登录", "usingComponents": {} }, "pages/user/user": { "navigationBarTitleText": "我的", "navigationStyle": "custom", "usingComponents": { "tab-bar": "/components/common/TabBar" } }, "pages/order/order": { "navigationBarTitleText": "进货单", "navigationStyle": "custom", "usingComponents": { "dialog": "/components/common/Dialog", "tab-bar": "/components/common/TabBar" } }, "pages/user/setting/setting": { "navigationBarTitleText": "设置", "usingComponents": {} }, "pages/user/protocal/protocal": { "navigationBarTitleText": "服务条款与协议", "usingComponents": {} }, "pages/user/about/about": { "navigationBarTitleText": "关于我们", "usingComponents": {} }, "pages/user/info/info": { "navigationBarTitleText": "个人信息", "usingComponents": {} }, "pages/user/nickname/nickname": { "navigationBarTitleText": "修改昵称", "usingComponents": {} }, "pages/user/addlist/addlist": { "navigationBarTitleText": "管理收货地址", "usingComponents": {} }, "pages/user/addedit/addedit": { "navigationBarTitleText": "添加地址", "usingComponents": { "ra-btn": "/components/common/RaBtn", "dialog": "/components/common/Dialog", "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker" } }, "pages/user/collection/collection": { "navigationBarTitleText": "收藏", "usingComponents": { "dialog": "/components/common/Dialog", "navigation-bar": "/components/common/NavigationBar" } }, "pages/user/order/list": { "navigationBarTitleText": "我的订单", "enablePullDownRefresh": true, "usingComponents": { "good": "/components/order/Good", "pay": "/components/common/Pay", "dialog": "/components/common/Dialog" } }, "pages/user/order/finish": { "navigationBarTitleText": "订单完成", "usingComponents": {} }, "pages/user/order/freight": { "navigationBarTitleText": "物流详情", "usingComponents": {} }, "pages/user/order/detail": { "navigationBarTitleText": "订单详情", "usingComponents": { "good": "/components/order/Good", "pay": "/components/common/Pay", "dialog": "/components/common/Dialog" } }, "pages/user/order/success": { "navigationBarTitleText": "交易已完成", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods" } }, "pages/user/pay/success": { "navigationBarTitleText": "支付完成", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods", "advertising-position": "/components/common/AdvertisingPosition" } }, "pages/order/goodsDetail/goodsDetail": { "navigationBarTitleText": "商品详情", "usingComponents": { "share": "/components/good/Share", "standard": "/components/good/Standard", "player": "/components/common/Player" } }, "pages/order/prompt/prompt": { "navigationBarTitleText": "运费说明", "usingComponents": { "provinces": "/components/common/Provinces" } }, "pages/order/submit/submit": { "navigationBarTitleText": "提交订单", "usingComponents": { "pay": "/components/common/Pay" } }, "pages/order/paySuccess/paySuccess": { "navigationBarTitleText": "支付成功", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods", "advertising-position": "/components/common/AdvertisingPosition", "dialog": "/components/common/Dialog" } }, "pages/order/orderSuccess/orderSuccess": { "navigationBarTitleText": "订单完成", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods" } }, "pages/main/search/search": { "navigationBarTitleText": "搜索商品", "usingComponents": { "dialog": "/components/common/Dialog" } }, "pages/order/goodsList/goodsList": { "navigationBarTitleText": "商品列表", "usingComponents": { "panel": "/components/search/Panel", "good": "/components/common/Good" } }, "pages/common/err/err": { "navigationBarTitleText": "异常", "usingComponents": {} }, "pages/common/webview/webview": { "navigationBarTitleText": "网络地址", "usingComponents": {} }, "pages/login/binding/binding": { "navigationBarTitleText": "绑定手机号", "usingComponents": {} }, "pages/order/goodsDetail/video/video": { "navigationBarTitleText": "视频播放", "usingComponents": {} }, "pages/middle/middle": { "navigationBarTitleText": "状态", "navigationStyle": "custom" }, "pages/middle/release/release": { "navigationBarTitleText": "发布商品" }, "pages/middle/release/varieties/varieties": { "navigationBarTitleText": "选择品种" }, "pages/middle/release/attribute/attribute": { "navigationBarTitleText": "选择属性" }, "pages/middle/release/price/price": { "navigationBarTitleText": "设置价格" }, "pages/middle/release/attribute/add/add": { "navigationBarTitleText": "添加属性" }, "pages/middle/release/account/account": { "navigationBarTitleText": "我的账户" }, "pages/middle/release/account/record/record": { "navigationBarTitleText": "账单记录" }, "pages/middle/release/account/bankcard/bankcard": { "navigationBarTitleText": "银行卡" }, "pages/middle/release/account/payps/payps": { "navigationBarTitleText": "支付密码" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "沁绿农业APP", "navigationBarBackgroundColor": "#FFFFFF", "backgroundColor": "#FFFFFF", "onReachBottomDistance": 151 } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "沁绿农业", "enablePullDownRefresh": true, "navigationStyle": "custom" }, "pages/login/login": { "navigationBarTitleText": "登录" }, "pages/user/user": { "navigationBarTitleText": "我的", "navigationStyle": "custom" }, "pages/order/order": { "navigationBarTitleText": "进货单", "navigationStyle": "custom" }, "pages/user/setting/setting": { "navigationBarTitleText": "设置" }, "pages/user/protocal/protocal": { "navigationBarTitleText": "服务条款与协议" }, "pages/user/about/about": { "navigationBarTitleText": "关于我们" }, "pages/user/info/info": { "navigationBarTitleText": "个人信息" }, "pages/user/nickname/nickname": { "navigationBarTitleText": "修改昵称" }, "pages/user/addlist/addlist": { "navigationBarTitleText": "管理收货地址" }, "pages/user/addedit/addedit": { "navigationBarTitleText": "添加地址" }, "pages/user/collection/collection": { "navigationBarTitleText": "收藏" }, "pages/user/order/list": { "navigationBarTitleText": "我的订单", "enablePullDownRefresh": true }, "pages/user/order/finish": { "navigationBarTitleText": "订单完成" }, "pages/user/order/freight": { "navigationBarTitleText": "物流详情" }, "pages/user/order/detail": { "navigationBarTitleText": "订单详情" }, "pages/user/order/success": { "navigationBarTitleText": "交易已完成" }, "pages/user/pay/success": { "navigationBarTitleText": "支付完成" }, "pages/order/goodsDetail/goodsDetail": { "navigationBarTitleText": "商品详情" }, "pages/order/prompt/prompt": { "navigationBarTitleText": "运费说明" }, "pages/order/submit/submit": { "navigationBarTitleText": "提交订单" }, "pages/order/paySuccess/paySuccess": { "navigationBarTitleText": "支付成功" }, "pages/order/orderSuccess/orderSuccess": { "navigationBarTitleText": "订单完成" }, "pages/main/search/search": { "navigationBarTitleText": "搜索商品" }, "pages/order/goodsList/goodsList": { "navigationBarTitleText": "商品列表" }, "pages/common/err/err": { "navigationBarTitleText": "异常" }, "pages/common/webview/webview": { "navigationBarTitleText": "网络地址" }, "pages/login/binding/binding": { "navigationBarTitleText": "绑定手机号" }, "pages/middle/middle": { "navigationBarTitleText": "状态", "navigationStyle": "custom" }, "pages/middle/release/release": { "navigationBarTitleText": "发布商品" }, "pages/middle/release/varieties/varieties": { "navigationBarTitleText": "选择品种" }, "pages/middle/release/attribute/attribute": { "navigationBarTitleText": "选择属性" }, "pages/middle/release/price/price": { "navigationBarTitleText": "设置价格" }, "pages/middle/release/attribute/add/add": { "navigationBarTitleText": "添加属性" }, "pages/middle/release/account/account": { "navigationBarTitleText": "我的账户" }, "pages/middle/release/account/record/record": { "navigationBarTitleText": "账单记录" }, "pages/middle/release/account/bankcard/bankcard": { "navigationBarTitleText": "银行卡" }, "pages/middle/release/account/payps/payps": { "navigationBarTitleText": "支付密码" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "农百集APP", "navigationBarBackgroundColor": "#FFFFFF", "backgroundColor": "#FFFFFF", "onReachBottomDistance": 151 } };exports.default = _default;
 
 /***/ }),
 
 /***/ 8:
-/*!*******************************************************!*\
-  !*** D:/zl/cloud-shop-app/pages.json?{"type":"stat"} ***!
-  \*******************************************************/
+/*!**********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/pages.json?{"type":"stat"} ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25316,9 +25417,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ }),
 
 /***/ 81:
-/*!*****************************************************!*\
-  !*** D:/zl/cloud-shop-app/static/img/icon-logo.png ***!
-  \*****************************************************/
+/*!********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-logo.png ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

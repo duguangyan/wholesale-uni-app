@@ -1,0 +1,27 @@
+.dot-main.data-v-51523e9a {
+  width: 100%;
+  height: 40rpx;
+  position: relative;
+}
+.dot-main .bg.data-v-51523e9a {
+    background: #000;
+    opacity: .3;
+    width: 100rpx;
+    height: 40rpx;
+    position: absolute;
+    right: 30rpx;
+    bottom: 0;
+    border-radius: 40rpx;
+}
+.dot-main .item.data-v-51523e9a {
+    padding: 0rpx 20rpx;
+    border-radius: 40rpx;
+    color: #fff;
+    text-align: center;
+    line-height: 40rpx;
+    position: absolute;
+    z-index: 9999;
+    right: 36rpx;
+    font-size: 24rpx;
+}
+

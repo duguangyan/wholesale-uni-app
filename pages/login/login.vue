@@ -1,51 +1,23 @@
 <template>
 	<view class="login">
-		<!-- <view class="close">
-			<image src="../../static/img/tag-close.png" mode=""></image>
-		</view> -->
-		<view class="body">
-			<view class="welcome">您好！</view>
-			<view class="subwel">欢迎来到上上农夫，立即登录</view>
-			<view class="name">
-				<input class="fs30" v-model="phone" @input="doIsLogin" type="text" placeholder="请输入手机号码" />
-			</view>
-			<view class="code">
-				<input class="fs30" v-model="code" @input="doIsLogin" type="text" placeholder="请输入验证码" />
-				<text class="getcode" @click="getCode" :class="{'text-999':codeNum!==''}">{{codeNum}} {{codeText}}</text>
-			</view>
-			<view class="protocal">
-				登录表示同意
-				<text @click="goProtocal">用户服务协议</text>
-			</view>
+		<view class="logo">
+			<image src="https://iph.href.lu/90x90?text=LOGO" mode=""></image>
 		</view>
-		<view :class="{'bg-theme':isRight}" @click="dologin" class="btn fs32">立即登录</view>
-
-		<!--  #ifdef  MP-WEIXIN -->
-		<view class="footer">
-			<!-- <view class="fs24">其他登录方式</view> -->
-			<button
-			class='testbutton'
-			open-type="getUserInfo"
-			@getuserinfo="getuserinfox"
-			withCredentials="true"
-			>
-			其他登录方式
-			<view class="img">
-				<image src="../../static/img/icon-wechat.png"></image>
-			</view>
-			</button>
+		<view class="item-1 fs30 text-333 cf">
+			<view class="fll image"><image src="https://iph.href.lu/24x28"></image></view>
+			<view class="fll input"><input @blur="blurPhone" type="number" v-model="phone" placeholder="请输入账号" /></view>
 		</view>
-		<!--  #endif -->
-		<!--  #ifdef  APP-PLUS -->
-		<view class="footer" @click="wxLogin">
-			<view class="fs24">其他登录方式</view>
-			<view class="img">
-				<image src="../../static/img/icon-wechat.png"></image>
-			</view>
-			</button>
+		<view class="item-2 fs30 text-333 cf">
+			<view class="fll image"><image src="https://iph.href.lu/24x28"></image></view>
+			<view class="fll input" v-if="showPassword"><input @blur="blurPassword" type="text" confirm-type="done" @confirm="doLogin" password v-model="password" placeholder="请输入账号" /></view>
+			<view class="fll input" v-if="!showPassword"><input @blur="blurPassword" type="text" confirm-type="done" @confirm="doLogin" v-model="password" placeholder="请输入账号" /></view>
+			<view class="flr see" @click="checkPassword"><image src="https://iph.href.lu/24x28"></image></view>
 		</view>
-		<!--  #endif -->
+		<view class="protocal fs20">
+			<text class="text-666">点击登录表示同意平台</text> <text class="text-theme">用户协议</text>
+		</view>
 		
+		<view class="big-btn" @click="doLogin">登录</view>
 	</view>
 </template>
 
@@ -57,224 +29,53 @@
 		data() {
 			return {
 				phone:'',
-				code:'',
-				codeText: '获取验证码',
-				codeNum: '', // 定时器时间
-				isRight: false, // 是否完成输入
-				setCodeInterval: '', // 定时器
-				deviceId: '', // 数据传值deviceId
-				appID: 'wxb8afa388fa540c2a',
-				weixinCode:''
+				password: '',
+				showPassword: true
 			}
 		},
 		components: {
 		
 		},
-		onHide() {
-			if(this.setCodeInterval!=''){
-				clearInterval(this.setCodeInterval)
-			}
-		},
 		onLoad() {
 			
 		},
 		onShow() {
-			uni.setStorageSync('isLogin',0)	
+			
 		},
-		methods: {
-			// 去用户协议
-			goProtocal(){
-				uni.navigateTo({
-					url:'/pages/user/protocal/protocal'
-				})
+		methods:{
+			//切换password
+			checkPassword(){
+				this.showPassword = !this.showPassword
 			},
-			// 获取openid
-			getOpenIdByCode(){
-				uni.login({
-					provider:'weixin',
-					success(e) {
-						console.log('code',JSON.stringify(e.code))
-						let data = {
-							code: e.code,
-							providerId: 'miniProgram' 
-						}
-						console.log(data)
-						openIdByCode(data).then(res => {
-							console.log(res)
-							if(res.code == '1000'){
-								uni.setStorageSync('openid',res.data)
-							}
-						})
-					}
-				})
+			// 登录
+			doLogin(){
+				if(validator.isPhone(this.phone)){
+					T.tips('请输入正确的手机号')
+					return false
+				}
+				if(!validator.isPassword(this.password)){
+					T.tips('密码限6-50个字符')
+					return false
+				}
 				
-			},
-			// APP微信登录
-			wxLogin(){
-				let _this = this
-				uni.getProvider({
-						service: 'oauth',
-						success: function(res) {
-							console.log(res.provider);
-							//支持微信、qq和微博等
-							if (~res.provider.indexOf('weixin')) {
-								uni.login({
-									provider: 'weixin',
-									success: function(res) {
-										console.log('-------获取openid(unionid)-----');
-										console.log(JSON.stringify(res));
-										let accessToken = res.authResult.access_token;
-										let openId       = res.authResult.openid;
-										let data = {
-											grant_type: 'wx_app',
-											scope: 2,
-											client_id: 'cwap',
-											client_secret: 'xx',
-											systemId: 2,
-											deviceId: _this.getUUID(), 
-											accessToken,
-											openId
-										}
-										console.log('data->>',data)
-										postUserLogin(data).then(res=>{
-											console.log(JSON.stringify(res))
-											if(res.code == '9999'){
-												uni.getUserInfo({
-													provider: 'weixin',
-													success: function(infoRes) {
-														console.log('-------获取微信用户所有-----');
-														console.log(JSON.stringify(infoRes.userInfo));
-														data.userInfo = infoRes.userInfo
-														uni.navigateTo({
-															url:'/pages/login/binding/binding?data='+ JSON.stringify(data)
-														})
-													}
-												});
-											}else{
-												uni.setStorageSync('access_token', res.access_token)
-												uni.setStorageSync('refresh_token', res.refresh_token)
-												uni.setStorageSync('uid', res.id)
-												// 获取用户信息
-												_this.getUserInfoDates()
-											}
-										})
-										
-									}
-								});
-							}
-						}
-					});
-			},
-		    // 小程序微信登录
-		    getuserinfox(e) {
-				let _this = this;
-				console.log(e)
-				uni.login({
-				  provider: 'weixin',
-				  success: function (loginRes) {
-					console.log(loginRes);
-					let data = {
-						grant_type: 'mini_program',
-						scope: 2,
-						client_id: 'cwap',
-						client_secret: 'xx',
-						systemId: 2,
-						deviceId: _this.getUUID(), 
-						miniCode: loginRes.code
-					}
-					console.log('data->',data)
-					postUserLogin(data).then(res=>{
-						if(res.code == '9999'){
-							uni.getUserInfo({
-								provider: 'weixin',
-								success: function(infoRes) {
-									console.log('-------获取微信用户所有-----');
-									console.log(JSON.stringify(infoRes.userInfo));
-									data.userInfo = infoRes.userInfo
-									uni.navigateTo({
-										url:'/pages/login/binding/binding?data='+ JSON.stringify(data)
-									})
-								}
-							});
-						}else{
-							uni.setStorageSync('access_token', res.access_token)
-							uni.setStorageSync('access_token', res.refresh_token)
-							uni.setStorageSync('uid', res.id)
-						
-							// 获取用户信息
-							_this.getUserInfoDates()
-						}
-					})
-				  }
-				});
-				
-		    },
-			doIsLogin() {
-				this.isRight = !validator.isPhone(this.phone) && this.code !== ''
-			},
-		    // 获取验证码
-		    getCode() {
-		      console.log(validator.isPhone(this.phone))
-		      // 已发送未超过60秒直接返回
-		      if (this.codeNum !== '') {
-		        return false
-		      }
-		      // 手机验证
-		      if (validator.isPhone(this.phone)) {
-		        if (this.phone === '') {
-				  T.tips('手机号不能为空');
-		          return false
-		        }
-				T.tips('手机号码不正确');
-		        return false
-		      }
-			  
-		      // 获取uuid
-		      this.deviceId = this.getUUID()
-		      // 获取手机验证码
-		      let data = {
-		        mobile: this.phone,
-		        deviceId: this.deviceId
-		      }
-		      postUserSms(data).then((res) => {
-				T.tips(res.message)
-		        if (res.code === '1000') {
-		          this.codeText = '重新发送'
-		          this.codeNum = 59
-		          this.setCodeInterval = setInterval(() => {
-		            if (this.codeNum === 0) {
-		              this.codeNum = ''
-		              clearInterval(this.setCodeInterval)
-		            } else {
-		              this.codeNum--
-		            }
-		          }, 1000)
-		        }
-		      }).catch((err) => {
-				T.tips(err.message || '错误')
-		      })
-		    },
-		    // 登录
-		    dologin: function () {
-		      if (this.isRight) {
-				  //#ifdef APP-PLUS  
+				//#ifdef APP-PLUS
 				  var uuid = plus.device.uuid;  
 				  //#endif
 				  //#ifdef MP-WEIXIN
 				  this.deviceId = this.getUUID()
 				  //#endif
-		        let data = {
-		          grant_type: 'sms_code',
-		          scope: '2',
-		          client_id: 'cwap',
-		          client_secret: 'xx',
-		          systemId: '2',
-		          deviceId: this.deviceId,
-		          mobile: this.phone,
-		          smsCode: this.code
-		        }
-		        // let dates = this.$qs.stringify(data)
-		        postUserLogin(data).then((res) => {
+				let data = {
+				  grant_type: 'sms_code',
+				  scope: '2',
+				  client_id: 'cwap',
+				  client_secret: 'xx',
+				  systemId: '2',
+				  deviceId: this.deviceId,
+				  mobile: this.phone,
+				  smsCode: this.password
+				}
+				// let dates = this.$qs.stringify(data)
+				postUserLogin(data).then((res) => {
 					uni.setStorageSync('access_token', res.access_token)
 					uni.setStorageSync('refresh_token', res.refresh_token)
 					uni.setStorageSync('uid', res.id)
@@ -283,37 +84,36 @@
 					if(this.setCodeInterval!=''){
 						clearInterval(this.setCodeInterval)
 					}
-		          // 获取用户信息
-		          this.getUserInfoDates()
-		        }).catch((err) => {
+				  // 获取用户信息
+				  this.getUserInfoDates()
+				}).catch((err) => {
 					T.tips(err.message || '登录错误')
-		        })
-		      }
-		    },
-		    getUserInfoDates() {
+				})
+				
+			},
+			getUserInfoDates() {
 				// #ifdef  MP-WEIXIN
 				this.getOpenIdByCode();
 				// #endif
-				
-			  
-		      getUserInfoData().then((res) => {
-		        if (res.code === '1000') {
+			  getUserInfoData().then((res) => {
+			    if (res.code === '1000') {
 				  if(res.data.phone){
 					uni.setStorageSync('phone', res.data.phone)
 				  }	
-		          uni.setStorageSync('nickName', res.data.nickName)
-		          uni.setStorageSync('headImgUrl', res.data.headImgUrl)
+			      uni.setStorageSync('nickName', res.data.nickName)
+			      uni.setStorageSync('headImgUrl', res.data.headImgUrl)
 				  // 返回上一页
 				  uni.navigateBack({
-					  delta:1
+				  	delta:1
 				  })
-		        }
-		      }).catch((err) => {
+				  
+			    }
+			  }).catch((err) => {
 				T.tips(err.message || '获取用户信息错误')
-		      })
-		    },
-		    getUUID() {
-		        var s = [];
+			  })
+			},
+			getUUID() {
+			    var s = [];
 				var hexDigits = "0123456789abcdef";
 				for (var i = 0; i < 36; i++) {
 				  s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
@@ -324,118 +124,63 @@
 			   
 				var uuid = s.join("");
 				return uuid
-		    }
-		  }
+			},
+			// 检查手机号
+			blurPhone(){
+				if(validator.isPhone(this.phone)){
+					T.tips('请输入正确的手机号')
+				}
+			},
+			// 检查密码
+			blurPassword(){
+				if(!validator.isPassword(this.password)){
+					T.tips('密码限6-50个字符')
+				}
+			}
+		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.login {
-		height: 100vh;
-		background: #fff;
-		.close{
-			width: 60upx;
-			height: 60upx;
-			margin: 50upx 22upx;
+	.login{
+		.logo{
+			width: 90upx;
+			height: 90upx;
 			>image{
 				width: 100%;
 				height: 100%;
 			}
+			margin: 100upx auto;
 		}
-		.body {
-			margin-left: 56upx;
-			margin-right: 56upx;
+		.big-btn{
+			margin-top: 40upx;
 		}
-		.welcome {
-			padding-top: 74upx;
-			font-size: 40upx;
-			color: #000;
+		.protocal{
+			margin: 20upx 55upx;
 		}
-		.subwel {
-			color: #999;
-			font-size: 24upx;
-			margin-top: 20upx;
-		}
-		.name,
-		.code {
-			line-height: 70upx;
-			color: #000;
-			border-bottom: #f0f0f0 solid 1upx;
-
-			input {
-				height: 30upx;
-				border: none;
-				outline: none;
-			}
-		}
-		::placeholder {
-			color: #ccc;
-			font-size: 30upx;
-		}
-		.name {
-			padding: 20upx 0;
-			margin-top: 50upx;
-		}
-		.code {
-			padding: 20upx 0;
-			position: relative;
-
-			.getcode {
-				font-size: 30upx;
-				color: #000;
-				position: absolute;
-				right: 0upx;
-				top: 50%;
-				transform: translateY(-50%);
-				z-index: 99999;
-			}
-		}
-		.protocal {
-			margin-top: 20upx;
-			font-size: 20upx;
-			color: #999999;
-			text {
-				color: #52cc66;
-			}
-		}
-		.btn {
-			width: 640upx;
-			line-height: 80upx;
-			text-align: center;
-			color: #fff;
-			background-color: #d9d9d9;
-			border-radius: 40upx;
-			margin: 40upx auto auto;
-
-			&.actived {
-				background-color: #fc2d2d;
-			}
-		}
-		.footer {
-			position: absolute;
-			bottom: 136upx;
-			text-align: center;
-			width: 100%;
-			button::after{
-				border:none;
-			}
-			button{
-				background: none;
-			}
-			input{
-			outline:none;
-			border:none;
-			list-style: none;
-			}
-			.img{
-				margin:  30upx auto;
-				width: 70upx;
-				height: 70upx;
+		.item-1,.item-2{
+			margin: 0upx 55upx;
+			border-bottom: 1upx solid #F0F0F0;
+			padding: 40upx 0;
+			.image{
+				width: 24upx;
+				height: 28upx;
 				>image{
 					width: 100%;
 					height: 100%;
-					margin: 0 auto;
 				}
+			}
+			.see{
+				width: 24upx;
+				height: 28upx;
+				>image{
+					width: 100%;
+					height: 100%;
+				}
+			}
+			.input{
+				width: 540upx;
+				padding-left: 30upx;
 			}
 		}
 	}

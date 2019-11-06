@@ -1,35 +1,35 @@
-.dialog .mask.data-v-9553227a {
+.dialog .mask.data-v-ddf7a290 {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   width: 100%;
-  z-index: 99;
+  z-index: 9999;
 }
-.dialog .mask-bg.data-v-9553227a {
+.dialog .mask-bg.data-v-ddf7a290 {
   background-color: rgba(0, 0, 0, 0.3);
 }
-.dialog .body.data-v-9553227a {
+.dialog .body.data-v-ddf7a290 {
   position: fixed;
-  z-index: 100;
+  z-index: 99999;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   background-color: #fff;
-  border-radius: 10rpx;
+  border-radius: 20rpx;
   width: 500rpx;
   padding: 76rpx 30rpx 30rpx;
   text-align: center;
 }
-.dialog .body .title.data-v-9553227a {
+.dialog .body .title.data-v-ddf7a290 {
     font-size: 32rpx;
     color: #000;
     margin-bottom: 96rpx;
 }
-.dialog .body .footer.data-v-9553227a {
+.dialog .body .footer.data-v-ddf7a290 {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -43,23 +43,23 @@
         -ms-flex-pack: justify;
             justify-content: space-between;
 }
-.dialog .body .btn.data-v-9553227a {
+.dialog .body .btn.data-v-ddf7a290 {
     width: 230rpx;
     line-height: 80rpx;
     border-radius: 40rpx;
     font-size: 32rpx;
 }
-.dialog .body .btn.cancel.data-v-9553227a {
+.dialog .body .btn.cancel.data-v-ddf7a290 {
       color: #333;
-      -webkit-box-shadow: 0 0 0 1rpx #d9d9d9 inset;
-              box-shadow: 0 0 0 1rpx #d9d9d9 inset;
+      border: 1rpx solid #d9d9d9;
+      color: #333;
 }
-.dialog .body .btn.confirm.data-v-9553227a {
+.dialog .body .btn.confirm.data-v-ddf7a290 {
       background-color: #fc2d2d;
       color: #fff;
 }
-.dialog .mask-enter-active.data-v-9553227a,
-.dialog .body-enter-active.data-v-9553227a {
+.dialog .mask-enter-active.data-v-ddf7a290,
+.dialog .body-enter-active.data-v-ddf7a290 {
   -webkit-transition: all 0.5s;
   -o-transition: all 0.5s;
   transition: all 0.5s;
@@ -67,22 +67,22 @@
       -ms-transform-origin: left;
           transform-origin: left;
 }
-.dialog .mask-enter.data-v-9553227a,
-.dialog .body-enter.data-v-9553227a {
+.dialog .mask-enter.data-v-ddf7a290,
+.dialog .body-enter.data-v-ddf7a290 {
   opacity: 0;
 }
-.dialog .body-enter.data-v-9553227a {
+.dialog .body-enter.data-v-ddf7a290 {
   -webkit-transform: scale(0.5) translate(-50%, -50%);
       -ms-transform: scale(0.5) translate(-50%, -50%);
           transform: scale(0.5) translate(-50%, -50%);
 }
-.dialog .body-enter-to.data-v-9553227a {
+.dialog .body-enter-to.data-v-ddf7a290 {
   -webkit-transform: scale(1) translate(-50%, -50%);
       -ms-transform: scale(1) translate(-50%, -50%);
           transform: scale(1) translate(-50%, -50%);
 }
-.dialog .mask-enter-to.data-v-9553227a,
-.dialog .body-enter-to.data-v-9553227a {
+.dialog .mask-enter-to.data-v-ddf7a290,
+.dialog .body-enter-to.data-v-ddf7a290 {
   opacity: 1;
 }
 

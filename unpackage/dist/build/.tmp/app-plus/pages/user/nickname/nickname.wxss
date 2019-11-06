@@ -1,8 +1,8 @@
-.nickname.data-v-17349950 {
+.nickname.data-v-10599cc5 {
   height: 100vh;
   background-color: #f0f0f0;
 }
-.nickname .sub-btn.data-v-17349950 {
+.nickname .sub-btn.data-v-10599cc5 {
     position: absolute;
     top: 20rpx;
     right: 0rpx;
@@ -11,18 +11,18 @@
     width: 120rpx;
     line-height: 100rpx;
 }
-.nickname .input.data-v-17349950 {
+.nickname .input.data-v-10599cc5 {
     margin-top: 20rpx;
     background-color: #fff;
     height: 100rpx;
     line-height: 100rpx;
     padding-left: 30rpx;
 }
-.nickname input.data-v-17349950 {
+.nickname input.data-v-10599cc5 {
     line-height: 100rpx;
     height: 100rpx;
     font-size: 30rpx;
-    width: 630rpx;
+    width: 600rpx;
     color: #000;
     border: none;
     outline: none;
