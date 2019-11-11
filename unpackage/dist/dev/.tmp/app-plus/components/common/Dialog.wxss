@@ -1,4 +1,4 @@
-.dialog .mask.data-v-39b96aa2 {
+.dialog .mask.data-v-3a8428e8 {
   position: fixed;
   top: 0;
   left: 0;
@@ -7,10 +7,10 @@
   width: 100%;
   z-index: 9999;
 }
-.dialog .mask-bg.data-v-39b96aa2 {
+.dialog .mask-bg.data-v-3a8428e8 {
   background-color: rgba(0, 0, 0, 0.3);
 }
-.dialog .body.data-v-39b96aa2 {
+.dialog .body.data-v-3a8428e8 {
   position: fixed;
   z-index: 99999;
   top: 50%;
@@ -24,12 +24,12 @@
   padding: 76rpx 30rpx 30rpx;
   text-align: center;
 }
-.dialog .body .title.data-v-39b96aa2 {
+.dialog .body .title.data-v-3a8428e8 {
     font-size: 32rpx;
     color: #000;
     margin-bottom: 96rpx;
 }
-.dialog .body .footer.data-v-39b96aa2 {
+.dialog .body .footer.data-v-3a8428e8 {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -43,23 +43,23 @@
         -ms-flex-pack: justify;
             justify-content: space-between;
 }
-.dialog .body .btn.data-v-39b96aa2 {
+.dialog .body .btn.data-v-3a8428e8 {
     width: 230rpx;
     line-height: 80rpx;
     border-radius: 40rpx;
     font-size: 32rpx;
 }
-.dialog .body .btn.cancel.data-v-39b96aa2 {
+.dialog .body .btn.cancel.data-v-3a8428e8 {
       color: #333;
       border: 1rpx solid #d9d9d9;
       color: #333;
 }
-.dialog .body .btn.confirm.data-v-39b96aa2 {
+.dialog .body .btn.confirm.data-v-3a8428e8 {
       background-color: #fc2d2d;
       color: #fff;
 }
-.dialog .mask-enter-active.data-v-39b96aa2,
-.dialog .body-enter-active.data-v-39b96aa2 {
+.dialog .mask-enter-active.data-v-3a8428e8,
+.dialog .body-enter-active.data-v-3a8428e8 {
   -webkit-transition: all 0.5s;
   -o-transition: all 0.5s;
   transition: all 0.5s;
@@ -67,22 +67,22 @@
       -ms-transform-origin: left;
           transform-origin: left;
 }
-.dialog .mask-enter.data-v-39b96aa2,
-.dialog .body-enter.data-v-39b96aa2 {
+.dialog .mask-enter.data-v-3a8428e8,
+.dialog .body-enter.data-v-3a8428e8 {
   opacity: 0;
 }
-.dialog .body-enter.data-v-39b96aa2 {
+.dialog .body-enter.data-v-3a8428e8 {
   -webkit-transform: scale(0.5) translate(-50%, -50%);
       -ms-transform: scale(0.5) translate(-50%, -50%);
           transform: scale(0.5) translate(-50%, -50%);
 }
-.dialog .body-enter-to.data-v-39b96aa2 {
+.dialog .body-enter-to.data-v-3a8428e8 {
   -webkit-transform: scale(1) translate(-50%, -50%);
       -ms-transform: scale(1) translate(-50%, -50%);
           transform: scale(1) translate(-50%, -50%);
 }
-.dialog .mask-enter-to.data-v-39b96aa2,
-.dialog .body-enter-to.data-v-39b96aa2 {
+.dialog .mask-enter-to.data-v-3a8428e8,
+.dialog .body-enter-to.data-v-3a8428e8 {
   opacity: 1;
 }
 

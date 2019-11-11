@@ -6,13 +6,13 @@ let isPhone = function (phone) {
   return !(/^1[2345789]\d{9}$/.test(phone))
 }
 /**
- * @param {string} str  判断用户昵称为英文字母或者汉字，限4-30个字符
+ * @param {string} str  判断用户昵称为英文字母或者汉字，限2-30个字符
  * @returns {Boolean}
  */
 let isNickName = function (nickName) {
   // 去掉前后空格
     let name = nickName.replace(/^\s+|\s+$/g,"")
-    return name.length>=2 && name.length<21
+    return name.length>1 && name.length<21
 }
 
 /**
@@ -22,7 +22,7 @@ let isNickName = function (nickName) {
 let isPassword = function (pass) {
   // 去掉前后空格
     let password = pass.replace(/^\s+|\s+$/g,"")
-    return password.length>=6 && password.length<51
+    return 5<password.length && password.length<51
 }
 
 /**

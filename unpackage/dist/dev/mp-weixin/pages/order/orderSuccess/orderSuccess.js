@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var StrictlyGoods = function StrictlyGoods() {return Promise.all(/*! import() | components/common/StrictlyGoods */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/StrictlyGoods")]).then(__webpack_require__.bind(null, /*! @/components/common/StrictlyGoods.vue */ 415));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var StrictlyGoods = function StrictlyGoods() {return Promise.all(/*! import() | components/common/StrictlyGoods */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/StrictlyGoods")]).then(__webpack_require__.bind(null, /*! @/components/common/StrictlyGoods.vue */ 493));};var _default =
 
 
 

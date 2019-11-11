@@ -1,18 +1,18 @@
-.freight-prompt.data-v-49b91777 {
+.freight-prompt.data-v-3d72923a {
   min-height: 100vh;
   background-color: #f5f5f5;
 }
-.freight-prompt .address.data-v-49b91777 {
+.freight-prompt .address.data-v-3d72923a {
     margin-top: 20rpx;
     background-color: #fff;
     line-height: 100rpx;
     font-size: 30rpx;
     padding-left: 30rpx;
 }
-.freight-prompt .address ._span.data-v-49b91777 {
+.freight-prompt .address ._span.data-v-3d72923a {
       width: 140rpx;
 }
-.freight-prompt input.data-v-49b91777 {
+.freight-prompt input.data-v-3d72923a {
     border: none;
     outline: none;
     padding-left: 20rpx;
@@ -20,7 +20,7 @@
     top: 26rpx;
     width: 200rpx;
 }
-.freight-prompt .prompt.data-v-49b91777 {
+.freight-prompt .prompt.data-v-3d72923a {
     color: #666;
     font-size: 24rpx;
     margin-top: 20rpx;

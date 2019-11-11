@@ -122,7 +122,36 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -146,7 +175,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 var _validator = _interopRequireDefault(__webpack_require__(/*! ../../utils/validator.js */ 35));
-var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));
+var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
 //
 //
@@ -168,7 +198,336 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
 //
 //
 //
-var _default = { data: function data() {return { phone: '', password: '' };}, components: {}, onLoad: function onLoad() {}, onShow: function onShow() {}, methods: {} };exports.default = _default;
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { phone: '', code: '', codeText: '获取验证码', codeNum: '', // 定时器时间
+      isRight: false, // 是否完成输入
+      setCodeInterval: '', // 定时器
+      deviceId: '', // 数据传值deviceId
+      appID: 'wxb8afa388fa540c2a', weixinCode: '', delta: 1, from: '' };}, components: {}, onBackPress: function onBackPress() {if (!uni.getStorageSync('access_token')) {if (uni.getStorageSync('pagePath') == 'main') {uni.switchTab({ url: '/pages/main/main' });} else {uni.switchTab({ url: '/pages/user/user' });}}console.log('onBackPress');}, onHide: function onHide() {console.log('onHide');if (this.setCodeInterval != '') {clearInterval(this.setCodeInterval);}}, onLoad: function onLoad(options) {if (options.delta) this.delta = options.delta;if (options.from) this.from = options.from;}, onShow: function onShow() {uni.setStorageSync('isLogin', 0);}, methods: { // 去用户协议
+    goProtocal: function goProtocal() {uni.navigateTo({ url: '/pages/user/protocal/protocal' });}, // 获取openid
+    getOpenIdByCode: function getOpenIdByCode() {uni.login({ provider: 'weixin',
+        success: function success(e) {
+          console.log('code', JSON.stringify(e.code));
+          var data = {
+            code: e.code,
+            providerId: 'miniProgram' };
+
+          console.log(data);
+          (0, _userApi.openIdByCode)(data).then(function (res) {
+            console.log(res);
+            if (res.code == '1000') {
+              uni.setStorageSync('openid', res.data);
+            }
+          });
+        } });
+
+
+    },
+    // APP微信登录
+    wxLogin: function wxLogin() {
+      var _this = this;
+      uni.getProvider({
+        service: 'oauth',
+        success: function success(res) {
+          console.log(res.provider);
+          //支持微信、qq和微博等
+          if (~res.provider.indexOf('weixin')) {
+            uni.login({
+              provider: 'weixin',
+              success: function success(res) {
+                console.log('-------获取openid(unionid)-----');
+                console.log(JSON.stringify(res));
+                var accessToken = res.authResult.access_token;
+                var openId = res.authResult.openid;
+                var data = {
+                  grant_type: 'wx_app',
+                  scope: 2,
+                  client_id: 'cwap',
+                  client_secret: 'xx',
+                  systemId: 2,
+                  deviceId: _this.getUUID(),
+                  accessToken: accessToken,
+                  openId: openId };
+
+                console.log('data->>', data);
+                (0, _userApi.postUserLogin)(data).then(function (res) {
+                  console.log(JSON.stringify(res));
+                  if (res.code == '9999') {
+                    uni.getUserInfo({
+                      provider: 'weixin',
+                      success: function success(infoRes) {
+                        console.log('-------获取微信用户所有-----');
+                        console.log(JSON.stringify(infoRes.userInfo));
+                        data.userInfo = infoRes.userInfo;
+                        uni.navigateTo({
+                          url: '/pages/login/binding/binding?data=' + JSON.stringify(data) });
+
+                      } });
+
+                  } else {
+                    uni.setStorageSync('access_token', res.access_token);
+                    uni.setStorageSync('refresh_token', res.refresh_token);
+                    uni.setStorageSync('uid', res.id);
+                    // 获取用户信息
+                    _this.getUserInfoDates();
+                  }
+                });
+
+              } });
+
+          }
+        } });
+
+    },
+    // 小程序微信登录
+    getuserinfox: function getuserinfox(e) {
+      var _this = this;
+      console.log(e);
+      uni.login({
+        provider: 'weixin',
+        success: function success(loginRes) {
+          console.log(loginRes);
+          var data = {
+            grant_type: 'mini_program',
+            scope: 2,
+            client_id: 'cwap',
+            client_secret: 'xx',
+            systemId: 2,
+            deviceId: _this.getUUID(),
+            miniCode: loginRes.code };
+
+          console.log('data->', data);
+          (0, _userApi.postUserLogin)(data).then(function (res) {
+            if (res.code == '9999') {
+              uni.getUserInfo({
+                provider: 'weixin',
+                success: function success(infoRes) {
+                  console.log('-------获取微信用户所有-----');
+                  console.log(JSON.stringify(infoRes.userInfo));
+                  data.userInfo = infoRes.userInfo;
+                  uni.navigateTo({
+                    url: '/pages/login/binding/binding?data=' + JSON.stringify(data) });
+
+                } });
+
+            } else {
+              uni.setStorageSync('access_token', res.access_token);
+              uni.setStorageSync('access_token', res.refresh_token);
+              uni.setStorageSync('uid', res.id);
+
+              // 获取用户信息
+              _this.getUserInfoDates();
+            }
+          });
+        } });
+
+
+    },
+    doIsLogin: function doIsLogin() {
+      this.isRight = this.phone != '' && this.code !== '';
+    },
+    // 获取验证码
+    getCode: function getCode() {var _this2 = this;
+      console.log(_validator.default.isPhone(this.phone));
+      // 已发送未超过60秒直接返回
+      if (this.codeNum !== '') {
+        return false;
+      }
+      // 手机验证
+      if (_validator.default.isPhone(this.phone)) {
+        if (this.phone === '') {
+          _tips.default.tips('手机号不能为空');
+          return false;
+        }
+        _tips.default.tips('手机号码不正确');
+        return false;
+      }
+
+      // 获取uuid
+      this.deviceId = this.getUUID();
+      // 获取手机验证码
+      var data = {
+        mobile: this.phone,
+        deviceId: this.deviceId };
+
+      (0, _userApi.postUserSms)(data).then(function (res) {
+        _tips.default.tips(res.message);
+        if (res.code === '1000') {
+          _this2.codeText = '重新发送';
+          _this2.codeNum = 59;
+          _this2.setCodeInterval = setInterval(function () {
+            if (_this2.codeNum === 0) {
+              _this2.codeNum = '';
+              clearInterval(_this2.setCodeInterval);
+            } else {
+              _this2.codeNum--;
+            }
+          }, 1000);
+        }
+      }).catch(function (err) {
+        _tips.default.tips(err.message || '错误');
+      });
+    },
+    // 登录
+    dologin: function dologin() {var _this3 = this;
+      if (this.isRight) {
+
+
+
+
+        this.deviceId = this.getUUID();
+
+        var data = {
+          grant_type: 'sms_code',
+          scope: '2',
+          client_id: 'cwap',
+          client_secret: 'xx',
+          systemId: '2',
+          deviceId: this.deviceId,
+          mobile: this.phone,
+          smsCode: this.code
+
+          // let dates = this.$qs.stringify(data)
+        };(0, _userApi.postUserLogin)(data).then(function (res) {
+          uni.setStorageSync('access_token', res.access_token);
+          uni.setStorageSync('refresh_token', res.refresh_token);
+          uni.setStorageSync('uid', res.id);
+
+          uni.setStorageSync('phone', _this3.phone);
+          if (_this3.setCodeInterval != '') {
+            clearInterval(_this3.setCodeInterval);
+          }
+          // 获取用户信息
+          _this3.getUserInfoDates();
+        }).catch(function (err) {
+          _tips.default.tips(err.message || '登录错误');
+        });
+      }
+    },
+    getUserInfoDates: function getUserInfoDates() {
+
+      this.getOpenIdByCode();
+
+
+
+      (0, _userApi.getUserInfoData)().then(function (res) {
+        if (res.code === '1000') {
+          if (res.data.phone) {
+            uni.setStorageSync('phone', res.data.phone);
+          }
+          uni.setStorageSync('nickName', res.data.nickName);
+          uni.setStorageSync('headImgUrl', res.data.headImgUrl);
+
+          uni.setStorageSync('userStatus', 0);
+          // uni.redirectTo({
+          // 	url:'/pages/middle/identity/identity'
+          // })
+          // 获取登录用户状态信息
+          var realData = {
+            userId: uni.getStorageSync('uid') };
+
+          (0, _userApi.getUserRealInfo)(realData).then(function (res) {
+            if (res.code == '1000') {
+              // 角色：20001-货主 20002-代办 20003-买家
+              var roleId = res.data.userRoleList[0].roleId;
+              uni.setStorageSync('roleId', roleId);
+
+              switch (roleId) {
+                case '1000':
+                  uni.redirectTo({
+                    url: '/pages/middle/identity/identity' });
+
+                  break;
+                case '2001':
+                  uni.switchTab({
+                    url: '/pages/middle/middle' });
+
+                  break;
+                case '2002':
+                  uni.switchTab({
+                    url: '/pages/middle/middle' });
+
+                  break;
+                case '2003':
+                  uni.switchTab({
+                    url: '/pages/middle/middle' });
+
+                  break;
+                default:
+                  break;}
+
+
+
+            }
+          });
+
+
+
+          // 返回上一页
+          // if(this.from == 'order'){
+          //  if(uni.getStorageSync('pagePath') == 'main'){
+          //   uni.switchTab({
+          //   	url:'/pages/main/main'
+          //   })
+          //  }else{
+          //   uni.switchTab({
+          //   	url:'/pages/user/user'
+          //   }) 
+          //  }
+
+          // } else {
+          //  uni.navigateBack({
+          //  	 delta: parseInt(this.delta)
+          //  })
+          // }
+
+        }
+      }).catch(function (err) {
+        _tips.default.tips(err.message || '获取用户信息错误');
+      });
+    },
+    getUUID: function getUUID() {
+      var s = [];
+      var hexDigits = "0123456789abcdef";
+      for (var i = 0; i < 36; i++) {
+        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+      }
+      s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+      s[19] = hexDigits.substr(s[19] & 0x3 | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+      s[8] = s[13] = s[18] = s[23] = "-";
+
+      var uuid = s.join("");
+      return uuid;
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

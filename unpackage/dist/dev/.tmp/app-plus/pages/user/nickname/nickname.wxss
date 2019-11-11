@@ -1,8 +1,8 @@
-.nickname.data-v-9cbcca9c {
+.nickname.data-v-2f16850f {
   height: 100vh;
   background-color: #f0f0f0;
 }
-.nickname .sub-btn.data-v-9cbcca9c {
+.nickname .sub-btn.data-v-2f16850f {
     position: absolute;
     top: 20rpx;
     right: 0rpx;
@@ -11,14 +11,14 @@
     width: 120rpx;
     line-height: 100rpx;
 }
-.nickname .input.data-v-9cbcca9c {
+.nickname .input.data-v-2f16850f {
     margin-top: 20rpx;
     background-color: #fff;
     height: 100rpx;
     line-height: 100rpx;
     padding-left: 30rpx;
 }
-.nickname input.data-v-9cbcca9c {
+.nickname input.data-v-2f16850f {
     line-height: 100rpx;
     height: 100rpx;
     font-size: 30rpx;

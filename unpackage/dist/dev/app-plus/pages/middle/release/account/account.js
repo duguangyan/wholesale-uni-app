@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"account .",[1],"btn.",[1],"data-v-bbf08ba6 { margin: 0 ",[0,30],"; margin-top: ",[0,500],"; }\n.",[1],"account .",[1],"top.",[1],"data-v-bbf08ba6 { height: ",[0,300],"; line-height: ",[0,300],"; background: #007AFF; color: #fff; text-align: center; }\n",],undefined,{path:"./pages/middle/release/account/account.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/middle/release/account/account.wxml') } }));

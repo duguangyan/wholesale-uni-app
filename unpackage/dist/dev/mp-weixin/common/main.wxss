@@ -869,6 +869,17 @@ word-spacing-30{
 	color: #fff;
 	font-size: 32rpx;
 }
+.big-btn-active{
+	width:640rpx;
+	height:80rpx;
+	line-height: 80rpx;
+	text-align: center;
+	margin: 0 auto;
+	background:#FE3B0B;
+	border-radius:40rpx;
+	color: #fff;
+	font-size: 32rpx;
+}
 .small-btn{
 }
 

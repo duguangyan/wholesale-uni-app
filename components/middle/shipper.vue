@@ -2,7 +2,6 @@
 	<view class="shipper">
 		代办
 	</view>
-  
 </template>
 
 <script>
@@ -19,12 +18,6 @@ export default {
   	return {
   		
   	};
-  },
-  components:{
-	 
-  },
-  mounted() {
-
   }
 }
 </script>

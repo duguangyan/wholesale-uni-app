@@ -4,187 +4,266 @@
 			<view class="time">2019年9月</view>
 			<view class="flex fs32">
 				<view class="flex-1">
-					<view>1单</view>
-					<view>订单量</view>
+					<view><text class="fs32">1</text><text class="fs24">单</text></view>
+					<view class="fs24">订单量</view>
 				</view>
 				<view class="flex-1">
-					<view>5050.05元</view>
-					<view>交易额</view>
+					<view><text class="fs32">5050.05</text><text class="fs24">元</text></view>
+					<view class="fs24">交易额</view>
 				</view>
 				<view class="flex-1">
-					<view>5000斤</view>
-					<view>交易量</view>
+					<view><text class="fs32">5000 </text><text class="">斤</text></view>
+					<view class="fs24">交易量</view>
 				</view>
 			</view>
 		</view>
-		
-		<view>
-			<uni-list>
-			    <uni-list-item @click="goAccount" title="账户" note="达成交易越多,收益越多" :show-badge="true" :badge-text="spListValue+'元'"></uni-list-item>
-			</uni-list>
+		<view class="account">
+			<view class="cf" v-if="false">
+				<view class="fll image"><image src="../../static/imgs/icon-1001.png" mode=""></image></view>
+				<view class="fll">你的资料正在审核中，审核通过后可用</view>
+				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
+			</view>
+			<view class="cf" v-if="true" @click="goAccount">
+				<view class="fll image img44"><image src="../../static/imgs/icon-1010.png" mode=""></image></view>
+				<view class="fll text-333">我的账户</view>
+				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
+				<view class="flr mgr-20">886.00元</view>
+			</view>
 		</view>
 		<view class="goods">
-			<uni-list>
-			    <uni-list-item title="我的商品" :show-arrow="false"></uni-list-item>
-			</uni-list>
-			<view class="flex fs28">
-				<view class="flex-1" v-for="(item,index) in spGoods" :key="index">
-					<view class="img"></view>
+			<view class="title">
+				我的商品
+			</view>
+			<view class="list cf fs28">
+				<view class="fll" v-for="(item,index) in spGoods" :key="index">
+					<view class="img"><image :src="item.img" mode=""></image></view>
 					<view class="text">{{item.text}}</view>
 				</view>
 			</view>
 		</view>
 		<view class="goods orders">
-			<uni-list>
-			    <uni-list-item title="销售订单"></uni-list-item>
-			</uni-list>
+			<view class="title" @click="goOrder">
+				销售订单
+			</view>
 			<view class="flex fs28">
 				<view class="flex-1" v-for="(item,index) in spOrders" :key="index">
-					<view class="img"></view>
-					<view class="text">{{item.text}}</view>
+					<view class="img"><image :src="item.img" mode=""></image></view>
+					<view class="text fs24">{{item.text}}</view>
 				</view>
 			</view>
 		</view>
-		
-		<view class="bar" @click="goRelease">+</view>
+
+		<view class="bar" @click="goRelease">
+			<image src="../../static/imgs/icon-1009.png" mode=""></image>
+		</view>
 	</view>
-  
+
 </template>
 
 <script>
-import uniList from "@/components/uni-list/uni-list.vue"
-import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
-export default {
-  name: 'agency',
-  props: {
-    item: {
-      type: String,
-      default: null
-    }
-  },
-  data() {
-  	return {
-  		shippers:['我是代办','我要卖货'],
-  		spListValue: '158.55',
-  		spGoods:[{
-  			img:'',
-  			text:'我的货品'
-  		},
-  		{
-  			img:'',
-  			text:'本地代办'
-  		}],
-  		spOrders:[
-  			{
-  				img:'',
-  				text:'待确认'
-  			},{
-  				img:'',
-  				text:'待买家支付'
-  			},{
-  				img:'',
-  				text:'代办发货'
-  			},{
-  				img:'',
-  				text:'待买家收货'
-  			},{
-  				img:'',
-  				text:'已完成'
-  			}
-  		]  
-  	};
-  },
-  components:{
-	  uniList,uniListItem
-  },
-  mounted() {
-
-  },
-  methods:{
-	  // 去我的账户
-	  goAccount(){
-	  	uni.navigateTo({
-	  		url:'/pages/middle/release/account/account'
-	  	})
-	  },
-	  // 去发布商品
-	  goRelease(){
-	  	uni.navigateTo({
-	  		url:'/pages/middle/release/release'
-	  	})
-	  }
-  }
-}
+	import uniList from "@/components/uni-list/uni-list.vue"
+	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
+	export default {
+		name: 'agency',
+		props: {
+			item: {
+				type: String,
+				default: null
+			}
+		},
+		data() {
+			return {
+				shippers: ['我是代办', '我要卖货'],
+				spListValue: '158.55',
+				spGoods: [{
+						img: '../../static/imgs/icon-1003.png',
+						text: '我的货品'
+					},
+					{
+						img: '../../static/imgs/icon-1002.png',
+						text: '本地代办'
+					}
+				],
+				spOrders: [{
+					img: '../../static/imgs/icon-1004.png',
+					text: '待确认'
+				}, {
+					img: '../../static/imgs/icon-1005.png',
+					text: '待买家支付'
+				}, {
+					img: '../../static/imgs/icon-1006.png',
+					text: '代办发货'
+				}, {
+					img: '../../static/imgs/icon-1007.png',
+					text: '待买家收货'
+				}, {
+					img: '../../static/imgs/icon-1008.png',
+					text: '已完成'
+				}]
+			};
+		},
+		components: {
+			uniList,
+			uniListItem
+		},
+		methods: {
+			//  去订单页面
+			goOrder(){
+				uni.navigateTo({
+					url: '/pages/order/goodsList/goodsList'
+				})
+			},
+			// 去我的账户
+			goAccount() {
+				uni.navigateTo({
+					url: '/pages/middle/release/account/account'
+				})
+			},
+			// 去发布商品
+			goRelease() {
+				uni.navigateTo({
+					url: '/pages/middle/release/release'
+				})
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
-// 货主
-		.agency{
+	// 货主
+	.agency {
+		background: #fff;
+		min-height: 100vh;
+		.account{
+			height: 100upx;
+			line-height: 100upx;
+			font-size: 28upx;
+			color: #999;
+			padding: 0 30upx;
+			background: #F5F5F5;
 			
-			.bar{
-				width: 100upx;
-				height: 100upx;
+			.cf{
+				.image{
+					width: 24upx;
+					height: 24upx;
+					margin-right: 20upx;
+					>image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+				.img44{
+					width: 44upx;
+					height: 44upx;
+					margin-right: 20upx;
+					position: relative;
+					top: 10upx;
+					>image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+				.right{
+					width: 24upx;
+					height: 24upx;
+					>image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+			}
+			
+		}
+		.bar {
+			position: fixed;
+			right: 40upx;
+			bottom: 180upx;
+			z-index: 9999;
+			width: 120upx;
+			height: 120upx;
+			>image{
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.orders {
+			margin-top: 20upx;
+			.img{
+				width: 48upx;
+				height: 48upx;
+				margin: 10upx auto;
+				>image{
+					width: 100%;
+					height: 100%;
+				}
+			}
+			.flex{
+				margin-top: 30upx !important;
+			}
+		}
+
+		.goods {
+			.list{
+				margin: 0 30upx;
+			}
+			.title {
 				line-height: 100upx;
-				background: #007AFF;
-				font-size: 80upx;
-				color: #fff;
-				border-radius: 50%;
-				position: fixed;
-				right: 60upx;
-				bottom: 100upx;
-				text-align: center;
-				z-index: 9999;
-				box-shadow: 1upx 1upx 1upx #999;
+				height: 100upx;
+				font-size: 34upx;
+				color: #333;
+				margin: 0 0 0 30upx;
+				border-bottom: 1upx solid #F5F5F5;
+				font-weight: 600;
 			}
-			.orders{
-				margin-top: 40upx;
-			}
-			.goods{
-				uni-list-item{
-					background: #E5E5E5;
-				}
-				.title{
-					line-height: 100upx;
-					background: #666;
-					color: #fff;
-					padding: 0 30upx;
-				}
-				.flex{
+			.cf{
+				.fll{
+					width: 20%;
 					text-align: center;
-					margin:  0 auto;
+					margin-top: 20upx;
 					.img{
-						margin:  40upx auto;
-						margin-bottom: 20upx;
-						width: 60upx;
-						height: 60upx;
-						border-radius: 50%;
-						background: #888888;
-						>img{
+						width: 50upx;
+						height: 50upx;
+						margin: 10upx auto;
+						>image{
 							width: 100%;
 							height: 100%;
 						}
 					}
-					
 				}
+				.text{
+					color: #333;
+					font-size: 24upx;
+				}
+				
 			}
-			.top{
-				padding-top: 100upx;
-				background: #FE9A2E;
-				height: 200upx;
+			.flex {
 				text-align: center;
-				.time{
-					height: 100upx;
-					line-height: 100upx;
-				}
-				.flex-1{
-					border-right: 1upx solid #fff;
-					
-				}
-				.flex-1:last-child{
-					border-right: none;
-				}
+				margin: 0 auto;
 			}
-			
-			
 		}
+
+		.top {
+			padding-top: 20upx;
+			background: #FE3B0B;
+			height: 200upx;
+			text-align: center;
+
+			.time {
+				height: 100upx;
+				line-height: 100upx;
+			}
+
+			.flex-1 {
+				border-right: 1upx solid #fff;
+
+			}
+
+			.flex-1:last-child {
+				border-right: none;
+			}
+		}
+
+
+	}
 </style>

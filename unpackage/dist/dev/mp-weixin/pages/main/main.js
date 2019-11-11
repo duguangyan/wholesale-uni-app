@@ -217,6 +217,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
@@ -310,7 +322,19 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
 //
 //
 //
-var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 360));};var _default = { data: function data() {return { checkIndex: 0, homeList: {}, banner: [], // 轮播图
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 438));};var _default = { data: function data() {return { checkIndex: 0, homeList: {}, banner: [], // 轮播图
       navs: [], // 导航nav
       advs: [], // 广告
       seles: [], // 精选
@@ -320,11 +344,10 @@ var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | comp
     this.getHomeList();}, onPullDownRefresh: function onPullDownRefresh() {//监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
     console.log('refresh'); // 获取首页banner
     this.getHomeList();setTimeout(function () {uni.stopPullDownRefresh(); //停止下拉刷新动画
-    }, 1000);}, methods: { // 更新版本
+    }, 1000);}, methods: { // 显示分类
+    goClassify: function goClassify() {uni.navigateTo({ url: '/pages/main/classify/classify' });}, //去进货单
+    goOrder: function goOrder() {uni.navigateTo({ url: '/pages/order/order' });}, // 更新版本
     updataApp: function updataApp() {
-
-
-
 
 
 

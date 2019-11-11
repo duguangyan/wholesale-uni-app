@@ -37,7 +37,17 @@
     "pages/middle/release/account/account",
     "pages/middle/release/account/record/record",
     "pages/middle/release/account/bankcard/bankcard",
-    "pages/middle/release/account/payps/payps"
+    "pages/middle/release/account/payps/payps",
+    "pages/middle/identity/identity",
+    "pages/middle/identity/realname/agency",
+    "pages/middle/identity/realname/buyer",
+    "pages/middle/identity/realname/shipper",
+    "pages/middle/identity/submitSuccess/submitSuccess",
+    "pages/common/picture/picture",
+    "pages/common/showImage/showImage",
+    "pages/middle/identity/submit/submit",
+    "pages/middle/identity/submitFail/submitFail",
+    "pages/main/classify/classify"
   ],
   "subPackages": [],
   "window": {

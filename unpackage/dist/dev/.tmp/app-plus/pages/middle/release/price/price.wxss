@@ -1,0 +1,56 @@
+.price .footer.data-v-29ae0be5 {
+  position: fixed;
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: right;
+  bottom: 0;
+  padding-right: 60rpx;
+  z-index: 999999;
+  background: #eee;
+}
+.price .footer button.data-v-29ae0be5 {
+    background: #007AFF !important;
+    color: #fff;
+    position: relative;
+    right: 30rpx;
+    top: 20rpx;
+}
+.price .ul.data-v-29ae0be5 {
+  margin: 30rpx;
+}
+.price .ul .li.data-v-29ae0be5 {
+    text-align: center;
+    height: 60rpx;
+    line-height: 60rpx;
+    margin: 0 auto;
+}
+.price .ul .li .fll.data-v-29ae0be5 {
+      width: 33%;
+}
+.price .ul .li input.data-v-29ae0be5 {
+      width: 100rpx;
+      border-bottom: 1rpx solid #eee;
+      margin: 0 auto;
+}
+.price .title.data-v-29ae0be5 {
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  background: #eee;
+}
+.price .item.data-v-29ae0be5 {
+  padding: 0 30rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+}
+.price .item .icon.data-v-29ae0be5 {
+    margin-right: 20rpx;
+}
+.price .item .input.data-v-29ae0be5 {
+    border-bottom: 1rpx solid #eee;
+    position: relative;
+    top: 20rpx;
+    width: 100rpx;
+}
+

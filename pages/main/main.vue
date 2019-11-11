@@ -1,17 +1,29 @@
 <template>
 
 	<view class="main">
-		<view class="seach" @click="goSearch">
+		 <view class="titleNview-placing"></view>
+		<view class="seach">
 			<!-- <view class="bg"></view> -->
-			<!--  #ifdef  APP-PLUS || H5 -->
-			<view class="img">
-				<image src="../../static/img/icon-search-1.png"></image>
+			<!--  #ifdef  MP-WEIXIN ||APP-PLUS || H5 -->
+			<view class="content">
+				<view class="fll img-1" @click="goClassify">
+					<image src="../../static/imgs/search-left-1.png" mode=""></image>
+					<view>分类</view>
+				</view>
+				<view class="img fll">
+					<image src="../../static/imgs/icon-search-1.png"  @click="goSearch"></image>
+				</view>
+				<view class="flr img-2" @click="goOrder">
+					<image src="../../static/imgs/search-order-1.png" mode=""></image>
+					<view>进货单</view>
+				</view>
 			</view>
+			
 			<!--  #endif -->
 			<!--  #ifdef  MP-WEIXIN -->
-			<view class="img">
+			<!-- <view class="img">
 				<image src="../../static/img/icon-search-2.png"></image>
-			</view>
+			</view> -->
 			<!--  #endif -->
 		</view>
 		<!-- 轮播图 -->
@@ -58,18 +70,29 @@
 			<view class="title">
 				<image :src="homeList.list[3].list[0].list[0].imgPath"></image>
 			</view>
-			<view class="content cf">
-				<view class="item fll" v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
-					<view class="img">
+			<view class="content">
+				<view class="item cf" v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
+					<view class="img fll">
 						<image :src="item.imgUri" mode=""></image>
 					</view>
-					<view class="warp" :class="{'Android': platform == 1}">
+					<view class="warp fll" :class="{'Android': platform == 1}">
 						<view class="fs28 ellipsis-line2">
 							{{item.name}}
 						</view>
-						<view class="cf mgt-20">
-							<view class="fll fs36 text-red"><text class="fs24">￥</text>{{item.minPrice}}</view>
-							<view class="add flr fs20 text-999">{{item.valueAddr}}</view>
+						<view class="deliver">
+							<text class="fs20 text-999">河北廊坊固安县</text>
+							<text class="tip fs20 text-999">红心</text>
+							<text class="tip fs20 text-999">紫皮</text>
+						</view>
+						<view class="price">
+							<view class="fs34 text-red"><text class="fs24">￥</text>{{item.minPrice}}<text class="fs24">元/斤起</text></view>
+						</view>
+						<view class="address cf">
+							<view class="fll img">
+								<image src="../../static/imgs/main-icon-1.png" mode=""></image>
+							</view>
+							<view class="fll fs20 text-999">河北省廊坊市固安县 <text class="mgl-20">舒尚飞</text></view>
+							<!-- <view class="flr fs20 text-999">{{item.valueAddr}}</view> -->
 						</view>
 					</view>
 				</view>
@@ -142,7 +165,18 @@
 			}, 1000);
 		},
 		methods: {
-
+			// 显示分类
+			goClassify(){
+				uni.navigateTo({
+					url:'/pages/main/classify/classify'
+				})
+			},
+			//去进货单
+			goOrder(){
+				uni.navigateTo({
+					url:'/pages/order/order'
+				})
+			},
 			// 更新版本
 			updataApp() {
 				// #ifdef APP-PLUS
@@ -335,35 +369,58 @@
 				uni.navigateTo({
 					url: '/pages/order/goodsDetail/goodsDetail?shopId=' + shopId + '&goodsId=' + goodsId
 				})
+			},
+			chooseColorValue(v){
+				let obg = {}
+				if(v.indexOf('黄') != '-1'){
+					obg = {
+						bgColor:'#FF5500',
+						fontColor:'#FFF6F0'
+					}
+				}else if(v.indexOf('红') != '-1'){
+					obg = {
+						bgColor:'#FFF0F0',
+						fontColor:'#FF0000'
+					}
+				}else if(v.indexOf('紫') != '-1'){
+					obg = {
+						bgColor:'#FBF0FF',
+						fontColor:'#C42AFD'
+					}
+				}
+				return obj;
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.titleNview-placing {
+		height: var(--status-bar-height);
+		// padding-top: 44px;
+		box-sizing: content-box;
+	}
 	.main {
-
+		
+		background: #fff;
 		// padding-bottom: 100upx;
 		.bb1 {
 			position: fixed;
 			height: 0;
 			bottom: 0upx;
-			border: 0.5upx solid #f5f5f5;
+			border: 1upx solid #f5f5f5;
 			background: #f0f0f0;
 			width: 100%;
 		}
 
 		width: 100%;
 		height: 100%;
-		background: #f5f5f5;
 
 		.seach {
-			width: 670upx;
+			width: 100%;
 			height: 60upx;
-			margin: 0 auto;
 			position: relative;
-			top: 80upx;
-
+			top: 20upx;
 			z-index: 99999;
 
 			.bg {
@@ -381,17 +438,40 @@
 				left: 300upx;
 			}
 
+			.content{
+				.img-1{
+					text-align: center;
+					>image{
+						width: 36upx;
+						height: 36upx;
+						margin: 0 auto;
+					}
+					margin-left: 30upx;
+					font-size: 20upx;
+					color: #48484C;
+				}
+				.img-2{
+					text-align: center;
+					>image{
+						width: 36upx;
+						height: 36upx;
+						margin: 0 auto;
+					}
+					font-size: 20upx;
+					color: #48484C;
+					margin-right: 30upx;
+				}
+			}
 
-
-			/*  #ifdef APP-PLUS || H5  */
+			/*  #ifdef MP-WEIXIN || APP-PLUS || H5  */
 			.img {
 				// width: 24upx;
 				height: 60upx;
-				width: 670upx;
+				width: 540upx;
 				z-index: 99999;
 				position: absolute;
 				left: 50%;
-				margin-left: -335upx;
+				margin-left: -280upx;
 
 				>image {
 					width: 100%;
@@ -402,20 +482,20 @@
 			/*  #endif  */
 
 			/*  #ifdef MP-WEIXIN  */
-			.img {
-				// width: 24upx;
-				height: 60upx;
-				width: 450upx;
-				z-index: 99999;
-				position: absolute;
-				left: 30upx;
-				top: -30upx;
+			// .img {
+			// 	// width: 24upx;
+			// 	height: 60upx;
+			// 	width: 450upx;
+			// 	z-index: 99999;
+			// 	position: absolute;
+			// 	left: 30upx;
+			// 	top: -30upx;
 
-				>image {
-					width: 100%;
-					height: 100%;
-				}
-			}
+			// 	>image {
+			// 		width: 100%;
+			// 		height: 100%;
+			// 	}
+			// }
 
 			/*  #endif  */
 
@@ -424,25 +504,50 @@
 
 		.seles {
 			.content {
-				margin: 0 30upx;
+				
 
 				.item {
-					width: 340upx;
-					height: 520upx;
+					padding: 0 30upx;
+					width: 100%;
+					height: 250upx;
 					border-radius: 10upx;
 					overflow: hidden;
 					background: #fff;
 					margin-bottom: 20upx;
-					padding-bottom: 20upx;
-
+					border-bottom: 1upx solid #f5f5f5;
 					.warp {
 						margin-top: 18upx;
 						padding: 4upx 20upx;
 						position: relative;
-
+						.deliver{
+							.tip{
+								background: #999;
+								color: #fff;
+								display: inline-block;
+								border-radius: 20upx;
+								margin-left: 10upx;
+								padding: 2upx 4upx;
+							}
+						}
+						.address{
+							.img{
+								width: 28upx;
+								height: 22upx;
+								margin-right: 6upx;
+								>image{
+									width: 100%;
+									height: 100%;
+									position: relative;
+									top: -12upx;
+									
+								}
+							}
+						}
 						.ellipsis-line2 {
 							height: 78upx;
 							line-height: 39upx;
+							font-size: 30upx;
+							color: #48484C;
 						}
 
 						.add {
@@ -453,6 +558,7 @@
 
 						.mgt-20 {
 							margin-top: 26upx !important;
+							width: 100%;
 						}
 					}
 
@@ -460,25 +566,21 @@
 						.add {}
 					}
 
-					.img {
+					>.img {
 
 						background-image: url('~@/static/img/default-shouye.png');
 						background-repeat: no-repeat;
 						background-size: 100% 100%;
 						-moz-background-size: 100% 100%;
-						width: 340upx;
-						height: 355upx;
-
+						width: 220upx;
+						height: 220upx;
+						border-radius: 20upx;
+						overflow: hidden;
 						>image {
 							width: 100%;
 							height: 100%;
 						}
 					}
-				}
-
-				.item:nth-child(even) {
-					position: relative;
-					left: 20upx;
 				}
 			}
 		}
@@ -516,7 +618,6 @@
 
 		.nav {
 			margin: 20upx 0;
-			padding-top: 300upx;
 
 			.li {
 				width: 20%;
@@ -544,18 +645,24 @@
 		}
 
 		.index-top-warp {
-			position: absolute;
-			top: 0;
 			width: 100%;
 			overflow: hidden;
-
+			margin-top: 40upx;
+			border-radius: 20upx;
+			overflow: hidden;
 			// background: #fff;
 			swiper {
-				height: 360upx
+				height: 250upx;
+				width: 690upx;
+				margin: 0 auto;
+				border-radius: 20upx;
 			}
 
 			swiper-item {
-				height: 360upx //这里可以设置比上面高度小（留出大标语位置）或者设置一样大
+				height: 250upx; //这里可以设置比上面高度小（留出大标语位置）或者设置一样大
+				width: 690upx;
+				margin: 0 auto;
+				border-radius: 20upx;
 			}
 
 			.swiper-item {
@@ -566,7 +673,8 @@
 
 				image {
 					width: 100%;
-					height: 360upx;
+					height: 250upx;
+					border-radius: 20upx;
 				}
 			}
 

@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "进货单",
-  "navigationStyle": "custom",
   "usingComponents": {
     "dialog": "/components/common/Dialog",
     "tab-bar": "/components/common/TabBar"

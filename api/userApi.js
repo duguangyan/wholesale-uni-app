@@ -239,8 +239,19 @@ const appUpdate = data => {
 }
 
 
+// 根据用户ID获取用户状态信息
+const getUserRealInfo = data => {
+  return request({
+    url: '/api/shop/userRealInfo/getUserRoleAndUserRealInfo',
+    data,
+    type: 'form',
+  })
+}
+
+
 
 export {
+	getUserRealInfo,
   appUpdate,
   openIdByCode,
   weixinLogin,

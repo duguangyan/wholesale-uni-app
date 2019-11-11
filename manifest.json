@@ -173,13 +173,13 @@
     },
     "h5" : {
         "devServer" : {
-            "port" : 8000,
+            "port" : 7000,
             "disableHostCheck" : true,
             "proxy" : {
                 "/api" : {
                     "target" : "http://192.168.0.202", // 需要跨域的域名
                     "changeOrigin" : true,
-                    "secure" : false,
+                    "secure" : true,
                     "pathRewrite" : {
                         "^/api" : "" //匹配请求路径里面有 /api 替换成 https://testapi.kemiandan.com
                     }

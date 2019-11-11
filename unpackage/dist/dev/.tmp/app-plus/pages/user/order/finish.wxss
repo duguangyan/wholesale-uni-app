@@ -1,24 +1,24 @@
-.finish.data-v-e4be5cfe {
+.finish.data-v-501fbdf8 {
   text-align: center;
 }
-.finish .icon-40.data-v-e4be5cfe {
+.finish .icon-40.data-v-501fbdf8 {
     width: 40rpx;
     height: 40rpx;
 }
-.finish .icon-40 > ._img.data-v-e4be5cfe {
+.finish .icon-40 > ._img.data-v-501fbdf8 {
       width: 100%;
       height: 100%;
 }
-.finish .body.data-v-e4be5cfe {
+.finish .body.data-v-501fbdf8 {
     background-color: #fff;
 }
-.finish ._img.data-v-e4be5cfe {
+.finish ._img.data-v-501fbdf8 {
     margin-top: 100rpx;
 }
-.finish .title.data-v-e4be5cfe {
+.finish .title.data-v-501fbdf8 {
     margin-top: 20rpx;
 }
-.finish .operator.data-v-e4be5cfe {
+.finish .operator.data-v-501fbdf8 {
     margin-top: 20rpx;
     display: -webkit-box;
     display: -webkit-flex;
@@ -27,7 +27,7 @@
     margin-left: auto;
     right: auto;
 }
-.finish .operator .btn.data-v-e4be5cfe {
+.finish .operator .btn.data-v-501fbdf8 {
       width: 160rpx;
       line-height: 60rpx;
       border: 1rpx solid #f0f0f0;
@@ -35,7 +35,7 @@
       color: #333;
       font-size: 24rpx;
 }
-.finish .operator .btn.data-v-e4be5cfe:first-child {
+.finish .operator .btn.data-v-501fbdf8:first-child {
         margin-right: 20rpx;
 }
 

@@ -1,0 +1,1 @@
+<view class="picture data-v-359c5f2d"><view class="img data-v-359c5f2d"><image src="{{url}}" mode="aspectFit" class="data-v-359c5f2d"></image></view><view data-event-opts="{{[['tap',[['del',['$event']]]]]}}" class="big-btn-active data-v-359c5f2d" bindtap="__e">删除图片</view></view>

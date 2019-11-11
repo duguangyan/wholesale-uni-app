@@ -28,18 +28,36 @@
     "pages/common/err/err",
     "pages/common/webview/webview",
     "pages/login/binding/binding",
-    "pages/order/goodsDetail/video/video"
+    "pages/middle/middle",
+    "pages/middle/release/release",
+    "pages/middle/release/varieties/varieties",
+    "pages/middle/release/attribute/attribute",
+    "pages/middle/release/price/price",
+    "pages/middle/release/attribute/add/add",
+    "pages/middle/release/account/account",
+    "pages/middle/release/account/record/record",
+    "pages/middle/release/account/bankcard/bankcard",
+    "pages/middle/release/account/payps/payps",
+    "pages/middle/identity/identity",
+    "pages/middle/identity/realname/agency",
+    "pages/middle/identity/realname/buyer",
+    "pages/middle/identity/realname/shipper",
+    "pages/middle/identity/submitSuccess/submitSuccess",
+    "pages/common/picture/picture",
+    "pages/common/showImage/showImage",
+    "pages/middle/identity/submit/submit",
+    "pages/middle/identity/submitFail/submitFail",
+    "pages/main/classify/classify"
   ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "沁绿农业APP",
+    "navigationBarTitleText": "农百集APP",
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#FFFFFF",
     "onReachBottomDistance": 151
   },
   "tabBar": {
     "color": "#D9D9D9",
-    "borderStyle": "white",
     "selectedColor": "#FC2D2D",
     "backgroundColor": "#ffffff",
     "list": [
@@ -50,8 +68,8 @@
         "selectedIconPath": "static/img/1.2.png"
       },
       {
-        "pagePath": "pages/order/order",
-        "text": "进货单",
+        "pagePath": "pages/middle/middle",
+        "text": "状态",
         "iconPath": "static/img/2.1.png",
         "selectedIconPath": "static/img/2.2.png"
       },
