@@ -6,7 +6,7 @@
 		</view> -->
 		<!-- 货主 -->
 		<view v-if="userApply!='' && (roleId==20001 || roleId==20002)">
-			<agency :roleId='roleId'></agency>
+			<agency :roleId='roleId' :userApply='userApply'></agency>
 		</view>
 		<!-- 买家 -->
 		<!-- <view v-if="roleId==20003">
@@ -119,8 +119,12 @@
 				// 获取用户角色状态  2001 货主 2002 代办
 				// uni.setStorageSync('roleId','2001')
 				this.roleId = res.data.userRole.roleId || ''
-				this.userRealInfo = res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : ''
-				this.userApply = res.data.apply.id ? JSON.stringify(res.data.apply) : ''
+				this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : ''
+				this.userApply = res.data.apply.id ? res.data.apply : ''
+				
+				uni.setStorageSync('roleId',this.roleId)
+				uni.setStorageSync('userRealInfo',JSON.stringify(this.userRealInfo))
+				uni.setStorageSync('userApply',JSON.stringify(this.userApply))
 				// 设置头部样式
 				if(!this.roleId && this.userRealInfo){
 					uni.setNavigationBarColor({
@@ -147,15 +151,15 @@
 					uni.setTabBarItem({
 					  index: 1,
 					  text: '代办',
-					  iconPath: '../../static/img/2.1.png',
-					  selectedIconPath: '../../static/img/2.2.png'
+					  iconPath: '/static/img/2.1.png',
+					  selectedIconPath: '/static/img/2.2.png'
 					})
 				} else if(this.roleId == '20001') {
 					uni.setTabBarItem({
 					  index: 1,
 					  text: '我要卖',
-					  iconPath: '../../static/img/4.1.png',
-					  selectedIconPath: '../../static/img/4.2.png'
+					  iconPath: '/static/img/4.1.png',
+					  selectedIconPath: '/static/img/4.2.png'
 					})
 				}
 				

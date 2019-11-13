@@ -134,7 +134,8 @@
 				duration: 500,
 				platform: 0,
 				cur:0,
-				listWidth:0
+				listWidth:0,
+				roleId:''
 			}
 		},
 		components: {
@@ -155,9 +156,13 @@
 			this.platform = uni.getStorageSync('platform');
 		},
 		onShow() {
-			uni.hideLoading();
+			uni.hideLoading()
 			// 获取首页banner
 			this.getHomeList()
+			// 判断用户类型
+			this.assessUserType()
+			
+			
 		},
 		onPullDownRefresh() {
 			//监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
@@ -169,6 +174,29 @@
 			}, 1000);
 		},
 		methods: {
+			// 判断用户类型
+			assessUserType(){
+				// 设置底部tab样式
+				this.roleId = uni.getStorageSync('roleId')
+				if(this.roleId){
+					if(this.roleId == '20002'){
+						uni.setTabBarItem({
+						  index: 1,
+						  text: '代办',
+						  iconPath: '/static/img/2.1.png',
+						  selectedIconPath: '/static/img/2.2.png'
+						})
+						
+					} else if(this.roleId == '20001') {
+						uni.setTabBarItem({
+						  index: 1,
+						  text: '我要卖',
+						  iconPath: '/static/img/4.1.png',
+						  selectedIconPath: '/static/img/4.2.png'
+						})
+					}
+				}
+			},
 			changeBanner(e) {
 				this.cur = e.detail.current;
 			},

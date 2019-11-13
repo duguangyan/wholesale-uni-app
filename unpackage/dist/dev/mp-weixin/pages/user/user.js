@@ -122,8 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 518));};var _default =
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 520));};var _default =
 
 
 
@@ -220,6 +219,9 @@ __webpack_require__.r(__webpack_exports__);
     this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png';
     // 判断是否登录
     this.isLogin = this.uid != '';
+
+    // 判断用户类型
+    this.assessUserType();
   },
   computed: {
     dPhone: function dPhone() {
@@ -227,6 +229,29 @@ __webpack_require__.r(__webpack_exports__);
     } },
 
   methods: {
+    // 判断用户类型
+    assessUserType: function assessUserType() {
+      // 设置底部tab样式
+      this.roleId = uni.getStorageSync('roleId');
+      if (this.roleId) {
+        if (this.roleId == '20002') {
+          uni.setTabBarItem({
+            index: 1,
+            text: '代办',
+            iconPath: '/static/img/2.1.png',
+            selectedIconPath: '/static/img/2.2.png' });
+
+
+        } else if (this.roleId == '20001') {
+          uni.setTabBarItem({
+            index: 1,
+            text: '我要卖',
+            iconPath: '/static/img/4.1.png',
+            selectedIconPath: '/static/img/4.2.png' });
+
+        }
+      }
+    },
     // 去收藏页面
     goCollection: function goCollection() {
 

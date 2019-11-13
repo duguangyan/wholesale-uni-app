@@ -292,10 +292,10 @@
 					//#endif
 					let data = {
 						grant_type: 'sms_code',
-						scope: '2',
-						client_id: 'cwap',
+						scope: '4',
+						client_id: 'bwap',
 						client_secret: 'xx',
-						systemId: '2',
+						systemId: '4',
 						deviceId: this.deviceId,
 						mobile: this.phone,
 						smsCode: this.code

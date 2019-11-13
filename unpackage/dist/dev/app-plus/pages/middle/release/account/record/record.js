@@ -1,2 +1,0 @@
-setCssToHead([".",[1],"record .",[1],"title.",[1],"data-v-624ad662 { height: ",[0,100],"; line-height: ",[0,100],"; margin-left: ",[0,30],"; }\n",],undefined,{path:"./pages/middle/release/account/record/record.wxss"})();
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/middle/release/account/record/record.wxml') } }));

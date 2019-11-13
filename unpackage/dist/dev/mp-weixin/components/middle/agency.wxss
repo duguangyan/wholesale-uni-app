@@ -3,6 +3,7 @@
   min-height: 100vh;
 }
 .agency .account.data-v-0f4849bf {
+    padding-top: 25px;
     height: 100rpx;
     line-height: 100rpx;
     font-size: 28rpx;
@@ -102,12 +103,17 @@
 .agency .top.data-v-0f4849bf {
     padding-top: 20rpx;
     background: #FE3B0B;
-    height: 200rpx;
+    height: 260rpx;
     text-align: center;
 }
 .agency .top .time.data-v-0f4849bf {
       height: 100rpx;
       line-height: 100rpx;
+      font-size: 40rpx;
+}
+.agency .top .flex.data-v-0f4849bf {
+      position: relative;
+      top: 50rpx;
 }
 .agency .top .flex-1.data-v-0f4849bf {
       border-right: 1rpx solid #fff;

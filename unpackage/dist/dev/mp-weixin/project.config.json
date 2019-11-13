@@ -9,7 +9,9 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.7.0",
 	"appid": "touristappid",
-	"projectname": "农百集",
+	"projectname": "%E5%86%9C%E7%99%BE%E9%9B%86",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -36,36 +38,8 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/middle/release/account/payps/payps",
-					"pathName": "pages/middle/release/account/payps/payps",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/middle/identity/realname/buyer",
-					"pathName": "pages/middle/identity/realname/buyer",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/middle/identity/realname/agency",
-					"pathName": "pages/middle/identity/realname/agency",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
 					"name": "pages/middle/middle",
-					"pathName": "pages/middle/middle",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/middle/identity/realname/agency",
-					"pathName": "pages/middle/identity/realname/agency",
+					"pathName": "pages/middle/identity/identity",
 					"scene": null
 				}
 			]

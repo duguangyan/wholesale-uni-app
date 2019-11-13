@@ -37,7 +37,6 @@
 				<view class="img" :class="{'Android4': platform == 1}">
 					<image :src="item.u"/>
 				</view>
-              
               <view class="fs24" :class="{'Android3': platform == 1}">{{item.t}}</view>
             </view>
           </view>
@@ -96,6 +95,9 @@
 			this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png'
 			// 判断是否登录
 			this.isLogin = this.uid!='' 
+			
+			// 判断用户类型
+			this.assessUserType()
 		},
 		computed: {
 		    dPhone() {
@@ -103,6 +105,29 @@
 		    }
 		},
         methods: {
+			// 判断用户类型
+			assessUserType(){
+				// 设置底部tab样式
+				this.roleId = uni.getStorageSync('roleId')
+				if(this.roleId){
+					if(this.roleId == '20002'){
+						uni.setTabBarItem({
+						  index: 1,
+						  text: '代办',
+						  iconPath: '/static/img/2.1.png',
+						  selectedIconPath: '/static/img/2.2.png'
+						})
+						
+					} else if(this.roleId == '20001') {
+						uni.setTabBarItem({
+						  index: 1,
+						  text: '我要卖',
+						  iconPath: '/static/img/4.1.png',
+						  selectedIconPath: '/static/img/4.2.png'
+						})
+					}
+				}
+			},
 			// 去收藏页面
 			goCollection(){
 				

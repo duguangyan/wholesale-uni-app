@@ -168,7 +168,11 @@
         ,{
             "path" : "pages/middle/middle",
             "style" : {
-				"navigationBarTitleText": "状态"
+				"navigationBarTitleText": "状态",
+				"navigationStyle":"custom",
+				"app-plus":{
+					"titleView":false
+				}
 			}
         }
         ,{
@@ -264,7 +268,11 @@
         ,{
             "path" : "pages/middle/identity/identity",
             "style" : {
-				"navigationBarTitleText": "选择身份" 
+				"navigationBarTitleText": "选择身份",
+				"navigationStyle":"custom",
+				"app-plus":{
+					"titleView":false
+				}
 			}
         }
         ,{

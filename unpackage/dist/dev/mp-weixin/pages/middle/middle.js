@@ -156,7 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56));
-var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var agency = function agency() {return __webpack_require__.e(/*! import() | components/middle/agency */ "components/middle/agency").then(__webpack_require__.bind(null, /*! @/components/middle/agency.vue */ 641));};var buyer = function buyer() {return __webpack_require__.e(/*! import() | components/middle/buyer */ "components/middle/buyer").then(__webpack_require__.bind(null, /*! @/components/middle/buyer.vue */ 648));};var shipper = function shipper() {return __webpack_require__.e(/*! import() | components/middle/shipper */ "components/middle/shipper").then(__webpack_require__.bind(null, /*! @/components/middle/shipper.vue */ 653));};var _default =
+var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var agency = function agency() {return __webpack_require__.e(/*! import() | components/middle/agency */ "components/middle/agency").then(__webpack_require__.bind(null, /*! @/components/middle/agency.vue */ 650));};var buyer = function buyer() {return __webpack_require__.e(/*! import() | components/middle/buyer */ "components/middle/buyer").then(__webpack_require__.bind(null, /*! @/components/middle/buyer.vue */ 657));};var shipper = function shipper() {return __webpack_require__.e(/*! import() | components/middle/shipper */ "components/middle/shipper").then(__webpack_require__.bind(null, /*! @/components/middle/shipper.vue */ 662));};var _default =
 {
   data: function data() {
     return {
@@ -243,8 +243,12 @@ var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interop
         // 获取用户角色状态  2001 货主 2002 代办
         // uni.setStorageSync('roleId','2001')
         _this.roleId = res.data.userRole.roleId || '';
-        _this.userRealInfo = res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '';
-        _this.userApply = res.data.apply.id ? JSON.stringify(res.data.apply) : '';
+        _this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : '';
+        _this.userApply = res.data.apply.id ? res.data.apply : '';
+
+        uni.setStorageSync('roleId', _this.roleId);
+        uni.setStorageSync('userRealInfo', JSON.stringify(_this.userRealInfo));
+        uni.setStorageSync('userApply', JSON.stringify(_this.userApply));
         // 设置头部样式
         if (!_this.roleId && _this.userRealInfo) {
           uni.setNavigationBarColor({
@@ -271,15 +275,15 @@ var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interop
           uni.setTabBarItem({
             index: 1,
             text: '代办',
-            iconPath: '../../static/img/2.1.png',
-            selectedIconPath: '../../static/img/2.2.png' });
+            iconPath: '/static/img/2.1.png',
+            selectedIconPath: '/static/img/2.2.png' });
 
         } else if (_this.roleId == '20001') {
           uni.setTabBarItem({
             index: 1,
             text: '我要卖',
-            iconPath: '../../static/img/4.1.png',
-            selectedIconPath: '../../static/img/4.2.png' });
+            iconPath: '/static/img/4.1.png',
+            selectedIconPath: '/static/img/4.2.png' });
 
         }
 

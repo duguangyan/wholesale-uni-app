@@ -14,7 +14,7 @@
 			<view class="item-1">
 				<view class="fll">姓名</view>
 				<view class="flr">
-					<input type="text" v-model="realName " placeholder="请输入货主姓名">
+					<input type="text" v-model="realName" :disabled="disabled" placeholder="请输入货主姓名">
 				</view>
 			</view>
 			<!-- <view class="item-1">
@@ -57,7 +57,7 @@
 			<view class="cat cf">
 				<view class="title fll">身份证号</view>
 				<view class="input flr">
-					<input type="text" v-model="cardNo" placeholder="请输入身份证号码">
+					<input type="text" v-model="cardNo" :disabled="disabled" placeholder="请输入身份证号码">
 				</view>
 			</view>
 		</view>
@@ -103,6 +103,8 @@
 		name: 'agency',
 		data() {
 			return {
+				userApply:'', // 用户类型
+				disabled: false, // 是否可以输入
 				progress:['填写资料','提交审核','审核通过'],
 				isChooseType:false,
 				cityPickerValueDefault: [0, 0, 1],
@@ -142,21 +144,44 @@
 		},
 		onLoad(options) {
 			// hafrom : 1代办 2 货主
-			this.hasfrom = options.hasfrom
-			// 如果是货主获取经营类型（产品分类）
-			if(this.hasfrom == 2){
-				getCategoryTreeNode().then(res=>{
-					if(res.code == '1000'){
-						this.categoryTree = res.data
-					}
-				})
+			if(options.hasfrom){
+				this.hasfrom = options.hasfrom
+				// 如果是货主获取经营类型（产品分类）
+				if(this.hasfrom == 2){
+					getCategoryTreeNode().then(res=>{
+						if(res.code == '1000'){
+							this.categoryTree = res.data
+						}
+					})
+				}
 			}
+			// 判断用户类型
+			this.assessUserType() 
+			
 		},
 		onShow() {
 			this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1')
 			this.agencyImgUpload2 = uni.getStorageSync('agencyImgUpload2')
 		},
 		methods: {
+			assessUserType(){
+				// 判断用户类型
+				let userApply = uni.getStorageSync('userApply')
+				if(userApply){
+					this.userApply = JSON.parse(userApply) 
+					this.hasfrom = this.userApply.type == 1 ? 2 : 1
+					
+					this.disabled= true
+					
+					this.realName = this.userApply.realName
+					this.cardNo = this.userApply.cardNo
+					this.agencyImgUpload1 = this.userApply.cardImgFront
+					this.agencyImgUpload2 = this.userApply.cardImgReverse
+					this.productType = this.userApply.categoryName
+					this.fullAddress = this.userApply.province + this.userApply.city + this.userApply.region
+				
+				}
+			},
 			chooseTypeComplete(e){
 				console.log(e)
 				this.productType = e.left + '/' + e.content + '/' + e.right

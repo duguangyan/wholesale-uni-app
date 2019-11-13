@@ -1,5 +1,6 @@
 <template>
 	<view class="identity">
+		<NavigationBar :title="title" :isBack="isBack"></NavigationBar>
 		<view class="item" v-for="(item,index) in items" :key="index" @click="goPage(index)">
 			<view class="image">
 				<image :src="item.imgUrl"></image>
@@ -10,9 +11,13 @@
 </template>
 
 <script>
+	import NavigationBar from "@/components/common/NavigationBar.vue"
+	import T from "@/utils/tips.js"
 	export default {
 		data() {
 			return {
+				title:'选择身份',
+				isBack: false,
 				items:[
 					{
 						text:'我是代办',
@@ -28,6 +33,11 @@
 					},
 				]
 			};
+		},
+		components:{ NavigationBar },
+		onBackPress(){
+			T.tips('请选择角色')
+			return false
 		},
 		onLoad() {
 			
@@ -66,6 +76,9 @@
 
 <style lang="scss" scoped>
 	.identity{
+		background: #fff;
+		min-height: 100vh;
+		padding-top: 100upx;
 		.item{
 			text-align: center;
 			margin-top: 120upx;

@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "进货单",
-  "usingComponents": {
-    "dialog": "/components/common/Dialog",
-    "tab-bar": "/components/common/TabBar"
-  }
-}

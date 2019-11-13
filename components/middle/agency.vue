@@ -1,7 +1,7 @@
 <template>
 	<view class="agency">
 		<view class="top fs28 text-fff">
-			<view class="time">2019年9月</view>
+			<view class="time">2019年10月</view>
 			<view class="flex fs32">
 				<view class="flex-1">
 					<view><text class="fs32">1</text><text class="fs24">单</text></view>
@@ -18,12 +18,12 @@
 			</view>
 		</view>
 		<view class="account">
-			<view class="cf" v-if="false">
+			<view class="cf" v-if="userApply.status == 0" @click="goRealname">
 				<view class="fll image"><image src="../../static/imgs/icon-1001.png" mode=""></image></view>
-				<view class="fll">你的资料正在审核中，审核通过后可用</view>
+				<view class="fll">{{userApply.status == 0?'你的资料正在审核中，审核通过后可用':userApply.auditOpinion}}</view>
 				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
 			</view>
-			<view class="cf" v-if="true" @click="goAccount">
+			<view class="cf" v-if="userApply.status == 1" @click="goAccount">
 				<view class="fll image img44"><image src="../../static/imgs/icon-1010.png" mode=""></image></view>
 				<view class="fll text-333">我的账户</view>
 				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
@@ -34,13 +34,13 @@
 			<view class="title">
 				{{roleId=='2002'?'农产品':'我的商品'}}
 			</view>
-			<view class="list cf fs28" v-if="roleId == 2002">
+			<view class="list cf fs28" v-if="roleId == 20001">
 				<view @click="goGoodsCheck(index)" class="fll" v-for="(item,index) in spGoodsByAgency" :key="index">
 					<view class="img"><image :src="item.img" mode=""></image></view>
 					<view class="text">{{item.text}}</view>
 				</view>
 			</view>
-			<view class="list cf fs28" v-if="roleId == 2001">
+			<view class="list cf fs28" v-if="roleId == 20002">
 				<view @click="goGoodsCheck(index)" class="fll" v-for="(item,index) in spGoodsByShipper" :key="index">
 					<view class="img"><image :src="item.img" mode=""></image></view>
 					<view class="text">{{item.text}}</view>
@@ -80,6 +80,10 @@
 				type: String,
 				default: ''
 			},
+			userApply:{
+				type: Object,
+				default: new Object()
+			}
 		},
 		data() {
 			return {
@@ -129,7 +133,18 @@
 			uniList,
 			uniListItem
 		},
+		mounted() {
+			console.log('------')
+			console.log(this.roleId)
+
+		},
 		methods: {
+			// 去审核页面
+			goRealname(){
+				uni.navigateTo({
+					url: '/pages/middle/identity/realname/agency'
+				})
+			},
 			//  去订单页面
 			goOrder(){
 				uni.navigateTo({
@@ -174,6 +189,7 @@
 		background: #fff;
 		min-height: 100vh;
 		.account{
+			padding-top: var(--status-bar-height);
 			height: 100upx;
 			line-height: 100upx;
 			font-size: 28upx;
@@ -285,14 +301,18 @@
 		.top {
 			padding-top: 20upx;
 			background: #FE3B0B;
-			height: 200upx;
+			height: 260upx;
 			text-align: center;
 
 			.time {
 				height: 100upx;
 				line-height: 100upx;
+				font-size: 40upx;
 			}
-
+			.flex{
+				position: relative;
+				top: 50upx;
+			}
 			.flex-1 {
 				border-right: 1upx solid #fff;
 

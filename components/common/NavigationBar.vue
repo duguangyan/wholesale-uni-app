@@ -1,7 +1,7 @@
 <template>
   <view class="navigationBar">
 	  <view class="content cf">
-		  <view class="img fll" @click="goBack">
+		  <view class="img fll" @click="goBack" v-if="isBack">
 			  <!--  #ifdef  APP-PLUS || H5 -->
 			  <image src="../../../static/img/tag-back.png"></image>
 			  <!--  #endif -->
@@ -33,6 +33,10 @@ export default {
 	isClick: {
 	  type: Boolean,
 	  default: false
+	},
+	isBack: {
+	  type: Boolean,
+	  default: true
 	}
   },
   data() {
@@ -71,6 +75,7 @@ export default {
 		top: -12upx;
 	}
 	.navigationBar{
+		padding-top: var(--status-bar-height);
 		height: 160upx;
 		position: fixed;
 		top: 0;

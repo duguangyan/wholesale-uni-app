@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "添加属性",
-  "usingComponents": {
-    "uni-input": "/components/hnfly-input/uni-input"
-  }
-}
