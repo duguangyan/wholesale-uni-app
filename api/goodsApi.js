@@ -79,8 +79,17 @@ const getHasCollect = data => {
   })
 }
 
+// 判断是否备收藏
+const getCategoryTreeNode = data => {
+  return request({
+    url: '/api/goods/category/getCategoryTreeNode',
+    data,
+    type: 'form'
+  })
+}
 
 export {
+	getCategoryTreeNode,
 	getHasCollect,
   getList,
   getDetail,

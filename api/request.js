@@ -1,9 +1,9 @@
 // const apiUrl = 'http://m.qinlvny.com'; // 正式
 // let apiUrl = 'http://duu-u.imwork.net:27307'; // 开发
-   let apiUrl = 'http://192.168.0.202:7000'; // 开发
-const versionNumber = 'V1.0.7'; //版本号
+   let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
+const versionNumber = 'V1.0.1'; //版本号
 
-if (apiUrl == 'http://192.168.0.202:7000') {
+if (apiUrl == 'http://192.168.0.202:8000') {
 	uni.setStorageSync('v', versionNumber);
 	uni.setStorageSync('s', ' 开发');
 } else {
@@ -33,7 +33,7 @@ const request = function(params = {}) {
 	return new Promise((resolve, reject) => {
 		let data = params.data || {};
 		let header = {}
-		if (uni.getStorageSync("access_token") && params.url !='/api/act/pageLayout/getListByParentId' &&  params.url !='/api/oauth/oauth/token' ) {
+		if (uni.getStorageSync("access_token") && params.url !='/api/act/pageLayout/getListByParentId' &&  params.url !='/api/oauth/oauth/token') {
 			header = {
 				'Authorization': 'Bearer ' + uni.getStorageSync("access_token") || ''
 			};
@@ -56,19 +56,27 @@ const request = function(params = {}) {
 		// }catch(e){
 		// 	//TODO handle the exception
 		// }
+		
+		// if(params.url.indexOf('/goods') != -1){
+		// 	 apiUrl = 'http://192.168.0.174:7002/ws'
+		// }
+		
 		let newUrl = params.url;
 		// #ifdef MP-WEIXIN || APP-PLUS || H5
 		if (params.url.indexOf('/api') != -1) {
 			newUrl = newUrl.split('/api')[1]
 		}  
 		console.log('apiUrl:',apiUrl)
+		console.log(params.url.indexOf('/ws'))
 		if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1) {
 			apiUrl = apiUrl.split('/ws')[0]
 		}else{
-			// if(apiUrl.indexOf('/ws') == -1){
-			// 	apiUrl = apiUrl + '/ws'
-			// }
+			if(apiUrl.indexOf('/ws') == -1){
+				apiUrl = apiUrl + '/ws'
+			}
 		} 
+		
+		
 		
 		// try{
 		// 	if(params.data.grant_type == 'mini_program' || params.data.grant_type == 'wx_app'){

@@ -1,22 +1,26 @@
+.middle.data-v-cebdc6ca {
+  background: #fff;
+  min-height: 100vh;
+}
 .middle .identity.data-v-cebdc6ca {
-  margin-top: 300rpx;
+    padding-top: 120rpx;
 }
 .middle .identity .item.data-v-cebdc6ca {
-    text-align: center;
-    margin-top: 120rpx;
+      text-align: center;
+      padding-top: 120rpx;
 }
 .middle .identity .item .image.data-v-cebdc6ca {
-      width: 180rpx;
-      height: 180rpx;
-      margin: 0 auto;
+        width: 180rpx;
+        height: 180rpx;
+        margin: 0 auto;
 }
 .middle .identity .item .image > image.data-v-cebdc6ca {
-        width: 100%;
-        height: 100%;
+          width: 100%;
+          height: 100%;
 }
 .middle .identity .item .text.data-v-cebdc6ca {
-      font-size: 30rpx;
-      color: #333;
-      margin-top: 20rpx;
+        font-size: 30rpx;
+        color: #333;
+        margin-top: 20rpx;
 }
 

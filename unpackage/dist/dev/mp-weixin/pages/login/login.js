@@ -231,9 +231,18 @@ var _default = { data: function data() {return { phone: '', code: '', codeText: 
       isRight: false, // 是否完成输入
       setCodeInterval: '', // 定时器
       deviceId: '', // 数据传值deviceId
-      appID: 'wxb8afa388fa540c2a', weixinCode: '', delta: 1, from: '' };}, components: {}, onBackPress: function onBackPress() {if (!uni.getStorageSync('access_token')) {if (uni.getStorageSync('pagePath') == 'main') {uni.switchTab({ url: '/pages/main/main' });} else {uni.switchTab({ url: '/pages/user/user' });}}console.log('onBackPress');}, onHide: function onHide() {console.log('onHide');if (this.setCodeInterval != '') {clearInterval(this.setCodeInterval);}}, onLoad: function onLoad(options) {if (options.delta) this.delta = options.delta;if (options.from) this.from = options.from;}, onShow: function onShow() {uni.setStorageSync('isLogin', 0);}, methods: { // 去用户协议
-    goProtocal: function goProtocal() {uni.navigateTo({ url: '/pages/user/protocal/protocal' });}, // 获取openid
-    getOpenIdByCode: function getOpenIdByCode() {uni.login({ provider: 'weixin',
+      appID: 'wxb8afa388fa540c2a', weixinCode: '', delta: 1, from: '' };}, components: {}, onBackPress: function onBackPress() {if (!uni.getStorageSync('access_token')) {if (uni.getStorageSync('pagePath') == 'main') {uni.switchTab({ url: '/pages/main/main' });} else {uni.switchTab({ url: '/pages/user/user' });}}console.log('onBackPress');}, onHide: function onHide() {console.log('onHide');if (this.setCodeInterval != '') {clearInterval(this.setCodeInterval);}}, onLoad: function onLoad(options) {if (options.delta) this.delta = options.delta;if (options.from) this.from = options.from;}, onShow: function onShow() {uni.setStorageSync('isLogin', 0);},
+  methods: {
+    // 去用户协议
+    goProtocal: function goProtocal() {
+      uni.navigateTo({
+        url: '/pages/user/protocal/protocal' });
+
+    },
+    // 获取openid
+    getOpenIdByCode: function getOpenIdByCode() {
+      uni.login({
+        provider: 'weixin',
         success: function success(e) {
           console.log('code', JSON.stringify(e.code));
           var data = {
@@ -434,60 +443,92 @@ var _default = { data: function data() {return { phone: '', code: '', codeText: 
     },
     getUserInfoDates: function getUserInfoDates() {
 
-      this.getOpenIdByCode();
+      // this.getOpenIdByCode();
 
-
-
-      (0, _userApi.getUserInfoData)().then(function (res) {
+      (0, _userApi.getUserRealInfoAll)().then(function (res) {
         if (res.code === '1000') {
-          if (res.data.phone) {
-            uni.setStorageSync('phone', res.data.phone);
+          var roleId = res.data.userRole.roleId || '';
+          uni.setStorageSync('nickName', res.data.user.nickName);
+          uni.setStorageSync('headImgUrl', res.data.user.headImgUrl);
+          uni.setStorageSync('roleId', roleId);
+          uni.setStorageSync('userRealInfo', res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '');
+          uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '');
+
+          if (res.data.userRealInfo != null) {
+            uni.switchTab({
+              url: '/pages/middle/middle' });
+
+          } else {
+            switch (roleId) {
+              case '':
+                uni.redirectTo({
+                  url: '/pages/middle/identity/identity' });
+
+                break;
+              case '20001':
+                uni.switchTab({
+                  url: '/pages/middle/middle' });
+
+                break;
+              case '20002':
+                uni.switchTab({
+                  url: '/pages/middle/middle' });
+
+                break;
+              case '20003':
+                uni.switchTab({
+                  url: '/pages/middle/middle' });
+
+                break;
+              default:
+                break;}
+
           }
-          uni.setStorageSync('nickName', res.data.nickName);
-          uni.setStorageSync('headImgUrl', res.data.headImgUrl);
 
-          uni.setStorageSync('userStatus', 0);
-          // uni.redirectTo({
-          // 	url:'/pages/middle/identity/identity'
+
+
+
+          // getUserRealInfo(realData).then(res => {
+          // 	if (res.code == '1000') {
+          // 		// 角色：20001-货主 20002-代办 20003-买家
+          // 		let roleId = res.data.userRole.roleId || '';
+          // 		uni.setStorageSync('roleId', roleId)
+          // 		uni.setStorageSync('userRealInfo', JSON.stringify(res.data.userRealInfo))
+          // 		if (res.data.userRealInfo && roleId == '') {
+          // 			uni.switchTab({
+          // 				url: '/pages/middle/middle'
+          // 			})
+          // 		} else {
+          // 			switch (roleId) {
+          // 				case '':
+          // 					uni.redirectTo({
+          // 						url: '/pages/middle/identity/identity'
+          // 					})
+          // 					break;
+          // 				case '20001':
+          // 					uni.switchTab({
+          // 						url: '/pages/middle/middle'
+          // 					})
+          // 					break;
+          // 				case '20002':
+          // 					uni.switchTab({
+          // 						url: '/pages/middle/middle'
+          // 					})
+          // 					break;
+          // 				case '20003':
+          // 					uni.switchTab({
+          // 						url: '/pages/middle/middle'
+          // 					})
+          // 					break;
+          // 				default:
+          // 					break;
+          // 			}
+          // 		}
+
+
+
+          // 	}
           // })
-          // 获取登录用户状态信息
-          var realData = {
-            userId: uni.getStorageSync('uid') };
-
-          (0, _userApi.getUserRealInfo)(realData).then(function (res) {
-            if (res.code == '1000') {
-              // 角色：20001-货主 20002-代办 20003-买家
-              var roleId = res.data.userRoleList[0].roleId;
-              uni.setStorageSync('roleId', roleId);
-
-              switch (roleId) {
-                case '1000':
-                  uni.redirectTo({
-                    url: '/pages/middle/identity/identity' });
-
-                  break;
-                case '2001':
-                  uni.switchTab({
-                    url: '/pages/middle/middle' });
-
-                  break;
-                case '2002':
-                  uni.switchTab({
-                    url: '/pages/middle/middle' });
-
-                  break;
-                case '2003':
-                  uni.switchTab({
-                    url: '/pages/middle/middle' });
-
-                  break;
-                default:
-                  break;}
-
-
-
-            }
-          });
 
 
 

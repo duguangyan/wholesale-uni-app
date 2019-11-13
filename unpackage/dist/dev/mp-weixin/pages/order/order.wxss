@@ -25,7 +25,19 @@
     background-color: #fff;
     padding: 10rpx 30rpx 20rpx 10rpx;
     position: relative;
-    padding-top: 80rpx;
+    padding-top: 25px;
+}
+.cart .edit .image.data-v-4586ac99 {
+      width: 40rpx;
+      height: 40rpx;
+      position: absolute;
+      left: 30rpx;
+      top: 25px;
+      margin-top: 6rpx;
+}
+.cart .edit .image > image.data-v-4586ac99 {
+        width: 100%;
+        height: 100%;
 }
 .cart .edit .title.data-v-4586ac99 {
       text-align: center;
@@ -33,12 +45,13 @@
 }
 .cart .edit .icon.data-v-4586ac99 {
       position: absolute;
-      top: 84rpx;
-      right: 215rpx;
+      top: 25px;
+      right: 30rpx;
       text-underline: underline;
-      border: 1rpx solid #e2e2e2;
-      border-radius: 10rpx;
-      padding: 10rpx;
+      margin-top: 10rpx;
+}
+.cart .edit .icon.data-v-4586ac99 {
+      right: 200rpx;
 }
 .cart .list.data-v-4586ac99 {
     margin-top: 100rpx;

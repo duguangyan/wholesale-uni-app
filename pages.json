@@ -27,7 +27,11 @@
 		}, {
             "path" : "pages/order/order",
             "style" : {
-				"navigationBarTitleText": "进货单"
+				"navigationBarTitleText": "进货单",
+				"navigationStyle":"custom",
+				"app-plus":{
+					"titleView":false
+				}
 			}
         }, {
             "path" : "pages/user/setting/setting",
@@ -218,15 +222,45 @@
         ,{
             "path" : "pages/middle/release/account/bankcard/bankcard",
             "style" : {
-				"navigationBarTitleText": "银行卡" 
+				"navigationBarTitleText": "我的银行卡" 
 			}
         }
+		,{
+		    "path" : "pages/middle/release/account/bankcard/add",
+		    "style" : {
+				"navigationBarTitleText": "添加银行卡" 
+			}
+		}
+		,{
+		    "path" : "pages/middle/release/account/bankcard/addinfo",
+		    "style" : {
+				"navigationBarTitleText": "填写银行卡信息" 
+			}
+		}
         ,{
             "path" : "pages/middle/release/account/payps/payps",
             "style" : {
 				"navigationBarTitleText": "支付密码" 
 			}
         }
+		,{
+		    "path" : "pages/middle/release/account/payps/resPassword",
+		    "style" : {
+				"navigationBarTitleText": "设置新支付密码" 
+			}
+		}
+		,{
+		    "path" : "pages/middle/release/account/payps/confirmPassword",
+		    "style" : {
+				"navigationBarTitleText": "确认支付密码" 
+			}
+		}
+		,{
+		    "path" : "pages/middle/release/account/payps/verifiyPhone",
+		    "style" : {
+				"navigationBarTitleText": "验证手机号码" 
+			}
+		}
         ,{
             "path" : "pages/middle/identity/identity",
             "style" : {
@@ -289,6 +323,24 @@
             "path" : "pages/middle/release/account/cash/cash",
             "style" : {
 				"navigationBarTitleText": "账户提现"
+			}
+        }
+		,{
+		    "path" : "pages/middle/release/account/cash/cashSuccess",
+		    "style" : {
+				"navigationBarTitleText": "提交成功"
+			}
+		}
+        ,{
+            "path" : "pages/middle/release/product/localshipper/localshipper",
+            "style" : {
+				"navigationBarTitleText": "本地货主"
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/product/localproduct/localproduct",
+            "style" : {
+				"navigationBarTitleText": "本地货品"
 			}
         }
     ],

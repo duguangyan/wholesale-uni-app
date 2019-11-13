@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "状态",
-  "navigationStyle": "custom",
   "usingComponents": {
     "agency": "/components/middle/agency",
     "buyer": "/components/middle/buyer",

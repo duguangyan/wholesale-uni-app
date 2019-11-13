@@ -14,10 +14,10 @@
 			<view class="item-1">
 				<view class="fll">姓名</view>
 				<view class="flr">
-					<input type="text" placeholder="请输入货主姓名">
+					<input type="text" v-model="realName " placeholder="请输入货主姓名">
 				</view>
 			</view>
-			<view class="item-1">
+			<!-- <view class="item-1">
 				<view class="fll">手机号</view>
 				<view class="flr">
 					<input type="text" placeholder="请输入手机号">
@@ -29,7 +29,7 @@
 					<input type="text" placeholder="请输入验证码">
 				</view>
 				<view class="text-theme flr v-3">获取验证码</view>
-			</view>
+			</view> -->
 		</view>
 		<view class="content">
 			<view class="item">
@@ -57,7 +57,7 @@
 			<view class="cat cf">
 				<view class="title fll">身份证号</view>
 				<view class="input flr">
-					<input type="text" placeholder="请输入身份证号码">
+					<input type="text" v-model="cardNo" placeholder="请输入身份证号码">
 				</view>
 			</view>
 		</view>
@@ -85,7 +85,7 @@
 		</view>
 		<view class="big-btn-active"  @click="doSubmit">提交审核</view>
 		<view class="height100"></view>
-		<chooseType v-if="isChooseType" @close="chooseTypeClose" @complete="chooseTypeComplete"></chooseType>
+		<chooseType v-if="isChooseType" :list="categoryTree" @close="chooseTypeClose" @complete="chooseTypeComplete"></chooseType>
 		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
 		 @onCancel="onCancel" @onConfirm="onConfirm"></mpvue-city-picker>
 	</view>
@@ -96,7 +96,9 @@
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import mpvueCityPicker from '@/components/common/mpvue-citypicker/mpvueCityPicker.vue'
 	import chooseType from '@/components/realname/ChooseType.vue'
-	import { postUserImgUpload, postUserHeadImg, postUpdateNickname } from '@/api/userApi.js'
+	import { postUserImgUpload, postUserHeadImg, postUpdateNickname, getUserRealInfoSettledIn } from '@/api/userApi.js'
+	import { getCategoryTreeNode } from '@/api/goodsApi.js'
+	import T from '@/utils/tips.js'
 	export default {
 		name: 'agency',
 		data() {
@@ -123,7 +125,13 @@
 				agencyImgUpload1: '',
 				agencyImgUpload2: '',
 				hasfrom:'',
-				productType:''
+				productType:'',
+				realName :'', // 真实姓名
+				cardNo:'',    // 身份证号码
+				cardImgFront :'', // 身份证正面照
+				cardImgReverse :'',  // 身份证反面照
+				categoryTree:'', // 产品分类
+				productTypeId:'', // 分类Id
 			};
 		},
 		components: {
@@ -133,7 +141,16 @@
 			chooseType
 		},
 		onLoad(options) {
+			// hafrom : 1代办 2 货主
 			this.hasfrom = options.hasfrom
+			// 如果是货主获取经营类型（产品分类）
+			if(this.hasfrom == 2){
+				getCategoryTreeNode().then(res=>{
+					if(res.code == '1000'){
+						this.categoryTree = res.data
+					}
+				})
+			}
 		},
 		onShow() {
 			this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1')
@@ -143,6 +160,7 @@
 			chooseTypeComplete(e){
 				console.log(e)
 				this.productType = e.left + '/' + e.content + '/' + e.right
+				this.productTypeId = e.id
 				this.isChooseType = false
 			},
 			chooseTypeClose(){
@@ -232,9 +250,57 @@
 				this.address.regionId = e.ids[2]
 			},
 			doSubmit(){
-			  uni.navigateTo({
-				url:'/pages/middle/identity/submitFail/submitFail'
-			  })
+				// 数据验证
+				if(this.realName == ''){
+					T.tips('姓名不能为空')
+					return false
+				}
+				if(this.cardNo == ''){
+					T.tips('身份证号码不能为空')
+					return false
+				}
+				if(this.fullAddress == ''){
+					T.tips('请选择地址')
+					return false
+				}
+				if(this.agencyImgUpload1 == ''){
+					T.tips('身份证正面照不能为空')
+					return false
+				}
+				if(this.agencyImgUpload2 == ''){
+					T.tips('身份证反面照不能为空')
+					return false
+				}
+				//  实名认证
+				let data = {
+					cardImgFront:this.agencyImgUpload1,
+					cardImgReverse: this.agencyImgUpload2,
+					cardNo: this.cardNo,
+					realName: this.realName,
+					province: this.address.province,
+					provinceId: this.address.provinceId,
+					city: this.address.city,
+					cityId: this.address.cityId,
+					region: this.address.region,
+					regionId: this.address.regionId
+				}
+				// 代办 货主判断  hasfrom : 1代办 2货主
+				if(this.hasfrom == 1){
+					data.type = 2
+				}else if(this.hasfrom == 2){
+					data.type = 1
+					data.categoryId = this.productTypeId
+				}
+				getUserRealInfoSettledIn(data).then(res=>{
+					if(res.code == '1000'){
+						uni.switchTab({
+							url:'/pages/middle/middle'
+						})
+					}
+				})
+				 //  uni.navigateTo({
+					// url:'/pages/middle/identity/submitFail/submitFail'
+				 //  })
 			}
 		}
 	}

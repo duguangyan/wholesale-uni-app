@@ -1,0 +1,19 @@
+.detail.data-v-654840cf {
+  background: #FFFFFF;
+  min-height: 100vh;
+}
+.detail .items .item.data-v-654840cf {
+    height: 100rpx;
+    line-height: 100rpx;
+    margin-left: 30rpx;
+    padding-right: 30rpx;
+    border-bottom: 1rpx solid #f5f5f5;
+}
+.detail .top.data-v-654840cf {
+    text-align: center;
+    height: 100rpx;
+    padding: 30rpx 0 60rpx 0;
+    border-top: 1rpx solid #f5f5f5;
+    border-bottom: 20rpx solid #F5F5F5;
+}
+

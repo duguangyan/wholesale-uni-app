@@ -156,7 +156,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var StrictlyGoods = function StrictlyGoods() {return Promise.all(/*! import() | components/common/StrictlyGoods */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/StrictlyGoods")]).then(__webpack_require__.bind(null, /*! @/components/common/StrictlyGoods */ 493));};var AdvertisingPosition = function AdvertisingPosition() {return Promise.all(/*! import() | components/common/AdvertisingPosition */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/AdvertisingPosition")]).then(__webpack_require__.bind(null, /*! @/components/common/AdvertisingPosition */ 500));};var _default =
+var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var StrictlyGoods = function StrictlyGoods() {return Promise.all(/*! import() | components/common/StrictlyGoods */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/StrictlyGoods")]).then(__webpack_require__.bind(null, /*! @/components/common/StrictlyGoods */ 573));};var AdvertisingPosition = function AdvertisingPosition() {return Promise.all(/*! import() | components/common/AdvertisingPosition */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/AdvertisingPosition")]).then(__webpack_require__.bind(null, /*! @/components/common/AdvertisingPosition */ 580));};var _default =
 {
   name: "success",
   data: function data() {

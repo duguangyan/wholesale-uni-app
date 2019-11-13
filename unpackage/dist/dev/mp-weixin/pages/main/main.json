@@ -3,6 +3,7 @@
   "enablePullDownRefresh": true,
   "navigationStyle": "custom",
   "usingComponents": {
-    "tab-bar": "/components/common/TabBar"
+    "tab-bar": "/components/common/TabBar",
+    "swiper-dot": "/components/common/SwiperDotByMain"
   }
 }

@@ -1,9 +1,9 @@
 {
-    "name" : "上上农夫",
+    "name" : "农百集",
     "appid" : "__UNI__E3A114F",
     "description" : "上上农夫专业的红薯销售平台，提供全国最优质的红薯",
-    "versionName" : "1.0.7",
-    "versionCode" : 107,
+    "versionName" : "1.0.1",
+    "versionCode" : 101,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {

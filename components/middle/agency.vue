@@ -9,7 +9,7 @@
 				</view>
 				<view class="flex-1">
 					<view><text class="fs32">5050.05</text><text class="fs24">元</text></view>
-					<view class="fs24">交易额</view>
+					<view class="fs24">{{roleId=='2002'?'代办费':'交易额'}}</view>
 				</view>
 				<view class="flex-1">
 					<view><text class="fs32">5000 </text><text class="">斤</text></view>
@@ -32,10 +32,16 @@
 		</view>
 		<view class="goods">
 			<view class="title">
-				我的商品
+				{{roleId=='2002'?'农产品':'我的商品'}}
 			</view>
-			<view class="list cf fs28">
-				<view class="fll" v-for="(item,index) in spGoods" :key="index">
+			<view class="list cf fs28" v-if="roleId == 2002">
+				<view @click="goGoodsCheck(index)" class="fll" v-for="(item,index) in spGoodsByAgency" :key="index">
+					<view class="img"><image :src="item.img" mode=""></image></view>
+					<view class="text">{{item.text}}</view>
+				</view>
+			</view>
+			<view class="list cf fs28" v-if="roleId == 2001">
+				<view @click="goGoodsCheck(index)" class="fll" v-for="(item,index) in spGoodsByShipper" :key="index">
 					<view class="img"><image :src="item.img" mode=""></image></view>
 					<view class="text">{{item.text}}</view>
 				</view>
@@ -43,7 +49,7 @@
 		</view>
 		<view class="goods orders">
 			<view class="title" @click="goOrder">
-				销售订单
+				{{roleId=='2002'?'订单':'销售订单'}}
 			</view>
 			<view class="flex fs28">
 				<view class="flex-1" v-for="(item,index) in spOrders" :key="index">
@@ -68,20 +74,37 @@
 		props: {
 			item: {
 				type: String,
-				default: null
-			}
+				default: ''
+			},
+			roleId: {
+				type: String,
+				default: ''
+			},
 		},
 		data() {
 			return {
 				shippers: ['我是代办', '我要卖货'],
 				spListValue: '158.55',
-				spGoods: [{
+				spGoodsByAgency: [{
 						img: '../../static/imgs/icon-1003.png',
 						text: '我的货品'
 					},
 					{
 						img: '../../static/imgs/icon-1002.png',
 						text: '本地代办'
+					}
+				],
+				spGoodsByShipper: [{
+						img: '../../static/imgs/icon-1031.png',
+						text: '发布新品'
+					},
+					{
+						img: '../../static/imgs/icon-1032.png',
+						text: '全部产品'
+					},
+					{
+						img: '../../static/imgs/icon-1033.png',
+						text: '货主'
 					}
 				],
 				spOrders: [{
@@ -124,6 +147,22 @@
 				uni.navigateTo({
 					url: '/pages/middle/release/release'
 				})
+			},
+			// 产品页面
+			goGoodsCheck(i){
+				let index = i
+				// 2001 货主  2002代办
+				if(this.roleId == 2001){
+					if(index === 1){
+						uni.navigateTo({
+							url:'/pages/middle/release/product/localproduct/localproduct'
+						})
+					}else if(index === 2){
+						uni.navigateTo({
+							url:'/pages/middle/release/product/localshipper/localshipper'
+						})
+					}
+				}
 			}
 		}
 	}

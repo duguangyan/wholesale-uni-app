@@ -90,31 +90,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var a0 = {
-    color: "#FC2D2D",
-    size: "12",
-    type: "star-filled"
-  }
-  var a1 = {
-    color: "#FC2D2D",
-    size: "12",
-    type: "star-filled"
-  }
-  var a2 = {
-    color: "#FC2D2D",
-    size: "12",
-    type: "star-filled"
-  }
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        a0: a0,
-        a1: a1,
-        a2: a2
-      }
-    }
-  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -147,13 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniList = function uniList() {return __webpack_require__.e(/*! import() | components/uni-list/uni-list */ "components/uni-list/uni-list").then(__webpack_require__.bind(null, /*! @/components/uni-list/uni-list.vue */ 585));};var uniListItem = function uniListItem() {return __webpack_require__.e(/*! import() | components/uni-list-item/uni-list-item */ "components/uni-list-item/uni-list-item").then(__webpack_require__.bind(null, /*! @/components/uni-list-item/uni-list-item.vue */ 592));};var uniIcons = function uniIcons() {return __webpack_require__.e(/*! import() | components/uni-icons/uni-icons */ "components/uni-icons/uni-icons").then(__webpack_require__.bind(null, /*! @/components/uni-icons/uni-icons.vue */ 578));};var _default =
-
-
-
-
-
-
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniList = function uniList() {return __webpack_require__.e(/*! import() | components/uni-list/uni-list */ "components/uni-list/uni-list").then(__webpack_require__.bind(null, /*! @/components/uni-list/uni-list.vue */ 665));};var uniListItem = function uniListItem() {return __webpack_require__.e(/*! import() | components/uni-list-item/uni-list-item */ "components/uni-list-item/uni-list-item").then(__webpack_require__.bind(null, /*! @/components/uni-list-item/uni-list-item.vue */ 672));};var uniIcons = function uniIcons() {return __webpack_require__.e(/*! import() | components/uni-icons/uni-icons */ "components/uni-icons/uni-icons").then(__webpack_require__.bind(null, /*! @/components/uni-icons/uni-icons.vue */ 658));};var _default =
 
 
 
@@ -178,18 +147,58 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       totalPrice: '158.85',
-      is70: true };
+      is70: true,
+      icons: [
+      {
+        title: '账单',
+        url: '../../../../static/imgs/icon-1011.png' },
+
+      {
+        title: '我的银行卡',
+        url: '../../../../static/imgs/icon-1012.png' },
+
+      {
+        title: '支付密码',
+        url: '../../../../static/imgs/icon-1013.png' },
+
+      {
+        title: '提现',
+        url: '../../../../static/imgs/icon-1014.png' }] };
+
 
 
   },
   components: { uniIcons: uniIcons, uniList: uniList, uniListItem: uniListItem },
   onLoad: function onLoad() {
+    // 设置头部样式
+    uni.setNavigationBarColor({
+      frontColor: "#ffffff",
+      backgroundColor: "#FE3B0B" });
 
   },
   onShow: function onShow() {
 
   },
   methods: {
+    // 点击事件
+    doClick: function doClick(index) {
+      switch (index) {
+        case 0:
+          this.goRecord();
+          break;
+        case 1:
+          this.goBankcard();
+          break;
+        case 2:
+          this.goPayps();
+          break;
+        case 3:
+          this.goCash();
+          break;
+        default:
+          break;}
+
+    },
     // 去账单记录
     goRecord: function goRecord() {
       uni.navigateTo({
@@ -206,6 +215,12 @@ __webpack_require__.r(__webpack_exports__);
     goPayps: function goPayps() {
       uni.navigateTo({
         url: '/pages/middle/release/account/payps/payps' });
+
+    },
+    // 提现
+    goCash: function goCash() {
+      uni.navigateTo({
+        url: '/pages/middle/release/account/cash/cash' });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

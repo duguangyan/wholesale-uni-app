@@ -31,7 +31,7 @@
 			<view class="uni-padding-wrap">
 				<view class="page-section swiper">
 					<view class="page-section-spacing">
-						<swiper class="swiper" indicator-color="rgba(0,0,0,.3)" indicator-active-color='#FC2D2D' :indicator-dots="indicatorDots"
+						<swiper @change="changeBanner" class="swiper" indicator-color="rgba(0,0,0,.3)" indicator-active-color='#FC2D2D' :indicator-dots="indicatorDots"
 						 :autoplay="autoplay" :interval="interval" :duration="duration">
 							<swiper-item v-for="(item,index) in homeList.list[0].list[0].list[0].adPosition.adSet" :key="index" @click="goNextPage(item)">
 								<view class="swiper-item">
@@ -42,6 +42,7 @@
 					</view>
 				</view>
 			</view>
+			<SwiperDot class="dot" :listWidth="listWidth" :current="cur" :list="homeList.list[0].list[0].list[0].adPosition.adSet"></SwiperDot>
 		</view>
 		<!-- nav导航 -->
 		<view class="nav cf">
@@ -117,6 +118,7 @@
 	} from '../../api/userApi.js'
 	import T from '@/utils/tips.js'
 	import TabBar from '@/components/common/TabBar.vue'
+	import SwiperDot from "@/components/common/SwiperDotByMain.vue"
 	export default {
 		data() {
 			return {
@@ -126,15 +128,17 @@
 				navs: [], // 导航nav
 				advs: [], // 广告
 				seles: [], // 精选
-				indicatorDots: true,
+				indicatorDots: false,
 				autoplay: true,
 				interval: 3000,
 				duration: 500,
-				platform: 0
+				platform: 0,
+				cur:0,
+				listWidth:0
 			}
 		},
 		components: {
-			TabBar
+			TabBar,SwiperDot
 		},
 		onTabItemTap(e){
 			uni.setStorageSync('pagePath','main')
@@ -165,6 +169,9 @@
 			}, 1000);
 		},
 		methods: {
+			changeBanner(e) {
+				this.cur = e.detail.current;
+			},
 			// 显示分类
 			goClassify(){
 				uni.navigateTo({
@@ -346,6 +353,8 @@
 						this.homeList.list[3].list[1].goodsDetailRespList.forEach((item, index) => {
 							item.valueAddr = item.valueAddr.substring(0, 5)
 						})
+						
+						this.listWidth = uni.upx2px(this.homeList.list[3].list[1].goodsDetailRespList.length * 100) + 'px';
 					}
 				})
 			},
@@ -395,6 +404,13 @@
 </script>
 
 <style lang="scss" scoped>
+	.dot{
+		position: absolute;
+		z-index: 9999;
+		width: 100%;
+		height: 40upx;
+		bottom: -10upx;
+	}
 	.titleNview-placing {
 		height: var(--status-bar-height);
 		// padding-top: 44px;
@@ -650,6 +666,7 @@
 			margin-top: 40upx;
 			border-radius: 20upx;
 			overflow: hidden;
+			position: relative;
 			// background: #fff;
 			swiper {
 				height: 250upx;

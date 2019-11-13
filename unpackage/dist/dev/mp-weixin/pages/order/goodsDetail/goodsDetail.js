@@ -438,7 +438,7 @@ var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 198);
 
 var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);
 var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));
-var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var Share = function Share() {return Promise.all(/*! import() | components/good/Share */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/good/Share")]).then(__webpack_require__.bind(null, /*! @/components/good/Share */ 507));};var Player = function Player() {return __webpack_require__.e(/*! import() | components/common/Player */ "components/common/Player").then(__webpack_require__.bind(null, /*! @/components/common/Player.vue */ 515));};var Standard = function Standard() {return __webpack_require__.e(/*! import() | components/good/Standard */ "components/good/Standard").then(__webpack_require__.bind(null, /*! @/components/good/Standard */ 522));};var SwiperDot = function SwiperDot() {return __webpack_require__.e(/*! import() | components/common/SwiperDot */ "components/common/SwiperDot").then(__webpack_require__.bind(null, /*! @/components/common/SwiperDot.vue */ 529));};var _default =
+var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var Share = function Share() {return Promise.all(/*! import() | components/good/Share */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/good/Share")]).then(__webpack_require__.bind(null, /*! @/components/good/Share */ 587));};var Player = function Player() {return __webpack_require__.e(/*! import() | components/common/Player */ "components/common/Player").then(__webpack_require__.bind(null, /*! @/components/common/Player.vue */ 595));};var Standard = function Standard() {return __webpack_require__.e(/*! import() | components/good/Standard */ "components/good/Standard").then(__webpack_require__.bind(null, /*! @/components/good/Standard */ 602));};var SwiperDot = function SwiperDot() {return __webpack_require__.e(/*! import() | components/common/SwiperDot */ "components/common/SwiperDot").then(__webpack_require__.bind(null, /*! @/components/common/SwiperDot.vue */ 609));};var _default =
 
 {
   data: function data() {
@@ -504,16 +504,16 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
   onShow: function onShow() {var _this = this;
 
 
-    if (uni.getStorageSync("access_token")) {
-      (0, _goodsApi.getGoodNums)({
-        status: "" }).
-      then(function (data) {
-        if (data.code == '1000') {
-          _this.counter = data.data.itemNum;
-        }
+    // if (uni.getStorageSync("access_token")) {
+    // 	getGoodNums({
+    // 		status: ""
+    // 	}).then(data => {
+    // 		if(data.code == '1000'){
+    // 			this.counter = data.data.itemNum;
+    // 		}
 
-      });
-    }
+    // 	});
+    // }
     (0, _goodsApi.getDetail)({
       shopId: this.shopId,
       goodsId: this.goodsId }).
@@ -651,17 +651,17 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
         _this.calcPrice();
         _this.opt = true;
         // 获得邮费方案
-        (0, _goodsApi.getPostItem)({
-          id: d.goods.postSettingId }).
-        then(function (data) {
-          _this.postType = data.data.type;
-        });
+        // getPostItem({
+        // 	id: d.goods.postSettingId
+        // }).then(data => {
+        // 	this.postType = data.data.type;
+        // });
 
 
         // 判断商品是否备收藏
-        if (uni.getStorageSync('access_token')) {
-          _this.getHasCollect(_this.goodsId);
-        }
+        // if(uni.getStorageSync('access_token')){
+        // 	this.getHasCollect(this.goodsId)
+        // }
 
       }
 

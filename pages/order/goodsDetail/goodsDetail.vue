@@ -317,16 +317,16 @@
 		onShow() {
 			
 			
-			if (uni.getStorageSync("access_token")) {
-				getGoodNums({
-					status: ""
-				}).then(data => {
-					if(data.code == '1000'){
-						this.counter = data.data.itemNum;
-					}
+			// if (uni.getStorageSync("access_token")) {
+			// 	getGoodNums({
+			// 		status: ""
+			// 	}).then(data => {
+			// 		if(data.code == '1000'){
+			// 			this.counter = data.data.itemNum;
+			// 		}
 					
-				});
-			}
+			// 	});
+			// }
 			getDetail({
 				shopId: this.shopId,
 				goodsId: this.goodsId
@@ -464,17 +464,17 @@
 					this.calcPrice();
 					this.opt = true
 					// 获得邮费方案
-					getPostItem({
-						id: d.goods.postSettingId
-					}).then(data => {
-						this.postType = data.data.type;
-					});
+					// getPostItem({
+					// 	id: d.goods.postSettingId
+					// }).then(data => {
+					// 	this.postType = data.data.type;
+					// });
 					
 					
 					// 判断商品是否备收藏
-					if(uni.getStorageSync('access_token')){
-						this.getHasCollect(this.goodsId)
-					}
+					// if(uni.getStorageSync('access_token')){
+					// 	this.getHasCollect(this.goodsId)
+					// }
 					
 				}
 				

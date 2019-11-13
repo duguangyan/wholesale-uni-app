@@ -1,0 +1,1 @@
+<view class="dot-main data-v-557f43ad"><view class="items cf data-v-557f43ad" style="{{'width:'+(listWidth)+';'}}"><block wx:for="{{list}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="{{['item fll data-v-557f43ad',(current==index)?'active':'']}}"></view></block></view></view>

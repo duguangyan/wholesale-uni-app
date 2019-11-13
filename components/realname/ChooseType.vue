@@ -1,20 +1,20 @@
 <template>
 	<view>
-		<view class="bg" @touchmove.stop.prevent="moveHandle" @click="close"></view>
+		<view class="bg" @touchmove.stop.prevent="preventHandler" @click="close"></view>
 		<view class="chooseTyep cf">
 			<view class="left fll">
 				<view class="items">
-					<view @click="checkLeft(index)" class="item" :class="{'active':leftIndex==index}" v-for="(item,index) in left" :key="index">{{item}}</view>
+					<view @click="checkLeft(index)" class="item" :class="{'active':leftIndex==index}" v-for="(item,index) in left" :key="index">{{item.name}}</view>
 				</view>
 			</view>
 			<view class="content fll">
 				<view class="items">
-					<view @click="checkContent(index)"  class="item" :class="{'active':contentIndex==index}" v-for="(item,index) in content" :key="index">{{item}}</view>
+					<view @click="checkContent(index)"  class="item" :class="{'active':contentIndex==index}" v-for="(item,index) in content" :key="index">{{item.name}}</view>
 				</view>
 			</view>
 			<view class="right fll">
 				<view class="items">
-					<view @click="checkRight(index)" class="item" :class="{'active':rightIndex==index}" v-for="(item,index) in right" :key="index">{{item}}</view>
+					<view @click="checkRight(index)" class="item" :class="{'active':rightIndex==index}" v-for="(item,index) in right" :key="index">{{item.name}}</view>
 				</view>
 			</view>
 		</view>
@@ -27,8 +27,8 @@
 export default {
   name: 'ChooseTyep',
   props: {
-    item: {
-      type: Object,
+    list: {
+      type: Array,
       default: null
     }
   },
@@ -42,6 +42,11 @@ export default {
 		  rightIndex:0
   	};
   },
+  mounted() {
+  	this.left = this.list
+	this.content = this.list[this.leftIndex].children
+	this.right = this.list[this.leftIndex].children[this.contentIndex].children
+  },
   methods:{
 	  close(){
 		  let obg = {
@@ -51,21 +56,31 @@ export default {
 		  }
 		  this.$emit('close', obg)
 	  },
-	  moveHandle(){
-		  return false;
+	  preventHandler(){
+		  return
 	  },
 	  checkLeft(index){
+		  console.log(index)
 		  this.leftIndex = index
+		  
+		  this.content = this.list[this.leftIndex].children
+		  this.right = this.list[this.leftIndex].children[this.contentIndex].children
 	  },
 	  checkContent(index){
+		  console.log(index)
 		  this.contentIndex = index
+		  
+		  this.content = this.list[this.leftIndex].children
+		  this.right = this.list[this.leftIndex].children[this.contentIndex].children
 	  },
 	  checkRight(index){
+		  console.log(index)
 		  this.rightIndex = index
 		  let obg = {
-			  left:this.left[this.leftIndex],
-			  content:this.content[this.contentIndex],
-			  right:this.right[this.rightIndex]
+			  left:this.left[this.leftIndex].name,
+			  content:this.content[this.contentIndex].name,
+			  right:this.right[this.rightIndex].name,
+			  id:this.right[this.rightIndex].id
 		  }
 		  this.$emit('complete', obg)
 	  }
