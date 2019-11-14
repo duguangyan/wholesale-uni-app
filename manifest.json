@@ -1,9 +1,9 @@
 {
-    "name" : "上上农夫",
+    "name" : "农百集",
     "appid" : "__UNI__E3A114F",
     "description" : "上上农夫专业的红薯销售平台，提供全国最优质的红薯",
-    "versionName" : "1.0.4",
-    "versionCode" : 104,
+    "versionName" : "1.0.1",
+    "versionCode" : 101,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -77,20 +77,20 @@
                     "alipay" : {},
                     "weixin" : {
                         "appid" : "wx26baf2267dd24e83",
-                        "UniversalLinks" : "https://m.qinlvny.com/static/apple-app-site-association"
+                        "UniversalLinks" : "https://m.qinlvny.com/static/"
                     }
                 },
                 "share" : {
                     "weixin" : {
                         "appid" : "wx26baf2267dd24e83",
-                        "UniversalLinks" : "https://m.qinlvny.com/static/apple-app-site-association"
+                        "UniversalLinks" : "https://m.qinlvny.com/static/"
                     }
                 },
                 "oauth" : {
                     "weixin" : {
                         "appid" : "wx26baf2267dd24e83",
                         "appsecret" : "3acbb7d4ad8582d32e7f8da7a07878fc",
-                        "UniversalLinks" : "https://m.qinlvny.com/static/apple-app-site-association"
+                        "UniversalLinks" : "https://m.qinlvny.com/static/"
                     }
                 }
             },
@@ -128,13 +128,25 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "xhdpi" : ""
+                    "xhdpi" : "C:/Users/ZZT/Desktop/默认图/720-1242.png",
+                    "hdpi" : "C:/Users/ZZT/Desktop/默认图/480-762.png",
+                    "xxhdpi" : "C:/Users/ZZT/Desktop/默认图/1080-1882.png"
                 },
                 "ios" : {
                     "iphone" : {
-                        "portrait-896h@3x" : "",
-                        "retina55" : "",
-                        "retina47" : ""
+                        "portrait-896h@3x" : "C:/Users/ZZT/Desktop/默认图/1242-2688.png",
+                        "retina55" : "C:/Users/ZZT/Desktop/默认图/1242-2208.png",
+                        "retina47" : "C:/Users/ZZT/Desktop/默认图/750-1334.png",
+                        "landscape-896h@3x" : "C:/Users/ZZT/Desktop/默认图/1242-2688-1.png",
+                        "portrait-896h@2x" : "C:/Users/ZZT/Desktop/默认图/828-1792.png",
+                        "landscape-896h@2x" : "C:/Users/ZZT/Desktop/默认图/828-1792-1.png",
+                        "iphonex" : "C:/Users/ZZT/Desktop/默认图/1125-2436-2.png",
+                        "iphonexl" : "C:/Users/ZZT/Desktop/默认图/1125-2436-1.png",
+                        "retina55l" : "C:/Users/ZZT/Desktop/默认图/1242-2208-2.png",
+                        "retina47l" : "C:/Users/ZZT/Desktop/默认图/750-1334-2.png",
+                        "retina40" : "C:/Users/ZZT/Desktop/默认图/640-1136.png",
+                        "retina40l" : "C:/Users/ZZT/Desktop/默认图/640-1136-2.png",
+                        "retina35" : "C:/Users/ZZT/Desktop/默认图/640-960.png"
                     }
                 }
             }
@@ -161,13 +173,13 @@
     },
     "h5" : {
         "devServer" : {
-            "port" : 8000,
+            "port" : 7000,
             "disableHostCheck" : true,
             "proxy" : {
                 "/api" : {
                     "target" : "http://192.168.0.202", // 需要跨域的域名
                     "changeOrigin" : true,
-                    "secure" : false,
+                    "secure" : true,
                     "pathRewrite" : {
                         "^/api" : "" //匹配请求路径里面有 /api 替换成 https://testapi.kemiandan.com
                     }

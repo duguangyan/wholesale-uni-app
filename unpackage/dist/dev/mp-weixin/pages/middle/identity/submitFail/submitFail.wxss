@@ -1,0 +1,117 @@
+.agency.data-v-041d44b8 {
+  background: #fff;
+  height: 100vh;
+}
+.agency .big-btn-active.data-v-041d44b8 {
+    margin-top: 100rpx;
+}
+.agency .content.data-v-041d44b8 {
+    text-align: center;
+    padding-top: 100rpx;
+}
+.agency .content .img.data-v-041d44b8 {
+      width: 120rpx;
+      height: 120rpx;
+      text-align: center;
+      margin: 0 auto;
+}
+.agency .content .img > image.data-v-041d44b8 {
+        width: 100%;
+        height: 100%;
+}
+.agency .content .p.data-v-041d44b8 {
+      font-size: 32rpx;
+      color: #48484C;
+      margin: 20rpx 0;
+}
+.agency .content .s.data-v-041d44b8 {
+      font-size: 24rpx;
+      color: #999999;
+}
+.agency .user.data-v-041d44b8 {
+    padding: 0 30rpx;
+    border-bottom: 20rpx solid #F5F5F5;
+}
+.agency .user .item-2.data-v-041d44b8 {
+      height: 100rpx;
+      line-height: 100rpx;
+}
+.agency .user .item-2 .v-1.data-v-041d44b8 {
+        font-size: 30rpx;
+        color: #333;
+        width: 20%;
+}
+.agency .user .item-2 .v-2.data-v-041d44b8 {
+        width: 56%;
+}
+.agency .user .item-2 .v-2 input.data-v-041d44b8 {
+          position: relative;
+          top: 30rpx;
+          font-size: 30rpx;
+          padding-bottom: 30rpx;
+}
+.agency .user .item-2 .v-3.data-v-041d44b8 {
+        width: 24%;
+        font-size: 30rpx;
+}
+.agency .user .item-1.data-v-041d44b8 {
+      height: 100rpx;
+      line-height: 100rpx;
+}
+.agency .user .item-1 .fll.data-v-041d44b8 {
+        font-size: 30rpx;
+        color: #333;
+        width: 20%;
+}
+.agency .user .item-1 .flr.data-v-041d44b8 {
+        width: 80%;
+}
+.agency .user .item-1 .flr input.data-v-041d44b8 {
+          position: relative;
+          top: 30rpx;
+          padding-bottom: 30rpx;
+          font-size: 30rpx;
+          border-bottom: 1rpx solid #F0F0F0;
+}
+.agency .top.data-v-041d44b8 {
+    height: 140rpx;
+    line-height: 140rpx;
+    padding: 0 30rpx;
+    padding-left: 40rpx;
+}
+.agency .top .item .garden.data-v-041d44b8 {
+      display: inline-block;
+      position: relative;
+      top: 46rpx;
+      width: 44rpx;
+      height: 44rpx;
+      border-radius: 50%;
+      line-height: 44rpx;
+      text-align: center;
+      background: #C2C2CC;
+      font-size: 32rpx;
+      color: #fff;
+}
+.agency .top .item .text.data-v-041d44b8 {
+      color: #999999;
+      margin-left: 20rpx;
+      width: 100rpx;
+      font-size: 24rpx;
+}
+.agency .top .item .label.data-v-041d44b8 {
+      display: inline-block;
+      width: 24rpx;
+      height: 24rpx;
+      margin-left: 20rpx;
+}
+.agency .top .item .label > image.data-v-041d44b8 {
+        width: 100%;
+        height: 100%;
+}
+.agency .top .item .activeGarden.data-v-041d44b8 {
+      background: #FE3B0B;
+}
+.agency .top .item .activeText.data-v-041d44b8 {
+      color: #FE3B0B;
+}
+

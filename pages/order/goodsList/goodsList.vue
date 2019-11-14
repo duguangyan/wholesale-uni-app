@@ -5,7 +5,7 @@
 				<div class="icon-30">
 					<img src="@/static/img/icon-search2.png" width="15" height="15" alt />
 				</div>
-				<input class="fs28" v-model="search.keywords" :placeholder="search.keywords || '请输入搜索内容'" />
+				<input class="fs28" type='text' confirm-type="search" @confirm="doSearch($event)" v-model="search.keywords" :placeholder="search.keywords || '请输入搜索内容'" />
 			</div>
 			<div class="flr">
 				<div class="icon fs28 text-333" @click="doSearch($event)">搜索</div>
@@ -63,6 +63,7 @@
 				hasData: false,
 				search: {
 					// attrValueList: ["string"],
+					attrValueList:[],
 					platform:0,
 					keywords: '',
 					pageIndex: 1,
@@ -70,6 +71,7 @@
 					place: "",
 					priceBegin: "",
 					priceEnd: "",
+					sortMark:"",
 					sortColumn: /* 综合:universal 价格：price */ "universal",
 					sortType: /* 排序类型（0.降序 1.升序） */ 0
 				},
@@ -91,7 +93,12 @@
 			Panel,Good
 		},
 		onLoad(options) {
-			this.search.keywords = options.search
+			if(options.search){
+				this.search.keywords = options.search;
+			}else{
+				this.search.attrValueList = [];
+				this.search.attrValueList.push(options.attrValueList);
+			}
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
 			this.load();
@@ -102,7 +109,8 @@
 		methods: {
 			
 			doSearch(){
-				this.pageIndex = 1
+				this.search.attrValueList = []
+				this.search.pageIndex = 1
 				this.list = []
 				this.load();
 			},
@@ -115,6 +123,7 @@
 			},
 			doPriceSort() {
 				this.search.sortColumn = "price";
+				this.search.sortMark = 1;
 				if (this.curOpt === "pri-desc") {
 					this.curOpt = "pri-asc";
 					this.search.sortType = 1;
@@ -129,6 +138,7 @@
 			},
 			doUniSort() {
 				this.search.sortColumn = "universal";
+				this.search.sortMark = 2;
 				if (this.curOpt === "gen-desc") {
 					this.curOpt = "gen-asc";
 					//this.search.sortType = 1;

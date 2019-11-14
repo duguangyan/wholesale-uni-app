@@ -229,8 +229,60 @@ const openIdByCode = data => {
   })
 }
 
+// 获取版本号判断是否更新
+const appUpdate = data => {
+  return request({
+    url: '/api/upms/appUpdate/getByCode',
+    data,
+    type: 'form',
+  })
+}
+
+
+// 根据用户ID获取用户状态信息
+const getUserRealInfo = data => {
+  return request({
+    url: '/api/goods/userRealInfo/getUserRoleAndUserRealInfo',
+    data,
+    type: 'form',
+  })
+}
+
+
+// 用户实名认证
+const getUserRealInfoSettledIn = data => {
+  return request({
+	method: 'post',
+    url: '/api/goods/userRealInfo/settledIn',
+    data,
+    type: 'form',
+  })
+}
+// 或许用户认证信息
+const getByUserIdAndType = data => {
+  return request({
+	method: 'post',
+    url: '/api/goods/apply/getByUserIdAndType',
+    data,
+    type: 'form',
+  })
+}
+
+// 获取用户全部信息 实名 认证 
+const getUserRealInfoAll = data => {
+  return request({
+    url: '/api/goods/userRealInfo/getUserInfo',
+    data,
+    type: 'form',
+  })
+}
 
 export {
+	getUserRealInfoAll,
+	getByUserIdAndType,
+	getUserRealInfoSettledIn,
+	getUserRealInfo,
+  appUpdate,
   openIdByCode,
   weixinLogin,
   getSetFormId,

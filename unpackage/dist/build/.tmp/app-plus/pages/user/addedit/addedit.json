@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "添加地址",
-  "usingComponents": {
-    "ra-btn": "/components/common/RaBtn",
-    "dialog": "/components/common/Dialog",
-    "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker"
-  }
-}

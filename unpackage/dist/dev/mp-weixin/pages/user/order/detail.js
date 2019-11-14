@@ -277,8 +277,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);
-var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var Good = function Good() {return __webpack_require__.e(/*! import() | components/order/Good */ "components/order/Good").then(__webpack_require__.bind(null, /*! @/components/order/Good */ 581));};var Pay = function Pay() {return Promise.all(/*! import() | components/common/Pay */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/Pay")]).then(__webpack_require__.bind(null, /*! @/components/common/Pay */ 588));};var Dialog = function Dialog() {return __webpack_require__.e(/*! import() | components/common/Dialog */ "components/common/Dialog").then(__webpack_require__.bind(null, /*! @/components/common/Dialog.vue */ 550));};var _default =
+var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));
+var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var Good = function Good() {return __webpack_require__.e(/*! import() | components/order/Good */ "components/order/Good").then(__webpack_require__.bind(null, /*! @/components/order/Good */ 581));};var Pay = function Pay() {return Promise.all(/*! import() | components/common/Pay */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/Pay")]).then(__webpack_require__.bind(null, /*! @/components/common/Pay */ 588));};var Dialog = function Dialog() {return __webpack_require__.e(/*! import() | components/common/Dialog */ "components/common/Dialog").then(__webpack_require__.bind(null, /*! @/components/common/Dialog.vue */ 550));};var _default =
 
 {
   name: 'orddetail',
@@ -296,7 +299,9 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
       nowIndexPrice: 0,
       isOrderDialog: 0,
       isPay: 0,
-      platform: 0 };
+      platform: 0,
+      timer: '',
+      expiresTime: '' };
 
   },
   components: {
@@ -327,7 +332,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     doCancel: function doCancel() {
       this.isShow = false;
     },
-    doConfirm: function doConfirm() {
+    doConfirm: function doConfirm() {var _this2 = this;
       var _this = this;
 
       if (_this.isOrderDialog == 0) {
@@ -339,7 +344,8 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
             if (res.code === '1000') {
               _this.status = -1;
               _this.statusText = '已取消';
-              _this.order.leftTimeTip = '';
+              _this.expiresTime = '';
+              clearInterval(_this2.timer);
               _this.isShow = false;
             } else {
               _tips.default.tips(res.message || '取消订单失败');
@@ -416,7 +422,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
       this.isOrderDialog = 0;
     },
     // 获取订单详情
-    getOrderDetailById: function getOrderDetailById(orderId, shopId) {var _this2 = this;
+    getOrderDetailById: function getOrderDetailById(orderId, shopId) {var _this3 = this;
       var data = {
         orderId: orderId };
 
@@ -425,32 +431,43 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
       }
       (0, _userApi.getOrderDetailById)(data).then(function (res) {
         if (res.code === '1000') {
-          _this2.order = res.data[0];
-          _this2.statusText = '';
-          if (_this2.order.shopOrder) {
-            _this2.status = _this2.order.shopOrder.status;
-            console.log('status', _this2.status);
-            switch (_this2.status) {
+          _this3.order = res.data[0];
+
+          if (_this3.order.shopOrder.status == 0 || _this3.order.shopOrder.status == 3) {
+            var expiresTime = _this3.order.expiresTime;
+            _this3.timer = setInterval(function () {
+              expiresTime = expiresTime - 1000;
+              _this3.expiresTime = _this3.order.shopOrder.status == 0 ? _util.default.MillisecondToDate(expiresTime) : _util.default.getLeftTime(expiresTime);
+              if (expiresTime <= 0) {
+                clearInterval(_this3.timer);
+              }
+            }, 1000);
+          }
+          _this3.statusText = '';
+          if (_this3.order.shopOrder) {
+            _this3.status = _this3.order.shopOrder.status;
+            console.log('status', _this3.status);
+            switch (_this3.status) {
               case -1:
-                _this2.statusText = '已取消';
+                _this3.statusText = '已取消';
                 break;
               case 0:
-                _this2.statusText = '待付款';
+                _this3.statusText = '待付款';
                 break;
               case 1:
-                _this2.statusText = '已支付';
+                _this3.statusText = '已支付';
                 break;
               case 2:
-                _this2.statusText = '待发货';
+                _this3.statusText = '待发货';
                 break;
               case 3:
-                _this2.statusText = '待收货';
+                _this3.statusText = '待收货';
                 break;
               case 4:
-                _this2.statusText = '已完成';
+                _this3.statusText = '已完成';
                 break;
               case 5:
-                _this2.statusText = '已关闭';
+                _this3.statusText = '已关闭';
                 break;}
 
           }

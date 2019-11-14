@@ -1,0 +1,45 @@
+.localshipper.data-v-ac90649e {
+  background: #fff;
+  min-height: 100vh;
+}
+.localshipper .nodata.data-v-ac90649e {
+    text-align: center;
+}
+.localshipper .nodata .image.data-v-ac90649e {
+      width: 200rpx;
+      height: 200rpx;
+      margin: 0 auto;
+      padding-top: 300rpx;
+      padding-bottom: 20rpx;
+}
+.localshipper .nodata .image > image.data-v-ac90649e {
+        width: 100%;
+        height: 100%;
+}
+.localshipper .items .item.data-v-ac90649e {
+    padding: 0 30rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    border-bottom: 1rpx solid #f5f5f5;
+}
+.localshipper .items .item .btn.data-v-ac90649e {
+      width: 150rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      text-align: center;
+      background: #fe3b0b;
+      border-radius: 30rpx;
+      color: #fff;
+      font-size: 28rpx;
+      position: relative;
+      left: 20rpx;
+}
+.localshipper .tip.data-v-ac90649e {
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    font-size: 24rpx;
+    color: #999999;
+    background: #f5f5f5;
+}
+

@@ -14,15 +14,14 @@
 				</view>
 			  <view class="content">
 			    <view v-if="isLogin" @click="goInfo">
-			      <view class="uid fs28" v-if="nickName">{{nickName}}</view>
-			      <view class="uid fs28" v-if="!nickName">ID:{{uid}}</view>
+			      <view class="uid fs28">{{nickName || '游客'}}</view>
+			      <!-- <view class="uid fs28" v-if="!nickName">ID:{{uid}}</view> -->
 			      <view class="phone fs24  mgt-30">{{dPhone}}</view>
 			    </view>
 			    <view class="fs30 mgl-20" v-if="!isLogin" @click="goLogin">点击登录</view>
 			  </view>
 			</view>
 		</view>
-		
 		
         <!-- 我的订单 -->
         <view class="order">
@@ -38,7 +37,6 @@
 				<view class="img" :class="{'Android4': platform == 1}">
 					<image :src="item.u"/>
 				</view>
-              
               <view class="fs24" :class="{'Android3': platform == 1}">{{item.t}}</view>
             </view>
           </view>
@@ -76,11 +74,17 @@
               phone: '',
               headimageUrl: '/static/img/icon-user.png',
 			  nickName:'',
-			  platform: 0
+			  platform: 0,
+			  userRealInfo:'',
+			  userApply:''
             }
         },
 		components:{TabBar},
+		onTabItemTap(e){
+			uni.setStorageSync('pagePath','user')
+		},
 		onLoad() {
+			uni.setStorageSync('pagePath','user')
 			
 		},
 		onShow() {
@@ -94,6 +98,9 @@
 			this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png'
 			// 判断是否登录
 			this.isLogin = this.uid!='' 
+			
+			// 判断用户类型
+			this.assessUserType()
 		},
 		computed: {
 		    dPhone() {
@@ -101,11 +108,63 @@
 		    }
 		},
         methods: {
+			// 判断用户类型
+			assessUserType(){
+				// 设置底部tab样式
+				this.roleId = uni.getStorageSync('roleId')
+				
+				if(this.roleId){
+					if(this.roleId == '20002'){
+						uni.setTabBarItem({
+						  index: 1,
+						  text: '代办',
+						  iconPath: '/static/img/2.1.png',
+						  selectedIconPath: '/static/img/2.2.png'
+						})
+						
+					} else if(this.roleId == '20001') {
+						uni.setTabBarItem({
+						  index: 1,
+						  text: '我要卖',
+						  iconPath: '/static/img/4.1.png',
+						  selectedIconPath: '/static/img/4.2.png'
+						})
+					}
+				}
+				
+				this.userRealInfo = uni.getStorageSync('userRealInfo')
+				this.userApply = uni.getStorageSync('userApply')
+				
+				
+				
+				if(uni.getStorageSync('access_token')){
+					if(this.userRealInfo == "" && this.userApply==""){
+						uni.redirectTo({
+							url:'/pages/middle/identity/identity'
+						})
+					}
+					if(this.userRealInfo != "" && this.userApply==""){
+						uni.switchTab({
+							url:'/pages/middle/middle'
+						})
+					}
+				}
+				
+
+			},
 			// 去收藏页面
 			goCollection(){
-				uni.navigateTo({
-					url:'/pages/user/collection/collection'
-				})
+				
+				if(!uni.getStorageSync('access_token')) {
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
+				} else{
+					uni.navigateTo({
+						url:'/pages/user/collection/collection'
+					})
+				}
+				
 			},
 			// 去设置页面
 			goSettingPage(){
@@ -115,16 +174,27 @@
 			},
             // 去订单页面
 			goOrderList(index) {
-			  let i = index === '' ? '' : index + 1
-			  uni.setStorageSync('orderNavIndex', i)
-			  uni.navigateTo({
-			  	url:'/pages/user/order/list'
-			  })
+			  if(uni.getStorageSync('access_token')){
+				  let i = index === '' ? '' : index + 1
+				  uni.setStorageSync('orderNavIndex', i)
+				  uni.navigateTo({
+				  	url:'/pages/user/order/list'
+				  })
+			  } else {
+				  uni.navigateTo({
+				  	url:'/pages/login/login'
+				  })
+			  }	
+			
 			},
 			goInfo() {
 				if(this.isLogin) {
 					uni.navigateTo({
 						url:'/pages/user/info/info'
+					})
+				}else{
+					uni.navigateTo({
+						url:'/pages/login/login'
 					})
 				}
 			},

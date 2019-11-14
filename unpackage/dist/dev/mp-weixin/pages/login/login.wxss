@@ -15,6 +15,16 @@
     margin-left: 56rpx;
     margin-right: 56rpx;
 }
+.login .body .logo.data-v-4c165ce2 {
+      width: 90rpx;
+      height: 90rpx;
+      margin: 0 auto;
+      padding-top: 50rpx;
+}
+.login .body .logo > image.data-v-4c165ce2 {
+        width: 100%;
+        height: 100%;
+}
 .login .welcome.data-v-4c165ce2 {
     padding-top: 74rpx;
     font-size: 40rpx;

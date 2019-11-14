@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "本地货品",
+  "usingComponents": {
+    "goodx": "/components/common/Goodx"
+  }
+}

@@ -90,19 +90,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var a0 = {
-    color: "#FC2D2D",
-    size: "12",
-    type: "star-filled"
-  }
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        a0: a0
-      }
-    }
-  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -135,7 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniIcons = function uniIcons() {return __webpack_require__.e(/*! import() | components/uni-icons/uni-icons */ "components/uni-icons/uni-icons").then(__webpack_require__.bind(null, /*! @/components/uni-icons/uni-icons.vue */ 704));};var uniList = function uniList() {return __webpack_require__.e(/*! import() | components/uni-list/uni-list */ "components/uni-list/uni-list").then(__webpack_require__.bind(null, /*! @/components/uni-list/uni-list.vue */ 690));};var uniListItem = function uniListItem() {return __webpack_require__.e(/*! import() | components/uni-list-item/uni-list-item */ "components/uni-list-item/uni-list-item").then(__webpack_require__.bind(null, /*! @/components/uni-list-item/uni-list-item.vue */ 697));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -172,42 +159,77 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 198);
+var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { hasData: true, unit: '', unitId: '', stock: '', is70: true, unitList: [], unitLists: [], skuAttrValues: [{ name: '', value: '' }] };}, components: {}, onLoad: function onLoad() {}, onShow: function onShow() {// 获取分类单位
+    this.getCategoryUnitList();}, methods: { checkName: function checkName() {this.assessHasData();}, checkValue: function checkValue() {this.assessHasData();}, // 库存输入框
+    checkStock: function checkStock() {this.assessHasData();}, // 判断数据是否完整
+    assessHasData: function assessHasData() {
+      this.hasData = this.unit == '' || this.stock == '' || this.skuAttrValues[0].name == '' || this.skuAttrValues[0].value == '';
 
+    },
+    // 获取分类单位
+    getCategoryUnitList: function getCategoryUnitList() {var _this2 = this;
+      var data = {
+        categoryId: JSON.parse(uni.getStorageSync('varieties')).id,
+        status: 1 };
 
+      (0, _goodsApi.getCategoryUnitList)(data).then(function (res) {
+        if (res.code == '1000') {
+          _this2.unitLists = res.data;
+          _this2.unitList = [];
+          res.data.forEach(function (item) {
+            _this2.unitList.push(item.name);
+          });
 
-
-
-
-
-{
-  data: function data() {
-    return {
-      unit: '选择计量单位',
-      is70: true,
-      itemList: ['斤', '公斤', '袋', '吨'],
-      list: [
-      {
-        num: '',
-        price: '' }] };
-
-
-
-  },
-  components: { uniIcons: uniIcons, uniList: uniList, uniListItem: uniListItem },
-  onLoad: function onLoad() {
-
-  },
-  onShow: function onShow() {
-
-  },
-  methods: {
+        }
+      });
+    },
     getUnit: function getUnit() {
       var _this = this;
       uni.showActionSheet({
-        itemList: this.itemList,
+        itemList: this.unitList,
         success: function success(res) {
-          _this.unit = _this.itemList[res.tapIndex];
+          _this.unit = _this.unitList[res.tapIndex];
+          _this.unitId = _this.unitLists[res.tapIndex].id;
           console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+          // 判断数据是否完整
+          _this.assessHasData();
         },
         fail: function fail(res) {
           console.log(res.errMsg);
@@ -217,20 +239,37 @@ __webpack_require__.r(__webpack_exports__);
     // 新增报价
     add: function add() {
       var obj = {
-        num: '',
-        price: '' };
+        name: '',
+        value: '' };
 
-      this.list.push(obj);
+      this.skuAttrValues.push(obj);
     },
     // 删除报价
     del: function del(index) {
       if (index > 0) {
-        this.list.splice(index, 1);
+        this.skuAttrValues.splice(index, 1);
       }
-
+      // 判断数据是否完整
+      this.assessHasData();
     },
     // 保存
     save: function save() {
+      if (this.unit == '') {
+        _tips.default.tips('请选择计量单位');
+        return false;
+      }
+      if (this.stock == '') {
+        _tips.default.tips('请填写库存');
+        return false;
+      }
+      if (this.skuAttrValues[0].name == '' && this.skuAttrValues[0].value == '') {
+        _tips.default.tips('至少填写一个起批量和价格');
+        return false;
+      }
+
+
+
+
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

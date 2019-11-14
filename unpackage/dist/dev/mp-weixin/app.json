@@ -36,13 +36,35 @@
     "pages/middle/release/attribute/add/add",
     "pages/middle/release/account/account",
     "pages/middle/release/account/record/record",
+    "pages/middle/release/account/record/detail",
     "pages/middle/release/account/bankcard/bankcard",
-    "pages/middle/release/account/payps/payps"
+    "pages/middle/release/account/bankcard/add",
+    "pages/middle/release/account/bankcard/addinfo",
+    "pages/middle/release/account/payps/payps",
+    "pages/middle/release/account/payps/resPassword",
+    "pages/middle/release/account/payps/confirmPassword",
+    "pages/middle/release/account/payps/verifiyPhone",
+    "pages/middle/identity/identity",
+    "pages/middle/identity/realname/agency",
+    "pages/middle/identity/realname/buyer",
+    "pages/middle/identity/realname/shipper",
+    "pages/middle/identity/submitSuccess/submitSuccess",
+    "pages/common/picture/picture",
+    "pages/common/showImage/showImage",
+    "pages/middle/identity/submit/submit",
+    "pages/middle/identity/submitFail/submitFail",
+    "pages/main/classify/classify",
+    "pages/middle/release/account/cash/cash",
+    "pages/middle/release/account/cash/cashSuccess",
+    "pages/middle/release/product/localshipper/localshipper",
+    "pages/middle/release/product/localproduct/localproduct",
+    "pages/middle/release/chooseImage/chooseImage",
+    "pages/common/video/video"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "沁绿农业APP",
+    "navigationBarTitleText": "农百集APP",
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#FFFFFF",
     "onReachBottomDistance": 151
@@ -60,7 +82,7 @@
       },
       {
         "pagePath": "pages/middle/middle",
-        "text": "状态",
+        "text": "买货",
         "iconPath": "static/img/2.1.png",
         "selectedIconPath": "static/img/2.2.png"
       },
@@ -72,5 +94,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap5.json"
 }

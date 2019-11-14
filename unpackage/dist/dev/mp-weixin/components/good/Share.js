@@ -202,10 +202,10 @@ var _default2 =
         summary: summary,
         imageUrl: imageUrl,
         success: function success(res) {
-          console.log("success:" + JSON.stringify(res));
+          // console.log("success:" + JSON.stringify(res));
         },
         fail: function fail(err) {
-          console.log("fail:" + JSON.stringify(err));
+          // console.log("fail:" + JSON.stringify(err));
         } });
 
 

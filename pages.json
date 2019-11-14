@@ -173,7 +173,6 @@
 				"app-plus":{
 					"titleView":false
 				}
-				
 			}
         }
         ,{
@@ -191,7 +190,11 @@
         ,{
             "path" : "pages/middle/release/attribute/attribute",
             "style" : {
-				"navigationBarTitleText": "选择属性" 
+				"navigationBarTitleText": "选择属性",
+				 "navigationStyle":"custom",
+				 "app-plus":{
+				 	"titleView":false
+				 }
 			}
         }
         ,{
@@ -203,7 +206,11 @@
         ,{
             "path" : "pages/middle/release/attribute/add/add",
             "style" : {
-				"navigationBarTitleText": "添加属性" 
+				"navigationBarTitleText": "添加属性",
+				"navigationStyle":"custom",
+				"app-plus":{
+					"titleView":false
+				}
 			}
         }
         ,{
@@ -218,16 +225,150 @@
 				"navigationBarTitleText": "账单记录" 
 			}
         }
+		,{
+		    "path" : "pages/middle/release/account/record/detail",
+		    "style" : {
+				"navigationBarTitleText": "账单详情" 
+			}
+		}
         ,{
             "path" : "pages/middle/release/account/bankcard/bankcard",
             "style" : {
-				"navigationBarTitleText": "银行卡" 
+				"navigationBarTitleText": "我的银行卡" 
 			}
         }
+		,{
+		    "path" : "pages/middle/release/account/bankcard/add",
+		    "style" : {
+				"navigationBarTitleText": "添加银行卡" 
+			}
+		}
+		,{
+		    "path" : "pages/middle/release/account/bankcard/addinfo",
+		    "style" : {
+				"navigationBarTitleText": "填写银行卡信息" 
+			}
+		}
         ,{
             "path" : "pages/middle/release/account/payps/payps",
             "style" : {
 				"navigationBarTitleText": "支付密码" 
+			}
+        }
+		,{
+		    "path" : "pages/middle/release/account/payps/resPassword",
+		    "style" : {
+				"navigationBarTitleText": "设置新支付密码" 
+			}
+		}
+		,{
+		    "path" : "pages/middle/release/account/payps/confirmPassword",
+		    "style" : {
+				"navigationBarTitleText": "确认支付密码" 
+			}
+		}
+		,{
+		    "path" : "pages/middle/release/account/payps/verifiyPhone",
+		    "style" : {
+				"navigationBarTitleText": "验证手机号码" 
+			}
+		}
+        ,{
+            "path" : "pages/middle/identity/identity",
+            "style" : {
+				"navigationBarTitleText": "选择身份",
+				"navigationStyle":"custom",
+				"app-plus":{
+					"titleView":false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/middle/identity/realname/agency",
+            "style" : {
+				"navigationBarTitleText": "信息填写"
+			}
+        },{
+            "path" : "pages/middle/identity/realname/buyer",
+            "style" : {
+				"navigationBarTitleText": "实名认证"
+			}
+        },{
+            "path" : "pages/middle/identity/realname/shipper",
+            "style" : {
+				"navigationBarTitleText": "信息填写"
+			}
+        }
+        ,{
+            "path" : "pages/middle/identity/submitSuccess/submitSuccess",
+            "style" : {
+				"navigationBarTitleText": "提交成功"
+			}
+        }
+        ,{
+            "path" : "pages/common/picture/picture",
+            "style" : {
+				"navigationBarTitleText": "查看图片"
+			}
+        }
+        ,{
+            "path" : "pages/common/showImage/showImage",
+            "style" : {
+				"navigationBarTitleText": "示例说明"
+			}
+        }
+        ,{
+            "path" : "pages/middle/identity/submit/submit",
+            "style" : {
+				"navigationBarTitleText": "提交审核"
+			}
+        }
+        ,{
+            "path" : "pages/middle/identity/submitFail/submitFail",
+            "style" : {
+				"navigationBarTitleText": "反馈"
+			}
+        }
+        ,{
+            "path" : "pages/main/classify/classify",
+            "style" : {
+				"navigationBarTitleText": "分类查询"
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/account/cash/cash",
+            "style" : {
+				"navigationBarTitleText": "账户提现"
+			}
+        }
+		,{
+		    "path" : "pages/middle/release/account/cash/cashSuccess",
+		    "style" : {
+				"navigationBarTitleText": "提交成功"
+			}
+		}
+        ,{
+            "path" : "pages/middle/release/product/localshipper/localshipper",
+            "style" : {
+				"navigationBarTitleText": "本地货主"
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/product/localproduct/localproduct",
+            "style" : {
+				"navigationBarTitleText": "本地货品"
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/chooseImage/chooseImage",
+            "style" : {
+				"navigationBarTitleText": "图片编辑"
+			}
+        }
+        ,{
+            "path" : "pages/common/video/video",
+            "style" : {
+				"navigationBarTitleText": "视频播放"
 			}
         }
     ],
@@ -242,7 +383,7 @@
 			"selectedIconPath": "static/img/1.2.png"
 		}, {
 			"pagePath": "pages/middle/middle",
-			"text": "状态",
+			"text": "买货",
 			"iconPath": "static/img/2.1.png",
 			"selectedIconPath": "static/img/2.2.png"
 		}, {
@@ -254,7 +395,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "沁绿农业APP",
+		"navigationBarTitleText": "农百集APP",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF",
 		// "enablePullDownRefresh": true,

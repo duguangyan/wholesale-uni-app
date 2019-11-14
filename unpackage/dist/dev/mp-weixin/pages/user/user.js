@@ -183,8 +183,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 {
   data: function data() {
     return {
@@ -200,11 +198,17 @@ __webpack_require__.r(__webpack_exports__);
       phone: '',
       headimageUrl: '/static/img/icon-user.png',
       nickName: '',
-      platform: 0 };
+      platform: 0,
+      userRealInfo: '',
+      userApply: '' };
 
   },
   components: { TabBar: TabBar },
+  onTabItemTap: function onTabItemTap(e) {
+    uni.setStorageSync('pagePath', 'user');
+  },
   onLoad: function onLoad() {
+    uni.setStorageSync('pagePath', 'user');
 
   },
   onShow: function onShow() {
@@ -218,6 +222,9 @@ __webpack_require__.r(__webpack_exports__);
     this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png';
     // 判断是否登录
     this.isLogin = this.uid != '';
+
+    // 判断用户类型
+    this.assessUserType();
   },
   computed: {
     dPhone: function dPhone() {
@@ -225,10 +232,62 @@ __webpack_require__.r(__webpack_exports__);
     } },
 
   methods: {
+    // 判断用户类型
+    assessUserType: function assessUserType() {
+      // 设置底部tab样式
+      this.roleId = uni.getStorageSync('roleId');
+
+      if (this.roleId) {
+        if (this.roleId == '20002') {
+          uni.setTabBarItem({
+            index: 1,
+            text: '代办',
+            iconPath: '/static/img/2.1.png',
+            selectedIconPath: '/static/img/2.2.png' });
+
+
+        } else if (this.roleId == '20001') {
+          uni.setTabBarItem({
+            index: 1,
+            text: '我要卖',
+            iconPath: '/static/img/4.1.png',
+            selectedIconPath: '/static/img/4.2.png' });
+
+        }
+      }
+
+      this.userRealInfo = uni.getStorageSync('userRealInfo');
+      this.userApply = uni.getStorageSync('userApply');
+
+
+
+      if (uni.getStorageSync('access_token')) {
+        if (this.userRealInfo == "" && this.userApply == "") {
+          uni.redirectTo({
+            url: '/pages/middle/identity/identity' });
+
+        }
+        if (this.userRealInfo != "" && this.userApply == "") {
+          uni.switchTab({
+            url: '/pages/middle/middle' });
+
+        }
+      }
+
+
+    },
     // 去收藏页面
     goCollection: function goCollection() {
-      uni.navigateTo({
-        url: '/pages/user/collection/collection' });
+
+      if (!uni.getStorageSync('access_token')) {
+        uni.navigateTo({
+          url: '/pages/login/login' });
+
+      } else {
+        uni.navigateTo({
+          url: '/pages/user/collection/collection' });
+
+      }
 
     },
     // 去设置页面
@@ -239,16 +298,27 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 去订单页面
     goOrderList: function goOrderList(index) {
-      var i = index === '' ? '' : index + 1;
-      uni.setStorageSync('orderNavIndex', i);
-      uni.navigateTo({
-        url: '/pages/user/order/list' });
+      if (uni.getStorageSync('access_token')) {
+        var i = index === '' ? '' : index + 1;
+        uni.setStorageSync('orderNavIndex', i);
+        uni.navigateTo({
+          url: '/pages/user/order/list' });
+
+      } else {
+        uni.navigateTo({
+          url: '/pages/login/login' });
+
+      }
 
     },
     goInfo: function goInfo() {
       if (this.isLogin) {
         uni.navigateTo({
           url: '/pages/user/info/info' });
+
+      } else {
+        uni.navigateTo({
+          url: '/pages/login/login' });
 
       }
     },

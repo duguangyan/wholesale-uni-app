@@ -423,10 +423,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
 var _iconCollect = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-collect.png */ 196));
 var _iconCollect2 = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-collect2.png */ 197));
 var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 198);
@@ -442,10 +438,12 @@ var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 198);
 
 var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);
 var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));
-var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var Share = function Share() {return Promise.all(/*! import() | components/good/Share */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/good/Share")]).then(__webpack_require__.bind(null, /*! @/components/good/Share */ 612));};var Player = function Player() {return __webpack_require__.e(/*! import() | components/common/Player */ "components/common/Player").then(__webpack_require__.bind(null, /*! @/components/common/Player.vue */ 620));};var Standard = function Standard() {return __webpack_require__.e(/*! import() | components/good/Standard */ "components/good/Standard").then(__webpack_require__.bind(null, /*! @/components/good/Standard */ 627));};var _default =
+var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var Share = function Share() {return Promise.all(/*! import() | components/good/Share */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/good/Share")]).then(__webpack_require__.bind(null, /*! @/components/good/Share */ 612));};var Player = function Player() {return __webpack_require__.e(/*! import() | components/common/Player */ "components/common/Player").then(__webpack_require__.bind(null, /*! @/components/common/Player.vue */ 620));};var Standard = function Standard() {return __webpack_require__.e(/*! import() | components/good/Standard */ "components/good/Standard").then(__webpack_require__.bind(null, /*! @/components/good/Standard */ 627));};var SwiperDot = function SwiperDot() {return __webpack_require__.e(/*! import() | components/common/SwiperDot */ "components/common/SwiperDot").then(__webpack_require__.bind(null, /*! @/components/common/SwiperDot.vue */ 634));};var _default =
+
 {
   data: function data() {
     return {
+      imgLoading: true,
       opt: false,
       indicatorDots: false,
       autoplay: false,
@@ -491,7 +489,8 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
   components: {
     Share: Share,
     Standard: Standard,
-    Player: Player },
+    Player: Player,
+    SwiperDot: SwiperDot },
 
   computed: {
     payPrice: function payPrice() {
@@ -505,16 +504,16 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
   onShow: function onShow() {var _this = this;
 
 
-    if (uni.getStorageSync("access_token")) {
-      (0, _goodsApi.getGoodNums)({
-        status: "" }).
-      then(function (data) {
-        if (data.code == '1000') {
-          _this.counter = data.data.itemNum;
-        }
+    // if (uni.getStorageSync("access_token")) {
+    // 	getGoodNums({
+    // 		status: ""
+    // 	}).then(data => {
+    // 		if(data.code == '1000'){
+    // 			this.counter = data.data.itemNum;
+    // 		}
 
-      });
-    }
+    // 	});
+    // }
     (0, _goodsApi.getDetail)({
       shopId: this.shopId,
       goodsId: this.goodsId }).
@@ -556,14 +555,14 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
 
         d.goodsDetailSpecList.forEach(function (spec) {
           // 为每个父节点插入子节点
+          var nodes = [];
           parentNodes.forEach(function (node) {
-            var nodes = [];
             spec.goodsDetailSpecValueList.forEach(function (val, index) {
               // 重置当前遍历的父节点
-              nodes[index] = setNode(node, val.value);
+              nodes.push(setNode(node, val.value));
             });
-            parentNodes = nodes;
           });
+          parentNodes = nodes;
         });
 
         var sufName;
@@ -602,8 +601,9 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
             // 顺便处理规格
             if (isSection) {
               d.standardList[exIndex].push("".concat(val.value).concat(d.goods.unitName, "\u8D77\u6279"));
-              d.standardList[exIndex].push("".concat(
-              val.value).concat(sufName, "/").concat(d.goods.unitName));
+              d.standardList[exIndex].push(
+              // `${val.value}${sufName}/${d.goods.unitName}`
+              "".concat(val.value).concat(sufName));
 
             } else {
               d.standardList[exIndex].push(val.value);
@@ -651,27 +651,35 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
         _this.calcPrice();
         _this.opt = true;
         // 获得邮费方案
-        (0, _goodsApi.getPostItem)({
-          id: d.goods.postSettingId }).
-        then(function (data) {
-          _this.postType = data.data.type;
-        });
+        // getPostItem({
+        // 	id: d.goods.postSettingId
+        // }).then(data => {
+        // 	this.postType = data.data.type;
+        // });
 
 
         // 判断商品是否备收藏
-        _this.getHasCollect(_this.goodsId);
+        // if(uni.getStorageSync('access_token')){
+        // 	this.getHasCollect(this.goodsId)
+        // }
+
       }
 
     });
   },
   methods: {
+    imgLoad: function imgLoad(e) {var _this2 = this;
+      setTimeout(function () {
+        _this2.imgLoading = false;
+      }, 500);
+    },
     // 判断是否备收藏
-    getHasCollect: function getHasCollect(id) {var _this2 = this;
+    getHasCollect: function getHasCollect(id) {var _this3 = this;
       var data = {
         targetId: id };
 
       (0, _goodsApi.getHasCollect)(data).then(function (res) {
-        _this2.good.hasColletion = res.data;
+        _this3.good.hasColletion = res.data;
       });
     },
     closePlayer: function closePlayer() {
@@ -727,28 +735,28 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
         }
       }
     },
-    calcPrice: function calcPrice(reset) {var _this3 = this;
+    calcPrice: function calcPrice(reset) {var _this4 = this;
+
+
       var node = this.good.tree;
       if (this.good.goods.showStyle != 2) {
         this.curs.forEach(function (cur, index) {
           node = node[cur["key"]];
-          if (index === _this3.curs.length - 1) {
-            _this3.totalPrice = _util.default.formatMoney(parseFloat(node.price || 0), 2);
-            _this3.stock = node.stock;
-            !reset && (_this3.nums = node.disabled ? 0 : node.startNum);
-            _this3.startNum = node.startNum || 0;
+          if (index === _this4.curs.length - 1) {
+            _this4.totalPrice = parseFloat(node.price || 0);
+            _this4.stock = node.stock;
+            !reset && (_this4.nums = node.disabled ? 0 : node.startNum);
+            _this4.startNum = node.startNum || 0;
             cur.disabled = node.disabled;
-
-            _this3.curDisable = node.disabled;
-
+            _this4.curDisable = node.disabled;
           }
         });
       } else {
         this.curs.forEach(function (cur, index) {
           node = node[cur["key"]];
-          if (index == _this3.curs.length - 1) {
-            _this3.stock = node.stock;
-            !reset && (_this3.nums = node.disabled ? 0 : node.startNum);
+          if (index == _this4.curs.length - 1) {
+            _this4.stock = node.stock;
+            !reset && (_this4.nums = node.disabled ? 0 : node.startNum);
             cur.disabled = node.disabled;
 
           }
@@ -769,10 +777,13 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
         this.startNum = first.startNum;
         for (var i = 1, l = list.length - 1; i < l; i++) {
           if (this.nums >= list[i].startNum && this.nums < list[i + 1].startNum) {
-            this.totalPrice = _util.default.formatMoney(list[i].price, 2);
+            this.totalPrice = list[i].price;
           }
         }
       }
+
+
+
     },
     selOption: function selOption(data, index) {
 
@@ -783,7 +794,7 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
       this.curs = list;
       this.calcPrice();
     },
-    navigate: function navigate() {var _this4 = this;
+    navigate: function navigate() {var _this5 = this;
       // 验证选项是否完整
       var isInvalid = false;
       var node = this.good.tree;
@@ -801,8 +812,8 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
           skuId: node.id,
           num: this.nums }).
         then(function (data) {
-          _this4.isSure = false;
-          _this4.getUpdate();
+          _this5.isSure = false;
+          _this5.getUpdate();
         });
       } else {
         if (!!this.nav.match(/submit/i)) {
@@ -827,8 +838,15 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
 
 
     goCart: function goCart() {
-      uni.switchTab({
-        url: '/pages/order/order' });
+      if (!uni.getStorageSync('access_token')) {
+        uni.navigateTo({
+          url: '/pages/login/login' });
+
+      } else {
+        uni.switchTab({
+          url: '/pages/order/order' });
+
+      }
 
     },
     goPostSetting: function goPostSetting(id) {
@@ -836,20 +854,20 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
         url: '/pages/order/prompt/prompt?id=' + id });
 
     },
-    getUpdate: function getUpdate() {var _this5 = this;
+    getUpdate: function getUpdate() {var _this6 = this;
       if (uni.getStorageSync("access_token")) {
         (0, _goodsApi.getGoodNums)({
           status: "" }).
         then(function (data) {
           if (data.code == '1000') {
-            _this5.counter = data.data.itemNum;
-            _this5.isSure = false;
+            _this6.counter = data.data.itemNum;
+            _this6.isSure = false;
             _tips.default.tips('已成功加入进货单');
           } else {
-            _this5.goodsTitle = res.message;
-            _this5.isGoodsTitle = true;
+            _this6.goodsTitle = res.message;
+            _this6.isGoodsTitle = true;
             setTimeout(function () {
-              _this5.isGoodsTitle = false;
+              _this6.isGoodsTitle = false;
             }, 1500);
           }
         });
@@ -866,9 +884,16 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
 
     },
     triShare: function triShare() {},
-    changeBanner: function changeBanner(index) {
-      this.cur = index;
+    changeBanner: function changeBanner(e) {
+      this.cur = e.detail.current;
     },
+
+
+
+
+
+
+
 
 
 
@@ -877,34 +902,48 @@ var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56
 
 
     showConfirm1: function showConfirm1(e, nav) {
-      var formId = e.detail.formId;
-      var data = {
-        userId: uni.getStorageSync('uid'),
-        appId: uni.getStorageSync('appid'),
-        formId: formId
+      if (!uni.getStorageSync('access_token')) {
+        uni.navigateTo({
+          url: '/pages/login/login' });
 
-        // 获取formId
-      };(0, _userApi.getSetFormId)(data);
-      console.log('formId', formId);
-      this.nav = nav;
-      this.isSure = true;
+      } else {
+        var formId = e.detail.formId;
+        var data = {
+          userId: uni.getStorageSync('uid'),
+          appId: uni.getStorageSync('appid'),
+          formId: formId
+
+          // 获取formId
+        };(0, _userApi.getSetFormId)(data);
+        console.log('formId', formId);
+        this.nav = nav;
+        this.isSure = true;
+      }
+
     },
 
     changeCollect: function changeCollect() {
-      this.good.hasColletion = !this.good.hasColletion;
-      if (this.good.hasColletion) {
-        _tips.default.tips('已收藏');
-      } else {
-        _tips.default.tips('取消收藏');
-      }
-      this.good.hasColletion ?
-      (0, _goodsApi.setCollect)({
-        goodsId: this.good.goods.id,
-        isLoading: 1 }) :
+      if (uni.getStorageSync('access_token')) {
+        this.good.hasColletion = !this.good.hasColletion;
+        if (this.good.hasColletion) {
+          _tips.default.tips('已收藏');
+        } else {
+          _tips.default.tips('取消收藏');
+        }
+        this.good.hasColletion ?
+        (0, _goodsApi.setCollect)({
+          goodsId: this.good.goods.id,
+          isLoading: 1 }) :
 
-      (0, _goodsApi.removeCollect)({
-        goodsId: this.good.goods.id,
-        isLoading: 1 });
+        (0, _goodsApi.removeCollect)({
+          goodsId: this.good.goods.id,
+          isLoading: 1 });
+
+      } else {
+        uni.navigateTo({
+          url: '/pages/login/login' });
+
+      }
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

@@ -28,7 +28,7 @@
 				</view>
 			</view>
 			<!-- 轮播图 -->
-			<view class="index-top-warp">
+			<scroll-view class="index-top-warp">
 				<view class="uni-padding-wrap">
 					<view class="page-section swiper">
 						<view class="page-section-spacing">
@@ -39,16 +39,18 @@
 										<div v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
 											<image class='img1' src="../../../static/img/play.png" mode="aspectFit"></image>
 										</div>
-										 <image :src="item.imgUrl"></image>
+										<image class="imgloading" v-if='imgLoading' src="../../../static/img/timg.gif" mode=""></image>
+										<image @load='imgLoad' :lazy-load="true" :src="item.imgUrl"></image>
 									</view>
 								</swiper-item>
 							</swiper>
 						</view>
 					</view>
 				</view>
-			</view>
+			</scroll-view>
+			<SwiperDot class="dot" :current="cur" :list="imageList"></SwiperDot>
 		</view>
-
+		
 		<div class="overall">
 			<div v-if="good.goods.showStyle==3 || good.goods.showStyle==1">
 				<span class="price">{{good.goods.minPrice || 0}} <span class="fs24 text-000" v-if="good.goodsSkuList.length <= 1">{{'/'+good.goods.unitName}}</span></span>
@@ -58,8 +60,8 @@
 					<span class="unit" v-if="good.goods.unitName">{{'/'+good.goods.unitName}}</span>
 				</span>
 			</div>
-			<div v-if="good.goods.showStyle==2" class="flex">
-				<div v-for="(item,index) in good.goodsList" :key="index" class="flex-1">
+			<div v-if="good.goods.showStyle==2" class="cf goodsPrice">
+				<div v-for="(item,index) in good.goodsList" :key="index" class="fll" :class="{'left1': good.goodsList.length == 1, 'left2': good.goodsList.length == 2}">
 					<div class="multi-price">
 						{{item.price || 0}}</span>
 						<span v-if="good.goods.unitName">/{{good.goods.unitName}}</span>
@@ -95,7 +97,6 @@
 				</div>
 			  </div>
 		    </div>
-
 		<div class="line" v-if="good.goods.showStyle==3 || good.goods.showStyle==1 && good.goodsSkuList.length > 1"></div>
 		<div class="props">
 			<div class="tag1">
@@ -107,9 +108,7 @@
 				<span v-else v-for="attr in item.goodsDetailAttrValueList" :key="attr.id">{{attr.value}}&ensp;</span>
 			</li>
 		</div>
-
 		<div class="line" v-if="good.goodsDetailAttrList.length>0"></div>
-
 		<div class="det">
 			<div class="tag1">
 				<span>—</span>  <span>商品详情</span> <span>—</span>
@@ -144,33 +143,30 @@
 			</div>
 
 			
-			<div class="flex-2" v-if="good.isInvalid || good.goods.status!==3">
+			<div class="flex-2" v-if="good.isInvalid || good.goods.status!=3">
 				<div class="add" @click="goHome">再去逛逛</div>
 			</div>
-			
-			<div class="flex-2 flex" v-if="!good.isInvalid || good.goods.status===3">
-				
-				<!--  #ifdef  H5 || APP-PLUS -->
-				<div class="add flex-1" @click="showConfirm('/cart')">加入进货单</div>
-				<div class="buy flex-1" @click="showConfirm('/submit')">立即购买</div>
-				<!--  #endif -->
-				
-				<!--  #ifdef  MP-WEIXIN -->
-				<div class="add flex-1">
-					<form @submit="showConfirm1($event,'/cart')" report-submit="true">
-						<button form-type="submit">加入进货单</button>
-					</form>
+			<div class="flex-2" v-if="good.goods.status!=4">
+				<div class=" flex" v-if="!good.isInvalid || good.goods.status==3">
+					<!--  #ifdef  H5 || APP-PLUS -->
+					<div class="add flex-1" @click="showConfirm('/cart')">加入进货单</div>
+					<div class="buy flex-1" @click="showConfirm('/submit')">立即购买</div>
+					<!--  #endif -->
+					<!--  #ifdef  MP-WEIXIN -->
+					<div class="add flex-1">
+						<form @submit="showConfirm1($event,'/cart')" report-submit="true">
+							<button form-type="submit">加入进货单</button>
+						</form>
+					</div>
+					<div class="buy flex-1">
+						<form @submit="showConfirm1($event,'/submit')" report-submit="true">
+							<button form-type="submit">立即购买</button>
+						</form>
+					</div>
+					<!--  #endif -->
 				</div>
-				<div class="buy flex-1">
-					<form @submit="showConfirm1($event,'/submit')" report-submit="true">
-						<button form-type="submit">立即购买</button>
-					</form>
-				</div>
-				<!--  #endif -->
-				
-				
-				
 			</div>
+			
 		</div>
 
 		<!-- <Confirm :goodsId='goodsId' :shopId='shopId' :show="isSure" @close="isSure = false" :nav="nav" :good="good" @update="getUpdate" /> -->
@@ -256,9 +252,11 @@
 	import {getSetFormId} from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	import util from '@/utils/util.js'
+	import SwiperDot from "@/components/common/SwiperDot.vue"
 	export default {
 		data() {
 			return {
+				imgLoading:true,
 				opt: false,
 				indicatorDots: false,
 				autoplay: false,
@@ -304,7 +302,8 @@
 		components: {
 			Share,
 			Standard,
-			Player
+			Player,
+			SwiperDot
 		},
 		computed: {
 			payPrice() {
@@ -318,16 +317,16 @@
 		onShow() {
 			
 			
-			if (uni.getStorageSync("access_token")) {
-				getGoodNums({
-					status: ""
-				}).then(data => {
-					if(data.code == '1000'){
-						this.counter = data.data.itemNum;
-					}
+			// if (uni.getStorageSync("access_token")) {
+			// 	getGoodNums({
+			// 		status: ""
+			// 	}).then(data => {
+			// 		if(data.code == '1000'){
+			// 			this.counter = data.data.itemNum;
+			// 		}
 					
-				});
-			}
+			// 	});
+			// }
 			getDetail({
 				shopId: this.shopId,
 				goodsId: this.goodsId
@@ -369,15 +368,15 @@
 					
 					d.goodsDetailSpecList.forEach(spec => {
 						// 为每个父节点插入子节点
+						let nodes = [];
 						parentNodes.forEach(node => {
-							let nodes = [];
-							spec.goodsDetailSpecValueList.forEach((val, index) => {
-								// 重置当前遍历的父节点
-								nodes[index] = setNode(node, val.value);
-							});
-							parentNodes = nodes;
+						  spec.goodsDetailSpecValueList.forEach((val, index) => {
+							// 重置当前遍历的父节点
+							nodes.push(setNode(node, val.value));
+						  });
 						});
-					});
+						parentNodes = nodes;
+					  });
 					
 					let sufName;
 					let isSection =
@@ -416,7 +415,8 @@
 							if (isSection) {
 								d.standardList[exIndex].push(`${val.value}${d.goods.unitName}起批`);
 								d.standardList[exIndex].push(
-									`${val.value}${sufName}/${d.goods.unitName}`
+									// `${val.value}${sufName}/${d.goods.unitName}`
+									`${val.value}${sufName}`
 								);
 							} else {
 								d.standardList[exIndex].push(val.value);
@@ -464,20 +464,28 @@
 					this.calcPrice();
 					this.opt = true
 					// 获得邮费方案
-					getPostItem({
-						id: d.goods.postSettingId
-					}).then(data => {
-						this.postType = data.data.type;
-					});
+					// getPostItem({
+					// 	id: d.goods.postSettingId
+					// }).then(data => {
+					// 	this.postType = data.data.type;
+					// });
 					
 					
 					// 判断商品是否备收藏
-					this.getHasCollect(this.goodsId)
+					// if(uni.getStorageSync('access_token')){
+					// 	this.getHasCollect(this.goodsId)
+					// }
+					
 				}
 				
 			});
 		},
 		methods: {
+			imgLoad(e){
+				setTimeout(()=>{
+					this.imgLoading = false
+				},500)
+			},
 			// 判断是否备收藏
 			getHasCollect(id){
 				let data = {
@@ -541,51 +549,54 @@
 				}
 			},
 			calcPrice(reset) {
-				let node = this.good.tree;
-				if (this.good.goods.showStyle != 2) {
-					this.curs.forEach((cur, index) => {
-						node = node[cur["key"]];
-						if (index === this.curs.length - 1) {
-							this.totalPrice = util.formatMoney(parseFloat(node.price || 0), 2);
-							this.stock = node.stock;
-							!reset && (this.nums = node.disabled ? 0 : node.startNum);
-							this.startNum = node.startNum || 0;
-							cur.disabled = node.disabled;
+				
 
-							this.curDisable = node.disabled;
-
-						}
-					});
-				} else {
-					this.curs.forEach((cur, index) => {
-						node = node[cur["key"]];
-						if (index == this.curs.length - 1) {
-							this.stock = node.stock;
-							!reset && (this.nums = node.disabled ? 0 : node.startNum);
-							cur.disabled = node.disabled;
-
-						}
-					});
-
-					let list = [...this.good.goodsList];
-					let first = list[0];
-					let last = list[list.length - 1];
-					list.push({
-						startNum: Math.pow(2, 25),
-						price: last.price
-					});
-					list.unshift({
-						startNum: first.startNum,
-						price: first.price
-					});
-
-					this.startNum = first.startNum;
-					for (let i = 1, l = list.length - 1; i < l; i++) {
-						if (this.nums >= list[i].startNum && this.nums < list[i + 1].startNum) {
-							this.totalPrice = util.formatMoney(list[i].price, 2);
+					let node = this.good.tree;
+					if (this.good.goods.showStyle != 2) {
+						this.curs.forEach((cur, index) => {
+							node = node[cur["key"]];
+							if (index === this.curs.length - 1) {
+								this.totalPrice = parseFloat(node.price || 0);
+								this.stock = node.stock;
+								!reset && (this.nums = node.disabled ? 0 : node.startNum);
+								this.startNum = node.startNum || 0;
+								cur.disabled = node.disabled;
+								this.curDisable = node.disabled;
+							}
+						});
+					} else {
+						this.curs.forEach((cur, index) => {
+							node = node[cur["key"]];
+							if (index == this.curs.length - 1) {
+								this.stock = node.stock;
+								!reset && (this.nums = node.disabled ? 0 : node.startNum);
+								cur.disabled = node.disabled;
+					
+							}
+						});
+					
+						let list = [...this.good.goodsList];
+						let first = list[0];
+						let last = list[list.length - 1];
+						list.push({
+							startNum: Math.pow(2, 25),
+							price: last.price
+						});
+						list.unshift({
+							startNum: first.startNum,
+							price: first.price
+						});
+					
+						this.startNum = first.startNum;
+						for (let i = 1, l = list.length - 1; i < l; i++) {
+							if (this.nums >= list[i].startNum && this.nums < list[i + 1].startNum) {
+								this.totalPrice = list[i].price;
+							}
 						}
 					}
-				}
+				
+				
+				
 			},
 			selOption(data, index) {
 				
@@ -640,9 +651,16 @@
 
 
 			goCart() {
-				uni.switchTab({
-					url:'/pages/order/order'
-				})
+				if(!uni.getStorageSync('access_token')) {
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
+				} else{
+					uni.switchTab({
+						url:'/pages/order/order'
+					})
+				}
+				
 			},
 			goPostSetting(id) {
 				uni.navigateTo({
@@ -679,46 +697,67 @@
 				
 			},
 			triShare() {},
-			changeBanner(index) {
-				this.cur = index;
+			changeBanner(e) {
+				this.cur = e.detail.current;
 			},
 			// #ifdef  APP-PLUS || H5
 			showConfirm(nav) {
-				this.nav = nav;
-				this.isSure = true;
+				if(!uni.getStorageSync('access_token')) {
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
+				} else {
+					this.nav = nav;
+					this.isSure = true;
+				}
+				
 			},
 			// #endif
 			// #ifdef  MP-WEIXIN
 			showConfirm1(e,nav) {
-				let formId = e.detail.formId;
-				let data = {
-					userId : uni.getStorageSync('uid'),
-					appId  : uni.getStorageSync('appid'),
-					formId : formId
+				if(!uni.getStorageSync('access_token')) {
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
+				} else {
+					let formId = e.detail.formId;
+					let data = {
+						userId : uni.getStorageSync('uid'),
+						appId  : uni.getStorageSync('appid'),
+						formId : formId
+					}
+					// 获取formId
+					getSetFormId(data)
+					console.log('formId',formId)
+					this.nav = nav;
+					this.isSure = true;
 				}
-				// 获取formId
-				getSetFormId(data)
-				console.log('formId',formId)
-				this.nav = nav;
-				this.isSure = true;
+				
 			},
 			// #endif
 			changeCollect() {
-				this.good.hasColletion = !this.good.hasColletion;
-				if(this.good.hasColletion){
-					T.tips('已收藏')
+				if(uni.getStorageSync('access_token')){
+					this.good.hasColletion = !this.good.hasColletion;
+					if(this.good.hasColletion){
+						T.tips('已收藏')
+					}else{
+						T.tips('取消收藏')
+					}
+					this.good.hasColletion ?
+						setCollect({
+							goodsId: this.good.goods.id,
+							isLoading:1
+						}) :
+						removeCollect({
+							goodsId: this.good.goods.id,
+							isLoading:1
+						});
 				}else{
-					T.tips('取消收藏')
+					uni.navigateTo({
+						url:'/pages/login/login'
+					})
 				}
-				this.good.hasColletion ?
-					setCollect({
-						goodsId: this.good.goods.id,
-						isLoading:1
-					}) :
-					removeCollect({
-						goodsId: this.good.goods.id,
-						isLoading:1
-					});
+				
 			}
 		},
 
@@ -731,6 +770,13 @@
 	// 	height: 750upx;
 	// 	top: 0;
 	// }
+	.dot{
+		position: absolute;
+		z-index: 9999;
+		width: 100%;
+		height: 40upx;
+		bottom: 30upx;
+	}
 	.opt{
 		opacity: 0;
 	}
@@ -874,7 +920,20 @@
 		// }
 
 		.overall {
-			
+			.goodsPrice{
+				.fll{
+					width: 33%;
+				}
+				.left1{
+					position: relative;
+					left: -60upx;
+				}
+				.left2{
+					position: relative;
+					left: -40upx;
+				}
+				
+			}
 			.flex-l {
 				justify-content: flex-start;
 			}
@@ -1088,10 +1147,16 @@
 
 		.det {
 			text-align: center;
-			margin-bottom: 120upx;
-			margin-top: 30upx;
+			padding-bottom: 120upx;
+			height: 100vh;
+			padding-top: 30upx;
+			background-color: #fff !important;
 			.img {
 				width: 100%;
+				background-image: url('~@/static/img/default-xiangqing.png');
+				background-repeat:no-repeat;
+				background-size:100% 100%;
+				-moz-background-size:100% 100%;
 			}
 
 			.txt {
@@ -1101,6 +1166,7 @@
 				margin-top: 20upx;
 				margin-bottom: 30upx;
 				padding: 0 30upx;
+				background: #fff;
 			}
 		}
 		.goodsTitle{
@@ -1168,7 +1234,7 @@
 			
 			/*  #ifdef  H5 || APP-PLUS  */
 			.add {
-				width: 256upx;
+				width: 100%;
 				color: #fefefe;
 				font-size: 30upx;
 				background-color: #ffd07f;
@@ -1187,7 +1253,7 @@
 			
 			/*  #ifdef  MP-WEIXIN  */
 			.add {
-				width: 256upx;
+				width: 100%;
 				color: #fefefe;
 				font-size: 30upx;
 				background-color: #ffd07f;
@@ -1220,8 +1286,8 @@
 		.index-top-warp {
 			width: 100%;
 			overflow: hidden;
-			background: #fff;
-
+			background: #f5f5f5;
+			position: relative;
 			swiper {
 				height: 750upx
 			}
@@ -1231,9 +1297,17 @@
 			}
 
 			.swiper-item {
+				background-image: url('~@/static/img/default-xiangqing.png');
+				background-repeat:no-repeat;
+				background-size:100% 100%;
+				-moz-background-size:100% 100%;
 				image {
 					width: 100%;
 					height: 750upx;
+				}
+				.imgloading{
+					position: relative;
+					z-index: 999;
 				}
 			}
 
@@ -1303,7 +1377,7 @@
 			left: 0;
 			right: 0;
 			bottom: 0;
-			z-index: 99;
+			z-index: 999999;
 
 			overflow-y: scroll;
 			-webkit-overflow-scrolling: touch;

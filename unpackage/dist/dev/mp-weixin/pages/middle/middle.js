@@ -122,7 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniList = function uniList() {return __webpack_require__.e(/*! import() | components/uni-list/uni-list */ "components/uni-list/uni-list").then(__webpack_require__.bind(null, /*! @/components/uni-list/uni-list.vue */ 690));};var uniListItem = function uniListItem() {return __webpack_require__.e(/*! import() | components/uni-list-item/uni-list-item */ "components/uni-list-item/uni-list-item").then(__webpack_require__.bind(null, /*! @/components/uni-list-item/uni-list-item.vue */ 697));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -154,90 +154,163 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56));
+var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var agency = function agency() {return __webpack_require__.e(/*! import() | components/middle/agency */ "components/middle/agency").then(__webpack_require__.bind(null, /*! @/components/middle/agency.vue */ 666));};var buyer = function buyer() {return __webpack_require__.e(/*! import() | components/middle/buyer */ "components/middle/buyer").then(__webpack_require__.bind(null, /*! @/components/middle/buyer.vue */ 673));};var shipper = function shipper() {return __webpack_require__.e(/*! import() | components/middle/shipper */ "components/middle/shipper").then(__webpack_require__.bind(null, /*! @/components/middle/shipper.vue */ 678));};var _default =
 {
   data: function data() {
     return {
-      shippers: ['我是代办', '我要卖货'],
-      spListValue: '158.55',
-      spGoods: [{
-        img: '',
-        text: '我的货品' },
+      status: 1, // 登录用户状态
+      roleId: '',
+      userRealInfo: '',
+      userApply: '',
+      items: [
+      {
+        text: '我是代办',
+        imgUrl: '../../static/imgs/icon-1.png' },
 
       {
-        img: '',
-        text: '本地代办' }],
-
-      spOrders: [
-      {
-        img: '',
-        text: '待确认' },
-      {
-        img: '',
-        text: '待买家支付' },
-      {
-        img: '',
-        text: '代办发货' },
-      {
-        img: '',
-        text: '待买家收货' },
-      {
-        img: '',
-        text: '已完成' }] };
+        text: '我要卖货',
+        imgUrl: '../../static/imgs/icon-2.png' }] };
 
 
 
   },
-  components: { uniList: uniList, uniListItem: uniListItem },
-  onLoad: function onLoad() {
+  components: { agency: agency, buyer: buyer, shipper: shipper },
+  onTabItemTap: function onTabItemTap(e) {
+
+
+    if (!uni.getStorageSync('access_token')) {
+      uni.navigateTo({
+        url: '/pages/login/login' });
+
+    }
+
+
+  },
+  onLoad: function onLoad(options) {
+    if (options.roleId) this.roleId = options.roleId;
 
   },
   onShow: function onShow() {
 
+    // 未登录状态跳转 微信和APP不一样
+
+    if (!uni.getStorageSync('access_token')) {
+      if (uni.getStorageSync('pagePath') == 'main') {
+        uni.switchTab({
+          url: '/pages/main/main' });
+
+      } else if (uni.getStorageSync('pagePath') == 'user') {
+        uni.switchTab({
+          url: '/pages/user/user' });
+
+      } else {
+        uni.switchTab({
+          url: '/pages/main/main' });
+
+      }
+    } else {
+      // 获取用户信息
+      if (uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')) {
+        uni.navigateTo({
+          url: '/pages/middle/identity/identity' });
+
+      } else {
+        this.getUserRealInfoAll();
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   },
   methods: {
-    // 去我的账户
-    goAccount: function goAccount() {
-      uni.navigateTo({
-        url: '/pages/middle/release/account/account' });
+    // 获取用户信息
+    getUserRealInfoAll: function getUserRealInfoAll() {var _this = this;
+      (0, _userApi.getUserRealInfoAll)().then(function (res) {
+        var roleId = res.data.userRole.roleId || '';
+        // 获取用户角色状态  2001 货主 2002 代办
+        // uni.setStorageSync('roleId','2001')
+        _this.roleId = res.data.userRole.roleId || '';
+        _this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : '';
+        _this.userApply = res.data.apply.id ? res.data.apply : '';
 
+        uni.setStorageSync('roleId', roleId);
+        uni.setStorageSync('userRealInfo', res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '');
+        uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '');
+
+
+
+        // 设置头部样式
+        if (!_this.roleId && _this.userRealInfo) {
+          uni.setNavigationBarColor({
+            backgroundColor: "#FFFFFF",
+            frontColor: "#000000" });
+
+          // 设置头部内容
+          uni.setNavigationBarTitle({
+            title: '选择身份' });
+
+        } else {
+          uni.setNavigationBarColor({
+            backgroundColor: "#FE3B0B",
+            frontColor: "#ffffff" });
+
+          // 设置头部内容
+          var time = _util.default.doHandleYear() + '年' + _util.default.doHandleMonth() + '月';
+          uni.setNavigationBarTitle({
+            title: time });
+
+        }
+        // 设置底部tab样式
+        if (_this.roleId == '20002') {
+          uni.setTabBarItem({
+            index: 1,
+            text: '代办',
+            iconPath: '/static/img/2.1.png',
+            selectedIconPath: '/static/img/2.2.png' });
+
+        } else if (_this.roleId == '20001') {
+          uni.setTabBarItem({
+            index: 1,
+            text: '我要卖',
+            iconPath: '/static/img/4.1.png',
+            selectedIconPath: '/static/img/4.2.png' });
+
+        }
+
+      });
     },
-    // 去发布商品
-    goRelease: function goRelease() {
-      uni.navigateTo({
-        url: '/pages/middle/release/release' });
+    goPage: function goPage(index) {
+      switch (index) {
+        case 0:
+          // 代办
+          uni.navigateTo({
+            url: '/pages/middle/identity/realname/agency?hasfrom=1' });
+
+          break;
+        case 1:
+          // 货主
+          uni.navigateTo({
+            url: '/pages/middle/identity/realname/agency?hasfrom=2' });
+
+          break;
+        default:
+          break;}
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

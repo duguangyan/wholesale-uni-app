@@ -162,6 +162,10 @@ var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interop
 var _default2 = { data: function data() {return { pickerValue: [0, 0, 0], provinceDataList: [], cityDataList: [], areaDataList: [], /* 是否显示控件 */showPicker: false, myAddressSlots: [], ids: [] };}, created: function created() {this.getProvinceArr(0);this.init();}, props: { /* 默认值 */pickerValueDefault: { type: Array, default: function _default() {return [0, 0, 0];
       } },
 
+    hasArea: {
+      type: Boolean,
+      default: true },
+
     /* 主题色 */
     themeColor: String },
 

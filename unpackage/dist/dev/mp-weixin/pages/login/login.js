@@ -231,9 +231,36 @@ var _default = { data: function data() {return { phone: '', code: '', codeText: 
       isRight: false, // 是否完成输入
       setCodeInterval: '', // 定时器
       deviceId: '', // 数据传值deviceId
-      appID: 'wxb8afa388fa540c2a', weixinCode: '' };}, components: {}, onHide: function onHide() {if (this.setCodeInterval != '') {clearInterval(this.setCodeInterval);}}, onLoad: function onLoad() {}, onShow: function onShow() {uni.setStorageSync('isLogin', 0);}, methods: { // 去用户协议
-    goProtocal: function goProtocal() {uni.navigateTo({ url: '/pages/user/protocal/protocal' });}, // 获取openid
-    getOpenIdByCode: function getOpenIdByCode() {uni.login({ provider: 'weixin', success: function success(e) {console.log('code', JSON.stringify(e.code));var data = { code: e.code, providerId: 'miniProgram' };console.log(data);(0, _userApi.openIdByCode)(data).then(function (res) {console.log(res);if (res.code == '1000') {uni.setStorageSync('openid', res.data);}});} });}, // APP微信登录
+      appID: 'wxb8afa388fa540c2a', weixinCode: '', delta: 1, from: '' };}, components: {}, onBackPress: function onBackPress() {if (!uni.getStorageSync('access_token')) {if (uni.getStorageSync('pagePath') == 'main') {uni.switchTab({ url: '/pages/main/main' });} else {uni.switchTab({ url: '/pages/user/user' });}}console.log('onBackPress');}, onHide: function onHide() {console.log('onHide');if (this.setCodeInterval != '') {clearInterval(this.setCodeInterval);}}, onLoad: function onLoad(options) {if (options.delta) this.delta = options.delta;if (options.from) this.from = options.from;}, onShow: function onShow() {uni.setStorageSync('isLogin', 0);},
+  methods: {
+    // 去用户协议
+    goProtocal: function goProtocal() {
+      uni.navigateTo({
+        url: '/pages/user/protocal/protocal' });
+
+    },
+    // 获取openid
+    getOpenIdByCode: function getOpenIdByCode() {
+      uni.login({
+        provider: 'weixin',
+        success: function success(e) {
+          console.log('code', JSON.stringify(e.code));
+          var data = {
+            code: e.code,
+            providerId: 'miniProgram' };
+
+          console.log(data);
+          (0, _userApi.openIdByCode)(data).then(function (res) {
+            console.log(res);
+            if (res.code == '1000') {
+              uni.setStorageSync('openid', res.data);
+            }
+          });
+        } });
+
+
+    },
+    // APP微信登录
     wxLogin: function wxLogin() {
       var _this = this;
       uni.getProvider({
@@ -334,7 +361,7 @@ var _default = { data: function data() {return { phone: '', code: '', codeText: 
 
     },
     doIsLogin: function doIsLogin() {
-      this.isRight = !_validator.default.isPhone(this.phone) && this.code !== '';
+      this.isRight = this.phone != '' && this.code !== '';
     },
     // 获取验证码
     getCode: function getCode() {var _this2 = this;
@@ -389,10 +416,10 @@ var _default = { data: function data() {return { phone: '', code: '', codeText: 
 
         var data = {
           grant_type: 'sms_code',
-          scope: '2',
-          client_id: 'cwap',
+          scope: '4',
+          client_id: 'bwap',
           client_secret: 'xx',
-          systemId: '2',
+          systemId: '4',
           deviceId: this.deviceId,
           mobile: this.phone,
           smsCode: this.code
@@ -416,20 +443,56 @@ var _default = { data: function data() {return { phone: '', code: '', codeText: 
     },
     getUserInfoDates: function getUserInfoDates() {
 
-      this.getOpenIdByCode();
+      // this.getOpenIdByCode();
 
-
-
-      (0, _userApi.getUserInfoData)().then(function (res) {
+      (0, _userApi.getUserRealInfoAll)().then(function (res) {
         if (res.code === '1000') {
-          if (res.data.phone) {
-            uni.setStorageSync('phone', res.data.phone);
-          }
-          uni.setStorageSync('nickName', res.data.nickName);
-          uni.setStorageSync('headImgUrl', res.data.headImgUrl);
+          var roleId = res.data.userRole.roleId || '';
+          uni.setStorageSync('nickName', res.data.user.nickName);
+          uni.setStorageSync('headImgUrl', res.data.user.headImgUrl);
+          uni.setStorageSync('roleId', roleId);
+          uni.setStorageSync('userRealInfo', res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '');
+          uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '');
+
+          switch (roleId) {
+            case '20003':
+              uni.redirectTo({
+                url: '/pages/middle/identity/identity' });
+
+              break;
+            case '20001':
+              uni.switchTab({
+                url: '/pages/middle/middle' });
+
+              break;
+            case '20002':
+              uni.switchTab({
+                url: '/pages/middle/middle' });
+
+              break;
+            default:
+              break;}
+
+
+
+
           // 返回上一页
-          uni.navigateBack({
-            delta: 1 });
+          // if(this.from == 'order'){
+          //  if(uni.getStorageSync('pagePath') == 'main'){
+          //   uni.switchTab({
+          //   	url:'/pages/main/main'
+          //   })
+          //  }else{
+          //   uni.switchTab({
+          //   	url:'/pages/user/user'
+          //   }) 
+          //  }
+
+          // } else {
+          //  uni.navigateBack({
+          //  	 delta: parseInt(this.delta)
+          //  })
+          // }
 
         }
       }).catch(function (err) {

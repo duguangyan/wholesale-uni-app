@@ -132,7 +132,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25); //
+//
+//
+//
 //
 //
 //
@@ -162,10 +168,7 @@ var _default = { name: 'StrictlyGoods', props: {// query: {
     //   type: Array,
     //   default: []
     // }
-  }, data: function data() {return { goodsObj: '', list: [] };}, mounted: function mounted() {this.getPageLayoutList();}, methods: { goGoodsDetail: function goGoodsDetail(item) {if (item.type == 1) {uni.navigateTo({ url: '/pages/common/webview/webview?url=' + item.url });} else {uni.navigateTo({ url: '/pages/order/goodsDetail/goodsDetail?shopId=' + item.shopId + '&goodsId=' + item.id });}
-
-    },
-    // 获取严选好物列表
+  }, data: function data() {return { goodsObj: '', list: [] };}, mounted: function mounted() {this.getPageLayoutList();}, methods: { goGoodsDetail: function goGoodsDetail(item) {if (item.type == 1) {uni.navigateTo({ url: '/pages/common/webview/webview?url=' + item.url });} else {uni.navigateTo({ url: '/pages/order/goodsDetail/goodsDetail?shopId=' + item.shopId + '&goodsId=' + item.id });}}, // 获取严选好物列表
     getPageLayoutList: function getPageLayoutList() {var _this = this;
       var data = {
         parentId: '1-5' };
@@ -177,8 +180,7 @@ var _default = { name: 'StrictlyGoods', props: {// query: {
           list.forEach(function (item) {
             if (item.componentType === 5) {
               item.goodsDetailRespList.forEach(function (item) {
-                var arr = item.valueAddr.split('-');
-                item.valueAddr = arr[arr.length - 1];
+                item.valueAddr = item.valueAddr.substring(0, 5);
               });
               _this.goodsObj = item;
             }

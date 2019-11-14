@@ -48,10 +48,10 @@ export default vm;
   right: 0;
   bottom: 0;
   z-index: 99;
+  
   .icon-30{
 	  width: 44upx;
 	  height: 44upx;
-	  
   }
   .mask {
     position: fixed;
@@ -66,13 +66,17 @@ export default vm;
     background-color: #fff;
     padding: 74upx 0upx;
     position: fixed;
-    z-index: 2;
+    z-index: 9999;
     width: 100%;
     left: 0;
     bottom: 0;
     font-size: 28upx;
     text-align: center;
+	max-height: 500upx;
+	width: 750upx;
+	overflow-x: hidden;
     color: #333;
+	overflow-y: scroll;
     &::before{
       display: block;
       content: '规格';

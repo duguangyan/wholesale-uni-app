@@ -1,1 +1,0 @@
-<view class="data-v-3369be95"><view class="err _div data-v-3369be95"><image src="{{img}}" alt="图片" class="_img data-v-3369be95"></image><view class="p _div data-v-3369be95">{{text}}</view><view data-event-opts="{{[['tap',[['goBack',['$event']]]]]}}" class="btn _div data-v-3369be95" bindtap="__e">刷新</view></view></view>

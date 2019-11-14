@@ -90,19 +90,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var a0 = {
-    color: "#FC2D2D",
-    size: "12",
-    type: "star-filled"
-  }
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        a0: a0
-      }
-    }
-  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -135,7 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniList = function uniList() {return __webpack_require__.e(/*! import() | components/uni-list/uni-list */ "components/uni-list/uni-list").then(__webpack_require__.bind(null, /*! @/components/uni-list/uni-list.vue */ 690));};var uniListItem = function uniListItem() {return __webpack_require__.e(/*! import() | components/uni-list-item/uni-list-item */ "components/uni-list-item/uni-list-item").then(__webpack_require__.bind(null, /*! @/components/uni-list-item/uni-list-item.vue */ 697));};var uniIcons = function uniIcons() {return __webpack_require__.e(/*! import() | components/uni-icons/uni-icons */ "components/uni-icons/uni-icons").then(__webpack_require__.bind(null, /*! @/components/uni-icons/uni-icons.vue */ 704));};var mpvueCityPicker = function mpvueCityPicker() {return Promise.all(/*! import() | components/common/mpvue-citypicker/mpvueCityPicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/mpvue-citypicker/mpvueCityPicker")]).then(__webpack_require__.bind(null, /*! @/components/common/mpvue-citypicker/mpvueCityPicker.vue */ 564));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -188,10 +175,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 198);
+var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var NavigationBar = function NavigationBar() {return __webpack_require__.e(/*! import() | components/common/NavigationBar */ "components/common/NavigationBar").then(__webpack_require__.bind(null, /*! @/components/common/NavigationBar.vue */ 574));};var mpvueCityPicker = function mpvueCityPicker() {return Promise.all(/*! import() | components/common/mpvue-citypicker/mpvueCityPicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/mpvue-citypicker/mpvueCityPicker")]).then(__webpack_require__.bind(null, /*! @/components/common/mpvue-citypicker/mpvueCityPicker.vue */ 564));};var _default =
 {
   data: function data() {
     return {
+      hasArea: false,
+      hasData: true,
+      clickTitle: '新增属性',
+      isClick: true,
       address: {},
       addressInfo: '',
       isFullAddress: false,
@@ -199,17 +191,75 @@ __webpack_require__.r(__webpack_exports__);
       cityPickerValueDefault: [0, 0, 1],
       fullAddress: '',
       itemIndex: 0,
-      colors: ['红色1', '红色2', '红色3', '红色4', '红色5', '红色6', '红色7'] };
+      colors: ['红色1', '红色2', '红色3', '红色4', '红色5', '红色6', '红色7'],
+      categorys: [],
+      categorysInput: [],
+      addCategoryAttributes: [] };
 
   },
-  components: { uniIcons: uniIcons, uniList: uniList, uniListItem: uniListItem, mpvueCityPicker: mpvueCityPicker },
+  components: { mpvueCityPicker: mpvueCityPicker, NavigationBar: NavigationBar },
   onLoad: function onLoad() {
 
   },
   onShow: function onShow() {
+    // 根据商品分类ID获取商品属性
+    this.getByCategoryId();
+    // 获取自定义属性
+    this.addCategoryAttributes = uni.getStorageSync('addCategoryAttributes') || [];
+
+    // 如果缓存有地址
+    if (uni.getStorageSync('addCategoryAddress')) {
+      this.address = JSON.parse(uni.getStorageSync('addCategoryAddress'));
+      this.addressInfo = this.address.province + '-' + this.address.city;
+    }
 
   },
   methods: {
+    // 编辑属性
+    goEdit: function goEdit(index, ix) {
+      uni.navigateTo({
+        url: '/pages/middle/release/attribute/add/add?index=' + index + '&ix=' + ix });
+
+    },
+    // 根据商品分类ID获取商品属性
+    getByCategoryId: function getByCategoryId() {var _this = this;
+      var data = {
+        status: 1,
+        categoryId: JSON.parse(uni.getStorageSync('varieties')).id };
+
+      (0, _goodsApi.getByCategoryId)(data).then(function (res) {
+        if (res.code == '1000') {
+          var categorys = [];
+          var categorysInput = [];
+          res.data.forEach(function (item) {
+            // item.valueSet.forEach(it=>{
+            // 	it.isCheckIndex = 0
+            // })
+            item.isCheckIndex = 0;
+            if (item.inputType == 4) {
+              item.inputValue = '';
+              categorysInput.push(item);
+            } else {
+              categorys.push(item);
+            }
+          });
+          _this.categorys = categorys;
+          _this.categorysInput = categorysInput;
+          // 如果缓存有输出数据
+          if (uni.getStorageSync('categorysInput')) {
+            _this.categorysInput = JSON.parse(uni.getStorageSync('categorysInput'));
+          }
+          // 判断是否选完数据
+          _this.assessHasData();
+        } else {
+          _tips.default.tips(res.message || '获取分类信息失败');
+        }
+      });
+    },
+    // 新增属性
+    doClick: function doClick(e) {
+      this.goAdd();
+    },
     // 新增属性
     goAdd: function goAdd() {
       uni.navigateTo({
@@ -231,18 +281,77 @@ __webpack_require__.r(__webpack_exports__);
       this.address.cityId = e.ids[1];
 
       this.addressInfo = this.address.province + '-' + this.address.city;
+
+      uni.setStorageSync('addCategoryAddress', JSON.stringify(this.address));
       // 区
       // this.address.region = arr[2]
       // this.address.regionId = e.ids[2]
+
+      this.assessHasData();
+
+    },
+    doInputValue: function doInputValue() {
+      this.assessHasData();
+    },
+    // 判断是否选完数据
+    assessHasData: function assessHasData() {
+      var n = 0;
+      this.categorysInput.forEach(function (item) {
+        if (item.inputValue != '') {
+          n++;
+        }
+      });
+      var isFalse = true;
+      if (n == this.categorysInput.length) {
+        isFalse = false;
+      }
+
+      this.hasData = this.addressInfo == '' || isFalse;
     },
     showPicker: function showPicker() {
       this.$refs.mpvueCityPicker.show();
     },
     // 保存
     saveAttribute: function saveAttribute() {
-      uni.setStorageSync('attribute', this.colors[this.itemIndex]);
-      uni.navigateBack({
-        delta: 1 });
+      if (!this.hasData) {
+        uni.setStorageSync('categorysValues', JSON.stringify(this.categorys));
+        uni.setStorageSync('categorysInput', JSON.stringify(this.categorysInput));
+
+        var attribute = '';
+        this.categorys.forEach(function (item, index) {
+          if (item.valueSet.length > 0) {
+            if (attribute == '') {
+              attribute = item.valueSet[item.isCheckIndex].value;
+            } else {
+              attribute = attribute + ',' + item.valueSet[item.isCheckIndex].value;
+            }
+
+          }
+        });
+        this.categorysInput.forEach(function (item, index) {
+
+          if (attribute == '') {
+            attribute = item.inputValue;
+          } else {
+            attribute = attribute + ',' + item.inputValue;
+          }
+
+        });
+
+        var addCategoryAttributes = uni.getStorageSync('addCategoryAttributes');
+        addCategoryAttributes.forEach(function (item, index) {
+          if (attribute == '') {
+            attribute = item.values[0];
+          } else {
+            attribute = attribute + ',' + item.values[0];
+          }
+
+        });
+        uni.setStorageSync('attribute', attribute);
+        uni.navigateBack({
+          delta: 1 });
+
+      }
 
     },
     // 去地址页面
@@ -250,8 +359,8 @@ __webpack_require__.r(__webpack_exports__);
 
     },
     // 选择属性
-    checkIndex: function checkIndex(index) {
-      this.itemIndex = index;
+    checkIndex: function checkIndex(index, ix) {
+      this.categorys[index].isCheckIndex = ix;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

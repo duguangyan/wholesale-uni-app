@@ -24,13 +24,17 @@
     background-color: #fff;
     padding: 74rpx 0rpx;
     position: fixed;
-    z-index: 2;
+    z-index: 9999;
     width: 100%;
     left: 0;
     bottom: 0;
     font-size: 28rpx;
     text-align: center;
+    max-height: 500rpx;
+    width: 750rpx;
+    overflow-x: hidden;
     color: #333;
+    overflow-y: scroll;
 }
 .standard .body.data-v-21d177ef::before {
       display: block;

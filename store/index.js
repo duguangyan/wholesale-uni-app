@@ -8,19 +8,20 @@ const store = new Vuex.Store({
         /**
          * 是否需要强制登录
          */
-        forcedLogin: false,
-        hasLogin: false,
-        userName: ""
+        agencyImgUpload1: '',
+		agencyImgUpload2: ''
     },
     mutations: {
-        login(state, userName) {
-            state.userName = userName || '新用户';
-            state.hasLogin = true;
-        },
-        logout(state) {
-            state.userName = "";
-            state.hasLogin = false;
-        }
+		setAgencyImgUpload1(state,payload){
+			if(payload.hasOwnProperty('agencyImgUpload1')){
+				state.agencyImgUpload1 = payload.agencyImgUpload1
+			}
+		},
+		setAgencyImgUpload2(state,payload){
+			if(payload.hasOwnProperty('agencyImgUpload2')){
+				state.agencyImgUpload1 = payload.agencyImgUpload2
+			}
+		},
     }
 })
 

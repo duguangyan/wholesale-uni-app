@@ -1,6 +1,7 @@
 <template>
-	<div class="cart">
+	<div class="cart" :class="{'access_token':access_token!=''}">
 		<div class="edit cf" v-if="!hasData">
+			<view class="fll image" @click="goBack"><image src="../../static/img/tag-back.png"></image></view>
 			<div class="title fll fs38">进货单({{validTotal}})</div>
 			<div class="icon flr fs30" @click="isEdit = !isEdit">{{isEdit?'完成':'编辑'}}</div>
 		</div>
@@ -118,22 +119,71 @@
 				isColor999: false, // 数量减法最低颜色
 				isclock: false, // 锁
 				clock: true,
-				platform:0
+				platform:0,
 			}
 		},
 		components: {
 			Dialog, TabBar
 		},
+		onTabItemTap(e){
+			
+			// #ifdef  MP-WEIXIN
+			if(!uni.getStorageSync('access_token')){
+				uni.navigateTo({
+					url:'/pages/login/login'
+				})
+			}
+			// #endif
+			
+		},
 		onLoad() {
-
+			console.log('onLoad')
 		},
 		onShow() {
-			// 获取进货单列表
-			this.getCartOrderList()
-			// 设备样式兼容
-			this.platform = uni.getStorageSync('platform');
+			// #ifdef  MP-WEIXIN
+			if(!uni.getStorageSync('access_token')){
+				if(uni.getStorageSync('pagePath') == 'main'){
+					uni.switchTab({
+						url:'/pages/main/main'
+					})
+				}else if(uni.getStorageSync('pagePath') == 'user'){
+					uni.switchTab({
+						url:'/pages/user/user'
+					})
+				} else{
+					uni.switchTab({
+						url:'/pages/main/main'
+					})
+				}
+			}else{
+				// 获取进货单列表
+				this.getCartOrderList()
+				// 设备样式兼容
+				this.platform = uni.getStorageSync('platform');
+			}
+			// #endif
+			
+			// #ifdef APP-PLUS || H5
+			if(!uni.getStorageSync('access_token')){
+				uni.navigateTo({
+					url:'/pages/login/login'
+				})
+			}else{
+				// 获取进货单列表
+				this.getCartOrderList()
+				// 设备样式兼容
+				this.platform = uni.getStorageSync('platform');
+			}
+			// #endif
+			
 		},
 		methods: {
+			// 返回上一页
+			goBack(){
+				uni.navigateBack({
+					delta:1
+				})
+			},
 			doConfirm(){
 				this.doDel()
 			},
@@ -388,6 +438,8 @@
 							}
 
 						}
+					}else{
+						this.hasData = true
 					}
 				})
 			},
@@ -450,6 +502,9 @@
 	}
 </script>
 <style lang="scss" scoped>
+	.access_token{
+		background: #000;
+	}
 	.cart {
 		// padding-bottom: 100upx;
 		.bb1{
@@ -473,30 +528,36 @@
 			background-color: #fff;
 			padding: 10upx 30upx 20upx 10upx;
 			position: relative;
-			padding-top: 80upx;
+			padding-top: var(--status-bar-height);
+			.image{
+				width: 40upx;
+				height: 40upx;
+				position: absolute;
+				left: 30upx;
+				top: var(--status-bar-height);
+				margin-top: 6upx;
+				>image{
+					width: 100%;
+					height: 100%;
+				}
+			}
 			.title {
 				text-align: center;
 				width: 100%;
 			}
-			/* #ifdef MP-WEIXIN */  
 			.icon {
 				position: absolute;
-				top: 84upx;
-				right: 215upx;
-				text-underline: underline ;
-				border: 1upx solid #e2e2e2;
-				border-radius: 10upx;
-				padding: 10upx;
-			}
-			/* #endif */
-			/* #ifdef APP-PLUS || H5 */
-			.icon {
-				position: absolute;
-				top: 86upx;
+				top: var(--status-bar-height);
 				right: 30upx;
 				text-underline: underline ;
+				margin-top: 10upx;
+			}
+			/* #ifdef MP-WEIXIN */  
+			.icon {
+				right: 200upx;
 			}
 			/* #endif */
+			
 		}
 
 		.list {
@@ -806,8 +867,9 @@
 			.del {
 				width: 150upx;
 				line-height: 60upx;
+				height: 60upx;
 				color: #fc2d2d;
-				border: 1upx solid #fc2d2d;
+				border: 2upx solid #fc2d2d;
 				text-align: center;
 				border-radius: 32upx;
 				position: absolute;

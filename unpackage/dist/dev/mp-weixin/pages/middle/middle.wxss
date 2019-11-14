@@ -1,68 +1,26 @@
-.middle .shipper.data-v-cebdc6ca {
-  margin: 300rpx 0 100rpx 0;
-  padding: 0 60rpx;
+.middle.data-v-cebdc6ca {
+  background: #fff;
+  min-height: 100vh;
 }
-.middle .shipper button.data-v-cebdc6ca {
-    margin-top: 100rpx;
+.middle .identity.data-v-cebdc6ca {
+    padding-top: 120rpx;
 }
-.middle .agency .bar.data-v-cebdc6ca {
-  width: 100rpx;
-  height: 100rpx;
-  line-height: 100rpx;
-  background: #007AFF;
-  font-size: 80rpx;
-  color: #fff;
-  border-radius: 50%;
-  position: fixed;
-  right: 60rpx;
-  bottom: 100rpx;
-  text-align: center;
-  z-index: 9999;
-  -webkit-box-shadow: 1rpx 1rpx 1rpx #999;
-          box-shadow: 1rpx 1rpx 1rpx #999;
+.middle .identity .item.data-v-cebdc6ca {
+      text-align: center;
+      padding-top: 120rpx;
 }
-.middle .agency .orders.data-v-cebdc6ca {
-  margin-top: 40rpx;
+.middle .identity .item .image.data-v-cebdc6ca {
+        width: 180rpx;
+        height: 180rpx;
+        margin: 0 auto;
 }
-.middle .agency .goods uni-list-item.data-v-cebdc6ca {
-  background: #E5E5E5;
+.middle .identity .item .image > image.data-v-cebdc6ca {
+          width: 100%;
+          height: 100%;
 }
-.middle .agency .goods .title.data-v-cebdc6ca {
-  line-height: 100rpx;
-  background: #666;
-  color: #fff;
-  padding: 0 30rpx;
-}
-.middle .agency .goods .flex.data-v-cebdc6ca {
-  text-align: center;
-  margin: 0 auto;
-}
-.middle .agency .goods .flex .img.data-v-cebdc6ca {
-    margin: 40rpx auto;
-    margin-bottom: 20rpx;
-    width: 60rpx;
-    height: 60rpx;
-    border-radius: 50%;
-    background: #888888;
-}
-.middle .agency .goods .flex .img > ._img.data-v-cebdc6ca {
-      width: 100%;
-      height: 100%;
-}
-.middle .agency .top.data-v-cebdc6ca {
-  padding-top: 100rpx;
-  background: #FE9A2E;
-  height: 200rpx;
-  text-align: center;
-}
-.middle .agency .top .time.data-v-cebdc6ca {
-    height: 100rpx;
-    line-height: 100rpx;
-}
-.middle .agency .top .flex-1.data-v-cebdc6ca {
-    border-right: 1rpx solid #fff;
-}
-.middle .agency .top .flex-1.data-v-cebdc6ca:last-child {
-    border-right: none;
+.middle .identity .item .text.data-v-cebdc6ca {
+        font-size: 30rpx;
+        color: #333;
+        margin-top: 20rpx;
 }
 

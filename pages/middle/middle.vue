@@ -1,120 +1,193 @@
 <template>
 	<view class="middle">
 		<!-- 代办 -->
-		<view class="shipper" v-if="false">
-			<button type="primary" v-for="(item,index) in shippers" :key="index">{{item}}</button>
-		</view>
+		<!-- <view v-if="roleId==2002">
+			<agency></agency>
+		</view> -->
 		<!-- 货主 -->
-		<view class="agency" v-if="true">
-			
-			<view class="top fs28 text-fff">
-				<view class="time">2019年9月</view>
-				<view class="flex fs32">
-					<view class="flex-1">
-						<view>1单</view>
-						<view>订单量</view>
-					</view>
-					<view class="flex-1">
-						<view>5050.05元</view>
-						<view>交易额</view>
-					</view>
-					<view class="flex-1">
-						<view>5000斤</view>
-						<view>交易量</view>
-					</view>
-				</view>
-			</view>
-			
-			<view>
-				<uni-list>
-				    <uni-list-item @click="goAccount" title="账户" note="达成交易越多,收益越多" :show-badge="true" :badge-text="spListValue+'元'"></uni-list-item>
-				</uni-list>
-			</view>
-			<view class="goods">
-				<uni-list>
-				    <uni-list-item title="我的商品" :show-arrow="false"></uni-list-item>
-				</uni-list>
-				<view class="flex fs28">
-					<view class="flex-1" v-for="(item,index) in spGoods" :key="index">
-						<view class="img"></view>
-						<view class="text">{{item.text}}</view>
-					</view>
-				</view>
-			</view>
-			<view class="goods orders">
-				<uni-list>
-				    <uni-list-item title="销售订单"></uni-list-item>
-				</uni-list>
-				<view class="flex fs28">
-					<view class="flex-1" v-for="(item,index) in spOrders" :key="index">
-						<view class="img"></view>
-						<view class="text">{{item.text}}</view>
-					</view>
-				</view>
-			</view>
-			
-			<view class="bar" @click="goRelease">+</view>
+		<view v-if="userApply!='' && (roleId==20001 || roleId==20002)">
+			<agency :roleId='roleId' :userApply='userApply'></agency>
 		</view>
-		<!-- 卖家 -->
-		<view class="buyer" v-if="false"></view>
+		<!-- 买家 -->
+		<!-- <view v-if="roleId==20003">
+			<buyer></buyer>
+		</view> -->
+		<!-- 已经实名 -->
+		<view v-if="userApply=='' && roleId !=''">
+			<view class="identity">
+				<view class="item" v-for="(item,index) in items" :key="index" @click="goPage(index)">
+					<view class="image">
+						<image :src="item.imgUrl"></image>
+					</view>
+					<view class="text">{{item.text}}</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
-	import uniList from "@/components/uni-list/uni-list.vue"
-	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
+	import agency from '@/components/middle/agency.vue'
+	import buyer from '@/components/middle/buyer.vue'
+	import shipper from '@/components/middle/shipper.vue'
+	import util from '@/utils/util.js'
+	import { getUserRealInfoAll } from '@/api/userApi.js'
 	export default {
 		data() {
 			return {
-				shippers:['我是代办','我要卖货'],
-				spListValue: '158.55',
-				spGoods:[{
-					img:'',
-					text:'我的货品'
-				},
-				{
-					img:'',
-					text:'本地代办'
-				}],
-				spOrders:[
+				status: 1, // 登录用户状态
+				roleId: '',
+				userRealInfo:'',
+				userApply:'',
+				items:[
 					{
-						img:'',
-						text:'待确认'
-					},{
-						img:'',
-						text:'待买家支付'
-					},{
-						img:'',
-						text:'代办发货'
-					},{
-						img:'',
-						text:'待买家收货'
-					},{
-						img:'',
-						text:'已完成'
+						text:'我是代办',
+						imgUrl:'../../static/imgs/icon-1.png'
+					},
+					{
+						text:'我要卖货',
+						imgUrl:'../../static/imgs/icon-2.png'
 					}
 				]
 			};
 		},
-		components: {uniList,uniListItem},
-		onLoad() {
+		components: {agency,buyer,shipper},
+		onTabItemTap(e){
+			
+			// #ifdef  MP-WEIXIN
+			if(!uni.getStorageSync('access_token')){
+				uni.navigateTo({
+					url:'/pages/login/login'
+				})
+			}
+			// #endif
+			
+		},
+		onLoad(options) {
+			if(options.roleId) this.roleId = options.roleId
 			
 		},
 		onShow() {
 			
+			// 未登录状态跳转 微信和APP不一样
+			// #ifdef  MP-WEIXIN
+			if(!uni.getStorageSync('access_token')){
+				if(uni.getStorageSync('pagePath') == 'main'){
+					uni.switchTab({
+						url:'/pages/main/main'
+					})
+				}else if(uni.getStorageSync('pagePath') == 'user'){
+					uni.switchTab({
+						url:'/pages/user/user'
+					})
+				} else{
+					uni.switchTab({
+						url:'/pages/main/main'
+					})
+				}
+			}else{
+				// 获取用户信息
+				if(uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')){
+					uni.navigateTo({
+						url:'/pages/middle/identity/identity'
+					})
+				}else{
+					this.getUserRealInfoAll()
+				}
+			}
+			// #endif
+			// #ifdef APP-PLUS || H5
+			if(!uni.getStorageSync('access_token')){
+				uni.navigateTo({
+					url:'/pages/login/login'
+				})
+			}else{
+				// 获取用户信息
+				if(uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')){
+					uni.navigateTo({
+						url:'/pages/middle/identity/identity'
+					})
+				}else{
+					this.getUserRealInfoAll()
+				}
+				
+			}
+			// #endif
 		},
 		methods:{
-			// 去我的账户
-			goAccount(){
-				uni.navigateTo({
-					url:'/pages/middle/release/account/account'
+			// 获取用户信息
+			getUserRealInfoAll(){
+				getUserRealInfoAll().then((res) => {
+					let roleId = res.data.userRole.roleId || ''
+				// 获取用户角色状态  2001 货主 2002 代办
+				// uni.setStorageSync('roleId','2001')
+				this.roleId = res.data.userRole.roleId || ''
+				this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : ''
+				this.userApply = res.data.apply.id ? res.data.apply : ''
+				
+				uni.setStorageSync('roleId', roleId)
+				uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+				uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')
+				
+				
+				
+				// 设置头部样式
+				if(!this.roleId && this.userRealInfo){
+					uni.setNavigationBarColor({
+						backgroundColor:"#FFFFFF",
+						frontColor:"#000000"
+					})
+					// 设置头部内容
+					uni.setNavigationBarTitle({
+					    title: '选择身份'
+					});
+				}else{
+					uni.setNavigationBarColor({
+						backgroundColor:"#FE3B0B",
+						frontColor:"#ffffff"
+					})
+					// 设置头部内容
+					let time =  util.doHandleYear()+ '年' + util.doHandleMonth() + '月'
+					uni.setNavigationBarTitle({
+					    title: time
+					});
+				}
+				// 设置底部tab样式
+				if(this.roleId == '20002'){
+					uni.setTabBarItem({
+					  index: 1,
+					  text: '代办',
+					  iconPath: '/static/img/2.1.png',
+					  selectedIconPath: '/static/img/2.2.png'
+					})
+				} else if(this.roleId == '20001') {
+					uni.setTabBarItem({
+					  index: 1,
+					  text: '我要卖',
+					  iconPath: '/static/img/4.1.png',
+					  selectedIconPath: '/static/img/4.2.png'
+					})
+				}
+				
 				})
 			},
-			// 去发布商品
-			goRelease(){
-				uni.navigateTo({
-					url:'/pages/middle/release/release'
-				})
+			goPage(index){
+				switch (index){
+					case 0:
+					// 代办
+						uni.navigateTo({
+							url:'/pages/middle/identity/realname/agency?hasfrom=1'
+						})
+						break;
+					case 1:
+					// 货主
+						uni.navigateTo({
+							url:'/pages/middle/identity/realname/agency?hasfrom=2'
+						})
+						break;	
+					default:
+						break;
+				}
 			}
 		}
 	}
@@ -122,87 +195,29 @@
 
 <style lang="scss" scoped>
 	.middle{
-		// 代办
-		.shipper{
-			margin: 300upx 0 100upx 0;
-			padding: 0 60upx;
-			button{
-				margin-top: 100upx;
-			}
-			
-		}
-		// 货主
-		.agency{
-			
-			.bar{
-				width: 100upx;
-				height: 100upx;
-				line-height: 100upx;
-				background: #007AFF;
-				font-size: 80upx;
-				color: #fff;
-				border-radius: 50%;
-				position: fixed;
-				right: 60upx;
-				bottom: 100upx;
+		background: #fff;
+		min-height: 100vh;
+		.identity{
+			padding-top: 120upx;
+			.item{
 				text-align: center;
-				z-index: 9999;
-				box-shadow: 1upx 1upx 1upx #999;
-			}
-			.orders{
-				margin-top: 40upx;
-			}
-			.goods{
-				uni-list-item{
-					background: #E5E5E5;
-				}
-				.title{
-					line-height: 100upx;
-					background: #666;
-					color: #fff;
-					padding: 0 30upx;
-				}
-				.flex{
-					text-align: center;
-					margin:  0 auto;
-					.img{
-						margin:  40upx auto;
-						margin-bottom: 20upx;
-						width: 60upx;
-						height: 60upx;
-						border-radius: 50%;
-						background: #888888;
-						>img{
-							width: 100%;
-							height: 100%;
-						}
+				padding-top: 120upx;
+				.image{
+					width: 180upx;
+					height: 180upx;
+					margin: 0 auto;
+					>image{
+						width: 100%;
+						height: 100%;
 					}
-					
+				}
+				.text{
+					font-size: 30upx;
+					color: #333;
+					margin-top: 20upx;
 				}
 			}
-			.top{
-				padding-top: 100upx;
-				background: #FE9A2E;
-				height: 200upx;
-				text-align: center;
-				.time{
-					height: 100upx;
-					line-height: 100upx;
-				}
-				.flex-1{
-					border-right: 1upx solid #fff;
-					
-				}
-				.flex-1:last-child{
-					border-right: none;
-				}
-			}
-			
-			
 		}
-		// 买家
-		.buyer{
-			
-		}
+		
 	}
 </style>

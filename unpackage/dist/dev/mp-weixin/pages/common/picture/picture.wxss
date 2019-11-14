@@ -1,0 +1,14 @@
+.picture .big-btn-active.data-v-359c5f2d {
+  position: fixed;
+  bottom: 30rpx;
+  left: 55rpx;
+}
+.picture .img.data-v-359c5f2d {
+  width: 100%;
+  height: 100vh;
+}
+.picture .img image.data-v-359c5f2d {
+    width: 100%;
+    height: 100%;
+}
+

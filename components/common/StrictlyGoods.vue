@@ -1,27 +1,30 @@
 <template>
 	<!--  精品严选  -->
-	<div class="goods">
-		<div class="title">
-			<img :src="list[0].list[0].imgPath" alt="图片">
-		</div>
-
-		<div class="items">
-			<ul class="cf">
-				<li class="fll" @click="goGoodsDetail(item)" v-for="(item,index) in goodsObj.goodsDetailRespList" :key="index">
-					<div class="img">
-						<img :src="item.imgUri" alt="图片">
-					</div>
-					<div class="content">
-						<div class="name ellipsis-line2">{{item.name}}</div>
-						<div class="cf">
-							<div class="fll text-red fs36"><span class="fs-14">￥</span>{{item.minPrice}}</div>
-							<div class="flr text-999 fs24">{{item.valueAddr}}</div>
+	<scroll-view>
+		<div class="goods">
+			<div class="title">
+				<img :src="list[0].list[0].imgPath" alt="图片">
+			</div>
+		
+			<div class="items">
+				<ul class="cf">
+					<li class="fll" @click="goGoodsDetail(item)" v-for="(item,index) in goodsObj.goodsDetailRespList" :key="index">
+						<div class="img">
+							<image :lazy-load="true" :src="item.imgUri" alt="图片">
 						</div>
-					</div>
-				</li>
-			</ul>
+						<div class="content">
+							<div class="name ellipsis-line2">{{item.name}}</div>
+							<div class="cf">
+								<div class="fll text-red fs36"><span class="fs-14">￥</span>{{item.minPrice}}</div>
+								<div class="flr text-999 fs24">{{item.valueAddr}}</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
 		</div>
-	</div>
+	</scroll-view>
+	
 </template>
 
 <script>
@@ -70,8 +73,7 @@
 						list.forEach(item => {
 							if (item.componentType === 5) {
 								item.goodsDetailRespList.forEach(item => {
-									let arr = item.valueAddr.split('-');
-									item.valueAddr = arr[arr.length-1]
+									item.valueAddr = item.valueAddr.substring(0,5)
 								})
 								this.goodsObj = item
 							}

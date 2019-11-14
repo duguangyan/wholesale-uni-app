@@ -122,7 +122,21 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniInput = function uniInput() {return __webpack_require__.e(/*! import() | components/hnfly-input/uni-input */ "components/hnfly-input/uni-input").then(__webpack_require__.bind(null, /*! @/components/hnfly-input/uni-input.vue */ 683));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniInput = function uniInput() {return __webpack_require__.e(/*! import() | components/hnfly-input/uni-input */ "components/hnfly-input/uni-input").then(__webpack_require__.bind(null, /*! @/components/hnfly-input/uni-input.vue */ 683));};var NavigationBar = function NavigationBar() {return __webpack_require__.e(/*! import() | components/common/NavigationBar */ "components/common/NavigationBar").then(__webpack_require__.bind(null, /*! @/components/common/NavigationBar.vue */ 574));};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -148,20 +162,94 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 {
   data: function data() {
     return {
-      title: '',
-      value: '' };
+      name: '',
+      val: '',
+      isClick: false,
+      clickTitle: '删除属性',
+      hasVal: false,
+      index: '',
+      ix: '',
+      categoryAttributes: '' };
 
   },
   components: {
-    uniInput: uniInput },
+    uniInput: uniInput, NavigationBar: NavigationBar },
 
-  onLoad: function onLoad() {
+  onLoad: function onLoad(options) {
+    if (options.index) {
+      this.index = options.index;
+      this.ix = options.ix;
+      this.isClick = true;
+    }
 
   },
   onShow: function onShow() {
-
+    if (this.index == '') {
+      this.isClick = false;
+    } else {
+      this.categoryAttributes = uni.getStorageSync('addCategoryAttributes');
+      this.isClick = true;
+      this.hasVal = true;
+      this.name = this.categoryAttributes[this.index].name;
+      this.val = this.categoryAttributes[this.index].values[this.ix];
+    }
   },
   methods: {
+    // 添加属性
+    save: function save() {
+      // 组装数据
+      var arr = [
+      {
+        name: '',
+        values: [] }];
+
+
+      // 如果有历史记录
+      var categoryAttributes = uni.getStorageSync('addCategoryAttributes');
+      if (categoryAttributes) {
+        if (this.index != '') {
+          categoryAttributes[this.index].name = this.name;
+          categoryAttributes[this.index].values[this.ix] = this.val;
+          uni.setStorageSync('addCategoryAttributes', categoryAttributes);
+        } else {
+          var obj = {
+            name: this.name,
+            values: [this.val] };
+
+          categoryAttributes.push(obj);
+          uni.setStorageSync('addCategoryAttributes', categoryAttributes);
+        }
+
+
+      } else {
+        // 没有历史记录
+        arr[0].name = this.name;
+        arr[0].values.push(this.val);
+        uni.setStorageSync('addCategoryAttributes', arr);
+      }
+
+      // 返回上一页
+      uni.navigateBack({
+        delta: 1 });
+
+
+    },
+    // 判断是否添加属性
+    checkVal: function checkVal() {
+      this.hasVal = this.name != '' && this.val != '';
+    },
+    // 点击删除属性
+    doClick: function doClick() {
+      this.categoryAttributes[this.index].values.splice(this.ix, 1);
+      if (this.categoryAttributes[this.index].values.length <= 0) {
+        this.categoryAttributes.splice(this.index, 1);
+      }
+      uni.setStorageSync('addCategoryAttributes', this.categoryAttributes);
+      // 返回上一页
+      uni.navigateBack({
+        delta: 1 });
+
+    },
     getTitle: function getTitle(e) {
       var value = e.detail.value;
       var name = e.target.id;
@@ -170,6 +258,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       var value = e.detail.value;
       var name = e.target.id;
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

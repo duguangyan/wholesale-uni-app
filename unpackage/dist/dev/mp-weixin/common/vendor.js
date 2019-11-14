@@ -1669,18 +1669,19 @@ var store = new _vuex.default.Store({
     /**
             * 是否需要强制登录
             */
-    forcedLogin: false,
-    hasLogin: false,
-    userName: "" },
+    agencyImgUpload1: '',
+    agencyImgUpload2: '' },
 
   mutations: {
-    login: function login(state, userName) {
-      state.userName = userName || '新用户';
-      state.hasLogin = true;
+    setAgencyImgUpload1: function setAgencyImgUpload1(state, payload) {
+      if (payload.hasOwnProperty('agencyImgUpload1')) {
+        state.agencyImgUpload1 = payload.agencyImgUpload1;
+      }
     },
-    logout: function logout(state) {
-      state.userName = "";
-      state.hasLogin = false;
+    setAgencyImgUpload2: function setAgencyImgUpload2(state, payload) {
+      if (payload.hasOwnProperty('agencyImgUpload2')) {
+        state.agencyImgUpload1 = payload.agencyImgUpload2;
+      }
     } } });var _default =
 
 
@@ -2802,7 +2803,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAe
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getPostItem = exports.getFreightPrompt = exports.buyGood = exports.getGoodNums = exports.addToCart = exports.removeCollect = exports.setCollect = exports.getDetail = exports.getList = exports.getHasCollect = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
+Object.defineProperty(exports, "__esModule", { value: true });exports.getPostItem = exports.getFreightPrompt = exports.buyGood = exports.getGoodNums = exports.addToCart = exports.removeCollect = exports.setCollect = exports.getDetail = exports.getList = exports.getHasCollect = exports.getCategoryTreeNode = exports.selectCategoryTreeNode = exports.getByCategoryId = exports.getCategoryUnitList = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
+
+
 var getList = function getList(data) {
   return (0, _request.request)({
     url: '/api/goods/goods/sellGoods',
@@ -2881,7 +2884,43 @@ exports.getPostItem = getPostItem;var getHasCollect = function getHasCollect(dat
     data: data,
     type: 'form' });
 
-};exports.getHasCollect = getHasCollect;
+};
+
+// 根据店铺shopId获取商品分类
+exports.getHasCollect = getHasCollect;var getCategoryTreeNode = function getCategoryTreeNode(data) {
+  return (0, _request.request)({
+    url: '/api/goods/category/getCategoryTreeNode',
+    data: data,
+    type: 'form' });
+
+};
+
+// 获取商品分类
+exports.getCategoryTreeNode = getCategoryTreeNode;var selectCategoryTreeNode = function selectCategoryTreeNode(data) {
+  return (0, _request.request)({
+    url: '/api/goods/category/selectCategoryTreeNode',
+    data: data,
+    type: 'form' });
+
+};
+
+// 根据商品分类ID获取分类属性
+exports.selectCategoryTreeNode = selectCategoryTreeNode;var getByCategoryId = function getByCategoryId(data) {
+  return (0, _request.request)({
+    url: '/api/goods/categoryAttr/getByCategoryId',
+    data: data,
+    type: 'form' });
+
+};
+
+// 根据商品分类ID获取分类单位
+exports.getByCategoryId = getByCategoryId;var getCategoryUnitList = function getCategoryUnitList(data) {
+  return (0, _request.request)({
+    url: '/api/goods/categoryUnit/getCategoryUnitList',
+    data: data,
+    type: 'form' });
+
+};exports.getCategoryUnitList = getCategoryUnitList;
 
 /***/ }),
 
@@ -8934,15 +8973,15 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) { // const apiUrl = 'http://m.qinlvny.com'; // 正式
 // let apiUrl = 'http://duu-u.imwork.net:27307'; // 开发
-var apiUrl = 'http://192.168.0.202:7000'; // 开发
-var versionNumber = 'V1.0.4'; //版本号
+var apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
+var versionNumber = 'V1.0.1'; //版本号
 
-if (apiUrl == 'http://192.168.0.202:7000') {
+if (apiUrl == 'http://192.168.0.202:8000/ws') {
   uni.setStorageSync('v', versionNumber);
-  uni.setStorageSync('s', ' 开发');
+  uni.setStorageSync('s', '开发');
 } else {
   uni.setStorageSync('v', versionNumber);
-  uni.setStorageSync('s', ' 正式');
+  uni.setStorageSync('s', '正式');
 }
 Promise.prototype.finally = function (callback) {
   var P = this.constructor;
@@ -8991,16 +9030,32 @@ var request = function request() {var params = arguments.length > 0 && arguments
     // 	//TODO handle the exception
     // }
 
+    // if(params.url.indexOf('/goods') != -1){
+    // 	 apiUrl = 'http://192.168.0.174:7002/ws'
+    // }
+
     var newUrl = params.url;
 
     if (params.url.indexOf('/api') != -1) {
       newUrl = newUrl.split('/api')[1];
     }
+    console.log('apiUrl:', apiUrl);
+    console.log(params.url.indexOf('/ws'));
+    if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1) {
+      apiUrl = apiUrl.split('/ws')[0];
+    } else {
+      if (apiUrl.indexOf('/ws') == -1) {
+        apiUrl = apiUrl + '/ws';
+      }
+    }
+
+
+
     // try{
     // 	if(params.data.grant_type == 'mini_program' || params.data.grant_type == 'wx_app'){
     // 		apiUrl = 'http://2b7306b237.wicp.vip'
     // 	}
-    // }catch(e){
+    // }catch(e){  
     // 	//TODO handle the exception
     // }
 
@@ -9029,118 +9084,135 @@ var request = function request() {var params = arguments.length > 0 && arguments
 
         } else {
           // 请求成功非1000	
-          if (res.code == '1011') {
-            uni.navigateTo({
-              url: '/pages/login/login' });
-
-            // let content = '登录过期，请重新登录！'
-            // if(uni.getStorageSync('access_token') == '') {
-            // 	content = '请先登录！'
-            // }
-            // if(res.message == '无权访问！'){
-            // 	content = '无权访问！'
-            // }
-            // let islogin = uni.getStorageSync('isLogin')
-            // if(islogin != 1){
-            // 	uni.setStorageSync('isLogin',1)
-            // 	uni.showModal({
-            // 	    title: '提示',
-            // 	    content,
-            // 	    success: function (res) {
-            // 	        if (res.confirm) {
-            // 			   // uni.setStorageSync('isLogin',0)	
-            // 	           uni.navigateTo({
-            // 	           	url:'/pages/login/login'
-            // 	           })
-            // 	        } else if (res.cancel) {
-            // 	            console.log('用户点击取消');
-            // 				uni.setStorageSync('isLogin',0)
-            // 	        }
-            // 	    }
-            // 	});
-            // }
-
-          } else if (res.code == '1017') {
-            var tokenData = {
-              grant_type: 'refresh_token',
-              scope: 2,
-              client_id: 'cwap',
-              client_secret: 'xx',
-              refresh_token: uni.getStorageSync('refresh_token') };
+          // if(res.code == '1011'){
+          // 	if(newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder'){
+          // 		uni.removeStorageSync('access_token')
+          // 		uni.navigateTo({
+          // 			url:'/pages/login/login'
+          // 		})
+          // 	}
 
 
-            uni.request({
-              url: apiUrl + '/oauth/oauth/token',
-              method: 'POST',
-              data: tokenData,
-              header: {
-                'content-type': 'application/multipart/form-data' },
+          // 	// let content = '登录过期，请重新登录！'
+          // 	// if(uni.getStorageSync('access_token') == '') {
+          // 	// 	content = '请先登录！'
+          // 	// }
+          // 	// if(res.message == '无权访问！'){
+          // 	// 	content = '无权访问！'
+          // 	// }
+          // 	// let islogin = uni.getStorageSync('isLogin')
+          // 	// if(islogin != 1){
+          // 	// 	uni.setStorageSync('isLogin',1)
+          // 	// 	uni.showModal({
+          // 	// 	    title: '提示',
+          // 	// 	    content,
+          // 	// 	    success: function (res) {
+          // 	// 	        if (res.confirm) {
+          // 	// 			   // uni.setStorageSync('isLogin',0)	
+          // 	// 	           uni.navigateTo({
+          // 	// 	           	url:'/pages/login/login'
+          // 	// 	           })
+          // 	// 	        } else if (res.cancel) {
+          // 	// 	            console.log('用户点击取消');
+          // 	// 				uni.setStorageSync('isLogin',0)
+          // 	// 	        }
+          // 	// 	    }
+          // 	// 	});
+          // 	// }
 
-              success: function success(res) {
-                if (res.code == '1000') {
-                  uni.request({
-                    url: apiUrl + newUrl,
-                    method: params.method || 'GET',
-                    data: params.data,
-                    header: header,
-                    success: function success(res) {
-                      if (res.code == '1000') {
-                        resolve(res);
-                      } else {
-                        uni.showToast({
-                          title: '标题',
-                          duration: '请求数据错误' });
-
-                      }
-                    },
-                    fail: function fail() {
-                      uni.showToast({
-                        title: '标题',
-                        duration: '请求数据错误' });
-
-                    } });
-
-                } else {
-                  uni.showToast({
-                    title: '标题',
-                    duration: '请求数据错误' });
-
-                }
-              },
-              fail: function fail(err) {
-                uni.showToast({
-                  title: '标题',
-                  duration: '请求数据错误' });
-
-              } });
-
-          } else {
-            if (!uni.getStorageSync('access_token')) {
-              // 防止重复进入错误页面
-              if (uni.getStorageSync('err') != 1) {
-                uni.navigateTo({
-                  url: '/pages/common/err/err?redirect=' + JSON.stringify(params) });
-
-              }
-            }
-          }
+          // }else if(res.code == '1017'){
+          // 	let tokenData = {
+          // 		grant_type:'refresh_token',
+          // 		scope:2,
+          // 		client_id: 'cwap',
+          // 		client_secret:'xx',
+          // 		refresh_token: uni.getStorageSync('refresh_token')
+          // 	}
+          // 	console.log('tokenData',tokenData)
+          // 	console.log('apiUrl',apiUrl + '/oauth/oauth/token')
+          // 	uni.request({
+          // 		url: apiUrl + '/oauth/oauth/token',
+          // 		method: 'POST',
+          // 		data: tokenData,
+          // 		header:{
+          // 			'content-type':'application/x-www-form-urlencoded'
+          // 		},
+          // 		success(res) { 
+          // 			console.log('1',res)
+          // 			if(res.data && res.data.access_token){
+          // 				uni.setStorageSync('access_token', res.data.access_token)
+          // 				uni.setStorageSync('refresh_token', res.data.refresh_token)
+          // 				uni.request({
+          // 					url: apiUrl + newUrl,
+          // 					method: params.method || 'GET',
+          // 					data: params.data,
+          // 					header,
+          // 					success(res) {
+          // 						console.log('2',res)
+          // 						if(res.code == '1000'){
+          // 							resolve(res);
+          // 						}else{
+          // 							uni.showToast({
+          // 							    title: '请求数据错误',
+          // 							    duration: 2000,
+          // 								icon :'none'
+          // 							});
+          // 						}
+          // 					},
+          // 					fail() {
+          // 						uni.showToast({
+          // 						    title: '请求数据错误',
+          // 						    duration: 2000,
+          // 							icon :'none'
+          // 						});
+          // 					}
+          // 				})
+          // 			} else {
+          // 				// uni.showToast({
+          // 				//     title: '请求数据错误',
+          // 				//     duration: 2000,
+          // 				// 	icon :'none'
+          // 				// });
+          // 				uni.navigateTo({
+          // 					url:'/pages/login/login'
+          // 				})
+          // 			}
+          // 		},
+          // 		fail(err) {
+          // 			uni.showToast({
+          // 			    title: '请求数据错误',
+          // 			    duration: 2000,
+          // 				icon :'none'
+          // 			});
+          // 		}
+          // 	})
+          // } else {
+          // 	if(res.code != '9999') {
+          // 		if(!uni.getStorageSync('access_token')){
+          // 			// 防止重复进入错误页面
+          // 			if(uni.getStorageSync('err') != 1){
+          // 				uni.navigateTo({
+          // 					url:'/pages/common/err/err?redirect=' + JSON.stringify(params)
+          // 				})
+          // 			}
+          // 		}
+          // 	}
+          // }
           resolve(res);
         }
       },
       fail: function fail(err) {
-
-
         // 请求失败处理
-        if (err.errMsg || err.errMsg === "request:fail timeout") {
-          uni.showToast({
-            icon: 'none',
-            title: '网络请求超时' });
-
-          uni.navigateTo({
-            url: '/pages/common/err/err?from=unonline' });
-
-        }
-        reject(err);
+        // if (err.errMsg || err.errMsg === "request:fail timeout") {
+        // 	uni.showToast({
+        // 		icon:'none',
+        // 		title:'网络请求超时'
+        // 	})
+        // 	uni.navigateTo({
+        // 		url:'/pages/common/err/err?from=unonline'
+        // 	})
+        // }
+        //  reject(err)
       },
       complete: function complete(res) {
         // 请求结束
@@ -9186,7 +9258,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAYAAAA+
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getUserInfoData = exports.postUserSms = exports.postUserLogin = exports.postUserHeadImg = exports.getUserAddressList = exports.getChildrenByPId = exports.postUserAddressInsert = exports.getAddressById = exports.postAddressUpdate = exports.postUpdateNickname = exports.postAddressDelete = exports.getCollectGoodsList = exports.getOrderPageMyOrder = exports.postUserImgUpload = exports.getOrderDetailById = exports.postOrderCancel = exports.postOrderConfirm = exports.postOrderLogisticsQuery = exports.getCollectGoodsRemove = exports.getAdPositioneById = exports.getPageLayout = exports.getSetFormId = exports.weixinLogin = exports.openIdByCode = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
+Object.defineProperty(exports, "__esModule", { value: true });exports.getUserInfoData = exports.postUserSms = exports.postUserLogin = exports.postUserHeadImg = exports.getUserAddressList = exports.getChildrenByPId = exports.postUserAddressInsert = exports.getAddressById = exports.postAddressUpdate = exports.postUpdateNickname = exports.postAddressDelete = exports.getCollectGoodsList = exports.getOrderPageMyOrder = exports.postUserImgUpload = exports.getOrderDetailById = exports.postOrderCancel = exports.postOrderConfirm = exports.postOrderLogisticsQuery = exports.getCollectGoodsRemove = exports.getAdPositioneById = exports.getPageLayout = exports.getSetFormId = exports.weixinLogin = exports.openIdByCode = exports.appUpdate = exports.getUserRealInfo = exports.getUserRealInfoSettledIn = exports.getByUserIdAndType = exports.getUserRealInfoAll = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
 
 
 // 用户登录
@@ -9415,7 +9487,55 @@ exports.weixinLogin = weixinLogin;var openIdByCode = function openIdByCode(data)
     data: data,
     type: 'form' });
 
-};exports.openIdByCode = openIdByCode;
+};
+
+// 获取版本号判断是否更新
+exports.openIdByCode = openIdByCode;var appUpdate = function appUpdate(data) {
+  return (0, _request.request)({
+    url: '/api/upms/appUpdate/getByCode',
+    data: data,
+    type: 'form' });
+
+};
+
+
+// 根据用户ID获取用户状态信息
+exports.appUpdate = appUpdate;var getUserRealInfo = function getUserRealInfo(data) {
+  return (0, _request.request)({
+    url: '/api/goods/userRealInfo/getUserRoleAndUserRealInfo',
+    data: data,
+    type: 'form' });
+
+};
+
+
+// 用户实名认证
+exports.getUserRealInfo = getUserRealInfo;var getUserRealInfoSettledIn = function getUserRealInfoSettledIn(data) {
+  return (0, _request.request)({
+    method: 'post',
+    url: '/api/goods/userRealInfo/settledIn',
+    data: data,
+    type: 'form' });
+
+};
+// 或许用户认证信息
+exports.getUserRealInfoSettledIn = getUserRealInfoSettledIn;var getByUserIdAndType = function getByUserIdAndType(data) {
+  return (0, _request.request)({
+    method: 'post',
+    url: '/api/goods/apply/getByUserIdAndType',
+    data: data,
+    type: 'form' });
+
+};
+
+// 获取用户全部信息 实名 认证 
+exports.getByUserIdAndType = getByUserIdAndType;var getUserRealInfoAll = function getUserRealInfoAll(data) {
+  return (0, _request.request)({
+    url: '/api/goods/userRealInfo/getUserInfo',
+    data: data,
+    type: 'form' });
+
+};exports.getUserRealInfoAll = getUserRealInfoAll;
 
 /***/ }),
 
@@ -9554,13 +9674,23 @@ var isPhone = function isPhone(phone) {
   return !/^1[2345789]\d{9}$/.test(phone);
 };
 /**
-    * @param {string} str  判断用户昵称为英文字母或者汉字，限4-30个字符
+    * @param {string} str  判断用户昵称为英文字母或者汉字，限2-30个字符
     * @returns {Boolean}
     */
 var isNickName = function isNickName(nickName) {
   // 去掉前后空格
   var name = nickName.replace(/^\s+|\s+$/g, "");
-  return name.length >= 2 && name.length < 21;
+  return name.length > 1 && name.length < 21;
+};
+
+/**
+    * @param {string} str  判断用户密码为英文字母或者汉字，限6-50个字符
+    * @returns {Boolean}
+    */
+var isPassword = function isPassword(pass) {
+  // 去掉前后空格
+  var password = pass.replace(/^\s+|\s+$/g, "");
+  return 5 < password.length && password.length < 51;
 };
 
 /**
@@ -9596,6 +9726,7 @@ var isNumber = function isInteger(obj) {
   isNumber: isNumber,
   isMoney: isMoney,
   isPhone: isPhone,
+  isPassword: isPassword,
   isNickName: isNickName,
   isAddressDetall: isAddressDetall };exports.default = _default;
 
@@ -10813,9 +10944,11 @@ function verificationAmount(num) {
   }
 }
 
+// 数字转换成金额
 function isPriceNumber(_keyword) {
   if (_keyword == "0" || _keyword == "0." || _keyword == "0.0" || _keyword == "0.00") {
-    _keyword = "0";return true;
+    _keyword = "0";
+    return true;
   } else {
     var index = _keyword.indexOf("0");
     var length = _keyword.length;
@@ -10837,7 +10970,116 @@ function isPriceNumber(_keyword) {
     return false;
   }
 }
+
+// 时间戳转年月日时分秒
+function timestampToTime(timestamp) {
+  var date = new Date(); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+  var Y = date.getFullYear() + '';
+  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+  var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+  var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+  var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+  var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+
+  return Y + M + D + h + m + s;
+  // console.log(strDate) //2019-08-01 09:55:26
+}
+
+// function MillisecondToDate(msd) {
+//     var time = parseFloat(msd) / 1000;
+//     if (null != time && "" != time) {
+//         if (time > 60 && time < 60 * 60) {
+//             time = parseInt(time / 60.0) + "分" + parseInt((parseFloat(time / 60.0) -
+//                 parseInt(time / 60.0)) * 60) + "秒";
+//         }
+//         // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+//         else if (time >= 60 * 60) {
+//             time = parseInt(time / 3600.0) + "时" + parseInt((parseFloat(time / 3600.0) -
+//                 parseInt(time / 3600.0)) * 60) + "分" +
+//                 parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
+//                 parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + "秒";
+//         }
+//         else {
+//             time = parseInt(time) + "秒";
+//         }
+//     }
+//     return time;
+// }
+
+// 剩余天时分秒
+function getLeftTime(endtime) {
+  var nowtime = new Date().getTime();
+  var lasttime = (endtime - nowtime) / 1000;
+  if (lasttime > 0) {
+    var lastdate = parseInt(lasttime / 3600 / 24);
+    var lasthours = parseInt(lasttime / 3600 % 24);
+    var lastminutes = parseInt(lasttime / 60 % 60);
+    var lastseconds = parseInt(lasttime % 60);
+    var strtime = lastdate + '' + '天' + '' + lasthours + '' + '时' + '' + lastminutes + '' + '分' + '' + lastseconds + '' +
+    '秒';
+    return strtime;
+  }
+  return '';
+}
+
+// 时间戳转时分
+function MillisecondToDate(msd) {
+  var time = (parseFloat(msd) - Date.parse(new Date())) / 1000;
+  if (null != time && "" != time) {
+    if (time > 60 && time < 60 * 60) {
+      time = parseInt(time / 60.0) + ":" + parseInt((parseFloat(time / 60.0) -
+      parseInt(time / 60.0)) * 60) + " ";
+    }
+    // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+    else if (time >= 60 * 60) {
+        time = parseInt(time / 3600.0) + ":" + parseInt((parseFloat(time / 3600.0) -
+        parseInt(time / 3600.0)) * 60) + ":" +
+        parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
+        parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + " ";
+      } else {
+        time = parseInt(time) + " ";
+      }
+  }
+  return time;
+}
+
+// 获取日期
+function doHandleDate() {
+  var myDate = new Date();
+  var tYear = myDate.getFullYear();
+  var tMonth = myDate.getMonth();
+
+  var m = tMonth + 1;
+  if (m.toString().length == 1) {
+    m = "0" + m;
+  }
+  return tYear + '-' + m;
+}
+// 获取年
+function doHandleYear(tYear) {
+  var myDate = new Date();
+  var tYear = myDate.getFullYear();
+
+  return tYear;
+}
+// 获取月
+function doHandleMonth() {
+  var myDate = new Date();
+  var tMonth = myDate.getMonth();
+
+  var m = tMonth + 1;
+  if (m.toString().length == 1) {
+    m = "0" + m;
+  }
+  return m;
+}
 module.exports = {
+  doHandleMonth: doHandleMonth,
+  doHandleYear: doHandleYear,
+  doHandleDate: doHandleDate,
+  getLeftTime: getLeftTime,
+  MillisecondToDate: MillisecondToDate,
+  timestampToTime: timestampToTime,
   isPriceNumber: isPriceNumber,
   verificationAmount: verificationAmount,
   fmoney: fmoney,
@@ -25299,7 +25541,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "沁绿农业", "enablePullDownRefresh": true, "navigationStyle": "custom", "usingComponents": { "tab-bar": "/components/common/TabBar", "swiper-dot": "/components/common/SwiperDotByMain" } }, "pages/login/login": { "navigationBarTitleText": "登录", "usingComponents": {} }, "pages/user/user": { "navigationBarTitleText": "我的", "navigationStyle": "custom", "usingComponents": { "tab-bar": "/components/common/TabBar" } }, "pages/order/order": { "navigationBarTitleText": "进货单", "navigationStyle": "custom", "usingComponents": { "dialog": "/components/common/Dialog", "tab-bar": "/components/common/TabBar" } }, "pages/user/setting/setting": { "navigationBarTitleText": "设置", "usingComponents": {} }, "pages/user/protocal/protocal": { "navigationBarTitleText": "服务条款与协议", "usingComponents": {} }, "pages/user/about/about": { "navigationBarTitleText": "关于我们", "usingComponents": {} }, "pages/user/info/info": { "navigationBarTitleText": "个人信息", "usingComponents": {} }, "pages/user/nickname/nickname": { "navigationBarTitleText": "修改昵称", "usingComponents": {} }, "pages/user/addlist/addlist": { "navigationBarTitleText": "管理收货地址", "usingComponents": {} }, "pages/user/addedit/addedit": { "navigationBarTitleText": "添加地址", "usingComponents": { "ra-btn": "/components/common/RaBtn", "dialog": "/components/common/Dialog", "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker" } }, "pages/user/collection/collection": { "navigationBarTitleText": "收藏", "usingComponents": { "dialog": "/components/common/Dialog", "navigation-bar": "/components/common/NavigationBar" } }, "pages/user/order/list": { "navigationBarTitleText": "我的订单", "enablePullDownRefresh": true, "usingComponents": { "good": "/components/order/Good", "pay": "/components/common/Pay", "dialog": "/components/common/Dialog" } }, "pages/user/order/finish": { "navigationBarTitleText": "订单完成", "usingComponents": {} }, "pages/user/order/freight": { "navigationBarTitleText": "物流详情", "usingComponents": {} }, "pages/user/order/detail": { "navigationBarTitleText": "订单详情", "usingComponents": { "good": "/components/order/Good", "pay": "/components/common/Pay", "dialog": "/components/common/Dialog" } }, "pages/user/order/success": { "navigationBarTitleText": "交易已完成", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods" } }, "pages/user/pay/success": { "navigationBarTitleText": "支付完成", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods", "advertising-position": "/components/common/AdvertisingPosition" } }, "pages/order/goodsDetail/goodsDetail": { "navigationBarTitleText": "商品详情", "usingComponents": { "share": "/components/good/Share", "standard": "/components/good/Standard", "player": "/components/common/Player", "swiper-dot": "/components/common/SwiperDot" } }, "pages/order/prompt/prompt": { "navigationBarTitleText": "运费说明", "usingComponents": { "provinces": "/components/common/Provinces" } }, "pages/order/submit/submit": { "navigationBarTitleText": "提交订单", "usingComponents": { "pay": "/components/common/Pay" } }, "pages/order/paySuccess/paySuccess": { "navigationBarTitleText": "支付成功", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods", "advertising-position": "/components/common/AdvertisingPosition", "dialog": "/components/common/Dialog" } }, "pages/order/orderSuccess/orderSuccess": { "navigationBarTitleText": "订单完成", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods" } }, "pages/main/search/search": { "navigationBarTitleText": "搜索商品", "usingComponents": { "dialog": "/components/common/Dialog" } }, "pages/order/goodsList/goodsList": { "navigationBarTitleText": "商品列表", "usingComponents": { "panel": "/components/search/Panel", "good": "/components/common/Good" } }, "pages/common/err/err": { "navigationBarTitleText": "异常", "usingComponents": {} }, "pages/common/webview/webview": { "navigationBarTitleText": "网络地址", "usingComponents": {} }, "pages/login/binding/binding": { "navigationBarTitleText": "绑定手机号", "usingComponents": {} }, "pages/middle/middle": { "navigationBarTitleText": "状态", "navigationStyle": "custom", "usingComponents": { "agency": "/components/middle/agency", "buyer": "/components/middle/buyer", "shipper": "/components/middle/shipper" } }, "pages/middle/release/release": { "navigationBarTitleText": "发布商品", "usingComponents": {} }, "pages/middle/release/varieties/varieties": { "navigationBarTitleText": "选择品种", "usingComponents": {} }, "pages/middle/release/attribute/attribute": { "navigationBarTitleText": "选择属性", "usingComponents": { "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker", "navigation-bar": "/components/common/NavigationBar" } }, "pages/middle/release/price/price": { "navigationBarTitleText": "设置价格", "usingComponents": {} }, "pages/middle/release/attribute/add/add": { "navigationBarTitleText": "添加属性", "usingComponents": { "uni-input": "/components/hnfly-input/uni-input", "navigation-bar": "/components/common/NavigationBar" } }, "pages/middle/release/account/account": { "navigationBarTitleText": "我的账户", "usingComponents": { "uni-icons": "/components/uni-icons/uni-icons", "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item" } }, "pages/middle/release/account/record/record": { "navigationBarTitleText": "账单记录", "usingComponents": { "uni-icons": "/components/uni-icons/uni-icons", "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item" } }, "pages/middle/release/account/record/detail": { "navigationBarTitleText": "账单详情", "usingComponents": {} }, "pages/middle/release/account/bankcard/bankcard": { "navigationBarTitleText": "银行卡", "usingComponents": {} }, "pages/middle/release/account/bankcard/add": { "navigationBarTitleText": "添加银行卡", "usingComponents": {} }, "pages/middle/release/account/bankcard/addinfo": { "navigationBarTitleText": "填写银行卡信息", "usingComponents": {} }, "pages/middle/release/account/payps/payps": { "navigationBarTitleText": "支付密码", "usingComponents": {} }, "pages/middle/release/account/payps/resPassword": { "navigationBarTitleText": "设置新支付密码", "usingComponents": {} }, "pages/middle/release/account/payps/confirmPassword": { "navigationBarTitleText": "确认支付密码", "usingComponents": {} }, "pages/middle/release/account/payps/verifiyPhone": { "navigationBarTitleText": "验证手机号码", "usingComponents": {} }, "pages/middle/identity/identity": { "navigationBarTitleText": "选择身份", "navigationStyle": "custom", "usingComponents": { "navigation-bar": "/components/common/NavigationBar" } }, "pages/middle/identity/realname/agency": { "navigationBarTitleText": "信息填写", "usingComponents": { "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item", "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker", "choose-type": "/components/realname/ChooseType" } }, "pages/middle/identity/realname/buyer": { "navigationBarTitleText": "实名认证", "usingComponents": {} }, "pages/middle/identity/realname/shipper": { "navigationBarTitleText": "信息填写", "usingComponents": { "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item", "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker" } }, "pages/middle/identity/submitSuccess/submitSuccess": { "navigationBarTitleText": "提交成功", "usingComponents": {} }, "pages/common/picture/picture": { "navigationBarTitleText": "查看图片", "usingComponents": {} }, "pages/common/showImage/showImage": { "navigationBarTitleText": "示例说明", "usingComponents": {} }, "pages/middle/identity/submit/submit": { "navigationBarTitleText": "提交审核", "usingComponents": {} }, "pages/middle/identity/submitFail/submitFail": { "navigationBarTitleText": "反馈", "usingComponents": {} }, "pages/main/classify/classify": { "navigationBarTitleText": "分类查询", "usingComponents": {} }, "pages/middle/release/account/cash/cash": { "navigationBarTitleText": "账户提现", "usingComponents": {} }, "pages/middle/release/account/cash/cashSuccess": { "navigationBarTitleText": "提交成功", "usingComponents": {} }, "pages/middle/release/product/localshipper/localshipper": { "navigationBarTitleText": "本地货主", "usingComponents": {} }, "pages/middle/release/product/localproduct/localproduct": { "navigationBarTitleText": "本地货品", "usingComponents": { "goodx": "/components/common/Goodx" } }, "pages/middle/release/chooseImage/chooseImage": { "navigationBarTitleText": "图片编辑", "usingComponents": {} }, "pages/common/video/video": { "navigationBarTitleText": "视频播放", "usingComponents": {} } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "沁绿农业APP", "navigationBarBackgroundColor": "#FFFFFF", "backgroundColor": "#FFFFFF", "onReachBottomDistance": 151 } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "沁绿农业", "enablePullDownRefresh": true, "navigationStyle": "custom" }, "pages/login/login": { "navigationBarTitleText": "登录" }, "pages/user/user": { "navigationBarTitleText": "我的", "navigationStyle": "custom" }, "pages/order/order": { "navigationBarTitleText": "进货单", "navigationStyle": "custom" }, "pages/user/setting/setting": { "navigationBarTitleText": "设置" }, "pages/user/protocal/protocal": { "navigationBarTitleText": "服务条款与协议" }, "pages/user/about/about": { "navigationBarTitleText": "关于我们" }, "pages/user/info/info": { "navigationBarTitleText": "个人信息" }, "pages/user/nickname/nickname": { "navigationBarTitleText": "修改昵称" }, "pages/user/addlist/addlist": { "navigationBarTitleText": "管理收货地址" }, "pages/user/addedit/addedit": { "navigationBarTitleText": "添加地址" }, "pages/user/collection/collection": { "navigationBarTitleText": "收藏" }, "pages/user/order/list": { "navigationBarTitleText": "我的订单", "enablePullDownRefresh": true }, "pages/user/order/finish": { "navigationBarTitleText": "订单完成" }, "pages/user/order/freight": { "navigationBarTitleText": "物流详情" }, "pages/user/order/detail": { "navigationBarTitleText": "订单详情" }, "pages/user/order/success": { "navigationBarTitleText": "交易已完成" }, "pages/user/pay/success": { "navigationBarTitleText": "支付完成" }, "pages/order/goodsDetail/goodsDetail": { "navigationBarTitleText": "商品详情" }, "pages/order/prompt/prompt": { "navigationBarTitleText": "运费说明" }, "pages/order/submit/submit": { "navigationBarTitleText": "提交订单" }, "pages/order/paySuccess/paySuccess": { "navigationBarTitleText": "支付成功" }, "pages/order/orderSuccess/orderSuccess": { "navigationBarTitleText": "订单完成" }, "pages/main/search/search": { "navigationBarTitleText": "搜索商品" }, "pages/order/goodsList/goodsList": { "navigationBarTitleText": "商品列表" }, "pages/common/err/err": { "navigationBarTitleText": "异常" }, "pages/common/webview/webview": { "navigationBarTitleText": "网络地址" }, "pages/login/binding/binding": { "navigationBarTitleText": "绑定手机号" }, "pages/middle/middle": { "navigationBarTitleText": "状态", "navigationStyle": "custom" }, "pages/middle/release/release": { "navigationBarTitleText": "发布商品" }, "pages/middle/release/varieties/varieties": { "navigationBarTitleText": "选择品种" }, "pages/middle/release/attribute/attribute": { "navigationBarTitleText": "选择属性", "navigationStyle": "custom" }, "pages/middle/release/price/price": { "navigationBarTitleText": "设置价格" }, "pages/middle/release/attribute/add/add": { "navigationBarTitleText": "添加属性", "navigationStyle": "custom" }, "pages/middle/release/account/account": { "navigationBarTitleText": "我的账户" }, "pages/middle/release/account/record/record": { "navigationBarTitleText": "账单记录" }, "pages/middle/release/account/record/detail": { "navigationBarTitleText": "账单详情" }, "pages/middle/release/account/bankcard/bankcard": { "navigationBarTitleText": "我的银行卡" }, "pages/middle/release/account/bankcard/add": { "navigationBarTitleText": "添加银行卡" }, "pages/middle/release/account/bankcard/addinfo": { "navigationBarTitleText": "填写银行卡信息" }, "pages/middle/release/account/payps/payps": { "navigationBarTitleText": "支付密码" }, "pages/middle/release/account/payps/resPassword": { "navigationBarTitleText": "设置新支付密码" }, "pages/middle/release/account/payps/confirmPassword": { "navigationBarTitleText": "确认支付密码" }, "pages/middle/release/account/payps/verifiyPhone": { "navigationBarTitleText": "验证手机号码" }, "pages/middle/identity/identity": { "navigationBarTitleText": "选择身份", "navigationStyle": "custom" }, "pages/middle/identity/realname/agency": { "navigationBarTitleText": "信息填写" }, "pages/middle/identity/realname/buyer": { "navigationBarTitleText": "实名认证" }, "pages/middle/identity/realname/shipper": { "navigationBarTitleText": "信息填写" }, "pages/middle/identity/submitSuccess/submitSuccess": { "navigationBarTitleText": "提交成功" }, "pages/common/picture/picture": { "navigationBarTitleText": "查看图片" }, "pages/common/showImage/showImage": { "navigationBarTitleText": "示例说明" }, "pages/middle/identity/submit/submit": { "navigationBarTitleText": "提交审核" }, "pages/middle/identity/submitFail/submitFail": { "navigationBarTitleText": "反馈" }, "pages/main/classify/classify": { "navigationBarTitleText": "分类查询" }, "pages/middle/release/account/cash/cash": { "navigationBarTitleText": "账户提现" }, "pages/middle/release/account/cash/cashSuccess": { "navigationBarTitleText": "提交成功" }, "pages/middle/release/product/localshipper/localshipper": { "navigationBarTitleText": "本地货主" }, "pages/middle/release/product/localproduct/localproduct": { "navigationBarTitleText": "本地货品" }, "pages/middle/release/chooseImage/chooseImage": { "navigationBarTitleText": "图片编辑" }, "pages/common/video/video": { "navigationBarTitleText": "视频播放" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "农百集APP", "navigationBarBackgroundColor": "#FFFFFF", "backgroundColor": "#FFFFFF", "onReachBottomDistance": 151 } };exports.default = _default;
 
 /***/ }),
 

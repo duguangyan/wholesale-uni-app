@@ -122,38 +122,53 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
-{
-  data: function data() {
-    return {
-      list: ['红薯1', '红薯红薯红薯红薯红薯红薯红薯红薯2', '红薯3', '红薯4', '红薯5', '红薯6', '红薯7', '红薯8'],
-      itenIndex: 0 };
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
-  },
-  onLoad: function onLoad() {
 
-  },
-  onShow: function onShow() {
 
-  },
-  methods: {
+
+
+
+
+
+
+
+
+
+
+
+
+var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 198);
+var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { list: [], itenIndex: 0 };}, onLoad: function onLoad() {}, onShow: function onShow() {// 获取商品分类数据
+    this.getCateNode();}, methods: { // 获取商品分类数据
+    getCateNode: function getCateNode() {var _this = this;
+      (0, _goodsApi.selectCategoryTreeNode)().then(function (res) {
+        if (res.code == '1000') {
+          _this.list = res.data;
+        } else {
+          _tips.default.tips(res.message || '获取品种信息失败');
+        }
+      });
+    },
     // 确认选择品种
     chooseVarieties: function chooseVarieties() {
-      uni.setStorageSync('varieties', this.list[this.itenIndex]);
+
+      uni.setStorageSync('varieties', JSON.stringify(this.list[this.itenIndex]));
       uni.navigateBack({
         delta: 1 });
 

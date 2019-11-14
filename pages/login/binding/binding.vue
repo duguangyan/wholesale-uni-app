@@ -166,7 +166,7 @@
 		          uni.setStorageSync('headImgUrl', res.data.headImgUrl)
 				  // 返回上一页
 				  uni.navigateBack({
-					  delta:2
+					  delta:3
 				  })
 		        }
 		      }).catch((err) => {

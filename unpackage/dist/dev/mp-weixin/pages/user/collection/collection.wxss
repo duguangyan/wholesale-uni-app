@@ -68,7 +68,7 @@
           border-radius: 20rpx;
           overflow: hidden;
 }
-.collection .list ._ul ._li .img ._img.data-v-35d006cf {
+.collection .list ._ul ._li .img image.data-v-35d006cf {
             width: 100%;
             height: 100%;
 }
@@ -92,7 +92,6 @@
             font-size: 24rpx;
             position: absolute;
             bottom: 20rpx;
-            margin-left: -60rpx;
 }
 .collection .list ._ul ._li .info .p4.data-v-35d006cf {
             background: #F5F5F5;

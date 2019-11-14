@@ -190,7 +190,13 @@ export default {
 	  width: 20upx;
 	  height: 2upx;
 	  background: #333;
+	 
     }
+	/*  #ifdef  APP-PLUS || H5 */
+	span{
+		 top: -8upx;
+	}
+	/*  #endif  */
   }
   .mask {
     position: fixed;

@@ -206,6 +206,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
       hasData: false,
       search: {
         // attrValueList: ["string"],
+        attrValueList: [],
         platform: 0,
         keywords: '',
         pageIndex: 1,
@@ -213,6 +214,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
         place: "",
         priceBegin: "",
         priceEnd: "",
+        sortMark: "",
         sortColumn: /* 综合:universal 价格：price */"universal",
         sortType: /* 排序类型（0.降序 1.升序） */0 },
 
@@ -234,7 +236,12 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     Panel: Panel, Good: Good },
 
   onLoad: function onLoad(options) {
-    this.search.keywords = options.search;
+    if (options.search) {
+      this.search.keywords = options.search;
+    } else {
+      this.search.attrValueList = [];
+      this.search.attrValueList.push(options.attrValueList);
+    }
     // 设备样式兼容
     this.platform = uni.getStorageSync('platform');
     this.load();
@@ -245,7 +252,8 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
   methods: {
 
     doSearch: function doSearch() {
-      this.pageIndex = 1;
+      this.search.attrValueList = [];
+      this.search.pageIndex = 1;
       this.list = [];
       this.load();
     },
@@ -258,6 +266,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     },
     doPriceSort: function doPriceSort() {
       this.search.sortColumn = "price";
+      this.search.sortMark = 1;
       if (this.curOpt === "pri-desc") {
         this.curOpt = "pri-asc";
         this.search.sortType = 1;
@@ -272,6 +281,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     },
     doUniSort: function doUniSort() {
       this.search.sortColumn = "universal";
+      this.search.sortMark = 2;
       if (this.curOpt === "gen-desc") {
         this.curOpt = "gen-asc";
         //this.search.sortType = 1;

@@ -82,10 +82,10 @@ export default {
 		    summary,
 		    imageUrl,
 		    success: function (res) {
-		        console.log("success:" + JSON.stringify(res));
+		        // console.log("success:" + JSON.stringify(res));
 		    },
 		    fail: function (err) {
-		        console.log("fail:" + JSON.stringify(err));
+		        // console.log("fail:" + JSON.stringify(err));
 		    }
 		});
 		

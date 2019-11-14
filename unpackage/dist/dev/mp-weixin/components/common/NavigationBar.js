@@ -139,7 +139,11 @@ var _default =
 
     isClick: {
       type: Boolean,
-      default: false } },
+      default: false },
+
+    isBack: {
+      type: Boolean,
+      default: true } },
 
 
   data: function data() {
