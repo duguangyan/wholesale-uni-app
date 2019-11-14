@@ -454,81 +454,25 @@ var _default = { data: function data() {return { phone: '', code: '', codeText: 
           uni.setStorageSync('userRealInfo', res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '');
           uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '');
 
-          if (res.data.userRealInfo != null) {
-            uni.switchTab({
-              url: '/pages/middle/middle' });
+          switch (roleId) {
+            case '20003':
+              uni.redirectTo({
+                url: '/pages/middle/identity/identity' });
 
-          } else {
-            switch (roleId) {
-              case '':
-                uni.redirectTo({
-                  url: '/pages/middle/identity/identity' });
+              break;
+            case '20001':
+              uni.switchTab({
+                url: '/pages/middle/middle' });
 
-                break;
-              case '20001':
-                uni.switchTab({
-                  url: '/pages/middle/middle' });
+              break;
+            case '20002':
+              uni.switchTab({
+                url: '/pages/middle/middle' });
 
-                break;
-              case '20002':
-                uni.switchTab({
-                  url: '/pages/middle/middle' });
+              break;
+            default:
+              break;}
 
-                break;
-              case '20003':
-                uni.switchTab({
-                  url: '/pages/middle/middle' });
-
-                break;
-              default:
-                break;}
-
-          }
-
-
-
-
-          // getUserRealInfo(realData).then(res => {
-          // 	if (res.code == '1000') {
-          // 		// 角色：20001-货主 20002-代办 20003-买家
-          // 		let roleId = res.data.userRole.roleId || '';
-          // 		uni.setStorageSync('roleId', roleId)
-          // 		uni.setStorageSync('userRealInfo', JSON.stringify(res.data.userRealInfo))
-          // 		if (res.data.userRealInfo && roleId == '') {
-          // 			uni.switchTab({
-          // 				url: '/pages/middle/middle'
-          // 			})
-          // 		} else {
-          // 			switch (roleId) {
-          // 				case '':
-          // 					uni.redirectTo({
-          // 						url: '/pages/middle/identity/identity'
-          // 					})
-          // 					break;
-          // 				case '20001':
-          // 					uni.switchTab({
-          // 						url: '/pages/middle/middle'
-          // 					})
-          // 					break;
-          // 				case '20002':
-          // 					uni.switchTab({
-          // 						url: '/pages/middle/middle'
-          // 					})
-          // 					break;
-          // 				case '20003':
-          // 					uni.switchTab({
-          // 						url: '/pages/middle/middle'
-          // 					})
-          // 					break;
-          // 				default:
-          // 					break;
-          // 			}
-          // 		}
-
-
-
-          // 	}
-          // })
 
 
 

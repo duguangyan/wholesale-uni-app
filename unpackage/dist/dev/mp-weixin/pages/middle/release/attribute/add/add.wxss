@@ -1,16 +1,43 @@
+.add.data-v-06c28abc {
+  background: #fff;
+  min-height: 100vh;
+  padding-top: 25px;
+}
+.add .big-btn-active.data-v-06c28abc {
+    margin-top: 100rpx;
+}
+.add .novalue.data-v-06c28abc {
+    background: #D9D9D9;
+}
 .add .edit.data-v-06c28abc {
-  height: 100rpx;
-  line-height: 100rpx;
-  text-align: right;
-  position: relative;
-  right: 30rpx;
-  color: #007AFF;
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: right;
+    position: relative;
+    right: 30rpx;
+    color: #007AFF;
 }
 .add .content.data-v-06c28abc {
-  padding: 0 30rpx;
+    padding: 0 30rpx;
+    padding-top: 80rpx;
 }
 .add .content button.data-v-06c28abc {
-    margin-top: 300rpx;
-    background: #007AFF !important;
+      margin-top: 300rpx;
+      background: #007AFF !important;
+}
+.add .content .tips.data-v-06c28abc {
+      margin-top: 20rpx;
+}
+.add .content .items .item.data-v-06c28abc {
+      height: 100rpx;
+      line-height: 100rpx;
+      font-size: 30rpx;
+      color: #333;
+}
+.add .content .items .item input.data-v-06c28abc {
+        width: 550rpx;
+        position: relative;
+        top: 30rpx;
+        left: 40rpx;
 }
 

@@ -154,9 +154,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var _util = _interopRequireDefault(__webpack_require__(/*! @/utils/util.js */ 56));
-var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var agency = function agency() {return __webpack_require__.e(/*! import() | components/middle/agency */ "components/middle/agency").then(__webpack_require__.bind(null, /*! @/components/middle/agency.vue */ 650));};var buyer = function buyer() {return __webpack_require__.e(/*! import() | components/middle/buyer */ "components/middle/buyer").then(__webpack_require__.bind(null, /*! @/components/middle/buyer.vue */ 657));};var shipper = function shipper() {return __webpack_require__.e(/*! import() | components/middle/shipper */ "components/middle/shipper").then(__webpack_require__.bind(null, /*! @/components/middle/shipper.vue */ 662));};var _default =
+var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var agency = function agency() {return __webpack_require__.e(/*! import() | components/middle/agency */ "components/middle/agency").then(__webpack_require__.bind(null, /*! @/components/middle/agency.vue */ 666));};var buyer = function buyer() {return __webpack_require__.e(/*! import() | components/middle/buyer */ "components/middle/buyer").then(__webpack_require__.bind(null, /*! @/components/middle/buyer.vue */ 673));};var shipper = function shipper() {return __webpack_require__.e(/*! import() | components/middle/shipper */ "components/middle/shipper").then(__webpack_require__.bind(null, /*! @/components/middle/shipper.vue */ 678));};var _default =
 {
   data: function data() {
     return {
@@ -212,12 +211,16 @@ var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interop
       }
     } else {
       // 获取用户信息
-      this.getUserRealInfoAll();
-      // 获取进货单列表
-      //this.getCartOrderList()
-      // 设备样式兼容
-      //this.platform = uni.getStorageSync('platform');
+      if (uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')) {
+        uni.navigateTo({
+          url: '/pages/middle/identity/identity' });
+
+      } else {
+        this.getUserRealInfoAll();
+      }
     }
+
+
 
 
 
@@ -246,9 +249,12 @@ var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interop
         _this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : '';
         _this.userApply = res.data.apply.id ? res.data.apply : '';
 
-        uni.setStorageSync('roleId', _this.roleId);
-        uni.setStorageSync('userRealInfo', JSON.stringify(_this.userRealInfo));
-        uni.setStorageSync('userApply', JSON.stringify(_this.userApply));
+        uni.setStorageSync('roleId', roleId);
+        uni.setStorageSync('userRealInfo', res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '');
+        uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '');
+
+
+
         // 设置头部样式
         if (!_this.roleId && _this.userRealInfo) {
           uni.setNavigationBarColor({

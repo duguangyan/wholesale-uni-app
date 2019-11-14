@@ -90,31 +90,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var a0 = {
-    color: "#FC2D2D",
-    size: "12",
-    type: "star-filled"
-  }
-  var a1 = {
-    color: "#FC2D2D",
-    size: "12",
-    type: "star-filled"
-  }
-  var a2 = {
-    color: "#FC2D2D",
-    size: "12",
-    type: "star-filled"
-  }
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        a0: a0,
-        a1: a1,
-        a2: a2
-      }
-    }
-  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -193,80 +168,123 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var uniIcons = function uniIcons() {return __webpack_require__.e(/*! import() | components/uni-icons/uni-icons */ "components/uni-icons/uni-icons").then(__webpack_require__.bind(null, /*! @/components/uni-icons/uni-icons.vue */ 667));};var uniList = function uniList() {return __webpack_require__.e(/*! import() | components/uni-list/uni-list */ "components/uni-list/uni-list").then(__webpack_require__.bind(null, /*! @/components/uni-list/uni-list.vue */ 674));};var uniListItem = function uniListItem() {return __webpack_require__.e(/*! import() | components/uni-list-item/uni-list-item */ "components/uni-list-item/uni-list-item").then(__webpack_require__.bind(null, /*! @/components/uni-list-item/uni-list-item.vue */ 681));};var _default =
-{
-  data: function data() {
-    return {
-      goodsTitile: '',
-      num: 0,
-      textareaValue: '',
-      varieties: '',
-      attribute: '',
-      price: '' };
 
-  },
-  components: { uniIcons: uniIcons, uniList: uniList, uniListItem: uniListItem },
-  onLoad: function onLoad() {
 
-  },
-  onShow: function onShow() {
-    this.varieties = uni.getStorageSync('varieties');
-    this.attribute = uni.getStorageSync('attribute');
-    this.price = uni.getStorageSync('price');
-  },
-  methods: {
-    // 发布货品
-    doRelease: function doRelease() {
 
-    },
-    // 去价格页面
-    goPrice: function goPrice() {
-      if (this.attribute == '') {
-        _tips.default.tips('请先选择属性');
-        return false;
-      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { goodsTitile: '', num: 0, textareaValue: '', varieties: '', attribute: '', price: '' };}, components: {}, onLoad: function onLoad() {}, onShow: function onShow() {this.varieties = JSON.parse(uni.getStorageSync('varieties')).name;this.attribute = uni.getStorageSync('attribute');this.price = uni.getStorageSync('price');}, methods: { // 发布货品
+    doRelease: function doRelease() {}, goPage: function goPage(index) {switch (index) {case 0:this.goVarieties();break;case 1:this.goAttribute();break;case 2:this.goPrice();break;default:break;}}, // 去价格页面
+    goPrice: function goPrice() {if (this.attribute == '') {_tips.default.tips('请先选择属性');return false;}uni.navigateTo({ url: '/pages/middle/release/price/price' });}, // 去属性选择页面
+    goAttribute: function goAttribute() {if (this.varieties == '') {_tips.default.tips('请先选择品种');return false;}uni.navigateTo({ url: '/pages/middle/release/attribute/attribute' });}, // 去品种选择页面
+    goVarieties: function goVarieties() {uni.navigateTo({ url: '/pages/middle/release/varieties/varieties' });}, // 货物描述
+    textareaInput: function textareaInput(e) {this.num = e.detail.cursor;this.textareaValue = e.detail.value;}, // 清空货物描述
+    clearTextarea: function clearTextarea() {this.num = 0;this.textareaValue = '';},
+    actionSheetTap: function actionSheetTap() {
+      // uni.showActionSheet({
+      // title: '选择类型',
+      // itemList: ['拍摄照片或视频', '从手机相册选择'],
+      // success: e => {
+      // 	console.log(e.tapIndex);
+      // 		if (e.tapIndex == 0) {
+      // 			this.chooseVideo();
+      // 		} else {
+      // 			this.chooseImage();
+      // 		}
+      // 	}
+      // });
       uni.navigateTo({
-        url: '/pages/middle/release/price/price' });
-
-    },
-    // 去属性选择页面
-    goAttribute: function goAttribute() {
-      if (this.varieties == '') {
-        _tips.default.tips('请先选择品种');
-        return false;
-      }
-      uni.navigateTo({
-        url: '/pages/middle/release/attribute/attribute' });
-
-    },
-    // 去品种选择页面
-    goVarieties: function goVarieties() {
-      uni.navigateTo({
-        url: '/pages/middle/release/varieties/varieties' });
-
-    },
-    // 货物描述
-    textareaInput: function textareaInput(e) {
-      this.num = e.detail.cursor;
-      this.textareaValue = e.detail.value;
-    },
-    // 清空货物描述
-    clearTextarea: function clearTextarea() {
-      this.num = 0;
-      this.textareaValue = '';
-    },
-    actionSheetTap: function actionSheetTap() {var _this = this;
-      uni.showActionSheet({
-        title: '选择类型',
-        itemList: ['拍摄照片或视频', '从手机相册选择'],
-        success: function success(e) {
-          console.log(e.tapIndex);
-          if (e.tapIndex == 0) {
-            _this.chooseVideo();
-          } else {
-            _this.chooseImage();
-          }
-        } });
+        url: '/pages/middle/release/chooseImage/chooseImage' });
 
     },
     // 选中图片
@@ -278,6 +296,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
         success: function success(res) {
           console.log(JSON.stringify(res.tempFilePaths));
         } });
+
 
     },
 

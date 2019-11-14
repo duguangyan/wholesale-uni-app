@@ -13,7 +13,7 @@
 			<buyer></buyer>
 		</view> -->
 		<!-- 已经实名 -->
-		<view v-if="userApply==''">
+		<view v-if="userApply=='' && roleId !=''">
 			<view class="identity">
 				<view class="item" v-for="(item,index) in items" :key="index" @click="goPage(index)">
 					<view class="image">
@@ -22,7 +22,6 @@
 					<view class="text">{{item.text}}</view>
 				</view>
 			</view>
-		
 		</view>
 	</view>
 </template>
@@ -88,14 +87,15 @@
 				}
 			}else{
 				// 获取用户信息
-				this.getUserRealInfoAll()
-				// 获取进货单列表
-				//this.getCartOrderList()
-				// 设备样式兼容
-				//this.platform = uni.getStorageSync('platform');
+				if(uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')){
+					uni.navigateTo({
+						url:'/pages/middle/identity/identity'
+					})
+				}else{
+					this.getUserRealInfoAll()
+				}
 			}
 			// #endif
-			
 			// #ifdef APP-PLUS || H5
 			if(!uni.getStorageSync('access_token')){
 				uni.navigateTo({
@@ -103,11 +103,14 @@
 				})
 			}else{
 				// 获取用户信息
-				this.getUserRealInfoAll()
-				// 获取进货单列表
-				//this.getCartOrderList()
-				// 设备样式兼容
-				//this.platform = uni.getStorageSync('platform');
+				if(uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')){
+					uni.navigateTo({
+						url:'/pages/middle/identity/identity'
+					})
+				}else{
+					this.getUserRealInfoAll()
+				}
+				
 			}
 			// #endif
 		},
@@ -122,9 +125,12 @@
 				this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : ''
 				this.userApply = res.data.apply.id ? res.data.apply : ''
 				
-				uni.setStorageSync('roleId',this.roleId)
-				uni.setStorageSync('userRealInfo',JSON.stringify(this.userRealInfo))
-				uni.setStorageSync('userApply',JSON.stringify(this.userApply))
+				uni.setStorageSync('roleId', roleId)
+				uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+				uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')
+				
+				
+				
 				// 设置头部样式
 				if(!this.roleId && this.userRealInfo){
 					uni.setNavigationBarColor({

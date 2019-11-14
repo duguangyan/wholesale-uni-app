@@ -1,6 +1,8 @@
 {
   "navigationBarTitleText": "添加属性",
+  "navigationStyle": "custom",
   "usingComponents": {
-    "uni-input": "/components/hnfly-input/uni-input"
+    "uni-input": "/components/hnfly-input/uni-input",
+    "navigation-bar": "/components/common/NavigationBar"
   }
 }

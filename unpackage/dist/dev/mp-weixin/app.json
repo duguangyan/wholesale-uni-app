@@ -57,7 +57,9 @@
     "pages/middle/release/account/cash/cash",
     "pages/middle/release/account/cash/cashSuccess",
     "pages/middle/release/product/localshipper/localshipper",
-    "pages/middle/release/product/localproduct/localproduct"
+    "pages/middle/release/product/localproduct/localproduct",
+    "pages/middle/release/chooseImage/chooseImage",
+    "pages/common/video/video"
   ],
   "subPackages": [],
   "window": {
@@ -92,5 +94,6 @@
       }
     ]
   },
-  "usingComponents": {}
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
 }

@@ -358,7 +358,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
 //
 //
 //
-var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 520));};var SwiperDot = function SwiperDot() {return __webpack_require__.e(/*! import() | components/common/SwiperDotByMain */ "components/common/SwiperDotByMain").then(__webpack_require__.bind(null, /*! @/components/common/SwiperDotByMain.vue */ 527));};var _default = { data: function data() {return { checkIndex: 0, homeList: {}, banner: [], // 轮播图
+var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 536));};var SwiperDot = function SwiperDot() {return __webpack_require__.e(/*! import() | components/common/SwiperDotByMain */ "components/common/SwiperDotByMain").then(__webpack_require__.bind(null, /*! @/components/common/SwiperDotByMain.vue */ 543));};var _default = { data: function data() {return { checkIndex: 0, homeList: {}, banner: [], // 轮播图
       navs: [], // 导航nav
       advs: [], // 广告
       seles: [], // 精选
@@ -375,6 +375,7 @@ var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | comp
     goClassify: function goClassify() {uni.navigateTo({ url: '/pages/main/classify/classify' });}, //去进货单
     goOrder: function goOrder() {uni.navigateTo({ url: '/pages/order/order' });}, // 更新版本
     updataApp: function updataApp() {
+
 
 
 

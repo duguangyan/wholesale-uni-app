@@ -122,7 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 520));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 536));};var _default =
 
 
 
@@ -198,7 +198,9 @@ __webpack_require__.r(__webpack_exports__);
       phone: '',
       headimageUrl: '/static/img/icon-user.png',
       nickName: '',
-      platform: 0 };
+      platform: 0,
+      userRealInfo: '',
+      userApply: '' };
 
   },
   components: { TabBar: TabBar },
@@ -207,6 +209,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   onLoad: function onLoad() {
     uni.setStorageSync('pagePath', 'user');
+
   },
   onShow: function onShow() {
     // 设备样式兼容
@@ -233,6 +236,7 @@ __webpack_require__.r(__webpack_exports__);
     assessUserType: function assessUserType() {
       // 设置底部tab样式
       this.roleId = uni.getStorageSync('roleId');
+
       if (this.roleId) {
         if (this.roleId == '20002') {
           uni.setTabBarItem({
@@ -251,6 +255,26 @@ __webpack_require__.r(__webpack_exports__);
 
         }
       }
+
+      this.userRealInfo = uni.getStorageSync('userRealInfo');
+      this.userApply = uni.getStorageSync('userApply');
+
+
+
+      if (uni.getStorageSync('access_token')) {
+        if (this.userRealInfo == "" && this.userApply == "") {
+          uni.redirectTo({
+            url: '/pages/middle/identity/identity' });
+
+        }
+        if (this.userRealInfo != "" && this.userApply == "") {
+          uni.switchTab({
+            url: '/pages/middle/middle' });
+
+        }
+      }
+
+
     },
     // 去收藏页面
     goCollection: function goCollection() {

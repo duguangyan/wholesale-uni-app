@@ -50,9 +50,9 @@ export default {
   methods:{
 	  close(){
 		  let obg = {
-		  			  left:this.left[this.leftIndex],
-		  			  content:this.content[this.contentIndex],
-		  			  right:this.right[this.rightIndex]
+			  left:this.left[this.leftIndex],
+			  content:this.content[this.contentIndex],
+			  right:this.right[this.rightIndex]
 		  }
 		  this.$emit('close', obg)
 	  },
@@ -62,14 +62,15 @@ export default {
 	  checkLeft(index){
 		  console.log(index)
 		  this.leftIndex = index
-		  
+		  this.contentIndex = 0
+		  this.rightIndex = 0
 		  this.content = this.list[this.leftIndex].children
 		  this.right = this.list[this.leftIndex].children[this.contentIndex].children
 	  },
 	  checkContent(index){
 		  console.log(index)
 		  this.contentIndex = index
-		  
+		  this.rightIndex = 0
 		  this.content = this.list[this.leftIndex].children
 		  this.right = this.list[this.leftIndex].children[this.contentIndex].children
 	  },

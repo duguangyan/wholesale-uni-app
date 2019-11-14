@@ -341,6 +341,9 @@ page{
 .mgt-14 {
     margin-top: 14rpx;
 }
+.mgr-10 {
+    margin-right: 10rpx;
+}
 .mgr-14 {
     margin-right: 14rpx;
 }

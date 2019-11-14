@@ -155,10 +155,23 @@ var _default =
       items: [
       {
         name: '农百集',
-        phone: '15817390700' }] };
+        phone: '15817390700' }],
 
 
+      roleId: '' };
 
+  },
+  onShow: function onShow() {
+    this.roleId = uni.getStorageSync('roleId');
+    if (this.roleId == '20001') {
+      uni.setNavigationBarTitle({
+        title: '本地代办' });
+
+    } else if (this.roleId == '20002') {
+      uni.setNavigationBarTitle({
+        title: '本地货主' });
+
+    }
   },
   methods: {
     // 联系货主

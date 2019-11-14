@@ -1,8 +1,4 @@
 {
   "navigationBarTitleText": "设置价格",
-  "usingComponents": {
-    "uni-icons": "/components/uni-icons/uni-icons",
-    "uni-list": "/components/uni-list/uni-list",
-    "uni-list-item": "/components/uni-list-item/uni-list-item"
-  }
+  "usingComponents": {}
 }

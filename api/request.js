@@ -3,12 +3,12 @@
    let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 const versionNumber = 'V1.0.1'; //版本号
 
-if (apiUrl == 'http://192.168.0.202:8000') {
+if (apiUrl == 'http://192.168.0.202:8000/ws') {
 	uni.setStorageSync('v', versionNumber);
-	uni.setStorageSync('s', ' 开发');
+	uni.setStorageSync('s', '开发');
 } else {
 	uni.setStorageSync('v', versionNumber);
-	uni.setStorageSync('s', ' 正式');
+	uni.setStorageSync('s', '正式');
 }
 Promise.prototype.finally = function(callback) {
 	let P = this.constructor;

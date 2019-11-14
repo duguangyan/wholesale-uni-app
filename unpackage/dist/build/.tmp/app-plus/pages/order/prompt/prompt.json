@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "运费说明",
-  "usingComponents": {
-    "provinces": "/components/common/Provinces"
-  }
-}

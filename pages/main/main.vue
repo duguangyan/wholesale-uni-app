@@ -156,6 +156,7 @@
 			this.platform = uni.getStorageSync('platform');
 		},
 		onShow() {
+			
 			uni.hideLoading()
 			// 获取首页banner
 			this.getHomeList()

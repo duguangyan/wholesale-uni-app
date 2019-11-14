@@ -1,56 +1,131 @@
+.price.data-v-29ae0be5 {
+  background: #fff;
+  min-height: 100vh;
+  padding-bottom: 120rpx;
+}
+.price .big-btn-active.data-v-29ae0be5 {
+    position: fixed;
+    bottom: 30rpx;
+    left: 55rpx;
+}
+.price .nodata.data-v-29ae0be5 {
+    background: #D9D9D9 !important;
+}
+.price .text-333.data-v-29ae0be5 {
+    color: #333 !important;
+}
+.price .unit.data-v-29ae0be5, .price .num.data-v-29ae0be5 {
+    position: relative;
+    height: 80rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-bottom: 1rpx solid #f5f5f5;
+    margin: 0 30rpx;
+    padding-top: 20rpx;
+}
+.price .unit .input.data-v-29ae0be5, .price .num .input.data-v-29ae0be5 {
+      width: 200rpx;
+      height: 56rpx;
+      border: 1rpx solid #e6e6e6;
+      border-radius: 28rpx;
+      font-size: 30rpx;
+      text-align: center;
+      position: relative;
+      top: 10rpx;
+}
+.price .unit .info.data-v-29ae0be5, .price .num .info.data-v-29ae0be5 {
+      position: absolute;
+      right: 90rpx;
+      top: 30rpx;
+}
+.price .unit .fll.data-v-29ae0be5, .price .num .fll.data-v-29ae0be5 {
+      font-size: 30rpx;
+      color: #333;
+}
+.price .unit .image.data-v-29ae0be5, .price .num .image.data-v-29ae0be5 {
+      width: 24rpx;
+      height: 24rpx;
+}
+.price .unit .image > image.data-v-29ae0be5, .price .num .image > image.data-v-29ae0be5 {
+        width: 100%;
+        height: 100%;
+}
+.price .unit .flr.data-v-29ae0be5, .price .num .flr.data-v-29ae0be5 {
+      font-size: 30rpx;
+}
 .price .footer.data-v-29ae0be5 {
-  position: fixed;
-  width: 100%;
-  height: 100rpx;
-  line-height: 100rpx;
-  text-align: right;
-  bottom: 0;
-  padding-right: 60rpx;
-  z-index: 999999;
-  background: #eee;
+    position: fixed;
+    width: 100%;
+    height: 100rpx;
+    line-height: 100rpx;
+    text-align: right;
+    bottom: 0;
+    padding-right: 60rpx;
+    z-index: 999999;
+    background: #eee;
 }
 .price .footer button.data-v-29ae0be5 {
-    background: #007AFF !important;
-    color: #fff;
-    position: relative;
-    right: 30rpx;
-    top: 20rpx;
+      background: #007AFF !important;
+      color: #fff;
+      position: relative;
+      right: 30rpx;
+      top: 20rpx;
 }
 .price .ul.data-v-29ae0be5 {
-  margin: 30rpx;
+    margin: 0 30rpx 30rpx 30rpx;
 }
 .price .ul .li.data-v-29ae0be5 {
-    text-align: center;
-    height: 60rpx;
-    line-height: 60rpx;
-    margin: 0 auto;
-}
-.price .ul .li .fll.data-v-29ae0be5 {
-      width: 33%;
+      height: 56rpx;
+      line-height: 56rpx;
+      font-size: 28rpx;
+      color: #333;
+      margin: 20rpx 0;
 }
 .price .ul .li input.data-v-29ae0be5 {
-      width: 100rpx;
-      border-bottom: 1rpx solid #eee;
-      margin: 0 auto;
+        width: 160rpx;
+        height: 56rpx;
+        border: 1rpx solid #E6E6E6;
+        border-radius: 28rpx;
+        margin: 0 20rpx;
+        text-align: center;
+}
+.price .ul .li .add.data-v-29ae0be5 {
+        width: 90rpx;
+        height: 56rpx;
+        line-height: 56rpx;
+        background: #fe3b0b;
+        border-radius: 28rpx;
+        color: #fff;
+        text-align: center;
+}
+.price .ul .li .del.data-v-29ae0be5 {
+        width: 90rpx;
+        height: 56rpx;
+        border: 1rpx solid #fe3b0b;
+        border-radius: 28rpx;
+        color: #FE3B0B;
+        background: #fff;
+        text-align: center;
 }
 .price .title.data-v-29ae0be5 {
-  height: 100rpx;
-  line-height: 100rpx;
-  text-align: center;
-  background: #eee;
+    padding-top: 40rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    text-align: left;
+    margin-left: 30rpx;
 }
 .price .item.data-v-29ae0be5 {
-  padding: 0 30rpx;
-  height: 100rpx;
-  line-height: 100rpx;
+    padding: 0 30rpx;
+    height: 100rpx;
+    line-height: 100rpx;
 }
 .price .item .icon.data-v-29ae0be5 {
-    margin-right: 20rpx;
+      margin-right: 20rpx;
 }
 .price .item .input.data-v-29ae0be5 {
-    border-bottom: 1rpx solid #eee;
-    position: relative;
-    top: 20rpx;
-    width: 100rpx;
+      border-bottom: 1rpx solid #eee;
+      position: relative;
+      top: 20rpx;
+      width: 100rpx;
 }
 

@@ -74,7 +74,9 @@
               phone: '',
               headimageUrl: '/static/img/icon-user.png',
 			  nickName:'',
-			  platform: 0
+			  platform: 0,
+			  userRealInfo:'',
+			  userApply:''
             }
         },
 		components:{TabBar},
@@ -83,6 +85,7 @@
 		},
 		onLoad() {
 			uni.setStorageSync('pagePath','user')
+			
 		},
 		onShow() {
 			// 设备样式兼容
@@ -109,6 +112,7 @@
 			assessUserType(){
 				// 设置底部tab样式
 				this.roleId = uni.getStorageSync('roleId')
+				
 				if(this.roleId){
 					if(this.roleId == '20002'){
 						uni.setTabBarItem({
@@ -127,6 +131,26 @@
 						})
 					}
 				}
+				
+				this.userRealInfo = uni.getStorageSync('userRealInfo')
+				this.userApply = uni.getStorageSync('userApply')
+				
+				
+				
+				if(uni.getStorageSync('access_token')){
+					if(this.userRealInfo == "" && this.userApply==""){
+						uni.redirectTo({
+							url:'/pages/middle/identity/identity'
+						})
+					}
+					if(this.userRealInfo != "" && this.userApply==""){
+						uni.switchTab({
+							url:'/pages/middle/middle'
+						})
+					}
+				}
+				
+
 			},
 			// 去收藏页面
 			goCollection(){

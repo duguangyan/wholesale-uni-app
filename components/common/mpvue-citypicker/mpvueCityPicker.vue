@@ -14,7 +14,7 @@
 					<picker-view-column>
 						<div class="picker-item" v-for="(item,index) in cityDataList" :key="index">{{item.name}}</div>
 					</picker-view-column>
-					<picker-view-column>
+					<picker-view-column v-if="hasArea">
 						<div class="picker-item" v-for="(item,index) in areaDataList" :key="index">{{item.name}}</div>
 					</picker-view-column>
 				</block>
@@ -54,6 +54,10 @@
 				default () {
 					return [0, 0, 0]
 				}
+			},
+			hasArea:{
+				type:Boolean,
+				default: true
 			},
 			/* 主题色 */
 			themeColor: String

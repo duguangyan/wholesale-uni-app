@@ -220,9 +220,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
 var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);
 var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 198);
-var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var uniList = function uniList() {return __webpack_require__.e(/*! import() | components/uni-list/uni-list */ "components/uni-list/uni-list").then(__webpack_require__.bind(null, /*! @/components/uni-list/uni-list.vue */ 674));};var uniListItem = function uniListItem() {return __webpack_require__.e(/*! import() | components/uni-list-item/uni-list-item */ "components/uni-list-item/uni-list-item").then(__webpack_require__.bind(null, /*! @/components/uni-list-item/uni-list-item.vue */ 681));};var mpvueCityPicker = function mpvueCityPicker() {return Promise.all(/*! import() | components/common/mpvue-citypicker/mpvueCityPicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/mpvue-citypicker/mpvueCityPicker")]).then(__webpack_require__.bind(null, /*! @/components/common/mpvue-citypicker/mpvueCityPicker.vue */ 548));};var chooseType = function chooseType() {return __webpack_require__.e(/*! import() | components/realname/ChooseType */ "components/realname/ChooseType").then(__webpack_require__.bind(null, /*! @/components/realname/ChooseType.vue */ 695));};var _default =
+var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var uniList = function uniList() {return __webpack_require__.e(/*! import() | components/uni-list/uni-list */ "components/uni-list/uni-list").then(__webpack_require__.bind(null, /*! @/components/uni-list/uni-list.vue */ 690));};var uniListItem = function uniListItem() {return __webpack_require__.e(/*! import() | components/uni-list-item/uni-list-item */ "components/uni-list-item/uni-list-item").then(__webpack_require__.bind(null, /*! @/components/uni-list-item/uni-list-item.vue */ 697));};var mpvueCityPicker = function mpvueCityPicker() {return Promise.all(/*! import() | components/common/mpvue-citypicker/mpvueCityPicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/mpvue-citypicker/mpvueCityPicker")]).then(__webpack_require__.bind(null, /*! @/components/common/mpvue-citypicker/mpvueCityPicker.vue */ 564));};var chooseType = function chooseType() {return __webpack_require__.e(/*! import() | components/realname/ChooseType */ "components/realname/ChooseType").then(__webpack_require__.bind(null, /*! @/components/realname/ChooseType.vue */ 711));};var _default =
 {
   name: 'agency',
   data: function data() {
@@ -257,7 +264,8 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
       cardImgFront: '', // 身份证正面照
       cardImgReverse: '', // 身份证反面照
       categoryTree: '', // 产品分类
-      productTypeId: '' // 分类Id
+      productTypeId: '', // 分类Id
+      userRealInfo: '' // 邀请码
     };
   },
   components: {
@@ -286,6 +294,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
   onShow: function onShow() {
     this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1');
     this.agencyImgUpload2 = uni.getStorageSync('agencyImgUpload2');
+    this.userRealInfo = uni.getStorageSync('userRealInfo') || '';
   },
   methods: {
     assessUserType: function assessUserType() {
@@ -317,6 +326,9 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     },
     // 选择经营类型
     showType: function showType() {
+      if (this.disabled) {
+        return false;
+      }
       this.isChooseType = true;
     },
     // 查看示例
@@ -327,6 +339,9 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     },
     // 选择图片
     chooseImage: function chooseImage(index) {
+      if (this.disabled) {
+        return false;
+      }
       if (this.agencyImgUpload1 != '' && index == 0) {
         uni.navigateTo({
           url: '/pages/common/picture/picture?index=0&url=' + this.agencyImgUpload1 });
@@ -377,6 +392,9 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     },
     // 显示地址选择
     showPicker: function showPicker() {
+      if (this.disabled) {
+        return false;
+      }
       this.$refs.mpvueCityPicker.show();
     },
     onCancel: function onCancel(e) {

@@ -122,7 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var Goodx = function Goodx() {return __webpack_require__.e(/*! import() | components/common/Goodx */ "components/common/Goodx").then(__webpack_require__.bind(null, /*! @/components/common/Goodx.vue */ 702));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var Goodx = function Goodx() {return __webpack_require__.e(/*! import() | components/common/Goodx */ "components/common/Goodx").then(__webpack_require__.bind(null, /*! @/components/common/Goodx.vue */ 718));};var _default =
 
 
 
@@ -145,10 +145,25 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       items: [],
 
 
-      item: '' };
+      item: '',
+      roleId: '' };
 
   },
-  components: { Goodx: Goodx } };exports.default = _default;
+  components: { Goodx: Goodx },
+  onShow: function onShow() {
+    this.roleId = uni.getStorageSync('roleId');
+    if (this.roleId == '20001') {
+      uni.setNavigationBarTitle({
+        title: '本地货品' });
+
+    } else if (this.roleId == '20002') {
+      uni.setNavigationBarTitle({
+        title: '新发布' });
+
+    }
+
+  } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

@@ -2803,7 +2803,9 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAsCAYAAAAe
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getPostItem = exports.getFreightPrompt = exports.buyGood = exports.getGoodNums = exports.addToCart = exports.removeCollect = exports.setCollect = exports.getDetail = exports.getList = exports.getHasCollect = exports.getCategoryTreeNode = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
+Object.defineProperty(exports, "__esModule", { value: true });exports.getPostItem = exports.getFreightPrompt = exports.buyGood = exports.getGoodNums = exports.addToCart = exports.removeCollect = exports.setCollect = exports.getDetail = exports.getList = exports.getHasCollect = exports.getCategoryTreeNode = exports.selectCategoryTreeNode = exports.getByCategoryId = exports.getCategoryUnitList = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
+
+
 var getList = function getList(data) {
   return (0, _request.request)({
     url: '/api/goods/goods/sellGoods',
@@ -2884,14 +2886,41 @@ exports.getPostItem = getPostItem;var getHasCollect = function getHasCollect(dat
 
 };
 
-// 判断是否备收藏
+// 根据店铺shopId获取商品分类
 exports.getHasCollect = getHasCollect;var getCategoryTreeNode = function getCategoryTreeNode(data) {
   return (0, _request.request)({
     url: '/api/goods/category/getCategoryTreeNode',
     data: data,
     type: 'form' });
 
-};exports.getCategoryTreeNode = getCategoryTreeNode;
+};
+
+// 获取商品分类
+exports.getCategoryTreeNode = getCategoryTreeNode;var selectCategoryTreeNode = function selectCategoryTreeNode(data) {
+  return (0, _request.request)({
+    url: '/api/goods/category/selectCategoryTreeNode',
+    data: data,
+    type: 'form' });
+
+};
+
+// 根据商品分类ID获取分类属性
+exports.selectCategoryTreeNode = selectCategoryTreeNode;var getByCategoryId = function getByCategoryId(data) {
+  return (0, _request.request)({
+    url: '/api/goods/categoryAttr/getByCategoryId',
+    data: data,
+    type: 'form' });
+
+};
+
+// 根据商品分类ID获取分类单位
+exports.getByCategoryId = getByCategoryId;var getCategoryUnitList = function getCategoryUnitList(data) {
+  return (0, _request.request)({
+    url: '/api/goods/categoryUnit/getCategoryUnitList',
+    data: data,
+    type: 'form' });
+
+};exports.getCategoryUnitList = getCategoryUnitList;
 
 /***/ }),
 
@@ -8947,12 +8976,12 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 var apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 var versionNumber = 'V1.0.1'; //版本号
 
-if (apiUrl == 'http://192.168.0.202:8000') {
+if (apiUrl == 'http://192.168.0.202:8000/ws') {
   uni.setStorageSync('v', versionNumber);
-  uni.setStorageSync('s', ' 开发');
+  uni.setStorageSync('s', '开发');
 } else {
   uni.setStorageSync('v', versionNumber);
-  uni.setStorageSync('s', ' 正式');
+  uni.setStorageSync('s', '正式');
 }
 Promise.prototype.finally = function (callback) {
   var P = this.constructor;
@@ -10646,7 +10675,435 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 
 /***/ }),
 
-/***/ 553:
+/***/ 56:
+/*!*********************************************!*\
+  !*** D:/zl/wholesale-uni-app/utils/util.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+ // 验证身份证
+function isCardNo(card) {
+  // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
+  var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+  if (reg.test(card) === false) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+// 获取当前时间
+function getCurrentTime() {
+  var keep = '';
+  var date = new Date();
+  var y = date.getFullYear();
+  var m = date.getMonth() + 1;
+  m = m < 10 ? '0' + m : m;
+  var d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+  var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+  var f = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+  var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+  var rand = Math.round(Math.random() * 899 + 100);
+  keep = y + '' + m + '' + d + '' + h + '' + f + '' + s;
+  return keep; //20160614134947
+}
+
+/**
+   * @param {Object} input
+   * 获取对象长度
+   */
+function objLength(input) {
+  var type = toString(input);
+  var length = 0;
+  if (type != "[object Object]") {
+    //throw "输入必须为对象{}！"
+  } else {
+    for (var key in input) {
+      if (key != "number") {
+        length++;
+      }
+
+    }
+  }
+  return length;
+}
+
+// 验证是否是手机号码
+function vailPhone(number) {
+  var flag = false;
+  // let myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
+  var myreg = /^1[3456789]\d{9}$/;
+  if (number.length != 11) {
+    flag = flag;
+  } else if (!myreg.test(number)) {
+    flag = flag;
+  } else {
+    flag = true;
+  }
+  return flag;
+}
+
+// 保留小数点后两位小数
+function toDecimal2(x) {
+  var f = parseFloat(x);
+  if (isNaN(f)) {
+    return false;
+  }
+  var f = Math.round(x * 100) / 100;
+  var s = f.toString();
+  var rs = s.indexOf('.');
+  if (rs < 0) {
+    rs = s.length;
+    s += '.';
+  }
+  while (s.length <= rs + 2) {
+    s += '0';
+  }
+  return s;
+}
+
+// 浮点型除法
+function div(a, b) {
+  var c,d,e = 0,
+  f = 0;
+  try {
+    e = a.toString().split(".")[1].length;
+  } catch (g) {}
+  try {
+    f = b.toString().split(".")[1].length;
+  } catch (g) {}
+  return c = Number(a.toString().replace(".", "")), d = Number(b.toString().replace(".", "")), mul(c / d, Math.pow(10, f -
+  e));
+}
+
+// 浮点型加法函数
+function accAdd(arg1, arg2) {
+  var r1, r2, m;
+  try {
+    r1 = arg1.toString().split(".")[1].length;
+  } catch (e) {
+    r1 = 0;
+  }
+  try {
+    r2 = arg2.toString().split(".")[1].length;
+  } catch (e) {
+    r2 = 0;
+  }
+  m = Math.pow(10, Math.max(r1, r2));
+  return ((arg1 * m + arg2 * m) / m).toFixed(2);
+}
+
+// 浮点型乘法
+function mul(a, b) {
+  var c = 0,
+  d = a.toString(),
+  e = b.toString();
+  try {
+    c += d.split(".")[1].length;
+  } catch (f) {}
+  try {
+    c += e.split(".")[1].length;
+  } catch (f) {}
+  return Number(d.replace(".", "")) * Number(e.replace(".", "")) / Math.pow(10, c);
+}
+
+// 遍历对象属性和值
+function displayProp(obj) {
+  var names = "";
+  for (var name in obj) {
+    names += name + obj[name];
+  }
+  return names;
+}
+
+// 去除字符串所有空格
+function sTrim(text) {
+  return text.replace(/\s/ig, '');
+}
+
+//去除所有:
+function replaceMaohao(txt) {
+  return txt.replace(/\:/ig, '');
+}
+
+// 转换星星分数
+function convertStarArray(score) {
+  //1 全星,0 空星,2半星
+  var arr = [];
+  for (var i = 1; i <= 5; i++) {
+    if (score >= i) {
+      arr.push(1);
+    } else if (score > i - 1 && score < i + 1) {
+      arr.push(2);
+    } else {
+      arr.push(0);
+    }
+  }
+  return arr;
+}
+
+// 处理购物车数量输入
+function dealCartNum(str) {
+  var numStr = str.trim();
+  numStr = numStr.replace(/\b(0+)/gi, "");
+  if (numStr.length === 0) {
+    return '1';
+  } else if (numStr > 9999) {
+    return '9999';
+  } else {
+    return numStr;
+  }
+
+}
+
+// 获取当前的日期时间 格式“yyyy-MM-dd HH:MM:SS”
+function getNowFormatDate() {
+  var date = new Date();
+  var sign1 = "-";
+  var sign2 = ":";
+  var year = date.getFullYear(); // 年
+  var month = date.getMonth() + 1; // 月
+  var day = date.getDate(); // 日
+  var hour = date.getHours(); // 时
+  var minutes = date.getMinutes(); // 分
+  var seconds = date.getSeconds(); //秒
+  var weekArr = ['', '', '', '', '', '', ''];
+  var week = weekArr[date.getDay()];
+  // 给一位数数据前面加 “0”
+  if (month >= 1 && month <= 9) {
+    month = "0" + month;
+  }
+  if (day >= 0 && day <= 9) {
+    day = "0" + day;
+  }
+  if (hour >= 0 && hour <= 9) {
+    hour = "0" + hour;
+  }
+  if (minutes >= 0 && minutes <= 9) {
+    minutes = "0" + minutes;
+  }
+  if (seconds >= 0 && seconds <= 9) {
+    seconds = "0" + seconds;
+  }
+  var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds + " " + week;
+  return currentdate;
+}
+
+function extend(des, src, override) {
+  if (src instanceof Array) {
+    for (var i = 0, len = src.length; i < len; i++) {
+      extend(des, src[i], override);}
+  }
+  for (var i in src) {
+    if (override || !(i in des)) {
+      des[i] = src[i];
+    }
+  }
+  return des;
+}
+
+// 获取url参数
+function getQueryString(name) {
+  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) {
+    return unescape(r[2]);
+  }
+  return null;
+}
+
+
+
+
+function fmoney(s, n) {
+  n = n > 0 && n <= 20 ? n : 2;
+  s = parseFloat((s + "").replace('/[^\d\.-]/g', "")).toFixed(n) + "";
+  var l = s.split(".")[0].split("").reverse(),
+  r = s.split(".")[1];
+  var t = "";
+  for (var i = 0; i < l.length; i++) {
+    t += l[i] + ((i + 1) % 3 == 0 && i + 1 != l.length ? "," : "");
+  }
+  return t.split("").reverse().join("") + "." + r;
+}
+
+function formatMoney(num) {
+  return fmoney(num, 2);
+}
+
+
+// 验证金额 可验证大于等于零，小于等于99999999.99 的数字
+function verificationAmount(num) {
+  var exp = /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/;
+  if (exp.test(num)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// 数字转换成金额
+function isPriceNumber(_keyword) {
+  if (_keyword == "0" || _keyword == "0." || _keyword == "0.0" || _keyword == "0.00") {
+    _keyword = "0";
+    return true;
+  } else {
+    var index = _keyword.indexOf("0");
+    var length = _keyword.length;
+    if (index == 0 && length > 1) {/*0开头的数字串*/
+      var reg = /^[0]{1}[.]{1}[0-9]{1,2}$/;
+      if (!reg.test(_keyword)) {
+        return false;
+      } else {
+        return true;
+      }
+    } else {/*非0开头的数字*/
+      var reg = /^[1-9]{1}[0-9]{0,10}[.]{0,1}[0-9]{0,2}$/;
+      if (!reg.test(_keyword)) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
+// 时间戳转年月日时分秒
+function timestampToTime(timestamp) {
+  var date = new Date(); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+  var Y = date.getFullYear() + '';
+  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+  var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+  var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+  var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+  var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+
+  return Y + M + D + h + m + s;
+  // console.log(strDate) //2019-08-01 09:55:26
+}
+
+// function MillisecondToDate(msd) {
+//     var time = parseFloat(msd) / 1000;
+//     if (null != time && "" != time) {
+//         if (time > 60 && time < 60 * 60) {
+//             time = parseInt(time / 60.0) + "分" + parseInt((parseFloat(time / 60.0) -
+//                 parseInt(time / 60.0)) * 60) + "秒";
+//         }
+//         // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+//         else if (time >= 60 * 60) {
+//             time = parseInt(time / 3600.0) + "时" + parseInt((parseFloat(time / 3600.0) -
+//                 parseInt(time / 3600.0)) * 60) + "分" +
+//                 parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
+//                 parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + "秒";
+//         }
+//         else {
+//             time = parseInt(time) + "秒";
+//         }
+//     }
+//     return time;
+// }
+
+// 剩余天时分秒
+function getLeftTime(endtime) {
+  var nowtime = new Date().getTime();
+  var lasttime = (endtime - nowtime) / 1000;
+  if (lasttime > 0) {
+    var lastdate = parseInt(lasttime / 3600 / 24);
+    var lasthours = parseInt(lasttime / 3600 % 24);
+    var lastminutes = parseInt(lasttime / 60 % 60);
+    var lastseconds = parseInt(lasttime % 60);
+    var strtime = lastdate + '' + '天' + '' + lasthours + '' + '时' + '' + lastminutes + '' + '分' + '' + lastseconds + '' +
+    '秒';
+    return strtime;
+  }
+  return '';
+}
+
+// 时间戳转时分
+function MillisecondToDate(msd) {
+  var time = (parseFloat(msd) - Date.parse(new Date())) / 1000;
+  if (null != time && "" != time) {
+    if (time > 60 && time < 60 * 60) {
+      time = parseInt(time / 60.0) + ":" + parseInt((parseFloat(time / 60.0) -
+      parseInt(time / 60.0)) * 60) + " ";
+    }
+    // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+    else if (time >= 60 * 60) {
+        time = parseInt(time / 3600.0) + ":" + parseInt((parseFloat(time / 3600.0) -
+        parseInt(time / 3600.0)) * 60) + ":" +
+        parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
+        parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + " ";
+      } else {
+        time = parseInt(time) + " ";
+      }
+  }
+  return time;
+}
+
+// 获取日期
+function doHandleDate() {
+  var myDate = new Date();
+  var tYear = myDate.getFullYear();
+  var tMonth = myDate.getMonth();
+
+  var m = tMonth + 1;
+  if (m.toString().length == 1) {
+    m = "0" + m;
+  }
+  return tYear + '-' + m;
+}
+// 获取年
+function doHandleYear(tYear) {
+  var myDate = new Date();
+  var tYear = myDate.getFullYear();
+
+  return tYear;
+}
+// 获取月
+function doHandleMonth() {
+  var myDate = new Date();
+  var tMonth = myDate.getMonth();
+
+  var m = tMonth + 1;
+  if (m.toString().length == 1) {
+    m = "0" + m;
+  }
+  return m;
+}
+module.exports = {
+  doHandleMonth: doHandleMonth,
+  doHandleYear: doHandleYear,
+  doHandleDate: doHandleDate,
+  getLeftTime: getLeftTime,
+  MillisecondToDate: MillisecondToDate,
+  timestampToTime: timestampToTime,
+  isPriceNumber: isPriceNumber,
+  verificationAmount: verificationAmount,
+  fmoney: fmoney,
+  formatMoney: formatMoney,
+  getQueryString: getQueryString,
+  isCardNo: isCardNo,
+  extend: extend,
+  getNowFormatDate: getNowFormatDate,
+  getCurrentTime: getCurrentTime,
+  objLength: objLength,
+  displayProp: displayProp,
+  sTrim: sTrim,
+  replaceMaohao: replaceMaohao,
+  vailPhone: vailPhone,
+  toDecimal2: toDecimal2,
+  div: div,
+  mul: mul,
+  accAdd: accAdd,
+  convertStarArray: convertStarArray,
+  dealCartNum: dealCartNum };
+
+/***/ }),
+
+/***/ 569:
 /*!****************************************************************************************!*\
   !*** D:/zl/wholesale-uni-app/components/common/mpvue-citypicker/city-data/province.js ***!
   \****************************************************************************************/
@@ -10796,7 +11253,89 @@ provinceData;exports.default = _default;
 
 /***/ }),
 
-/***/ 554:
+/***/ 57:
+/*!**********************************************!*\
+  !*** D:/zl/wholesale-uni-app/api/cartApi.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.getCartOrderList = exports.getCartUncheck = exports.getCartCheck = exports.getCartChangeNum = exports.getCartRemove = exports.getAddressDefAddress = exports.getOrderCart = exports.postCreateOrder = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
+
+// 获取进货单列表
+var getCartOrderList = function getCartOrderList(data) {
+  return (0, _request.request)({
+    url: '/api/cart/cart/index',
+    data: data });
+
+};
+
+// 选中sku
+exports.getCartOrderList = getCartOrderList;var getCartCheck = function getCartCheck(data) {
+  return (0, _request.request)({
+    url: '/api/cart/cart/check',
+    data: data,
+    type: 'form' });
+
+};
+// 取消选中sku
+exports.getCartCheck = getCartCheck;var getCartUncheck = function getCartUncheck(data) {
+  return (0, _request.request)({
+    url: '/api/cart/cart/unCheck',
+    data: data,
+    type: 'form' });
+
+};
+
+// 取消选中sku
+exports.getCartUncheck = getCartUncheck;var getCartChangeNum = function getCartChangeNum(data) {
+  return (0, _request.request)({
+    url: '/api/cart/cart/changeNum',
+    data: data,
+    type: 'form' });
+
+};
+
+// 从购物车中移除
+exports.getCartChangeNum = getCartChangeNum;var getCartRemove = function getCartRemove(data) {
+  return (0, _request.request)({
+    url: '/api/cart/cart/remove',
+    data: data,
+    type: 'form' });
+
+};
+
+// 从购物车中移除
+exports.getCartRemove = getCartRemove;var getAddressDefAddress = function getAddressDefAddress(data) {
+  return (0, _request.request)({
+    url: '/api/upms/address/getDefAddress',
+    method: 'post',
+    type: 'form' });
+
+};
+
+// 进货单结算
+exports.getAddressDefAddress = getAddressDefAddress;var getOrderCart = function getOrderCart(data) {
+  return (0, _request.request)({
+    url: '/api/order/order/calcOrderCart',
+    data: data,
+    method: 'post' });
+
+};
+
+// 提交订单
+exports.getOrderCart = getOrderCart;var postCreateOrder = function postCreateOrder(data) {
+  return (0, _request.request)({
+    url: '/api/order/order/createOrder',
+    data: data,
+    method: 'post' });
+
+};exports.postCreateOrder = postCreateOrder;
+
+/***/ }),
+
+/***/ 570:
 /*!************************************************************************************!*\
   !*** D:/zl/wholesale-uni-app/components/common/mpvue-citypicker/city-data/city.js ***!
   \************************************************************************************/
@@ -12310,7 +12849,7 @@ cityData;exports.default = _default;
 
 /***/ }),
 
-/***/ 555:
+/***/ 571:
 /*!************************************************************************************!*\
   !*** D:/zl/wholesale-uni-app/components/common/mpvue-citypicker/city-data/area.js ***!
   \************************************************************************************/
@@ -24863,517 +25402,7 @@ areaData;exports.default = _default;
 
 /***/ }),
 
-/***/ 56:
-/*!*********************************************!*\
-  !*** D:/zl/wholesale-uni-app/utils/util.js ***!
-  \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
- // 验证身份证
-function isCardNo(card) {
-  // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X
-  var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-  if (reg.test(card) === false) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-// 获取当前时间
-function getCurrentTime() {
-  var keep = '';
-  var date = new Date();
-  var y = date.getFullYear();
-  var m = date.getMonth() + 1;
-  m = m < 10 ? '0' + m : m;
-  var d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-  var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-  var f = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-  var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-  var rand = Math.round(Math.random() * 899 + 100);
-  keep = y + '' + m + '' + d + '' + h + '' + f + '' + s;
-  return keep; //20160614134947
-}
-
-/**
-   * @param {Object} input
-   * 获取对象长度
-   */
-function objLength(input) {
-  var type = toString(input);
-  var length = 0;
-  if (type != "[object Object]") {
-    //throw "输入必须为对象{}！"
-  } else {
-    for (var key in input) {
-      if (key != "number") {
-        length++;
-      }
-
-    }
-  }
-  return length;
-}
-
-// 验证是否是手机号码
-function vailPhone(number) {
-  var flag = false;
-  // let myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;
-  var myreg = /^1[3456789]\d{9}$/;
-  if (number.length != 11) {
-    flag = flag;
-  } else if (!myreg.test(number)) {
-    flag = flag;
-  } else {
-    flag = true;
-  }
-  return flag;
-}
-
-// 保留小数点后两位小数
-function toDecimal2(x) {
-  var f = parseFloat(x);
-  if (isNaN(f)) {
-    return false;
-  }
-  var f = Math.round(x * 100) / 100;
-  var s = f.toString();
-  var rs = s.indexOf('.');
-  if (rs < 0) {
-    rs = s.length;
-    s += '.';
-  }
-  while (s.length <= rs + 2) {
-    s += '0';
-  }
-  return s;
-}
-
-// 浮点型除法
-function div(a, b) {
-  var c,d,e = 0,
-  f = 0;
-  try {
-    e = a.toString().split(".")[1].length;
-  } catch (g) {}
-  try {
-    f = b.toString().split(".")[1].length;
-  } catch (g) {}
-  return c = Number(a.toString().replace(".", "")), d = Number(b.toString().replace(".", "")), mul(c / d, Math.pow(10, f -
-  e));
-}
-
-// 浮点型加法函数
-function accAdd(arg1, arg2) {
-  var r1, r2, m;
-  try {
-    r1 = arg1.toString().split(".")[1].length;
-  } catch (e) {
-    r1 = 0;
-  }
-  try {
-    r2 = arg2.toString().split(".")[1].length;
-  } catch (e) {
-    r2 = 0;
-  }
-  m = Math.pow(10, Math.max(r1, r2));
-  return ((arg1 * m + arg2 * m) / m).toFixed(2);
-}
-
-// 浮点型乘法
-function mul(a, b) {
-  var c = 0,
-  d = a.toString(),
-  e = b.toString();
-  try {
-    c += d.split(".")[1].length;
-  } catch (f) {}
-  try {
-    c += e.split(".")[1].length;
-  } catch (f) {}
-  return Number(d.replace(".", "")) * Number(e.replace(".", "")) / Math.pow(10, c);
-}
-
-// 遍历对象属性和值
-function displayProp(obj) {
-  var names = "";
-  for (var name in obj) {
-    names += name + obj[name];
-  }
-  return names;
-}
-
-// 去除字符串所有空格
-function sTrim(text) {
-  return text.replace(/\s/ig, '');
-}
-
-//去除所有:
-function replaceMaohao(txt) {
-  return txt.replace(/\:/ig, '');
-}
-
-// 转换星星分数
-function convertStarArray(score) {
-  //1 全星,0 空星,2半星
-  var arr = [];
-  for (var i = 1; i <= 5; i++) {
-    if (score >= i) {
-      arr.push(1);
-    } else if (score > i - 1 && score < i + 1) {
-      arr.push(2);
-    } else {
-      arr.push(0);
-    }
-  }
-  return arr;
-}
-
-// 处理购物车数量输入
-function dealCartNum(str) {
-  var numStr = str.trim();
-  numStr = numStr.replace(/\b(0+)/gi, "");
-  if (numStr.length === 0) {
-    return '1';
-  } else if (numStr > 9999) {
-    return '9999';
-  } else {
-    return numStr;
-  }
-
-}
-
-// 获取当前的日期时间 格式“yyyy-MM-dd HH:MM:SS”
-function getNowFormatDate() {
-  var date = new Date();
-  var sign1 = "-";
-  var sign2 = ":";
-  var year = date.getFullYear(); // 年
-  var month = date.getMonth() + 1; // 月
-  var day = date.getDate(); // 日
-  var hour = date.getHours(); // 时
-  var minutes = date.getMinutes(); // 分
-  var seconds = date.getSeconds(); //秒
-  var weekArr = ['', '', '', '', '', '', ''];
-  var week = weekArr[date.getDay()];
-  // 给一位数数据前面加 “0”
-  if (month >= 1 && month <= 9) {
-    month = "0" + month;
-  }
-  if (day >= 0 && day <= 9) {
-    day = "0" + day;
-  }
-  if (hour >= 0 && hour <= 9) {
-    hour = "0" + hour;
-  }
-  if (minutes >= 0 && minutes <= 9) {
-    minutes = "0" + minutes;
-  }
-  if (seconds >= 0 && seconds <= 9) {
-    seconds = "0" + seconds;
-  }
-  var currentdate = year + sign1 + month + sign1 + day + " " + hour + sign2 + minutes + sign2 + seconds + " " + week;
-  return currentdate;
-}
-
-function extend(des, src, override) {
-  if (src instanceof Array) {
-    for (var i = 0, len = src.length; i < len; i++) {
-      extend(des, src[i], override);}
-  }
-  for (var i in src) {
-    if (override || !(i in des)) {
-      des[i] = src[i];
-    }
-  }
-  return des;
-}
-
-// 获取url参数
-function getQueryString(name) {
-  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-  var r = window.location.search.substr(1).match(reg);
-  if (r != null) {
-    return unescape(r[2]);
-  }
-  return null;
-}
-
-
-
-
-function fmoney(s, n) {
-  n = n > 0 && n <= 20 ? n : 2;
-  s = parseFloat((s + "").replace('/[^\d\.-]/g', "")).toFixed(n) + "";
-  var l = s.split(".")[0].split("").reverse(),
-  r = s.split(".")[1];
-  var t = "";
-  for (var i = 0; i < l.length; i++) {
-    t += l[i] + ((i + 1) % 3 == 0 && i + 1 != l.length ? "," : "");
-  }
-  return t.split("").reverse().join("") + "." + r;
-}
-
-function formatMoney(num) {
-  return fmoney(num, 2);
-}
-
-
-// 验证金额 可验证大于等于零，小于等于99999999.99 的数字
-function verificationAmount(num) {
-  var exp = /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/;
-  if (exp.test(num)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-// 数字转换成金额
-function isPriceNumber(_keyword) {
-  if (_keyword == "0" || _keyword == "0." || _keyword == "0.0" || _keyword == "0.00") {
-    _keyword = "0";
-    return true;
-  } else {
-    var index = _keyword.indexOf("0");
-    var length = _keyword.length;
-    if (index == 0 && length > 1) {/*0开头的数字串*/
-      var reg = /^[0]{1}[.]{1}[0-9]{1,2}$/;
-      if (!reg.test(_keyword)) {
-        return false;
-      } else {
-        return true;
-      }
-    } else {/*非0开头的数字*/
-      var reg = /^[1-9]{1}[0-9]{0,10}[.]{0,1}[0-9]{0,2}$/;
-      if (!reg.test(_keyword)) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-    return false;
-  }
-}
-
-// 时间戳转年月日时分秒
-function timestampToTime(timestamp) {
-  var date = new Date(); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-  var Y = date.getFullYear() + '';
-  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-  var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
-  var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
-  var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
-  var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-
-  return Y + M + D + h + m + s;
-  // console.log(strDate) //2019-08-01 09:55:26
-}
-
-// function MillisecondToDate(msd) {
-//     var time = parseFloat(msd) / 1000;
-//     if (null != time && "" != time) {
-//         if (time > 60 && time < 60 * 60) {
-//             time = parseInt(time / 60.0) + "分" + parseInt((parseFloat(time / 60.0) -
-//                 parseInt(time / 60.0)) * 60) + "秒";
-//         }
-//         // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
-//         else if (time >= 60 * 60) {
-//             time = parseInt(time / 3600.0) + "时" + parseInt((parseFloat(time / 3600.0) -
-//                 parseInt(time / 3600.0)) * 60) + "分" +
-//                 parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
-//                 parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + "秒";
-//         }
-//         else {
-//             time = parseInt(time) + "秒";
-//         }
-//     }
-//     return time;
-// }
-
-// 剩余天时分秒
-function getLeftTime(endtime) {
-  var nowtime = new Date().getTime();
-  var lasttime = (endtime - nowtime) / 1000;
-  if (lasttime > 0) {
-    var lastdate = parseInt(lasttime / 3600 / 24);
-    var lasthours = parseInt(lasttime / 3600 % 24);
-    var lastminutes = parseInt(lasttime / 60 % 60);
-    var lastseconds = parseInt(lasttime % 60);
-    var strtime = lastdate + '' + '天' + '' + lasthours + '' + '时' + '' + lastminutes + '' + '分' + '' + lastseconds + '' +
-    '秒';
-    return strtime;
-  }
-  return '';
-}
-
-// 时间戳转时分
-function MillisecondToDate(msd) {
-  var time = (parseFloat(msd) - Date.parse(new Date())) / 1000;
-  if (null != time && "" != time) {
-    if (time > 60 && time < 60 * 60) {
-      time = parseInt(time / 60.0) + ":" + parseInt((parseFloat(time / 60.0) -
-      parseInt(time / 60.0)) * 60) + " ";
-    }
-    // else if (time >= 60 * 60 && time < 60 * 60 * 24) {
-    else if (time >= 60 * 60) {
-        time = parseInt(time / 3600.0) + ":" + parseInt((parseFloat(time / 3600.0) -
-        parseInt(time / 3600.0)) * 60) + ":" +
-        parseInt((parseFloat((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60) -
-        parseInt((parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60)) * 60) + " ";
-      } else {
-        time = parseInt(time) + " ";
-      }
-  }
-  return time;
-}
-
-// 获取日期
-function doHandleDate() {
-  var myDate = new Date();
-  var tYear = myDate.getFullYear();
-  var tMonth = myDate.getMonth();
-
-  var m = tMonth + 1;
-  if (m.toString().length == 1) {
-    m = "0" + m;
-  }
-  return tYear + '-' + m;
-}
-// 获取年
-function doHandleYear(tYear) {
-  var myDate = new Date();
-  var tYear = myDate.getFullYear();
-
-  return tYear;
-}
-// 获取月
-function doHandleMonth() {
-  var myDate = new Date();
-  var tMonth = myDate.getMonth();
-
-  var m = tMonth + 1;
-  if (m.toString().length == 1) {
-    m = "0" + m;
-  }
-  return m;
-}
-module.exports = {
-  doHandleMonth: doHandleMonth,
-  doHandleYear: doHandleYear,
-  doHandleDate: doHandleDate,
-  getLeftTime: getLeftTime,
-  MillisecondToDate: MillisecondToDate,
-  timestampToTime: timestampToTime,
-  isPriceNumber: isPriceNumber,
-  verificationAmount: verificationAmount,
-  fmoney: fmoney,
-  formatMoney: formatMoney,
-  getQueryString: getQueryString,
-  isCardNo: isCardNo,
-  extend: extend,
-  getNowFormatDate: getNowFormatDate,
-  getCurrentTime: getCurrentTime,
-  objLength: objLength,
-  displayProp: displayProp,
-  sTrim: sTrim,
-  replaceMaohao: replaceMaohao,
-  vailPhone: vailPhone,
-  toDecimal2: toDecimal2,
-  div: div,
-  mul: mul,
-  accAdd: accAdd,
-  convertStarArray: convertStarArray,
-  dealCartNum: dealCartNum };
-
-/***/ }),
-
-/***/ 57:
-/*!**********************************************!*\
-  !*** D:/zl/wholesale-uni-app/api/cartApi.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.getCartOrderList = exports.getCartUncheck = exports.getCartCheck = exports.getCartChangeNum = exports.getCartRemove = exports.getAddressDefAddress = exports.getOrderCart = exports.postCreateOrder = void 0;var _request = __webpack_require__(/*! ./request.js */ 24);
-
-// 获取进货单列表
-var getCartOrderList = function getCartOrderList(data) {
-  return (0, _request.request)({
-    url: '/api/cart/cart/index',
-    data: data });
-
-};
-
-// 选中sku
-exports.getCartOrderList = getCartOrderList;var getCartCheck = function getCartCheck(data) {
-  return (0, _request.request)({
-    url: '/api/cart/cart/check',
-    data: data,
-    type: 'form' });
-
-};
-// 取消选中sku
-exports.getCartCheck = getCartCheck;var getCartUncheck = function getCartUncheck(data) {
-  return (0, _request.request)({
-    url: '/api/cart/cart/unCheck',
-    data: data,
-    type: 'form' });
-
-};
-
-// 取消选中sku
-exports.getCartUncheck = getCartUncheck;var getCartChangeNum = function getCartChangeNum(data) {
-  return (0, _request.request)({
-    url: '/api/cart/cart/changeNum',
-    data: data,
-    type: 'form' });
-
-};
-
-// 从购物车中移除
-exports.getCartChangeNum = getCartChangeNum;var getCartRemove = function getCartRemove(data) {
-  return (0, _request.request)({
-    url: '/api/cart/cart/remove',
-    data: data,
-    type: 'form' });
-
-};
-
-// 从购物车中移除
-exports.getCartRemove = getCartRemove;var getAddressDefAddress = function getAddressDefAddress(data) {
-  return (0, _request.request)({
-    url: '/api/upms/address/getDefAddress',
-    method: 'post',
-    type: 'form' });
-
-};
-
-// 进货单结算
-exports.getAddressDefAddress = getAddressDefAddress;var getOrderCart = function getOrderCart(data) {
-  return (0, _request.request)({
-    url: '/api/order/order/calcOrderCart',
-    data: data,
-    method: 'post' });
-
-};
-
-// 提交订单
-exports.getOrderCart = getOrderCart;var postCreateOrder = function postCreateOrder(data) {
-  return (0, _request.request)({
-    url: '/api/order/order/createOrder',
-    data: data,
-    method: 'post' });
-
-};exports.postCreateOrder = postCreateOrder;
-
-/***/ }),
-
-/***/ 575:
+/***/ 591:
 /*!********************************************************!*\
   !*** D:/zl/wholesale-uni-app/static/img/tag-close.png ***!
   \********************************************************/
@@ -25384,7 +25413,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM
 
 /***/ }),
 
-/***/ 576:
+/***/ 592:
 /*!**********************************************************!*\
   !*** D:/zl/wholesale-uni-app/static/img/icon-wechat.png ***!
   \**********************************************************/
@@ -25395,7 +25424,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABx
 
 /***/ }),
 
-/***/ 579:
+/***/ 595:
 /*!*********************************************!*\
   !*** D:/zl/wholesale-uni-app/api/payApi.js ***!
   \*********************************************/
@@ -25427,17 +25456,6 @@ exports.payAlipayByWap = payAlipayByWap;var payWXpayByWap = function payWXpayByW
 
 /***/ }),
 
-/***/ 599:
-/*!**********************************************************!*\
-  !*** D:/zl/wholesale-uni-app/static/img/icon-moment.png ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2NTAxQTI5Q0NFNDQxMUU5QjFFREExNURCMjNBREU1MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2NTAxQTI5RENFNDQxMUU5QjFFREExNURCMjNBREU1MSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjY1MDFBMjlBQ0U0NDExRTlCMUVEQTE1REIyM0FERTUxIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjY1MDFBMjlCQ0U0NDExRTlCMUVEQTE1REIyM0FERTUxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+77lohQAAIvpJREFUeNrkfQmUVNW5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"
-
-/***/ }),
-
 /***/ 6:
 /*!******************************************************!*\
   !*** ./node_modules/@dcloudio/uni-stat/package.json ***!
@@ -25449,25 +25467,14 @@ module.exports = {"_from":"@dcloudio/uni-stat@next","_id":"@dcloudio/uni-stat@2.
 
 /***/ }),
 
-/***/ 637:
-/*!*********************************************************!*\
-  !*** D:/zl/wholesale-uni-app/static/img/icon-aimup.png ***!
-  \*********************************************************/
+/***/ 615:
+/*!**********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-moment.png ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyOUQxREZBMUNFNDQxMUU5QUFCREE2RTNBODBEM0Q2QiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyOUQxREZBMkNFNDQxMUU5QUFCREE2RTNBODBEM0Q2QiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjI5RDFERjlGQ0U0NDExRTlBQUJEQTZFM0E4MEQzRDZCIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjI5RDFERkEwQ0U0NDExRTlBQUJEQTZFM0E4MEQzRDZCIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+i/XpcwAAAQpJREFUeNrslusKAUEYhq0cNocNUVL8RX4o8kPuZy9qr4iEciiHQiFRrkCsd+pVm1LbWDk0Xz0137cz8+zOzLar2bbt+0T4fR8KJVbi/xMHHguWZXkuMU3zP5a6AsqeLbWL0EAV5JmHwBDY7xSLFaqDrKNW4DwDcH2HWPRtgDTzE58+BXIgCLrg4uUei+VsOqQH0AFtcGQtwz5Br8Q6aIEE863jyS5s73gtyb76q+IoJ4oxX3EvnQfpytqaeZxjorJigxNEmM/A+ElfcSMjsGAe4VhDRlwCYbaFcO5iW6ZgwrYYW5Q51T1QA3vuq9tYgjNfub6M+H5wZGJDvu/rpKm/TCVW4p8X3wQYACkKMwFfyPfRAAAAAElFTkSuQmCC"
-
-/***/ }),
-
-/***/ 638:
-/*!***********************************************************!*\
-  !*** D:/zl/wholesale-uni-app/static/img/icon-aimdown.png ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyMjlFMjg2N0NFNDQxMUU5OUJBRENBQjBGNzNCNzAzOCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyMjlFMjg2OENFNDQxMUU5OUJBRENBQjBGNzNCNzAzOCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjIyOUUyODY1Q0U0NDExRTk5QkFEQ0FCMEY3M0I3MDM4IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjIyOUUyODY2Q0U0NDExRTk5QkFEQ0FCMEY3M0I3MDM4Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+3cHIQAAAAQtJREFUeNrslusKAUEYhq11BSgKhXIolENyR3tRez+SQ/JH+EtJ+UFOOa9361WbqN2xpdV89dR+M/vNszvtzI5iGIbvF+H3/SikWIr/Txx4bdB13XWJpmnemGoV1EFcYNwEa1URcQ1EQQWkHEjToMzaqoh4DE68LoKsDWkeFHht1k5ExBvQBAfmOT7Au1BACWSYH1i7EV1Oew6wY57i1CsvY5htSeZb1uy/XcdHDrRmHrd8OM8PMMa+Fe89Ol7HH+IMWpSEQQQ0+OZB3rMEXXBze+e6gjZYMA9ZpHPQsSsV2UDuoAdmlrYp6LNPfMu0EeZZaQAulI1c2asdxNCTfydFnjKlWIo9L34IMAD0DTbUqJ0WjwAAAABJRU5ErkJggg=="
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo2NTAxQTI5Q0NFNDQxMUU5QjFFREExNURCMjNBREU1MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo2NTAxQTI5RENFNDQxMUU5QjFFREExNURCMjNBREU1MSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjY1MDFBMjlBQ0U0NDExRTlCMUVEQTE1REIyM0FERTUxIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjY1MDFBMjlCQ0U0NDExRTlCMUVEQTE1REIyM0FERTUxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+77lohQAAIvpJREFUeNrkfQmUVNW5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"
 
 /***/ }),
 
@@ -25482,7 +25489,29 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACN
 
 /***/ }),
 
-/***/ 644:
+/***/ 653:
+/*!*********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-aimup.png ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyOUQxREZBMUNFNDQxMUU5QUFCREE2RTNBODBEM0Q2QiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyOUQxREZBMkNFNDQxMUU5QUFCREE2RTNBODBEM0Q2QiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjI5RDFERjlGQ0U0NDExRTlBQUJEQTZFM0E4MEQzRDZCIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjI5RDFERkEwQ0U0NDExRTlBQUJEQTZFM0E4MEQzRDZCIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+i/XpcwAAAQpJREFUeNrslusKAUEYhq0cNocNUVL8RX4o8kPuZy9qr4iEciiHQiFRrkCsd+pVm1LbWDk0Xz0137cz8+zOzLar2bbt+0T4fR8KJVbi/xMHHguWZXkuMU3zP5a6AsqeLbWL0EAV5JmHwBDY7xSLFaqDrKNW4DwDcH2HWPRtgDTzE58+BXIgCLrg4uUei+VsOqQH0AFtcGQtwz5Br8Q6aIEE863jyS5s73gtyb76q+IoJ4oxX3EvnQfpytqaeZxjorJigxNEmM/A+ElfcSMjsGAe4VhDRlwCYbaFcO5iW6ZgwrYYW5Q51T1QA3vuq9tYgjNfub6M+H5wZGJDvu/rpKm/TCVW4p8X3wQYACkKMwFfyPfRAAAAAElFTkSuQmCC"
+
+/***/ }),
+
+/***/ 654:
+/*!***********************************************************!*\
+  !*** D:/zl/wholesale-uni-app/static/img/icon-aimdown.png ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyMjlFMjg2N0NFNDQxMUU5OUJBRENBQjBGNzNCNzAzOCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyMjlFMjg2OENFNDQxMUU5OUJBRENBQjBGNzNCNzAzOCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjIyOUUyODY1Q0U0NDExRTk5QkFEQ0FCMEY3M0I3MDM4IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjIyOUUyODY2Q0U0NDExRTk5QkFEQ0FCMEY3M0I3MDM4Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+3cHIQAAAAQtJREFUeNrslusKAUEYhq11BSgKhXIolENyR3tRez+SQ/JH+EtJ+UFOOa9361WbqN2xpdV89dR+M/vNszvtzI5iGIbvF+H3/SikWIr/Txx4bdB13XWJpmnemGoV1EFcYNwEa1URcQ1EQQWkHEjToMzaqoh4DE68LoKsDWkeFHht1k5ExBvQBAfmOT7Au1BACWSYH1i7EV1Oew6wY57i1CsvY5htSeZb1uy/XcdHDrRmHrd8OM8PMMa+Fe89Ol7HH+IMWpSEQQQ0+OZB3rMEXXBze+e6gjZYMA9ZpHPQsSsV2UDuoAdmlrYp6LNPfMu0EeZZaQAulI1c2asdxNCTfydFnjKlWIo9L34IMAD0DTbUqJ0WjwAAAABJRU5ErkJggg=="
+
+/***/ }),
+
+/***/ 660:
 /*!*******************************************************!*\
   !*** D:/zl/wholesale-uni-app/static/img/icon-min.png ***!
   \*******************************************************/
@@ -25493,7 +25522,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 
 /***/ }),
 
-/***/ 645:
+/***/ 661:
 /*!********************************************************!*\
   !*** D:/zl/wholesale-uni-app/static/img/icon-plus.png ***!
   \********************************************************/
@@ -25512,7 +25541,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "沁绿农业", "enablePullDownRefresh": true, "navigationStyle": "custom", "usingComponents": { "tab-bar": "/components/common/TabBar", "swiper-dot": "/components/common/SwiperDotByMain" } }, "pages/login/login": { "navigationBarTitleText": "登录", "usingComponents": {} }, "pages/user/user": { "navigationBarTitleText": "我的", "navigationStyle": "custom", "usingComponents": { "tab-bar": "/components/common/TabBar" } }, "pages/order/order": { "navigationBarTitleText": "进货单", "navigationStyle": "custom", "usingComponents": { "dialog": "/components/common/Dialog", "tab-bar": "/components/common/TabBar" } }, "pages/user/setting/setting": { "navigationBarTitleText": "设置", "usingComponents": {} }, "pages/user/protocal/protocal": { "navigationBarTitleText": "服务条款与协议", "usingComponents": {} }, "pages/user/about/about": { "navigationBarTitleText": "关于我们", "usingComponents": {} }, "pages/user/info/info": { "navigationBarTitleText": "个人信息", "usingComponents": {} }, "pages/user/nickname/nickname": { "navigationBarTitleText": "修改昵称", "usingComponents": {} }, "pages/user/addlist/addlist": { "navigationBarTitleText": "管理收货地址", "usingComponents": {} }, "pages/user/addedit/addedit": { "navigationBarTitleText": "添加地址", "usingComponents": { "ra-btn": "/components/common/RaBtn", "dialog": "/components/common/Dialog", "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker" } }, "pages/user/collection/collection": { "navigationBarTitleText": "收藏", "usingComponents": { "dialog": "/components/common/Dialog", "navigation-bar": "/components/common/NavigationBar" } }, "pages/user/order/list": { "navigationBarTitleText": "我的订单", "enablePullDownRefresh": true, "usingComponents": { "good": "/components/order/Good", "pay": "/components/common/Pay", "dialog": "/components/common/Dialog" } }, "pages/user/order/finish": { "navigationBarTitleText": "订单完成", "usingComponents": {} }, "pages/user/order/freight": { "navigationBarTitleText": "物流详情", "usingComponents": {} }, "pages/user/order/detail": { "navigationBarTitleText": "订单详情", "usingComponents": { "good": "/components/order/Good", "pay": "/components/common/Pay", "dialog": "/components/common/Dialog" } }, "pages/user/order/success": { "navigationBarTitleText": "交易已完成", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods" } }, "pages/user/pay/success": { "navigationBarTitleText": "支付完成", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods", "advertising-position": "/components/common/AdvertisingPosition" } }, "pages/order/goodsDetail/goodsDetail": { "navigationBarTitleText": "商品详情", "usingComponents": { "share": "/components/good/Share", "standard": "/components/good/Standard", "player": "/components/common/Player", "swiper-dot": "/components/common/SwiperDot" } }, "pages/order/prompt/prompt": { "navigationBarTitleText": "运费说明", "usingComponents": { "provinces": "/components/common/Provinces" } }, "pages/order/submit/submit": { "navigationBarTitleText": "提交订单", "usingComponents": { "pay": "/components/common/Pay" } }, "pages/order/paySuccess/paySuccess": { "navigationBarTitleText": "支付成功", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods", "advertising-position": "/components/common/AdvertisingPosition", "dialog": "/components/common/Dialog" } }, "pages/order/orderSuccess/orderSuccess": { "navigationBarTitleText": "订单完成", "usingComponents": { "strictly-goods": "/components/common/StrictlyGoods" } }, "pages/main/search/search": { "navigationBarTitleText": "搜索商品", "usingComponents": { "dialog": "/components/common/Dialog" } }, "pages/order/goodsList/goodsList": { "navigationBarTitleText": "商品列表", "usingComponents": { "panel": "/components/search/Panel", "good": "/components/common/Good" } }, "pages/common/err/err": { "navigationBarTitleText": "异常", "usingComponents": {} }, "pages/common/webview/webview": { "navigationBarTitleText": "网络地址", "usingComponents": {} }, "pages/login/binding/binding": { "navigationBarTitleText": "绑定手机号", "usingComponents": {} }, "pages/middle/middle": { "navigationBarTitleText": "状态", "navigationStyle": "custom", "usingComponents": { "agency": "/components/middle/agency", "buyer": "/components/middle/buyer", "shipper": "/components/middle/shipper" } }, "pages/middle/release/release": { "navigationBarTitleText": "发布商品", "usingComponents": { "uni-icons": "/components/uni-icons/uni-icons", "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item" } }, "pages/middle/release/varieties/varieties": { "navigationBarTitleText": "选择品种", "usingComponents": {} }, "pages/middle/release/attribute/attribute": { "navigationBarTitleText": "选择属性", "usingComponents": { "uni-icons": "/components/uni-icons/uni-icons", "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item", "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker" } }, "pages/middle/release/price/price": { "navigationBarTitleText": "设置价格", "usingComponents": { "uni-icons": "/components/uni-icons/uni-icons", "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item" } }, "pages/middle/release/attribute/add/add": { "navigationBarTitleText": "添加属性", "usingComponents": { "uni-input": "/components/hnfly-input/uni-input" } }, "pages/middle/release/account/account": { "navigationBarTitleText": "我的账户", "usingComponents": { "uni-icons": "/components/uni-icons/uni-icons", "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item" } }, "pages/middle/release/account/record/record": { "navigationBarTitleText": "账单记录", "usingComponents": { "uni-icons": "/components/uni-icons/uni-icons", "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item" } }, "pages/middle/release/account/record/detail": { "navigationBarTitleText": "账单详情", "usingComponents": {} }, "pages/middle/release/account/bankcard/bankcard": { "navigationBarTitleText": "我的银行卡", "usingComponents": {} }, "pages/middle/release/account/bankcard/add": { "navigationBarTitleText": "添加银行卡", "usingComponents": {} }, "pages/middle/release/account/bankcard/addinfo": { "navigationBarTitleText": "填写银行卡信息", "usingComponents": {} }, "pages/middle/release/account/payps/payps": { "navigationBarTitleText": "支付密码", "usingComponents": {} }, "pages/middle/release/account/payps/resPassword": { "navigationBarTitleText": "设置新支付密码", "usingComponents": {} }, "pages/middle/release/account/payps/confirmPassword": { "navigationBarTitleText": "确认支付密码", "usingComponents": {} }, "pages/middle/release/account/payps/verifiyPhone": { "navigationBarTitleText": "验证手机号码", "usingComponents": {} }, "pages/middle/identity/identity": { "navigationBarTitleText": "选择身份", "navigationStyle": "custom", "usingComponents": { "navigation-bar": "/components/common/NavigationBar" } }, "pages/middle/identity/realname/agency": { "navigationBarTitleText": "信息填写", "usingComponents": { "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item", "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker", "choose-type": "/components/realname/ChooseType" } }, "pages/middle/identity/realname/buyer": { "navigationBarTitleText": "实名认证", "usingComponents": {} }, "pages/middle/identity/realname/shipper": { "navigationBarTitleText": "信息填写", "usingComponents": { "uni-list": "/components/uni-list/uni-list", "uni-list-item": "/components/uni-list-item/uni-list-item", "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker" } }, "pages/middle/identity/submitSuccess/submitSuccess": { "navigationBarTitleText": "提交成功", "usingComponents": {} }, "pages/common/picture/picture": { "navigationBarTitleText": "查看图片", "usingComponents": {} }, "pages/common/showImage/showImage": { "navigationBarTitleText": "示例说明", "usingComponents": {} }, "pages/middle/identity/submit/submit": { "navigationBarTitleText": "提交审核", "usingComponents": {} }, "pages/middle/identity/submitFail/submitFail": { "navigationBarTitleText": "反馈", "usingComponents": {} }, "pages/main/classify/classify": { "navigationBarTitleText": "分类查询", "usingComponents": {} }, "pages/middle/release/account/cash/cash": { "navigationBarTitleText": "账户提现", "usingComponents": {} }, "pages/middle/release/account/cash/cashSuccess": { "navigationBarTitleText": "提交成功", "usingComponents": {} }, "pages/middle/release/product/localshipper/localshipper": { "navigationBarTitleText": "本地货主", "usingComponents": {} }, "pages/middle/release/product/localproduct/localproduct": { "navigationBarTitleText": "本地货品", "usingComponents": { "goodx": "/components/common/Goodx" } } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "农百集APP", "navigationBarBackgroundColor": "#FFFFFF", "backgroundColor": "#FFFFFF", "onReachBottomDistance": 151 } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/main/main": { "navigationBarTitleText": "沁绿农业", "enablePullDownRefresh": true, "navigationStyle": "custom" }, "pages/login/login": { "navigationBarTitleText": "登录" }, "pages/user/user": { "navigationBarTitleText": "我的", "navigationStyle": "custom" }, "pages/order/order": { "navigationBarTitleText": "进货单", "navigationStyle": "custom" }, "pages/user/setting/setting": { "navigationBarTitleText": "设置" }, "pages/user/protocal/protocal": { "navigationBarTitleText": "服务条款与协议" }, "pages/user/about/about": { "navigationBarTitleText": "关于我们" }, "pages/user/info/info": { "navigationBarTitleText": "个人信息" }, "pages/user/nickname/nickname": { "navigationBarTitleText": "修改昵称" }, "pages/user/addlist/addlist": { "navigationBarTitleText": "管理收货地址" }, "pages/user/addedit/addedit": { "navigationBarTitleText": "添加地址" }, "pages/user/collection/collection": { "navigationBarTitleText": "收藏" }, "pages/user/order/list": { "navigationBarTitleText": "我的订单", "enablePullDownRefresh": true }, "pages/user/order/finish": { "navigationBarTitleText": "订单完成" }, "pages/user/order/freight": { "navigationBarTitleText": "物流详情" }, "pages/user/order/detail": { "navigationBarTitleText": "订单详情" }, "pages/user/order/success": { "navigationBarTitleText": "交易已完成" }, "pages/user/pay/success": { "navigationBarTitleText": "支付完成" }, "pages/order/goodsDetail/goodsDetail": { "navigationBarTitleText": "商品详情" }, "pages/order/prompt/prompt": { "navigationBarTitleText": "运费说明" }, "pages/order/submit/submit": { "navigationBarTitleText": "提交订单" }, "pages/order/paySuccess/paySuccess": { "navigationBarTitleText": "支付成功" }, "pages/order/orderSuccess/orderSuccess": { "navigationBarTitleText": "订单完成" }, "pages/main/search/search": { "navigationBarTitleText": "搜索商品" }, "pages/order/goodsList/goodsList": { "navigationBarTitleText": "商品列表" }, "pages/common/err/err": { "navigationBarTitleText": "异常" }, "pages/common/webview/webview": { "navigationBarTitleText": "网络地址" }, "pages/login/binding/binding": { "navigationBarTitleText": "绑定手机号" }, "pages/middle/middle": { "navigationBarTitleText": "状态", "navigationStyle": "custom" }, "pages/middle/release/release": { "navigationBarTitleText": "发布商品" }, "pages/middle/release/varieties/varieties": { "navigationBarTitleText": "选择品种" }, "pages/middle/release/attribute/attribute": { "navigationBarTitleText": "选择属性", "navigationStyle": "custom" }, "pages/middle/release/price/price": { "navigationBarTitleText": "设置价格" }, "pages/middle/release/attribute/add/add": { "navigationBarTitleText": "添加属性", "navigationStyle": "custom" }, "pages/middle/release/account/account": { "navigationBarTitleText": "我的账户" }, "pages/middle/release/account/record/record": { "navigationBarTitleText": "账单记录" }, "pages/middle/release/account/record/detail": { "navigationBarTitleText": "账单详情" }, "pages/middle/release/account/bankcard/bankcard": { "navigationBarTitleText": "我的银行卡" }, "pages/middle/release/account/bankcard/add": { "navigationBarTitleText": "添加银行卡" }, "pages/middle/release/account/bankcard/addinfo": { "navigationBarTitleText": "填写银行卡信息" }, "pages/middle/release/account/payps/payps": { "navigationBarTitleText": "支付密码" }, "pages/middle/release/account/payps/resPassword": { "navigationBarTitleText": "设置新支付密码" }, "pages/middle/release/account/payps/confirmPassword": { "navigationBarTitleText": "确认支付密码" }, "pages/middle/release/account/payps/verifiyPhone": { "navigationBarTitleText": "验证手机号码" }, "pages/middle/identity/identity": { "navigationBarTitleText": "选择身份", "navigationStyle": "custom" }, "pages/middle/identity/realname/agency": { "navigationBarTitleText": "信息填写" }, "pages/middle/identity/realname/buyer": { "navigationBarTitleText": "实名认证" }, "pages/middle/identity/realname/shipper": { "navigationBarTitleText": "信息填写" }, "pages/middle/identity/submitSuccess/submitSuccess": { "navigationBarTitleText": "提交成功" }, "pages/common/picture/picture": { "navigationBarTitleText": "查看图片" }, "pages/common/showImage/showImage": { "navigationBarTitleText": "示例说明" }, "pages/middle/identity/submit/submit": { "navigationBarTitleText": "提交审核" }, "pages/middle/identity/submitFail/submitFail": { "navigationBarTitleText": "反馈" }, "pages/main/classify/classify": { "navigationBarTitleText": "分类查询" }, "pages/middle/release/account/cash/cash": { "navigationBarTitleText": "账户提现" }, "pages/middle/release/account/cash/cashSuccess": { "navigationBarTitleText": "提交成功" }, "pages/middle/release/product/localshipper/localshipper": { "navigationBarTitleText": "本地货主" }, "pages/middle/release/product/localproduct/localproduct": { "navigationBarTitleText": "本地货品" }, "pages/middle/release/chooseImage/chooseImage": { "navigationBarTitleText": "图片编辑" }, "pages/common/video/video": { "navigationBarTitleText": "视频播放" } }, "globalStyle": { "navigationBarTextStyle": "black", "navigationBarTitleText": "农百集APP", "navigationBarBackgroundColor": "#FFFFFF", "backgroundColor": "#FFFFFF", "onReachBottomDistance": 151 } };exports.default = _default;
 
 /***/ }),
 

@@ -104,7 +104,7 @@
 					},
 					{
 						img: '../../static/imgs/icon-1032.png',
-						text: '全部产品'
+						text: '农产品'
 					},
 					{
 						img: '../../static/imgs/icon-1033.png',
@@ -167,8 +167,22 @@
 			goGoodsCheck(i){
 				let index = i
 				// 2001 货主  2002代办
-				if(this.roleId == 2001){
-					if(index === 1){
+				if(this.roleId == 20001){
+					if(index === 0){
+						uni.navigateTo({
+							url:'/pages/middle/release/product/localproduct/localproduct'
+						})
+					}else if(index === 1){
+						uni.navigateTo({
+							url:'/pages/middle/release/product/localshipper/localshipper'
+						})
+					}
+				}else if(this.roleId == 20002){
+					if(index === 0){
+						uni.navigateTo({
+							url:'/pages/middle/release/product/localproduct/localproduct'
+						})
+					}else if(index === 1){
 						uni.navigateTo({
 							url:'/pages/middle/release/product/localproduct/localproduct'
 						})
