@@ -80,7 +80,7 @@
 				}
 				this.setRecord(this.search);
 				uni.navigateTo({
-					url:'/pages/order/goodsList/goodsList?search='+this.search
+					url:'/pages/order/goodsList/goodsList?keywords='+this.search
 				})
 			},
 			getRecord() {

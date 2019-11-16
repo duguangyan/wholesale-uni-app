@@ -79,6 +79,20 @@
       position: relative;
       top: 160rpx;
 }
+.mine .top .status .role.data-v-96c9624a {
+        width: 54rpx;
+        height: 24rpx;
+        line-height: 24rpx;
+        text-align: center;
+        background: #ffdbb0;
+        border-radius: 12rpx;
+        font-size: 20rpx;
+        color: #fe3b0b;
+        position: absolute;
+        bottom: 28rpx;
+        left: 56rpx;
+        z-index: 999999;
+}
 .mine .top .status .img.data-v-96c9624a {
         width: 90rpx;
         height: 90rpx;
@@ -99,7 +113,6 @@
 }
 .mine .order.data-v-96c9624a {
     padding: 14rpx 20rpx 20rpx 20rpx;
-    border-bottom: 20rpx solid #f0f0f0;
 }
 .mine .order .title.data-v-96c9624a {
       border-bottom: 1rpx solid #f0f0f0;
@@ -153,6 +166,21 @@
         list-style: none;
         font-size: 12rpx;
         color: #010101;
+        position: relative;
+}
+.mine .order .tags .li .tip.data-v-96c9624a {
+          width: 32rpx;
+          height: 32rpx;
+          background: #fe3b0b;
+          border: 2rpx solid white;
+          border-radius: 50%;
+          font-size: 16rpx;
+          color: #fff;
+          text-align: center;
+          line-height: 32rpx;
+          position: absolute;
+          right: 0rpx;
+          top: -12rpx;
 }
 .mine .order .tags .li .img.data-v-96c9624a {
           width: 48rpx;

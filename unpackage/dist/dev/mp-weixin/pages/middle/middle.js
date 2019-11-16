@@ -192,7 +192,6 @@ var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interop
 
   },
   onShow: function onShow() {
-
     // 未登录状态跳转 微信和APP不一样
 
     if (!uni.getStorageSync('access_token')) {
@@ -217,6 +216,7 @@ var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interop
 
       } else {
         this.getUserRealInfoAll();
+        // this.getShopIdByUser()
       }
     }
 
@@ -237,8 +237,15 @@ var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);function _interop
 
 
 
+
   },
   methods: {
+    // 获取店铺ID
+    getShopIdByUser: function getShopIdByUser() {
+      (0, _userApi.getShopIdByUser)().then(function (res) {
+
+      });
+    },
     // 获取用户信息
     getUserRealInfoAll: function getUserRealInfoAll() {var _this = this;
       (0, _userApi.getUserRealInfoAll)().then(function (res) {

@@ -68,47 +68,25 @@
 .ordlist .list.data-v-33756c62 {
     margin-top: 100rpx;
 }
-.ordlist .list ._li.data-v-33756c62 {
-      padding: 30rpx;
+.ordlist .list .li.data-v-33756c62 {
+      padding: 0 30rpx 30rpx 30rpx;
       background-color: #fff;
       margin-bottom: 20rpx;
 }
 .ordlist .list .title.data-v-33756c62 {
-      padding: 0 0 5rpx 0;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-pack: start;
-      -webkit-justify-content: flex-start;
-          -ms-flex-pack: start;
-              justify-content: flex-start;
-      font-size: 24rpx;
+      height: 80rpx;
+      line-height: 80rpx;
 }
-.ordlist .list .title .icon.data-v-33756c62 {
-        width: 36rpx;
-        height: 36rpx;
-        margin-right: 10rpx;
+.ordlist .list .title .image.data-v-33756c62 {
+        width: 24rpx;
+        height: 24rpx;
+        position: relative;
+        top: 4rpx;
+        left: 10rpx;
 }
-.ordlist .list .title .icon > ._img.data-v-33756c62 {
+.ordlist .list .title .image > image.data-v-33756c62 {
           width: 100%;
           height: 100%;
-}
-.ordlist .list .title .Android.data-v-33756c62 {
-        position: relative;
-        top: -8rpx;
-}
-.ordlist .list .title .platform.data-v-33756c62 {
-        color: #000;
-        margin-left: 5rpx;
-        -webkit-box-flex: 1;
-        -webkit-flex-grow: 1;
-            -ms-flex-positive: 1;
-                flex-grow: 1;
-        color: #333;
-}
-.ordlist .list .title .status.data-v-33756c62 {
-        color: #fc2d2d;
 }
 .ordlist .list .accu.data-v-33756c62 {
       margin-top: -5rpx;
@@ -128,7 +106,7 @@
               justify-content: flex-end;
       margin-top: 30rpx;
 }
-.ordlist .list .operator > ._div.data-v-33756c62 {
+.ordlist .list .operator > view.data-v-33756c62 {
         width: 140rpx;
         line-height: 60rpx;
         border: 1rpx solid #d9d9d9;
@@ -138,7 +116,7 @@
         font-size: 24rpx;
         color: #666;
 }
-.ordlist .list .operator > ._div.receive.data-v-33756c62 {
+.ordlist .list .operator > view.receive.data-v-33756c62 {
           color: #FC2D2D;
           border: 1rpx solid #FC2D2D;
 }

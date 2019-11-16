@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["components/search/Panel"],{
 
 /***/ 667:
@@ -290,3 +291,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     [['components/search/Panel-create-component']]
 ]);                
+=======
+Component({})
+>>>>>>> 0f0cd674a30ef503c4587174617e44cbc8d6ff46

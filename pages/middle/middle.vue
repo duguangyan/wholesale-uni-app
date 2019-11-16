@@ -31,7 +31,7 @@
 	import buyer from '@/components/middle/buyer.vue'
 	import shipper from '@/components/middle/shipper.vue'
 	import util from '@/utils/util.js'
-	import { getUserRealInfoAll } from '@/api/userApi.js'
+	import { getUserRealInfoAll, getShopIdByUser } from '@/api/userApi.js'
 	export default {
 		data() {
 			return {
@@ -68,7 +68,6 @@
 			
 		},
 		onShow() {
-			
 			// 未登录状态跳转 微信和APP不一样
 			// #ifdef  MP-WEIXIN
 			if(!uni.getStorageSync('access_token')){
@@ -93,6 +92,7 @@
 					})
 				}else{
 					this.getUserRealInfoAll()
+					// this.getShopIdByUser()
 				}
 			}
 			// #endif
@@ -109,12 +109,19 @@
 					})
 				}else{
 					this.getUserRealInfoAll()
+					// this.getShopIdByUser()
 				}
 				
 			}
 			// #endif
 		},
 		methods:{
+			// 获取店铺ID
+			getShopIdByUser(){
+				getShopIdByUser().then(res=>{
+					
+				})
+			},
 			// 获取用户信息
 			getUserRealInfoAll(){
 				getUserRealInfoAll().then((res) => {

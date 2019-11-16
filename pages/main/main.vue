@@ -44,6 +44,7 @@
 			</view>
 			<SwiperDot class="dot" :listWidth="listWidth" :current="cur" :list="homeList.list[0].list[0].list[0].adPosition.adSet"></SwiperDot>
 		</view>
+		
 		<!-- nav导航 -->
 		<view class="nav cf">
 			<view class="li fll" v-for="(item,index) in homeList.list[1].list[0].list" :key="index" @click="goSearchPage(item.name)">
@@ -81,9 +82,10 @@
 							{{item.name}}
 						</view>
 						<view class="deliver">
-							<text class="fs20 text-999">河北廊坊固安县</text>
-							<text class="tip fs20 text-999">红心</text>
-							<text class="tip fs20 text-999">紫皮</text>
+							<text class="fs20 text-999">{{item.valueAddr}}</text>
+							<view v-for="attr in item.goodsDetailAttrVOList[0].goodsDetailAttrValueList" class="tip fs20" style={color:data.color}>
+								{{attr.value}}
+							</view>
 						</view>
 						<view class="price">
 							<view class="fs34 text-red"><text class="fs24">￥</text>{{item.minPrice}}<text class="fs24">元/斤起</text></view>
@@ -92,7 +94,7 @@
 							<view class="fll img">
 								<image src="../../static/imgs/main-icon-1.png" mode=""></image>
 							</view>
-							<view class="fll fs20 text-999">河北省廊坊市固安县 <text class="mgl-20">舒尚飞</text></view>
+							<view class="fll fs20 text-999">{{item.userRealInfoVo.shopArea}} <text class="mgl-20">{{item.userRealInfoVo.realName}}</text></view>
 							<!-- <view class="flr fs20 text-999">{{item.valueAddr}}</view> -->
 						</view>
 					</view>
@@ -135,7 +137,14 @@
 				platform: 0,
 				cur:0,
 				listWidth:0,
-				roleId:''
+				roleId:'',
+				colorPattern: {
+					'红': '255,0,0',
+					'黄': '255,55,0',
+					'蓝': '30,30,255',
+					'紫': '200,50,248',
+				},
+        color: 'red'
 			}
 		},
 		components: {
@@ -360,6 +369,16 @@
 					})
 				}
 			},
+			// 计算
+			calcAttr(attr){
+				let str = attr.substr(0,1)
+				let color = this.colorPattern[str] || '230,230,230'
+				return {
+					color: 'rgba('+color+',1)',
+					bg: 'rgba('+color+',0.5)'
+				}
+				
+			},
 			// nav 去搜索页面
 			goSearchPage(name) {
 				uni.navigateTo({
@@ -379,9 +398,9 @@
 				}).then((res) => {
 					if (res.code == '1000') {
 						this.homeList = res.data
-						this.homeList.list[3].list[1].goodsDetailRespList.forEach((item, index) => {
-							item.valueAddr = item.valueAddr.substring(0, 5)
-						})
+						// this.homeList.list[3].list[1].goodsDetailRespList.forEach((item, index) => {
+						// 	item.valueAddr = item.valueAddr.substring(0, 5)
+						// })
 						
 						this.listWidth = uni.upx2px(this.homeList.list[3].list[1].goodsDetailRespList.length * 100) + 'px';
 					}

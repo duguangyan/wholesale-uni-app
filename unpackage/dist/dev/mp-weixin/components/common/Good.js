@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["components/common/Good"],{
 
 /***/ 676:
@@ -279,3 +280,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     [['components/common/Good-create-component']]
 ]);                
+=======
+Component({})
+>>>>>>> 0f0cd674a30ef503c4587174617e44cbc8d6ff46

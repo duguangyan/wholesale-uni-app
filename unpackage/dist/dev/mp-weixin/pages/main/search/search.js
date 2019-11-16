@@ -217,7 +217,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
       }
       this.setRecord(this.search);
       uni.navigateTo({
-        url: '/pages/order/goodsList/goodsList?search=' + this.search });
+        url: '/pages/order/goodsList/goodsList?keywords=' + this.search });
 
     },
     getRecord: function getRecord() {

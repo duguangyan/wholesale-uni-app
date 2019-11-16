@@ -1,90 +1,88 @@
+
 <template>
-	<view>
-		<scroll-view class="item cf">
-		  <div class="photo fll">
-		    <image :src="item.imgUrl" :lazy-load="true" />
-		  </div>
-		  <div class="content fll">
-		    <div class="name ellipsis-line2">{{item.goodsName}}</div>
-		    <div class="standard" :class="{'Android': platform == 1}">{{item.skuDesc}}</div>
-		  </div>
-		  <div class="content2 flr">
-		    <div class="price">￥{{item.price}}</div>
-		    <div class="num">x{{item.num}}</div>
-		  </div>
-		</scroll-view>
+	<view class="content" @click="goGoodsDetail">
+		<view class="item cf">
+			<view class="fll image">
+				<image :src="item.imgUrl" mode=""></image>
+			</view>
+			<view class="fll info text-333 fs28">
+				<view class="name ellipsis-line2">
+					{{item.goodsName}}
+				</view>
+				<view class="tip fs24 text-999 ellipsis">
+					固安县 红心 紫皮 12度以下常温保存
+				</view>
+				<view class="cf">
+					<view class="fll">
+						代办费:¥0.06/斤
+					</view>
+					<view class="flr fs24 text-999">
+						x{{item.num}}{{item.goodsUnit}}
+					</view>
+				</view>
+				<view class="price text-theme">
+					价格:¥{{item.price}}/斤
+				</view>
+			</view>
+		</view>
 	</view>
-  
 </template>
 
 <script>
-export default {
-  name: 'ordgood',
-  props: {
-    item: {
-      type: Object,
-      default: null
-    }
-  },
-  data() {
-  	return {
-  		  platform: 0
-  	};
-  },
-  mounted() {
-  	// 设备样式兼容
-  	this.platform = uni.getStorageSync('platform');
-	// console.log('platform:',this.platform)
-  }
-}
+	export default {
+		name: 'goodx',
+		props: {
+			item: {
+				type: Object,
+				default: null
+			}
+		},
+		data() {
+			return {
+			
+			}
+		},
+		methods: {
+			goGoodsDetail() {
+				uni.navigateTo({
+					url: '/pages/user/order/detail?shopId=' + this.item.shopId + '&orderId=' + this.item.id
+				})
+			},
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
-.item {
-  font-size: 24upx;
-  color: #000;
-  padding: 20upx 0;
-  .content {
-	width: 60%;
-	margin-left: 20upx;
-  }
-  .content2 {
-    position: relative;
-  }
-  .photo {
-    width: 160upx;
-    height: 160upx;
-    border-radius: 10upx;
-    overflow: hidden;
-	background: red;
-	>image{
-		width: 160upx;
-		height: 160upx;
-		text-align: center;
+	.content {
+		
+		.item{
+			.image{
+				width: 200upx;
+				height: 200upx;
+				border-radius:10upx;
+				overflow: hidden;
+				>image{
+					width: 100%;
+					height: 100%;
+				}
+			}
+			.info{
+				width: 470upx;
+				margin-left: 20upx;
+				.name{
+					width: 470upx;
+					height: 74upx;
+				}
+				.tip{
+					padding: 4upx 0;
+					width: 470upx;
+				}
+				.price{
+					margin-top: 20upx;
+				}
+			}
+		}
+		
 	}
-  }
-  .name {
-    // height: 80upx;
-	width: 90%;
-	line-height: 40upx;
-  }
-  .Android{
-	  padding-top: 10upx!important;
-  }
-  .standard {
-    padding: 6upx 14upx;
-	border-radius: 22upx;
-    background-color: #f5f5f5;
-    font-size: 20upx;
-    color: #666;
-    display: inline-block;
-	margin-top: 20upx;
-  }
-  .num {
-    position: absolute;
-    color: #999;
-    top: 46upx;
-    right: 0;
-  }
-}
 </style>
+

@@ -19,10 +19,18 @@ const payWXpayByWap = data => {
     data,
   })
 }
-
+// 我的账单列表
+const fundRecordList = data => {
+  return request({
+    url: '/api/pay/fundRecord/pageMyList',
+    data,
+	type: 'form'
+  })
+}
 
 
 export {
+  fundRecordList,
   payAlipayByWap,
   payWXpayByWap
 }

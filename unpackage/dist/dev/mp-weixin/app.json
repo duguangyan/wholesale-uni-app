@@ -5,6 +5,7 @@
     "pages/user/user",
     "pages/order/order",
     "pages/user/setting/setting",
+    "pages/user/setting/changePhone",
     "pages/user/protocal/protocal",
     "pages/user/about/about",
     "pages/user/info/info",
@@ -59,7 +60,9 @@
     "pages/middle/release/product/localshipper/localshipper",
     "pages/middle/release/product/localproduct/localproduct",
     "pages/middle/release/chooseImage/chooseImage",
-    "pages/common/video/video"
+    "pages/common/video/video",
+    "pages/middle/release/sendSuccess/sendSuccess",
+    "pages/middle/release/sendFail/sendFail"
   ],
   "subPackages": [],
   "window": {

@@ -241,6 +241,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 var _vuex = __webpack_require__(/*! vuex */ 16);
 
 
@@ -358,11 +360,13 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
 //
 //
 //
+//
+//
 var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 556));};var SwiperDot = function SwiperDot() {return __webpack_require__.e(/*! import() | components/common/SwiperDotByMain */ "components/common/SwiperDotByMain").then(__webpack_require__.bind(null, /*! @/components/common/SwiperDotByMain.vue */ 563));};var _default = { data: function data() {return { checkIndex: 0, homeList: {}, banner: [], // 轮播图
       navs: [], // 导航nav
       advs: [], // 广告
       seles: [], // 精选
-      indicatorDots: false, autoplay: true, interval: 3000, duration: 500, platform: 0, cur: 0, listWidth: 0, roleId: '' };}, components: { TabBar: TabBar, SwiperDot: SwiperDot }, onTabItemTap: function onTabItemTap(e) {uni.setStorageSync('pagePath', 'main');}, onLoad: function onLoad() {uni.setStorageSync('pagePath', 'main'); // 版本更新 （APP）
+      indicatorDots: false, autoplay: true, interval: 3000, duration: 500, platform: 0, cur: 0, listWidth: 0, roleId: '', colorPattern: { '红': '255,0,0', '黄': '255,55,0', '蓝': '30,30,255', '紫': '200,50,248' }, color: 'red' };}, components: { TabBar: TabBar, SwiperDot: SwiperDot }, onTabItemTap: function onTabItemTap(e) {uni.setStorageSync('pagePath', 'main');}, onLoad: function onLoad() {uni.setStorageSync('pagePath', 'main'); // 版本更新 （APP）
     // 设备样式兼容
     this.platform = uni.getStorageSync('platform');}, onShow: function onShow() {uni.hideLoading(); // 获取首页banner
     this.getHomeList(); // 判断用户类型
@@ -375,6 +379,11 @@ var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | comp
     goClassify: function goClassify() {uni.navigateTo({ url: '/pages/main/classify/classify' });}, //去进货单
     goOrder: function goOrder() {uni.navigateTo({ url: '/pages/order/order' });}, // 更新版本
     updataApp: function updataApp() {
+
+
+
+
+
 
 
 
@@ -495,6 +504,16 @@ var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | comp
 
       }
     },
+    // 计算
+    calcAttr: function calcAttr(attr) {
+      var str = attr.substr(0, 1);
+      var color = this.colorPattern[str] || '230,230,230';
+      return {
+        color: 'rgba(' + color + ',1)',
+        bg: 'rgba(' + color + ',0.5)' };
+
+
+    },
     // nav 去搜索页面
     goSearchPage: function goSearchPage(name) {
       uni.navigateTo({
@@ -514,9 +533,9 @@ var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | comp
       then(function (res) {
         if (res.code == '1000') {
           _this.homeList = res.data;
-          _this.homeList.list[3].list[1].goodsDetailRespList.forEach(function (item, index) {
-            item.valueAddr = item.valueAddr.substring(0, 5);
-          });
+          // this.homeList.list[3].list[1].goodsDetailRespList.forEach((item, index) => {
+          // 	item.valueAddr = item.valueAddr.substring(0, 5)
+          // })
 
           _this.listWidth = uni.upx2px(_this.homeList.list[3].list[1].goodsDetailRespList.length * 100) + 'px';
         }

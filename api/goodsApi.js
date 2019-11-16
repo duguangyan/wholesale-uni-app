@@ -2,12 +2,12 @@ import {
 	request
 } from './request.js'
 const getList = data => {
-	return request({
-		url: '/api/goods/goods/sellGoods',
-		method: 'post',
-		data,
-		isIndicator: true
-	})
+  return request({
+    url: '/api/search/goods/search',
+    method: 'post',
+    data,
+    isIndicator: true
+  })
 }
 
 const getDetail = data => {
@@ -117,8 +117,19 @@ const getCategoryUnitList = data => {
 	})
 }
 
+// 根据商品分类ID获取分类单位
+const postSaveGoods = data => {
+	return request({
+		method: 'post',
+		url: '/api/goods/goods/saveGoods',
+		data,
+		// type: 'form'
+	})
+}
+
 
 export {
+	postSaveGoods,
 	getCategoryUnitList,
 	getByCategoryId,
 	selectCategoryTreeNode,

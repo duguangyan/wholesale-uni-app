@@ -12,21 +12,20 @@
 				<view class="img">
 					<image :src="headimageUrl" @click="goInfo"/>
 				</view>
+				<view class="role" v-if="roleId == 20001">货主</view>
+				<view class="role" v-if="roleId == 20002">代办</view>
 			  <view class="content">
 			    <view v-if="isLogin" @click="goInfo">
-			      <view class="uid fs28">{{nickName || '游客'}}</view>
-			      <!-- <view class="uid fs28" v-if="!nickName">ID:{{uid}}</view> -->
-			      <view class="phone fs24  mgt-30">{{dPhone}}</view>
+			      <view class="uid fs28">{{nickName || '农百集'}}</view>
 			    </view>
 			    <view class="fs30 mgl-20" v-if="!isLogin" @click="goLogin">点击登录</view>
 			  </view>
 			</view>
 		</view>
-		
         <!-- 我的订单 -->
         <view class="order">
           <view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
-            <view class="p1 fll fs28">我的订单</view>
+            <view class="p1 fll fs36">我的订单</view>
 			<view class="img flr">
 				<image src="../../static/img/tag-go.png"/>
 			</view>
@@ -37,20 +36,21 @@
 				<view class="img" :class="{'Android4': platform == 1}">
 					<image :src="item.u"/>
 				</view>
-              <view class="fs24" :class="{'Android3': platform == 1}">{{item.t}}</view>
+				<view class="tip">12</view>
+              <view class="fs24 mgt-10" :class="{'Android3': platform == 1}">{{item.t}}</view>
             </view>
           </view>
         </view>
     
         <!-- 我的收藏 -->
-        <view class="collection">
+       <!-- <view class="collection">
           <view class="body cf" @click="goCollection">
             <view class="fs36 fll fs28" :class="{'Android2': platform == 1}">我的收藏</view>
             <view class="img flr">
               <image src="../../static/img/tag-go.png"/>
             </view>
           </view>
-        </view>
+        </view> -->
 		 <!-- <TabBar :checkIndex='checkIndex'></TabBar> -->
       </view>
 	 
@@ -64,10 +64,11 @@
             return {
 				checkIndex:2,
               titles:[
-                {t: '待付款', u: '/static/img/icon-waitpay.png'},
-                {t: '待发货', u: '/static/img/icon-waitsend.png'},
-                {t: '待收货', u: '/static/img/icon-waitrecive.png'},
-                {t: '已完成', u: '/static/img/icon-done.png'},
+                {t: '待确认', u: '/static/imgs/icon-1008.png'},
+                {t: '待支付', u: '/static/imgs/icon-1005.png'},
+                {t: '待发货', u: '/static/imgs/icon-1006.png'},
+                {t: '待收货', u: '/static/imgs/icon-1007.png'},
+                {t: '已完成', u: '/static/imgs/icon-1004.png'},
               ],
               isLogin: false,
               uid: '',
@@ -75,32 +76,25 @@
               headimageUrl: '/static/img/icon-user.png',
 			  nickName:'',
 			  platform: 0,
-			  userRealInfo:'',
-			  userApply:''
+			  roleId:''
             }
         },
 		components:{TabBar},
-		onTabItemTap(e){
-			uni.setStorageSync('pagePath','user')
-		},
 		onLoad() {
-			uni.setStorageSync('pagePath','user')
 			
 		},
 		onShow() {
 			// 设备样式兼容
-			this.platform = uni.getStorageSync('platform');
+			this.platform     = uni.getStorageSync('platform');
 			// 获取phone 和 uid
-			this.phone = uni.getStorageSync('phone')
-			this.uid = uni.getStorageSync('uid')
-			this.nickName = uni.getStorageSync('nickName')
-			let imageUrl = uni.getStorageSync('headImgUrl')
+			this.phone        = uni.getStorageSync('phone')
+			this.uid          = uni.getStorageSync('uid')
+			this.nickName     = uni.getStorageSync('nickName')
+			let imageUrl      = uni.getStorageSync('headImgUrl')
 			this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png'
 			// 判断是否登录
-			this.isLogin = this.uid!='' 
-			
-			// 判断用户类型
-			this.assessUserType()
+			this.isLogin      = this.uid!='' 
+			this.roleId       = uni.getStorageSync('roleId') || ''
 		},
 		computed: {
 		    dPhone() {
@@ -108,63 +102,11 @@
 		    }
 		},
         methods: {
-			// 判断用户类型
-			assessUserType(){
-				// 设置底部tab样式
-				this.roleId = uni.getStorageSync('roleId')
-				
-				if(this.roleId){
-					if(this.roleId == '20002'){
-						uni.setTabBarItem({
-						  index: 1,
-						  text: '代办',
-						  iconPath: '/static/img/2.1.png',
-						  selectedIconPath: '/static/img/2.2.png'
-						})
-						
-					} else if(this.roleId == '20001') {
-						uni.setTabBarItem({
-						  index: 1,
-						  text: '我要卖',
-						  iconPath: '/static/img/4.1.png',
-						  selectedIconPath: '/static/img/4.2.png'
-						})
-					}
-				}
-				
-				this.userRealInfo = uni.getStorageSync('userRealInfo')
-				this.userApply = uni.getStorageSync('userApply')
-				
-				
-				
-				if(uni.getStorageSync('access_token')){
-					if(this.userRealInfo == "" && this.userApply==""){
-						uni.redirectTo({
-							url:'/pages/middle/identity/identity'
-						})
-					}
-					if(this.userRealInfo != "" && this.userApply==""){
-						uni.switchTab({
-							url:'/pages/middle/middle'
-						})
-					}
-				}
-				
-
-			},
 			// 去收藏页面
 			goCollection(){
-				
-				if(!uni.getStorageSync('access_token')) {
-					uni.navigateTo({
-						url:'/pages/login/login'
-					})
-				} else{
-					uni.navigateTo({
-						url:'/pages/user/collection/collection'
-					})
-				}
-				
+				uni.navigateTo({
+					url:'/pages/user/collection/collection'
+				})
 			},
 			// 去设置页面
 			goSettingPage(){
@@ -174,27 +116,17 @@
 			},
             // 去订单页面
 			goOrderList(index) {
-			  if(uni.getStorageSync('access_token')){
-				  let i = index === '' ? '' : index + 1
-				  uni.setStorageSync('orderNavIndex', i)
-				  uni.navigateTo({
-				  	url:'/pages/user/order/list'
-				  })
-			  } else {
-				  uni.navigateTo({
-				  	url:'/pages/login/login'
-				  })
-			  }	
-			
+			  let i = index === '' ? '' : index + 1
+			  if(index == 4) i = ''
+			  uni.setStorageSync('orderNavIndex', i)
+			  uni.navigateTo({
+			  	url:'/pages/user/order/list'
+			  })
 			},
 			goInfo() {
 				if(this.isLogin) {
 					uni.navigateTo({
 						url:'/pages/user/info/info'
-					})
-				}else{
-					uni.navigateTo({
-						url:'/pages/login/login'
 					})
 				}
 			},
@@ -250,7 +182,7 @@
 		height: 300upx;
 		.img{
 			width: 100%;
-			height: 300upx;
+			height: 260upx;
 			overflow: hidden;
 			position: absolute;
 			top: 0;
@@ -277,6 +209,17 @@
 		  align-items: center;
 			position: relative;
 			top: 140upx;
+			.role{
+				width:54upx;
+				height:24upx;
+				background:rgba(255,219,176,1);
+				border-radius:12upx;
+				font-size:20px;
+				color:rgba(254,59,11,1);
+				position: absolute;
+				bottom: 0;
+				left: 0;
+			}
 			.img{
 				width: 90upx;
 				height: 90upx;
@@ -323,6 +266,20 @@
 		  align-items: center;
 			position: relative;
 			top: 160upx;
+			.role{
+				width:54upx;
+				height:24upx;
+				line-height: 24upx;
+				text-align: center;
+				background:rgba(255,219,176,1);
+				border-radius:12upx;
+				font-size:20upx;
+				color:rgba(254,59,11,1);
+				position: absolute;
+				bottom: 28upx;
+				left: 56upx;
+				z-index: 999999;
+			}
 			.img{
 				width: 90upx;
 				height: 90upx;
@@ -352,13 +309,14 @@
   }
   .order {
     padding: 14upx 20upx 20upx 20upx;
-	border-bottom: 20upx solid #f0f0f0;
+	// border-bottom: 20upx solid #f0f0f0;
     .title {
 		border-bottom: 1upx solid #f0f0f0;
 		padding-bottom: 20upx;
 		height: 60upx;
 		position: relative;
 		top: 14upx;
+		
 	  .img{
 		  width: 20upx;
 		  height: 20upx;
@@ -395,6 +353,21 @@
         list-style: none;
         font-size: 12upx;
         color: #010101;
+		position: relative;
+		.tip{
+			width:32upx;
+			height:32upx;
+			background:rgba(254,59,11,1);
+			border:2upx solid rgba(255,255,255,1);
+			border-radius:50%;
+			font-size: 16upx;
+			color: #fff;
+			text-align: center;
+			line-height: 32upx;
+			position: absolute;
+			right: 0upx;
+			top: -12upx;
+		}
 		.img{
 			width: 48upx;
 			height: 48upx;
