@@ -117,8 +117,19 @@ const getCategoryUnitList = data => {
 	})
 }
 
+// 根据商品分类ID获取分类单位
+const postSaveGoods = data => {
+	return request({
+		method: 'post',
+		url: '/api/goods/goods/saveGoods',
+		data,
+		// type: 'form'
+	})
+}
+
 
 export {
+	postSaveGoods,
 	getCategoryUnitList,
 	getByCategoryId,
 	selectCategoryTreeNode,

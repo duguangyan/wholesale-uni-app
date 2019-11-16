@@ -287,11 +287,11 @@ __webpack_require__.r(__webpack_exports__);
       } else if (this.roleId == 20002) {
         if (index === 0) {
           uni.navigateTo({
-            url: '/pages/middle/release/product/localproduct/localproduct' });
+            url: '/pages/middle/release/product/localproduct/localproduct?index=0' });
 
         } else if (index === 1) {
           uni.navigateTo({
-            url: '/pages/middle/release/product/localproduct/localproduct' });
+            url: '/pages/middle/release/product/localproduct/localproduct?index=1' });
 
         } else if (index === 2) {
           uni.navigateTo({

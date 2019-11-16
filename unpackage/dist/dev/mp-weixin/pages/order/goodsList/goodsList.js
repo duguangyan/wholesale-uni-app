@@ -187,6 +187,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -199,6 +200,51 @@ var _iconUpon2 = _interopRequireDefault(__webpack_require__(/*! @/static/img/ico
 var _iconDownon2 = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-downon2.png */ 263));
 var _iconFilter2 = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-filter2.png */ 264));
 var _Good = _interopRequireDefault(__webpack_require__(/*! @/components/common/Good.vue */ 676));
+=======
+var _iconUpon = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-upon.png */ 259));
+var _iconDownon = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-downon.png */ 260));
+var _iconFilter = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-filter.png */ 261));
+var _iconUpon2 = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-upon2.png */ 262));
+var _iconDownon2 = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-downon2.png */ 263));
+var _iconFilter2 = _interopRequireDefault(__webpack_require__(/*! @/static/img/icon-filter2.png */ 264));
+
+
+var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 205);
+
+
+var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var Panel = function Panel() {return Promise.all(/*! import() | components/search/Panel */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/search/Panel")]).then(__webpack_require__.bind(null, /*! @/components/search/Panel.vue */ 667));};var Good = function Good() {return Promise.all(/*! import() | components/common/Good */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/Good")]).then(__webpack_require__.bind(null, /*! @/components/common/Good.vue */ 676));};var _default =
+{
+  data: function data() {
+    return {
+      loading: false,
+      hasData: false,
+      search: {
+        // attrValueList: ["string"],
+        attrValueList: [],
+        platform: 0,
+        keywords: '',
+        pageIndex: 1,
+        pageSize: 10,
+        place: "",
+        priceBegin: "",
+        priceEnd: "",
+        sortMark: "",
+        sortColumn: /* 综合:universal 价格：price */"universal",
+        sortType: /* 排序类型（0.降序 1.升序） */0 },
+
+      list: [],
+      icon: {
+        Upon: _iconUpon.default,
+        Downon: _iconDownon.default,
+        Filter: _iconFilter.default,
+        UponAct: _iconUpon2.default,
+        DownonAct: _iconDownon2.default,
+        FilterAct: _iconFilter2.default },
+
+      curOpt: "gen-desc",
+      isShow: false,
+      platform: 0 };
+>>>>>>> dev
 
 var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 205);
 

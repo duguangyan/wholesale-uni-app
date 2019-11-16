@@ -124,9 +124,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
-  name: 'ordgood',
+  name: 'goodx',
   props: {
     item: {
       type: Object,
@@ -134,15 +145,16 @@ var _default =
 
 
   data: function data() {
-    return {
-      platform: 0 };
+    return {};
+
 
   },
-  mounted: function mounted() {
-    // 设备样式兼容
-    this.platform = uni.getStorageSync('platform');
-    // console.log('platform:',this.platform)
-  } };exports.default = _default;
+  methods: {
+    goGoodsDetail: function goGoodsDetail() {
+      uni.navigateTo({
+        url: '/pages/user/order/detail?shopId=' + this.item.shopId + '&orderId=' + this.item.id });
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

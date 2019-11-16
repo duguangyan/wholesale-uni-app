@@ -360,8 +360,11 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
 //
 //
 //
+<<<<<<< HEAD
 //
 //
+=======
+>>>>>>> dev
 var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 556));};var SwiperDot = function SwiperDot() {return __webpack_require__.e(/*! import() | components/common/SwiperDotByMain */ "components/common/SwiperDotByMain").then(__webpack_require__.bind(null, /*! @/components/common/SwiperDotByMain.vue */ 563));};var _default = { data: function data() {return { checkIndex: 0, homeList: {}, banner: [], // 轮播图
       navs: [], // 导航nav
       advs: [], // 广告

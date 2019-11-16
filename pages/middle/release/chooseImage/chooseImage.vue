@@ -57,6 +57,13 @@
 				]
 			};
 		},
+		onShow() {
+			// 如果有缓存
+			this.goodsImgList = uni.getStorageSync('goodsImgList')
+			if(this.goodsImgList){
+				this.items = this.goodsImgList
+			}
+		},
 		methods:{
 			// 显示视频
 			showVideo(url){
@@ -68,7 +75,10 @@
 			save(){
 				console.log(this.items)
 				if(this.items[0].imgs.length>0 || this.items[0].videos.length>0 || this.items[1].imgs.length>0 || this.items[1].videos.length>0 ){
-					
+					uni.setStorageSync('goodsImgList',this.items)
+					uni.navigateBack({
+						delta:1
+					})
 				} else {
 					T.tips('货品主图至少上传一张')
 				}

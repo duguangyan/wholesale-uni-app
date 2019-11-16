@@ -122,7 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniList = function uniList() {return __webpack_require__.e(/*! import() | components/uni-list/uni-list */ "components/uni-list/uni-list").then(__webpack_require__.bind(null, /*! @/components/uni-list/uni-list.vue */ 709));};var uniListItem = function uniListItem() {return __webpack_require__.e(/*! import() | components/uni-list-item/uni-list-item */ "components/uni-list-item/uni-list-item").then(__webpack_require__.bind(null, /*! @/components/uni-list-item/uni-list-item.vue */ 716));};var uniIcons = function uniIcons() {return __webpack_require__.e(/*! import() | components/uni-icons/uni-icons */ "components/uni-icons/uni-icons").then(__webpack_require__.bind(null, /*! @/components/uni-icons/uni-icons.vue */ 723));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -157,29 +157,44 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-{
-  data: function data() {
-    return {
-      is50: true };
-
-  },
-  components: { uniIcons: uniIcons, uniList: uniList, uniListItem: uniListItem },
-  onLoad: function onLoad() {
-
-  },
-  onShow: function onShow() {
-
-  },
-  methods: {
-    // 去订单详情
-    goDetail: function goDetail() {
-      uni.navigateTo({
-        url: '/pages/middle/release/account/record/detail' });
-
-    } } };exports.default = _default;
+var _payApi = __webpack_require__(/*! @/api/payApi.js */ 351); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { is50: true, pageIndex: 1, records: [] };}, components: {}, onLoad: function onLoad() {}, onShow: function onShow() {//  获取账单列表
+    this.getFundRecordList();}, methods: { //  获取账单列表
+    getFundRecordList: function getFundRecordList() {var _this = this;var data = { pageIndex: this.pageIndex };(0, _payApi.fundRecordList)(data).then(function (res) {if (res.code == '1000') {_this.records = res.data;}});}, // 去订单详情
+    goDetail: function goDetail() {uni.navigateTo({ url: '/pages/middle/release/account/record/detail' });} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

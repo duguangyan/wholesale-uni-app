@@ -160,6 +160,17 @@ var _default = { data: function data() {return { list: [], itenIndex: 0 };}, onL
       (0, _goodsApi.selectCategoryTreeNode)().then(function (res) {
         if (res.code == '1000') {
           _this.list = res.data;
+
+          // 有缓存获取缓存
+          var varieties = uni.getStorageSync('varieties');
+          if (varieties) {
+            _this.list.forEach(function (item, index) {
+              if (item.id == JSON.parse(varieties).id) {
+                _this.itenIndex = index;
+              }
+            });
+          }
+
         } else {
           _tips.default.tips(res.message || '获取品种信息失败');
         }

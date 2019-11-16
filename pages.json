@@ -38,7 +38,13 @@
             "style" : {
 				"navigationBarTitleText": "设置"
 			}
-        }, {
+        }, 
+		{
+		    "path" : "pages/user/setting/changePhone",
+		    "style" : {
+				"navigationBarTitleText": "修改手机号"
+			}
+		},{
             "path" : "pages/user/protocal/protocal",
             "style" : {
 				"navigationBarTitleText": "服务条款与协议"
@@ -370,6 +376,14 @@
             "style" : {
 				"navigationBarTitleText": "视频播放"
 			}
+        }
+        ,{
+            "path" : "pages/middle/release/sendSuccess/sendSuccess",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/middle/release/sendFail/sendFail",
+            "style" : {}
         }
     ],
 	"tabBar": {
