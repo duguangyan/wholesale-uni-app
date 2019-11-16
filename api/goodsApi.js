@@ -2,12 +2,12 @@ import {
 	request
 } from './request.js'
 const getList = data => {
-  return request({
-    url: '/api/search/goods/search',
-    method: 'post',
-    data,
-    isIndicator: true
-  })
+	return request({
+		url: '/api/goods/goods/sellGoods',
+		method: 'post',
+		data,
+		isIndicator: true
+	})
 }
 
 const getDetail = data => {

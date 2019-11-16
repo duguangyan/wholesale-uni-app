@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "选择属性",
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker",
-    "navigation-bar": "/components/common/NavigationBar"
-  }
-}

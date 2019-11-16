@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "支付成功",
-  "usingComponents": {
-    "strictly-goods": "/components/common/StrictlyGoods",
-    "advertising-position": "/components/common/AdvertisingPosition",
-    "dialog": "/components/common/Dialog"
-  }
-}
