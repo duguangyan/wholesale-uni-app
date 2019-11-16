@@ -59,7 +59,7 @@
 			</view>
 		</view>
 
-		<view class="bar" @click="goRelease">
+		<view class="bar" @click="goRelease" v-if="roleId ==  20001">
 			<image src="../../static/imgs/icon-1009.png" mode=""></image>
 		</view>
 	</view>
@@ -180,11 +180,11 @@
 				}else if(this.roleId == 20002){
 					if(index === 0){
 						uni.navigateTo({
-							url:'/pages/middle/release/product/localproduct/localproduct'
+							url:'/pages/middle/release/product/localproduct/localproduct?index=0'
 						})
 					}else if(index === 1){
 						uni.navigateTo({
-							url:'/pages/middle/release/product/localproduct/localproduct'
+							url:'/pages/middle/release/product/localproduct/localproduct?index=1'
 						})
 					}else if(index === 2){
 						uni.navigateTo({

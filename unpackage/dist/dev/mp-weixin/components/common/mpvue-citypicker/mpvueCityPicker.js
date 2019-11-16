@@ -196,8 +196,6 @@ var _default2 = { data: function data() {return { pickerValue: [0, 0, 0], provin
               (0, _userApi.getChildrenByPId)(data2).then(function (res) {
                 if (res.code === '1000') {
                   _this.areaDataList = res.data;
-
-
                 }
               });
 
@@ -240,21 +238,21 @@ var _default2 = { data: function data() {return { pickerValue: [0, 0, 0], provin
       var provinceIndex = pickerValueDefault[0];
       var cityIndex = pickerValueDefault[1];
       var areaIndex = pickerValueDefault[2];
-      if (
-      provinceIndex !== 0 ||
-      cityIndex !== 0 ||
-      areaIndex !== 0)
-      {
-        if (provinceIndex > _province.default.length - 1) {
-          this.pickerValueDefault[0] = provinceIndex = _province.default.length - 1;
-        }
-        if (cityIndex > _city.default[provinceIndex].length - 1) {
-          this.pickerValueDefault[1] = cityIndex = _city.default[provinceIndex].length - 1;
-        }
-        if (areaIndex > _area.default[provinceIndex][cityIndex].length - 1) {
-          this.pickerValueDefault[2] = _area.default[provinceIndex][cityIndex].length - 1;
-        }
-      }
+      // if (
+      // 	provinceIndex !== 0 ||
+      // 	cityIndex !== 0 ||
+      // 	areaIndex !== 0
+      // ) {
+      // 	if (provinceIndex > provinceData.length - 1) {
+      // 		this.pickerValueDefault[0] = provinceIndex = provinceData.length - 1;
+      // 	}
+      // 	if (cityIndex > cityData[provinceIndex].length - 1) {
+      // 		this.pickerValueDefault[1] = cityIndex = cityData[provinceIndex].length - 1;
+      // 	}
+      // 	if (areaIndex > areaData[provinceIndex][cityIndex].length - 1) {
+      // 		this.pickerValueDefault[2] = areaData[provinceIndex][cityIndex].length - 1;
+      // 	}
+      // }
     },
     pickerChange: function pickerChange(e) {var _this3 = this;
       var changePickerValue = e.mp.detail.value;

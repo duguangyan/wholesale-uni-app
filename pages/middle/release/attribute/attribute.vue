@@ -12,7 +12,7 @@
 			<view class="list" v-for="(item,index) in categorys" :key="index">
 				<view class="title fs30"><text class="text-theme mgr-10">*</text> <text>{{item.name}}</text></view>
 				<view class="items cf">
-					<view class="item fll" :class="{'active': item.isCheckIndex == ix}"  v-for="(it,ix) in item.valueSet" :key="ix" @click='checkIndex(index,ix)'>
+					<view class="item fll" :class="{'active': it.isCheck}"  v-for="(it,ix) in item.valueSet" :key="ix" @click='checkIndex(index,ix,item.dataType)'>
 						{{it.value}}
 					</view>
 				</view>
@@ -87,7 +87,11 @@
 			if(uni.getStorageSync('addCategoryAddress')){
 				this.address = JSON.parse(uni.getStorageSync('addCategoryAddress'))
 				this.addressInfo = this.address.province + '-' + this.address.city
+			}else{
+				
 			}
+			
+			// categorysInput如果有值
 			
 		},
 		methods:{
@@ -111,19 +115,32 @@
 							// item.valueSet.forEach(it=>{
 							// 	it.isCheckIndex = 0
 							// })
-							item.isCheckIndex = 0
+							item.isCheckIndex = [0]
 							if(item.inputType == 4){
 								item.inputValue = ''
 								categorysInput.push(item)
 							}else{
+								if(item.valueSet.length>0){
+									item.valueSet.forEach((item,index)=>{
+										item.isCheck = index == 0 ? true : false
+									})
+								}
 								categorys.push(item)
 							}
 						})
-						this.categorys = categorys
-						this.categorysInput = categorysInput
 						// 如果缓存有输出数据
+						
+						if(uni.getStorageSync('categorysValues')){
+							this.categorys = uni.getStorageSync('categorysValues')
+						}else{
+							this.categorys = categorys
+						}
+						
+						
 						if(uni.getStorageSync('categorysInput')){
-							this.categorysInput = JSON.parse(uni.getStorageSync('categorysInput'))
+							this.categorysInput = uni.getStorageSync('categorysInput')
+						}else{
+							this.categorysInput = categorysInput
 						}
 						// 判断是否选完数据
 						this.assessHasData()
@@ -167,6 +184,7 @@
 				
 			},
 			doInputValue(){
+				uni.setStorageSync('categorysInput',this.categorysInput)
 				this.assessHasData()
 			},
 			// 判断是否选完数据
@@ -190,17 +208,23 @@
 			// 保存
 			saveAttribute(){
 				if(!this.hasData) {
-					uni.setStorageSync('categorysValues',JSON.stringify(this.categorys))
-					uni.setStorageSync('categorysInput',JSON.stringify(this.categorysInput))
+					uni.setStorageSync('categorysValues',this.categorys)
+					uni.setStorageSync('categorysInput',this.categorysInput)
 					
 					let attribute = ''
 					this.categorys.forEach((item,index)=>{
 						if(item.valueSet.length>0){
-							if(attribute == ''){
-								attribute = item.valueSet[item.isCheckIndex].value
-							}else{
-								attribute = attribute + ',' +  item.valueSet[item.isCheckIndex].value
-							}
+							
+							item.valueSet.forEach((it,ix)=>{
+								if(it.isCheck){
+									if(attribute == ''){
+										attribute = it.value
+									}else{
+										attribute = attribute + ',' +  it.value
+									}
+								}
+							})
+							
 							
 						}
 					})
@@ -211,18 +235,19 @@
 						}else{
 							attribute = attribute + ',' +  item.inputValue
 						}
-						
 					})
 					
 					let addCategoryAttributes = uni.getStorageSync('addCategoryAttributes')
-					addCategoryAttributes.forEach((item,index)=>{
-						if(attribute==''){
-							attribute = item.values[0]
-						}else{
-							attribute = attribute + ',' +  item.values[0]
-						}
-						
-					})
+					if(addCategoryAttributes){
+						addCategoryAttributes.forEach((item,index)=>{
+							if(attribute==''){
+								attribute = item.values[0]
+							}else{
+								attribute = attribute + ',' +  item.values[0]
+							}
+						})
+					}
+					
 					uni.setStorageSync('attribute',attribute)
 					uni.navigateBack({
 						delta:1
@@ -235,8 +260,18 @@
 				
 			},
 			// 选择属性
-			checkIndex(index,ix){
-				this.categorys[index].isCheckIndex = ix
+			checkIndex(index,ix,type){
+				console.log(ix)
+				if(type == 2){ // 复选框
+					this.categorys[index].valueSet[ix].isCheck = !this.categorys[index].valueSet[ix].isCheck
+					
+				}else if(type == 1){ // 单选框
+					this.categorys[index].valueSet.forEach(item=>{
+						item.isCheck = false
+					})
+					this.categorys[index].valueSet[ix].isCheck = true
+				}
+				
 			}
 		}
 	}

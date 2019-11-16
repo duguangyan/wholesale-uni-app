@@ -69,7 +69,7 @@
 		</view>
 		<view class="upload cf">
 			<view class="title"><text>上传身份证</text><text class="tips">（正面）</text> </view>
-			<view class="img fll" @click="showImage(0)">
+			<view class="img fll" @click="showImage(0)"  v-if="userApply==''">
 				<image src="../../../../static/imgs/cat-1.png" mode=""></image>
 			</view>
 			<view class="img fll" @click="chooseImage(0)">
@@ -80,7 +80,7 @@
 		</view>
 		<view class="upload cf">
 			<view class="title"><text>上传身份证</text><text class="tips">（反面）</text> </view>
-			<view class="img fll" @click="showImage(1)">
+			<view class="img fll" @click="showImage(1)" v-if="userApply==''">
 				<image src="../../../../static/imgs/cat-2.png" mode=""></image>
 			</view>
 			<view class="img fll" @click="chooseImage(1)">
@@ -163,15 +163,20 @@
 					})
 				}
 			}
-			// 判断用户类型
-			this.assessUserType() 
+			
 			
 		},
 		onShow() {
+			// 获取缓存数据
 			this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1')
 			this.agencyImgUpload2 = uni.getStorageSync('agencyImgUpload2')
 			this.userRealInfo = uni.getStorageSync('userRealInfo') || ''
+			
+			
+			// 判断用户类型
+			this.assessUserType() 
 		},
+		
 		methods: {
 			assessUserType(){
 				// 判断用户类型

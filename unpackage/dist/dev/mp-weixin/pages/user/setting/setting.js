@@ -90,19 +90,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var m0 = __webpack_require__(/*! @/static/img/tag-go.png */ 97)
-
-  var m1 = __webpack_require__(/*! @/static/img/tag-go.png */ 97)
-
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        m0: m0,
-        m1: m1
-      }
-    }
-  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -135,69 +122,204 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
-{
-  data: function data() {
-    return {
-      isLogin: false };
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
-  },
-  onShow: function onShow() {
-    this.isLogin = uni.getStorageSync('access_token');
-  },
-  methods: {
-    showDialog: function showDialog() {
-      uni.showModal({
-        title: '提示',
-        content: '是否退出当前账号?',
-        confirmText: '退出',
-        success: function success(res) {
-          if (res.confirm) {
-            var records = uni.getStorageSync('records');
-            var platform = uni.getStorageSync('platform');
-            uni.clearStorageSync(); // 清除缓存
-            uni.setStorageSync('records', records);
-            uni.setStorageSync('platform', platform);
-            uni.switchTab({
-              url: '/pages/user/user' });
 
-          } else if (res.cancel) {
-            console.log('用户点击取消');
-          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25); //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { isLogin: false, headImgUrl: '../../../static/img/icon-user.png', phone: '', roleId: '', categoryName: '', province: '', city: '', region: '' };}, onShow: function onShow() {// 获取缓存数据
+    this.isLogin = uni.getStorageSync('access_token');this.phone = uni.getStorageSync('phone') || '';this.roleId = uni.getStorageSync('roleId');this.headImgUrl = uni.getStorageSync('headImgUrl');if (uni.getStorageSync('userApply')) {var userApply = JSON.parse(uni.getStorageSync('userApply'));this.categoryName = userApply.categoryName || '';this.province = userApply.province || '';this.city = userApply.city || '';this.region = userApply.region || '';}}, methods: { showDialog: function showDialog() {uni.showModal({ title: '提示', content: '是否退出当前账号?', confirmText: '退出', success: function success(res) {if (res.confirm) {var records = uni.getStorageSync('records');var platform = uni.getStorageSync('platform');uni.clearStorageSync(); // 清除缓存
+            uni.setStorageSync('records', records);uni.setStorageSync('platform', platform);uni.switchTab({ url: '/pages/user/user' });} else if (res.cancel) {console.log('用户点击取消');}} });}, // 修改手机号
+    goChangePhone: function goChangePhone() {uni.navigateTo({ url: '/pages/user/setting/changePhone' });}, // 上传头像
+    onUpload: function onUpload(e) {var _this = this;uni.chooseImage({ count: 1, //默认9
+        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album', 'camera'], //从相册选择
+        success: function success(res) {var tempFilePaths = res.tempFilePaths;var url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'https://m.qinlvny.com/upms/userImg/upload';
+          uni.uploadFile({
+            url: url, //仅为示例，非真实的接口地址
+            filePath: tempFilePaths[0],
+            name: 'file',
+            success: function success(uploadFileRes) {
+              console.log(uploadFileRes);
+              var res = JSON.parse(uploadFileRes.data);
+              if (res.code === '1000') {
+                _this.uploadUserHeadImg(res.data);
+              } else {
+                T.tips(res.message || '上传图片失败');
+              }
+            },
+            fail: function fail(err) {
+              T.tips('上传图片失败');
+            } });
+
         } });
 
-    },
-    goProtocal: function goProtocal() {
-      uni.navigateTo({
-        url: '/pages/user/protocal/protocal' });
+
+
 
     },
-    goAbout: function goAbout() {
-      uni.navigateTo({
-        url: '/pages/user/about/about' });
+    uploadUserHeadImg: function uploadUserHeadImg(url) {var _this2 = this;
+      var data = {
+        headImgUrl: url };
 
+
+      (0, _userApi.postUpdateNickname)(data).then(function (res) {
+        if (res.code === '1000') {
+          _this2.headImgUrl = url;
+          uni.setStorageSync('headImgUrl', url);
+          T.tips(res.message || '头像上传成功');
+        } else {
+          T.tips(res.message || '上传图片失败');
+        }
+      }).catch(function (err) {
+        T.tips(err.message || '上传图片失败');
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

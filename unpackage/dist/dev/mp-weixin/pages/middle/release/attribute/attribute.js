@@ -211,7 +211,11 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     if (uni.getStorageSync('addCategoryAddress')) {
       this.address = JSON.parse(uni.getStorageSync('addCategoryAddress'));
       this.addressInfo = this.address.province + '-' + this.address.city;
+    } else {
+
     }
+
+    // categorysInput如果有值
 
   },
   methods: {
@@ -235,19 +239,32 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
             // item.valueSet.forEach(it=>{
             // 	it.isCheckIndex = 0
             // })
-            item.isCheckIndex = 0;
+            item.isCheckIndex = [0];
             if (item.inputType == 4) {
               item.inputValue = '';
               categorysInput.push(item);
             } else {
+              if (item.valueSet.length > 0) {
+                item.valueSet.forEach(function (item, index) {
+                  item.isCheck = index == 0 ? true : false;
+                });
+              }
               categorys.push(item);
             }
           });
-          _this.categorys = categorys;
-          _this.categorysInput = categorysInput;
           // 如果缓存有输出数据
+
+          if (uni.getStorageSync('categorysValues')) {
+            _this.categorys = uni.getStorageSync('categorysValues');
+          } else {
+            _this.categorys = categorys;
+          }
+
+
           if (uni.getStorageSync('categorysInput')) {
-            _this.categorysInput = JSON.parse(uni.getStorageSync('categorysInput'));
+            _this.categorysInput = uni.getStorageSync('categorysInput');
+          } else {
+            _this.categorysInput = categorysInput;
           }
           // 判断是否选完数据
           _this.assessHasData();
@@ -291,6 +308,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
 
     },
     doInputValue: function doInputValue() {
+      uni.setStorageSync('categorysInput', this.categorysInput);
       this.assessHasData();
     },
     // 判断是否选完数据
@@ -314,17 +332,23 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     // 保存
     saveAttribute: function saveAttribute() {
       if (!this.hasData) {
-        uni.setStorageSync('categorysValues', JSON.stringify(this.categorys));
-        uni.setStorageSync('categorysInput', JSON.stringify(this.categorysInput));
+        uni.setStorageSync('categorysValues', this.categorys);
+        uni.setStorageSync('categorysInput', this.categorysInput);
 
         var attribute = '';
         this.categorys.forEach(function (item, index) {
           if (item.valueSet.length > 0) {
-            if (attribute == '') {
-              attribute = item.valueSet[item.isCheckIndex].value;
-            } else {
-              attribute = attribute + ',' + item.valueSet[item.isCheckIndex].value;
-            }
+
+            item.valueSet.forEach(function (it, ix) {
+              if (it.isCheck) {
+                if (attribute == '') {
+                  attribute = it.value;
+                } else {
+                  attribute = attribute + ',' + it.value;
+                }
+              }
+            });
+
 
           }
         });
@@ -335,18 +359,19 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
           } else {
             attribute = attribute + ',' + item.inputValue;
           }
-
         });
 
         var addCategoryAttributes = uni.getStorageSync('addCategoryAttributes');
-        addCategoryAttributes.forEach(function (item, index) {
-          if (attribute == '') {
-            attribute = item.values[0];
-          } else {
-            attribute = attribute + ',' + item.values[0];
-          }
+        if (addCategoryAttributes) {
+          addCategoryAttributes.forEach(function (item, index) {
+            if (attribute == '') {
+              attribute = item.values[0];
+            } else {
+              attribute = attribute + ',' + item.values[0];
+            }
+          });
+        }
 
-        });
         uni.setStorageSync('attribute', attribute);
         uni.navigateBack({
           delta: 1 });
@@ -359,8 +384,18 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
 
     },
     // 选择属性
-    checkIndex: function checkIndex(index, ix) {
-      this.categorys[index].isCheckIndex = ix;
+    checkIndex: function checkIndex(index, ix, type) {
+      console.log(ix);
+      if (type == 2) {// 复选框
+        this.categorys[index].valueSet[ix].isCheck = !this.categorys[index].valueSet[ix].isCheck;
+
+      } else if (type == 1) {// 单选框
+        this.categorys[index].valueSet.forEach(function (item) {
+          item.isCheck = false;
+        });
+        this.categorys[index].valueSet[ix].isCheck = true;
+      }
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

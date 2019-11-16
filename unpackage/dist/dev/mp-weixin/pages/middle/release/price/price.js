@@ -159,6 +159,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _goodsApi = __webpack_require__(/*! @/api/goodsApi.js */ 205);
 var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
 //
@@ -196,11 +197,20 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
 //
 //
 //
-var _default = { data: function data() {return { hasData: true, unit: '', unitId: '', stock: '', is70: true, unitList: [], unitLists: [], skuAttrValues: [{ name: '', value: '' }] };}, components: {}, onLoad: function onLoad() {}, onShow: function onShow() {// 获取分类单位
-    this.getCategoryUnitList();}, methods: { checkName: function checkName() {this.assessHasData();}, checkValue: function checkValue() {this.assessHasData();}, // 库存输入框
-    checkStock: function checkStock() {this.assessHasData();}, // 判断数据是否完整
+//
+var _default = { data: function data() {return { hasData: true, unit: '', unitId: '', stock: '', is70: true, unitList: [], unitLists: [], priceExpList: [{ startQuantity: '', price: '' }] };}, components: {}, onLoad: function onLoad() {}, onShow: function onShow() {// 获取分类单位
+    this.getCategoryUnitList(); // 获取缓存数据
+    if (uni.getStorageSync('goodsSkuList')) {var goodsSkuList = uni.getStorageSync('goodsSkuList');this.stock = goodsSkuList[0].stock;this.unit = goodsSkuList[0].unit;this.priceExpList = goodsSkuList[0].priceExpList;this.assessHasData();}}, methods: { checkName: function checkName() {this.assessHasData();},
+    checkValue: function checkValue() {
+      this.assessHasData();
+    },
+    // 库存输入框
+    checkStock: function checkStock() {
+      this.assessHasData();
+    },
+    // 判断数据是否完整
     assessHasData: function assessHasData() {
-      this.hasData = this.unit == '' || this.stock == '' || this.skuAttrValues[0].name == '' || this.skuAttrValues[0].value == '';
+      this.hasData = this.unit == '' || this.stock == '' || this.priceExpList[0].name == '' || this.priceExpList[0].value == '';
 
     },
     // 获取分类单位
@@ -239,15 +249,15 @@ var _default = { data: function data() {return { hasData: true, unit: '', unitId
     // 新增报价
     add: function add() {
       var obj = {
-        name: '',
-        value: '' };
+        startQuantity: '',
+        price: '' };
 
-      this.skuAttrValues.push(obj);
+      this.priceExpList.push(obj);
     },
     // 删除报价
     del: function del(index) {
       if (index > 0) {
-        this.skuAttrValues.splice(index, 1);
+        this.priceExpList.splice(index, 1);
       }
       // 判断数据是否完整
       this.assessHasData();
@@ -262,12 +272,41 @@ var _default = { data: function data() {return { hasData: true, unit: '', unitId
         _tips.default.tips('请填写库存');
         return false;
       }
-      if (this.skuAttrValues[0].name == '' && this.skuAttrValues[0].value == '') {
+      if (this.priceExpList[0].startQuantity == '' && this.priceExpList[0].price == '') {
         _tips.default.tips('至少填写一个起批量和价格');
         return false;
       }
 
+      var arr = [];
+      this.priceExpList.forEach(function (item, index) {
+        if (item.startQuantity != '' && item.price != '') {
+          arr.push(item);
+        }
+      });
+      this.priceExpList = arr;
 
+      var goodsSkuList = [
+      {
+        price: '',
+        priceType: 2,
+        sort: 1,
+        startNum: '',
+        stock: this.stock,
+        unit: this.unit,
+        volume: '',
+        weight: '',
+        skuAttrValues: [{
+          name: this.unit,
+          skuId: '',
+          value: 1 }],
+
+        priceExpList: this.priceExpList }];
+
+
+
+      uni.setStorageSync('goodsSkuList', goodsSkuList);
+      uni.navigateBack({
+        delta: 1 });
 
 
 

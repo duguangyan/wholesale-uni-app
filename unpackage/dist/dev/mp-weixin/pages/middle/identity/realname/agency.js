@@ -287,15 +287,20 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
         });
       }
     }
-    // 判断用户类型
-    this.assessUserType();
+
 
   },
   onShow: function onShow() {
+    // 获取缓存数据
     this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1');
     this.agencyImgUpload2 = uni.getStorageSync('agencyImgUpload2');
     this.userRealInfo = uni.getStorageSync('userRealInfo') || '';
+
+
+    // 判断用户类型
+    this.assessUserType();
   },
+
   methods: {
     assessUserType: function assessUserType() {
       // 判断用户类型

@@ -90,19 +90,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var m0 = __webpack_require__(/*! @/static/img/icon-order-no.png */ 70)
-
-  var m1 = __webpack_require__(/*! @/static/img/icon-plat.png */ 55)
-
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        m0: m0,
-        m1: m1
-      }
-    }
-  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -197,13 +184,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
 var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25);
+
+
+
 var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var Good = function Good() {return __webpack_require__.e(/*! import() | components/order/Good */ "components/order/Good").then(__webpack_require__.bind(null, /*! @/components/order/Good.vue */ 601));};var Pay = function Pay() {return Promise.all(/*! import() | components/common/Pay */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/Pay")]).then(__webpack_require__.bind(null, /*! @/components/common/Pay.vue */ 608));};var Dialog = function Dialog() {return __webpack_require__.e(/*! import() | components/common/Dialog */ "components/common/Dialog").then(__webpack_require__.bind(null, /*! @/components/common/Dialog.vue */ 570));};var _default =
 {
   name: 'ordlist',
@@ -215,25 +199,24 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
       orderId: '',
       shopId: '',
       orders: [],
-      tabs: [
-      {
+      tabs: [{
         name: '全部',
         status: '' },
 
       {
-        name: '待付款',
+        name: '待确认',
         status: 0 },
 
       {
-        name: '待发货',
+        name: '待支付',
         status: 2 },
 
       {
-        name: '待收货',
+        name: '待发货',
         status: 3 },
 
       {
-        name: '已完成',
+        name: '待收货',
         status: 4 }],
 
 
@@ -356,8 +339,7 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
     changePosi: function changePosi(index) {
       this.navIndex = index;
       uni.setStorageSync('orderNavIndex', index);
-      // this.$refs.tabs.style.backgroundPosition = `${75 * index - 300}upx 0%`
-      // this.$refs.flag.style.left = `${75 * index + 29}upx`
+      // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核
       this.status = this.tabs[index].status;
       this.orders = [];
       this.pageIndex = 1;
@@ -379,8 +361,17 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
       var data = {
         pageIndex: this.pageIndex,
         status: this.status,
-        pageSize: this.pageSize };
+        pageSize: this.pageSize
 
+        // 1:货主,2:代办,3:买家
+      };var roleId = uni.getStorageSync('roleId');
+      if (roleId == 20001) {
+        data.businessType = 1;
+      } else if (roleId == 20002) {
+        data.businessType = 2;
+      } else if (roleId == 20003) {
+        data.businessType = 2;
+      }
 
       (0, _userApi.getOrderPageMyOrder)(data).then(function (res) {
         if (res.code === '1000') {

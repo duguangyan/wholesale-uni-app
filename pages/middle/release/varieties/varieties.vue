@@ -36,6 +36,17 @@
 				selectCategoryTreeNode().then(res => {
 					if(res.code == '1000'){
 						this.list = res.data
+						
+						// 有缓存获取缓存
+						let varieties = uni.getStorageSync('varieties')
+						if(varieties){
+							this.list.forEach((item,index)=>{
+								if(item.id == JSON.parse(varieties).id){
+									this.itenIndex = index
+								}
+							})
+						}
+						
 					}else{
 						T.tips(res.message || '获取品种信息失败')
 					}

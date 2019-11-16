@@ -33,6 +33,10 @@
       position: relative;
       top: 10rpx;
 }
+.price .unit .input input.data-v-29ae0be5, .price .num .input input.data-v-29ae0be5 {
+        position: relative;
+        top: 10rpx;
+}
 .price .unit .info.data-v-29ae0be5, .price .num .info.data-v-29ae0be5 {
       position: absolute;
       right: 90rpx;

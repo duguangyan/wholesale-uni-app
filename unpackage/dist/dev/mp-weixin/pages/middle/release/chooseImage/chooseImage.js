@@ -197,10 +197,20 @@ var _tips = _interopRequireDefault(__webpack_require__(/*! @/utils/tips.js */ 26
 //
 var _default = { data: function data() {return { chooseIndex: '', // 0 是主图 1是详情
       chooseType: '', // 0 是图片 2是视频
-      items: [{ title: '货品主图', tip: '显示在列表和详情页头图，图片最多上传5张/视频可上传5张', imgs: [], videos: [] }, { title: '货品详情图', tip: '显示在详情页下方，图片或视频最多只可上传10张', imgs: [], videos: [] }] };}, methods: { // 显示视频
+      items: [{ title: '货品主图', tip: '显示在列表和详情页头图，图片最多上传5张/视频可上传5张', imgs: [], videos: [] }, { title: '货品详情图', tip: '显示在详情页下方，图片或视频最多只可上传10张', imgs: [], videos: [] }] };}, onShow: function onShow() {// 如果有缓存
+    this.goodsImgList = uni.getStorageSync('goodsImgList');if (this.goodsImgList) {this.items = this.goodsImgList;}}, methods: { // 显示视频
     showVideo: function showVideo(url) {uni.navigateTo({ url: '/pages/common/video/video?url=' + url });}, // 保存
-    save: function save() {console.log(this.items);if (this.items[0].imgs.length > 0 || this.items[0].videos.length > 0 || this.items[1].imgs.length > 0 || this.items[1].videos.length > 0) {} else {_tips.default.tips('货品主图至少上传一张');}}, // 删除图片
-    del: function del(index, idx, type) {if (type == 0) {this.items[index].imgs.splice(idx, 1);
+    save: function save() {console.log(this.items);if (this.items[0].imgs.length > 0 || this.items[0].videos.length > 0 || this.items[1].imgs.length > 0 || this.items[1].videos.length > 0) {uni.setStorageSync('goodsImgList', this.items);uni.navigateBack({
+          delta: 1 });
+
+      } else {
+        _tips.default.tips('货品主图至少上传一张');
+      }
+    },
+    // 删除图片
+    del: function del(index, idx, type) {
+      if (type == 0) {
+        this.items[index].imgs.splice(idx, 1);
       } else {
         this.items[index].videos.splice(idx, 1);
       }
