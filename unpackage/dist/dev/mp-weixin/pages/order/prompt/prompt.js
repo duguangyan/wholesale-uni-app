@@ -166,7 +166,7 @@ var _userApi = __webpack_require__(/*! @/api/userApi.js */ 25); //
 //
 //
 //
-var Provinces = function Provinces() {return Promise.all(/*! import() | components/common/Provinces */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/Provinces")]).then(__webpack_require__.bind(null, /*! @/components/common/Provinces.vue */ 660));};var _default = { data: function data() {return { list: [], isShow: false, curAddress: '', prompt: '', id: '', promptFree: '' };}, components: { Provinces: Provinces }, onLoad: function onLoad(options) {
+var Provinces = function Provinces() {return Promise.all(/*! import() | components/common/Provinces */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/common/Provinces")]).then(__webpack_require__.bind(null, /*! @/components/common/Provinces.vue */ 682));};var _default = { data: function data() {return { list: [], isShow: false, curAddress: '', prompt: '', id: '', promptFree: '' };}, components: { Provinces: Provinces }, onLoad: function onLoad(options) {
     this.id = options.id;
   },
   onShow: function onShow() {var _this = this;
