@@ -5,24 +5,29 @@
 				<div class="icon-30">
 					<img src="@/static/img/icon-search2.png" width="15" height="15" alt />
 				</div>
-				<input class="fs28" type='text' confirm-type="search" @confirm="doSearch($event)" v-model="search.keywords" :placeholder="search.keywords || '请输入搜索内容'" />
+				<input class="fs28" type='text' confirm-type="search" @confirm="reset()" v-model="search.keywords" :placeholder="search.keywords || '请输入搜索内容'" />
 			</div>
 			<div class="flr">
-				<div class="icon fs28 text-333" @click="doSearch($event)">搜索</div>
+				<div class="icon fs28 text-333" @click="reset()">搜索</div>
 			</div>
 		</div>
 
 		<div class="sort-bar" :class="{'platform':platform==2, 'Android': platform == 1}">
-			<div :class="['general',curOpt==='gen-asc' || curOpt==='gen-desc'?'actived':'']" @click="doUniSort">
+			<div :class="['general',+search.sortMark===2?'actived':'']" @click="doUniSort">
 				<span>综合排序</span>
 				<!-- <img class="upon" :src="curOpt==='gen-asc'?icon.UponAct:icon.Upon" />
 				<img class="downon" :src="curOpt==='gen-desc'?icon.DownonAct:icon.Downon"/> -->
 			</div>
-			<div :class="['fil-price',(curOpt==='pri-desc'||curOpt==='pri-asc')?'actived':'']" @click="doPriceSort">
+			<div :class="['fil-price',+search.sortMark===1?'actived':'']" @click="doPriceSort">
 				<span>价格</span>
 				
-				<img class="upon" :src="curOpt==='pri-asc'?icon.UponAct:icon.Upon"/>
-				<img class="downon" :src="curOpt==='pri-desc'?icon.DownonAct:icon.Downon"/>
+				<img class="upon" :src="+search.sortType===1?icon.UponAct:icon.Upon" width="6" height="4" />
+				<img
+				  class="downon"
+				  :src="+search.sortType===0?icon.DownonAct:icon.Downon"
+				  width="6"
+				  height="4"
+				/>
 			</div>
 			<div :class="['filter',(search.priceBegin || search.priceEnd || search.place)?'actived':'']" @click="isShow = true">
 				<span>筛选</span>
@@ -56,24 +61,23 @@
 		getList
 	} from "@/api/goodsApi.js";
 	import T from '@/utils/tips.js'
-	export default {
+	var vm = {
 		data() {
+      vm = this;
 			return {
 				loading: false,
 				hasData: false,
 				search: {
-					// attrValueList: ["string"],
-					attrValueList:[],
-					platform:0,
-					keywords: '',
-					pageIndex: 1,
-					pageSize: 10,
-					place: "",
-					priceBegin: "",
-					priceEnd: "",
-					sortMark:"",
-					sortColumn: /* 综合:universal 价格：price */ "universal",
-					sortType: /* 排序类型（0.降序 1.升序） */ 0
+				  // attrValueList: ["string"],
+				  keywords: '',
+				  attrValueList: [],
+				  pageIndex: 1,
+				  pageSize: 10,
+				  areaId: "",
+				  priceBegin: "",
+				  priceEnd: "",
+				  sortMark: /* 综合:2 价格：1 */ 2,
+				  sortType: /* 排序类型（0.降序 1.升序） */ 0
 				},
 				list: [],
 				icon: {
@@ -93,8 +97,8 @@
 			Panel,Good
 		},
 		onLoad(options) {
-			if(options.search){
-				this.search.keywords = options.search;
+			if(options.keywords){
+				this.search.keywords = options.keywords;
 			}else{
 				this.search.attrValueList = [];
 				this.search.attrValueList.push(options.attrValueList);
@@ -107,7 +111,10 @@
 			this.loadMore()
 		},
 		methods: {
-			
+			reset(){
+        vm.search.pageIndex = 1;
+        vm.load()
+      },
 			doSearch(){
 				this.search.attrValueList = []
 				this.search.pageIndex = 1
@@ -151,25 +158,33 @@
 				this.list = [];
 				this.load();
 			},
-			load() {
-				let params = {};
-				for (let k in this.search) {
-					if (this.search[k] !== "") {
-						params[k] = this.search[k];
-					}
-				}
-				getList(params).then(data => {
-					if(data.code == '1000'){
-						
-						this.list = this.list.concat(data.data.records)
-						this.hasData = this.list.length <= 0
-						this.loading = this.list.length < data.data.total
-					}else{
-						T.tips(data.message || '操作失败')
-						this.hasData = this.list.length <= 0
-					}
-					
-				});
+			load(isRecord) {
+			  if (isRecord) {
+			    vm.search.pageIndex = 1;
+			    vm.setRecord();
+			  }
+			  uni.showLoading({
+			      title: '加载中'
+			  });
+			  let params = {};
+			  for (let k in vm.search) {
+			    if (vm.search[k] !== "") {
+			      params[k] = vm.search[k];
+			    }
+			  }
+			
+			  if(params.sortMark === 2){
+			    delete params.sortType
+			  }
+			  getList(params).then(data => {
+			    vm.list = data.data.records;
+			    vm.total = data.data.total;
+			    // vm.$nextTick(() => {
+			    //   lazyLoad.start();
+			    // });
+			    uni.hideLoading();
+			  });
+			  ++vm.search.pageIndex;
 			},
 			loadMore() {
 				if(this.loading){
@@ -187,6 +202,7 @@
 			}
 		}
 	}
+  export default vm
 </script>
 
 <style lang="scss" scoped>
