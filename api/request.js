@@ -68,7 +68,7 @@ const request = function(params = {}) {
 		}  
 		console.log('apiUrl:',apiUrl)
 		console.log(params.url.indexOf('/ws'))
-		if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1) {
+		if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1 || params.url.indexOf('/pay') != -1) {
 			apiUrl = apiUrl.split('/ws')[0]
 		}else{
 			if(apiUrl.indexOf('/ws') == -1){

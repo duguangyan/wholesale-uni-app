@@ -1,34 +1,106 @@
 <template>
 	<view>
-		<div class="setting">
-		    <div class="list">
-		      <div class="cf li" @click="goProtocal">
-		        <div class="fll fs28">服务条款与协议</div>
-		        <div class="icon flr">
-		          <img src="@/static/img/tag-go.png" />
-		        </div>
-		      </div>
-		      <div class="cf li"  @click="goAbout">
-		        <div class="fll fs28">关于我们</div>
-		        <div class="icon flr">
-		          <img src="@/static/img/tag-go.png" />
-		        </div>
-		      </div>
-		    </div>
-		    <div class="exit fs32" @click="showDialog" v-if="isLogin">退出登录</div>
-		  </div>
+		<view class="setting">
+			<view class="items">
+				<view class="title">基本信息</view>
+				<view class="list">
+				  <view class="cf li header">
+				    <view class="fll fs28">我的头像</view>
+				    <view class="icon flr">
+				      <image src="../../../static/img/tag-go.png" />
+				    </view>
+					<view class="image flr" @click="onUpload">
+						<image :src="headImgUrl" mode=""></image>
+					</view>
+				  </view>
+				  <view class="cf li">
+				    <view class="fll fs28">我的姓名</view>
+		
+					<view class="flr fs30 text-999 value">农百集</view>
+				  </view>
+				  
+				  <view class="cf li">
+				    <view class="fll fs28">手机号</view>
+				    <view class="icon flr" @click="goChangePhone">
+				      <image src="../../../static/img/tag-go.png" />
+				    </view>
+				  	<view class="flr fs30 text-999 value" @click="goChangePhone">{{phone}}</view>
+				  </view>
+				</view>
+			</view>
+			
+			<view class="items" v-if="roleId == 20001 || roleId == 20002">
+				<view class="title">行业信息</view>
+				<view class="list">
+				 
+				 <view class="cf li">
+				   <view class="fll fs28">我的身份</view>
+				   
+				   <view class="flr fs30 text-999 value">{{roleId == 20001?'货主':'代办'}}</view>
+				 </view>
+				 
+				  <view class="cf li" v-if="roleId == 20001">
+				    <view class="fll fs28">经验类型</view>
+				    
+					<view class="flr fs30 text-999 value">{{categoryName}}</view>
+				  </view>
+				  
+				  <view class="cf li">
+				    <view class="fll fs28">{{roleId == 20001?'经营地址':'代办地址'}}</view>
+				    
+				  	<view class="flr fs30 text-999 value">{{province + city + region}}</view>
+				  </view>
+				</view>
+			</view>
+			
+		  <!--  <view class="list">
+		      <view class="cf li" @click="goProtocal">
+		        <view class="fll fs28">服务条款与协议</view>
+		        <view class="icon flr">
+		          <image src="@/static/img/tag-go.png" />
+		        </view>
+		      </view>
+		      <view class="cf li"  @click="goAbout">
+		        <view class="fll fs28">关于我们</view>
+		        <view class="icon flr">
+		          <image src="@/static/img/tag-go.png" />
+		        </view>
+		      </view>
+		    </view> -->
+			
+		    <view class="footer-btn" @click="showDialog" v-if="isLogin">退出登录</view>
+		  </view>
 	</view>
 </template>
 
 <script>
+	import { postUpdateNickname } from '@/api/userApi.js'
 	export default {
 		data() {
 			return {
-				isLogin: false
+				isLogin: false,
+				headImgUrl: '../../../static/img/icon-user.png',
+				phone:'',
+				roleId:'',
+				categoryName:'',
+				province:'',
+				city:'',
+				region:''
 			};
 		},
 		onShow() {
-			this.isLogin = uni.getStorageSync('access_token')
+			// 获取缓存数据
+			this.isLogin    = uni.getStorageSync('access_token')
+			this.phone      = uni.getStorageSync('phone') || ''
+			this.roleId     = uni.getStorageSync('roleId')
+			this.headImgUrl = uni.getStorageSync('headImgUrl')
+			if(uni.getStorageSync('userApply')){
+				let userApply     = JSON.parse(uni.getStorageSync('userApply'))
+				this.categoryName = userApply.categoryName || ''
+				this.province     = userApply.province || ''
+				this.city         = userApply.city || ''
+				this.region       = userApply.region || ''
+			}
 		},
 		methods:{
 			showDialog() {
@@ -38,7 +110,7 @@
 				  confirmText: '退出',
 			      success: function (res) {
 			          if (res.confirm) {
-			              let records = uni.getStorageSync('records')
+			              let records  = uni.getStorageSync('records')
 						  let platform = uni.getStorageSync('platform')
 			              uni.clearStorageSync() // 清除缓存
 						  uni.setStorageSync('records',records)
@@ -52,16 +124,81 @@
 			      }
 			  });
 			},
-			goProtocal(){
+			// 修改手机号
+			goChangePhone(){
 				uni.navigateTo({
-					url:'/pages/user/protocal/protocal'
+					url:'/pages/user/setting/changePhone'
 				})
 			},
-			goAbout(){
-				uni.navigateTo({
-					url:'/pages/user/about/about'
+			// 上传头像
+			onUpload(e) {
+				let _this = this
+				// #ifdef H5
+				let file     = e.target.files[0];
+				let formdata = new FormData();
+				formdata.append('file', file);
+				postUserImgUpload(formdata).then(res => {
+					if (res.code == '1000') {
+						this.uploadUserHeadImg(res.data)
+					} else {
+						T.tips(res.message || '上传图片失败')
+					}
+				}).catch(err => {
+					T.tips(err.message || '上传图片失败')
+				})
+				// #endif
+				
+				// #ifdef APP-PLUS || MP-WEIXIN 
+				
+				uni.chooseImage({
+				    count: 1, //默认9
+				    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album','camera'], //从相册选择
+				    success: function (res) {
+						const tempFilePaths = res.tempFilePaths;
+						let url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'https://m.qinlvny.com/upms/userImg/upload'
+						uni.uploadFile({
+							url: url, //仅为示例，非真实的接口地址
+							filePath: tempFilePaths[0],
+							name: 'file',
+							success: (uploadFileRes) => {
+								console.log(uploadFileRes);
+								let res = JSON.parse(uploadFileRes.data)
+								if (res.code === '1000') {
+									_this.uploadUserHeadImg(res.data)
+								} else {
+									T.tips(res.message || '上传图片失败')
+								}
+							},
+							fail:(err) => {
+								T.tips('上传图片失败')
+							}
+						});
+				    }
+				});  
+				// #endif
+				
+			
+			},
+			uploadUserHeadImg(url) {
+				let data = {
+					headImgUrl: url
+				}
+				
+				postUpdateNickname(data).then(res => {
+					if (res.code === '1000') {
+						this.headImgUrl = url
+						uni.setStorageSync('headImgUrl',url)
+						T.tips(res.message || '头像上传成功')
+					} else {
+						T.tips(res.message || '上传图片失败')
+					}
+				}).catch(err => {
+					T.tips(err.message || '上传图片失败')
 				})
 			}
+			
+			
 		}
 	}
 </script>
@@ -70,12 +207,21 @@
 .icon-img2,.icon-img{
 	width: 22upx;
 	height: 22upx;
-	>img{
+	>image{
 		width: 100%;
 		height: 100%;
 	}
 }
 .setting {
+	.footer-btn{
+		height: 100upx;
+		line-height: 100upx;
+		background: #fff;
+		margin-top: 20upx;
+		text-align: center;
+		color: #000;
+		font-size: 30upx;
+	}
   &::before {
     content: '';
     display: block;
@@ -87,9 +233,18 @@
     height: 100vh;
     width: 100%;
   }
-  position: relative;
+  .items{
+	  .title{
+		height: 60upx;
+		line-height: 60upx;
+		font-size: 28upx;
+		color: #999;
+		position: relative;
+		left: 30upx;
+	  }
+  }
   .list {
-    margin-top: 20upx;
+    //margin-top: 20upx;
 	
     .li {
 		height: 100upx;
@@ -97,14 +252,38 @@
 		background: #fff;
 		padding: 0 30upx;
 		border-bottom: 1upx solid #F5F5F5;
-		.icon{
-			width: 22upx;
-			height: 22upx;
-			img{
+		.value{
+			position: relative;
+			right: 20upx;
+			top: 2upx;
+		}
+		.image{
+			width: 90upx;
+			height: 90upx;
+			position: relative;
+			top: 28upx;
+			right: 10upx;
+			
+			image{
 				width: 100%;
 				height: 100%;
 			}
 		}
+		.icon{
+			width: 22upx;
+			height: 22upx;
+			position: relative;
+			
+			z-index: 9999;
+			image{
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
+	.header{
+		height: 140upx;
+		line-height: 140upx;
 	}
   }
   .exit{

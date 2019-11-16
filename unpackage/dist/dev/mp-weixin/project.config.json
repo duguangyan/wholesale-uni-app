@@ -7,7 +7,7 @@
 		"urlCheck": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.7.0",
+	"libVersion": "2.9.2",
 	"appid": "touristappid",
 	"projectname": "农百集",
 	"simulatorType": "wechat",
@@ -21,13 +21,42 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
+			"current": -1,
+			"list": []
+		},
+		"gamePlugin": {
 			"current": -1,
 			"list": []
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": []
+			"list": [
+				{
+					"id": -1,
+					"name": "pages/middle/release/sendSuccess/sendSuccess",
+					"pathName": "pages/middle/release/sendSuccess/sendSuccess",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/middle/release/sendFail/sendFail",
+					"pathName": "pages/middle/release/sendFail/sendFail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/middle/release/release",
+					"pathName": "pages/middle/release/release",
+					"scene": null
+				}
+			]
 		}
 	}
 }

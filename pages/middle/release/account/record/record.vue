@@ -33,23 +33,35 @@
 </template>
 
 <script>
-	import uniList from "@/components/uni-list/uni-list.vue"
-	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
-	import uniIcons from "@/components/uni-icons/uni-icons.vue"
+	import { fundRecordList } from '@/api/payApi.js'
 	export default {
 		data() {
 			return {
-				is50: true
+				is50: true,
+				pageIndex:1,
+				records:[]
 			};
 		},
-		components: {uniIcons,uniList,uniListItem},
+		components: {},
 		onLoad() {
 			
 		},
 		onShow() {
-			
+			//  获取账单列表
+			this.getFundRecordList()
 		},
 		methods:{
+			//  获取账单列表
+			getFundRecordList(){
+				let data = {
+					pageIndex: this.pageIndex
+				}
+				fundRecordList(data).then(res=>{
+					if(res.code == '1000') {
+						this.records = res.data
+					}
+				})
+			},
 			// 去订单详情
 			goDetail(){
 				uni.navigateTo({

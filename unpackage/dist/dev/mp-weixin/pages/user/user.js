@@ -122,7 +122,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 536));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var TabBar = function TabBar() {return __webpack_require__.e(/*! import() | components/common/TabBar */ "components/common/TabBar").then(__webpack_require__.bind(null, /*! @/components/common/TabBar.vue */ 556));};var _default =
 
 
 
@@ -188,10 +188,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       checkIndex: 2,
       titles: [
-      { t: '待付款', u: '/static/img/icon-waitpay.png' },
-      { t: '待发货', u: '/static/img/icon-waitsend.png' },
-      { t: '待收货', u: '/static/img/icon-waitrecive.png' },
-      { t: '已完成', u: '/static/img/icon-done.png' }],
+      { t: '待确认', u: '/static/imgs/icon-1008.png' },
+      { t: '待支付', u: '/static/imgs/icon-1005.png' },
+      { t: '待发货', u: '/static/imgs/icon-1006.png' },
+      { t: '待收货', u: '/static/imgs/icon-1007.png' },
+      { t: '已完成', u: '/static/imgs/icon-1004.png' }],
 
       isLogin: false,
       uid: '',
@@ -199,16 +200,11 @@ __webpack_require__.r(__webpack_exports__);
       headimageUrl: '/static/img/icon-user.png',
       nickName: '',
       platform: 0,
-      userRealInfo: '',
-      userApply: '' };
+      roleId: '' };
 
   },
   components: { TabBar: TabBar },
-  onTabItemTap: function onTabItemTap(e) {
-    uni.setStorageSync('pagePath', 'user');
-  },
   onLoad: function onLoad() {
-    uni.setStorageSync('pagePath', 'user');
 
   },
   onShow: function onShow() {
@@ -222,9 +218,7 @@ __webpack_require__.r(__webpack_exports__);
     this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png';
     // 判断是否登录
     this.isLogin = this.uid != '';
-
-    // 判断用户类型
-    this.assessUserType();
+    this.roleId = uni.getStorageSync('roleId') || '';
   },
   computed: {
     dPhone: function dPhone() {
@@ -232,62 +226,10 @@ __webpack_require__.r(__webpack_exports__);
     } },
 
   methods: {
-    // 判断用户类型
-    assessUserType: function assessUserType() {
-      // 设置底部tab样式
-      this.roleId = uni.getStorageSync('roleId');
-
-      if (this.roleId) {
-        if (this.roleId == '20002') {
-          uni.setTabBarItem({
-            index: 1,
-            text: '代办',
-            iconPath: '/static/img/2.1.png',
-            selectedIconPath: '/static/img/2.2.png' });
-
-
-        } else if (this.roleId == '20001') {
-          uni.setTabBarItem({
-            index: 1,
-            text: '我要卖',
-            iconPath: '/static/img/4.1.png',
-            selectedIconPath: '/static/img/4.2.png' });
-
-        }
-      }
-
-      this.userRealInfo = uni.getStorageSync('userRealInfo');
-      this.userApply = uni.getStorageSync('userApply');
-
-
-
-      if (uni.getStorageSync('access_token')) {
-        if (this.userRealInfo == "" && this.userApply == "") {
-          uni.redirectTo({
-            url: '/pages/middle/identity/identity' });
-
-        }
-        if (this.userRealInfo != "" && this.userApply == "") {
-          uni.switchTab({
-            url: '/pages/middle/middle' });
-
-        }
-      }
-
-
-    },
     // 去收藏页面
     goCollection: function goCollection() {
-
-      if (!uni.getStorageSync('access_token')) {
-        uni.navigateTo({
-          url: '/pages/login/login' });
-
-      } else {
-        uni.navigateTo({
-          url: '/pages/user/collection/collection' });
-
-      }
+      uni.navigateTo({
+        url: '/pages/user/collection/collection' });
 
     },
     // 去设置页面
@@ -298,27 +240,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 去订单页面
     goOrderList: function goOrderList(index) {
-      if (uni.getStorageSync('access_token')) {
-        var i = index === '' ? '' : index + 1;
-        uni.setStorageSync('orderNavIndex', i);
-        uni.navigateTo({
-          url: '/pages/user/order/list' });
-
-      } else {
-        uni.navigateTo({
-          url: '/pages/login/login' });
-
-      }
+      var i = index === '' ? '' : index + 1;
+      if (index == 4) i = '';
+      uni.setStorageSync('orderNavIndex', i);
+      uni.navigateTo({
+        url: '/pages/user/order/list' });
 
     },
     goInfo: function goInfo() {
       if (this.isLogin) {
         uni.navigateTo({
           url: '/pages/user/info/info' });
-
-      } else {
-        uni.navigateTo({
-          url: '/pages/login/login' });
 
       }
     },

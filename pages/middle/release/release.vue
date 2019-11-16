@@ -1,22 +1,22 @@
 <template>
 	<view class="relesase">
 		<view class="top">
-			<view class="camera" @click="actionSheetTap" v-if="true">
+			<view class="camera" @click="actionSheetTap" v-if="goodsImgList.length<=0">
 				<view class="image"><image src="../../../static/imgs/icon-1034.png" mode=""></image></view>
 				<view class="fs28 text-333">上传图片/视频的货品更有吸引力</view>
 				<view class="fs24 text-999">(最少需上传1张)</view>
 			</view>
-			<view v-if="false">
+			<view v-if="goodsImgList.length>0">
 				<view class="edit flex">
 					<view class="flex-1">
 						<view class="image">
-							<image src="../../../static/img/1.1.png" mode=""></image>
+							<image :src="goodsImg" mode=""></image>
 						</view>
-						<view class="video">
+						<view class="video"  v-if="goodsImgList[0].imgs.length<=0" @click="goVideo(goodsImgList[0].videos[0].url)">
 							<image src="../../../static/imgs/icon-1038.png" mode=""></image>
 						</view>
 					</view>
-					<view class="flex-1">
+					<view class="flex-1" @click="editGoodsImgList">
 						<view class="btn">编辑图片</view>
 					</view>
 				</view>
@@ -25,7 +25,7 @@
 		<view class="content">
 			<view class="title">
 				<view class="name fs34 text-333">货品标题</view>
-				<view class="input fs24"><input type="text" maxlength="50" v-model="goodsTitile" placeholder="输入货品标题方便用户找到你的货品15-50个字以内"></view>
+				<view class="input fs24"><input type="text" @input="checkTitle" maxlength="50" v-model="goodsTitile" placeholder="输入货品标题方便用户找到你的货品15-50个字以内"></view>
 				
 				<view class="items">
 					<view class="item cf" @click="goVarieties" >
@@ -64,21 +64,27 @@
 		
 		
 		
-		<view class="big-btn-active" @click="doRelease">发布货品</view>
+		<view class="big-btn-active" :class="{nodata:hasData}" @click="doRelease">发布货品</view>
 	</view>
 </template>
 
 <script>
 	import T from '@/utils/tips.js'
+	import { postSaveGoods } from '@/api/goodsApi.js'
 	export default {
 		data() {
 			return {
+				hasData:true,
 				goodsTitile:'',
 				num: 0,
 				textareaValue:'',
 				varieties:'',
 				attribute:'',
 				price:'',
+				goodsImg:'',
+				goodsImgList:[],
+				goodsImgLists:[],
+				goodsSkuList:[]
 			};
 		},
 		components: {},
@@ -86,15 +92,277 @@
 			
 		},
 		onShow() {
-			this.varieties = JSON.parse(uni.getStorageSync('varieties')).name 
-			this.attribute = uni.getStorageSync('attribute')
-			this.price     = uni.getStorageSync('price')
+			// 获取缓存数据
+			this.getStorageSyncBySelf()
+			
+			
 		},
 		methods:{
 			// 发布货品
 			doRelease(){
+				// 数据验证
+				if(this.goodsImg == ''){
+					T.tips('请上传图片')
+					return false
+				}
+				if(this.goodsTitile == ''){
+					T.tips('请填写标题名称')
+					return false
+				}
+				if(this.varieties == ''){
+					T.tips('请填写货品品种')
+					return false
+				}
+				if(this.attribute == ''){
+					T.tips('请填写货品属性')
+					return false
+				}
+				if(this.price == ''){
+					T.tips('请填写货品价格')
+					return false
+				}
+				if(this.textareaValue == ''){
+					T.tips('请填写货品描述')
+					return false
+				}
+				
+				
+				// 分类信息
+				let categorysValues = uni.getStorageSync('categorysValues')
+				// 分类input填写信息
+				let categorysInput = uni.getStorageSync('categorysInput')
+				// 分类地址信息
+				let addCategoryAddress = uni.getStorageSync('addCategoryAddress')
+				// 分类自己填写信息
+				let addCategoryAttributes = uni.getStorageSync('addCategoryAttributes')
+				// 上传图片
+				let goodsImgList = uni.getStorageSync('goodsImgList')
+				// SKU价格信息
+				let goodsSkuList = uni.getStorageSync('goodsSkuList')
+				
+				// 数据处理 适配后台DTO
+				let goodsAttrList = []
+				if(addCategoryAddress){
+					addCategoryAddress = JSON.parse(addCategoryAddress)
+					let obj = {
+						categoryAttrId:'',
+						goodsAttrValueList:[
+							{
+								categoryAttrId:'',
+								remark:addCategoryAddress.province + addCategoryAddress.city,
+								sort:1,
+								value:addCategoryAddress.cityId	
+							}
+						],
+						goodsId:'',
+						name:'产地',
+						nameGroup:'',
+						sort:1
+					}
+					goodsAttrList.push(obj)
+				}
+				if(categorysValues.length>0){
+					categorysValues.forEach((item,index)=>{
+						if(item.valueSet.length>0){
+							
+							let goodsAttrValueList = []
+							item.valueSet.forEach((it,ix)=>{
+								if(it.isCheck){
+									let obj = {
+										categoryAttrId:'',
+										remark:'',
+										sort:ix+1,
+										value:it.value
+									}
+									goodsAttrValueList.push(obj)
+								}
+							})
+							
+							let obj = {
+								categoryAttrId:'',
+								goodsAttrValueList,
+								goodsId:'',
+								name:item.name,
+								nameGroup:'',
+								sort:index + 2
+							}
+							goodsAttrList.push(obj)
+						}
+					})
+				}
+				if(categorysInput.length>0){
+					categorysInput.forEach((item,index)=>{
+						if(item.valueSet.length>0){
+							let obj = {
+								categoryAttrId:'',
+								goodsAttrValueList:[
+									{
+										categoryAttrId:'',
+										remark:'',
+										sort:item.isCheckIndex+1,
+										value:item.valueSet[item.isCheckIndex].value	
+									}
+								],
+								goodsId:'',
+								name:item.name,
+								nameGroup:'',
+								sort:goodsAttrList.length + 1 + index
+							}
+							goodsAttrList.push(obj)
+						}
+					})
+				}
+				
+				
+				// 编辑图片
+				if(goodsImgList && goodsImgList.length>0){
+					
+					if(goodsImgList[0].imgs.length>0){
+						this.utilGoodsImgLists(goodsImgList,0,1)
+					}
+					
+					if(goodsImgList[0].videos.length>0){
+						this.utilGoodsImgLists(goodsImgList,0,2)		
+						this.utilGoodsImgLists(goodsImgList,0,3)
+					}
+					
+					if(goodsImgList[1].imgs.length>0){
+						this.utilGoodsImgLists(goodsImgList,1,1)
+					}
+					if(goodsImgList[1].videos.length>0){
+						this.utilGoodsImgLists(goodsImgList,1,2)		
+						this.utilGoodsImgLists(goodsImgList,1,3)
+					}
+					
+				}
+				// 构造后台DTO
+				let GoodsSaveAndEditReq = {
+					brandId:'',
+					categoryId:JSON.parse(uni.getStorageSync('varieties')).id,
+					detail:this.textareaValue,
+					goodsAttrList,
+					goodsImgList:this.goodsImgLists,
+					goodsSkuList,
+					goodsSpecList:[
+						{
+						  "categorySpecId": "",
+						  "goodsSpecValueList": [
+							{
+							  "goodsSpecId": "",
+							  "id": "",
+							  "sort": 1,
+							  "value": goodsSkuList[0].unit
+							}
+						  ],
+						  "id": "",
+						  "name": goodsSkuList[0].unit,
+						  "sort": 1,
+						  "valueSuffix": ""
+						}
+					  ],
+					imgUrl:'',
+					keywords:'',
+					name: this.goodsTitile,
+					purchaseNotes:'',
+					saveType:'',
+					shopCategoryId:'',
+					shopId:'',
+					showStyle:2,
+					sort:1,
+					unit:goodsSkuList[0].unit
+				}
+				
+				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)
+				postSaveGoods(GoodsSaveAndEditReq).then(res=>{
+					if(res.code == '1000'){
+						uni.navigateTo({
+							url:'/pages/middle/release/sendSuccess/sendSuccess'
+						})
+					}else{
+						T.tips(res.message || '发布失败')
+					}
+				}).catch(err=>{
+					uni.navigateTo({
+						url:'/pages/middle/release/sendFail/sendFail'
+					})
+				})
 				
 			},
+			// 编辑图片方法 i 1主图还是2详情  ii 类型 1图片 2视频 3视频截图
+			utilGoodsImgLists(goodsImgList,i,ii){
+				goodsImgList[i].imgs.forEach(item=>{
+					let obj = {
+								goodId:'',
+								imgUrl:item,
+								primaryType:i + 1,
+								sort:1,
+								type:ii
+							}
+					this.goodsImgLists.push(obj)
+				})	
+			},
+			// 获取缓存数据
+			getStorageSyncBySelf(){
+				
+				this.textareaValue = uni.getStorageSync('textareaValue') || ''
+				this.goodsTitile = uni.getStorageSync('goodsTitile') || ''
+				
+				if(uni.getStorageSync('varieties')){
+					this.varieties = JSON.parse(uni.getStorageSync('varieties')).name 
+				}
+			
+				if(uni.getStorageSync('attribute')){
+					this.attribute = uni.getStorageSync('attribute')
+				}
+				
+				this.goodsSkuList = uni.getStorageSync('goodsSkuList')
+				let arr = []
+				if(this.goodsSkuList){
+					this.goodsSkuList[0].priceExpList.forEach(item=>{
+						arr.push(item.price)
+					})
+					
+					arr.sort(function (a, b) {
+					  return a-b;
+					});
+					let min = arr[0];  
+					let max = arr[arr.length - 1];  
+					this.price     = "￥" + min + "~" + "￥" + max
+				}
+				
+				this.goodsImgList = uni.getStorageSync('goodsImgList') || []
+					
+				if(this.goodsImgList.length>0){
+					if(this.goodsImgList[0].imgs.length > 0){
+						this.goodsImg = this.goodsImgList[0].imgs[0]
+					}else{
+						this.goodsImg = this.goodsImgList[0].videos[0].zipUrl
+					}
+				}
+				this.assessHasData()
+			},
+			// 判断是否可以提交数据
+			assessHasData(){
+				this.hasData = this.goodsImg == '' || this.goodsTitile == '' || this.varieties == '' || this.attribute == '' || this.price == '' || this.textareaValue == ''
+			},
+			checkTitle(){
+				this.assessHasData()
+				uni.setStorageSync('goodsTitile',this.goodsTitile)
+			},
+			
+			// 编辑图片
+			editGoodsImgList(){
+				uni.navigateTo({
+					url:'/pages/middle/release/chooseImage/chooseImage'
+				})
+			},
+			// 查看视频
+			goVideo(url){
+				uni.navigateTo({
+					url:'/pages/common/video/video?url='+url
+				})
+			},
+			
 			goPage(index){
 				switch (index){
 					case 0:
@@ -140,6 +408,8 @@
 			textareaInput(e){
 				this.num = e.detail.cursor
 				this.textareaValue = e.detail.value
+				uni.setStorageSync('textareaValue',this.textareaValue)
+				this.assessHasData()
 			},
 			// 清空货物描述
 			clearTextarea(){
@@ -196,6 +466,9 @@
 	.relesase{
 		.big-btn-active{
 			margin: 30upx auto;
+		}
+		.nodata{
+			background: #d9d9d9 !important;
 		}
 		.footer{
 			background: #fff;

@@ -22,20 +22,31 @@
 					
 				],
 				item:'',
-				roleId:''
+				roleId:'',
+				index: 0
 			};
 		},
 		components:{Goodx},
+		onLoad(options) {
+			if(options.index) this.index = options.index
+		},
 		onShow() {
 			this.roleId = uni.getStorageSync('roleId')
 			if(this.roleId == '20001'){
 				uni.setNavigationBarTitle({
-				    title: '本地货品'
+				    title: '我的货品'
 				});
 			}else if(this.roleId == '20002'){
-				uni.setNavigationBarTitle({
-				    title: '新发布'
-				});
+				if(this.index == 0) {
+					uni.setNavigationBarTitle({
+					    title: '新发布'
+					});
+				}else{
+					uni.setNavigationBarTitle({
+					    title: '本地货品'
+					});
+				}
+				
 			}
 			
 		}
