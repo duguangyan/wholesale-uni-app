@@ -275,7 +275,7 @@
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)
 				postSaveGoods(GoodsSaveAndEditReq).then(res=>{
 					if(res.code == '1000'){
-						uni.navigateTo({
+						uni.reLaunch({
 							url:'/pages/middle/release/sendSuccess/sendSuccess'
 						})
 					}else{

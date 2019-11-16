@@ -2,6 +2,7 @@
 	<div class="detail">
 		<div class="top">
 			<div class="img">
+				<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 				<img v-if="status == -1" src="@/static/img/icon-order-4.png" alt="图片">
 				<img v-if="status == 0" src="@/static/img/icon-order-2.png" alt="图片">
 				<img v-if="status == 1" src="@/static/img/icon-order-5.png" alt="图片">
@@ -12,9 +13,7 @@
 				<img v-if="status == -2" src="@/static/img/icon-order-5.png" alt="图片">
 			</div>
 			<div class="annoc">
-				<!--      状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭-->
 				<div class="title" v-if="order.shopOrder">{{statusText}}</div>
-				<!--        <div class="sub">大口大口大口大口</div>-->
 				<div class="sub tick cf" v-if="order.expiresTime && order.expiresTime>0">
 					<div class="icon fll" :class="{'Android': platform == 1}">
 						<img src="@/static/img/icon-tick.png" width="10" height="10" alt="">
@@ -266,7 +265,6 @@
 				getOrderDetailById(data).then(res => {
 					if (res.code === '1000') {
 						this.order = res.data[0]
-
 						if (this.order.shopOrder.status == 0 || this.order.shopOrder.status == 3) {
 							let expiresTime = this.order.expiresTime
 							this.timer = setInterval(() => {

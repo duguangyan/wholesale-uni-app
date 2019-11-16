@@ -28,20 +28,39 @@
 				
 			};
 		},
+		onShow() {
+			// 去除缓存
+			this.doClearStorageSync()
+		},
 		methods:{
+			// 去除缓存
+			doClearStorageSync(){
+				uni.clearStorageSync('goodsTitile')
+				uni.clearStorageSync('varieties')
+				uni.clearStorageSync('addCategoryAddress')
+				uni.clearStorageSync('addCategoryAttributes')
+				uni.clearStorageSync('categorysInput')
+				uni.clearStorageSync('categorysValues')
+				uni.clearStorageSync('attribute')
+				uni.clearStorageSync('goodsSkuList')
+				uni.clearStorageSync('textareaValue')
+			},
+			// 返回首页
 			goBack(){
 				uni.switchTab({
 					url:'/pages/main/main'
 				})
 			},
+			// 再发一条
 			resBack(){
 				uni.redirectTo({
-					url:'/pages/middle/release/release?from=0'
+					url:'/pages/middle/release/release'
 				})
 			},
+			// 预览
 			showBack(){
 				uni.redirectTo({
-					url:'/pages/middle/release/release?from=1'
+					url:'/pages/middle/release/release'
 				})
 			}
 		}
