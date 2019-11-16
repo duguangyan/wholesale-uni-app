@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "信息填写",
-  "usingComponents": {
-    "uni-list": "/components/uni-list/uni-list",
-    "uni-list-item": "/components/uni-list-item/uni-list-item",
-    "mpvue-city-picker": "/components/common/mpvue-citypicker/mpvueCityPicker"
-  }
-}

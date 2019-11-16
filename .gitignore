@@ -1,0 +1,17 @@
+node_modules
+dist
+unpackage
+.ync_output
+.coverage
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/test/unit/coverage/
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
