@@ -4,7 +4,7 @@ const getList = data => {
     url: '/api/search/goods/search',
     method: 'post',
     data,
-    isIndicator: true
+    isIndicator: true 
   })
 }
 
