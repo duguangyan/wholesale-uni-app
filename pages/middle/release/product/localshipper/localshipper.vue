@@ -2,13 +2,13 @@
 	<view class="localshipper">
 		<view v-if="items.length>0">
 			<view class="tip">
-				以下为廊坊市地区货主联系方式
+				以下为廊坊市地区{{roleId == 20002?'货主':'代办'}}联系方式
 			</view>
 			<view class="items">
 				<view class="item flex" v-for="(item,index) in items" :key="index">
 					<view class="flex-1 fs28 text-333">{{item.name}}</view>
 					<view class="flex-2 fs28 text-666">{{item.phone}}</view>
-					<view class="flex-1"><view class="btn" @click="callByPhone(item.phone)">联系货主</view></view>
+					<view class="flex-1"><view class="btn" @click="callByPhone(item.phone)">联系{{roleId == 20002?'货主':'代办'}}</view></view>
 				</view>
 			</view>
 		</view>
@@ -17,7 +17,7 @@
 				<image src="../../../../../static/imgs/localshipper.png" mode=""></image>
 			</view>
 			<view class="fs24 text-999">
-				该地区还没有货主
+				该地区还没有 {{roleId == 20002?'货主':'代办'}}
 			</view>
 		</view>
 		
@@ -33,8 +33,21 @@
 						name:'农百集',
 						phone:'15817390700'
 					}
-				]
+				],
+				roleId:''
 			};
+		},
+		onShow() {
+			this.roleId = uni.getStorageSync('roleId')
+			if(this.roleId == '20001'){
+				uni.setNavigationBarTitle({
+				    title: '本地代办'
+				});
+			}else if(this.roleId == '20002'){
+				uni.setNavigationBarTitle({
+				    title: '本地货主'
+				});
+			}
 		},
 		methods:{
 			// 联系货主

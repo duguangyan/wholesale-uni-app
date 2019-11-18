@@ -1,2 +1,0 @@
-setCssToHead([".",[1],"video.",[1],"data-v-453e9a59 { height: 100vh; background: #000; }\n.",[1],"video wx-video.",[1],"data-v-453e9a59 { width: 100%; line-height: 100%; margin-top: ",[0,100],"; }\n",],undefined,{path:"./pages/order/goodsDetail/video/video.wxss"})();
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/order/goodsDetail/video/video.wxml') } }));

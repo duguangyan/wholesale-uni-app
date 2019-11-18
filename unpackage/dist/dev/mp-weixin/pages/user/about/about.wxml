@@ -1,1 +1,0 @@
-<view class="data-v-8a6da2aa"><view class="about _div data-v-8a6da2aa"><view class="img _div data-v-8a6da2aa"><image src="{{$root.m0}}" class="_img data-v-8a6da2aa"></image></view><view class="text _div data-v-8a6da2aa">沁绿农业科技有限公司</view><view class="text _div data-v-8a6da2aa">{{v}}</view></view></view>

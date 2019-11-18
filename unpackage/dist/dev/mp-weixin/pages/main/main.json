@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "沁绿农业",
-  "enablePullDownRefresh": true,
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "tab-bar": "/components/common/TabBar",
-    "swiper-dot": "/components/common/SwiperDotByMain"
-  }
-}

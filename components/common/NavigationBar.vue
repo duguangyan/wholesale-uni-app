@@ -10,7 +10,7 @@
 			  <!--  #endif -->
 		  </view>
 		  <view class="title fs28" :class="{'Android': platform == 1}">{{title}}</view>
-		  <!--  #ifdef  APP-PLUS || H5 -->
+		  <!--  #ifdef  APP-PLUS || H5 || MP-WEIXIN -->
 		  <view class="click flr fs24" v-if="isClick" @click="doClick">{{clickTitle}}</view>
 		  <!--  #endif -->
 		  
@@ -76,7 +76,7 @@ export default {
 	}
 	.navigationBar{
 		padding-top: var(--status-bar-height);
-		height: 160upx;
+		height: 80upx;
 		position: fixed;
 		top: 0;
 		width: 100%;
@@ -113,12 +113,13 @@ export default {
 				top: 0upx;
 				z-index: 99999;
 			}
+			
+			/* #ifdef MP-WEIXIN */  
+			.click{
+				right: 180upx;
+			}
+			/* #endif */ 
+			
 		}
 	}
-	/*  #ifdef  MP-WEIXIN  */
-	.navigationBar{
-		height: 120upx;
-		background: #fff;
-	}
-	/*  #endif  */
 </style>

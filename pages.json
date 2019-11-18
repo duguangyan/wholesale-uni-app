@@ -38,7 +38,13 @@
             "style" : {
 				"navigationBarTitleText": "设置"
 			}
-        }, {
+        }, 
+		{
+		    "path" : "pages/user/setting/changePhone",
+		    "style" : {
+				"navigationBarTitleText": "修改手机号"
+			}
+		},{
             "path" : "pages/user/protocal/protocal",
             "style" : {
 				"navigationBarTitleText": "服务条款与协议"
@@ -190,7 +196,11 @@
         ,{
             "path" : "pages/middle/release/attribute/attribute",
             "style" : {
-				"navigationBarTitleText": "选择属性" 
+				"navigationBarTitleText": "选择属性",
+				 "navigationStyle":"custom",
+				 "app-plus":{
+				 	"titleView":false
+				 }
 			}
         }
         ,{
@@ -202,7 +212,11 @@
         ,{
             "path" : "pages/middle/release/attribute/add/add",
             "style" : {
-				"navigationBarTitleText": "添加属性" 
+				"navigationBarTitleText": "添加属性",
+				"navigationStyle":"custom",
+				"app-plus":{
+					"titleView":false
+				}
 			}
         }
         ,{
@@ -350,6 +364,26 @@
             "style" : {
 				"navigationBarTitleText": "本地货品"
 			}
+        }
+        ,{
+            "path" : "pages/middle/release/chooseImage/chooseImage",
+            "style" : {
+				"navigationBarTitleText": "图片编辑"
+			}
+        }
+        ,{
+            "path" : "pages/common/video/video",
+            "style" : {
+				"navigationBarTitleText": "视频播放"
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/sendSuccess/sendSuccess",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/middle/release/sendFail/sendFail",
+            "style" : {}
         }
     ],
 	"tabBar": {

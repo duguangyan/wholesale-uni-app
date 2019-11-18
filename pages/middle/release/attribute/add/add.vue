@@ -1,19 +1,32 @@
 <template>
 	<view class="add">
-		<view class="edit fs28"> 删除属性</view>
+		<NavigationBar title="添加属性" :isClick="isClick" :clickTitle="clickTitle" @doClick="doClick"></NavigationBar>
 		<view class="content">
-			<view class="bb1">
+			<!-- <view class="bb1">
 				<uniInput :before="'属性名'" :after="'请输入属性名称'" :name="'title'" :value="title" @input="getTitle"></uniInput>
 			</view>
 			<view class="bb1">
 				<uniInput :before="'属性值'" :after="'请输入属性值'" :name="'name'" :value="value" @input="getValue"></uniInput>
+			</view> -->
+			<view class="items">
+				<view class="item cf bb1">
+					<view class="fll">属性名</view>
+					<view class="fll">
+						<input type="text" @input="checkVal" v-model="name" placeholder="请输入属性名称">
+					</view>
+				</view>
+				<view class="item cf bb1">
+					<view class="fll">属性值</view>
+					<view class="fll">
+						<input type="text" @input="checkVal" v-model="val" placeholder="请输入属性值">
+					</view>
+				</view>
 			</view>
-			
 			<view class="tips fs24 text-999">
 				注：添加的属性只用于这次货品发布
 			</view>
 			
-			 <button type="primary">添加属性</button>
+			 <view class="big-btn-active" :class="{novalue: !hasVal}" @click="save">{{index == ''?'添加属性':'修改属性'}}</view>
 		</view>
 		
 	</view>
@@ -21,23 +34,98 @@
 
 <script>
 	import uniInput from '@/components/hnfly-input/uni-input.vue';
+	import NavigationBar from '@/components/common/NavigationBar.vue'
 	export default {
 		data() {
 			return {
-				title:'',
-				value:''
+				name:'',
+				val:'',
+				isClick: false,
+				clickTitle:'删除属性',
+				hasVal: false,
+				index:'',
+				ix:'',
+				categoryAttributes:''
 			};
 		},
 		components: {
-		    uniInput
+		    uniInput,NavigationBar
 		},
-		onLoad() {
+		onLoad(options) {
+			if(options.index){
+				this.index = options.index
+				this.ix    = options.ix
+				this.isClick = true
+			}
 			
 		},
 		onShow() {
-			
+			if(this.index == ''){
+				this.isClick = false
+			}else{
+				this.categoryAttributes = uni.getStorageSync('addCategoryAttributes')
+				this.isClick = true
+				this.hasVal = true
+				this.name = this.categoryAttributes[this.index].name
+				this.val = this.categoryAttributes[this.index].values[this.ix]
+			}
 		},
 		methods:{
+			// 添加属性
+			save(){
+				// 组装数据
+				let arr = [
+					{
+						name:'',
+						values:[]
+					}
+				];
+				// 如果有历史记录
+				let categoryAttributes = uni.getStorageSync('addCategoryAttributes')
+				if(categoryAttributes){
+					if(this.index !=''){
+						categoryAttributes[this.index].name = this.name
+						categoryAttributes[this.index].values[this.ix] = this.val
+						uni.setStorageSync('addCategoryAttributes',categoryAttributes)
+					}else{
+						let obj = {
+							name: this.name,
+							values:[this.val]
+						}
+						categoryAttributes.push(obj)
+						uni.setStorageSync('addCategoryAttributes',categoryAttributes)
+					}
+					
+					
+				}else{
+					// 没有历史记录
+					arr[0].name = this.name
+					arr[0].values.push(this.val)
+					uni.setStorageSync('addCategoryAttributes',arr)
+				}
+				
+				// 返回上一页
+				uni.navigateBack({
+					delta:1
+				})
+				
+			},
+			// 判断是否添加属性
+			checkVal(){
+				this.hasVal = this.name !='' && this.val != ''
+			},
+			// 点击删除属性
+			doClick(){
+				this.categoryAttributes[this.index].values.splice(this.ix,1)
+				if(this.categoryAttributes[this.index].values.length <=0){
+					this.categoryAttributes.splice(this.index,1)
+				}
+				uni.setStorageSync('addCategoryAttributes',this.categoryAttributes)
+				// 返回上一页
+				uni.navigateBack({
+					delta:1
+				})
+			},
 			getTitle(e){
 				var value = e.detail.value;
 				var name = e.target.id;
@@ -52,6 +140,15 @@
 
 <style lang="scss" scoped>
 	.add{
+		background: #fff;
+		min-height: 100vh;
+		padding-top: var(--status-bar-height);
+		.big-btn-active{
+			margin-top: 100upx;
+		}
+		.novalue{
+			background: #D9D9D9;
+		}
 		.edit{
 			height: 100upx;
 			line-height: 100upx;
@@ -62,9 +159,28 @@
 		}
 		.content{
 			padding: 0 30upx;
+			padding-top: 80upx;
 			button{
 				margin-top: 300upx;
 				background: #007AFF !important;
+			}
+			.tips{
+				margin-top: 20upx;
+			}
+			.items{
+				.item{
+					height: 100upx;
+					line-height: 100upx;
+					
+					font-size: 30upx;
+					color: #333;
+					input{
+						width: 550upx;
+						position: relative;
+						top: 30upx;
+						left: 40upx;
+					}
+				}
 			}
 		}
 	}

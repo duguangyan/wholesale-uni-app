@@ -1,1 +1,0 @@
-<view class="dot-main data-v-0444babc"><text class="item data-v-0444babc">{{current+1+" / "+list.length}}</text><view class="bg data-v-0444babc"></view></view>

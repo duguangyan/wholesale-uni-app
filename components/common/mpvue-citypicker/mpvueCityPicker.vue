@@ -14,7 +14,7 @@
 					<picker-view-column>
 						<div class="picker-item" v-for="(item,index) in cityDataList" :key="index">{{item.name}}</div>
 					</picker-view-column>
-					<picker-view-column>
+					<picker-view-column v-if="hasArea">
 						<div class="picker-item" v-for="(item,index) in areaDataList" :key="index">{{item.name}}</div>
 					</picker-view-column>
 				</block>
@@ -55,6 +55,10 @@
 					return [0, 0, 0]
 				}
 			},
+			hasArea:{
+				type:Boolean,
+				default: true
+			},
 			/* 主题色 */
 			themeColor: String
 		},
@@ -85,8 +89,6 @@
 								getChildrenByPId(data2).then(res => {
 									if (res.code === '1000') {
 										this.areaDataList = res.data
-
-
 									}
 								})
 
@@ -129,21 +131,21 @@
 				let provinceIndex = pickerValueDefault[0]
 				let cityIndex = pickerValueDefault[1]
 				const areaIndex = pickerValueDefault[2]
-				if (
-					provinceIndex !== 0 ||
-					cityIndex !== 0 ||
-					areaIndex !== 0
-				) {
-					if (provinceIndex > provinceData.length - 1) {
-						this.pickerValueDefault[0] = provinceIndex = provinceData.length - 1;
-					}
-					if (cityIndex > cityData[provinceIndex].length - 1) {
-						this.pickerValueDefault[1] = cityIndex = cityData[provinceIndex].length - 1;
-					}
-					if (areaIndex > areaData[provinceIndex][cityIndex].length - 1) {
-						this.pickerValueDefault[2] = areaData[provinceIndex][cityIndex].length - 1;
-					}
-				}
+				// if (
+				// 	provinceIndex !== 0 ||
+				// 	cityIndex !== 0 ||
+				// 	areaIndex !== 0
+				// ) {
+				// 	if (provinceIndex > provinceData.length - 1) {
+				// 		this.pickerValueDefault[0] = provinceIndex = provinceData.length - 1;
+				// 	}
+				// 	if (cityIndex > cityData[provinceIndex].length - 1) {
+				// 		this.pickerValueDefault[1] = cityIndex = cityData[provinceIndex].length - 1;
+				// 	}
+				// 	if (areaIndex > areaData[provinceIndex][cityIndex].length - 1) {
+				// 		this.pickerValueDefault[2] = areaData[provinceIndex][cityIndex].length - 1;
+				// 	}
+				// }
 			},
 			pickerChange(e) {
 				let changePickerValue = e.mp.detail.value;

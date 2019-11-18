@@ -17,6 +17,12 @@
 					<input type="text" v-model="realName" :disabled="disabled" placeholder="请输入货主姓名">
 				</view>
 			</view>
+			<view class="item-1" v-if="!disabled && userRealInfo ==''">
+				<view class="fll">邀请码</view>
+				<view class="flr">
+					<input type="text" v-model="realName" :disabled="disabled" placeholder="请输入邀请码">
+				</view>
+			</view>
 			<!-- <view class="item-1">
 				<view class="fll">手机号</view>
 				<view class="flr">
@@ -63,7 +69,7 @@
 		</view>
 		<view class="upload cf">
 			<view class="title"><text>上传身份证</text><text class="tips">（正面）</text> </view>
-			<view class="img fll" @click="showImage(0)">
+			<view class="img fll" @click="showImage(0)"  v-if="userApply==''">
 				<image src="../../../../static/imgs/cat-1.png" mode=""></image>
 			</view>
 			<view class="img fll" @click="chooseImage(0)">
@@ -74,7 +80,7 @@
 		</view>
 		<view class="upload cf">
 			<view class="title"><text>上传身份证</text><text class="tips">（反面）</text> </view>
-			<view class="img fll" @click="showImage(1)">
+			<view class="img fll" @click="showImage(1)" v-if="userApply==''">
 				<image src="../../../../static/imgs/cat-2.png" mode=""></image>
 			</view>
 			<view class="img fll" @click="chooseImage(1)">
@@ -83,7 +89,8 @@
 				
 			</view>
 		</view>
-		<view class="big-btn-active"  @click="doSubmit">提交审核</view>
+		<view class="big-btn-active"  @click="doSubmit" v-if="!disabled">提交审核</view>
+		<view class="big-btn-active"  @click="doSubmit" v-if="disabled">撤回</view>
 		<view class="height100"></view>
 		<chooseType v-if="isChooseType" :list="categoryTree" @close="chooseTypeClose" @complete="chooseTypeComplete"></chooseType>
 		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
@@ -134,6 +141,7 @@
 				cardImgReverse :'',  // 身份证反面照
 				categoryTree:'', // 产品分类
 				productTypeId:'', // 分类Id
+				userRealInfo:'', // 邀请码
 			};
 		},
 		components: {
@@ -155,14 +163,20 @@
 					})
 				}
 			}
-			// 判断用户类型
-			this.assessUserType() 
+			
 			
 		},
 		onShow() {
+			// 获取缓存数据
 			this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1')
 			this.agencyImgUpload2 = uni.getStorageSync('agencyImgUpload2')
+			this.userRealInfo = uni.getStorageSync('userRealInfo') || ''
+			
+			
+			// 判断用户类型
+			this.assessUserType() 
 		},
+		
 		methods: {
 			assessUserType(){
 				// 判断用户类型
@@ -193,6 +207,9 @@
 			},
 			// 选择经营类型
 			showType(){
+				if(this.disabled){
+					return false
+				}
 				this.isChooseType = true
 			},
 			// 查看示例
@@ -203,6 +220,9 @@
 			},
 			// 选择图片
 			chooseImage(index){
+				if(this.disabled){
+					return false
+				}
 				if(this.agencyImgUpload1 !='' && index == 0){
 					uni.navigateTo({
 						url:'/pages/common/picture/picture?index=0&url='+this.agencyImgUpload1
@@ -253,6 +273,9 @@
 			},
 			// 显示地址选择
 			showPicker(){
+				if(this.disabled){
+					return false
+				}
 				this.$refs.mpvueCityPicker.show()
 			},
 			onCancel(e) {
@@ -448,7 +471,7 @@
 					input{
 						position: relative;
 						top: 30upx;
-						padding-bottom: 30upx;
+						padding-bottom: 24upx;
 						font-size: 30upx;
 						border-bottom: 1upx solid #F0F0F0;
 					}
