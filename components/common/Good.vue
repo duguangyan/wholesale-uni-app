@@ -10,10 +10,16 @@
 		</div>
 		<div class="content">
 			<div class="name .ellipsis-line2">{{good.name}}</div>
+      
+      <!-- 属性 -->
+      <div>
+        <span class="place">{{good.place}}</span>
+        <span class="attr" v-for="attr in good.attrValDesc" :key="attr" :style="'background:' + calcAttr(attr).bg+';color:'+calcAttr(attr).color">{{attr}}</span>
+      </div>
 
 			<!-- 规格 -->
-			<div v-if="level===1" class="standard">{{good.standard}}</div>
-			<div v-if="level === 2" class="ad">{{good.place}}</div>
+			<!-- <div v-if="level===1" class="standard">{{good.standard}}</div>
+			<div v-if="level === 2" class="ad">{{good.place}}</div> -->
 
 			<!-- 单价 -->
 			<div class="price">
@@ -23,6 +29,12 @@
 				</div>
 				<span v-else class="invalid">下架商品</span>
 			</div>
+      
+      <!-- 店铺信息 -->
+      <div class="shop">
+        <span>{{good.shopArea}}}</span>
+        <span class="ml5">{{good.realName}}</span>
+      </div>
 
 			<!-- 数量操作 -->
 			<div v-if="level===1" class="count">
@@ -75,6 +87,12 @@
 					"spuSalesNum": 0,
 					"totalStock": 0
 				},
+        colorPattern: {
+        	'红': '255,0,0',
+        	'黄': '255,55,0',
+        	'蓝': '30,30,255',
+        	'紫': '200,50,248',
+        },
 				Checked,
 				Uncheck
 			}
@@ -91,6 +109,16 @@
 		//   }
 		// },
 		methods: {
+      // 计算
+      calcAttr(attr){
+      	let str = attr.substr(0,1)
+      	let color = this.colorPattern[str] || '165,165,165'
+      	return {
+      		color: 'rgba('+color+',1)',
+      		bg: 'rgba('+color+',0.1)'
+      	}
+      	
+      },
 			goGoodsDetail() {
 				if (this.level == 2) {
 					uni.navigateTo({
@@ -127,6 +155,9 @@
 		&.normal {
 			padding-right: 30upx;
 		}
+    .ml5 {
+       margin-left: 5px;
+    }
 
 		.check {
 			margin-right: 30upx;
@@ -136,6 +167,26 @@
 			position: relative;
 			z-index: -1;
 		}
+    
+    .attr {
+        padding: 3px  5px;
+        font-size: 10px;
+        margin-left: 5px;
+        border-radius: 30px;
+    }
+    .shop {
+      color: #999;
+      font-size: 10px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      word-spacing: 1upx;
+    }
+    
+    .place{
+      color: #999;
+      font-size: 10px;
+    }
 
 		.photo {
 			height: 200upx;
@@ -185,7 +236,7 @@
 				font-size: 28upx;
 				color: #f5222d;
 				position: absolute;
-				bottom: 0;
+				bottom: 16px;
 				left: 0;
 				word-spacing: 1upx;
 
@@ -195,6 +246,7 @@
 					margin-right: 0upx;
 				}
 			}
+     
 
 			.invalid {
 				padding: 2upx 14upx;
