@@ -240,7 +240,8 @@
         ,{
             "path" : "pages/middle/release/account/bankcard/bankcard",
             "style" : {
-				"navigationBarTitleText": "我的银行卡" 
+				"navigationBarTitleText": "我的银行卡",
+				 "enablePullDownRefresh": true
 			}
         }
 		,{

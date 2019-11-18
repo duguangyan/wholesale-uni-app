@@ -4,13 +4,13 @@
 			<view class="item cf">
 				<view class="fll">账户名</view>
 				<view class="flr">
-					<input type="text" placeholder="请输入持卡人姓名">
+					<input type="text" v-model="realName" placeholder="请输入持卡人姓名">
 				</view>
 			</view>
 			<view class="item cf">
 				<view class="fll">银行卡卡号</view>
 				<view class="flr">
-					<input type="text" placeholder="请输入卡号">
+					<input type="text" v-model="cardNo" placeholder="请输入卡号">
 				</view>
 			</view>
 		</view>
@@ -21,17 +21,39 @@
 </template>
 
 <script>
+	import { getBankInsert } from '@/api/payApi.js'
+	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
-				
+				cardNo:'',
+				realName:''
 			};
 		},
 		methods:{
 			addInfo(){
-				uni.redirectTo({
-					url:'/pages/middle/release/account/bankcard/addinfo'
+				if(this.realName == ''){
+					T.tips('账户名不能为空')
+					return false
+				}
+				if(this.cardNo == ''){
+					T.tips('银行卡不能为空')
+					return false
+				}
+				let data = {
+					cardNo:this.cardNo,
+					realName:this.realName
+				}
+				getBankInsert(data).then(res=>{
+					if(res.code== '1000'){
+						uni.redirectTo({
+							url:'/pages/middle/release/account/bankcard/addinfo'
+						})
+					}else{
+						T.tips(res.message || '银行卡新增失败')
+					}
 				})
+				
 			}
 		}
 	}

@@ -111,120 +111,121 @@ const request = function(params = {}) {
 					
 				} else {
 					// 请求成功非1000	
-					// if(res.code == '1011'){
-					// 	if(newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder'){
-					// 		uni.removeStorageSync('access_token')
-					// 		uni.navigateTo({
-					// 			url:'/pages/login/login'
-					// 		})
-					// 	}
+					if(res.code == '1011'){
+						if(newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder'){
+							uni.removeStorageSync('access_token')
+							uni.navigateTo({
+								url:'/pages/login/login'
+							})
+						}
 						
 						
-					// 	// let content = '登录过期，请重新登录！'
-					// 	// if(uni.getStorageSync('access_token') == '') {
-					// 	// 	content = '请先登录！'
-					// 	// }
-					// 	// if(res.message == '无权访问！'){
-					// 	// 	content = '无权访问！'
-					// 	// }
-					// 	// let islogin = uni.getStorageSync('isLogin')
-					// 	// if(islogin != 1){
-					// 	// 	uni.setStorageSync('isLogin',1)
-					// 	// 	uni.showModal({
-					// 	// 	    title: '提示',
-					// 	// 	    content,
-					// 	// 	    success: function (res) {
-					// 	// 	        if (res.confirm) {
-					// 	// 			   // uni.setStorageSync('isLogin',0)	
-					// 	// 	           uni.navigateTo({
-					// 	// 	           	url:'/pages/login/login'
-					// 	// 	           })
-					// 	// 	        } else if (res.cancel) {
-					// 	// 	            console.log('用户点击取消');
-					// 	// 				uni.setStorageSync('isLogin',0)
-					// 	// 	        }
-					// 	// 	    }
-					// 	// 	});
-					// 	// }
+						// let content = '登录过期，请重新登录！'
+						// if(uni.getStorageSync('access_token') == '') {
+						// 	content = '请先登录！'
+						// }
+						// if(res.message == '无权访问！'){
+						// 	content = '无权访问！'
+						// }
+						// let islogin = uni.getStorageSync('isLogin')
+						// if(islogin != 1){
+						// 	uni.setStorageSync('isLogin',1)
+						// 	uni.showModal({
+						// 	    title: '提示',
+						// 	    content,
+						// 	    success: function (res) {
+						// 	        if (res.confirm) {
+						// 			   // uni.setStorageSync('isLogin',0)	
+						// 	           uni.navigateTo({
+						// 	           	url:'/pages/login/login'
+						// 	           })
+						// 	        } else if (res.cancel) {
+						// 	            console.log('用户点击取消');
+						// 				uni.setStorageSync('isLogin',0)
+						// 	        }
+						// 	    }
+						// 	});
+						// }
 						
-					// }else if(res.code == '1017'){
-					// 	let tokenData = {
-					// 		grant_type:'refresh_token',
-					// 		scope:2,
-					// 		client_id: 'cwap',
-					// 		client_secret:'xx',
-					// 		refresh_token: uni.getStorageSync('refresh_token')
-					// 	}
-					// 	console.log('tokenData',tokenData)
-					// 	console.log('apiUrl',apiUrl + '/oauth/oauth/token')
-					// 	uni.request({
-					// 		url: apiUrl + '/oauth/oauth/token',
-					// 		method: 'POST',
-					// 		data: tokenData,
-					// 		header:{
-					// 			'content-type':'application/x-www-form-urlencoded'
-					// 		},
-					// 		success(res) { 
-					// 			console.log('1',res)
-					// 			if(res.data && res.data.access_token){
-					// 				uni.setStorageSync('access_token', res.data.access_token)
-					// 				uni.setStorageSync('refresh_token', res.data.refresh_token)
-					// 				uni.request({
-					// 					url: apiUrl + newUrl,
-					// 					method: params.method || 'GET',
-					// 					data: params.data,
-					// 					header,
-					// 					success(res) {
-					// 						console.log('2',res)
-					// 						if(res.code == '1000'){
-					// 							resolve(res);
-					// 						}else{
-					// 							uni.showToast({
-					// 							    title: '请求数据错误',
-					// 							    duration: 2000,
-					// 								icon :'none'
-					// 							});
-					// 						}
-					// 					},
-					// 					fail() {
-					// 						uni.showToast({
-					// 						    title: '请求数据错误',
-					// 						    duration: 2000,
-					// 							icon :'none'
-					// 						});
-					// 					}
-					// 				})
-					// 			} else {
-					// 				// uni.showToast({
-					// 				//     title: '请求数据错误',
-					// 				//     duration: 2000,
-					// 				// 	icon :'none'
-					// 				// });
-					// 				uni.navigateTo({
-					// 					url:'/pages/login/login'
-					// 				})
-					// 			}
-					// 		},
-					// 		fail(err) {
-					// 			uni.showToast({
-					// 			    title: '请求数据错误',
-					// 			    duration: 2000,
-					// 				icon :'none'
-					// 			});
-					// 		}
-					// 	})
-					// } else {
-					// 	if(res.code != '9999') {
-					// 		if(!uni.getStorageSync('access_token')){
-					// 			// 防止重复进入错误页面
-					// 			if(uni.getStorageSync('err') != 1){
-					// 				uni.navigateTo({
-					// 					url:'/pages/common/err/err?redirect=' + JSON.stringify(params)
-					// 				})
-					// 			}
-					// 		}
-					// 	}
-					// }
+					}else if(res.code == '1017'){
+						let tokenData = {
+							grant_type:'refresh_token',
+							scope:2,
+							client_id: 'cwap',
+							client_secret:'xx',
+							refresh_token: uni.getStorageSync('refresh_token')
+						}
+						console.log('tokenData',tokenData)
+						console.log('apiUrl',apiUrl + '/oauth/oauth/token')
+						apiUrl = apiUrl.split('/ws')[0]
+						uni.request({
+							url: apiUrl + '/oauth/oauth/token',
+							method: 'POST',
+							data: tokenData,
+							header:{
+								'content-type':'application/x-www-form-urlencoded'
+							},
+							success(res) { 
+								console.log('1',res)
+								if(res.data && res.data.access_token){
+									uni.setStorageSync('access_token', res.data.access_token)
+									uni.setStorageSync('refresh_token', res.data.refresh_token)
+									uni.request({
+										url: apiUrl + newUrl,
+										method: params.method || 'GET',
+										data: params.data,
+										header,
+										success(res) {
+											console.log('2',res)
+											if(res.code == '1000'){
+												resolve(res);
+											}else{
+												uni.showToast({
+												    title: '请求数据错误',
+												    duration: 2000,
+													icon :'none'
+												});
+											}
+										},
+										fail() {
+											uni.showToast({
+											    title: '请求数据错误',
+											    duration: 2000,
+												icon :'none'
+											});
+										}
+									})
+								} else {
+									// uni.showToast({
+									//     title: '请求数据错误',
+									//     duration: 2000,
+									// 	icon :'none'
+									// });
+									uni.navigateTo({
+										url:'/pages/login/login'
+									})
+								}
+							},
+							fail(err) {
+								uni.showToast({
+								    title: '请求数据错误',
+								    duration: 2000,
+									icon :'none'
+								});
+							}
+						})
+					} else {
+						if(res.code != '9999') {
+							if(!uni.getStorageSync('access_token')){
+								// 防止重复进入错误页面
+								if(uni.getStorageSync('err') != 1){
+									uni.navigateTo({
+										url:'/pages/common/err/err?redirect=' + JSON.stringify(params)
+									})
+								}
+							}
+						}
+					}
 					resolve(res);
 				}
 			},

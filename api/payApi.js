@@ -19,7 +19,7 @@ const payWXpayByWap = data => {
     data,
   })
 }
-// 我的账单列表
+//
 const fundRecordList = data => {
   return request({
     url: '/api/pay/fundRecord/pageMyList',
@@ -28,8 +28,39 @@ const fundRecordList = data => {
   })
 }
 
+// 我的账单详情
+const fundRecordDetail = data => {
+	return request({
+		url: '/api/pay/fundRecord/detail',
+		data,
+		type: 'form',
+	})
+}
+// 获取用户银行卡列表
+const getBankList = data => {
+	return request({
+		url: '/api/pay/bank/listPage',
+		data,
+		type: 'form',
+	})
+}
+
+// 获取用户银行卡列表
+const getBankInsert = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/bank/insert',
+		data,
+		type: 'form',
+	})
+}
+
+
 
 export {
+	getBankInsert,
+	getBankList,
+	fundRecordDetail,
   fundRecordList,
   payAlipayByWap,
   payWXpayByWap

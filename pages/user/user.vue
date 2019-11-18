@@ -320,6 +320,8 @@
 	  .img{
 		  width: 20upx;
 		  height: 20upx;
+		  position: relative;
+		  top: 10upx;
 		  >image{
 			  width: 100%;
 			  height: 100%;

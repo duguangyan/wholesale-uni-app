@@ -279,7 +279,7 @@ const getUserRealInfoAll = data => {
 	})
 }
 
-// 获取用户全部信息 实名 认证 
+// 获取用户全部信息
 const getShopIdByUser = data => {
 	return request({
 		url: '/api/goods/shop/getShop',

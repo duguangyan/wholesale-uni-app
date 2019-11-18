@@ -1,30 +1,17 @@
 <template>
 	<view class="record">
-		<view @click="goDetail">
-			<view class="title fs24 text-999">2019年9月</view>
+		<view @click="goDetail" v-for="(item,index) in records" :key="index">
+			<view class="title fs24 text-999">{{item.month}}</view>
 			<view class="items">
-				<view class="item cf">
+				<view class="item cf" v-for="(it,ix) in item.list" :key="ix" @click="goDetail(it.id,it.type)">
 					<view class="fll">
-						<view class="fs30 text-333">农百集付款</view>
-						<view class="tip fs20 text-999">2019-12-20 10:15</view>
+						<view class="fs30 text-333">{{it.remark}}</view>
+						<view class="tip fs20 text-999">{{it.createTime}}</view>
 					</view>
 					<view class="flr fs30 text-333">
-						+5000.00
-					</view>
-				</view>
-			</view>
-		</view>
-		
-		<view @click="goDetail">
-			<view class="title fs24 text-999">2019年9月</view>
-			<view class="items">
-				<view class="item cf">
-					<view class="fll">
-						<view class="fs30 text-333">农百集付款</view>
-						<view class="tip fs20 text-999">2019-12-20 10:15</view>
-					</view>
-					<view class="flr fs30 text-333">
-						+5000.00
+						<text v-if="it.type==5">-</text>
+						<text v-if="it.type==6">+</text>
+						{{it.amount}}
 					</view>
 				</view>
 			</view>
@@ -63,9 +50,9 @@
 				})
 			},
 			// 去订单详情
-			goDetail(){
+			goDetail(id,type){
 				uni.navigateTo({
-					url:'/pages/middle/release/account/record/detail'
+					url:'/pages/middle/release/account/record/detail?id='+ id +'&type=' + type
 				})
 			}
 		}

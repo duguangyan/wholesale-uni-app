@@ -171,7 +171,7 @@
 
 		<!-- <Confirm :goodsId='goodsId' :shopId='shopId' :show="isSure" @close="isSure = false" :nav="nav" :good="good" @update="getUpdate" /> -->
 
-		<div v-show="isSure" class="good-confirm">
+		<view v-show="isSure" class="good-confirm" :animation="animation">
 			<transition name="mask">
 				<div v-show="isSure" class="mask" @click="isSure = false"></div>
 			</transition>
@@ -224,7 +224,7 @@
 					<div class="btn" @click="navigate">确定</div>
 				</div>
 			</transition>
-		</div>
+		</view>
 
 		<Share :img='imageList[0].imgUrl' :name="good.goods.name" :shopId='shopId' :goodsId='goodsId' :show="isShare" @close="isShare = false" />
 		<Standard v-if="good.standardList.length>3" :show="isStandard" :list="good.standardList" @close="isStandard = false" />
@@ -256,6 +256,7 @@
 	export default {
 		data() {
 			return {
+				animation:'',
 				imgLoading:true,
 				opt: false,
 				indicatorDots: false,
@@ -727,10 +728,22 @@
 						formId : formId
 					}
 					// 获取formId
-					getSetFormId(data)
+					//getSetFormId(data)
 					console.log('formId',formId)
 					this.nav = nav;
 					this.isSure = true;
+					
+					 var animation = uni.createAnimation({
+					      duration: 1000,
+					        timingFunction: 'ease',
+					    })
+					
+					    this.animation = animation
+					
+					    animation.translateY(-100).step()
+					
+					    animation.export()
+					
 				}
 				
 			},

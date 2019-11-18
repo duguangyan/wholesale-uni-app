@@ -38,7 +38,7 @@
 						<view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view>
 						<view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view>
 						<view class="receive" v-if="item.status === 3" @click="postOrderConfirm(index)">确认收货</view>
-						<view class="receive" v-if="item.status === 0" @click="showPay(index)">去支付</view>
+						<view class="receive" v-if="item.status === 2" @click="showPay(index)">去支付</view>
 					</view>
 				</view>
 			</view>
