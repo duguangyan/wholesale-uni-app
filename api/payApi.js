@@ -55,9 +55,53 @@ const getBankInsert = data => {
 	})
 }
 
+// 修改支付密码
+const setBankmodifyPwd = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/accountSub/modifyPwd',
+		data,
+		type: 'form',
+	})
+}
+
+// 设置支付密码
+const setBanksetNewPwd = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/accountSub/setNewPwd',
+		data,
+		type: 'form',
+	})
+}
+
+// 验证银行卡
+const validCard = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/bank/validCard',
+		data,
+		type: 'form',
+	})
+}
+
+// 获取我的账户资金
+const accountSub = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/accountSub/getFund',
+		data,
+		type: 'form',
+	})
+}
+
 
 
 export {
+	accountSub,
+	validCard,
+	setBanksetNewPwd,
+	setBankmodifyPwd,
 	getBankInsert,
 	getBankList,
 	fundRecordDetail,

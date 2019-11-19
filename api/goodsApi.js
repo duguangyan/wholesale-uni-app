@@ -127,8 +127,17 @@ const postSaveGoods = data => {
 	})
 }
 
+// B2B获取商品详情
+const getGoodsDetail = data => {
+	return request({
+		url: '/api/goods/goods/goodsDetail',
+		data,
+		type: 'form'
+	})
+}
 
 export {
+	getGoodsDetail,
 	postSaveGoods,
 	getCategoryUnitList,
 	getByCategoryId,

@@ -41,6 +41,20 @@
 			};
 		},
 		methods:{
+			
+			getBankInsert(){
+				getBankInsert(data).then(res=>{
+					if(res.code== '1000'){
+						// uni.redirectTo({
+						// 	url:'/pages/middle/release/account/bankcard/addinfo'
+						// })
+					}else{
+						T.tips(res.message || '银行卡新增失败')
+					}
+				})
+			},
+			
+			
 			goBack(){
 				uni.navigateBack({
 					delta:1

@@ -42,6 +42,8 @@
 		},
 		onShow() {
 			// 获取银行卡信息
+			this.records = []
+			this.pageIndex = 1
 			this.getBankList()
 		},
 		methods:{
@@ -57,8 +59,8 @@
 				}
 				getBankList(data).then(res=>{
 					if(res.code == '1000'){
-						this.records = res.data.records
-						this.records.forEach(item=>{
+						let list = res.data.records
+						list.forEach(item=>{
 							// 1-借记卡 2-贷记合一 3-贷记卡
 							if(item.cardType == 1){
 								item.cardName = '借记卡'
@@ -69,6 +71,8 @@
 							}
 							item.cardNo = "**** **** " + item.cardNo.substr(-4)
 						})
+						
+						this.records = this.records.concat(list)
 					}
 				})
 			},

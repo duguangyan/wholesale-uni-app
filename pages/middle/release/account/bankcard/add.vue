@@ -4,34 +4,41 @@
 			<view class="item cf">
 				<view class="fll">账户名</view>
 				<view class="flr">
-					<input type="text" v-model="realName" placeholder="请输入持卡人姓名">
+					<input type="text" v-model="realName" @input="assessValue" placeholder="请输入持卡人姓名">
 				</view>
 			</view>
 			<view class="item cf">
 				<view class="fll">银行卡卡号</view>
 				<view class="flr">
-					<input type="text" v-model="cardNo" placeholder="请输入卡号">
+					<input type="text" v-model="cardNo" @input="assessValue" placeholder="请输入卡号">
 				</view>
 			</view>
 		</view>
-		<view class="big-btn-active" @click="addInfo">
+		<view class="big-btn-active" :class="{nodata: hasData}" @click="addInfo">
 			提交
 		</view>
 	</view>
 </template>
 
 <script>
-	import { getBankInsert } from '@/api/payApi.js'
+	import { getBankInsert, validCard } from '@/api/payApi.js'
 	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
 				cardNo:'',
-				realName:''
+				realName:'',
+				hasData: true
 			};
 		},
 		methods:{
+			assessValue(){
+				this.hasData = this.cardNo == '' || this.realName == ''
+			},
 			addInfo(){
+				if(this.hasData) {
+					return false
+				}
 				if(this.realName == ''){
 					T.tips('账户名不能为空')
 					return false
@@ -44,15 +51,18 @@
 					cardNo:this.cardNo,
 					realName:this.realName
 				}
-				getBankInsert(data).then(res=>{
-					if(res.code== '1000'){
-						uni.redirectTo({
+				
+				validCard(data).then(res=>{
+					if(res.code== '1000' && res.data.status == 1){
+						uni.navigateTo({
 							url:'/pages/middle/release/account/bankcard/addinfo'
 						})
 					}else{
 						T.tips(res.message || '银行卡新增失败')
 					}
 				})
+				
+				
 				
 			}
 		}
@@ -65,6 +75,9 @@
 		min-height: 100vh;
 		.big-btn-active{
 			margin-top: 60upx;
+		}
+		.nodata{
+			background: #d9d9d9;
 		}
 		.items{
 			margin: 0 30upx;

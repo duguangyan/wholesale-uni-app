@@ -3,7 +3,9 @@
 	<view class="content">
 		<view class="login">
 			<view class="l_top" style="margin-bottom:100upx;">
-				<view class="l_text">请输入6位新的支付密码，注意不要重复或连续数字</view>
+				<view class="l_text" v-if="code!=''">请输入6位新的支付密码，注意不要重复或连续数字</view>
+				<view class="l_text" v-if="code==''">请输入原支付密码</view>
+				
 			</view>
 			<view class="l_top">
 				<view class="mima">
@@ -62,6 +64,7 @@
 		},
 		data() {
 			return {
+				code:'',
 				trade_pwd: '',
 				focus: true,
 				show: false,
@@ -136,8 +139,8 @@
 				return this.trade_pwd.length
 			}
 		},
-		onLoad(e) {
-
+		onLoad(options) {
+			if(options.code) this.code = options.code
 		},
 		methods: {
 			writepwd(num) {
@@ -196,8 +199,14 @@
 				}
 				// 密码长度为6位以后执行方法
 				console.log(this.trade_pwd);
+				let url = ''
+				if(this.code == ''){
+					url = '/pages/middle/release/account/payps/confirmPassword?trade_pwd='+ this.trade_pwd
+				}else{
+					url = '/pages/middle/release/account/payps/confirmPassword?trade_pwd='+ this.trade_pwd + '&code=' + this.code
+				}
 				uni.redirectTo({
-					url:'/pages/middle/release/account/payps/confirmPassword'
+					url
 				})
 			},
 

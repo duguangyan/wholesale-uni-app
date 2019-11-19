@@ -88,6 +88,13 @@ const request = function(params = {}) {
 		
 		// #endif
 		
+	
+		// 商品详情传参 /goods/goodsDetail/{shopId}/{goodsId} B2B -> APP-商品详情
+		if(newUrl.indexOf('/goods/goodsDetail') != -1){
+			newUrl = newUrl.split('?')[0] + '/' + params.data.shopId + '/' + params.data.goodsId
+		}
+		
+		
 		uni.request({
 			url: apiUrl + newUrl,
 			method: params.method || 'GET',
