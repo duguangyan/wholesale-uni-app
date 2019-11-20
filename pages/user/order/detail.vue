@@ -99,7 +99,7 @@
 					<div class="address">{{order.orderShipping.province + order.orderShipping.city + order.orderShipping.region + order.orderShipping.address}}</div>
 				</div>
 			</div> -->
-			<view class="phone cf">
+			<view class="phone cf" v-if="order.agentcyPhone">
 				<view class="fll">{{roleId=='20001'?'代办人':'货主'}}:{{order.agentcyUserName || '暂无'}}</view>
 				<view class="flr" @click="callPhone(order.agentcyPhone)">
 					<view class="image">
