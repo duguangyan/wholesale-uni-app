@@ -1,9 +1,9 @@
 <template>
-	<div v-if="show" class="pay">
-		<transition name="mask">
+	<view v-if="show" class="pay">
+		<div name="mask">
 			<div v-if="show" class="mask" @click="close"></div>
-		</transition>
-		<transition name="body">
+		</div>
+		<view name="body">
 			<div v-if="show" class="body">
 				<div class="h1">
 					确认支付
@@ -44,8 +44,8 @@
 					</div>
 				</div>
 			</div>
-		</transition>
-	</div>
+		</view>
+	</view>
 </template>
 
 <script>
@@ -91,7 +91,9 @@
 				resPayFrom: '',
 				wxHref: '',
 				checkIndex: 0,
-				clock: true
+				clock: true,
+				animation:'',
+				animationData: {}
 			}
 		},
 		onload() {
@@ -395,7 +397,7 @@
 			bottom: 0;
 			padding: 28upx 20upx 20upx 20upx;
 			color: #000;
-
+			
 			.h1 {
 				font-size: 28upx;
 				position: relative;

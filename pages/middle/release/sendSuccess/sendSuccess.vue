@@ -25,23 +25,52 @@
 	export default {
 		data() {
 			return {
-				
+				id:'',
+				shopId:''
 			};
 		},
+		onLoad(options) {
+			this.id = options.id
+			this.shopId = options.shopId
+			
+		},
+		onShow() {
+			// 去除缓存
+			this.doClearStorageSync()
+		},
 		methods:{
+			// 去除缓存
+			doClearStorageSync(){
+				uni.removeStorageSync('goodsTitile')
+				uni.removeStorageSync('varieties')
+				uni.removeStorageSync('addCategoryAddress')
+				uni.removeStorageSync('addCategoryAttributes')
+				uni.removeStorageSync('categorysInput')
+				uni.removeStorageSync('categorysValues')
+				uni.removeStorageSync('attribute')
+				uni.removeStorageSync('goodsSkuList')
+				uni.removeStorageSync('textareaValue')
+				uni.removeStorageSync('goodsImgList')
+			},
+			// 返回首页
 			goBack(){
+				
 				uni.switchTab({
 					url:'/pages/main/main'
 				})
 			},
+			// 再发一条
 			resBack(){
+			
 				uni.redirectTo({
-					url:'/pages/middle/release/release?from=0'
+					url:'/pages/middle/release/release'
 				})
 			},
+			// 预览
 			showBack(){
-				uni.redirectTo({
-					url:'/pages/middle/release/release?from=1'
+				// this.shopId = options.shopId;  this.goodsId = options.goodsId;
+				uni.navigateTo({
+					url:'/pages/order/goodsDetail/goodsDetail?shopId=' + this.shopId + '&goodsId='+ this.id
 				})
 			}
 		}

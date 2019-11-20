@@ -12,6 +12,7 @@
 				<view class="right flr"><image src="../../../../static/imgs/right.png"></image></view>
 			</view>
 		</view>
+		<Dialog :title='title' :confirmText='confirmText' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
 	</view>
 </template>
 
@@ -19,10 +20,21 @@
 	import uniList from "@/components/uni-list/uni-list.vue"
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
+	import { accountSub } from '@/api/payApi.js' 
+	import Dialog from '@/components/common/Dialog.vue'
+	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
-				totalPrice: '158.85',
+				accountSubDates:'',
+				availableBalance:'',
+				freezeBalance:'',
+				confirmText:'添加银行卡',
+				title:'使用提现功能需要绑定一张支持提现的储蓄卡',
+				isShow:false,
+				setPayPwd:'',
+				bankCardNum:'',
+				totalPrice: '0.00',
 				is70: true,
 				icons:[
 					{
@@ -44,7 +56,7 @@
 				]
 			};
 		},
-		components: {uniIcons,uniList,uniListItem},
+		components: {uniIcons,uniList,uniListItem,Dialog},
 		onLoad() {
 			// 设置头部样式
 			uni.setNavigationBarColor({
@@ -53,9 +65,21 @@
 			})
 		},
 		onShow() {
-			
+			// 获取资金账户
+			this.getAccountSub()
 		},
 		methods:{
+			// 获取资金账户
+			getAccountSub(){
+				accountSub().then(res=>{
+					if(res.code == '1000'){
+						this.totalPrice       = res.data.balance
+						this.bankCardNum      = res.data.bankCardNum
+						this.setPayPwd        = res.data.setPayPwd
+						this.accountSubDates  = res.data
+					}
+				})
+			},
 			// 点击事件
 			doClick(index){
 				switch (index){
@@ -93,11 +117,38 @@
 					url:'/pages/middle/release/account/payps/payps'
 				})
 			},
+			// 点击确定
+			doConfirm(){
+				this.isShow = false
+				uni.navigateTo({
+					url:'/pages/middle/release/account/bankcard/add'
+				})
+			},
+			// 点击取消
+			doCancel(){
+				this.isShow = false
+			},
 			// 提现
 			goCash(){
-				uni.navigateTo({
-					url:'/pages/middle/release/account/cash/cash'
-				})
+				if(this.setPayPwd && this.bankCardNum>0){
+					uni.navigateTo({
+						url:'/pages/middle/release/account/cash/cash?accountSubDates=' + JSON.stringify(this.accountSubDates)
+					})
+				}else{
+					if(!this.setPayPwd){
+						uni.navigateTo({
+							url:'/pages/middle/release/account/payps/verifiyPhone'
+						})
+					}else{
+						if(this.bankCardNum<=0){
+							this.isShow = true
+						}
+					}
+					
+					
+				}
+				
+				
 			}
 			
 		}

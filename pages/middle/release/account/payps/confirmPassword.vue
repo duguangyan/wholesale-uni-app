@@ -3,7 +3,7 @@
 	<view class="content">
 		<view class="login">
 			<view class="l_top" style="margin-bottom:100upx;">
-				<view class="l_text">请再次输入6位新的支付密码，注意不要重复或连续数字</view>
+				<view class="l_text">请{{code==''?'':'再次'}}输入6位新的支付密码，注意不要重复或连续数字</view>
 			</view>
 			<view class="l_top">
 				<view class="mima">
@@ -54,7 +54,8 @@
 		mapActions
 	} from 'vuex';
 
-
+	import { setBankmodifyPwd, setBanksetNewPwd } from '@/api/payApi.js'
+	import T from '@/utils/tips.js'
 	export default {
 
 		computed: {
@@ -62,6 +63,8 @@
 		},
 		data() {
 			return {
+				code:'',
+				trade_pwd_first:'',
 				trade_pwd: '',
 				focus: true,
 				show: false,
@@ -136,8 +139,9 @@
 				return this.trade_pwd.length
 			}
 		},
-		onLoad(e) {
-
+		onLoad(options) {
+			this.trade_pwd_first = options.trade_pwd
+			if(options.code) this.code = options.code
 		},
 		methods: {
 			writepwd(num) {
@@ -190,15 +194,47 @@
 			// 确认执行的方法
 			setpwd() {
 				if (this.trade_pwd.length < 6) {
-					console.log('密码长度不能少于6位');
 					T.tips('密码长度不能少于6位')
+					return;
+				}
+				if(this.trade_pwd_first != this.trade_pwd){
+					T.tips('两次输入得密码不一致')
 					return;
 				}
 				// 密码长度为6位以后执行方法
 				console.log(this.trade_pwd);
-				uni.navigateBack({
-					delta:1
-				})
+				if(this.code == ''){
+					let data = {
+						newPassword:this.trade_pwd,
+						oldPassword:this.trade_pwd_first
+					}
+					setBankmodifyPwd(data).then(res=>{
+						if(res.code == '1000'){
+							uni.navigateBack({
+								delta:1
+							})
+						}else{
+							T.tips(res.message || '密码修改失败')
+						}
+					})
+				}else{
+					let data = {
+						password:this.trade_pwd,
+						smsCode:this.code 
+					}
+					setBanksetNewPwd(data).then(res=>{
+						if(res.code == '1000'){
+							uni.navigateBack({
+								delta:1
+							})
+						}else{
+							T.tips(res.message || '密码重置失败')
+						}
+					})
+				}
+				
+				
+				
 			},
 
 		}

@@ -125,7 +125,10 @@
 
 		<div class="goodsTitle" v-if="isGoodsTitle">{{goodsTitle}}</div>
 
-		<div class="operator flex">
+
+
+		<!-- 0 待审核 1待修改 2申请驳回 3上架 4下架 -->
+		<div class="operator flex" v-if="good.goods.status == 3">
 			<div class="fir flex-1">
 				<div @click="changeCollect">
 					<img class="icon-18" :src="good.hasColletion?'../../../static/img/icon-collect2.png':'../../../static/img/icon-collect.png'" />
@@ -171,7 +174,7 @@
 
 		<!-- <Confirm :goodsId='goodsId' :shopId='shopId' :show="isSure" @close="isSure = false" :nav="nav" :good="good" @update="getUpdate" /> -->
 
-		<div v-show="isSure" class="good-confirm">
+		<view v-show="isSure" class="good-confirm" :animation="animation">
 			<transition name="mask">
 				<div v-show="isSure" class="mask" @click="isSure = false"></div>
 			</transition>
@@ -224,7 +227,7 @@
 					<div class="btn" @click="navigate">确定</div>
 				</div>
 			</transition>
-		</div>
+		</view>
 
 		<Share :img='imageList[0].imgUrl' :name="good.goods.name" :shopId='shopId' :goodsId='goodsId' :show="isShare" @close="isShare = false" />
 		<Standard v-if="good.standardList.length>3" :show="isStandard" :list="good.standardList" @close="isStandard = false" />
@@ -247,7 +250,8 @@
 		removeCollect,
 		getGoodNums,
 		getPostItem,
-		getHasCollect
+		getHasCollect,
+		getGoodsDetail
 	} from "@/api/goodsApi.js";
 	import {getSetFormId} from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
@@ -256,6 +260,7 @@
 	export default {
 		data() {
 			return {
+				animation:'',
 				imgLoading:true,
 				opt: false,
 				indicatorDots: false,
@@ -327,7 +332,8 @@
 					
 			// 	});
 			// }
-			getDetail({
+			
+			getGoodsDetail({
 				shopId: this.shopId,
 				goodsId: this.goodsId
 			}).then(data => {
@@ -412,15 +418,18 @@
 								curNode.startNum = sku.startNum;
 							}
 							// 顺便处理规格
-							if (isSection) {
-								d.standardList[exIndex].push(`${val.value}${d.goods.unitName}起批`);
+							 if (isSection) {
 								d.standardList[exIndex].push(
-									// `${val.value}${sufName}/${d.goods.unitName}`
-									`${val.value}${sufName}`
+								  `${sku.startNum}${d.goods.unitName}起批`
 								);
-							} else {
+								d.standardList[exIndex].push(
+								  `${val.value}${
+									+d.goods.showStyle !== 3 ? sufName : ""
+								  }`
+								);
+							  } else {
 								d.standardList[exIndex].push(val.value);
-							}
+							  }
 					
 							// 累计无效次
 							isInvalid = isInvalid && curNode.disabled;
@@ -430,15 +439,21 @@
 					d.tree = tree;
 					d.isInvalid = isInvalid;
 					
-					if (d.goods.status != 3) {
+					if (d.isInvalid) {
+						this.isGoodsTitle = true
+						this.goodsTitle = '库存不足,请浏览别的商品吧~'
+						// T.tips("库存不足,请浏览别的商品吧~");
+					}
+					
+					// 0 待审核 1待修改 2申请驳回 3上架 4下架
+					if (d.goods.status == 4) {
 						T.tips("商品已下架啦,看下其它的吧");
 					}
 					
 					if (d.goods.showStyle == 2) {
 						let sku = d.goodsSkuList[0].attrValueList[0];
 						d.goodsList = [];
-						// let grades = JSON.parse(d.goodsSkuList[0].priceExp);
-					
+						let grades = JSON.parse(d.goodsSkuList[0].priceExp);
 						grades.forEach((item, index) => {
 							d.goodsList.push({
 								startNum: item.startQuantity,
@@ -470,15 +485,16 @@
 					// 	this.postType = data.data.type;
 					// });
 					
-					
+					this.good.goods.detail = util.formatRichText(this.good.goods.detail);
+					console.log(this.good.goods.detail)
 					// 判断商品是否备收藏
-					// if(uni.getStorageSync('access_token')){
-					// 	this.getHasCollect(this.goodsId)
-					// }
+					if(uni.getStorageSync('access_token')){
+						this.getHasCollect(this.goodsId)
+					}
 					
 				}
 				
-			});
+			})
 		},
 		methods: {
 			imgLoad(e){
@@ -727,10 +743,22 @@
 						formId : formId
 					}
 					// 获取formId
-					getSetFormId(data)
+					//getSetFormId(data)
 					console.log('formId',formId)
 					this.nav = nav;
 					this.isSure = true;
+					
+					 var animation = uni.createAnimation({
+					      duration: 1000,
+					        timingFunction: 'ease',
+					    })
+					
+					    this.animation = animation
+					
+					    animation.translateY(-100).step()
+					
+					    animation.export()
+					
 				}
 				
 			},

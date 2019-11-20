@@ -21,7 +21,7 @@
 			<view class="list" v-for="(item,index) in categorysInput" :key="index">
 				<view class="title fs30">{{item.name}}</view>
 				<view class="items">
-					<input type="text" @input="doInputValue" v-model="item.inputValue" placeholder="自定义输入">
+					<input type="text" @input="doInputValue" v-model="item.inputVal" placeholder="自定义输入">
 				</view>
 			</view>
 			
@@ -117,7 +117,7 @@
 							// })
 							item.isCheckIndex = [0]
 							if(item.inputType == 4){
-								item.inputValue = ''
+								item.inputVal = ''
 								categorysInput.push(item)
 							}else{
 								if(item.valueSet.length>0){
@@ -168,11 +168,10 @@
 				let arr = this.fullAddress.split('-')
 				// 省
 				this.address.province = arr[0]
-				this.address.provinceId = e.ids[0]
+				this.address.provinceId = e.ids[0] || 1
 				// 市
 				this.address.city = arr[1]
-				this.address.cityId = e.ids[1]
-				
+				this.address.cityId = e.ids[1] || 67748
 				this.addressInfo = this.address.province + '-' + this.address.city
 				
 				uni.setStorageSync('addCategoryAddress', JSON.stringify(this.address))
@@ -231,9 +230,9 @@
 					this.categorysInput.forEach((item,index)=>{
 						
 						if(attribute == ''){
-							attribute = item.inputValue
+							attribute = item.inputVal
 						}else{
-							attribute = attribute + ',' +  item.inputValue
+							attribute = attribute + ',' +  item.inputVal
 						}
 					})
 					

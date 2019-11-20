@@ -159,7 +159,7 @@
 				}
 				.input{
 					position: relative;
-					top: 26upx;
+					top: 32upx;
 					left: 20upx;
 				}
 			}

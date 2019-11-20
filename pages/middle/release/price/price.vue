@@ -163,6 +163,8 @@
 				
 				let goodsSkuList = [
 					{
+						id:'',
+						unitId:this.unitId,
 						price:'',
 						priceType:2,
 						sort:1,

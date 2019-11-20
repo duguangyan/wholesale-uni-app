@@ -2,30 +2,79 @@
 	<div class="detail">
 		<div class="top">
 			<div class="img">
-				<img v-if="status == -1" src="@/static/img/icon-order-4.png" alt="图片">
+				<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
+				<img v-if="status == -1" src="@/static/img/icon-order-5.png" alt="图片">
 				<img v-if="status == 0" src="@/static/img/icon-order-2.png" alt="图片">
 				<img v-if="status == 1" src="@/static/img/icon-order-5.png" alt="图片">
 				<img v-if="status == 2" src="@/static/img/icon-order-1.png" alt="图片">
-				<img v-if="status == 3" src="@/static/img/icon-order-3.png" alt="图片">
-				<img v-if="status == 4" src="@/static/img/icon-order-5.png" alt="图片">
+				<img v-if="status == 3" src="@/static/img/icon-order-4.png" alt="图片">
+				<img v-if="status == 4" src="@/static/img/icon-order-6.png" alt="图片">
 				<img v-if="status == 5" src="@/static/img/icon-order-5.png" alt="图片">
-				<img v-if="status == -2" src="@/static/img/icon-order-5.png" alt="图片">
+				<img v-if="status == 6" src="@/static/img/icon-order-6.png" alt="图片">
 			</div>
 			<div class="annoc">
 				<!--      状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭-->
-				<div class="title" v-if="order.shopOrder">{{statusText}}</div>
-				<!--        <div class="sub">大口大口大口大口</div>-->
+				<!-- <div class="title" v-if="order.shopOrder">{{statusText}}</div>
 				<div class="sub tick cf" v-if="order.expiresTime && order.expiresTime>0">
 					<div class="icon fll" :class="{'Android': platform == 1}">
 						<img src="@/static/img/icon-tick.png" width="10" height="10" alt="">
 					</div>
-					<span v-if="status == 0" class="fll fs24">剩{{expiresTime}}自动关闭</span>
+					<span v-if="status == 0 || status == 6" class="fll fs24">剩{{expiresTime}}自动关闭</span>
 					<span v-if="status == 3" class="fll fs24">剩{{expiresTime}}系统将自动确认收货</span>
-				</div>
+				</div> -->
+				<view v-if="roleId == '20002' || roleId == '20003'">
+					<div class="title" v-if="order.shopOrder && (status == 1 || status == 2 || status == 4 || status == 5)">
+						{{statusText}}
+					</div>
+					
+					<div class="title" v-if="order.shopOrder && (status == 0 || status == 6 || status == 3)">
+						确认倒计时: 
+						<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
+					</div>
+					<div class="sub tick cf" v-if="status == 0 || status == 6 || status == 3">
+						<span class="fll fs24">{{statusText}}</span>
+					</div>
+					
+					<div class="title" v-if="order.shopOrder && (status == -1)">
+						{{statusText}}
+					</div>
+					<div class="sub tick cf" v-if="status == -1">
+						<span class="fll fs24">原因:{{cancelReason}}</span>
+					</div>
+				</view>
+				
+				<view v-if="roleId == '20001'">
+					<div class="title" v-if="order.shopOrder && (status == 0 || status == 1 || status == 2 || status == 4 || status == 5)">
+						{{statusText}}
+					</div>
+					<div class="sub tick cf" v-if="status == 0">
+						<span class="fll fs24">你也可以联系代办协调买家支付</span>
+					</div>
+					<div class="sub tick cf" v-if="status == 1">
+						<span class="fll fs24">请联系代办尽快安排装车发货</span>
+					</div>
+					
+					
+					
+					<div class="title" v-if="order.shopOrder && (status == 6 || status == 3)">
+						确认倒计时: 
+						<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
+					</div>
+					<div class="sub tick cf" v-if="status == 6 || status == 3">
+						<span class="fll fs24">{{statusText}}</span>
+					</div>
+					
+					<div class="title" v-if="order.shopOrder && (status == -1)">
+						{{statusText}}
+					</div>
+					<div class="sub tick cf" v-if="status == -1">
+						<span class="fll fs24">原因:{{cancelReason}}</span>
+					</div>
+				</view>
 			</div>
 		</div>
 		<div class="body">
-			<div class="bus" @click="goFreight">
+			<!-- <div class="bus" @click="goFreight">
 				<div class="icon-48">
 					<img src="@/static/img/icon-bus.png" width="24" height="24" alt />
 				</div>
@@ -36,9 +85,8 @@
 				</div>
 				<div v-else>暂无物流信息</div>
 				<div class="icon-20"><img v-if="order.expressDetails" src="@/static/img/tag-go.png" width="10" height="10" alt /></div>
-
-			</div>
-			<div class="location" v-if="order.orderShipping">
+			</div> -->
+			<!-- <div class="location" v-if="order.orderShipping">
 				<div class="icon-48">
 					<img src="@/static/img/icon-location.png" width="24" height="24" alt />
 				</div>
@@ -50,33 +98,63 @@
 					</div>
 					<div class="address">{{order.orderShipping.province + order.orderShipping.city + order.orderShipping.region + order.orderShipping.address}}</div>
 				</div>
-			</div>
-
+			</div> -->
+			<view class="phone cf" v-if="order.agentcyPhone">
+				<view class="fll">{{roleId=='20001'?'代办人':'货主'}}:{{order.agentcyUserName || '暂无'}}</view>
+				<view class="flr" @click="callPhone(order.agentcyPhone)">
+					<view class="image">
+						<image src="../../../static/imgs/icon-phone.png" mode=""></image>
+					</view>
+					<text>联系{{roleId=='20001'?'代办':'货主'}}</text>
+				</view>
+			</view>
+			<view class="phone cf" v-if="order.phone">
+				<view class="fll">买家:{{order.userName || '暂无'}}</view>
+				<view class="flr" @click="callPhone(order.phone)">
+					<view class="image">
+						<image src="../../../static/imgs/icon-phone.png" mode=""></image>
+					</view>
+					<text>联系买家</text>
+				</view>
+			</view>
+			<view class="phone cf" v-if="order.sendType || true">
+				<view class="fll">物流方式:</view>
+				<view class="flr" @click="showCarInfo">
+					<text class="text-theme">{{order.sendType == 1?'平台选车':'自驾车辆'}}</text>
+					<view class="right">
+						<image src="../../../static/imgs/right.png" mode=""></image>
+					</view>
+				</view>
+			</view>
 			<div class="list" v-if="order.shopOrder">
 				<div class="title">
-					<div class='icon-30' :class="{'Android': platform == 1}">
+					<!-- <div class='icon-30' :class="{'Android': platform == 1}">
 						<img src="@/static/img/icon-plat.png" width="15" height="15" alt />
 					</div>
 
-					<span class="platform">{{order.shopOrder.shopName || ''}}</span>
+					<span class="platform">{{order.shopOrder.shopName || ''}}</span> -->
+					<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 					<span class="status">
-						<span v-if="order.status === 0">已完成</span>
-						<span v-if="order.status === 2">待付款</span>
-						<span v-if="order.status === 3">待发货</span>
-						<span v-if="order.status === 4">已完成</span>
+						<span v-if="order.status == -1">已取消</span>
+						<span v-if="order.status == 0">待付款</span>
+						<span v-if="order.status == 2">待发货</span>
+						<span v-if="order.status == 3">待收货</span>
+						<span v-if="order.status == 4">已完成</span>
+						<span v-if="order.status == 5">已关闭</span>
+						<span v-if="order.status == 6">待审核</span>
 					</span>
 				</div>
-				<Good v-for="good in order.shopOrder.orderDetailList" :key="good.id" :item="good"></Good>
+				<Good v-for="good in order.shopOrder.orderDetailList" :hasAgencyFee="false" :key="good.id" :item="good"></Good>
 				<div class="goods-price">
-					<span>商品金额</span>
+					<span>商品总价</span>
 					<span class="money">￥{{order.shopOrder.orderMoney}}</span>
 				</div>
 				<div class="freight">
-					<span>运费</span>
+					<span>运费  <span class="fs24 text-999 mgl-10"> (运费买家线下支付)</span> </span>
 					<span class="money">￥{{order.shopOrder.deliverMoney}}</span>
 				</div>
-				<div class="total-price">
-					<span>订单总价</span>
+				<div class="total-price bb1">
+					<span class="fs28">订单总价</span>
 					<span class="fs32">￥{{order.shopOrder.totalMoney}}</span>
 				</div>
 				<div class="msg cf">
@@ -89,20 +167,48 @@
 				<div class="title">订单信息</div>
 				<div class="item">订单编号：{{order.shopOrder.orderId || ''}}</div>
 				<div class="item">创建时间：{{order.shopOrder.createTime || ''}}</div>
-				<div class="item" v-if="order.shopOrder.payTime">付款时间：{{order.shopOrder.payTime || ''}}</div>
-				<div class="item" v-if="order.shopOrder.sendTime">发货时间：{{order.shopOrder.sendTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.payTime">支付时间：{{order.shopOrder.payTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.payTime">货主确认：{{order.shopOrder.payTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.sendTime">成交时间：{{order.shopOrder.sendTime || ''}}</div>
 			</div>
 		</div>
 
 		<div class="footer" v-if="status == 0 || status == 3">
-			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 -->
+			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 			<div class="btn-black btn" v-if="status == 0" @click="postOrderCancel">取消订单</div>
 			<div class="btn-red btn" v-if="status == 0" @click="showPay()">去付款</div>
 			<div class="btn-red btn" v-if="status == 3" @click="postOrderConfirm">确认收货</div>
-
 		</div>
 		<Pay :orderId="orderId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
 		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
+		<luPopupWrapper ref="luPopupWrapper" 
+		    :type="type"
+		    :transition="transition"
+		    :backgroundColor="backgroundColor"
+		    :active="active"
+		    :height="height"
+		    :width="width"
+		    :popupId="popupId"
+		    :maskShow="maskShow"
+		    :maskClick="maskClick"
+		    :closeCallback="closeCallback"
+		    >
+		    <view class="luPopupWrapper-content">
+				<view class="title">
+					<text class="text-theme fs34">司机信息</text>
+					<view class="close" @click="close"><image src="../../../static/img/tag-close2.png" mode=""></image></view>
+				</view>
+				<view class="item">
+					司机姓名: {{order.orderShipping.driver || ''}}
+				</view>
+				<view class="item">
+					车牌: {{order.orderShipping.carLicense || ''}}
+				</view>
+				<view class="item" @click="callPhone(order.orderShipping.driverPhone)">
+					电话: {{order.orderShipping.driverPhone || ''}}
+				</view>
+			</view>
+		</luPopupWrapper>
 	</div>
 </template>
 
@@ -117,10 +223,12 @@
 	import T from '@/utils/tips.js'
 	import util from '@/utils/util.js'
 	import Dialog from '@/components/common/Dialog.vue'
+	import luPopupWrapper from "@/components/lu-popup-wrapper/lu-popup-wrapper.vue";
 	export default {
 		name: 'orddetail',
 		data() {
 			return {
+				cancelReason:'',
 				title: '确认收货吗?',
 				isShow: false,
 				isWx: false,
@@ -135,19 +243,33 @@
 				isPay: 0,
 				platform: 0,
 				timer: '',
-				expiresTime: ''
+				expiresTime: '',
+				roleId:'', // 用户类型
+				
+				type:"bottom",// left right top bottom center
+				transition:"slider",//none slider fade
+				backgroundColor:'#FFF',
+				active:false,
+				height:"40%",
+				width:"100%",
+				popupId:1,
+				maskShow:true,
+				maskClick:true,
 			}
 		},
 		components: {
 			Good,
 			Pay,
-			Dialog
+			Dialog,
+			luPopupWrapper
 		},
 		onLoad(options) {
 			this.orderId = options.orderId
 			this.shopId = options.shopId || 1
 		},
 		onShow() {
+			// 用户类型
+			this.roleId = uni.getStorageSync('roleId')
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
 			// 获取参数
@@ -163,6 +285,27 @@
 			}
 		},
 		methods: {
+			// 弹窗事件
+			show() {
+				this.$refs.luPopupWrapper.show();
+			},
+			close() {
+				this.$refs.luPopupWrapper.close();
+			},
+			closeCallback() {
+				console.log("关闭后回调");
+			},
+			
+			// 显示司机信息
+			showCarInfo(){
+				this.show()
+			},
+			// 拨打联系人电话
+			callPhone(phone){
+				uni.makePhoneCall({
+				    phoneNumber: phone 
+				});
+			},
 			doCancel() {
 				this.isShow = false
 			},
@@ -265,8 +408,7 @@
 				}
 				getOrderDetailById(data).then(res => {
 					if (res.code === '1000') {
-						this.order = res.data[0]
-
+						this.order = res.data
 						if (this.order.shopOrder.status == 0 || this.order.shopOrder.status == 3) {
 							let expiresTime = this.order.expiresTime
 							this.timer = setInterval(() => {
@@ -282,29 +424,64 @@
 						if (this.order.shopOrder) {
 							this.status = this.order.shopOrder.status;
 							console.log('status', this.status)
-							switch (this.status) {
-								case -1:
-									this.statusText = '已取消'
-									break
-								case 0:
-									this.statusText = '待付款'
-									break
-								case 1:
-									this.statusText = '已支付'
-									break
-								case 2:
-									this.statusText = '待发货'
-									break
-								case 3:
-									this.statusText = '待收货'
-									break
-								case 4:
-									this.statusText = '已完成'
-									break
-								case 5:
-									this.statusText = '已关闭'
-									break
+							// 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核
+							if(this.roleId == '20002' || this.roleId == '20001'){ // 代办 买家
+								switch (this.status) {
+									case -1:
+										this.statusText = '订单已取消'
+										this.cancelReason = this.order.cancelReason
+										break
+									case 0:
+										this.statusText = '等待买家支付'
+										break
+									case 1:
+										this.statusText = '已支付'
+										break
+									case 2:
+										this.statusText = '等待货主发货'
+										break
+									case 3:
+										this.statusText = '等待买家收货'
+										break
+									case 4:
+										this.statusText = '订单已完成'
+										break
+									case 5:
+										this.statusText = '已关闭'
+									case 6:
+										this.statusText = '等待货主确认'
+										break
+								}
+							}else{  // 货主
+								switch (this.status) {
+									case -1:
+										this.statusText = '订单已取消'
+										this.cancelReason = this.order.cancelReason
+										break
+									case 0:
+										this.statusText = '等待买家支付'
+										break
+									case 1:
+										this.statusText = '买家已支付'
+										break
+									case 2:
+										this.statusText = '等待货主发货'
+										break
+									case 3:
+										this.statusText = '等待买家收货'
+										break
+									case 4:
+										this.statusText = '订单已完成'
+										break
+									case 5:
+										this.statusText = '已关闭'
+									case 6:
+									//等待货主确认
+										this.statusText = '请尽快确认,超时订单自动取消'
+										break
+								}
 							}
+							
 						}
 
 					} else {
@@ -319,6 +496,36 @@
 </script>
 
 <style lang="scss" scoped>
+	.luPopupWrapper-content{
+		padding: 0 30upx;
+		width: 100%;
+		padding-bottom: 30upx;
+		position: absolute;
+		top: 0;
+		.item{
+			line-height: 100upx;
+			height: 100upx;
+			border-bottom: 1upx solid #f5f5f5;
+			color: #333333;
+		}
+		.title{
+			position: relative;
+			text-align: center;
+			line-height: 100upx;
+			height: 100upx;
+			.close{
+				width: 48upx;
+				height: 48upx;
+				position: absolute;
+				right: 60upx;
+				top: 15upx;
+				>image{
+					width: 100%;
+					height: 100%;
+				}
+			}
+		}
+	}
 	.icon-20 {
 		width: 20upx;
 		height: 20upx;
@@ -372,16 +579,16 @@
 			// top: 0;
 			z-index: 99;
 			width: 100%;
-			height: 230upx;
+			height: 200upx;
 			background: red;
 			left: 0;
 
 			.img {
-				width: 290upx;
-				height: 190upx;
+				width: 150upx;
+				height: 150upx;
 				position: absolute;
-				right: 0;
-				bottom: 0;
+				right: 60upx;
+				bottom: 20upx;
 
 				img {
 					width: 100%;
@@ -399,10 +606,10 @@
 			margin-top: 40upx;
 			position: absolute;
 			left: 30upx;
-			top: 20upx;
+			top: 30upx;
 
 			.title {
-				font-size: 40upx;
+				font-size: 34upx;
 			}
 
 			.sub {
@@ -417,7 +624,43 @@
 		}
 
 		.body {
-
+			.phone{
+				height: 100upx;
+				line-height: 100upx;
+				background: #fff;
+				padding: 0 30upx;
+				font-size: 28upx;
+				color: #333;
+				margin-bottom: 20upx;
+				.flr{
+					
+					.right{
+						width: 24upx;
+						height: 24upx;
+						display: inline-block;
+						position: relative;
+						left: 10upx;
+						top: 4upx;
+						>image{
+							width: 100%;
+							height: 100%;
+						}
+					}
+					
+					.image{
+						width: 34upx;
+						height: 34upx;
+						display: inline-block;
+						position: relative;
+						right:10upx;
+						top: 8upx;
+						>image{
+							width: 100%;
+							height: 100%;
+						}
+					}
+				}
+			}
 			// margin-top: 100upx;
 			.address-content {
 				width: 720upx;
@@ -483,10 +726,13 @@
 		}
 
 		.list {
-			padding: 30upx 30upx 0 30upx;
+			padding: 30upx 0upx 0 30upx;
+			
 			background-color: #fff;
-			margin-bottom: 30upx;
-
+			margin-bottom: 20upx;
+			.goods-price,.freight,.total-price,.msg {
+				padding-right: 30upx;
+			}
 			.title {
 				padding: 0 0 10upx 0;
 				display: flex;
@@ -516,15 +762,15 @@
 				@extend .flex;
 				color: #000;
 				font-size: 24upx;
-
+		
 				.money {
 					font-weight: bold;
 				}
 			}
 
 			.goods-price {
-				padding-top: 10upx;
-				padding-bottom: 20upx;
+				padding-top: 30upx;
+				padding-bottom: 10upx;
 			}
 
 			.freight {

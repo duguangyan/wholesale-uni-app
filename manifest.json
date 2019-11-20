@@ -14,7 +14,8 @@
             "VideoPlayer" : {},
             "OAuth" : {},
             "Payment" : {},
-            "Share" : {}
+            "Share" : {},
+            "Push" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -72,13 +73,15 @@
             },
             /* SDK配置 */
             "sdkConfigs" : {
-                "push" : {},
+                "push" : {
+                    "unipush" : {}
+                },
                 "payment" : {
-                    "alipay" : {},
                     "weixin" : {
                         "appid" : "wx26baf2267dd24e83",
                         "UniversalLinks" : "https://m.qinlvny.com/static/"
-                    }
+                    },
+                    "alipay" : {}
                 },
                 "share" : {
                     "weixin" : {
