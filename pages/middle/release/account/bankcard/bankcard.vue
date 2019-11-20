@@ -1,7 +1,7 @@
 <template>
 	<view class="bankcard">
 		<view class="items">
-			<view class="item cf" v-for="(item,index) in records" :key="index">
+			<view class="item cf" v-for="(item,index) in records" :key="index" @click="goDel(item)">
 				<view class="left fll">
 					<view class="image">
 						<image src="../../../../../static/imgs/icon-1017.png" mode=""></image>
@@ -47,9 +47,16 @@
 			this.getBankList()
 		},
 		methods:{
+			//删除银行卡
+			goDel(item){
+				uni.navigateTo({
+					url:'/pages/middle/release/account/bankcard/del?item='+ JSON.stringify(item) 
+				})
+			},
+			// 添加银行卡
 			addBankcard(){
-				uni.redirectTo({
-					url:'/pages/middle/release/account/bankcard/add'
+				uni.navigateTo({
+					url:'/pages/middle/release/account/payps/resPassword?add=1'
 				})
 			},
 			// 获取银行卡信息

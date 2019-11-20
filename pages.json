@@ -251,6 +251,12 @@
 			}
 		}
 		,{
+		    "path" : "pages/middle/release/account/bankcard/del",
+		    "style" : {
+				"navigationBarTitleText": "解绑银行卡" 
+			}
+		}
+		,{
 		    "path" : "pages/middle/release/account/bankcard/addinfo",
 		    "style" : {
 				"navigationBarTitleText": "填写银行卡信息" 
@@ -295,7 +301,15 @@
             "style" : {
 				"navigationBarTitleText": "信息填写"
 			}
-        },{
+        },
+		{
+		    "path" : "pages/middle/identity/realname/auditFail",
+		    "style" : {
+				"navigationBarTitleText": "审核结果"
+			}
+		},
+		
+		{
             "path" : "pages/middle/identity/realname/buyer",
             "style" : {
 				"navigationBarTitleText": "实名认证"

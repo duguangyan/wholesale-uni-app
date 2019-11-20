@@ -54,8 +54,8 @@
 				
 				validCard(data).then(res=>{
 					if(res.code== '1000' && res.data.status == 1){
-						uni.navigateTo({
-							url:'/pages/middle/release/account/bankcard/addinfo'
+						uni.redirectTo({
+							url:'/pages/middle/release/account/bankcard/addinfo?bankName='+ res.data.bankName + '&cardType='+ res.data.cardType +'&realName =' +this.realName +'&cardNo=' + this.cardNo + '&bankCode=' + res.data.bankCode 
 						})
 					}else{
 						T.tips(res.message || '银行卡新增失败')

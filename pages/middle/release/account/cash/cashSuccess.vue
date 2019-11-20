@@ -9,7 +9,7 @@
 				提现提交成功，到账时间以银行为准
 			</view>
 			<view class="fs20 text-999 mgt-20">
-				申请时间:2019-11-12 11:55:55
+				申请时间: {{time}}
 			</view>
 		</view>
 		<view class="big-btn-active" @click="goBack">返回账户</view>
@@ -17,16 +17,20 @@
 </template>
 
 <script>
+	import util from "@/utils/util"
 	export default {
 		data() {
 			return {
-				
+				time:''
 			};
+		},
+		onLoad() {
+			this.time = util.getNowFormatDate()
 		},
 		methods:{
 			goBack(){
 				uni.navigateBack({
-					delta:1
+					delta:2
 				})
 			}
 		}

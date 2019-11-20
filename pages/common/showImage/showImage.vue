@@ -1,15 +1,15 @@
 <template>
 	<view class="agency">
 		<view class="sf">
-			<image :src="agency==0?'../../../static/imgs/sfcat-1.png':'../../../static/imgs/sfcat-2.png'" mode=""></image>
+			<image :src="agency == 0 ?'../../../static/imgs/sfcat-1.png':'../../../static/imgs/sfcat-2.png'" mode=""></image>
 		</view>
 		<view class="text">
 			
-			{{agency==0?'证件信息真实完整，内容清晰可见 文字无遮挡':'证件内容清晰可见必须在有效期限内 请勿上传时间过期证件'}}
+			{{agency == 0?'证件信息真实完整，内容清晰可见 文字无遮挡':'证件内容清晰可见必须在有效期限内 请勿上传时间过期证件'}}
 			
 		</view>
 		
-		<view class="big-btn-active" @click="getImage">{{gency==0?'去拍摄正面':'去拍摄反面'}}</view>
+		<view class="big-btn-active" @click="getImage">{{agency == 0?'去拍摄正面':'去拍摄反面'}}</view>
 	</view>
 </template>
 
@@ -17,7 +17,7 @@
 	export default {
 		data() {
 			return {
-				agency:''
+				agency:0
 			};
 		},
 		onLoad(options) {

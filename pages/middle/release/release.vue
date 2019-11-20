@@ -269,7 +269,7 @@
 					shopId:'',
 					showStyle:2,
 					sort:1,
-					unit:goodsSkuList[0].unit
+					unit:goodsSkuList[0].id
 				}
 				
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)

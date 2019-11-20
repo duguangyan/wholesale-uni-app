@@ -147,13 +147,13 @@
 					<view class="close" @click="close"><image src="../../../static/img/tag-close2.png" mode=""></image></view>
 				</view>
 				<view class="item">
-					司机姓名: {{order.orderShipping.driver}}
+					司机姓名: {{order.orderShipping.driver || ''}}
 				</view>
 				<view class="item">
-					车牌: {{order.orderShipping.carLicense}}
+					车牌: {{order.orderShipping.carLicense || ''}}
 				</view>
 				<view class="item" @click="callPhone(order.orderShipping.driverPhone)">
-					电话: {{order.orderShipping.driverPhone}}
+					电话: {{order.orderShipping.driverPhone || ''}}
 				</view>
 			</view>
 		</luPopupWrapper>

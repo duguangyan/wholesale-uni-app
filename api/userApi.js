@@ -260,7 +260,7 @@ const getUserRealInfoSettledIn = data => {
 		type: 'form',
 	})
 }
-// 或许用户认证信息
+// 获取用户认证信息
 const getByUserIdAndType = data => {
 	return request({
 		method: 'post',
@@ -288,11 +288,52 @@ const getShopIdByUser = data => {
 	})
 }
 
+// 统计订单状态条数
+const getOrderStat = data => {
+	return request({
+		url: '/api/order/order/myOrderStat',
+		data,
+		type: 'form',
+	})
+}
 
+// 主页订单交易统计
+const statOrderInfo = data => {
+	return request({
+		url: '/api/order/orderStat/statOrderInfo',
+		data,
+		type: 'form',
+	})
+}
+
+
+
+// 入驻申请撤回
+const applyAuditWithdraw = data => {
+	return request({
+		url: '/api/goods/apply/auditWithdraw',
+		data,
+		type: 'form',
+	})
+}
+
+// 入驻申请撤回后提交更新
+const applyApplyUpdate = data => {
+	return request({
+		method: 'post',
+		url: '/api/goods/apply/update',
+		data,
+		type: 'form',
+	})
+}
 
 
 
 export {
+	applyApplyUpdate,
+	applyAuditWithdraw,
+	statOrderInfo,
+	getOrderStat,
 	getShopIdByUser,
 	getUserRealInfoAll,
 	getByUserIdAndType,

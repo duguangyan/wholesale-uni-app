@@ -88,8 +88,36 @@ const validCard = data => {
 // 获取我的账户资金
 const accountSub = data => {
 	return request({
-		method: 'post',
 		url: '/api/pay/accountSub/getFund',
+		data,
+		type: 'form',
+	})
+}
+
+// 解绑银行卡
+const deleteBank = data => {
+	return request({
+		url: '/api/pay/bank/delete',
+		data,
+		type: 'form',
+	})
+}
+
+// 验证支付密码
+const validPayPwd = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/accountSub/validPayPwd',
+		data,
+		type: 'form',
+	})
+}
+
+// 提现
+const postPayApply = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/draw/apply',
 		data,
 		type: 'form',
 	})
@@ -98,6 +126,9 @@ const accountSub = data => {
 
 
 export {
+	postPayApply,
+	validPayPwd,
+	deleteBank,
 	accountSub,
 	validCard,
 	setBanksetNewPwd,

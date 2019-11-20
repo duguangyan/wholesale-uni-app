@@ -2,8 +2,8 @@
 	<view class="agency">
 		<view class="top flex">
 			<view class="item fs24 flex-1 cf" v-for="(item,index) in progress" :key="index">
-				<view class="garden fll" :class="{'activeGarden':index == 0}">{{index}}</view>
-				<view class="text fll" :class="{'activeText':index == 0}">{{item}}</view>
+				<view class="garden fll" :class="{'activeGarden':index == 0 || (index==1 && disabled)}">{{index}}</view>
+				<view class="text fll" :class="{'activeText':index == 0  || (index==1 && disabled)}">{{item}}</view>
 				<view class="label fll" v-if="index < 2">
 					<image src="../../../../static/imgs/agency-right.png"></image>
 				</view>
@@ -20,7 +20,7 @@
 			<view class="item-1" v-if="!disabled && userRealInfo ==''">
 				<view class="fll">邀请码</view>
 				<view class="flr">
-					<input type="text" v-model="realName" :disabled="disabled" placeholder="请输入邀请码">
+					<input type="text" v-model="code" :disabled="disabled" placeholder="请输入邀请码">
 				</view>
 			</view>
 			<!-- <view class="item-1">
@@ -44,7 +44,7 @@
 				</view>
 				<view class="choose cf" @click="showPicker">
 					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?(hasfrom==2?'请选择经营地区':'请选择代办地区'):fullAddress}}</view>
-					<view class="flr">
+					<view class="flr" v-if="!disabled">
 						<image src="../../../../static/imgs/right.png"></image>
 					</view>
 				</view>
@@ -55,7 +55,7 @@
 				</view>
 				<view class="choose cf">
 					<view class="fll" :class="{'text-666':productType!=''}">{{productType == ''?'请选择类型:如农产品、蔬菜、白菜':productType}}</view>
-					<view class="flr">
+					<view class="flr" v-if="!disabled">
 						<image src="../../../../static/imgs/right.png"></image>
 					</view>
 				</view>
@@ -89,8 +89,9 @@
 				
 			</view>
 		</view>
+		<!-- 0 待审  1 审核通过  2 不通过  3 撤回 -->
 		<view class="big-btn-active"  @click="doSubmit" v-if="!disabled">提交审核</view>
-		<view class="big-btn-active"  @click="doSubmit" v-if="disabled">撤回</view>
+		<view class="big-btn-active"  @click="setBack" v-if="disabled">撤回</view>
 		<view class="height100"></view>
 		<chooseType v-if="isChooseType" :list="categoryTree" @close="chooseTypeClose" @complete="chooseTypeComplete"></chooseType>
 		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
@@ -103,14 +104,15 @@
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import mpvueCityPicker from '@/components/common/mpvue-citypicker/mpvueCityPicker.vue'
 	import chooseType from '@/components/realname/ChooseType.vue'
-	import { postUserImgUpload, postUserHeadImg, postUpdateNickname, getUserRealInfoSettledIn } from '@/api/userApi.js'
+	import { postUserImgUpload, postUserHeadImg, postUpdateNickname, getUserRealInfoSettledIn, getUserRealInfoAll, applyAuditWithdraw, applyApplyUpdate } from '@/api/userApi.js'
 	import { getCategoryTreeNode } from '@/api/goodsApi.js'
 	import T from '@/utils/tips.js'
 	export default {
 		name: 'agency',
 		data() {
 			return {
-				userApply:'', // 用户类型
+				code :'',        // 邀请码
+				userApply:'',    // 用户类型
 				disabled: false, // 是否可以输入
 				progress:['填写资料','提交审核','审核通过'],
 				isChooseType:false,
@@ -135,13 +137,13 @@
 				agencyImgUpload2: '',
 				hasfrom:'',
 				productType:'',
-				realName :'', // 真实姓名
-				cardNo:'',    // 身份证号码
-				cardImgFront :'', // 身份证正面照
+				realName :'',        // 真实姓名
+				cardNo:'',           // 身份证号码
+				cardImgFront :'',    // 身份证正面照
 				cardImgReverse :'',  // 身份证反面照
-				categoryTree:'', // 产品分类
-				productTypeId:'', // 分类Id
-				userRealInfo:'', // 邀请码
+				categoryTree:'',     // 产品分类
+				productTypeId:'',    // 分类Id
+				userRealInfo:'',     // 邀请码
 			};
 		},
 		components: {
@@ -171,36 +173,44 @@
 			this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1')
 			this.agencyImgUpload2 = uni.getStorageSync('agencyImgUpload2')
 			this.userRealInfo = uni.getStorageSync('userRealInfo') || ''
-			
-			
 			// 判断用户类型
 			this.assessUserType() 
 		},
 		
 		methods: {
+			// 撤回
+			setBack(){
+				applyAuditWithdraw().then(res=>{
+					if(res.code == '1000'){
+						let userApply    = JSON.parse(uni.getStorageSync('userApply')) 
+						userApply.status = 3
+						this.userApply   = userApply
+						uni.setStorageSync('userApply',userApply)
+						this.disabled    = false
+					}
+				})
+			},
+			// 判断数据
 			assessUserType(){
 				// 判断用户类型
-				let userApply = uni.getStorageSync('userApply')
+				let userApply             = uni.getStorageSync('userApply')
 				if(userApply){
-					this.userApply = JSON.parse(userApply) 
-					this.hasfrom = this.userApply.type == 1 ? 2 : 1
-					
-					this.disabled= true
-					
-					this.realName = this.userApply.realName
-					this.cardNo = this.userApply.cardNo
+					this.userApply        = JSON.parse(userApply) 
+					this.hasfrom          = this.userApply.type == 1 ? 2 : 1
+					this.disabled         = this.userApply.status != 3
+					this.realName         = this.userApply.realName
+					this.cardNo           = this.userApply.cardNo
 					this.agencyImgUpload1 = this.userApply.cardImgFront
 					this.agencyImgUpload2 = this.userApply.cardImgReverse
-					this.productType = this.userApply.categoryName
-					this.fullAddress = this.userApply.province + this.userApply.city + this.userApply.region
-				
+					this.productType      = this.userApply.categoryName
+					this.fullAddress      = this.userApply.province + this.userApply.city + this.userApply.region
 				}
 			},
 			chooseTypeComplete(e){
 				console.log(e)
-				this.productType = e.left + '/' + e.content + '/' + e.right
+				this.productType   = e.left + '/' + e.content + '/' + e.right
 				this.productTypeId = e.id
-				this.isChooseType = false
+				this.isChooseType  = false
 			},
 			chooseTypeClose(){
 				this.isChooseType = false
@@ -288,14 +298,14 @@
 				// full地址
 				let arr = this.fullAddress.split('-');
 				// 省
-				this.address.province = arr[0]
+				this.address.province   = arr[0]
 				this.address.provinceId = e.ids[0]
 				// 市
-				this.address.city = arr[1]
-				this.address.cityId = e.ids[1]
+				this.address.city       = arr[1]
+				this.address.cityId     = e.ids[1]
 				// 区
-				this.address.region = arr[2]
-				this.address.regionId = e.ids[2]
+				this.address.region     = arr[2]
+				this.address.regionId   = e.ids[2]
 			},
 			doSubmit(){
 				// 数据验证
@@ -303,6 +313,13 @@
 					T.tips('姓名不能为空')
 					return false
 				}
+				if(!uni.getStorageSync('userRealInfo')){
+					if(this.code == ''){
+						T.tips('邀请码不能为空')
+						return false
+					}
+				}
+				
 				if(this.cardNo == ''){
 					T.tips('身份证号码不能为空')
 					return false
@@ -321,16 +338,19 @@
 				}
 				//  实名认证
 				let data = {
-					cardImgFront:this.agencyImgUpload1,
+					cardImgFront:   this.agencyImgUpload1,
 					cardImgReverse: this.agencyImgUpload2,
-					cardNo: this.cardNo,
-					realName: this.realName,
-					province: this.address.province,
-					provinceId: this.address.provinceId,
-					city: this.address.city,
-					cityId: this.address.cityId,
-					region: this.address.region,
-					regionId: this.address.regionId
+					cardNo:         this.cardNo,
+					realName:       this.realName,
+					province:       this.address.province,
+					provinceId:     this.address.provinceId,
+					city:           this.address.city,
+					cityId:         this.address.cityId,
+					region:         this.address.region,
+					regionId:       this.address.regionId
+				}
+				if(!uni.getStorageSync('userRealInfo')){
+					data.code = this.code
 				}
 				// 代办 货主判断  hasfrom : 1代办 2货主
 				if(this.hasfrom == 1){
@@ -339,16 +359,50 @@
 					data.type = 1
 					data.categoryId = this.productTypeId
 				}
-				getUserRealInfoSettledIn(data).then(res=>{
-					if(res.code == '1000'){
-						uni.switchTab({
-							url:'/pages/middle/middle'
-						})
-					}
-				})
-				 //  uni.navigateTo({
-					// url:'/pages/middle/identity/submitFail/submitFail'
-				 //  })
+				
+				if(this.userApply.status == 3) { // 重新审核
+					data.id = this.userApply.id
+					applyApplyUpdate(data).then(res=>{
+						if(res.code == '1000'){
+							getUserRealInfoAll().then((res) => {
+								if (res.code === '1000') {
+									let roleId = res.data.userRole.roleId || ''
+									uni.setStorageSync('nickName', res.data.user.nickName)
+									uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
+									uni.setStorageSync('roleId', roleId)
+									uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+									uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
+									uni.switchTab({
+										url:'/pages/middle/middle'
+									})
+								}
+							})
+						}else{
+							 T.tips(res.message || '审核失败')
+						}
+					})
+				}else{  // 第一次审核
+					getUserRealInfoSettledIn(data).then(res=>{
+						if(res.code == '1000'){
+							getUserRealInfoAll().then((res) => {
+								if (res.code === '1000') {
+									let roleId = res.data.userRole.roleId || ''
+									uni.setStorageSync('nickName', res.data.user.nickName)
+									uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
+									uni.setStorageSync('roleId', roleId)
+									uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+									uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
+									uni.switchTab({
+										url:'/pages/middle/middle'
+									})
+								}
+							})
+						}else{
+							 T.tips(res.message || '审核失败')
+						}
+					})
+				}
+ 
 			}
 		}
 	}
@@ -400,6 +454,8 @@
 				// color: #ccc;
 				border-bottom: 1upx solid #F0F0F0;
 				padding-bottom: 20upx;
+				position: relative;
+				top: 4upx;
 				input{
 					font-size: 28upx;
 					position: relative;
