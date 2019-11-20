@@ -39,10 +39,11 @@
 					<Good v-for="good in item.orderDetailList" :key="good.id" :item="good"></Good>
 					<view class="accu fs24">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001'?item.orderMoney:item.payMoney}}</text></view>
 					<view class="operator">
+						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 						<view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view>
 						<view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view>
-						<view class="receive" v-if="item.status === 3" @click="postOrderConfirm(index)">确认收货</view>
-						<view class="receive" v-if="item.status === 2" @click="showPay(index)">去支付</view>
+						<view class="receive" v-if="item.status == 3" @click="postOrderConfirm(index)">确认收货</view>
+						<view class="receive" v-if="item.status == 0" @click="showPay(index)">去支付</view>
 					</view>
 				</view>
 			</view>
@@ -80,6 +81,7 @@
 				orderId: '',
 				shopId: '',
 				orders: [],
+				// 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核
 				tabs: [{
 						name: '全部',
 						status: '',
@@ -87,22 +89,22 @@
 					},
 					{
 						name: '待确认',
-						status: 0,
+						status: 6,
 						tip:''
 					},
 					{
 						name: '待支付',
-						status: 2,
+						status: 0,
 						tip:''
 					},
 					{
 						name: '待发货',
-						status: 3,
+						status: 2,
 						tip:''
 					},
 					{
 						name: '待收货',
-						status: 4,
+						status: 3,
 						tip:''
 					}
 				],

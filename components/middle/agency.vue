@@ -58,12 +58,12 @@
 			</view>
 		</view>
 		<view class="goods orders">
-			<view class="title cf" @click="goOrder">
+			<view class="title cf" @click="goOrderList('')">
 				{{roleId=='2002'?'订单':'销售订单'}}
 				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
 			</view>
 			<view class="flex fs28">
-				<view class="flex-1" v-for="(item,index) in spOrders" :key="index">
+				<view class="flex-1" v-for="(item,index) in spOrders" :key="index" @click="goOrderList(index)">
 					<view class="img"><image :src="item.img" mode=""></image></view>
 					<view class="text fs24">{{item.text}}</view>
 					<view class="tip" v-if="item.tip != ''">{{item.tip}}</view>
@@ -169,6 +169,15 @@
 			this.getYearAndMonth()
 		},
 		methods: {
+			// 去订单页面
+			goOrderList(index) {
+			  let i = index === '' ? '' : index + 1
+			  if(index == 4) i = ''
+			  uni.setStorageSync('orderNavIndex', i)
+			  uni.navigateTo({
+			  	url:'/pages/user/order/list?from=user'
+			  })
+			},
 			// 获取年月
 			getYearAndMonth(){
 				this.yearAndMonth = util.doHandleYear() + '年' + util.doHandleMonth() + '月'
@@ -201,11 +210,22 @@
 						let list = res.data
 						list.forEach((item,index)=>{
 							
-							if(item.status == 0) this.spOrders[1].tip = item.num
-							if(item.status == 2) this.spOrders[2].tip = item.num
-							if(item.status == 3) this.spOrders[3].tip = item.num
-							if(item.status == 4) this.spOrders[4].tip = item.num
-							if(item.status == 6) this.spOrders[0].tip = item.num
+							if(this.from == 'order'){
+								if(roleId == 20001) {
+									if(item.status == 6) this.tabs[1].tip = item.num	
+								}else if(roleId == 20002){
+									if(item.status == 2) this.tabs[3].tip = item.num
+								}else if(roleId == 20003){
+									if(item.status == 0) this.tabs[2].tip = item.num
+								}
+							}if(this.from == 'user'){
+								if(item.status == 0) this.tabs[2].tip = item.num
+							}
+							// if(item.status == 0) this.spOrders[1].tip = item.num
+							// if(item.status == 2) this.spOrders[2].tip = item.num
+							// if(item.status == 3) this.spOrders[3].tip = item.num
+							// if(item.status == 4) this.spOrders[4].tip = item.num
+							// if(item.status == 6) this.spOrders[0].tip = item.num
 							
 						})
 					}

@@ -157,6 +157,7 @@
 						goodsId:'',
 						name:'产地',
 						nameGroup:'',
+						inputType:0,
 						sort:1
 					}
 					goodsAttrList.push(obj)
@@ -184,6 +185,7 @@
 								goodsId:'',
 								name:item.name,
 								nameGroup:'',
+								inputType:item.inputType,
 								sort:index + 2
 							}
 							goodsAttrList.push(obj)
@@ -206,6 +208,7 @@
 								goodsId:'',
 								name:item.name,
 								nameGroup:'',
+								inputType:item.inputType,
 								sort:goodsAttrList.length + 1 + index
 							}
 							goodsAttrList.push(obj)
@@ -215,6 +218,7 @@
 				
 				
 				// 编辑图片
+				this.goodsImgLists = []
 				if(goodsImgList && goodsImgList.length>0){
 					
 					if(goodsImgList[0].imgs.length>0){
@@ -269,7 +273,7 @@
 					shopId:'',
 					showStyle:2,
 					sort:1,
-					unit:goodsSkuList[0].id
+					unit:goodsSkuList[0].unitId
 				}
 				
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)

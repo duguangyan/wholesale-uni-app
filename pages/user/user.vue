@@ -113,12 +113,23 @@
 					if(res.code == '1000'){
 						let list = res.data
 						list.forEach((item,index)=>{
-							
-							if(item.status == 0) this.titles[1].tip = item.num
-							if(item.status == 2) this.titles[2].tip = item.num
-							if(item.status == 3) this.titles[3].tip = item.num
-							if(item.status == 4) this.titles[4].tip = item.num
-							if(item.status == 6) this.titles[0].tip = item.num
+							let roleId = uni.getStorageSync('roleId')
+							if(this.from == 'order'){
+								if(roleId == 20001) {
+									if(item.status == 6) this.tabs[1].tip = item.num	
+								}else if(roleId == 20002){
+									if(item.status == 2) this.tabs[3].tip = item.num
+								}else if(roleId == 20003){
+									if(item.status == 0) this.tabs[2].tip = item.num
+								}
+							}if(this.from == 'user'){
+								if(item.status == 0) this.tabs[2].tip = item.num
+							}
+							// if(item.status == 0) this.titles[1].tip = item.num
+							// if(item.status == 2) this.titles[2].tip = item.num
+							// if(item.status == 3) this.titles[3].tip = item.num
+							// if(item.status == 4) this.titles[4].tip = item.num
+							// if(item.status == 6) this.titles[0].tip = item.num
 						})
 					}
 				})
@@ -146,9 +157,7 @@
 			},
 			goInfo() {
 				if(this.isLogin) {
-					uni.navigateTo({
-						url:'/pages/user/info/info'
-					})
+					this.goSettingPage()
 				}
 			},
 			// 去登录

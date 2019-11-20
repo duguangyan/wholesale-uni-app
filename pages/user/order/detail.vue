@@ -14,15 +14,63 @@
 			</div>
 			<div class="annoc">
 				<!--      状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭-->
-				<div class="title" v-if="order.shopOrder">{{statusText}}</div>
-				<!--        <div class="sub">大口大口大口大口</div>-->
+				<!-- <div class="title" v-if="order.shopOrder">{{statusText}}</div>
 				<div class="sub tick cf" v-if="order.expiresTime && order.expiresTime>0">
 					<div class="icon fll" :class="{'Android': platform == 1}">
 						<img src="@/static/img/icon-tick.png" width="10" height="10" alt="">
 					</div>
-					<span v-if="status == 0" class="fll fs24">剩{{expiresTime}}自动关闭</span>
+					<span v-if="status == 0 || status == 6" class="fll fs24">剩{{expiresTime}}自动关闭</span>
 					<span v-if="status == 3" class="fll fs24">剩{{expiresTime}}系统将自动确认收货</span>
-				</div>
+				</div> -->
+				<view v-if="roleId == '20002' || roleId == '20003'">
+					<div class="title" v-if="order.shopOrder && (status == 1 || status == 2 || status == 4 || status == 5)">
+						{{statusText}}
+					</div>
+					
+					<div class="title" v-if="order.shopOrder && (status == 0 || status == 6 || status == 3)">
+						确认倒计时: 
+						<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
+					</div>
+					<div class="sub tick cf" v-if="status == 0 || status == 6 || status == 3">
+						<span class="fll fs24">{{statusText}}</span>
+					</div>
+					
+					<div class="title" v-if="order.shopOrder && (status == -1)">
+						{{statusText}}
+					</div>
+					<div class="sub tick cf" v-if="status == -1">
+						<span class="fll fs24">原因:{{cancelReason}}</span>
+					</div>
+				</view>
+				
+				<view v-if="roleId == '20001'">
+					<div class="title" v-if="order.shopOrder && (status == 0 || status == 1 || status == 2 || status == 4 || status == 5)">
+						{{statusText}}
+					</div>
+					<div class="sub tick cf" v-if="status == 0">
+						<span class="fll fs24">你也可以联系代办协调买家支付</span>
+					</div>
+					<div class="sub tick cf" v-if="status == 1">
+						<span class="fll fs24">请联系代办尽快安排装车发货</span>
+					</div>
+					
+					
+					
+					<div class="title" v-if="order.shopOrder && (status == 6 || status == 3)">
+						确认倒计时: 
+						<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
+					</div>
+					<div class="sub tick cf" v-if="status == 6 || status == 3">
+						<span class="fll fs24">{{statusText}}</span>
+					</div>
+					
+					<div class="title" v-if="order.shopOrder && (status == -1)">
+						{{statusText}}
+					</div>
+					<div class="sub tick cf" v-if="status == -1">
+						<span class="fll fs24">原因:{{cancelReason}}</span>
+					</div>
+				</view>
 			</div>
 		</div>
 		<div class="body">
@@ -85,11 +133,15 @@
 					</div>
 
 					<span class="platform">{{order.shopOrder.shopName || ''}}</span> -->
+					<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 					<span class="status">
-						<span v-if="order.status === 0">已完成</span>
-						<span v-if="order.status === 2">待付款</span>
-						<span v-if="order.status === 3">待发货</span>
-						<span v-if="order.status === 4">已完成</span>
+						<span v-if="order.status == -1">已取消</span>
+						<span v-if="order.status == 0">待付款</span>
+						<span v-if="order.status == 2">待发货</span>
+						<span v-if="order.status == 3">待收货</span>
+						<span v-if="order.status == 4">已完成</span>
+						<span v-if="order.status == 5">已关闭</span>
+						<span v-if="order.status == 6">待审核</span>
 					</span>
 				</div>
 				<Good v-for="good in order.shopOrder.orderDetailList" :hasAgencyFee="false" :key="good.id" :item="good"></Good>
@@ -122,7 +174,7 @@
 		</div>
 
 		<div class="footer" v-if="status == 0 || status == 3">
-			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 -->
+			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 			<div class="btn-black btn" v-if="status == 0" @click="postOrderCancel">取消订单</div>
 			<div class="btn-red btn" v-if="status == 0" @click="showPay()">去付款</div>
 			<div class="btn-red btn" v-if="status == 3" @click="postOrderConfirm">确认收货</div>
@@ -176,6 +228,7 @@
 		name: 'orddetail',
 		data() {
 			return {
+				cancelReason:'',
 				title: '确认收货吗?',
 				isShow: false,
 				isWx: false,
@@ -371,29 +424,64 @@
 						if (this.order.shopOrder) {
 							this.status = this.order.shopOrder.status;
 							console.log('status', this.status)
-							switch (this.status) {
-								case -1:
-									this.statusText = '已取消'
-									break
-								case 0:
-									this.statusText = '待付款'
-									break
-								case 1:
-									this.statusText = '已支付'
-									break
-								case 2:
-									this.statusText = '待发货'
-									break
-								case 3:
-									this.statusText = '待收货'
-									break
-								case 4:
-									this.statusText = '已完成'
-									break
-								case 5:
-									this.statusText = '已关闭'
-									break
+							// 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核
+							if(this.roleId == '20002' || this.roleId == '20001'){ // 代办 买家
+								switch (this.status) {
+									case -1:
+										this.statusText = '订单已取消'
+										this.cancelReason = this.order.cancelReason
+										break
+									case 0:
+										this.statusText = '等待买家支付'
+										break
+									case 1:
+										this.statusText = '已支付'
+										break
+									case 2:
+										this.statusText = '等待货主发货'
+										break
+									case 3:
+										this.statusText = '等待买家收货'
+										break
+									case 4:
+										this.statusText = '订单已完成'
+										break
+									case 5:
+										this.statusText = '已关闭'
+									case 6:
+										this.statusText = '等待货主确认'
+										break
+								}
+							}else{  // 货主
+								switch (this.status) {
+									case -1:
+										this.statusText = '订单已取消'
+										this.cancelReason = this.order.cancelReason
+										break
+									case 0:
+										this.statusText = '等待买家支付'
+										break
+									case 1:
+										this.statusText = '买家已支付'
+										break
+									case 2:
+										this.statusText = '等待货主发货'
+										break
+									case 3:
+										this.statusText = '等待买家收货'
+										break
+									case 4:
+										this.statusText = '订单已完成'
+										break
+									case 5:
+										this.statusText = '已关闭'
+									case 6:
+									//等待货主确认
+										this.statusText = '请尽快确认,超时订单自动取消'
+										break
+								}
 							}
+							
 						}
 
 					} else {
