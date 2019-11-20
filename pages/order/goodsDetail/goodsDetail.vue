@@ -2,13 +2,13 @@
 	<div class="good-detail" v-if="opt">
 		<view class="top">
 			<view class="tips cf">
-				<view class="fll" @click="goBack">
+				<!-- <view class="fll" @click="goBack">
 					<image src="../../../static/imgs/icon-back.png" mode=""></image>
-				</view>
+				</view> -->
 				<view class="flr" @click="isShare = true">
 					<image src="../../../static/imgs/icon-share.png" mode=""></image>
 				</view>
-        <view class="flr" @click="isShare = true">
+        <view class="flr" @click="navToCart">
         	<image src="../../../static/imgs/icon-detail.png" mode=""></image>
         </view>
 			</view>
@@ -48,7 +48,7 @@
 			<div v-if="good.goods.showStyle==2" class="cf goodsPrice">
 				<div v-for="(item,index) in good.goodsList" :key="index" class="fll" :class="{'left1': good.goodsList.length == 1, 'left2': good.goodsList.length == 2}">
 					<div class="multi-price">
-						{{item.price || 0}}</span>
+						<span>{{item.price || 0}}</span>
 						<span v-if="good.goods.unitName">/{{good.goods.unitName}}</span>
 					</div>
 					<div class="multi-sta">{{item.startNum}}{{good.goods.unitName}}起批</div>
@@ -73,7 +73,7 @@
 		      <div class="tag1">
 		        <span>—</span>  <span>规格</span> <span>—</span>
 		      </div>
-		      <li v-for="(item,index) in good.standardList" :key="index" v-if="index<3">
+		      <li v-for="(item,index) in good.standardList" :key="index" v-show="index<3">
 		        <span v-for="(sta,staIdx) in item" :key="staIdx" :class="{'fix-block':staIdx == item.length-1}">{{sta}}</span>
 		      </li>
 		      <div v-if="good.standardList.length > 3" class="check-more" @click="isStandard = true">查看更多
@@ -475,9 +475,9 @@
 			});
 		},
 		methods: {
-      goBack(){
-        uni.navigateBack({
-            delta: 1
+      navToCart(){
+        uni.navigateTo({
+            url: "/pages/order/order"
         });
       },
 			imgLoad(e){

@@ -120,6 +120,7 @@
 				isclock: false, // 锁
 				clock: true,
 				platform:0,
+        access_token: ''
 			}
 		},
 		components: {
@@ -210,7 +211,7 @@
 				})
 				let userId = uni.getStorageSync('uid')
 				let data = {
-					userId,
+					// userId,
 					cartIdList
 				}
 				getOrderCart(data).then(res => {
@@ -694,9 +695,9 @@
 
 						.p4 {
 							background: #F5F5F5;
-							border-radius: 20upx;
+							// border-radius: 20upx;
 							display: inline-block;
-							padding: 4upx 14upx;
+							padding: 4upx 0;
 							font-size: 20upx;
 							
 						}

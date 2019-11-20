@@ -81,9 +81,8 @@
 							{{item.name}}
 						</view>
 						<view class="deliver">
-							<text class="fs20 text-999">河北廊坊固安县</text>
+							<text class="fs20 text-999">{{item.valueAddr}}</text>
 							<text class="tip fs20 text-999">红心</text>
-							<text class="tip fs20 text-999">紫皮</text>
 						</view>
 						<view class="price">
 							<view class="fs34 text-red"><text class="fs24">￥</text>{{item.minPrice}}<text class="fs24">元/斤起</text></view>
