@@ -7,21 +7,26 @@
 			</view>
 			<view class="fll info text-333 fs28">
 				<view class="name ellipsis-line2">
-					{{item.goodsName}}
+					{{item.goodsName || ''}}
 				</view>
 				<view class="tip fs24 text-999 ellipsis">
-					固安县 红心 紫皮 12度以下常温保存
+					{{item.skuDesc || ''}}
 				</view>
-				<view class="cf">
+				<view class="cf" v-if="hasAgencyFee">
 					<view class="fll">
-						代办费:¥0.06/斤
+						代办费:¥{{item.agentcyPrice}}/{{item.goodsUnit}}
 					</view>
 					<view class="flr fs24 text-999">
-						x{{item.num}}{{item.goodsUnit}}
+						x{{item.num}}/{{item.goodsUnit}}
 					</view>
 				</view>
 				<view class="price text-theme">
-					价格:¥{{item.price}}/斤
+					<view class="fll"> 
+						价格:¥{{item.num}}/{{item.goodsUnit}}
+					</view>
+					<view class="flr fs24 text-999" v-if="!hasAgencyFee">
+						x{{item.num}}/{{item.goodsUnit}}
+					</view>
 				</view>
 			</view>
 		</view>
@@ -35,6 +40,10 @@
 			item: {
 				type: Object,
 				default: null
+			},
+			hasAgencyFee:{
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {

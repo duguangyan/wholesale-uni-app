@@ -1,50 +1,67 @@
 <template>
 	<view class="detail">
 		<view class="top">
-			<view><text class="fs48 text-333">-300</text> <text class="fs24 text-333">元</text></view>
-			<view class="fs24 text-999">已提现</view>
+			<view><text class="fs48 text-333">
+			<text v-if="type==5">-</text>
+			<text v-if="type==6">+</text>
+			{{info.drawInfo.amount}}</text> <text class="fs24 text-333">元</text></view>
+			<view class="fs24 text-999">{{type==5?'已提现':'付款记录'}}</view>
 		</view>
 		<view class="items">
 			<view class="item">
 				<view class="fll fs30 text-333">到账银行</view>
-				<view class="flr fs30 text-999">招商银行(6666)</view>
+				<view class="flr fs30 text-999">{{info.drawInfo.name}}({{info.drawInfo.receiveAccount}})</view>
 			</view>
 			<view class="item">
 				<view class="fll fs24 text-333">提现金额</view>
-				<view class="flr fs24 text-999">5050.05</view>
+				<view class="flr fs24 text-999">{{info.drawInfo.amount}}</view>
 			</view>
 			<view class="item">
 				<view class="fll fs24 text-333">申请时间</view>
-				<view class="flr fs24 text-999">2019-09-25 15:35:25</view>
+				<view class="flr fs24 text-999">{{info.drawInfo.createTime}}</view>
 			</view>
 			<view class="item">
 				<view class="fll fs24 text-333">到账时间</view>
-				<view class="flr fs24 text-999">2019-09-25 15:39:25</view>
+				<view class="flr fs24 text-999">{{info.drawInfo.successTime}}</view>
 			</view>
 			<view class="item">
 				<view class="fll fs24 text-333">提现单号</view>
-				<view class="flr fs24 text-999">1521252525352025</view>
+				<view class="flr fs24 text-999">{{info.drawInfo.thirdTradeNo}}</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-
+	import { fundRecordDetail } from '@/api/payApi.js' 
 	export default {
 		data() {
 			return {
-				
+				id:'',
+				info:'',
+				type:''
 			};
 		},
-		onLoad() {
-			
+		onLoad(options) {
+			this.id = options.id
+			this.type = options.type
 		},
 		onShow() {
-			
+			// 获取详情
+			this.getFundRecordDetail()
 		},
 		methods:{
-			
+			// 获取详情
+			getFundRecordDetail(){
+				let data = {
+					id: this.id
+				}
+				fundRecordDetail(data).then(res=>{
+					if(res.code == '1000') {
+						this.info = res.data
+					}
+				})
+			}
 		}
 	}
 </script>

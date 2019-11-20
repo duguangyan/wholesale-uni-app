@@ -3,7 +3,9 @@
 	<view class="content">
 		<view class="login">
 			<view class="l_top" style="margin-bottom:100upx;">
-				<view class="l_text">请输入6位新的支付密码，注意不要重复或连续数字</view>
+				<view class="l_text" v-if="code!=''">请输入6位新的支付密码，注意不要重复或连续数字</view>
+				<view class="l_text" v-if="code==''">请输入支付密码</view>
+				
 			</view>
 			<view class="l_top">
 				<view class="mima">
@@ -53,7 +55,7 @@
 		mapGetters,
 		mapActions
 	} from 'vuex';
-
+	import { deleteBank,validPayPwd,postPayApply } from '@/api/payApi.js'
 	import T from '@/utils/tips.js'
 	export default {
 
@@ -62,6 +64,9 @@
 		},
 		data() {
 			return {
+				add: '',
+				id:'',
+				code:'',
 				trade_pwd: '',
 				focus: true,
 				show: false,
@@ -136,8 +141,16 @@
 				return this.trade_pwd.length
 			}
 		},
-		onLoad(e) {
-
+		onLoad(options) {
+			if(options.code) this.code = options.code   // 来自重置密码
+			if(options.id) this.id     = options.id         // 来自删除银行卡
+			if(options.add) this.add   = options.add      // 来自添加银行卡
+			if(options.cash){                           // 来自提现
+				this.cash           = options.cash   
+				this.amount         = options.amount
+				this.receiveAccount = options.receiveAccount
+			} 
+			
 		},
 		methods: {
 			writepwd(num) {
@@ -186,19 +199,102 @@
 
 				this.show = true
 			},
-
+			// 重置 修改密码
+			setPassword(){
+				let url = ''
+				if(this.code == ''){
+					url = '/pages/middle/release/account/payps/confirmPassword?trade_pwd='+ this.trade_pwd
+				}else{
+					url = '/pages/middle/release/account/payps/confirmPassword?trade_pwd='+ this.trade_pwd + '&code=' + this.code
+				}
+				uni.redirectTo({
+					url
+				})
+			},
+			// 删除银行卡
+			delBankCat(){
+				let data = {
+					password: this.trade_pwd
+				}
+				validPayPwd(data).then(res=>{
+					if(res.code == '1000'){
+						let dto = {
+							id: this.id
+						}
+						deleteBank(dto).then(res=>{
+							if(res.code == '1000') {
+								uni.navigateBack({
+									delta:1
+								})
+							}else{
+								T.tips(res.message || ' 删除失败')
+							}
+						})
+					}else{
+						T.tips(res.message || '输入密码错误')
+					}
+				})
+			},
+			// 添加银行卡
+			addBankCat(){
+				let data = {
+					password: this.trade_pwd
+				}
+				validPayPwd(data).then(res=>{
+					if(res.code == '1000'){
+						uni.redirectTo({
+							url:'/pages/middle/release/account/bankcard/add'
+						})
+					}else{
+						T.tips(res.message || '输入密码错误')
+					}
+				})
+			},
+			// 提现
+			doCash(){
+				let data = {
+					amount: this.amount,
+					receiveAccount: this.receiveAccount,
+					password: this.trade_pwd,
+					payType: 3
+				}
+				postPayApply(data).then(res=>{
+					if(res.code == '1000'){
+						uni.redirectTo({
+							url:'/pages/middle/release/account/cash/cashSuccess'
+						})
+					}else{
+						T.tips(res.message || '提现失败')
+					}
+				})
+			},
 			// 确认执行的方法
 			setpwd() {
 				if (this.trade_pwd.length < 6) {
-					console.log('密码长度不能少于6位');
 					T.tips('密码长度不能少于6位')
 					return;
 				}
 				// 密码长度为6位以后执行方法
 				console.log(this.trade_pwd);
-				uni.redirectTo({
-					url:'/pages/middle/release/account/payps/confirmPassword'
-				})
+				
+				if(this.cash != ''){
+					// 提现
+					this.doCash()
+				}else{
+					if(this.add != ''){
+						// 添加银行卡
+						this.addBankCat()
+					}else{
+						if(this.id!=''){
+							// 删除银行卡
+							this.delBankCat()
+						}else{
+							// 重置设置密码
+							this.setPassword()
+						}
+					}
+				}
+
 			},
 
 		}

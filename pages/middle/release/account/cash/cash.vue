@@ -1,45 +1,140 @@
 <template>
 	<view class="cash">
-		<view class="top cf">
+		<view class="top cf" @click="goBankList">
 			<view class="fll fs32 text-333">提现到银行卡</view>
 			<view class="flr img"><image src="../../../../../static/imgs/right.png" mode=""></image></view>
-			<view class="flr fs28 text-theme mgr-20">招商银行(8888)</view>
+			<view class="flr fs28 text-theme mgr-20">{{bankCard.bankName}}({{bankCard.cardNo}})</view>
 		</view>
 		<view class="content">
 			<view class="cf">
 				<view class="fll fs26 text-333 price-icon">￥</view>
 				<view class="fll">
-					<input class="text-333" type="text" placeholder="请输入金额">
+					<input class="text-333" @input="assessData" v-model="totalPrice" type="digit" placeholder="请输入金额">
 				</view>
-				<view class="flr fs24 text-333">
+				<view class="flr fs24 text-333" @click="getAllCash">
 					全部提现
 				</view>
 			</view>
 		</view>
-		<view class="tip cf">
+		<view class="tip cf" @click="clickTip">
 			<view class="img fll">
 				<image src="../../../../../static/imgs/icon-1018.png" mode=""></image>
 			</view>
 			<view class="text fs24 text-999 fll">
-				账户余额¥6050.06，其中¥1000不可提现
+				账户余额¥{{accountSubDates.balance}}，其中¥{{accountSubDates.freezeBalance}}不可提现
 			</view>
 		</view>
-		<view class="big-btn-active" @click="getCash">提现</view>
+		<view class="big-btn-active" :class="{nodta: hasData}" @click="getCash">提现</view>
 	</view>
 </template>
 
 <script>
+	import { getBankList, postPayApply } from '@/api/payApi.js'
+	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
-				
+				accountSubDates:'',
+				totalPrice:'',
+				bankCard:'',
+				bankCardList:[],
+				bankChcekIndex:0,
+				hasData:true
 			};
 		},
+		onLoad(options) {
+			this.accountSubDates = JSON.parse(options.accountSubDates) 
+		},
+		onShow() {
+			// 获取银行卡信息
+			this.bankChcekIndex = 0
+			this.getBankCardList()
+		},
 		methods:{
+			// 提示
+			clickTip (){
+				T.tips('买家未确认收货的余额不能提现')
+			},
+			// 验证数据
+			assessData(){
+				this.hasData = this.totalPrice == ''
+			},
+			// 提现提交
 			getCash(){
-				uni.redirectTo({
-					url:'/pages/middle/release/account/cash/cashSuccess'
+				
+				if(this.hasData){
+					return false
+				}
+				if(this.totalPrice>this.accountSubDates.availableBalance){
+					T.tips('提现金额不能大于可提现金额')
+					return false
+				}
+				uni.navigateTo({
+					url:'/pages/middle/release/account/payps/resPassword?cash=1&amount='+this.totalPrice+'&receiveAccount='+this.bankCardList[this.bankChcekIndex].id
 				})
+				
+				
+				
+			},
+			// 全部提现
+			getAllCash(){
+				this.totalPrice = this.accountSubDates.availableBalance
+			},
+			//获取银行卡信息
+			getBankCardList(){
+				let data = {
+					pageIndex:1
+				}
+				getBankList(data).then(res=>{
+					if(res.code == '1000'){
+						this.bankCardList = res.data.records
+						this.bankCard = res.data.records[0]
+						let cardNo = this.bankCard.cardNo
+						cardNo = cardNo.substr(cardNo.length-4)
+						this.bankCard.cardNo = cardNo
+						
+					}
+				})
+			},
+			// 去银行列表
+			goBankList(){
+				let _this = this
+				// 组装数据
+				let itemList = [];
+				this.bankCardList.forEach((item,index)=>{
+					if(item.cardType == 1){
+						item.cardName = '借记卡'
+					}else if(item.cardType == 2){
+						item.cardName = '贷记合一'
+					} else if(item.cardType == 3){
+						item.cardName = '贷记卡'
+					}
+					let str = item.bankName + ' ' + item.cardName + ' ' + '('+item.cardNo.substr(item.cardNo.length-4)+')'
+					itemList.push(str)					
+				})
+				itemList.push(' + 使用新卡提现')
+				// 弹起选择框
+				uni.showActionSheet({
+				    itemList,
+				    success: function (res) {
+				        console.log('选中了第' + (res.tapIndex + 1) + '个按钮');
+						if(res.tapIndex == _this.bankCardList.length){
+							// 点击后新增银行卡
+							uni.navigateTo({
+								url:'/pages/middle/release/account/bankcard/add'
+							})
+						}else{
+							_this.bankChcekIndex = res.tapIndex
+							_this.bankCard = _this.bankCardList[res.tapIndex]
+							let cardNo = _this.bankCard.cardNo
+							cardNo = cardNo.substr(cardNo.length-4)
+							_this.bankCard.cardNo = cardNo
+						}
+				    },
+				    fail: function (res) {
+				        console.log(res.errMsg);
+				    }
+				});
 			}
 		}
 	}
@@ -50,6 +145,9 @@
 		background: #fff;
 		min-height: 100vh;
 		padding-top: 30upx;
+		.nodta{
+			background: #d9d9d9;
+		}
 		.tip{
 			margin: 30upx 0 50upx 30upx;
 			
@@ -57,7 +155,7 @@
 				width: 24upx;
 				height: 24upx;
 				position: relative;
-				top: -10upx;
+				top: -2upx;
 				margin-right: 10upx;
 				>image{
 					width: 100%;

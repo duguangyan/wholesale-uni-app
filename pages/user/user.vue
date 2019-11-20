@@ -36,7 +36,7 @@
 				<view class="img" :class="{'Android4': platform == 1}">
 					<image :src="item.u"/>
 				</view>
-				<view class="tip">12</view>
+				<view class="tip" v-if="item.tip!=''">{{item.tip}}</view>
               <view class="fs24 mgt-10" :class="{'Android3': platform == 1}">{{item.t}}</view>
             </view>
           </view>
@@ -59,16 +59,17 @@
 
 <script>
 	import TabBar from '@/components/common/TabBar.vue'
+	import { getOrderStat } from '@/api/userApi.js'
     export default {
         data() {
             return {
 				checkIndex:2,
               titles:[
-                {t: '待确认', u: '/static/imgs/icon-1008.png'},
-                {t: '待支付', u: '/static/imgs/icon-1005.png'},
-                {t: '待发货', u: '/static/imgs/icon-1006.png'},
-                {t: '待收货', u: '/static/imgs/icon-1007.png'},
-                {t: '已完成', u: '/static/imgs/icon-1004.png'},
+                {t: '待确认', u: '/static/imgs/icon-1008.png',tip:''},
+                {t: '待支付', u: '/static/imgs/icon-1005.png',tip:''},
+                {t: '待发货', u: '/static/imgs/icon-1006.png',tip:''},
+                {t: '待收货', u: '/static/imgs/icon-1007.png',tip:''},
+                {t: '已完成', u: '/static/imgs/icon-1004.png',tip:''},
               ],
               isLogin: false,
               uid: '',
@@ -95,6 +96,9 @@
 			// 判断是否登录
 			this.isLogin      = this.uid!='' 
 			this.roleId       = uni.getStorageSync('roleId') || ''
+			
+			// 统计订单状态条数
+			this.getOrderStat()
 		},
 		computed: {
 		    dPhone() {
@@ -102,6 +106,23 @@
 		    }
 		},
         methods: {
+			// 统计订单状态条数
+			getOrderStat(){
+				getOrderStat().then(res=>{
+					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
+					if(res.code == '1000'){
+						let list = res.data
+						list.forEach((item,index)=>{
+							
+							if(item.status == 0) this.titles[1].tip = item.num
+							if(item.status == 2) this.titles[2].tip = item.num
+							if(item.status == 3) this.titles[3].tip = item.num
+							if(item.status == 4) this.titles[4].tip = item.num
+							if(item.status == 6) this.titles[0].tip = item.num
+						})
+					}
+				})
+			},
 			// 去收藏页面
 			goCollection(){
 				uni.navigateTo({
@@ -120,7 +141,7 @@
 			  if(index == 4) i = ''
 			  uni.setStorageSync('orderNavIndex', i)
 			  uni.navigateTo({
-			  	url:'/pages/user/order/list'
+			  	url:'/pages/user/order/list?from=user'
 			  })
 			},
 			goInfo() {
@@ -320,6 +341,8 @@
 	  .img{
 		  width: 20upx;
 		  height: 20upx;
+		  position: relative;
+		  top: 10upx;
 		  >image{
 			  width: 100%;
 			  height: 100%;
@@ -365,7 +388,7 @@
 			text-align: center;
 			line-height: 32upx;
 			position: absolute;
-			right: 0upx;
+			right: -10upx;
 			top: -12upx;
 		}
 		.img{

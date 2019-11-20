@@ -1,7 +1,7 @@
 <template>
 	<view class="bankcard">
 		<view class="items">
-			<view class="item cf">
+			<view class="item cf" v-for="(item,index) in records" :key="index" @click="goDel(item)">
 				<view class="left fll">
 					<view class="image">
 						<image src="../../../../../static/imgs/icon-1017.png" mode=""></image>
@@ -9,13 +9,13 @@
 				</view>
 				<view class="right fll">
 					<view class="title fs30">
-						中国银行
+						{{item.bankName}}
 					</view>
 					<view class="tip fs24">
-						储蓄卡
+						{{item.cardName}}
 					</view>
 					<view class="number fs34">
-						**** **** **** 6688
+						{{item.cardNo}}
 					</view>
 				</view>
 			</view>
@@ -28,18 +28,61 @@
 </template>
 
 <script>
+	import { getBankList } from '@/api/payApi.js'
 	export default {
 		data() {
 			return {
-				
+				pageIndex:1,
+				records:[]
 			};
 		},
+		onReachBottom(){
+			this.pageIndex++
+			this.getBankList()
+		},
+		onShow() {
+			// 获取银行卡信息
+			this.records = []
+			this.pageIndex = 1
+			this.getBankList()
+		},
 		methods:{
-			addBankcard(){
-				uni.redirectTo({
-					url:'/pages/middle/release/account/bankcard/add'
+			//删除银行卡
+			goDel(item){
+				uni.navigateTo({
+					url:'/pages/middle/release/account/bankcard/del?item='+ JSON.stringify(item) 
 				})
-			}
+			},
+			// 添加银行卡
+			addBankcard(){
+				uni.navigateTo({
+					url:'/pages/middle/release/account/payps/resPassword?add=1'
+				})
+			},
+			// 获取银行卡信息
+			getBankList(){
+				let data = {
+					pageIndex:this.pageIndex
+				}
+				getBankList(data).then(res=>{
+					if(res.code == '1000'){
+						let list = res.data.records
+						list.forEach(item=>{
+							// 1-借记卡 2-贷记合一 3-贷记卡
+							if(item.cardType == 1){
+								item.cardName = '借记卡'
+							}else if(item.cardType == 2){
+								item.cardName = '贷记合一'
+							} else if(item.cardType == 3){
+								item.cardName = '贷记卡'
+							}
+							item.cardNo = "**** **** " + item.cardNo.substr(-4)
+						})
+						
+						this.records = this.records.concat(list)
+					}
+				})
+			},
 		}
 	}
 </script>

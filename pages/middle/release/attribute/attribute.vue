@@ -168,11 +168,10 @@
 				let arr = this.fullAddress.split('-')
 				// 省
 				this.address.province = arr[0]
-				this.address.provinceId = e.ids[0]
+				this.address.provinceId = e.ids[0] || 1
 				// 市
 				this.address.city = arr[1]
-				this.address.cityId = e.ids[1]
-				
+				this.address.cityId = e.ids[1] || 67748
 				this.addressInfo = this.address.province + '-' + this.address.city
 				
 				uni.setStorageSync('addCategoryAddress', JSON.stringify(this.address))

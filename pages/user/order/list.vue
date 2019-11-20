@@ -6,6 +6,7 @@
 					<view class="fll li" v-for="(item,index) in tabs" :key="index" @click="changePosi(index)">
 						<text :class="{navActive:navIndex==index}">{{item.name}}</text>
 						<i v-if="navIndex==index"></i>
+						<view class="tip" v-if="item.tip!=''">{{item.tip}}</view>
 					</view>
 				</view>
 			</view>
@@ -25,20 +26,23 @@
 							<image src="../../../static/imgs/right.png" mode=""></image>
 						</view>
 						<text class="status flr text-theme">
+							<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 							<text v-if="item.status === -1">已取消</text>
-							<text v-if="item.status === 0">待付款</text>
-							<text v-if="item.status === 2">待发货</text>
+							<text v-if="item.status === 0">待买家付款</text>
+							<text v-if="item.status === 2">待货主发货</text>
 							<text v-if="item.status === 3">待收货</text>
-							<text v-if="item.status === 4">已完成</text>
+							<text class="text-999" v-if="item.status === 4">已完成</text>
+							<text v-if="item.status === 5">已关闭</text>
+							<text v-if="item.status === 6">待货主审核</text>
 						</text>
 					</view>
 					<Good v-for="good in item.orderDetailList" :key="good.id" :item="good"></Good>
-					<view class="accu fs24">订单金额:￥<text class='fs32 fs-w'>{{item.payMoney}}</text></view>
+					<view class="accu fs24">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001'?item.orderMoney:item.payMoney}}</text></view>
 					<view class="operator">
 						<view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view>
 						<view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view>
 						<view class="receive" v-if="item.status === 3" @click="postOrderConfirm(index)">确认收货</view>
-						<view class="receive" v-if="item.status === 0" @click="showPay(index)">去支付</view>
+						<view class="receive" v-if="item.status === 2" @click="showPay(index)">去支付</view>
 					</view>
 				</view>
 			</view>
@@ -62,7 +66,8 @@
 	import Dialog from '@/components/common/Dialog.vue'
 	import {
 		getOrderPageMyOrder,
-		postOrderConfirm
+		postOrderConfirm,
+		getOrderStat
 	} from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	export default {
@@ -77,23 +82,28 @@
 				orders: [],
 				tabs: [{
 						name: '全部',
-						status: ''
+						status: '',
+						tip:''
 					},
 					{
 						name: '待确认',
-						status: 0
+						status: 0,
+						tip:''
 					},
 					{
 						name: '待支付',
-						status: 2
+						status: 2,
+						tip:''
 					},
 					{
 						name: '待发货',
-						status: 3
+						status: 3,
+						tip:''
 					},
 					{
 						name: '待收货',
-						status: 4
+						status: 4,
+						tip:''
 					}
 				],
 				pageIndex: 1, // 当前页数
@@ -106,7 +116,9 @@
 				isWx: true,
 				payOrderId: '',
 				navIndex: 0,
-				platform: 0
+				platform: 0,
+				from:'',
+				roleId:''
 			}
 		},
 		components: {
@@ -127,10 +139,11 @@
 				uni.stopPullDownRefresh(); //停止下拉刷新动画
 			}, 1000);
 		},
-		onLoad() {
-
+		onLoad(options) {
+			this.from = options.from
 		},
 		onShow() {
+			this.roleId = uni.getStorageSync('roleId')
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
 			console.log('platform:', this.platform)
@@ -142,8 +155,39 @@
 			// 获取订单列表
 			this.orders = []
 			this.getOrders()
+			// 统计订单状态条数
+			this.getOrderStat()
 		},
 		methods: {
+			// 统计订单状态条数
+			getOrderStat(){
+				getOrderStat().then(res=>{
+					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
+					if(res.code == '1000'){
+						let list = res.data
+						// 获取用户类型 20001 货主 20002 代办   20003 买家
+						let roleId = uni.getStorageSync('roleId')
+						list.forEach((item,index)=>{
+							if(this.from == 'order'){
+								if(roleId == 20001) {
+									if(item.status == 6) this.tabs[1].tip = item.num	
+								}else if(roleId == 20002){
+									if(item.status == 2) this.tabs[3].tip = item.num
+								}else if(roleId == 20003){
+									if(item.status == 0) this.tabs[2].tip = item.num
+								}
+							}if(this.from == 'user'){
+								if(item.status == 0) this.tabs[2].tip = item.num
+							}
+							// if(item.status == 0) this.tabs[2].tip = item.num
+							// if(item.status == 2) this.tabs[3].tip = item.num
+							// if(item.status == 3) this.tabs[4].tip = item.num
+							// if(item.status == 6) this.tabs[1].tip = item.num	
+								
+						})
+					}
+				})
+			},
 			doConfirm() {
 				let data = {
 					orderId: this.orderId,
@@ -333,6 +377,20 @@
 						display: block;
 						background: #fc2d2d;
 						margin-left: 40%;
+					}
+					.tip{
+						width:32upx;
+						height:32upx;
+						background:rgba(254,59,11,1);
+						border:2upx solid rgba(255,255,255,1);
+						border-radius:50%;
+						font-size: 16upx;
+						color: #fff;
+						text-align: center;
+						line-height: 32upx;
+						position: absolute;
+						right: 10upx;
+						top: 0upx;
 					}
 				}
 

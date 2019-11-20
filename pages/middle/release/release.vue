@@ -251,7 +251,7 @@
 							  "goodsSpecId": "",
 							  "id": "",
 							  "sort": 1,
-							  "value": goodsSkuList[0].unit
+							  "value": goodsSkuList[0].skuAttrValues[0].value
 							}
 						  ],
 						  "id": "",
@@ -269,14 +269,14 @@
 					shopId:'',
 					showStyle:2,
 					sort:1,
-					unit:goodsSkuList[0].unit
+					unit:goodsSkuList[0].id
 				}
 				
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)
 				postSaveGoods(GoodsSaveAndEditReq).then(res=>{
 					if(res.code == '1000'){
-						uni.navigateTo({
-							url:'/pages/middle/release/sendSuccess/sendSuccess'
+						uni.reLaunch({
+							url:'/pages/middle/release/sendSuccess/sendSuccess?id='+ res.data.id + '&shopId='+ res.data.shopId
 						})
 					}else{
 						T.tips(res.message || '发布失败')
