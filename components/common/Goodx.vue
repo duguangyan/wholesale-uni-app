@@ -52,9 +52,9 @@
 		
 	
 		.item {
-			padding: 0 30upx;
+			padding: 20upx 30upx;
 			width: 100%;
-			height: 250upx;
+			height: 220upx;
 			border-radius: 10upx;
 			overflow: hidden;
 			background: #fff;

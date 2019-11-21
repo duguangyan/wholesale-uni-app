@@ -25,6 +25,7 @@
 </template>
 
 <script>
+	import { getShopInfo , fromIdGetAgent } from '@/api/userApi.js'
 	export default {
 		data() {
 			return {
@@ -38,18 +39,34 @@
 			};
 		},
 		onShow() {
-			this.roleId = uni.getStorageSync('roleId')
-			if(this.roleId == '20001'){
-				uni.setNavigationBarTitle({
-				    title: '本地代办'
-				});
-			}else if(this.roleId == '20002'){
-				uni.setNavigationBarTitle({
-				    title: '本地货主'
-				});
-			}
+			// 判断用户类型
+			this.assessUserType()
+			// 获取店铺信息
+			this.getShopInfo()
 		},
 		methods:{
+			// 判断用户类型
+			assessUserType(){
+				this.roleId = uni.getStorageSync('roleId')
+				if(this.roleId == '20001'){
+					uni.setNavigationBarTitle({
+					    title: '本地代办'
+					});
+				}else if(this.roleId == '20002'){
+					uni.setNavigationBarTitle({
+					    title: '本地货主'
+					});
+				}
+			},
+			// 获取店铺信息
+			getShopInfo(){
+				getShopInfo().then(res=>{
+					if(res.code == '1000') {
+						this.shopId = res.data.id
+					}
+					
+				})
+			},
 			// 联系货主
 			callByPhone(phoneNumber){
 				uni.makePhoneCall({

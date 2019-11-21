@@ -327,9 +327,30 @@ const applyApplyUpdate = data => {
 	})
 }
 
+// 获取当前用户店铺信息
+const getShopInfo = data => {
+	return request({
+		url: '/api/goods/shop/getShop',
+		data,
+		type: 'form',
+	})
+}
+
+// 根据店铺ID获取地区代办列表
+const fromIdGetAgent = data => {
+	return request({
+		url: '/api/goods/agentArea/fromIdGetAgent',
+		data,
+		type: 'form',
+	})
+}
+
+
 
 
 export {
+	fromIdGetAgent,
+	getShopInfo,
 	applyApplyUpdate,
 	applyAuditWithdraw,
 	statOrderInfo,
