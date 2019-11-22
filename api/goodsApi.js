@@ -136,6 +136,30 @@ const getGoodsDetail = data => {
 	})
 }
 
+const getMaster = data => {
+  return request({
+  	url: '/api/goods/userRealInfo/fromIdGetShopUserInfo',
+  	data
+  })
+}
+
+// 根据角色获取代办人列表
+const getAgencyByRole = data=>{
+  return request({
+  	url: '/api/goods/userRealInfo/fromIdGetAgentUserInfo',
+  	data
+  })
+}
+
+// 根据区域获取代办人类表
+const getAgencyByArea = data => {
+  return request({
+  	url: '/api/goods/agentArea/fromIdGetAgent',
+  	data
+  })
+}
+
+
 export {
 	getGoodsDetail,
 	postSaveGoods,
@@ -152,5 +176,6 @@ export {
 	getGoodNums,
 	buyGood,
 	getFreightPrompt,
-	getPostItem
+	getPostItem,
+  getAgencyByArea
 }

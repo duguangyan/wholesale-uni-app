@@ -64,7 +64,7 @@
 
 		<!-- 广告 -->
 		<view class="advs" @click="goadSet(homeList.list[2].list[0].list[0].adPosition.adSet[0])">
-			<image :src="homeList.list[2].list[0].list[0].adPosition.adSet[0].path" mode=""></image>
+			<image :src="homeList.list[2].list[0].list[0].adPosition.adSet[0]?homeList.list[2].list[0].list[0].adPosition.adSet[0].path:''" mode=""></image>
 		</view>
 		<!-- 精选 -->
 		<view class="seles">
@@ -82,16 +82,16 @@
 						</view>
 						<view class="deliver">
 							<text class="fs20 text-999">{{item.valueAddr}}</text>
-							<text class="tip fs20 text-999">红心</text>
+							<span class="attr" v-for="attr in item.attrValDesc" :key="attr" :style="'background:' + calcAttr(attr).bg+';color:'+calcAttr(attr).color">{{attr}}</span>
 						</view>
 						<view class="price">
-							<view class="fs34 text-red"><text class="fs24">￥</text>{{item.minPrice}}<text class="fs24">元/斤起</text></view>
+							<view class="fs34 text-red"><text class="fs24">￥</text>{{item.minPrice}}<text class="fs24">元/{{item.unitName}}起</text></view>
 						</view>
 						<view class="address cf">
 							<view class="fll img">
 								<image src="../../static/imgs/main-icon-1.png" mode=""></image>
 							</view>
-							<view class="fll fs20 text-999">河北省廊坊市固安县 <text class="mgl-20">舒尚飞</text></view>
+							<view class="fll fs20 text-999">{{item.shopArea}} <text class="mgl-20">{{item.realName}}</text></view>
 							<!-- <view class="flr fs20 text-999">{{item.valueAddr}}</view> -->
 						</view>
 					</view>
@@ -134,7 +134,13 @@
 				platform: 0,
 				cur:0,
 				listWidth:0,
-				roleId:''
+				roleId:'',
+        colorPattern: {
+        	'红': '255,0,0',
+        	'黄': '255,55,0',
+        	'蓝': '30,30,255',
+        	'紫': '200,50,248',
+        },
 			}
 		},
 		components: {
@@ -174,6 +180,16 @@
 			}, 1000);
 		},
 		methods: {
+      // 计算颜色
+      calcAttr(attr){
+      	let str = attr.substr(0,1)
+      	let color = this.colorPattern[str] || '165,165,165'
+      	return {
+      		color: 'rgba('+color+',1)',
+      		bg: 'rgba('+color+',0.1)'
+      	}
+      	
+      },
 			// 判断用户类型
 			assessUserType(){
 				// 设置底部tab样式
@@ -661,11 +677,12 @@
 		}
 
 		.nav {
-			margin: 20upx 0;
-
+			// margin: 20upx 0;
+       margin-top: 20upx;
 			.li {
 				width: 20%;
 				text-align: center;
+        margin-bottom: 20upx;
 
 				.name {
 					margin-top: 4upx;
@@ -755,5 +772,11 @@
 			}
 
 		}
+    .attr {
+        padding: 3px  5px;
+        font-size: 10px;
+        margin-left: 5px;
+        border-radius: 30px;
+    }
 	}
 </style>

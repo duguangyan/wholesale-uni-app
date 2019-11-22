@@ -39,9 +39,10 @@
 						<div class="fll ml-10 info">
 							<p class="fs28 p1 ellipsis ellipsis-line2" @click="goDetail(item.shopId, it.goodsId)">{{it.goodsName || ''}}</p>
 							<p class="p4 text-666 fs20 ellipsis ellipsis-line3" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p>
+              <p class="text-333 fs28">代办费&nbsp;￥{{it.agencyFee}}{{it.unitName?`/${it.unitName}`:''}}</p>
 							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
-							<p v-if="it.status !== 4" class="text-red fs-14 p2" @click="goDetail(item.shopId, it.goodsId)">￥ <span class="fs-18">{{it.price}}</span></p>
-							<p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p>
+							<p v-if="it.status !== 4" class=" fs-14 p2 text-red" @click="goDetail(item.shopId, it.goodsId)">价格: <span class="fs-18">￥{{it.price}}</span>{{it.unitName?`/${it.unitName}`:''}}</p>
+							<!-- <p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p> -->
 							<!-- 数量操作 -->
 							<div class="count" v-if="!isEdit && it.status !== 4">
 								<span :class="{ 'text-999' : it.isColor999 }" @click="doCalculation(0,index,idx)">-</span>
