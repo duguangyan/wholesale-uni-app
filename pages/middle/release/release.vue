@@ -1,12 +1,12 @@
 <template>
 	<view class="relesase">
 		<view class="top">
-			<view class="camera" @click="actionSheetTap" v-if="goodsImgList.length<=0">
+			<view class="camera" @click="actionSheetTap" v-if="goodsImgLists.length<=0">
 				<view class="image"><image src="../../../static/imgs/icon-1034.png" mode=""></image></view>
 				<view class="fs28 text-333">上传图片/视频的货品更有吸引力</view>
 				<view class="fs24 text-999">(最少需上传1张)</view>
 			</view>
-			<view v-if="goodsImgList.length>0">
+			<view v-if="goodsImgLists.length>0">
 				<view class="edit flex">
 					<view class="flex-1">
 						<view class="image">
@@ -70,7 +70,7 @@
 
 <script>
 	import T from '@/utils/tips.js'
-	import { postSaveGoods } from '@/api/goodsApi.js'
+	import { postSaveGoods, getGoodsDetail, postEditGoods } from '@/api/goodsApi.js'
 	export default {
 		data() {
 			return {
@@ -84,20 +84,233 @@
 				goodsImg:'',
 				goodsImgList:[],
 				goodsImgLists:[],
-				goodsSkuList:[]
+				goodsSkuList:[],
+				goodsId:'',
+				shopId:'',
+				editGoods:'' // 编辑时候请求的数据
 			};
 		},
 		components: {},
-		onLoad() {
+		onLoad(options) {
+			// 货主编辑商品
+			if(options.goodsId) this.goodsId = options.goodsId
+			if(options.shopId)  this.shopId = options.shopId
+			if(this.goodsId!='' && this.shopId!=''){
+				uni.setNavigationBarTitle({
+				    title: '编辑商品'
+				});
+				// 获取编辑商品详情
+				this.getGoodsDetail()
+			}else{
+				uni.setNavigationBarTitle({
+				    title: '发布商品'
+				});
+			}
 			
 		},
 		onShow() {
 			// 获取缓存数据
-			this.getStorageSyncBySelf()
-			
+			if(this.goodsId=='' && this.shopId==''){
+				this.getStorageSyncBySelf()
+			}
 			
 		},
 		methods:{
+			
+			// 获取编辑商品详情
+			// 新增商品后台传参比较复杂，修改也是很复杂，老板不懂技术，很忧伤（后台不愿意改，将就用吧）
+			getGoodsDetail(){
+				let data = {
+					goodsId: this.goodsId,
+					 shopId: this.shopId  
+				}
+				getGoodsDetail(data).then(res=>{
+					if(res.code == '1000' && res.data && res.data.goodsDetail){
+						// 编辑的时候商品数据
+						this.editGoods = res.data.goodsDetail.goods
+						// 编辑商品详情 ->组装图片
+						this.assembleImage(res)
+						// 编辑商品详情 ->货品品种
+						this.assembleVarieties(res)
+						// 编辑商品详情 ->货品属性
+						this.assembleAttrList(res)
+						// 编辑商品详情 ->货品价格
+						this.assembleGoodsSkuList(res)
+						
+						// 货品标题
+						this.goodsTitile = res.data.goodsDetail.goods.name
+						// 货品描述
+						this.textareaValue = res.data.goodsDetail.goods.detail
+						
+						// 验证表单是否可以提交
+						this.assessHasData()
+					}
+				})
+			},
+			// 编辑商品详情 ->货品价格
+			assembleGoodsSkuList(res){
+				let sku          = res.data.goodsDetail.goodsSkuList
+				
+				let goodsSkuList = [
+					{
+						id:'',
+						unitId:'',
+						price:'',
+						priceType:2,
+						sort:1,
+						startNum:'',
+						stock: sku[0].stock,
+						unit: sku[0].attrValueList[0].name,
+						volume:'',
+						weight:'',
+						skuAttrValues:[{
+							name:sku[0].attrValueList[0].name,
+							skuId:sku[0].attrValueList[0].id,
+							value:sku[0].attrValueList[0].value
+						}],
+						priceExpList: JSON.parse(sku[0].priceExp) 
+					}
+				]
+				
+				uni.setStorageSync('goodsSkuList',goodsSkuList)
+				let arr = []
+				
+				goodsSkuList[0].priceExpList.forEach(item=>{
+					arr.push(item.price)
+				})
+				
+				arr.sort(function (a, b) {
+				  return a-b;
+				});
+				let min = arr[0];  
+				let max = arr[arr.length - 1];  
+				this.price     = "￥" + min + "~" + "￥" + max
+				
+			},
+			// 编辑商品详情 ->货品属性
+			assembleAttrList(res){
+				let attrList        = res.data.goodsDetail.goodsDetailAttrList
+				let categorysValues = []
+				let categorysInput  = []
+				attrList.forEach(item=>{
+					// 地址
+					if(item.inputType==0){
+						let address = {"province":"","provinceId":"","city":item.goodsDetailAttrValueList[0].remark,"cityId": item.goodsDetailAttrValueList[0].value}
+						uni.setStorageSync('addCategoryAddress',JSON.stringify(address))
+					}
+					// 后台属性
+					if(item.inputType==2){
+						categorysValues.push(item)
+					}
+					// 填写的属性
+					if(item.inputType==4){
+						categorysInput.push(item)
+					}
+					
+					if(item.inputType!=0){
+						item.goodsDetailAttrValueList.forEach(it=>{
+							this.attribute += ' ' + it.value
+						})
+					}
+				})
+				
+				uni.setStorageSync('categorysValues',categorysValues)
+				uni.setStorageSync('categorysInput',categorysInput)
+				
+			},
+			// 编辑商品详情 ->货品品种
+			assembleVarieties(res){
+				this.varieties   = res.data.goodsDetail.goods.categoryName
+				let categoryId   = res.data.goodsDetail.goods.categoryId
+				let categoryName = res.data.goodsDetail.goods.categoryName
+				let varieties = {"id":categoryId,"parentId":"","sort":0,"children":null,"name":categoryName,"initials":"","imgUrl":""}
+				uni.setStorageSync('varieties',JSON.stringify(varieties))
+			},
+			// 编辑商品详情 ->组装图片
+			assembleImage(res){
+				this.goodsImgLists = res.data.goodsDetail.goodsImgVOList
+				let imgs = res.data.goodsDetail.goodsImgVOList
+				
+				let goodsImgList = [
+					{
+						title:'货品主图',
+						tip:'显示在列表和详情页头图，图片最多上传5张/视频可上传5张',
+						imgs:[],
+						videos:[]
+					},
+					{
+						title:'货品详情图',
+						tip:'显示在详情页下方，图片或视频最多只可上传10张',
+						imgs:[],
+						videos:[]
+					}
+				]
+				let videoUrl = {
+						a:[],
+						b:[]
+					}
+				let videoZipUrl = {
+						a:[],
+						b:[]
+					}
+				imgs.forEach((item,index)=>{
+					
+					// 主键类型：1商品主图 2商品详情图
+					if(item.primaryType == 1){  // 主图
+						// 类型 1图片 2视频 3视频截图
+						
+						switch (item.type){
+							case 1:
+								this.goodsImg = item.imgUrl
+								goodsImgList[0].imgs.push(item.imgUrl)
+								break;
+							case 2:
+								videoUrl.a.push(item.imgUrl)
+								break;	
+							case 3:
+								this.goodsImg = item.imgUrl
+								videoZipUrl.a.push(item.imgUrl)
+								break;
+							default:
+								break;
+						}
+						
+						
+					}else{  // 详情图
+						// 类型 1图片 2视频 3视频截图
+						switch (item.type){
+							case 1:
+								goodsImgList[1].imgs.push(item.imgUrl)
+								break;
+							case 2:
+								videoUrl.b.push(item.imgUrl)
+								break;	
+							case 3:
+								videoZipUrl.b.push(item.imgUrl)
+								break;
+							default:
+								break;
+						}
+					}
+				})
+				
+				videoUrl.a.forEach((item,index)=>{
+					let o = {
+						url:item,
+						zipUrl:videoZipUrl.a[index]
+					}
+					goodsImgList[0].videos.push(o)
+				})
+				videoUrl.b.forEach((item,index)=>{
+					let o = {
+						url:item,
+						zipUrl:videoZipUrl.b[index]
+					}
+					goodsImgList[1].videos.push(o)
+				})
+				
+				uni.setStorageSync('goodsImgList',goodsImgList)
+			},
 			// 发布货品
 			doRelease(){
 				// 数据验证
@@ -275,21 +488,41 @@
 					sort:1,
 					unit:goodsSkuList[0].unitId
 				}
-				
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)
-				postSaveGoods(GoodsSaveAndEditReq).then(res=>{
-					if(res.code == '1000'){
-						uni.reLaunch({
-							url:'/pages/middle/release/sendSuccess/sendSuccess?id='+ res.data.id + '&shopId='+ res.data.shopId
+				if(this.goodsId!='' && this.shopId!=''){  // 编辑商品
+					GoodsSaveAndEditReq.goodsId = this.goodsId
+					GoodsSaveAndEditReq.shopId = this.shopId
+				
+					postEditGoods(GoodsSaveAndEditReq).then(res=>{
+						if(res.code == '1000'){
+							uni.reLaunch({
+								url:'/pages/middle/release/sendSuccess/sendSuccess?id='+ res.data.id + '&shopId='+ res.data.shopId
+							})
+						}else{
+							T.tips(res.message || '发布失败')
+						}
+					}).catch(err=>{
+						uni.navigateTo({
+							url:'/pages/middle/release/sendFail/sendFail'
 						})
-					}else{
-						T.tips(res.message || '发布失败')
-					}
-				}).catch(err=>{
-					uni.navigateTo({
-						url:'/pages/middle/release/sendFail/sendFail'
 					})
-				})
+				}else{  // 保存商品
+					postSaveGoods(GoodsSaveAndEditReq).then(res=>{
+						if(res.code == '1000'){
+							uni.reLaunch({
+								url:'/pages/middle/release/sendSuccess/sendSuccess?id='+ res.data.id + '&shopId='+ res.data.shopId
+							})
+						}else{
+							T.tips(res.message || '发布失败')
+						}
+					}).catch(err=>{
+						uni.navigateTo({
+							url:'/pages/middle/release/sendFail/sendFail'
+						})
+					})
+				}
+				
+				
 				
 			},
 			// 编辑图片方法 i 1主图还是2详情  ii 类型 1图片 2视频 3视频截图

@@ -108,7 +108,7 @@ const getByCategoryId = data => {
 	})
 }
 
-// 根据商品分类ID获取分类单位
+// 获取分类
 const getCategoryUnitList = data => {
 	return request({
 		url: '/api/goods/categoryUnit/getCategoryUnitList',
@@ -117,7 +117,7 @@ const getCategoryUnitList = data => {
 	})
 }
 
-// 根据商品分类ID获取分类单位
+// 发布商品
 const postSaveGoods = data => {
 	return request({
 		method: 'post',
@@ -127,16 +127,71 @@ const postSaveGoods = data => {
 	})
 }
 
+// 编辑
+const postEditGoods = data => {
+	return request({
+		method: 'post',
+		url: '/api/goods/goods/editGoods',
+		data,
+		// type: 'form'
+	})
+}
+
+
 // B2B获取商品详情
 const getGoodsDetail = data => {
 	return request({
-		url: '/api/goods/goods/goodsDetail',
+		url: '/api/goods/goods/goodsDetail/' + data.shopId + '/' + data.goodsId,
+		// data,
+		// type: 'form'
+	})
+}
+
+// B2B商品列表 APP-我的货品
+const getPageGoods = data => {
+	return request({
+		url: '/api/goods/goods/myPageGoods',
 		data,
 		type: 'form'
 	})
 }
 
+// B2B商品搜索
+const getPageGoodsSearch = data => {
+	return request({
+		method: 'post',
+		url: '/api/search/goods/search',
+		data,
+		// type: 'form'
+	})
+}
+
+// 统计APP-我的货品商品
+const statisticsGoods = data => {
+	return request({
+		url: '/api/goods/goods/statisticsGoods',
+		data,
+		type: 'form'
+	})
+}
+
+// 统计APP-我的货品商品
+const handlerGoods = data => {
+	return request({
+		method: 'post',
+		url: '/api/goods/goods/handlerGoods',
+		data,
+		// type: 'form'
+	})
+}
+
+
 export {
+	postEditGoods,
+	handlerGoods,
+	statisticsGoods,
+	getPageGoodsSearch,
+	getPageGoods,
 	getGoodsDetail,
 	postSaveGoods,
 	getCategoryUnitList,

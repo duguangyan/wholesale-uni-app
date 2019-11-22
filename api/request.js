@@ -76,8 +76,6 @@ const request = function(params = {}) {
 			}
 		} 
 		
-		
-		
 		// try{
 		// 	if(params.data.grant_type == 'mini_program' || params.data.grant_type == 'wx_app'){
 		// 		apiUrl = 'http://2b7306b237.wicp.vip'
@@ -90,9 +88,9 @@ const request = function(params = {}) {
 		
 	
 		// 商品详情传参 /goods/goodsDetail/{shopId}/{goodsId} B2B -> APP-商品详情
-		if(newUrl.indexOf('/goods/goodsDetail') != -1){
-			newUrl = newUrl.split('?')[0] + '/' + params.data.shopId + '/' + params.data.goodsId
-		}
+		// if(newUrl.indexOf('/goods/goodsDetail') != -1){
+		// 	newUrl = newUrl.split('?')[0] + '/' + params.data.shopId + '/' + params.data.goodsId
+		// }
 		
 		
 		uni.request({

@@ -6,21 +6,29 @@
 			</view>
 			<view class="warp fll">
 				<view class="fs28 ellipsis-line2">
-					我是名称我是名称我是名称我是名称我是名称我是名称我是名称我是名称我是名称我是名称我是名称我是名称我是名称我是名称
+					{{item.name || '暂无'}}
 				</view>
-				<view class="deliver">
-					<text class="fs20 text-999">河北廊坊固安县</text>
-					<text class="tip fs20 text-999">红心</text>
-					<text class="tip fs20 text-999">紫皮</text>
+				<view class="deliver ellipsis fs24 text-999">
+					{{attrValDescString}}
+					<!-- <text class="fs20 text-999">{{item.place || ''}}</text>
+					<text class="tip fs20 text-999" v-if="ix<2" v-for="(it,ix) in item.attrValDesc" :key="ix">{{it || ' '}}</text> -->
 				</view>
-				<view class="price">
-					<view class="fs34 text-red"><text class="fs24">￥</text>128<text class="fs24">元/斤起</text></view>
+				<view class="price cf" :class="{'role':roleId=='20001'}">
+					<view class="fs28 text-red fll">
+						￥{{item.minprice}} 
+						<text v-if="item.maxprice && item.maxprice!=item.minprice">~{{item.maxprice}}</text>
+						元/斤起
+					</view>
+					<view class="fs28 text-999 flr"  v-if="roleId=='20001'">
+						销量:{{item.spuSalesNum}}斤
+					</view>
 				</view>
-				<view class="address cf">
+				<view class="address cf" v-if="roleId!='20001'">
 					<view class="fll img">
 						<image src="../../../../../static/imgs/main-icon-1.png" mode=""></image>
 					</view>
-					<view class="fll fs20 text-999">河北省廊坊市固安县 <text class="mgl-20">舒尚飞</text></view>
+					<view class="fll fs20 text-999">{{item.shopArea || ''}} <text class="mgl-20">{{item.realName || ''}}</text></view>
+					<view class="flr fs20 text-999" v-if="item.createTimeName">{{item.createTimeName}}小时前</view>
 				</view>
 			</view>
 		</view>
@@ -34,12 +42,23 @@
 			item: {
 				type: Object,
 				default: null
+			},
+			roleId: {
+				type: String,
+				default: null
 			}
 		},
 		data() {
 			return {
-			
+				attrValDescString: ''
 			}
+		},
+		mounted() {
+			// 拼接商品规格
+			if(this.item.place ) this.attrValDescString += ' ' + this.item.place
+			this.item.attrValDesc.forEach(it=>{
+				if(it) this.attrValDescString += ' ' + it
+			})
 		},
 		methods: {
 
@@ -65,25 +84,34 @@
 				position: relative;
 				width: 460upx;
 				.deliver{
+					height: 40upx;
 					.tip{
-						background: #999;
-						color: #fff;
+						
+						color: #999;
 						display: inline-block;
-						border-radius: 20upx;
+						font-size: 24upx;
 						margin-left: 10upx;
 						padding: 2upx 4upx;
 					}
+				}
+				.price{
+					margin-top: 20upx;
+					margin-bottom: 10upx;
+				}
+				.role{
+					margin-top: 60upx;
 				}
 				.address{
 					.img{
 						width: 28upx;
 						height: 22upx;
 						margin-right: 6upx;
+						top: 4upx;
 						>image{
 							width: 100%;
 							height: 100%;
 							position: relative;
-							top: -12upx;
+							top: -4upx;
 							
 						}
 					}

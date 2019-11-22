@@ -3,7 +3,7 @@
 		{
 			"path": "pages/main/main",
 			"style": {
-				"navigationBarTitleText": "沁绿农业",
+				"navigationBarTitleText": "农百集",
 				"enablePullDownRefresh": true,
 				"navigationStyle":"custom",
 				"app-plus":{
@@ -377,7 +377,8 @@
         ,{
             "path" : "pages/middle/release/product/localproduct/localproduct",
             "style" : {
-				"navigationBarTitleText": "本地货品"
+				"navigationBarTitleText": "本地货品",
+				"enablePullDownRefresh": true
 			}
         }
         ,{

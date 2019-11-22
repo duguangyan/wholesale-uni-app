@@ -1,62 +1,93 @@
 <template>
 	<view class="localproduct">
-		<view class="top-warp">
+		<view class="top-warp" v-if="roleId == 20001">
 			<view class="tags-con">
 				<view class="tabs cf">
 					<view class="fll li" v-for="(item,index) in navs" :key="index" @click="checkNav(index)">
-						<text :class="{navActive:navIndex==index}">{{item.t}} <text v-if="item.n!=''">({{item.n}})</text> </text>
+						<text :class="{navActive:navIndex==index}">{{item.t}} <text v-if="item.n>0">({{item.n}})</text> </text>
 						<i v-if="navIndex==index"></i>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="item">
-			<Goodx :item="item"></Goodx>
+		<view class="item" v-if="records.length>0">
+			<view class="li" v-for="(item,index) in records" :key="index">
+				<view  @click="goDetail(item)">
+					<Goodx :item="item" :roleId='roleId'></Goodx>
+				</view>
+				
+				<view class="role cf" v-if="roleId == 20001">
+					<view class="btn flr" v-if="navIndex == 0" @click="clickHandledDialog(1,item)"><view>下架</view></view>
+					<view class="btn flr" v-if="navIndex == 1" @click="clickHandledDialog(2,item)"><view>撤销</view></view>
+					<view class="btn flr cf" v-if="navIndex == 2"><view class="fll"  @click="clickHandledDialog(3,item)">修改</view> <view class="fll"  @click="clickHandledDialog(4,item)">上架</view></view>
+					<view class="btn flr" v-if="navIndex == 3" @click="clickHandledDialog(5,item)"><view>修改</view></view>
+				</view>
+			</view>
+			
+			<view class="footerText">{{hasData?'数据加载中':'数据加载完毕'}}</view>
 		</view>
 		
-		<view class="nodata" v-if="false">
+		<view class="nodata" v-if="records.length<=0">
 			<view class="image">
 				<image src="../../../../../static/imgs/localproduct.png" mode=""></image>
 			</view>
 			<view class="fs24 text-999">还没有货品</view>
 		</view>
+		
+		<view class="bar" @click="goRelease" v-if="roleId == '20001'">
+			<image src="../../../../../static/imgs/icon-1009.png" mode=""></image>
+		</view>
+		
+		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
 	</view>
 </template>
 
 <script>
 	import { getShopInfo , fromIdGetAgent } from '@/api/userApi.js'
+	import { getPageGoods, getPageGoodsSearch, statisticsGoods, handlerGoods } from '@/api/goodsApi.js'
 	import Goodx from '@/components/common/Goodx.vue'
+	import Dialog from'@/components/common/Dialog.vue'
+	import util from '@/utils/util.js'
 	export default {
 		data() {
 			return {
+				title:'提示',
+				isShow:false,
 				navs:[
 					{
 						t:'销售中',
-						n:''
+						n:0
 					},
 					{
 						t:'审核中',
-						n:''
+						n:0
 					},
 					{
 						t:'已下架',
-						n:''
+						n:0
 					},
 					{
 						t:'待修改',
-						n:''
+						n:0
 					},
 				],
-				items:[
+				records:[
 					
 				],
 				item:'',
 				roleId:'',
-				index: 0,
-				navIndex:0
+				shopId:'',
+				navIndex:0,
+				index:0,
+				pageIndex:1, // 分页
+				status:3,   // 商品状态  0: 待审核 1：待修改，2：审核驳回 3：已上架，4：已下架 5：已通过
+				hasData: true,
+				statisticsGoods:[], // 统计商品数量
+				itemDialogData:'',
+				itemDialogIndex:''
 			};
 		},
-		components:{Goodx},
+		components:{Goodx,Dialog},
 		onLoad(options) {
 			// 获取上级nav参数
 			if(options.index) this.index = options.index
@@ -64,11 +95,200 @@
 		onShow() {
 			// 判断用户角色
 			this.assessUserType()
-			// 获取店铺信息
-			this.getShopInfo()
+			
+			// 商品列表 APP-我的货品
+			this.records = []
+			this.pageIndex = 1
+			this.getPageGoods()
+			
+			// 获取商品统计数量
+			if(uni.getStorageSync('roleId') == '20001'){
+				this.getStatisticsGoods()
+			}
 			
 		},
+		onReachBottom(){
+			if(this.hasData){
+				this.pageIndex++
+				this.getPageGoods()
+			}
+		},
 		methods:{
+			// 弹窗取消
+			doCancel(){
+				this.isShow = false
+			},
+			// 弹窗确定
+			doConfirm(){
+				this.clickHandled(this.itemDialogData,this.itemDialogIndex)
+				this.isShow = false
+			},
+			// 点击操作事件
+			clickHandledDialog(index,item){
+				this.itemDialogData = item
+				this.itemDialogIndex = index
+				switch (index){
+					case 1:
+						this.isShow = true
+						this.title = '是否下架该货品?'
+						break;
+					case 2:
+						this.isShow = true
+						this.title = '是否撤回该货品?'
+						break;
+					case 3:
+						uni.navigateTo({
+							url:'/pages/middle/release/release?goodsId='+ item.id + '&shopId='+ item.shopId
+						})
+						break;	
+					case 4:
+						this.isShow = true
+						this.title = '是否上架该货品?'
+						break;
+					case 5:
+						uni.navigateTo({
+							url:'/pages/middle/release/release?goodsId='+ item.id + '&shopId='+ item.shopId
+						})
+						break;	
+					default:
+						break;
+				}
+			},
+			//商品操作(批量) 0.上架 1.下架 2.待修改 3.申请驳回
+			clickHandled(item,index){ // id 商品ID n 按钮索引
+				switch (index){
+					case 1:
+						this.doHandlerGoods(item.id,1)
+						break;
+					case 2:
+						this.doHandlerGoods(item.id,3)
+						break;	
+					case 4:
+						this.doHandlerGoods(item.id,0)
+						break;	
+					default:
+						break;
+				}
+			},
+			// 操作下架 上架 修改
+			doHandlerGoods(goodsIds, type){
+				let data = {
+					goodsIds:[goodsIds],
+					handlerType:type,
+					reason:''
+				}
+				handlerGoods(data).then(res=>{
+					if(res.code == '1000'){
+						// 商品列表 APP-我的货品
+						this.records = []
+						this.pageIndex = 1
+						this.getPageGoods()
+						// 获取商品统计数量
+						this.getStatisticsGoods()
+					}
+				})
+			},
+			// 去发布商品
+			goRelease() {
+				uni.navigateTo({
+					url: '/pages/middle/release/release'
+				})
+			},
+			// 获取商品统计数量  状态 0待审核 1待修改 2审核驳回 3已上架 4已下架
+			getStatisticsGoods(){
+				statisticsGoods().then(res=>{
+					if(res.code == '1000'){
+						res.data.forEach((item,index)=>{
+							switch (item.status){
+								case 3:
+									this.navs[0].n = item.goodsNum
+								break;
+								case 0:
+									this.navs[1].n = item.goodsNum
+									break;
+								case 4:
+									this.navs[2].n = item.goodsNum		
+								default:
+									break;
+							}
+							if(item.status == 1 || item.status == 2){
+								this.navs[3].n += parseInt(item.goodsNum) 
+							}
+						})	
+					}
+				})
+			},
+			// 去商品详情
+			goDetail(item){
+				uni.navigateTo({
+					url:'/pages/order/goodsDetail/goodsDetail?shopId='+item.shopId + '&goodsId=' + item.id
+				})
+			},
+			// 商品列表 APP-我的货品 
+			getPageGoods(){
+				let roleId = uni.getStorageSync('roleId')
+				if(roleId == '20001'){ // 货主
+					let data = {
+						pageIndex: this.pageIndex,
+						status: this.status
+					}
+					getPageGoods(data).then(res=>{
+						if(res.code == '1000' && res.data){
+							this.records = this.records.concat(res.data.records)
+							if(this.records.length>= res.data.total){
+								this.hasData = false
+							}else{
+								this.hasData = true
+							}
+						}
+						
+					})
+				}else{ // 代办
+					let data = {
+						pageIndex: this.pageIndex
+					}
+					// 代办农产品
+					if(this.index == 1) {
+						data.shopId = this.shopId
+					}
+					// 发布新品
+					if(this.index == 0){
+						data.timeEnd = util.getNowFormatDate()
+						data.timeStart = util.getNowFormatDateTo24() 
+					}
+					getPageGoodsSearch(data).then(res=>{
+						if(res.code == '1000') {
+							if(res.data.records.length>0 && res.data){
+								res.data.records.forEach((item,index)=>{
+									if(item.createTime){
+										let now  = util.getNowFormatDate().split(' ')[1].split(':')[0]
+										let pass = item.createTime.split(' ')[1].split(':')[0]
+										item.createTimeName =  pass - now
+									}
+								})
+								
+								this.records = this.records.concat(res.data.records)
+								if(this.records.length>= res.data.total){
+									this.hasData = false
+								}else{
+									this.hasData = true
+								}
+							}
+							
+						}
+						
+					})
+				}
+				
+			},
+			// 获取用户角色信息
+			getShopInfo(){
+				getShopInfo().then(res=>{
+					if(res.code == '1000'){
+						this.shopId = res.data.id
+					}
+				})
+			},
 			// 判断用户角色
 			assessUserType(){
 				this.roleId = uni.getStorageSync('roleId')
@@ -88,15 +308,30 @@
 					}
 				}
 			},
-			// 获取店铺信息
-			getShopInfo(){
-				getShopInfo().then(res=>{
-					
-				})
-			},
+		
 			// nav 切换
 			checkNav(index){
 				this.navIndex = index
+				// 商品状态(0: 待审核 1：待修改，2：审核驳回 3：已上架，4：已下架 5：已通过)
+				switch (index){
+					case 0:
+					this.status = 3
+						break;
+					case 1:
+					this.status = 0
+						break;
+					case 2:
+					this.status = 4
+						break;
+					case 3:
+					this.status = 1
+						break;
+					default:
+						break;
+				}
+				this.records = []
+				this.pageIndex = 1
+				this.getPageGoods()
 			}
 		}
 	}
@@ -106,8 +341,49 @@
 	.localproduct{
 		// min-height: 100vh;
 		// background: #fff;
+		.bar {
+			position: fixed;
+			right: 40upx;
+			bottom: 180upx;
+			z-index: 9999;
+			width: 120upx;
+			height: 120upx;
+			>image{
+				width: 100%;
+				height: 100%;
+			}
+		}
 		.item{
 			background: #fff;
+			.li{
+				border-bottom: 20upx solid #f7f7f7;
+				.role{
+					height: 76upx;
+					line-height: 76upx;
+					.btn{
+						view{
+							margin-right: 20upx;
+							width:120upx;
+							height:54upx;
+							line-height: 54upx;
+							text-align: center;
+							border:1px solid rgba(51,51,51,1);
+							border-radius:26upx;
+							color: #333;
+							font-size: 28upx;
+						}
+					}
+				}
+			}
+			
+		}
+		.footerText{
+			height: 60upx;
+			line-height: 60upx;
+			color: #999;
+			text-align: center;
+			font-size: 24upx;
+			background: #f7f7f7;
 		}
 		.tags-con {
 			background-color: #fff;

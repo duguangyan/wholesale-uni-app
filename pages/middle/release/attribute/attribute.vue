@@ -130,12 +130,12 @@
 						})
 						// 如果缓存有输出数据
 						
-						if(uni.getStorageSync('categorysValues')){
-							this.categorys = uni.getStorageSync('categorysValues')
-						}else{
-							this.categorys = categorys
-						}
-						
+						// if(uni.getStorageSync('categorysValues')){
+						// 	this.categorys = uni.getStorageSync('categorysValues')
+						// }else{
+						// 	this.categorys = categorys
+						// }
+						this.categorys = categorys
 						
 						if(uni.getStorageSync('categorysInput')){
 							this.categorysInput = uni.getStorageSync('categorysInput')

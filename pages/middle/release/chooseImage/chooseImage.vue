@@ -140,10 +140,14 @@
 						let res = JSON.parse(uploadFileRes.data)
 						if (res.code == '1000') {
 							if(_this.chooseType == 0){
+								console.log('_this.items:',_this.items)
 								_this.items[_this.chooseIndex].imgs.push(res.data)
 							}else{
+								console.log('_this.items:',_this.items)
 								_this.items[_this.chooseIndex].videos.push(res.data)
 							}
+							
+							uni.setStorageSync('goodsImgList',_this.items)
 						} else {
 							T.tips(res.message || '上传图片失败')
 						}

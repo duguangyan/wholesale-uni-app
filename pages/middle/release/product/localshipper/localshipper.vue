@@ -2,11 +2,11 @@
 	<view class="localshipper">
 		<view v-if="items.length>0">
 			<view class="tip">
-				以下为廊坊市地区{{roleId == 20002?'货主':'代办'}}联系方式
+				以下为{{userApply.province + userApply.city}}地区{{roleId == 20002?'货主':'代办'}}联系方式
 			</view>
 			<view class="items">
 				<view class="item flex" v-for="(item,index) in items" :key="index">
-					<view class="flex-1 fs28 text-333">{{item.name}}</view>
+					<view class="flex-1 fs28 text-333">{{item.realName}}</view>
 					<view class="flex-2 fs28 text-666">{{item.phone}}</view>
 					<view class="flex-1"><view class="btn" @click="callByPhone(item.phone)">联系{{roleId == 20002?'货主':'代办'}}</view></view>
 				</view>
@@ -25,45 +25,64 @@
 </template>
 
 <script>
-	import { getShopInfo , fromIdGetAgent } from '@/api/userApi.js'
+	import { getShopInfo , fromIdGetAgent ,fromIdGetAgentUserInfo,fromIdGetShopUserInfo } from '@/api/userApi.js'
 	export default {
 		data() {
 			return {
 				items:[
 					{
-						name:'农百集',
+						realName:'农百集',
 						phone:'15817390700'
 					}
 				],
-				roleId:''
+				roleId:'',
+				userApply:''
 			};
 		},
 		onShow() {
 			// 判断用户类型
 			this.assessUserType()
-			// 获取店铺信息
-			this.getShopInfo()
+			
 		},
 		methods:{
 			// 判断用户类型
 			assessUserType(){
 				this.roleId = uni.getStorageSync('roleId')
+				this.userApply = JSON.parse(uni.getStorageSync('userApply'))
 				if(this.roleId == '20001'){
 					uni.setNavigationBarTitle({
 					    title: '本地代办'
 					});
+					this.fromIdGetAgentUserInfo()
 				}else if(this.roleId == '20002'){
 					uni.setNavigationBarTitle({
 					    title: '本地货主'
 					});
+					this.fromIdGetShopUserInfo()
 				}
 			},
-			// 获取店铺信息
-			getShopInfo(){
-				getShopInfo().then(res=>{
-					if(res.code == '1000') {
-						this.shopId = res.data.id
+			// 代办
+			fromIdGetAgentUserInfo(){
+				fromIdGetAgentUserInfo().then(res=>{
+					if(res.code == '1000'){
+						this.items = res.data
 					}
+				})
+			},
+			// 货主
+			fromIdGetShopUserInfo(){
+				fromIdGetShopUserInfo().then(res=>{
+					if(res.code == '1000'){
+						this.items = res.data
+					}
+				})
+			},
+			// 获取代办列表
+			fromIdGetAgent(shopId){
+				let data = {
+					shopId
+				}
+				fromIdGetAgent(data).then(res=>{
 					
 				})
 			},

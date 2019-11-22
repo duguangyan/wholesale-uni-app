@@ -345,10 +345,28 @@ const fromIdGetAgent = data => {
 	})
 }
 
+// 根据货主ID获取代办信息列表
+const fromIdGetAgentUserInfo = data => {
+	return request({
+		url: '/api/goods/userRealInfo/fromIdGetAgentUserInfo',
+		data,
+		type: 'form',
+	})
+}
 
+// 根据代办ID获取货主信息列表
+const fromIdGetShopUserInfo = data => {
+	return request({
+		url: '/api/goods/userRealInfo/fromIdGetShopUserInfo',
+		data,
+		type: 'form',
+	})
+}
 
 
 export {
+	fromIdGetShopUserInfo,
+	fromIdGetAgentUserInfo,
 	fromIdGetAgent,
 	getShopInfo,
 	applyApplyUpdate,

@@ -27,7 +27,7 @@
 				<view class="fll image img44"><image src="../../static/imgs/icon-1010.png" mode=""></image></view>
 				<view class="fll text-333">我的账户</view>
 				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
-				<view class="flr mgr-20">{{totalPrice}}元</view>
+				<view class="flr mgr-20">{{totalPrice || 0}}元</view>
 			</view>
 			<view class="cf" v-if="userApply.status == 2" @click="goRealnameFail(userApply.auditOpinion)">
 				<view class="fll image"><image src="../../static/imgs/icon-1001.png" mode=""></image></view>
@@ -84,6 +84,7 @@
 	import { getOrderStat, statOrderInfo } from '@/api/userApi.js'
 	import { accountSub } from '@/api/payApi.js'
 	import util from '@/utils/util.js'
+	import T from '@/utils/tips.js'
 	export default {
 		name: 'agency',
 		props: {
@@ -199,7 +200,6 @@
 					if(res.code == '1000'){
 						this.orderInfos = res.data.orderStatVO
 					}
-					
 				})
 			},
 			// 统计订单状态条数
@@ -221,12 +221,6 @@
 							}if(this.from == 'user'){
 								if(item.status == 0) this.tabs[2].tip = item.num
 							}
-							// if(item.status == 0) this.spOrders[1].tip = item.num
-							// if(item.status == 2) this.spOrders[2].tip = item.num
-							// if(item.status == 3) this.spOrders[3].tip = item.num
-							// if(item.status == 4) this.spOrders[4].tip = item.num
-							// if(item.status == 6) this.spOrders[0].tip = item.num
-							
 						})
 					}
 					
@@ -265,6 +259,16 @@
 			},
 			// 产品页面
 			goGoodsCheck(i){
+				let roleId = uni.getStorageSync('roleId')
+				if(this.userApply.status !=1){
+					if(roleId == '20002'){ // 20002 代办
+						T.tips('你的代办角色正在审核中，请审核通过后使用')
+						return false
+					}else{ // 20001 货主
+						T.tips('正在审核中，请审核通过后使用')
+						return false
+					}
+				}
 				let index = i
 				// 2001 货主  2002代办
 				if(this.roleId == 20001){
