@@ -117,10 +117,10 @@
 					<text>联系买家</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="order.sendType || true">
+			<view class="phone cf" v-if="order.shopOrder.sendType">
 				<view class="fll">物流方式:</view>
 				<view class="flr" @click="showCarInfo">
-					<text class="text-theme">{{order.sendType == 1?'平台选车':'自驾车辆'}}</text>
+					<text class="text-theme">{{order.shopOrder.sendType == 1 ?'平台选车':'自驾车辆'}}</text>
 					<view class="right">
 						<image src="../../../static/imgs/right.png" mode=""></image>
 					</view>
@@ -234,7 +234,7 @@
 				isShow: false,
 				isWx: false,
 				isPayShow: false,
-				order: {},
+				order: '',
 				orderId: '',
 				shopId: '',
 				statusText: '',
