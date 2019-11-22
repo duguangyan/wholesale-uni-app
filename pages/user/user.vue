@@ -60,6 +60,7 @@
 <script>
 	import TabBar from '@/components/common/TabBar.vue'
 	import { getOrderStat } from '@/api/userApi.js'
+	import T from '@/utils/tips.js'
     export default {
         data() {
             return {
@@ -98,7 +99,10 @@
 			this.roleId       = uni.getStorageSync('roleId') || ''
 			
 			// 统计订单状态条数
-			this.getOrderStat()
+			if(uni.getStorageSync('access_token')){
+				this.getOrderStat()
+			}
+			
 		},
 		computed: {
 		    dPhone() {
@@ -114,22 +118,14 @@
 						let list = res.data
 						list.forEach((item,index)=>{
 							let roleId = uni.getStorageSync('roleId')
-							if(this.from == 'order'){
-								if(roleId == 20001) {
-									if(item.status == 6) this.tabs[1].tip = item.num	
-								}else if(roleId == 20002){
-									if(item.status == 2) this.tabs[3].tip = item.num
-								}else if(roleId == 20003){
-									if(item.status == 0) this.tabs[2].tip = item.num
-								}
-							}if(this.from == 'user'){
-								if(item.status == 0) this.tabs[2].tip = item.num
+							if(roleId == '20001') {
+								if(item.status == 6) this.titles[0].tip = item.num	
 							}
-							// if(item.status == 0) this.titles[1].tip = item.num
-							// if(item.status == 2) this.titles[2].tip = item.num
-							// if(item.status == 3) this.titles[3].tip = item.num
-							// if(item.status == 4) this.titles[4].tip = item.num
-							// if(item.status == 6) this.titles[0].tip = item.num
+							if(roleId == '20002'){
+								if(item.status == 2) this.titles[2].tip = item.num
+							}
+							if(item.status == 0) this.titles[1].tip = item.num
+							if(item.status == 3) this.titles[3].tip = item.num
 						})
 					}
 				})
@@ -142,18 +138,28 @@
 			},
 			// 去设置页面
 			goSettingPage(){
-				uni.navigateTo({
-					url:'/pages/user/setting/setting'
-				})
+				if(uni.getStorageSync('access_token')){
+					uni.navigateTo({
+						url:'/pages/user/setting/setting'
+					})
+				}else{
+					T.tips('请先登录')
+				}
+				
 			},
             // 去订单页面
 			goOrderList(index) {
-			  let i = index === '' ? '' : index + 1
-			  if(index == 4) i = ''
-			  uni.setStorageSync('orderNavIndex', i)
-			  uni.navigateTo({
-			  	url:'/pages/user/order/list?from=user'
-			  })
+				if(uni.getStorageSync('access_token')){
+					let i = index === '' ? '' : index + 1
+					if(index == 4) i = ''
+					uni.setStorageSync('orderNavIndex', i)
+					uni.navigateTo({
+						url:'/pages/user/order/list?from=user'
+					})
+				}else{
+					T.tips('请先登录')
+				}
+			
 			},
 			goInfo() {
 				if(this.isLogin) {
@@ -242,13 +248,16 @@
 			.role{
 				width:54upx;
 				height:24upx;
+				line-height: 24upx;
+				text-align: center;
 				background:rgba(255,219,176,1);
 				border-radius:12upx;
-				font-size:20px;
+				font-size:20upx;
 				color:rgba(254,59,11,1);
 				position: absolute;
-				bottom: 0;
-				left: 0;
+				bottom: 28upx;
+				left: 44upx;
+				z-index: 999999;
 			}
 			.img{
 				width: 90upx;
@@ -343,7 +352,7 @@
     .title {
 		border-bottom: 1upx solid #f0f0f0;
 		padding-bottom: 20upx;
-		height: 60upx;
+		// height: 60upx;
 		position: relative;
 		top: 14upx;
 		
@@ -351,7 +360,11 @@
 		  width: 20upx;
 		  height: 20upx;
 		  position: relative;
+		  top: -2upx;
+		  /* #ifdef MP-WEIXIN */  
 		  top: 10upx;
+		  /* #endif */
+		  
 		  >image{
 			  width: 100%;
 			  height: 100%;

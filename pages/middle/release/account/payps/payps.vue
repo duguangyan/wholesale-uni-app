@@ -29,13 +29,13 @@
 		methods:{
 			// 去重置密码页面
 			goReset(){
-				uni.redirectTo({
+				uni.navigateTo({
 					url:'/pages/middle/release/account/payps/verifiyPhone'
 				})
 			},
 			// 去修改密码页面
 			goRevise(){
-				uni.redirectTo({
+				uni.navigateTo({
 					url:'/pages/middle/release/account/payps/resPassword'
 				})
 			}

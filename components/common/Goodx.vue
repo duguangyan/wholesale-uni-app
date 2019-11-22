@@ -15,7 +15,7 @@
 				</view>
 				<view class="price cf" :class="{'role':roleId=='20001'}">
 					<view class="fs28 text-red fll">
-						￥{{item.minprice}} 
+						￥{{item.minprice || item.minPrice}} 
 						<text v-if="item.maxprice && item.maxprice!=item.minprice">~{{item.maxprice}}</text>
 						元/斤起
 					</view>
@@ -25,7 +25,12 @@
 				</view>
 				<view class="address cf" v-if="roleId!='20001'">
 					<view class="fll img">
-						<image src="../../../../../static/imgs/main-icon-1.png" mode=""></image>
+						<!-- #ifdef MP-WEIXIN -->  
+						<image :src="'../../../../../static/imgs/main-icon-1.png'" mode=""></image>
+						<!-- #endif -->  
+						<!-- #ifdef APP-PLUS || H5 -->
+						<image src="../../static/imgs/main-icon-1.png" mode=""></image>
+						<!-- #endif --> 
 					</view>
 					<view class="fll fs20 text-999">{{item.shopArea || ''}} <text class="mgl-20">{{item.realName || ''}}</text></view>
 					<view class="flr fs20 text-999" v-if="item.createTimeName">{{item.createTimeName}}小时前</view>
@@ -106,12 +111,16 @@
 						width: 28upx;
 						height: 22upx;
 						margin-right: 6upx;
-						top: 4upx;
 						>image{
 							width: 100%;
 							height: 100%;
 							position: relative;
-							top: -4upx;
+							/* #ifdef MP-WEIXIN */  
+							top: -4upx
+							/* #endif */ 
+							/* #ifdef APP-PLUS || H5 */
+							top: -2upx
+							/* #endif */ 
 							
 						}
 					}

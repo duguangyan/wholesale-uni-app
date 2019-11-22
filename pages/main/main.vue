@@ -72,7 +72,11 @@
 				<image :src="homeList.list[3].list[0].list[0].imgPath"></image>
 			</view>
 			<view class="content">
-				<view class="item cf" v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
+				<view v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
+					<Goodx :item='item'></Goodx>
+				</view>
+				
+				<!-- <view class="item cf" v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
 					<view class="img fll">
 						<image :src="item.imgUri" mode=""></image>
 					</view>
@@ -93,10 +97,9 @@
 								<image src="../../static/imgs/main-icon-1.png" mode=""></image>
 							</view>
 							<view class="fll fs20 text-999">河北省廊坊市固安县 <text class="mgl-20">舒尚飞</text></view>
-							<!-- <view class="flr fs20 text-999">{{item.valueAddr}}</view> -->
 						</view>
 					</view>
-				</view>
+				</view> -->
 			</view>
 
 		</view>
@@ -119,6 +122,7 @@
 	import T from '@/utils/tips.js'
 	import TabBar from '@/components/common/TabBar.vue'
 	import SwiperDot from "@/components/common/SwiperDotByMain.vue"
+	import Goodx from "@/components/common/Goodx.vue"
 	export default {
 		data() {
 			return {
@@ -139,7 +143,7 @@
 			}
 		},
 		components: {
-			TabBar,SwiperDot
+			TabBar,SwiperDot,Goodx
 		},
 		onTabItemTap(e){
 			uni.setStorageSync('pagePath','main')
@@ -383,7 +387,7 @@
 							item.valueAddr = item.valueAddr.substring(0, 5)
 						})
 						
-						this.listWidth = uni.upx2px(this.homeList.list[3].list[1].goodsDetailRespList.length * 100) + 'px';
+						this.listWidth = uni.upx2px(this.homeList.list[3].list[1].goodsDetailRespList.length * 26) + 'px';
 					}
 				})
 			},
@@ -446,7 +450,9 @@
 		box-sizing: content-box;
 	}
 	.main {
-		
+		width: 750upx;
+		margin: 0 auto;
+		overflow-x: hidden;
 		background: #fff;
 		// padding-bottom: 100upx;
 		.bb1 {

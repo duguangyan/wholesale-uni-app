@@ -209,18 +209,15 @@
 					if(res.code == '1000'){
 						let list = res.data
 						list.forEach((item,index)=>{
-							
-							if(this.from == 'order'){
-								if(roleId == 20001) {
-									if(item.status == 6) this.tabs[1].tip = item.num	
-								}else if(roleId == 20002){
-									if(item.status == 2) this.tabs[3].tip = item.num
-								}else if(roleId == 20003){
-									if(item.status == 0) this.tabs[2].tip = item.num
-								}
-							}if(this.from == 'user'){
-								if(item.status == 0) this.tabs[2].tip = item.num
+							let roleId = uni.getStorageSync('roleId')
+							if(roleId == '20001') {
+								if(item.status == 6) this.spOrders[0].tip = item.num	
 							}
+							if(roleId == '20002'){
+								if(item.status == 2) this.spOrders[2].tip = item.num
+							}
+							if(item.status == 0) this.spOrders[1].tip = item.num
+							if(item.status == 3) this.spOrders[3].tip = item.num
 						})
 					}
 					

@@ -176,7 +176,7 @@
     },
     "h5" : {
         "devServer" : {
-            "port" : 7000,
+            "port" : 8000,
             "disableHostCheck" : true,
             "proxy" : {
                 "/api" : {

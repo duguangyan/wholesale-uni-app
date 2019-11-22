@@ -64,6 +64,7 @@
 		},
 		data() {
 			return {
+				from:'',
 				add: '',
 				id:'',
 				code:'',
@@ -142,13 +143,24 @@
 			}
 		},
 		onLoad(options) {
-			if(options.code) this.code = options.code   // 来自重置密码
+			if(options.from){   // 设置密码
+				this.from = options.from
+				if(this.from == 'addBank' || this.from == 'delBank' || this.cash != ''){
+					uni.setNavigationBarTitle({
+					    title: '输入支付密码'
+					});
+				}else{
+					uni.setNavigationBarTitle({
+					    title: '设置新支付密码'
+					});
+				}
+			}    
+			if(options.code) this.code = options.code      // 来自重置密码
 			if(options.id) this.id     = options.id         // 来自删除银行卡
-			if(options.add) this.add   = options.add      // 来自添加银行卡
-			if(options.cash){                           // 来自提现
-				this.cash           = options.cash   
-				this.amount         = options.amount
-				this.receiveAccount = options.receiveAccount
+			if(options.cash){                               // 来自提现
+				this.cash              = options.cash   
+				this.amount            = options.amount
+				this.receiveAccount    = options.receiveAccount
 			} 
 			
 		},
@@ -274,25 +286,27 @@
 					T.tips('密码长度不能少于6位')
 					return;
 				}
+				
 				// 密码长度为6位以后执行方法
 				console.log(this.trade_pwd);
 				
-				if(this.cash != ''){
-					// 提现
-					this.doCash()
-				}else{
-					if(this.add != ''){
+				switch (this.from){
+					case 'cash':
+						// 重置设置密码
+						this.setPassword()
+						break;
+					case 'addBank':
 						// 添加银行卡
 						this.addBankCat()
-					}else{
-						if(this.id!=''){
-							// 删除银行卡
-							this.delBankCat()
-						}else{
-							// 重置设置密码
-							this.setPassword()
-						}
-					}
+						break;
+					case 'delBank':
+						// 删除银行卡
+						this.delBankCat()
+						break;
+					default:
+						// 重置设置密码
+						this.setPassword()
+						break;
 				}
 
 			},

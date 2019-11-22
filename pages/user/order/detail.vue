@@ -176,8 +176,9 @@
 		<div class="footer" v-if="status == 0 || status == 3">
 			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 			<div class="btn-black btn" v-if="status == 0" @click="postOrderCancel">取消订单</div>
-			<div class="btn-red btn" v-if="status == 0" @click="showPay()">去付款</div>
+			<div class="btn-red btn" v-if="status == 0" @click="showPay">去付款</div>
 			<div class="btn-red btn" v-if="status == 3" @click="postOrderConfirm">确认收货</div>
+			<view class="receive" v-if="status == 2 && roleId == '20002'" @click="deliverGoods()">发货</view>
 		</div>
 		<Pay :orderId="orderId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
 		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
@@ -308,6 +309,12 @@
 			},
 			doCancel() {
 				this.isShow = false
+			},
+			// 发货
+			deliverGoods(){
+				uni.navigateTo({
+					url:'/pages/user/order/delivery?shopId='+this.shopId + '&orderId=' + this.orderId
+				})
 			},
 			doConfirm() {
 				let _this = this

@@ -48,7 +48,7 @@
 			// 确定
 			doConfirm(){
 				uni.redirectTo({
-					url:'/pages/middle/release/account/payps/resPassword?id='+ this.item.id
+					url:'/pages/middle/release/account/payps/resPassword?from=delBank&id='+ this.item.id
 				})
 			},
 			// 取消

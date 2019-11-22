@@ -363,8 +363,18 @@ const fromIdGetShopUserInfo = data => {
 	})
 }
 
+// 货主发货
+const orderDelivery = data => {
+	return request({
+		method: 'post',
+		url: '/api/order/order/delivery',
+		data,
+		type: 'form',
+	})
+}
 
 export {
+	orderDelivery,
 	fromIdGetShopUserInfo,
 	fromIdGetAgentUserInfo,
 	fromIdGetAgent,

@@ -91,6 +91,18 @@
 			};
 		},
 		components: {},
+		onBackPress(){
+			console.log('------------onBackPress')
+			if(this.goodsId!='' && this.shopId!=''){
+				this.doClearStorageSync()
+			}
+		},
+		onHide() {
+			console.log('------------onHide')
+			if(this.goodsId!='' && this.shopId!=''){
+				this.doClearStorageSync()
+			}
+		},
 		onLoad(options) {
 			// 货主编辑商品
 			if(options.goodsId) this.goodsId = options.goodsId
@@ -116,7 +128,19 @@
 			
 		},
 		methods:{
-			
+			// 去除缓存
+			doClearStorageSync(){
+				uni.removeStorageSync('goodsTitile')
+				uni.removeStorageSync('varieties')
+				uni.removeStorageSync('addCategoryAddress')
+				uni.removeStorageSync('addCategoryAttributes')
+				uni.removeStorageSync('categorysInput')
+				uni.removeStorageSync('categorysValues')
+				uni.removeStorageSync('attribute')
+				uni.removeStorageSync('goodsSkuList')
+				uni.removeStorageSync('textareaValue')
+				uni.removeStorageSync('goodsImgList')
+			},
 			// 获取编辑商品详情
 			// 新增商品后台传参比较复杂，修改也是很复杂，老板不懂技术，很忧伤（后台不愿意改，将就用吧）
 			getGoodsDetail(){
@@ -141,7 +165,7 @@
 						this.goodsTitile = res.data.goodsDetail.goods.name
 						// 货品描述
 						this.textareaValue = res.data.goodsDetail.goods.detail
-						
+						this.mun = this.textareaValue.length
 						// 验证表单是否可以提交
 						this.assessHasData()
 					}

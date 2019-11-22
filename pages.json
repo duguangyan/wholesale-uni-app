@@ -90,7 +90,14 @@
             "style" : {
 				"navigationBarTitleText": "订单完成" 
 			}
-        }, {
+        }
+		, {
+		    "path" : "pages/user/order/delivery",
+		    "style" : {
+				"navigationBarTitleText": "司机信息" 
+			}
+		}
+		, {
             "path" : "pages/user/order/freight",
             "style" : {
 				"navigationBarTitleText": "物流详情" 

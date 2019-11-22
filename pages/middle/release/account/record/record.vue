@@ -1,6 +1,6 @@
 <template>
 	<view class="record">
-		<view @click="goDetail" v-for="(item,index) in records" :key="index">
+		<view @click="goDetail" v-if="records.length > 0" v-for="(item,index) in records" :key="index">
 			<view class="title fs24 text-999">{{item.month}}</view>
 			<view class="items">
 				<view class="item cf" v-for="(it,ix) in item.list" :key="ix" @click="goDetail(it.id,it.type)">
@@ -15,6 +15,10 @@
 					</view>
 				</view>
 			</view>
+		</view>
+		<view v-if="records<=0" class="nodata">
+			<view class="image"><image src="../../../../../static/imgs/records-icon.png" mode=""></image></view>
+			<view class="text">还没有你的账单记录</view>
 		</view>
 	</view>
 </template>
@@ -63,6 +67,24 @@
 	.record{
 		background: #FFFFFF;
 		min-height: 100vh;
+		.nodata{
+			.image{
+				width: 200upx;
+				height: 200upx;
+				margin: 0 auto;
+				padding-top: 300upx;
+				>image{
+					width: 100%;
+					height: 100%;
+				}
+			}
+			.text{
+				font-size: 20upx;
+				color: 999;
+				margin-top: 30upx;
+				text-align: center;
+			}
+		}
 		.item{
 			height: 100upx;
 			line-height: 100upx;

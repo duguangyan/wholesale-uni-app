@@ -28,6 +28,7 @@
 				codeText: '获取验证码',
 				codeNum: '', // 定时器时间
 				setCodeInterval:'', // 定时器
+				from:''
 			};
 		},
 		onHide() {
@@ -36,8 +37,8 @@
 				clearInterval(this.setCodeInterval)
 			}
 		},
-		onLoad() {
-			
+		onLoad(options) {
+			if(options.from) this.from = options.from
 		},
 		onShow() {
 			
@@ -48,8 +49,12 @@
 				if(this.code == ''){
 					return false
 				}
+				let url = '/pages/middle/release/account/payps/resPassword?code='+this.code
+				if(this.from == 'cash'){
+					url += '&from=cash'
+				}
 				uni.redirectTo({
-					url:'/pages/middle/release/account/payps/resPassword?code='+this.code
+					url
 				})
 			},
 			// 获取验证码

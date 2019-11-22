@@ -185,7 +185,6 @@ const handlerGoods = data => {
 	})
 }
 
-
 export {
 	postEditGoods,
 	handlerGoods,

@@ -341,6 +341,9 @@
 	.localproduct{
 		// min-height: 100vh;
 		// background: #fff;
+		width: 750upx;
+		margin: 0 auto;
+		overflow-x: hidden;
 		.bar {
 			position: fixed;
 			right: 40upx;

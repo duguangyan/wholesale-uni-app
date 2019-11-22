@@ -137,7 +137,7 @@
 				}else{
 					if(!this.setPayPwd){
 						uni.navigateTo({
-							url:'/pages/middle/release/account/payps/verifiyPhone'
+							url:'/pages/middle/release/account/payps/verifiyPhone?from=cash'
 						})
 					}else{
 						if(this.bankCardNum<=0){

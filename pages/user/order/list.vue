@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<view class="order-no-data" v-if="hasOrders">
-			<image src="@/static/img/icon-order-no.png" alt="图片">
+			<img src="../../../static/imgs/records-icon.png" alt="图片">
 				<view class="text-999 fs28">您还没有相关订单</view>
 		</view>
 		<view class="list" v-if="!hasOrders">
@@ -44,6 +44,7 @@
 						<view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view>
 						<view class="receive" v-if="item.status == 3" @click="postOrderConfirm(index)">确认收货</view>
 						<view class="receive" v-if="item.status == 0" @click="showPay(index)">去支付</view>
+						<view class="receive" v-if="item.status == 2 && roleId == '20002'" @click="deliverGoods(index)">发货</view>
 					</view>
 				</view>
 			</view>
@@ -151,7 +152,7 @@
 			console.log('platform:', this.platform)
 			let orderNavIndex = uni.getStorageSync('orderNavIndex')
 			if (orderNavIndex) {
-				this.status = orderNavIndex == '1' ? 0 : orderNavIndex
+				this.status = orderNavIndex == '1' ? 0 : orderNavIndex - 1
 				this.navIndex = orderNavIndex
 			}
 			// 获取订单列表
@@ -161,6 +162,13 @@
 			this.getOrderStat()
 		},
 		methods: {
+			// 发货
+			deliverGoods(index){
+				let item = this.orders[index]
+				uni.navigateTo({
+					url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
+				})
+			},
 			// 统计订单状态条数
 			getOrderStat(){
 				getOrderStat().then(res=>{
@@ -170,21 +178,14 @@
 						// 获取用户类型 20001 货主 20002 代办   20003 买家
 						let roleId = uni.getStorageSync('roleId')
 						list.forEach((item,index)=>{
-							if(this.from == 'order'){
-								if(roleId == 20001) {
-									if(item.status == 6) this.tabs[1].tip = item.num	
-								}else if(roleId == 20002){
-									if(item.status == 2) this.tabs[3].tip = item.num
-								}else if(roleId == 20003){
-									if(item.status == 0) this.tabs[2].tip = item.num
-								}
-							}if(this.from == 'user'){
-								if(item.status == 0) this.tabs[2].tip = item.num
+							if(roleId == '20001') {
+								if(item.status == 6) this.tabs[1].tip = item.num	
 							}
-							// if(item.status == 0) this.tabs[2].tip = item.num
-							// if(item.status == 2) this.tabs[3].tip = item.num
-							// if(item.status == 3) this.tabs[4].tip = item.num
-							// if(item.status == 6) this.tabs[1].tip = item.num	
+							if(roleId == '20002'){
+								if(item.status == 2) this.tabs[3].tip = item.num
+							}
+							if(item.status == 0) this.tabs[2].tip = item.num
+							if(item.status == 3) this.tabs[4].tip = item.num
 								
 						})
 					}
