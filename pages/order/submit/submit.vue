@@ -1,390 +1,386 @@
 <template>
-	<view>
-		<div class="submit">
-		    <!-- <div class="address" @click="goAddress">
-		      <div v-if="address == ''" class="addAd" to="/adedit">请添加收货地址</div>
-		      <div v-if="address != ''" class="div">
-		        <div class="ad-title">收货人: {{address.name}}</div>
-		        <div
-		          class="ad-det"
-		        >收货地址:{{address.province + address.city + address.region + address.address}}</div>
-				<div class="icon-right">
-					 <img class="tag-go" src="@/static/img/tag-go.png" width="10" height="10" alt />
-				</div>
-		       
-		      </div>
-			  <div class="icon-bg">
-				  <img src="@/static/img/bg-line.png" alt="">
-			  </div>
-		    </div> -->
-			<view class="tips">
-				注:订单金额不包含物流费，物流费由买家承担，请找代办商议
-				<view class="close"><image src="../../../static/imgs/order-close.png" mode=""></image></view>
-			</view>
-			<view>
-				
-				<view class="fll">物流方式</view>
-				<view class="fll">
-					<view class="cf">
-						<view>平台找车</view>
-						<view>自驾车辆</view>
-					</view>
-				</view>
-			</view>
-			
-			<view>
-				<text>找代办:</text><text>请选择代办人</text>
-			</view>
-	
-		    <div class="list" v-if="list.length>0">
-		      <div v-for="(item,index) in list" :key="index">
-		        <div class="cf parent-title">
-		          <!-- <div class="fll plat">
-		            <img :src="Plat" alt="图标" />
-		          </div> -->
-		          <span class="fll text">货主:{{item.shopName || '平台自营'}}</span>
-		        </div>
-		        <ul>
-		          <li class="cf" v-for="(it,idx) in item.goodsParamList" :key="idx">
-		            <div class="fll img">
-		              <img :src="it.imgUri || defaultUrl" alt="图片" />
-		            </div>
-		            <div class="fll mgl-20 info fs28">
-		              <p class="fs-16 p1 cf">
-						  <span class="s1 ellipsis ellipsis-line2 fll">{{it.goodsName}}</span> <span class="flr fs24">￥<span class="fs28">{{it.price}}</span></span>
-						</p>
-		              <p class="text-666 fs24 cf mt-10">
-		                <span class="fll p4">{{it.skuDesc || ''}}</span>
-		                <span class="flr text-999 p5">x {{it.goodsCount}}</span>
-		              </p>
-		              <p class=" fs24 p2">￥ <span class="fs28">{{it.goodsMoney}}</span></p>
-		            </div>
-		          </li>
-		        </ul>
-		      </div>
-		    </div>
-		    <div class="others">
-		      <div class="freight">
-		        <span>运费</span>
-		        <span>￥{{deliverMoney || 0}}</span>
-		      </div>
-		      <div class="mark">
-		        <span>留言</span>
-		        <input v-model="message" type="text" maxlength="100" placeholder="请输入留言信息" />
-		      </div>
-		    </div>
-		
-		    <div class="operator">
-		      <div class="nums">共&ensp;{{totalCount}}&ensp;件</div>
-		      <div class="total-price fg1">
-		        合计:&ensp;
-		        <span>{{totalMoney}}</span>
-		      </div>
-		      <div class="btn" v-bind:class="{ 'active': address !== '','platform1':platform==2 }" @click="showPay">提交订单</div>
-		    </div>
-		    <!--    // orderId：支付订单-->
-		    <!--    // show：支付上拉框是否弹起-->
-		    <!--    // isWX：是否只有微信支付-->
-		    <!--    // price： 支付价格-->
-		    <!--    // function payClose：关闭支付弹窗-->
-		    <!--    // function doPay: 点击支付按钮事件-->
-		    <Pay
-		      :orderId="payOrderId"
-			  :platform='platform'
-		      ref="pay"
-		      :show="isPay"
-		      @close="doClose"
-		      :price="totalMoney"
-		      v-on:doPay="doPay"
-		    />
-			
-			
-			
-		  </div>
-	</view>
+  <view>
+    <div v-if="isTips" class="tips text-red fs20">
+      注：订单金额不包含物流费，物流费由买家承担，请找代办商议
+      <img src="@/static/imgs/icon-close3.png" alt="" @click="isTips = false" />
+    </div>
+    <div class="submit">
+      <!-- <div class="address" @click="goAddress">
+        <div v-if="address == ''" class="addAd" to="/adedit">请添加收货地址</div>
+        <div v-if="address != ''" class="div">
+          <div class="ad-title">收货人: {{ address.name }}</div>
+          <div class="ad-det">收货地址:{{ address.province + address.city + address.region + address.address }}</div>
+          <div class="icon-right"><img class="tag-go" src="@/static/img/tag-go.png" width="10" height="10" alt /></div>
+        </div>
+        <div class="icon-bg"><img src="@/static/img/bg-line.png" alt="" /></div>
+      </div> -->
+
+      <div class="freight-style fs28">
+        <div>物流方式:</div>
+        <radio-group @change="changeSendType">
+          <label class="radio">
+            <radio value="1" checked="true" color="#FE3B0B" style="transform:scale(0.5)" />
+            平台找车
+          </label>
+          <label class="radio">
+            <radio value="2" color="#FE3B0B" style="transform:scale(0.5)" />
+            自驾车辆
+          </label>
+        </radio-group>
+      </div>
+
+      <div class="list" v-if="list.length > 0">
+        <div v-for="(item, index) in list" :key="index">
+          <div class="agent fs28">
+            <div>找&ensp;代&ensp;办:</div>
+            <!-- <input class="uni-input" placeholder="请选择代办人" readonly="readonly" /> -->
+            <div :class="['uni-input', 'fs28', item.curAgent.name ? 'text-333' : 'text-999']" @click="showAgentDialog(item)">{{ item.curAgent.name || '请选择代办人' }}</div>
+          </div>
+          <div class="gray-line"></div>
+
+          <div class="cf parent-title pdl-30">
+            <!-- <div class="fll plat"><img :src="Plat" alt="图标" /></div>
+            <span class="fll text">{{ item.shopName }}</span> -->
+            货主: {{ item.sellerName }}
+          </div>
+          <ul>
+            <li class="cf" v-for="(it, idx) in item.goodsParamList" :key="idx">
+              <div class="fll img"><img :src="it.imgUri || defaultUrl" alt="图片" /></div>
+              <div class="fll mgl-20 info fs28">
+                <p class="fs-16 p1 cf">
+                  <span class="s1 ellipsis ellipsis-line2 fll">{{ it.goodsName }}</span>
+
+                  <!-- <span class="flr fs24">
+                    ￥
+                    <span class="fs28">{{ it.price }}</span>
+                  </span> -->
+                </p>
+                <p class="text-666 fs24 cf mt-10">
+                  <span class="fll p4">{{ it.skuDesc || '' }}</span>
+                  <!-- <span class="flr text-999 p5">x {{ it.goodsCount }}</span> -->
+                </p>
+                <p class="text-333 fs28 mgt-10">代办费&nbsp;￥{{ it.agencyPrice }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</p>
+                <p class=" fs24 p2">
+                  价格￥
+                  <span class="fs28">{{ it.price }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</span>
+                </p>
+              </div>
+            </li>
+          </ul>
+          <div class="others">
+            <!-- <div class="freight">
+              <span>运费</span>
+              <span>￥{{ deliverMoney || 0 }}</span>
+            </div> -->
+            <div class="mark pdl-30">
+              <span>留言</span>
+              <input v-model="message" type="text" maxlength="100" placeholder="请输入留言信息" />
+            </div>
+          </div>
+          <div class="calc text-red fs28 pdr-30">小计:￥{{ item.totalMoney }}</div>
+        </div>
+      </div>
+
+      <div class="operator">
+        <div class="nums">共&ensp;{{ totalCount }}&ensp;件</div>
+        <div class="total-price fg1">
+          合计:&ensp;
+          <span>{{ totalMoney }}</span>
+        </div>
+        <div class="btn" v-bind:class="{ active: address !== '', platform1: platform == 2 }" @click="showPay">提交订单</div>
+      </div>
+      <!--    // orderId：支付订单-->
+      <!--    // show：支付上拉框是否弹起-->
+      <!--    // isWX：是否只有微信支付-->
+      <!--    // price： 支付价格-->
+      <!--    // function payClose：关闭支付弹窗-->
+      <!--    // function doPay: 点击支付按钮事件-->
+      <Pay :orderId="payOrderId" :platform="+platform" ref="pay" :show="isPay" @close="doClose" :price="totalMoney" v-on:doPay="doPay" />
+      <Agent v-if="isAgent" :show="isAgent" @close="isAgent = false" :list="curItem.agentList" @change="changeAgent" />
+    </div>
+  </view>
 </template>
 
 <script>
-  import Pay from '@/components/common/Pay.vue';
-  import Agent from '@/components/common/Agent.vue';
-  import Checked from '@/static/img/icon-checked.png';
-  import Uncheck from '@/static/img/icon-uncheck.png';
-  import Plat from '@/static/img/icon-plat.png';
-  import { getCartOrderList, getAddressDefAddress, getOrderCart, postCreateOrder } from '@/api/cartApi.js';
-  import { buyGood,getAgencyByArea } from '@/api/goodsApi.js';
-  import T from '@/utils/tips.js';
-  var vm = {
-    data() {
-      vm = this;
-      return {
-        curItem: {
-          agentList: []
-        },
-        isAgent: false,
-        sendType: /*1 平台找车,2: 自驾车辆*/ 1,
-        isTips: true,
-        isBuyNow: '',
-        submitData: '',
-        list: [], //数据列表
-        defaultUrl: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2180358788,168891397&fm=26&gp=0.jpg',
-        isPay: false,
-        Checked,
-        Uncheck,
-        Plat,
-        totalNum: 0, // 总数量
-        totalMoney: 0, // 总金额
-        address: '', // 地址
-        message: '', //留言
-        deliverMoney: 0, // 运费
-        payOrderId: '', //订单ID
-        cartIdList: '', // cartlist
-        totalCount: '', // 总数量
-        hasSuccessShow: false,
-        platform: 0,
-        order: {
-          shopId: '',
-          orderId: ''
-        }
-      };
-    },
-    components: {
-      Agent,
-      Pay
-    },
-    onLoad(options) {
-      this.submitData = options.submitData;
-      this.isBuyNow = options.isBuyNow;
-    },
-    onShow() {
-      // 设备样式兼容
-      this.platform = uni.getStorageSync('platform');
-      // 上一级传递参数：结算返回的数据
-      if (this.isBuyNow) {
-        let submitData = JSON.parse(this.submitData);
+import Pay from '@/components/common/Pay.vue';
+import Agent from '@/components/common/Agent.vue';
+import Checked from '@/static/img/icon-checked.png';
+import Uncheck from '@/static/img/icon-uncheck.png';
+import Plat from '@/static/img/icon-plat.png';
+import { getCartOrderList, getAddressDefAddress, getOrderCart, postCreateOrder } from '@/api/cartApi.js';
+import { buyGood, getAgencyByArea } from '@/api/goodsApi.js';
+import T from '@/utils/tips.js';
+var vm = {
+  data() {
+    vm = this;
+    return {
+      curItem: {
+        agentList: []
+      },
+      isAgent: false,
+      sendType: /*1 平台找车,2: 自驾车辆*/ 1,
+      isTips: true,
+      isBuyNow: '',
+      submitData: '',
+      list: [], //数据列表
+      defaultUrl: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2180358788,168891397&fm=26&gp=0.jpg',
+      isPay: false,
+      Checked,
+      Uncheck,
+      Plat,
+      totalNum: 0, // 总数量
+      totalMoney: 0, // 总金额
+      address: '', // 地址
+      message: '', //留言
+      deliverMoney: 0, // 运费
+      payOrderId: '', //订单ID
+      cartIdList: '', // cartlist
+      totalCount: '', // 总数量
+      hasSuccessShow: false,
+      platform: 0,
+      order: {
+        shopId: '',
+        orderId: ''
+      }
+    };
+  },
+  components: {
+    Agent,
+    Pay
+  },
+  onLoad(options) {
+    this.submitData = options.submitData;
+    this.isBuyNow = options.isBuyNow;
+  },
+  onShow() {
+    // 设备样式兼容
+    this.platform = uni.getStorageSync('platform');
+    // 上一级传递参数：结算返回的数据
+    if (this.isBuyNow) {
+      let submitData = JSON.parse(this.submitData);
 
-        buyGood(submitData).then(data => {
-          // this.address = data.data.address || '';
-          this.order.shopId = data.data.shopList[0].shopId
-          this.list = data.data.shopList.map(item=>{
-            item.agentList = [];
-            item.curAgent = {
-              id: '',
-              name: ''
-            }
-            return item
-          });
-          
-          
-          this.totalMoney = data.data.totalMoney;
-          this.deliverMoney = data.data.deliverMoney;
-          this.cartIdList = data.data.cartIdList;
-          this.totalCount = data.data.totalCount;
-
-          if (uni.getStorageSync('address')) {
-            this.address = JSON.parse(uni.getStorageSync('address'));
-            submitData.addressId = JSON.parse(uni.getStorageSync('address')).id;
-            setTimeout(() => {
-              uni.setStorageSync('address', '');
-            }, 300);
-          }
+      buyGood(submitData).then(data => {
+        // this.address = data.data.address || '';
+        this.order.shopId = data.data.shopList[0].shopId;
+        this.list = data.data.shopList.map(item => {
+          item.agentList = [];
+          item.curAgent = {
+            id: '',
+            name: ''
+          };
+          return item;
         });
-      } else {
-        if (this.submitData) {
-          let submitData = JSON.parse(this.submitData);
-          this.order.shopId = submitData.shopList[0].shopId
-          this.list = submitData.shopList.map(item=>{
-            item.agentList = [];
-            item.curAgent = {
-              id: '',
-              name: ''
-            }
-            return item
-          });
-          this.totalMoney = submitData.totalMoney;
-          this.deliverMoney = submitData.deliverMoney;
-          this.cartIdList = submitData.cartIdList;
-          this.totalCount = submitData.totalCount;
-        }
-        // 判断是否有地址
+
+        this.totalMoney = data.data.totalMoney;
+        this.deliverMoney = data.data.deliverMoney;
+        this.cartIdList = data.data.cartIdList;
+        this.totalCount = data.data.totalCount;
+
         if (uni.getStorageSync('address')) {
-          // 获取缓存地址
           this.address = JSON.parse(uni.getStorageSync('address'));
-          // 根据地址获取运费
-          this.getOrderCartByAddress(this.address.id);
+          submitData.addressId = JSON.parse(uni.getStorageSync('address')).id;
           setTimeout(() => {
             uni.setStorageSync('address', '');
           }, 300);
-        } else {
-          // 获取默认地址
-          this.getAddressDefAddress();
         }
+      });
+    } else {
+      if (this.submitData) {
+        let submitData = JSON.parse(this.submitData);
+        this.order.shopId = submitData.shopList[0].shopId;
+        this.list = submitData.shopList.map(item => {
+          item.agentList = [];
+          item.curAgent = {
+            id: '',
+            name: ''
+          };
+          return item;
+        });
+        this.totalMoney = submitData.totalMoney;
+        this.deliverMoney = submitData.deliverMoney;
+        this.cartIdList = submitData.cartIdList;
+        this.totalCount = submitData.totalCount;
       }
-    },
-    methods: {
-      changeSendType(e){
-        vm.sendType = e.detail.value
-      },
-      changeAgent(data){
-        vm.isAgent = false
-        vm.curItem.curAgent.id = data.userId
-        vm.curItem.curAgent.name = data.realName
-      },
-      showAgentDialog(item){
-        vm.isAgent = true
-        vm.curItem = item
-        if(item.agentList.length<1){
-          // 获取代办人
-          getAgencyByArea({
-            shopId: item.shopId
-          }).then(data=>{
-            vm.curItem.agentList = data.data
-          })
-        }
-      },
-      // 确认支付
-      doPay(e) {
-        this.isPay = false;
-        this.hasSuccessShow = true;
-      },
-      // 关闭支付显示
-      doClose() {
-        this.isPay = false;
-        uni.redirectTo({
-          url: '/pages/user/order/detail?orderId=' + this.order.orderId +'&shopId=' + this.order.shopId
-        });
-      },
-      // 去选择地址
-      goAddress() {
-        uni.navigateTo({
-          url: '/pages/user/addlist/addlist?from=submit'
-        });
-      },
-      // 显示支付
-      showPay() {
-        if (this.address == '') {
-          T.tips('请选择收货地址');
-          return false;
-        }
-         
-         let resList = [...vm.list]
-         let status = true
-         resList.map(item=>{
-           status = !!item.curAgent.id
-           item.agentcyUserId = item.curAgent.id
-           item.sendType = vm.sendType
-           return item;
-         })
-         if(!status){
-           return T.tips('请选择代办人');
-         }
-        
-        let list = {
-          shopParamList: resList,
-          // postscript: this.message,
-          // addressId: this.address.id,
-          cartIdList: this.cartIdList
-        };
-        postCreateOrder(list)
-          .then(res => {
-            if (res.code === '1000') {
-              this.isPay = this.address !== '';
-              this.order.orderId = res.data[this.order.shopId].id;
-            } else {
-              T.tips(res.message || '提交订单失败');
-            }
-          })
-          .catch(err => {
-            T.tips(err.message || '提交订单失败');
-          });
-      },
-      // 根据地址获取新数据
-      getOrderCartByAddress(addressId) {
-        let userId = uni.getStorageSync('uid');
-        let data = {
-          userId,
-          cartIdList: this.cartIdList,
-          addressId: this.address.id,
-          postscript: this.message
-        };
-
-        if (this.isBuyNow) {
-          let submitData = JSON.parse(this.submitData);
-          this.totalMoney = submitData.totalMoney;
-          this.deliverMoney = submitData.deliverMoney;
-        } else {
-          getOrderCart(data)
-            .then(res => {
-              if (res.code === '1000') {
-                this.totalMoney = res.data.totalMoney;
-                this.deliverMoney = res.data.deliverMoney;
-              }
-            })
-            .catch(err => {
-              T.tips(err.message || '结算失败');
-            });
-        }
-      },
-      // 提交订单
-      submit() {
-        if (this.address === '') {
-          T.tips('请选择收货地址');
-          return false;
-        }
-      },
-      // 去详情
-      goDetail(shopId, orderId) {
-        uni.navigateTo({
-          url: '/pages/user/order/detail?shopId=' + shopId + '&goodsId=' + orderId
-        });
-      },
-      // 获取默认地址
-      getAddressDefAddress() {
-        getAddressDefAddress().then(res => {
-          if (res.code === '1000') {
-            if (res.data) {
-              this.address = res.data;
-              this.getOrderCartByAddress(this.address.id);
-            }
-          }
-        });
-      },
-      // 获取数据
-      getCartList() {
-        getCartOrderList()
-          .then(res => {
-            if (res.code === '1000') {
-              if (res.data.cartLines && res.data.cartLines.length > 0) {
-                this.list = res.data.cartLines;
-                let num = 0;
-                let totalMoney = 0;
-                this.list.forEach((item, index) => {
-                  let m = false;
-                  item.items.forEach((it, idx) => {
-                    if (it.checked === 1) {
-                      m = true;
-                      num += it.num;
-                      totalMoney += it.totalPrice;
-                    }
-                  });
-                  console.log(m + '===' + item.items.length);
-                  if (m) {
-                    this.list[index].checked = 1;
-                  }
-                });
-                this.totalNum = num;
-                this.totalMoney = totalMoney;
-              }
-            } else {
-              T.tips(res.message || '获取进货单列表错误');
-            }
-          })
-          .catch(err => {
-            T.tips(err.message || '获取进货单列表错误');
-          });
+      // 判断是否有地址
+      if (uni.getStorageSync('address')) {
+        // 获取缓存地址
+        this.address = JSON.parse(uni.getStorageSync('address'));
+        // 根据地址获取运费
+        this.getOrderCartByAddress(this.address.id);
+        setTimeout(() => {
+          uni.setStorageSync('address', '');
+        }, 300);
+      } else {
+        // 获取默认地址
+        this.getAddressDefAddress();
       }
     }
-  };
-  export default vm;
+  },
+  methods: {
+    changeSendType(e) {
+      vm.sendType = e.detail.value;
+    },
+    changeAgent(data) {
+      vm.isAgent = false;
+      vm.curItem.curAgent.id = data.userId;
+      vm.curItem.curAgent.name = data.realName;
+    },
+    showAgentDialog(item) {
+      vm.isAgent = true;
+      vm.curItem = item;
+      if (item.agentList.length < 1) {
+        // 获取代办人
+        getAgencyByArea({
+          shopId: item.shopId
+        }).then(data => {
+          vm.curItem.agentList = data.data;
+        });
+      }
+    },
+    // 确认支付
+    doPay(e) {
+      this.isPay = false;
+      this.hasSuccessShow = true;
+    },
+    // 关闭支付显示
+    doClose() {
+      this.isPay = false;
+      uni.redirectTo({
+        url: '/pages/user/order/detail?orderId=' + this.order.orderId + '&shopId=' + this.order.shopId
+      });
+    },
+    // 去选择地址
+    goAddress() {
+      uni.navigateTo({
+        url: '/pages/user/addlist/addlist?from=submit'
+      });
+    },
+    // 显示支付
+    showPay() {
+      // if (this.address == '') {
+      //   T.tips('请选择收货地址');
+      //   return false;
+      // }
+
+      let resList = [...vm.list];
+      let status = true;
+      resList.map(item => {
+        status = !!item.curAgent.id;
+        item.agentcyUserId = item.curAgent.id;
+        item.sendType = vm.sendType;
+        return item;
+      });
+      if (!status) {
+        return T.tips('请选择代办人');
+      }
+
+      let list = {
+        shopParamList: resList,
+        // postscript: this.message,
+        // addressId: this.address.id,
+        cartIdList: this.cartIdList
+      };
+      postCreateOrder(list)
+        .then(res => {
+          if (res.code === '1000') {
+            this.isPay = this.address !== '';
+            this.order.orderId = res.data[this.order.shopId].id;
+          } else {
+            T.tips(res.message || '提交订单失败');
+          }
+        })
+        .catch(err => {
+          T.tips(err.message || '提交订单失败');
+        });
+    },
+    // 根据地址获取新数据
+    getOrderCartByAddress(addressId) {
+      let userId = uni.getStorageSync('uid');
+      let data = {
+        userId,
+        cartIdList: this.cartIdList,
+        addressId: this.address.id,
+        postscript: this.message
+      };
+
+      if (this.isBuyNow) {
+        let submitData = JSON.parse(this.submitData);
+        this.totalMoney = submitData.totalMoney;
+        this.deliverMoney = submitData.deliverMoney;
+      } else {
+        getOrderCart(data)
+          .then(res => {
+            if (res.code === '1000') {
+              this.totalMoney = res.data.totalMoney;
+              this.deliverMoney = res.data.deliverMoney;
+            }
+          })
+          .catch(err => {
+            T.tips(err.message || '结算失败');
+          });
+      }
+    },
+    // 提交订单
+    submit() {
+      if (this.address === '') {
+        T.tips('请选择收货地址');
+        return false;
+      }
+    },
+    // 去详情
+    goDetail(shopId, orderId) {
+      uni.navigateTo({
+        url: '/pages/user/order/detail?shopId=' + shopId + '&goodsId=' + orderId
+      });
+    },
+    // 获取默认地址
+    getAddressDefAddress() {
+      getAddressDefAddress().then(res => {
+        if (res.code === '1000') {
+          if (res.data) {
+            this.address = res.data;
+            this.getOrderCartByAddress(this.address.id);
+          }
+        }
+      });
+    },
+    // 获取数据
+    getCartList() {
+      getCartOrderList()
+        .then(res => {
+          if (res.code === '1000') {
+            if (res.data.cartLines && res.data.cartLines.length > 0) {
+              this.list = res.data.cartLines;
+              let num = 0;
+              let totalMoney = 0;
+              this.list.forEach((item, index) => {
+                let m = false;
+                item.items.forEach((it, idx) => {
+                  if (it.checked === 1) {
+                    m = true;
+                    num += it.num;
+                    totalMoney += it.totalPrice;
+                  }
+                });
+                console.log(m + '===' + item.items.length);
+                if (m) {
+                  this.list[index].checked = 1;
+                }
+              });
+              this.totalNum = num;
+              this.totalMoney = totalMoney;
+            }
+          } else {
+            T.tips(res.message || '获取进货单列表错误');
+          }
+        })
+        .catch(err => {
+          T.tips(err.message || '获取进货单列表错误');
+        });
+    }
+  }
+};
+export default vm;
 </script>
 
 <style lang="scss" scoped>
@@ -406,7 +402,6 @@
 .submit {
   min-height: 100vh;
   background-color: #f0f0f0;
-
   .freight-style {
     display: flex;
     align-items: center;
@@ -425,13 +420,13 @@
     background: #fff;
     height: 100upx;
     padding-left: 30upx;
-    .uni-input{
+    .uni-input {
       margin-left: 30upx;
       font-size: 28upx;
     }
     // margin-bottom: 20upx;
   }
-  .calc{
+  .calc {
     line-height: 90upx;
     text-align: right;
     // padding-right: 30upx;
@@ -465,7 +460,7 @@
       padding-bottom: 30upx;
       padding-top: 30upx;
       font-size: 28upx;
-      
+
       .text {
         margin-left: 20upx;
         font-size: 28upx;

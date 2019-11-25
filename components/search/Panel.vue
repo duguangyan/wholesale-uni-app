@@ -9,9 +9,9 @@
         <div :class="['location',isMoreLocat?'scale':'']">
           <section ref="area">
             <li
-              v-for="area in list"
+              v-for="(area,index) in list"
               :class="{actived:filter.place==area}"
-              :key="area"
+              :key="index"
               @click="getAreas(area)"
             >{{area}}</li>
           </section>

@@ -143,7 +143,7 @@
 			<div class="flex-2" v-if="good.isInvalid || good.goods.status!=3">
 				<div class="add" @click="goHome">再去逛逛</div>
 			</div>
-			<div class="flex-2" v-if="good.goods.status!=4">
+			<div class="flex-2" v-if="good.goods.status!=4 && !(good.isInvalid || good.goods.status!=3)">
 				<div class=" flex" v-if="!good.isInvalid || good.goods.status==3">
 					<!--  #ifdef  H5 || APP-PLUS -->
 					<div class="add flex-1" @click="showConfirm('/cart')">加入进货单</div>
@@ -493,7 +493,7 @@
 		methods: {
       navToShop(){
         uni.navigateTo({
-            url: "/pages/shop/shop"
+            url: "/pages/shop/shop/shop?shopId=" + this.shopId
         });
       },
       navToCart(){

@@ -31,7 +31,7 @@
 		</div>
 
 		<div class="list" v-if="!hasData">
-			<Good v-for="(item,index) in list" :key="index" :item="item" :level="2" />
+			<Good v-for="(item,index) in list" :key="item.id" :item="item" :level="2" />
 			<p class='center-p fs20 text-999'>{{loading?'数据加载中...':'数据加载完毕'}}</p>
 		</div>
 		<div class="no-data" v-if="hasData">
@@ -74,7 +74,7 @@
 					priceBegin: "",
 					priceEnd: "",
 					sortMark:"",
-					sortColumn: /* 综合:universal 价格：price */ "universal",
+					// sortColumn: /* 综合:universal 价格：price */ "universal",
 					sortType: /* 排序类型（0.降序 1.升序） */ 0
 				},
 				list: [],
@@ -127,7 +127,7 @@
 				this.isShow = true;
 			},
 			doPriceSort() {
-				this.search.sortColumn = "price";
+				// this.search.sortColumn = "price";
 				this.search.sortMark = 1;
 				if (this.curOpt === "pri-desc") {
 					this.curOpt = "pri-asc";
@@ -142,7 +142,7 @@
 				this.load();
 			},
 			doUniSort() {
-				this.search.sortColumn = "universal";
+				// this.search.sortColumn = "universal";
 				this.search.sortMark = 2;
 				if (this.curOpt === "gen-desc") {
 					this.curOpt = "gen-asc";

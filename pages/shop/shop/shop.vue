@@ -1,14 +1,19 @@
 <template>
   <view class="shop">
     <div class="info">
-      <div class="avatar"></div>
+      <div class="avatar">
+        <img src="../../../static/imgs/shop-avatar.png" width="100%" alt="">
+      </div>
       <div>
-        <div class="shop-name fs30"></div>
-        <div class="shop-cla fs24"></div>
-        <div class="shop-ad fs24"></div>
+        <div class="shop-name fs30">{{shopInfo.shopName}}</div>
+        <div class="shop-cla fs24">{{shopInfo.categoryName}}</div>
+        <div class="shop-ad fs24">{{shopInfo.address}}</div>
       </div>
     </div>
-    <div class="goods"></div>
+    <div class="count fs30 text-999">供应({{list.length}})</div>
+    <div class="list">
+      <Good v-for="(item,index) in list" :key="item.id" :item="item" :level="2" />
+    </div>
   </view>
 </template>
 
@@ -18,13 +23,14 @@ import Good from '@/components/common/Good.vue';
 
 var vm = {
   data() {
+    vm = this
     return {
       shopInfo: {
         shopName: '',
         categoryName: '',
         address: ''
       },
-      list: [],
+      list: [], 
       shopId: ''
     };
   },
@@ -33,7 +39,7 @@ var vm = {
       getList({
         shopId: vm.shopId
       }).then(data=>{
-        
+        vm.list = data.data.records
       })
     }
   },
@@ -48,34 +54,46 @@ var vm = {
       shopId: vm.shopId
     }).then(data=>{
       let info = data.data
-      vm.shopName = info.name
-      vm.categoryName = info.categoryName
-      vm.address = `${info.province}${info.city}${info.region}${info.address}`
+      vm.shopInfo.shopName = info.name
+      vm.shopInfo.categoryName = info.categoryName
+      vm.shopInfo.address = `${info.province}${info.city}${info.region}${info.address}`
     })
     
     // 加载商品信息
-    
+    vm.load()
   },
   
 };
 export default vm
 </script>
 
-<style>
+<style lang="scss" scoped>
 .shop {
+  .count{
+    line-height: 70upx;
+    padding-left: 30upx;
+    background-color: #f5f5f5;
+  }
   .info {
-    height: 160upx;
+    height: 130upx;
     background-color: #fe3b0b;
-    padding: 30upx;
+    padding: 40upx 0 0 30upx;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    color: #fff;
+    line-height: 1;
     .avatar {
+      width: 90upx;
+      height: 90upx;
       border-radius: 50%;
       overflow: hidden;
+      background-color: #fff;
+      margin-right: 30upx;
     }
     .shop-name {
       margin-bottom: 10upx;
+      font-weight: 700;
     }
     .shop-cla {
       margin-bottom: 8upx;
