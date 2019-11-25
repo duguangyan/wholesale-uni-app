@@ -409,6 +409,10 @@
             "style" : {}
         }
         
+        ,{
+            "path" : "pages/shop/shop/shop",
+            "style" : {}
+        }
     ],
 	"tabBar": {
 		"color": "#D9D9D9",

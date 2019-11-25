@@ -17,7 +17,7 @@
 				  <img src="@/static/img/bg-line.png" alt="">
 			  </div>
 		    </div> -->
-			<view class="tip">
+			<view class="tips">
 				注:订单金额不包含物流费，物流费由买家承担，请找代办商议
 				<view class="close"><image src="../../../static/imgs/order-close.png" mode=""></image></view>
 			</view>

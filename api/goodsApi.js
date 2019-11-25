@@ -218,6 +218,14 @@ const getAgencyByArea = data => {
   })
 }
 
+// 店铺信息
+const getShopInfo = data => {
+  return request({
+  	url: '/api/goods/shop/ShopInfoById',
+  	data
+  })
+}
+
 
 export {
 	mainSelectCategory,
@@ -242,5 +250,6 @@ export {
 	buyGood,
 	getFreightPrompt,
 	getPostItem,
-  getAgencyByArea
+  getAgencyByArea,
+  getShopInfo
 }

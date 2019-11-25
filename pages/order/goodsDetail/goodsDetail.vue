@@ -87,7 +87,7 @@
     <div class="shop">
       <img src="@/static/img/icon-user.png" alt="">
       <span>货主:{{good.userRealInfoVo.realName}}</span>
-      <div>查看店铺</div>
+      <div @click="navToShop">查看店铺</div>
     </div>
     
     <div class="line"></div>
@@ -491,6 +491,11 @@
 			})
 		},
 		methods: {
+      navToShop(){
+        uni.navigateTo({
+            url: "/pages/shop/shop"
+        });
+      },
       navToCart(){
         uni.navigateTo({
             url: "/pages/order/order"
