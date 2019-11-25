@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<div class="submit">
-		    <div class="address" @click="goAddress">
+		    <!-- <div class="address" @click="goAddress">
 		      <div v-if="address == ''" class="addAd" to="/adedit">请添加收货地址</div>
 		      <div v-if="address != ''" class="div">
 		        <div class="ad-title">收货人: {{address.name}}</div>
@@ -16,15 +16,33 @@
 			  <div class="icon-bg">
 				  <img src="@/static/img/bg-line.png" alt="">
 			  </div>
-		    </div>
+		    </div> -->
+			<view class="tip">
+				注:订单金额不包含物流费，物流费由买家承担，请找代办商议
+				<view class="close"><image src="../../../static/imgs/order-close.png" mode=""></image></view>
+			</view>
+			<view>
+				
+				<view class="fll">物流方式</view>
+				<view class="fll">
+					<view class="cf">
+						<view>平台找车</view>
+						<view>自驾车辆</view>
+					</view>
+				</view>
+			</view>
+			
+			<view>
+				<text>找代办:</text><text>请选择代办人</text>
+			</view>
 	
 		    <div class="list" v-if="list.length>0">
 		      <div v-for="(item,index) in list" :key="index">
 		        <div class="cf parent-title">
-		          <div class="fll plat">
+		          <!-- <div class="fll plat">
 		            <img :src="Plat" alt="图标" />
-		          </div>
-		          <span class="fll text">{{item.shopName}}</span>
+		          </div> -->
+		          <span class="fll text">货主:{{item.shopName || '平台自营'}}</span>
 		        </div>
 		        <ul>
 		          <li class="cf" v-for="(it,idx) in item.goodsParamList" :key="idx">
@@ -318,6 +336,27 @@
 .submit {
   min-height: 100vh;
   background-color: #f0f0f0;
+  .tip{
+	  height:60upx;
+	  line-height: 60upx;
+	  padding: 0 30upx;
+	  text-align: left;
+	  background:rgba(255,239,235,1);
+	  font-size: 20upx;
+	  color: #FE3B0B;
+	  position: relative;
+	  .close{
+		  width: 40upx;
+		  height: 40upx;
+		  position: absolute;
+		  right: 10upx;
+		  top: 10upx;
+		  >image{
+			  width: 100%;
+			  height: 100%;
+		  }
+	  }
+  }
   .list {
     /*margin-top: 50upx;*/
     margin-bottom: 30upx;
