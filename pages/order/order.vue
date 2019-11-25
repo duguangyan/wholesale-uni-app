@@ -7,7 +7,7 @@
 		</div>
 		<div class="cart-nodata" v-if="hasData">
 			<div class="img">
-				<img src="@/static/img/order-icon.png" alt="图片">
+				<img src="../../static/imgs/order-icon.png" alt="图片">
 			</div>
 			<div class="p text-999 fs28">
 				进货单上还没有商品赶快去添加吧！
