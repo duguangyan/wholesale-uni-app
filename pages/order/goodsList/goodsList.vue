@@ -62,6 +62,8 @@
 				loading: false,
 				hasData: false,
 				search: {
+          categoryLevel: '',
+          categoryId: '',
 					// attrValueList: ["string"],
 					attrValueList:[],
 					platform:0,
@@ -95,7 +97,10 @@
 		onLoad(options) {
 			if(options.search){
 				this.search.keywords = options.search;
-			}else{
+			}else if(options.categoryId){
+        this.search.categoryId = options.categoryId
+        this.search.level = options.level || ''
+      }else{
 				this.search.attrValueList = [];
 				this.search.attrValueList.push(options.attrValueList);
 			}

@@ -408,6 +408,7 @@
             "path" : "pages/middle/release/sendFail/sendFail",
             "style" : {}
         }
+        
     ],
 	"tabBar": {
 		"color": "#D9D9D9",

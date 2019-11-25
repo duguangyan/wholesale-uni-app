@@ -39,11 +39,19 @@
 						</div>
 						<div class="fll ml-10 info">
 							<p class="fs28 p1 ellipsis ellipsis-line2" @click="goDetail(item.shopId, it.goodsId)">{{it.goodsName || ''}}</p>
+<<<<<<< HEAD
 							<p class="p4 text-666 fs20 ellipsis" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p>
 							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
 							<p v-if="it.status != 4" class="text-333 fs-14 p5" @click="goDetail(item.shopId, it.goodsId)">代办费:￥ <span class="fs-18">{{it.agencyFee || 0}}/{{it.unitName || '斤'}}</span></p>
 							<p v-if="it.status != 4" class="text-red fs-14 p2" @click="goDetail(item.shopId, it.goodsId)">价格:￥ <span class="fs-18">{{it.price || 0}}/{{it.unitName || '斤'}}</span></p>
 							<p v-if="it.status == 4" class="text-red fs-14 p3"> <span>下架商品</span></p>
+=======
+							<p class="p4 text-666 fs20 ellipsis ellipsis-line3" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p>
+              <p class="text-333 fs28">代办费&nbsp;￥{{it.agencyFee}}{{it.unitName?`/${it.unitName}`:''}}</p>
+							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
+							<p v-if="it.status !== 4" class=" fs-14 p2 text-red" @click="goDetail(item.shopId, it.goodsId)">价格: <span class="fs-18">￥{{it.price}}</span>{{it.unitName?`/${it.unitName}`:''}}</p>
+							<!-- <p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p> -->
+>>>>>>> origin/soaly-v1
 							<!-- 数量操作 -->
 							<div class="count" v-if="!isEdit && it.status !== 4">
 								<span :class="{ 'text-999' : it.isColor999 }" @click="doCalculation(0,index,idx)">-</span>
@@ -124,6 +132,7 @@
 				isclock: false, // 锁
 				clock: true,
 				platform:0,
+        access_token: ''
 			}
 		},
 		components: {
@@ -214,7 +223,7 @@
 				})
 				let userId = uni.getStorageSync('uid')
 				let data = {
-					userId,
+					// userId,
 					cartIdList
 				}
 				getOrderCart(data).then(res => {
@@ -714,10 +723,17 @@
 							margin-top: 10upx;
 						}
 						.p4 {
+<<<<<<< HEAD
 							width: 400upx;
 							height: 30upx;
 							color: #999;
 							margin-bottom: 4upx;
+=======
+							background: #F5F5F5;
+							// border-radius: 20upx;
+							display: inline-block;
+							padding: 4upx 0;
+>>>>>>> origin/soaly-v1
 							font-size: 20upx;
 							
 						}

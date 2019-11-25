@@ -1,31 +1,16 @@
 <template>
 	<div class="good-detail" v-if="opt">
-		<!-- <div>
-			<img slot="tag" class="tag" width="27" height="27" src="@/static/img/tag-back3.png" @click="$router.go(-1)" />
-			<div>
-				<img class="icon" width="27" height="27" src="@/static/img/icon-share.png" @click="isShare = true" />
-			</div>
-		</div>
-
-		<div class="swipe2" :cur="cur+1" :total="total">
-			<mt-swipe class="swipe" :show-indicators="false" @change="changeBanner">
-				<mt-swipe-item v-for="(item,index) in imageList" :key="index">
-					<div :class="{'img-con':+item.type===3}" @click="+item.type===3 && play(item.sort)">
-						<img :src="item.imgUrl" width="375" height="375" />
-					</div>
-				</mt-swipe-item>
-			</mt-swipe>
-		</div> -->
-		
-		<!-- <Player class="Player" :src="videoUrl" :show="isPlayer" @close="closePlayer" /> -->
 		<view class="top">
 			<view class="tips cf">
-				<view class="fll" @click="goBack" v-if="false">
-					<image src="../../../static/img/tag-back3.png" mode=""></image>
-				</view>
+				<!-- <view class="fll" @click="goBack">
+					<image src="../../../static/imgs/icon-back.png" mode=""></image>
+				</view> -->
 				<view class="flr" @click="isShare = true">
-					<image src="../../../static/img/icon-share.png" mode=""></image>
+					<image src="../../../static/imgs/icon-share.png" mode=""></image>
 				</view>
+        <view class="flr" @click="navToCart">
+        	<image src="../../../static/imgs/icon-detail.png" mode=""></image>
+        </view>
 			</view>
 			<!-- 轮播图 -->
 			<scroll-view class="index-top-warp">
@@ -63,7 +48,7 @@
 			<div v-if="good.goods.showStyle==2" class="cf goodsPrice">
 				<div v-for="(item,index) in good.goodsList" :key="index" class="fll" :class="{'left1': good.goodsList.length == 1, 'left2': good.goodsList.length == 2}">
 					<div class="multi-price">
-						{{item.price || 0}}</span>
+						<span>{{item.price || 0}}</span>
 						<span v-if="good.goods.unitName">/{{good.goods.unitName}}</span>
 					</div>
 					<div class="multi-sta">{{item.startNum}}{{good.goods.unitName}}起批</div>
@@ -88,7 +73,7 @@
 		      <div class="tag1">
 		        <span>—</span>  <span>规格</span> <span>—</span>
 		      </div>
-		      <li v-for="(item,index) in good.standardList" :key="index" v-if="index<3">
+		      <li v-for="(item,index) in good.standardList" :key="index" v-show="index<3">
 		        <span v-for="(sta,staIdx) in item" :key="staIdx" :class="{'fix-block':staIdx == item.length-1}">{{sta}}</span>
 		      </li>
 		      <div v-if="good.standardList.length > 3" class="check-more" @click="isStandard = true">查看更多
@@ -97,7 +82,16 @@
 				</div>
 			  </div>
 		    </div>
-		<div class="line" v-if="good.goods.showStyle==3 || good.goods.showStyle==1 && good.goodsSkuList.length > 1"></div>
+		<div class="line"></div>
+    
+    <div class="shop">
+      <img src="@/static/img/icon-user.png" alt="">
+      <span>货主:{{good.userRealInfoVo.realName}}</span>
+      <div>查看店铺</div>
+    </div>
+    
+    <div class="line"></div>
+    
 		<div class="props">
 			<div class="tag1">
 				<span>—</span> <span>商品属性</span> <span>—</span>
@@ -131,16 +125,16 @@
 		<div class="operator flex" v-if="good.goods.status == 3">
 			<div class="fir flex-1">
 				<div @click="changeCollect">
-					<img class="icon-18" :src="good.hasColletion?'../../../static/img/icon-collect2.png':'../../../static/img/icon-collect.png'" />
-					<div>{{good.hasColletion?'已收藏':'收藏'}}</div>
+					<img class="icon-18" src="@/static/imgs/icon-shop.png" />
+					<div>店铺</div>
 				</div>
 				<div tag="div" @click="goCart">
 					<div class="icon-15">
-						<img class="icon-order" src="@/static/img/icon-cart.png" />
+						<img class="icon-order" src="@/static/imgs/icon-phone.png" />
 					</div>
 					<div class="cart-text">
-						进货单
-						<div v-show="counter > 0">{{counter}}</div>
+						联系代办
+						<!-- <div v-show="counter > 0">{{counter}}</div> -->
 					</div>
 				</div>
 			</div>
@@ -497,6 +491,11 @@
 			})
 		},
 		methods: {
+      navToCart(){
+        uni.navigateTo({
+            url: "/pages/order/order"
+        });
+      },
 			imgLoad(e){
 				setTimeout(()=>{
 					this.imgLoading = false
@@ -823,6 +822,34 @@
 		overflow-x: hidden;
 		background: #fff;
 		height: 100vh;
+    .shop {
+      display: flex;
+      padding: 0 30upx;
+      line-height: 120upx;
+      align-items: center;
+      span{
+        font-size: 30upx;
+        color: #333;
+        flex-grow: 1;
+      }
+      div{
+        font-size: 24upx;
+        width: 120upx;
+        height: 60upx;
+        color: #FE3B0B;
+        border: 1px solid #FE3B0B;
+        line-height: 60upx;
+        text-align: center;
+        border-radius: 40upx;
+      }
+      img {
+        width: 84upx;
+        height: 84upx;
+        margin-right: 10upx;
+      }
+      
+      
+    }
 		.img-con {
 			position: absolute;
 			width: 100upx;
@@ -1051,9 +1078,10 @@
 		.info {
 			@extend .mc15;
 			font-size: 20upx;
-			background-color: #e6faed;
+			background-color: #FFF7F5;
 			padding:0 20upx;
-			color: #49c173;
+      margin-bottom: 20upx;
+			color: #FE3B0B;
 			display: flex;
 			justify-content: space-between;
 			border-radius: 3px;
@@ -1117,7 +1145,7 @@
 			padding: 10upx 0;
 			color: #000;
 			font-weight: 600;
-			font-size: 32upx;
+			font-size: 24upx;
 			// margin-top: 30upx;
 			span {
 				margin: 0 10upx;
