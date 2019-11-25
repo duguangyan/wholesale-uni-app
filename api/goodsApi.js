@@ -185,7 +185,20 @@ const handlerGoods = data => {
 	})
 }
 
+// APP-首页分类查找
+const mainSelectCategory = data => {
+	return request({
+		url: '/api/goods/category/selectCategory',
+		data,
+		// type: 'form'
+	})
+}
+
+
+
+
 export {
+	mainSelectCategory,
 	postEditGoods,
 	handlerGoods,
 	statisticsGoods,

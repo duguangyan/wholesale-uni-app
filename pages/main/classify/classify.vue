@@ -2,38 +2,19 @@
 	<view class="classify">
 		<view class="left fll">
 			<view class="items">
-				<view class="item" @click="checkClassfiy(index)" :class="{active: checkIndex == index}" v-for="(item,index) in left" :key="index">{{item}}</view>
+				<view class="item" @click="checkClassfiy(index)" :class="{active: checkIndex == index}" v-for="(item,index) in left" :key="index">{{item.name}}</view>
 			</view>
 		</view>
 		<scroll-view class="content fll" scroll-y :style="'height:'+scrollHeight+'px'" :scroll-with-animation="true" :scroll-into-view='intoView'>
-			<view class="all"><view>全部</view></view>
-			<view class="items cf" id="A">
-				<view class="tips fll">A</view>
-				<view @click="goSeach(item)" class="item fll" v-for="(item,index) in content" :key="index">{{item}}</view>
+			<view class="items cf" v-if="checkIndex == 0">
+				<view @click="goSeach(item)" class="item fll"  v-for="(item,index) in left[0].categories" :key="index">{{item.name}}</view>
 			</view>
-			<view class="items cf">
-				<view class="tips fll">B</view>
-				<view class="item fll" v-for="(item,index) in content" :key="index">{{item}}</view>
-			</view>
-			<view class="items cf">
-				<view class="tips fll">C</view>
-				<view class="item fll" v-for="(item,index) in content" :key="index">{{item}}</view>
-			</view>
-			<view class="items cf">
-				<view class="tips fll">D</view>
-				<view class="item fll" v-for="(item,index) in content" :key="index">{{item}}</view>
-			</view>
-			<view class="items cf">
-				<view class="tips fll">E</view>
-				<view class="item fll" v-for="(item,index) in content" :key="index">{{item}}</view>
-			</view>
-			<view class="items cf">
-				<view class="tips fll">F</view>
-				<view class="item fll" v-for="(item,index) in content" :key="index">{{item}}</view>
-			</view>
-			<view class="items cf" id="G">
-				<view class="tips fll">G</view>
-				<view class="item fll" v-for="(item,index) in content" :key="index">{{item}}</view>
+			
+			<view class="items cf" :id="item.type || ''" v-if="checkIndex !=0 && item" v-for="(item,index) in content" :key="index">
+				
+				<view class="tips fll">{{item.type || ''}}</view>
+				<view class="item fll" v-for="(it,ix) in item.list" :key="ix" @click="goSeach(it)">{{it.name}}</view>
+				
 			</view>
 		</scroll-view>
 		<view class="right flr">
@@ -46,9 +27,12 @@
 </template>
 
 <script>
+	import { mainSelectCategory } from '@/api/goodsApi.js'
+	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
+				categoryId:0,
 				checkIndex:0,
 				intoView:'A',
 				scrollHeight:'',
@@ -58,22 +42,70 @@
 			};
 		},
 		onLoad() {
-			
+		
 		},
 		onShow() {
-			let systemInfo = uni.getSystemInfoSync();
+			// 获取系统信息
+			let systemInfo    = uni.getSystemInfoSync();
 			this.scrollHeight = systemInfo.windowHeight;
+			
+			// 获取查询分类
+			this.getMainSelectCategory()
 		},
 		methods:{
+			// 分类查询
+			getMainSelectCategory(){
+				let data = {
+					categoryId: 0
+				}
+				mainSelectCategory(data).then(res=>{
+					if(res.code == '1000'){
+						this.left = res.data
+					}
+					
+				})
+			},
 			// 去搜索页面
 			goSeach(item){
 				uni.navigateTo({
-					url:'/pages/order/goodsList/goodsList?keywords='+item
+					url:'/pages/order/goodsList/goodsList?categoryId='+item.id + '&level=' + item.level
 				})
 			},
 			// 选择分类
 			checkClassfiy(index){
 				this.checkIndex = index
+				this.categoryId = this.left[index].categoryId
+				let data = {
+					categoryId: this.categoryId
+				}
+				this.content = []
+				mainSelectCategory(data).then(res=>{
+					if(res.code == '1000'){
+						if(res.data && res.data.length>0){
+							let content = res.data[0].categories
+								this.right.forEach((item,index)=>{
+									let obj = {}
+									content.forEach((it,ix)=>{
+										let initials = it.initials || 'A'
+										if(item == initials.toUpperCase()){
+											if(obj.type == initials.toUpperCase()){
+												obj.list.push(it)
+											}else{
+												obj.type = initials.toUpperCase()
+												obj.list = []
+												obj.list.push(it)
+											}
+										}
+									})
+									if(obj.type){
+										this.content.push(obj)
+									}
+									
+								})
+								console.log('content',this.content)
+						}
+					}
+				})
 			},
 			// 点击锚点
 			checkPoint(item){
@@ -92,6 +124,7 @@
 		.left{
 			width: 180upx;
 			height: 100%;
+			overflow: auto;
 			background: #F5F5F5;
 			.items{
 				
