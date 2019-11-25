@@ -20,7 +20,7 @@
 			<view class="item-1" v-if="!disabled && userRealInfo ==''">
 				<view class="fll">邀请码</view>
 				<view class="flr">
-					<input type="text" v-model="code" :disabled="disabled" placeholder="请输入邀请码">
+					<input type="number" v-model="code" :disabled="disabled" placeholder="请输入邀请码">
 				</view>
 			</view>
 			<!-- <view class="item-1">
@@ -63,7 +63,7 @@
 			<view class="cat cf">
 				<view class="title fll">身份证号</view>
 				<view class="input flr">
-					<input type="text" v-model="cardNo" :disabled="disabled" placeholder="请输入身份证号码">
+					<input type="idcard" v-model="cardNo" :disabled="disabled" placeholder="请输入身份证号码">
 				</view>
 			</view>
 		</view>
@@ -165,8 +165,6 @@
 					})
 				}
 			}
-			
-			
 		},
 		onShow() {
 			// 获取缓存数据
