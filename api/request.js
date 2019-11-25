@@ -1,6 +1,5 @@
-// const apiUrl = 'http://m.qinlvny.com'; // 正式
-// let apiUrl = 'http://duu-u.imwork.net:27307'; // 开发
-   let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
+ const apiUrl = 'https://wsm.qinlvny.com/ws'; // 正式
+// let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 const versionNumber = 'V1.0.1'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000/ws') {
@@ -46,20 +45,6 @@ const request = function(params = {}) {
 			header['Content-type'] = 'application/x-www-form-urlencoded'
 		}
 		
-		// try{
-		// 	if(params.data.isLoading != 1){
-		// 		uni.showToast({
-		// 			title: '加载中...',
-		// 			icon: 'loading'
-		// 		})
-		// 	}
-		// }catch(e){
-		// 	//TODO handle the exception
-		// }
-		
-		// if(params.url.indexOf('/goods') != -1){
-		// 	 apiUrl = 'http://192.168.0.174:7002/ws'
-		// }
 		
 		let newUrl = params.url;
 		// #ifdef MP-WEIXIN || APP-PLUS || H5
@@ -85,14 +70,7 @@ const request = function(params = {}) {
 		// }
 		
 		// #endif
-		
-	
-		// 商品详情传参 /goods/goodsDetail/{shopId}/{goodsId} B2B -> APP-商品详情
-		// if(newUrl.indexOf('/goods/goodsDetail') != -1){
-		// 	newUrl = newUrl.split('?')[0] + '/' + params.data.shopId + '/' + params.data.goodsId
-		// }
-		
-		
+
 		uni.request({
 			url: apiUrl + newUrl,
 			method: params.method || 'GET',
@@ -100,13 +78,6 @@ const request = function(params = {}) {
 			header,
 			sslVerify: false,
 			success(res) {
-				// try{
-				// 	if(params.data.isLoading != 1){
-				// 		uni.hideToast();
-				// 	}
-				// }catch(e){
-				// 	//TODO handle the exception
-				// }
 				// 请求成功
 				var res = res.data;
 				
@@ -123,35 +94,6 @@ const request = function(params = {}) {
 								url:'/pages/login/login'
 							})
 						}
-						
-						
-						// let content = '登录过期，请重新登录！'
-						// if(uni.getStorageSync('access_token') == '') {
-						// 	content = '请先登录！'
-						// }
-						// if(res.message == '无权访问！'){
-						// 	content = '无权访问！'
-						// }
-						// let islogin = uni.getStorageSync('isLogin')
-						// if(islogin != 1){
-						// 	uni.setStorageSync('isLogin',1)
-						// 	uni.showModal({
-						// 	    title: '提示',
-						// 	    content,
-						// 	    success: function (res) {
-						// 	        if (res.confirm) {
-						// 			   // uni.setStorageSync('isLogin',0)	
-						// 	           uni.navigateTo({
-						// 	           	url:'/pages/login/login'
-						// 	           })
-						// 	        } else if (res.cancel) {
-						// 	            console.log('用户点击取消');
-						// 				uni.setStorageSync('isLogin',0)
-						// 	        }
-						// 	    }
-						// 	});
-						// }
-						
 					}else if(res.code == '1017'){
 						let tokenData = {
 							grant_type:'refresh_token',
@@ -201,11 +143,6 @@ const request = function(params = {}) {
 										}
 									})
 								} else {
-									// uni.showToast({
-									//     title: '请求数据错误',
-									//     duration: 2000,
-									// 	icon :'none'
-									// });
 									uni.navigateTo({
 										url:'/pages/login/login'
 									})
@@ -235,17 +172,7 @@ const request = function(params = {}) {
 				}
 			},
 			fail(err) {
-				// 请求失败处理
-				// if (err.errMsg || err.errMsg === "request:fail timeout") {
-				// 	uni.showToast({
-				// 		icon:'none',
-				// 		title:'网络请求超时'
-				// 	})
-				// 	uni.navigateTo({
-				// 		url:'/pages/common/err/err?from=unonline'
-				// 	})
-				// }
-				//  reject(err)
+				 reject(err)
 			},
 			complete(res) {
 				// 请求结束
