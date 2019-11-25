@@ -95,12 +95,6 @@
 							<view class="fll img">
 								<image src="../../static/imgs/main-icon-1.png" mode=""></image>
 							</view>
-<<<<<<< HEAD
-							<view class="fll fs20 text-999">河北省廊坊市固安县 <text class="mgl-20">舒尚飞</text></view>
-=======
-							<view class="fll fs20 text-999">{{item.shopArea}} <text class="mgl-20">{{item.realName}}</text></view>
-							<!-- <view class="flr fs20 text-999">{{item.valueAddr}}</view> -->
->>>>>>> origin/soaly-v1
 						</view>
 					</view>
 				</view> -->

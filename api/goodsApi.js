@@ -175,7 +175,6 @@ const statisticsGoods = data => {
 	})
 }
 
-<<<<<<< HEAD
 // 统计APP-我的货品商品
 const handlerGoods = data => {
 	return request({
@@ -196,7 +195,6 @@ const mainSelectCategory = data => {
 }
 
 
-=======
 const getMaster = data => {
   return request({
   	url: '/api/goods/userRealInfo/fromIdGetShopUserInfo',
@@ -219,7 +217,6 @@ const getAgencyByArea = data => {
   	data
   })
 }
->>>>>>> origin/soaly-v1
 
 
 export {

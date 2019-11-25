@@ -1,13 +1,13 @@
 <template>
 	<div class="cart" :class="{'access_token':access_token!=''}">
-		<div class="edit cf">
+		<div class="edit cf" v-if="!hasData">
 			<view class="fll image" @click="goBack"><image src="../../static/img/tag-back.png"></image></view>
 			<div class="title fll fs38">进货单({{validTotal}})</div>
-			<div class="icon flr fs30"  v-if="!hasData" @click="isEdit = !isEdit">{{isEdit?'完成':'编辑'}}</div>
+			<div class="icon flr fs30" @click="isEdit = !isEdit">{{isEdit?'完成':'编辑'}}</div>
 		</div>
 		<div class="cart-nodata" v-if="hasData">
 			<div class="img">
-				<img src="@/static/imgs/order-icon.png" alt="图片">
+				<img src="@/static/img/order-icon.png" alt="图片">
 			</div>
 			<div class="p text-999 fs28">
 				进货单上还没有商品赶快去添加吧！
@@ -20,10 +20,10 @@
 					<div class="fll parent-icon" @click="checkParentIcon(index)">
 						<img :src="item.checked !== 0 ? Checked : Uncheck" alt="icon">
 					</div>
-					<!-- <div class="fll plat">
+					<div class="fll plat">
 						<img :src="Plat" alt="图标">
-					</div> -->
-					<span class="fll text">货主:{{item.shopName || '平台自营'}}</span>
+					</div>
+					<span class="fll text">{{item.shopName}}</span>
 				</div>
 				<ul>
 					<li class="cf" v-for="(it,idx) in item.items" :key="idx">
@@ -35,23 +35,18 @@
 						</div>
 						<div class="fll img" @click="goDetail(item.shopId, it.goodsId)">
 							<img :src="it.imgUrl || defaultUrl" alt="图片">
-							<span v-if="it.status == 4">已下架货品</span>
 						</div>
 						<div class="fll ml-10 info">
 							<p class="fs28 p1 ellipsis ellipsis-line2" @click="goDetail(item.shopId, it.goodsId)">{{it.goodsName || ''}}</p>
-<<<<<<< HEAD
-							<p class="p4 text-666 fs20 ellipsis" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p>
-							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
-							<p v-if="it.status != 4" class="text-333 fs-14 p5" @click="goDetail(item.shopId, it.goodsId)">代办费:￥ <span class="fs-18">{{it.agencyFee || 0}}/{{it.unitName || '斤'}}</span></p>
-							<p v-if="it.status != 4" class="text-red fs-14 p2" @click="goDetail(item.shopId, it.goodsId)">价格:￥ <span class="fs-18">{{it.price || 0}}/{{it.unitName || '斤'}}</span></p>
-							<p v-if="it.status == 4" class="text-red fs-14 p3"> <span>下架商品</span></p>
-=======
 							<p class="p4 text-666 fs20 ellipsis ellipsis-line3" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p>
               <p class="text-333 fs28">代办费&nbsp;￥{{it.agencyFee}}{{it.unitName?`/${it.unitName}`:''}}</p>
 							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
 							<p v-if="it.status !== 4" class=" fs-14 p2 text-red" @click="goDetail(item.shopId, it.goodsId)">价格: <span class="fs-18">￥{{it.price}}</span>{{it.unitName?`/${it.unitName}`:''}}</p>
 							<!-- <p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p> -->
->>>>>>> origin/soaly-v1
+							<p class="p4 text-666 fs20 ellipsis ellipsis-line3" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p>
+							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
+							<p v-if="it.status !== 4" class="text-red fs-14 p2" @click="goDetail(item.shopId, it.goodsId)">￥ <span class="fs-18">{{it.price}}</span></p>
+							<p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p>
 							<!-- 数量操作 -->
 							<div class="count" v-if="!isEdit && it.status !== 4">
 								<span :class="{ 'text-999' : it.isColor999 }" @click="doCalculation(0,index,idx)">-</span>
@@ -67,7 +62,7 @@
 			</div>
 		</div>
 
-		<div class="footer text-333" :class="{'footer-Android': platform == 1}" v-if="list.length>0">
+		<div class="footer" :class="{'footer-Android': platform == 1}" v-if="list.length>0">
 			<div v-if="isEdit">
 				<div class="del" @click="preDel">删除</div>
 			</div>
@@ -76,13 +71,11 @@
 					<img :src="isCheckAll?Checked:Uncheck" alt width="17" height="17" @click="checkAll" />
 				</div>
 				<span class="fll checkall fs28" @click="checkAll">全选</span>
-				<div class="settle flr" @click="goPay" :class="{'bg-999': totalMoney <= 0}">结算</div>
-				<div class="total-money flr fs28">
+				<div class="total-money fll fs28">
 					合计:&nbsp;
 					<span class="money">{{totalMoney}}</span>
-					<div class="fs20 text-999">不含运费</div>
 				</div>
-				
+				<div class="settle flr" @click="goPay" :class="{'bg-999': totalMoney <= 0}">结算</div>
 			</div>
 		</div>
 		<Dialog :title='title' :confirmText='confirmText' :cancelText='cancelText' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
@@ -669,23 +662,10 @@
 						height: 200upx;
 						border-radius: 20upx;
 						overflow: hidden;
-						position: relative;
+
 						img {
 							width: 100%;
 							height: 100%;
-						}
-						span{
-							position: absolute;
-							bottom: 0;
-							height: 40upx;
-							line-height: 40upx;
-							text-align: center;
-							background: #000;
-							opacity: .7;
-							color: #fff;
-							display: block;
-							width: 100%;
-							font-size: 24upx;
 						}
 					}
 
@@ -693,15 +673,14 @@
 						width: 400upx;
 						margin-left: 20upx;
 						.p1{
-							 height: 80upx;
+							 // height: 80upx;
 							 line-height: 40upx;
-							 width: 410upx;
 							// margin-top: 8upx;
 						}
 						.p2 {
 							position: absolute;
 							bottom: 30upx;
-							font-size: 28upx;
+							font-size: 32upx;
 						}
 
 						.p3 {
@@ -710,30 +689,24 @@
 							height: 32upx;
 							line-height: 32upx;
 							text-align: center;
-							
-							
+							border-radius: 28upx;
+							background: #F5F5F5;
 							color: #666;
 							font-size: 24upx;
 							position: absolute;
 							bottom: 20upx;
 							margin-left: -56upx;
 						}
-						.p5{
-							font-size: 24upx;
-							margin-top: 10upx;
-						}
+
 						.p4 {
-<<<<<<< HEAD
 							width: 400upx;
 							height: 30upx;
 							color: #999;
 							margin-bottom: 4upx;
-=======
 							background: #F5F5F5;
 							// border-radius: 20upx;
 							display: inline-block;
 							padding: 4upx 0;
->>>>>>> origin/soaly-v1
 							font-size: 20upx;
 							
 						}
@@ -871,9 +844,8 @@
 
 			.total-money {
 				flex-grow: 1;
-				position: relative;
-				right: 120upx;
-				top: -10upx;
+				margin-left: 30upx;
+				
 				span {
 					margin-left: 8upx;
 					color: #fc2d2d;

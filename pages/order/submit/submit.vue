@@ -1,109 +1,107 @@
 <template>
-  <view>
-    <div v-if="isTips" class="tips text-red fs20">
-      注：订单金额不包含物流费，物流费由买家承担，请找代办商议
-      <img src="@/static/imgs/icon-close3.png" alt=""  @click="isTips = false"/>
-    </div>
-    <div class="submit">
-      <!-- <div class="address" @click="goAddress">
-        <div v-if="address == ''" class="addAd" to="/adedit">请添加收货地址</div>
-        <div v-if="address != ''" class="div">
-          <div class="ad-title">收货人: {{ address.name }}</div>
-          <div class="ad-det">收货地址:{{ address.province + address.city + address.region + address.address }}</div>
-          <div class="icon-right"><img class="tag-go" src="@/static/img/tag-go.png" width="10" height="10" alt /></div>
-        </div>
-        <div class="icon-bg"><img src="@/static/img/bg-line.png" alt="" /></div>
-      </div> -->
-
-      <div class="freight-style fs28">
-        <div>物流方式:</div>
-        <radio-group @change="changeSendType">
-          <label class="radio">
-            <radio value="1" checked="true" color="#FE3B0B" style="transform:scale(0.5)" />
-            平台找车
-          </label>
-          <label class="radio">
-            <radio value="2" color="#FE3B0B" style="transform:scale(0.5)" />
-            自驾车辆
-          </label>
-        </radio-group>
-      </div>
-      
-
-      <div class="list" v-if="list.length > 0">
-        <div v-for="(item, index) in list" :key="index">
-          <div class="agent fs28">
-            <div>找&ensp;代&ensp;办:</div>
-            <!-- <input class="uni-input" placeholder="请选择代办人" readonly="readonly" /> -->
-            <div :class="['uni-input','fs28',item.curAgent.name?'text-333':'text-999']" @click="showAgentDialog(item)">{{item.curAgent.name || '请选择代办人'}}</div>
-          </div>
-          <div class="gray-line"></div>
-          
-          <div class="cf parent-title pdl-30">
-            <!-- <div class="fll plat"><img :src="Plat" alt="图标" /></div>
-            <span class="fll text">{{ item.shopName }}</span> -->
-            货主: {{item.sellerName}}
-          </div>
-          <ul>
-            <li class="cf" v-for="(it, idx) in item.goodsParamList" :key="idx">
-              <div class="fll img"><img :src="it.imgUri || defaultUrl" alt="图片" /></div>
-              <div class="fll mgl-20 info fs28">
-                <p class="fs-16 p1 cf">
-                  <span class="s1 ellipsis ellipsis-line2 fll">{{ it.goodsName }}</span>
-                  
-                  <!-- <span class="flr fs24">
-                    ￥
-                    <span class="fs28">{{ it.price }}</span>
-                  </span> -->
-                </p>
-                <p class="text-666 fs24 cf mt-10">
-                  <span class="fll p4">{{ it.skuDesc || '' }}</span>
-                  <!-- <span class="flr text-999 p5">x {{ it.goodsCount }}</span> -->
-                </p>
-                <p class="text-333 fs28 mgt-10">代办费&nbsp;￥{{it.agencyPrice}}{{it.goodsUnit?`/${it.goodsUnit}`:''}}</p>
-                <p class=" fs24 p2">
-                  价格￥
-                  <span class="fs28">{{ it.price }}{{it.goodsUnit?`/${it.goodsUnit}`:''}}</span>
-                </p>
-              </div>
-            </li>
-          </ul>
-          <div class="others">
-            <!-- <div class="freight">
-              <span>运费</span>
-              <span>￥{{ deliverMoney || 0 }}</span>
-            </div> -->
-            <div class="mark pdl-30">
-              <span>留言</span>
-              <input v-model="message" type="text" maxlength="100" placeholder="请输入留言信息" />
-            </div>
-          </div>
-          <div class="calc text-red fs28 pdr-30">
-            小计:￥{{item.totalMoney}}
-          </div>
-        </div>
-        
-      </div>
-      
-
-      <div class="operator">
-        <div class="nums">共&ensp;{{ totalCount }}&ensp;件</div>
-        <div class="total-price fg1">
-          合计:&ensp;
-          <span>{{ totalMoney }}</span>
-        </div>
-        <div class="btn" v-bind:class="{ active: address !== '', platform1: platform == 2 }" @click="showPay">提交订单</div>
-      </div>
-      <!--    // orderId：支付订单-->
-      <!--    // show：支付上拉框是否弹起-->
-      <!--    // isWX：是否只有微信支付-->
-      <!--    // price： 支付价格-->
-      <!--    // function payClose：关闭支付弹窗-->
-      <!--    // function doPay: 点击支付按钮事件-->
-      <Pay :orderId="payOrderId" :platform="+platform" ref="pay" :show="isPay" @close="doClose" :price="totalMoney" v-on:doPay="doPay" />
-      <Agent v-if="isAgent" :show="isAgent" @close="isAgent = false" :list="curItem.agentList" @change="changeAgent" />
-    </div>
-  </view>
+	<view>
+		<div class="submit">
+		    <!-- <div class="address" @click="goAddress">
+		      <div v-if="address == ''" class="addAd" to="/adedit">请添加收货地址</div>
+		      <div v-if="address != ''" class="div">
+		        <div class="ad-title">收货人: {{address.name}}</div>
+		        <div
+		          class="ad-det"
+		        >收货地址:{{address.province + address.city + address.region + address.address}}</div>
+				<div class="icon-right">
+					 <img class="tag-go" src="@/static/img/tag-go.png" width="10" height="10" alt />
+				</div>
+		       
+		      </div>
+			  <div class="icon-bg">
+				  <img src="@/static/img/bg-line.png" alt="">
+			  </div>
+		    </div> -->
+			<view class="tip">
+				注:订单金额不包含物流费，物流费由买家承担，请找代办商议
+				<view class="close"><image src="../../../static/imgs/order-close.png" mode=""></image></view>
+			</view>
+			<view>
+				
+				<view class="fll">物流方式</view>
+				<view class="fll">
+					<view class="cf">
+						<view>平台找车</view>
+						<view>自驾车辆</view>
+					</view>
+				</view>
+			</view>
+			
+			<view>
+				<text>找代办:</text><text>请选择代办人</text>
+			</view>
+	
+		    <div class="list" v-if="list.length>0">
+		      <div v-for="(item,index) in list" :key="index">
+		        <div class="cf parent-title">
+		          <!-- <div class="fll plat">
+		            <img :src="Plat" alt="图标" />
+		          </div> -->
+		          <span class="fll text">货主:{{item.shopName || '平台自营'}}</span>
+		        </div>
+		        <ul>
+		          <li class="cf" v-for="(it,idx) in item.goodsParamList" :key="idx">
+		            <div class="fll img">
+		              <img :src="it.imgUri || defaultUrl" alt="图片" />
+		            </div>
+		            <div class="fll mgl-20 info fs28">
+		              <p class="fs-16 p1 cf">
+						  <span class="s1 ellipsis ellipsis-line2 fll">{{it.goodsName}}</span> <span class="flr fs24">￥<span class="fs28">{{it.price}}</span></span>
+						</p>
+		              <p class="text-666 fs24 cf mt-10">
+		                <span class="fll p4">{{it.skuDesc || ''}}</span>
+		                <span class="flr text-999 p5">x {{it.goodsCount}}</span>
+		              </p>
+		              <p class=" fs24 p2">￥ <span class="fs28">{{it.goodsMoney}}</span></p>
+		            </div>
+		          </li>
+		        </ul>
+		      </div>
+		    </div>
+		    <div class="others">
+		      <div class="freight">
+		        <span>运费</span>
+		        <span>￥{{deliverMoney || 0}}</span>
+		      </div>
+		      <div class="mark">
+		        <span>留言</span>
+		        <input v-model="message" type="text" maxlength="100" placeholder="请输入留言信息" />
+		      </div>
+		    </div>
+		
+		    <div class="operator">
+		      <div class="nums">共&ensp;{{totalCount}}&ensp;件</div>
+		      <div class="total-price fg1">
+		        合计:&ensp;
+		        <span>{{totalMoney}}</span>
+		      </div>
+		      <div class="btn" v-bind:class="{ 'active': address !== '','platform1':platform==2 }" @click="showPay">提交订单</div>
+		    </div>
+		    <!--    // orderId：支付订单-->
+		    <!--    // show：支付上拉框是否弹起-->
+		    <!--    // isWX：是否只有微信支付-->
+		    <!--    // price： 支付价格-->
+		    <!--    // function payClose：关闭支付弹窗-->
+		    <!--    // function doPay: 点击支付按钮事件-->
+		    <Pay
+		      :orderId="payOrderId"
+			  :platform='platform'
+		      ref="pay"
+		      :show="isPay"
+		      @close="doClose"
+		      :price="totalMoney"
+		      v-on:doPay="doPay"
+		    />
+			
+			
+			
+		  </div>
+	</view>
 </template>
 
 <script>
@@ -408,6 +406,7 @@
 .submit {
   min-height: 100vh;
   background-color: #f0f0f0;
+
   .freight-style {
     display: flex;
     align-items: center;
