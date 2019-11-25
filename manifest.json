@@ -188,7 +188,8 @@
                     }
                 }
             }
-        }
+        },
+        "domain" : "wsm.qinlvny.com"
     },
     "channel_list" : [
         {
