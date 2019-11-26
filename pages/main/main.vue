@@ -236,11 +236,11 @@
 				// #ifdef APP-PLUS
 				// 安卓
 				let data = {
-					code: '001'
+					code: '003'
 				}
 				// ios
 				if(this.platform == '2'){
-					data.code = '002'
+					data.code = '004'
 				}
 				appUpdate(data).then(res => {
 					console.log(res)

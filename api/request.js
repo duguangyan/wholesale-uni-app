@@ -1,8 +1,8 @@
- const apiUrl = 'https://wsm.qinlvny.com/ws'; // 正式
-// let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
+ let apiUrl = 'http://wsm.qinlvny.com/ws'; // 正式
+// let apiUrl = 'http://192.168.0.202:8000/ws/'; // 开发
 const versionNumber = 'V1.0.1'; //版本号
 
-if (apiUrl == 'http://192.168.0.202:8000/ws') {
+if (apiUrl == 'http://192.168.0.202:8000/ws/') {
 	uni.setStorageSync('v', versionNumber);
 	uni.setStorageSync('s', '开发');
 } else {
@@ -44,23 +44,23 @@ const request = function(params = {}) {
 		} else if (params.type == 'form') {
 			header['Content-type'] = 'application/x-www-form-urlencoded'
 		}
-		
-		
+	
 		let newUrl = params.url;
 		// #ifdef MP-WEIXIN || APP-PLUS || H5
 		if (params.url.indexOf('/api') != -1) {
 			newUrl = newUrl.split('/api')[1]
 		}  
 		console.log('apiUrl:',apiUrl)
-		console.log(params.url.indexOf('/ws'))
-		if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1 || params.url.indexOf('/pay') != -1) {
-			apiUrl = apiUrl.split('/ws')[0]
+		if (params.url.indexOf('/oauth/') != -1 || params.url.indexOf('/upms/') != -1 || params.url.indexOf('/pay/') != -1) {
+			apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1]
 		}else{
-			if(apiUrl.indexOf('/ws') == -1){
+			if(apiUrl.split('/ws').length<=1){
 				apiUrl = apiUrl + '/ws'
+			}else{
+				apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1] + '/ws'
 			}
 		} 
-		
+
 		// try{
 		// 	if(params.data.grant_type == 'mini_program' || params.data.grant_type == 'wx_app'){
 		// 		apiUrl = 'http://2b7306b237.wicp.vip'
