@@ -1,5 +1,5 @@
-// let apiUrl = 'http://wsm.qinlvny.com/ws'; // 正式
-let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
+ let apiUrl = 'http://wsm.qinlvny.com/ws'; // 正式
+// let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 const versionNumber = 'V1.0.1'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000/ws') {
@@ -51,8 +51,8 @@ const request = function(params = {}) {
 			newUrl = newUrl.split('/api')[1]
 		}  
 		console.log('apiUrl:',apiUrl)
-		if(apiUrl == 'http://192.168.0.202:8000/ws'){ // 开发
-			if (params.url.indexOf('/oauth/') != -1 || params.url.indexOf('/upms/') != -1 || params.url.indexOf('/pay/') != -1) {
+		if(apiUrl.indexOf('http://192.168.0.202:8000') != -1){ // 开发
+			if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1 || params.url.indexOf('/pay') != -1) {
 				apiUrl = apiUrl.split('/ws')[0]
 			}else{
 				if(apiUrl.indexOf('/ws') == -1){

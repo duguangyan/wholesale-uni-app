@@ -586,12 +586,18 @@
 					arr.sort(function (a, b) {
 					  return a-b;
 					});
-					let min = arr[0];  
-					let max = arr[arr.length - 1];  
-					this.price     = "￥" + min + "~" + "￥" + max
+					if(arr.length<=1){
+						this.price     = "￥" + arr[0]
+					}else{
+						let min = arr[0];
+						let max = arr[arr.length - 1];  
+						this.price     = "￥" + min + "~" + "￥" + max
+					}
+					
 				}
 				
 				this.goodsImgList = uni.getStorageSync('goodsImgList') || []
+				let goodsImgList = uni.getStorageSync('goodsImgList') || []
 					
 				if(this.goodsImgList.length>0){
 					if(this.goodsImgList[0].imgs.length > 0){
@@ -600,6 +606,31 @@
 						this.goodsImg = this.goodsImgList[0].videos[0].zipUrl
 					}
 				}
+				
+				this.goodsImgLists = []
+				if(goodsImgList && goodsImgList.length>0){
+					
+					if(goodsImgList[0].imgs.length>0){
+						this.utilGoodsImgLists(goodsImgList,0,1)
+					}
+					
+					if(goodsImgList[0].videos.length>0){
+						this.utilGoodsImgLists(goodsImgList,0,2)		
+						this.utilGoodsImgLists(goodsImgList,0,3)
+					}
+					
+					if(goodsImgList[1].imgs.length>0){
+						this.utilGoodsImgLists(goodsImgList,1,1)
+					}
+					if(goodsImgList[1].videos.length>0){
+						this.utilGoodsImgLists(goodsImgList,1,2)		
+						this.utilGoodsImgLists(goodsImgList,1,3)
+					}
+					
+				}
+				
+				
+				console.log(this.goodsImgLists)
 				this.assessHasData()
 			},
 			// 判断是否可以提交数据
