@@ -95,7 +95,7 @@
       <!--    // price： 支付价格-->
       <!--    // function payClose：关闭支付弹窗-->
       <!--    // function doPay: 点击支付按钮事件-->
-      <Pay :orderId="payOrderId" :platform="+platform" ref="pay" :show="isPay" @close="doClose" :price="totalMoney" v-on:doPay="doPay" />
+      <Pay :orderId="payOrderId" :platform="platform" ref="pay" :show="isPay" @close="doClose" :price="totalMoney" v-on:doPay="doPay" />
       <Agent v-if="isAgent" :show="isAgent" @close="isAgent = false" :list="curItem.agentList" @change="changeAgent" />
     </div>
   </view>
