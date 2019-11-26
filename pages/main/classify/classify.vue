@@ -61,6 +61,11 @@
 				mainSelectCategory(data).then(res=>{
 					if(res.code == '1000'){
 						this.left = res.data
+						this.left.forEach(item=>{
+							if(item.name.length>4){
+								item.name = item.name.substr(0,2) + '...' + item.name.substr(item.name.length-2,2)
+							}
+						})
 					}
 					
 				})
@@ -86,6 +91,11 @@
 								this.right.forEach((item,index)=>{
 									let obj = {}
 									content.forEach((it,ix)=>{
+										// 超出4个字 中间...
+										if(it.name.length>4){
+											it.name = it.name.substr(0,2) + '...' + it.name.substr(it.name.length-2,2)
+										}
+										// 组装数据
 										let initials = it.initials || 'A'
 										if(item == initials.toUpperCase()){
 											if(obj.type == initials.toUpperCase()){

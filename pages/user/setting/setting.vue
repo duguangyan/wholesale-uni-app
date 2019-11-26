@@ -67,7 +67,7 @@
 		        </view>
 		      </view>
 		    </view> -->
-			
+			<view class="version">{{version}}</view>
 		    <view class="footer-btn" @click="showDialog" v-if="isLogin">退出登录</view>
 		  </view>
 	</view>
@@ -85,10 +85,13 @@
 				categoryName:'',
 				province:'',
 				city:'',
-				region:''
+				region:'',
+				version: ''
 			};
 		},
 		onShow() {
+			// 获取版本号
+			this.version = uni.getStorageSync('s') + ' ' + uni.getStorageSync('v')
 			// 获取缓存数据
 			this.isLogin    = uni.getStorageSync('access_token')
 			this.phone      = uni.getStorageSync('phone') || ''
@@ -213,6 +216,14 @@
 	}
 }
 .setting {
+	.version{
+		height: 60upx;
+		line-height: 60upx;
+		text-align: center;
+		font-size: 24upx;
+		color: #999;
+		padding-top: 20upx;
+	}
 	.footer-btn{
 		height: 100upx;
 		line-height: 100upx;

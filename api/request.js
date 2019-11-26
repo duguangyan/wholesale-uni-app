@@ -1,5 +1,5 @@
- let apiUrl = 'http://wsm.qinlvny.com/ws'; // 正式
-// let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
+// let apiUrl = 'http://wsm.qinlvny.com/ws'; // 正式
+let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 const versionNumber = 'V1.0.1'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000/ws') {
@@ -51,15 +51,15 @@ const request = function(params = {}) {
 			newUrl = newUrl.split('/api')[1]
 		}  
 		console.log('apiUrl:',apiUrl)
-		if(apiUrl == 'http://192.168.0.202:8000/ws'){
-			if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1 || params.url.indexOf('/pay') != -1) {
+		if(apiUrl == 'http://192.168.0.202:8000/ws'){ // 开发
+			if (params.url.indexOf('/oauth/') != -1 || params.url.indexOf('/upms/') != -1 || params.url.indexOf('/pay/') != -1) {
 				apiUrl = apiUrl.split('/ws')[0]
 			}else{
 				if(apiUrl.indexOf('/ws') == -1){
 					apiUrl = apiUrl + '/ws'
 				}
 			} 
-		}else{
+		}else{ // 正式
 			if (params.url.indexOf('/oauth/') != -1 || params.url.indexOf('/upms/') != -1 || params.url.indexOf('/pay/') != -1) {
 				apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1]
 			}else{
@@ -99,12 +99,12 @@ const request = function(params = {}) {
 				} else {
 					// 请求成功非1000	
 					if(res.code == '1011'){
-						if(newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder'){
-							uni.removeStorageSync('access_token')
-							uni.navigateTo({
-								url:'/pages/login/login'
-							})
-						}
+						// if(newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder'){
+						// 	uni.removeStorageSync('access_token')
+						// 	uni.navigateTo({
+						// 		url:'/pages/login/login'
+						// 	})
+						// }
 					}else if(res.code == '1017'){
 						let tokenData = {
 							grant_type:'refresh_token',
