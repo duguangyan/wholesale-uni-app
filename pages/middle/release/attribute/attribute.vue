@@ -3,7 +3,7 @@
 		<NavigationBar title="选择属性" :isClick="isClick" :clickTitle="clickTitle" @doClick="doClick"></NavigationBar>
 		<view class="height80"></view>
 		<!-- <view class="edit fs28" @click="goAdd">新增属性</view> -->
-		<view class="address cf" @click="showPicker" >
+		<view class="address cf" @click="showPicker" v-if="hasAddress.length>0">
 			<view class="fll"> <text class="text-theme mgr-10">*</text> <text>产地</text></view>
 			<view class="flr image"><image src="../../../../static/imgs/right.png" mode=""></image></view>
 			<view class="flr text-999 mgr-20" :class="{'text-333':addressInfo!=''}">{{addressInfo?addressInfo:'请选择产地'}}</view>
@@ -12,7 +12,7 @@
 			<view class="list" v-for="(item,index) in categorys" :key="index">
 				<view class="title fs30"><text class="text-theme mgr-10">*</text> <text>{{item.name}}</text></view>
 				<view class="items cf">
-					<view class="item fll" :class="{'active': it.isCheck}"  v-for="(it,ix) in item.valueSet" :key="ix" @click='checkIndex(index,ix,item.dataType)'>
+					<view class="item fll" :class="{'active': it.isCheck}"  v-for="(it,ix) in item.valueSet" :key="ix" @click='checkIndex(index,ix,item.inputType)'>
 						{{it.value}}
 					</view>
 				</view>
@@ -70,7 +70,8 @@
 				colors:['红色1','红色2','红色3','红色4','红色5','红色6','红色7'],
 				categorys:[],
 				categorysInput:[],
-				addCategoryAttributes:[]
+				addCategoryAttributes:[],
+				hasAddress:[]
 			};
 		},
 		components: {mpvueCityPicker, NavigationBar},
@@ -109,6 +110,7 @@
 				}
 				getByCategoryId(data).then(res=>{
 					if(res.code == '1000'){
+						uni.setStorageSync('categorysDates',res.data)
 						let categorys = []
 						let categorysInput = []
 						res.data.forEach(item=>{
@@ -119,6 +121,8 @@
 							if(item.inputType == 4){
 								item.inputVal = ''
 								categorysInput.push(item)
+							}else if(item.inputType == 0){
+								this.hasAddress.push(item)
 							}else{
 								if(item.valueSet.length>0){
 									item.valueSet.forEach((item,index)=>{
@@ -129,13 +133,12 @@
 							}
 						})
 						// 如果缓存有输出数据
-						
-						// if(uni.getStorageSync('categorysValues')){
-						// 	this.categorys = uni.getStorageSync('categorysValues')
-						// }else{
-						// 	this.categorys = categorys
-						// }
-						this.categorys = categorys
+						if(uni.getStorageSync('categorysValues')){
+							this.categorys = uni.getStorageSync('categorysValues')
+						}else{
+							this.categorys = categorys
+						}
+						// this.categorys = categorys
 						
 						if(uni.getStorageSync('categorysInput')){
 							this.categorysInput = uni.getStorageSync('categorysInput')
@@ -190,7 +193,7 @@
 			assessHasData(){
 				let n = 0
 				 this.categorysInput.forEach(item=>{
-					if(item.inputValue !=''){
+					if(item.inputVal !=''){
 						n++
 					}
 				 })
@@ -264,7 +267,7 @@
 				if(type == 2){ // 复选框
 					this.categorys[index].valueSet[ix].isCheck = !this.categorys[index].valueSet[ix].isCheck
 					
-				}else if(type == 1){ // 单选框
+				}else{ // 单选框
 					this.categorys[index].valueSet.forEach(item=>{
 						item.isCheck = false
 					})

@@ -51,6 +51,7 @@
 				uni.removeStorageSync('goodsSkuList')
 				uni.removeStorageSync('textareaValue')
 				uni.removeStorageSync('goodsImgList')
+				uni.removeStorageSync('categorysDates')
 			},
 			// 返回首页
 			goBack(){

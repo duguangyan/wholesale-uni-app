@@ -16,7 +16,7 @@
 				  <view class="cf li">
 				    <view class="fll fs28">我的姓名</view>
 		
-					<view class="flr fs30 text-999 value">农百集</view>
+					<view class="flr fs30 text-999 value">{{nickName||'农百集'}}</view>
 				  </view>
 				  
 				  <view class="cf li">
@@ -40,7 +40,7 @@
 				 </view>
 				 
 				  <view class="cf li" v-if="roleId == 20001">
-				    <view class="fll fs28">经验类型</view>
+				    <view class="fll fs28">经营类目</view>
 				    
 					<view class="flr fs30 text-999 value">{{categoryName}}</view>
 				  </view>
@@ -86,15 +86,17 @@
 				province:'',
 				city:'',
 				region:'',
-				version: ''
+				version: '',
+				nickName:''
 			};
 		},
 		onShow() {
 			// 获取版本号
-			this.version = uni.getStorageSync('s') + ' ' + uni.getStorageSync('v')
+			this.version    = uni.getStorageSync('s') + ' ' + uni.getStorageSync('v')
 			// 获取缓存数据
 			this.isLogin    = uni.getStorageSync('access_token')
 			this.phone      = uni.getStorageSync('phone') || ''
+			this.nickName   = uni.getStorageSync('nickName')
 			this.roleId     = uni.getStorageSync('roleId')
 			this.headImgUrl = uni.getStorageSync('headImgUrl')
 			if(uni.getStorageSync('userApply')){

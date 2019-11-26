@@ -71,7 +71,7 @@
 			</view>
 		</view>
 
-		<view class="bar" @click="goRelease" v-if="roleId ==  20001">
+		<view class="bar" @click="goRelease" v-if="roleId == '20001' && userApply.status == 1">
 			<image src="../../static/imgs/icon-1009.png" mode=""></image>
 		</view>
 	</view>

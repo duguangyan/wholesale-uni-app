@@ -14,7 +14,7 @@
 			<view class="item-1">
 				<view class="fll">姓名</view>
 				<view class="flr">
-					<input type="text" v-model="realName" :disabled="disabled" placeholder="请输入货主姓名">
+					<input type="text" v-model="realName" :disabled="disabled" :placeholder="realNamePlaceholder">
 				</view>
 			</view>
 			<view class="item-1" v-if="!disabled && userRealInfo ==''">
@@ -111,6 +111,7 @@
 		name: 'agency',
 		data() {
 			return {
+				realNamePlaceholder:'', 
 				code :'',        // 邀请码
 				userApply:'',    // 用户类型
 				disabled: false, // 是否可以输入
@@ -203,6 +204,8 @@
 					this.productType      = this.userApply.categoryName
 					this.fullAddress      = this.userApply.province + this.userApply.city + this.userApply.region
 				}
+				
+				this.realNamePlaceholder = this.hasfrom==2?'请输入货主姓名':'请输入代办姓名'
 			},
 			chooseTypeComplete(e){
 				console.log(e)
@@ -360,6 +363,7 @@
 				
 				if(this.userApply.status == 3) { // 重新审核
 					data.id = this.userApply.id
+					data.status = 3
 					applyApplyUpdate(data).then(res=>{
 						if(res.code == '1000'){
 							getUserRealInfoAll().then((res) => {

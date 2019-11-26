@@ -10,7 +10,7 @@
 		<view class="num cf" >
 			<view class="fll"> <text class="text-theme mgr-10">*</text> <text>库存</text></view>
 			<view class="input flr text-333 mgr-20">
-				<input type="number" @input="checkStock" v-model="stock" placeholder="请输入库存">
+				<input type="number" maxlength="30" @input="checkStock" v-model="stock" placeholder="请输入库存">
 			</view>
 		</view>
 		
@@ -23,9 +23,9 @@
 		<view class="ul fs24">
 			<view class="li cf"  v-for="(item,index) in priceExpList" :key="index">
 				<view class="fll">起批量</view>
-				<view class="fll"><input type="number" @input="checkName" v-model="item.startQuantity" /></view>
+				<view class="fll"><input type="number" maxlength="10" @input="checkName" v-model="item.startQuantity" /></view>
 				<view class="fll">价格(元)</view>
-				<view class="fll"><input type="number" @input="checkValue" v-model="item.price" /></view>
+				<view class="fll"><input type="number" maxlength="10" @input="checkValue" v-model="item.price" /></view>
 				<view class="fll add" v-if='index == 0' @click="add">新增</view>
 				<view class="fll del" v-if='index != 0' @click="del(index)">删除</view>
 			</view>

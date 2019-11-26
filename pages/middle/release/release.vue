@@ -381,11 +381,18 @@
 				let goodsAttrList = []
 				if(addCategoryAddress){
 					addCategoryAddress = JSON.parse(addCategoryAddress)
+					let categorysDates = uni.getStorageSync('categorysDates')
+					let categoryAttrId = ''
+					categorysDates.forEach(item=>{
+						if(item.inputType == 0){
+							categoryAttrId = item.id
+						}
+					})
 					let obj = {
-						categoryAttrId:'',
+						categoryAttrId,
 						goodsAttrValueList:[
 							{
-								categoryAttrId:'',
+								categoryAttrId,
 								remark:addCategoryAddress.province + addCategoryAddress.city,
 								sort:1,
 								value:addCategoryAddress.cityId	
@@ -407,7 +414,7 @@
 							item.valueSet.forEach((it,ix)=>{
 								if(it.isCheck){
 									let obj = {
-										categoryAttrId:'',
+										categoryAttrId:item.id,
 										remark:'',
 										sort:ix+1,
 										value:it.value
@@ -417,7 +424,7 @@
 							})
 							
 							let obj = {
-								categoryAttrId:'',
+								categoryAttrId:item.id,
 								goodsAttrValueList,
 								goodsId:'',
 								name:item.name,
@@ -433,10 +440,10 @@
 					categorysInput.forEach((item,index)=>{
 						if(item.valueSet.length>0){
 							let obj = {
-								categoryAttrId:'',
+								categoryAttrId:item.id,
 								goodsAttrValueList:[
 									{
-										categoryAttrId:'',
+										categoryAttrId:item.id,
 										remark:'',
 										sort:item.isCheckIndex+1,
 										value:item.valueSet[item.isCheckIndex].value	

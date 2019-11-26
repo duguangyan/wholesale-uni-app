@@ -198,20 +198,20 @@
 				// 设置底部tab样式
 				this.roleId = uni.getStorageSync('roleId')
 				if(this.roleId){
+					// 设置底部tab样式
 					if(this.roleId == '20002'){
 						uni.setTabBarItem({
 						  index: 1,
 						  text: '代办',
-						  iconPath: '/static/img/2.1.png',
-						  selectedIconPath: '/static/img/2.2.png'
+						  iconPath: 'static/img/2.1.png',
+						  selectedIconPath: 'static/img/2.2.png'
 						})
-						
 					} else if(this.roleId == '20001') {
 						uni.setTabBarItem({
 						  index: 1,
 						  text: '我要卖',
-						  iconPath: '/static/img/4.1.png',
-						  selectedIconPath: '/static/img/4.2.png'
+						  iconPath: 'static/img/4.1.png',
+						  selectedIconPath: 'static/img/4.2.png'
 						})
 					}
 				}
