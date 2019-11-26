@@ -1,8 +1,8 @@
  let apiUrl = 'http://wsm.qinlvny.com/ws'; // 正式
-// let apiUrl = 'http://192.168.0.202:8000/ws/'; // 开发
+// let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 const versionNumber = 'V1.0.1'; //版本号
 
-if (apiUrl == 'http://192.168.0.202:8000/ws/') {
+if (apiUrl == 'http://192.168.0.202:8000/ws') {
 	uni.setStorageSync('v', versionNumber);
 	uni.setStorageSync('s', '开发');
 } else {
@@ -51,15 +51,26 @@ const request = function(params = {}) {
 			newUrl = newUrl.split('/api')[1]
 		}  
 		console.log('apiUrl:',apiUrl)
-		if (params.url.indexOf('/oauth/') != -1 || params.url.indexOf('/upms/') != -1 || params.url.indexOf('/pay/') != -1) {
-			apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1]
-		}else{
-			if(apiUrl.split('/ws').length<=1){
-				apiUrl = apiUrl + '/ws'
+		if(apiUrl == 'http://192.168.0.202:8000/ws'){
+			if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1 || params.url.indexOf('/pay') != -1) {
+				apiUrl = apiUrl.split('/ws')[0]
 			}else{
-				apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1] + '/ws'
+				if(apiUrl.indexOf('/ws') == -1){
+					apiUrl = apiUrl + '/ws'
+				}
+			} 
+		}else{
+			if (params.url.indexOf('/oauth/') != -1 || params.url.indexOf('/upms/') != -1 || params.url.indexOf('/pay/') != -1) {
+				apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1]
+			}else{
+				if(apiUrl.split('/ws').length<=1){
+					apiUrl = apiUrl + '/ws'
+				}else{
+					apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1] + '/ws'
+				}
 			}
-		} 
+		}
+		 
 
 		// try{
 		// 	if(params.data.grant_type == 'mini_program' || params.data.grant_type == 'wx_app'){
