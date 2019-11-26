@@ -20,7 +20,7 @@
 			<view class="item-1" v-if="!disabled && userRealInfo ==''">
 				<view class="fll">邀请码</view>
 				<view class="flr">
-					<input type="number" v-model="code" :disabled="disabled" placeholder="请输入邀请码">
+					<input type="text" v-model="code" :disabled="disabled" placeholder="请输入邀请码">
 				</view>
 			</view>
 			<!-- <view class="item-1">

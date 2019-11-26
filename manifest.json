@@ -15,7 +15,7 @@
             "OAuth" : {},
             "Payment" : {},
             "Share" : {},
-            "Push" : {}
+            "Speech" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -73,9 +73,7 @@
             },
             /* SDK配置 */
             "sdkConfigs" : {
-                "push" : {
-                    "unipush" : {}
-                },
+                "push" : {},
                 "payment" : {
                     "weixin" : {
                         "appid" : "wx26baf2267dd24e83",
@@ -95,6 +93,9 @@
                         "appsecret" : "3acbb7d4ad8582d32e7f8da7a07878fc",
                         "UniversalLinks" : "https://m.qinlvny.com/static/"
                     }
+                },
+                "speech" : {
+                    "ifly" : {}
                 }
             },
             "icons" : {
@@ -180,7 +181,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/api" : {
-                    "target" : "https://wsm.qinlvny.com", // 需要跨域的域名
+                    "target" : "http://192.168.0.202", // 需要跨域的域名
                     "changeOrigin" : true,
                     "secure" : true,
                     "pathRewrite" : {
