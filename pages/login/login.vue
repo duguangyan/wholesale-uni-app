@@ -324,7 +324,7 @@
 				getUserRealInfoAll().then((res) => {
 					if (res.code === '1000') {
 						let roleId = res.data.userRole.roleId || ''
-						uni.setStorageSync('nickName', res.data.user.nickName)
+						uni.setStorageSync('nickName', res.data.user.realName || res.data.user.nickName)
 						uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
 						uni.setStorageSync('roleId', roleId)
 						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
@@ -332,9 +332,16 @@
 						
 						switch (roleId) {
 							case '20003':
-								uni.redirectTo({
-									url: '/pages/middle/identity/identity'
-								})
+							let userRealInfo  = uni.getStorageSync('userRealInfo')
+								if(userRealInfo == ''){
+									uni.redirectTo({
+										url: '/pages/middle/identity/identity'
+									})
+								}else{
+									uni.switchTab({
+										url: '/pages/main/main'
+									})
+								}
 								break;
 							case '20001':
 								uni.switchTab({

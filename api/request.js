@@ -53,7 +53,7 @@ const request = function(params = {}) {
 			newUrl = newUrl.split('/api')[1]
 		}  
 		console.log('apiUrl:',apiUrl)
-		if(apiUrl.indexOf('http://192.168.0.202:8000') != -1){ // 开发
+		if(apiUrl.indexOf('http://192.168.0.202:8000') != -1){ // APP开发
 			if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1 || params.url.indexOf('/pay') != -1) {
 				apiUrl = apiUrl.split('/ws')[0]
 			}else{
@@ -61,7 +61,7 @@ const request = function(params = {}) {
 					apiUrl = apiUrl + '/ws'
 				}
 			} 
-		}else{ // 正式
+		}else if(apiUrl.indexOf('http://wsm.qinlvny.com') != -1){ // APP正式
 			if (params.url.indexOf('/oauth/') != -1 || params.url.indexOf('/upms/') != -1 || params.url.indexOf('/pay/') != -1) {
 				apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1]
 			}else{
@@ -71,6 +71,15 @@ const request = function(params = {}) {
 					apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1] + '/ws'
 				}
 			}
+			
+		}else if(apiUrl.indexOf('/ws') != -1 || apiUrl == ''){ // H5正式
+			if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1 || params.url.indexOf('/pay') != -1) {
+				apiUrl = apiUrl.split('/ws')[0]
+			}else{
+				if(apiUrl.indexOf('/ws') == -1 || apiUrl == ''){
+					apiUrl = apiUrl + '/ws'
+				}
+			} 
 		}
 		 
 
