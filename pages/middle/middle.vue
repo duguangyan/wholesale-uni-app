@@ -68,6 +68,7 @@
 			
 		},
 		onShow() {
+			if(uni.getStorageSync('roleId')) this.roleId = uni.getStorageSync('roleId')
 			// 未登录状态跳转 微信和APP不一样
 			// #ifdef  MP-WEIXIN
 			if(!uni.getStorageSync('access_token')){

@@ -218,6 +218,9 @@
 	}
 }
 .setting {
+	width: 750upx;
+	margin: 0 auto;
+	overflow-x: hidden;
 	.version{
 		height: 60upx;
 		line-height: 60upx;

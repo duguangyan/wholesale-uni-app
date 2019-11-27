@@ -18,7 +18,32 @@
 			return {
 				title:'选择身份',
 				isBack: false,
-				items:[
+				items:[]
+			};
+		},
+		components:{ NavigationBar },
+		onBackPress(){
+			T.tips('请选择角色')
+			return false
+		},
+		onLoad() {
+			
+		},
+		onShow() {
+			let userRealInfo = uni.getStorageSync('userRealInfo')
+			if(userRealInfo){
+				this.items = [
+					{
+						text:'我是代办',
+						imgUrl:'../../../static/imgs/icon-1.png'
+					},
+					{
+						text:'我要卖货',
+						imgUrl:'../../../static/imgs/icon-2.png'
+					}
+				]
+			}else{
+				this.items = [
 					{
 						text:'我是代办',
 						imgUrl:'../../../static/imgs/icon-1.png'
@@ -32,18 +57,7 @@
 						imgUrl:'../../../static/imgs/icon-3.png'
 					},
 				]
-			};
-		},
-		components:{ NavigationBar },
-		onBackPress(){
-			T.tips('请选择角色')
-			return false
-		},
-		onLoad() {
-			
-		},
-		onShow() {
-			
+			}
 		},
 		methods:{
 			goPage(index){

@@ -9,7 +9,7 @@
 				</view>
 				<view class="flex-1">
 					<view><text class="fs32">{{orderInfos.tradingMoney || 0}}</text><text class="fs24">元</text></view>
-					<view class="fs24">{{roleId=='2002'?'代办费':'交易额'}}</view>
+					<view class="fs24">{{roleId=='20002'?'代办费':'交易额'}}</view>
 				</view>
 				<view class="flex-1">
 					<view><text class="fs32">{{orderInfos.statDate || 0}} </text><text class="">斤</text></view>
@@ -42,7 +42,7 @@
 		</view>
 		<view class="goods">
 			<view class="title">
-				{{roleId=='2002'?'农产品':'我的商品'}}
+				{{roleId=='20002'?'农产品':'我的商品'}}
 			</view>
 			<view class="list cf fs28" v-if="roleId == 20001">
 				<view @click="goGoodsCheck(index)" class="fll" v-for="(item,index) in spGoodsByAgency" :key="index">
@@ -119,11 +119,11 @@
 				],
 				spGoodsByShipper: [{
 						img: '../../static/imgs/icon-1031.png',
-						text: '发布新品'
+						text: '新发布'
 					},
 					{
 						img: '../../static/imgs/icon-1032.png',
-						text: '农产品'
+						text: '全部产品'
 					},
 					{
 						img: '../../static/imgs/icon-1033.png',
@@ -160,6 +160,8 @@
 		mounted() {
 			console.log('------')
 			console.log(this.roleId)
+			console.log(this.userApply)
+			// 获取用户类型
 			// 统计订单状态条数
 			this.getOrderStat()
 			// 主页订单交易统计

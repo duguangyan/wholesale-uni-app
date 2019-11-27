@@ -83,7 +83,8 @@
 				hasData: true,
 				statisticsGoods:[], // 统计商品数量
 				itemDialogData:'',
-				itemDialogIndex:''
+				itemDialogIndex:'',
+				userApply:''
 			};
 		},
 		components:{Goodx,Dialog},
@@ -160,7 +161,7 @@
 						this.doHandlerGoods(item.id,1)
 						break;
 					case 2:
-						this.doHandlerGoods(item.id,3)
+						this.doHandlerGoods(item.id,2)
 						break;	
 					case 4:
 						this.doHandlerGoods(item.id,0)
