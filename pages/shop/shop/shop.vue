@@ -6,13 +6,13 @@
       </div>
       <div>
         <div class="shop-name fs30">{{shopInfo.shopName}}</div>
-        <div class="shop-cla fs24">主营:{{shopInfo.categoryName}}</div>
-        <div class="shop-ad fs24">经营地:{{shopInfo.address}}</div>
+        <div class="shop-cla fs24">主营:&nbsp;{{shopInfo.categoryName}}</div>
+        <div class="shop-ad fs24">经营地:&nbsp;{{shopInfo.address}}</div>
       </div>
     </div>
     <div class="count fs30 text-999">供应({{list.length}})</div>
     <div class="list">
-      <Good v-for="(item,index) in list" :key="item.id" :item="item" :level="2" />
+      <Good v-for="(item,index) in list" :key="item.id" :item="item" :level="2" scoped="shop" />
     </div>
   </view>
 </template>
@@ -92,7 +92,7 @@ export default vm
       margin-right: 30upx;
     }
     .shop-name {
-      margin-bottom: 10upx;
+      margin-bottom: 16upx;
       font-weight: 700;
     }
     .shop-cla {

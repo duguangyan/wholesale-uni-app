@@ -31,7 +31,7 @@
 			</div>
       
       <!-- 店铺信息 -->
-      <div class="shop">
+      <div v-if="scoped !== 'shop'" class="shop">
         <span>{{good.shopArea}}}</span>
         <span class="ml5">{{good.realName}}</span>
       </div>
@@ -52,6 +52,10 @@
 	export default {
 		name: 'good',
 		props: {
+      scoped: /*源页面 shop:店铺页使用*/{
+        type: String,
+        default: ''
+      },
 			item: {
 				type: Object,
 				default: null
