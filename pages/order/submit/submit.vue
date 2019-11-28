@@ -282,14 +282,13 @@ var vm = {
         shopParamList: resList,
         // postscript: this.message,
         // addressId: this.address.id,
-        cartIdList: this.cartIdList
+        cartIdList: vm.cartIdList
       };
       postCreateOrder(list)
         .then(res => {
           if (res.code === '1000') {
-            debugger
-            this.isPay = this.curItem.agent.id !== '';
-            this.order.orderId = res.data[this.order.shopId].id;
+            vm.isPay = vm.curItem.curAgent.id !== '';
+            vm.order.orderId = res.data[vm.order.shopId].id;
           } else {
             T.tips(res.message || '提交订单失败');
           }
@@ -326,12 +325,12 @@ var vm = {
     //   }
     // },
     // 提交订单
-    submit() {
-      if (this.address === '') {
-        T.tips('请选择收货地址');
-        return false;
-      }
-    },
+    // submit() {
+    //   if (this.address === '') {
+    //     T.tips('请选择收货地址');
+    //     return false;
+    //   }
+    // },
     // 去详情
     goDetail(shopId, orderId) {
       uni.navigateTo({
