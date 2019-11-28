@@ -87,7 +87,7 @@
           合计:&ensp;
           <span>{{ totalMoney }}</span>
         </div>
-        <div class="btn" v-bind:class="{ active: address !== '', platform1: platform == 2 }" @click="showPay">提交订单</div>
+        <div class="btn" v-bind:class="{ active: true, platform1: platform == 2 }" @click="showPay">提交订单</div>
       </div>
       <!--    // orderId：支付订单-->
       <!--    // show：支付上拉框是否弹起-->
@@ -115,7 +115,11 @@ var vm = {
     vm = this;
     return {
       curItem: {
-        agentList: []
+        agentList: [],
+        curAgent: {
+          id: '',
+          name: ''
+        }
       },
       isAgent: false,
       sendType: /*1 平台找车,2: 自驾车辆*/ 1,
@@ -130,7 +134,7 @@ var vm = {
       Plat,
       totalNum: 0, // 总数量
       totalMoney: 0, // 总金额
-      address: '', // 地址
+      // address: '', // 地址
       message: '', //留言
       deliverMoney: 0, // 运费
       payOrderId: '', //订单ID
@@ -154,7 +158,7 @@ var vm = {
   },
   onShow() {
     // 设备样式兼容
-    this.platform = uni.getStorageSync('platform');
+    this.platform = uni.getStorageSync('platform')*1;
     // 上一级传递参数：结算返回的数据
     if (this.isBuyNow) {
       let submitData = JSON.parse(this.submitData);
@@ -278,13 +282,13 @@ var vm = {
         shopParamList: resList,
         // postscript: this.message,
         // addressId: this.address.id,
-        cartIdList: this.cartIdList
+        cartIdList: vm.cartIdList
       };
       postCreateOrder(list)
         .then(res => {
           if (res.code === '1000') {
-            this.isPay = this.address !== '';
-            this.order.orderId = res.data[this.order.shopId].id;
+            vm.isPay = vm.curItem.curAgent.id !== '';
+            vm.order.orderId = res.data[vm.order.shopId].id;
           } else {
             T.tips(res.message || '提交订单失败');
           }
@@ -294,56 +298,56 @@ var vm = {
         });
     },
     // 根据地址获取新数据
-    getOrderCartByAddress(addressId) {
-      let userId = uni.getStorageSync('uid');
-      let data = {
-        userId,
-        cartIdList: this.cartIdList,
-        addressId: this.address.id,
-        postscript: this.message
-      };
+    // getOrderCartByAddress(addressId) {
+    //   let userId = uni.getStorageSync('uid');
+    //   let data = {
+    //     userId,
+    //     cartIdList: this.cartIdList,
+    //     addressId: this.address.id,
+    //     postscript: this.message
+    //   };
 
-      if (this.isBuyNow) {
-        let submitData = JSON.parse(this.submitData);
-        this.totalMoney = submitData.totalMoney;
-        this.deliverMoney = submitData.deliverMoney;
-      } else {
-        getOrderCart(data)
-          .then(res => {
-            if (res.code === '1000') {
-              this.totalMoney = res.data.totalMoney;
-              this.deliverMoney = res.data.deliverMoney;
-            }
-          })
-          .catch(err => {
-            T.tips(err.message || '结算失败');
-          });
-      }
-    },
+    //   if (this.isBuyNow) {
+    //     let submitData = JSON.parse(this.submitData);
+    //     this.totalMoney = submitData.totalMoney;
+    //     this.deliverMoney = submitData.deliverMoney;
+    //   } else {
+    //     getOrderCart(data)
+    //       .then(res => {
+    //         if (res.code === '1000') {
+    //           this.totalMoney = res.data.totalMoney;
+    //           this.deliverMoney = res.data.deliverMoney;
+    //         }
+    //       })
+    //       .catch(err => {
+    //         T.tips(err.message || '结算失败');
+    //       });
+    //   }
+    // },
     // 提交订单
-    submit() {
-      if (this.address === '') {
-        T.tips('请选择收货地址');
-        return false;
-      }
-    },
+    // submit() {
+    //   if (this.address === '') {
+    //     T.tips('请选择收货地址');
+    //     return false;
+    //   }
+    // },
     // 去详情
     goDetail(shopId, orderId) {
       uni.navigateTo({
         url: '/pages/user/order/detail?shopId=' + shopId + '&goodsId=' + orderId
       });
     },
-    // 获取默认地址
-    getAddressDefAddress() {
-      getAddressDefAddress().then(res => {
-        if (res.code === '1000') {
-          if (res.data) {
-            this.address = res.data;
-            this.getOrderCartByAddress(this.address.id);
-          }
-        }
-      });
-    },
+    // // 获取默认地址
+    // getAddressDefAddress() {
+    //   getAddressDefAddress().then(res => {
+    //     if (res.code === '1000') {
+    //       if (res.data) {
+    //         this.address = res.data;
+    //         this.getOrderCartByAddress(this.address.id);
+    //       }
+    //     }
+    //   });
+    // },
     // 获取数据
     getCartList() {
       getCartOrderList()
