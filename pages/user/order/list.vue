@@ -45,6 +45,10 @@
 						<view class="receive" v-if="item.status == 3" @click="postOrderConfirm(index)">确认收货</view>
 						<view class="receive" v-if="item.status == 0" @click="showPay(index)">去支付</view>
 						<view class="receive" v-if="item.status == 2 && roleId == '20002'" @click="deliverGoods(index)">发货</view>
+						
+						
+						<view class="receive" v-if="item.status == 6 && roleId == '20001'" @click="sellerCancel(index)">取消订单</view>
+						<view class="receive" v-if="item.status == 6 && roleId == '20001'" @click="sellerConfirm(index)">确认订单</view>
 					</view>
 				</view>
 			</view>
@@ -69,7 +73,9 @@
 	import {
 		getOrderPageMyOrder,
 		postOrderConfirm,
-		getOrderStat
+		getOrderStat,
+		sellerCancel,
+		sellerConfirm
 	} from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	export default {
@@ -152,7 +158,7 @@
 			console.log('platform:', this.platform)
 			let orderNavIndex = uni.getStorageSync('orderNavIndex')
 			if (orderNavIndex) {
-				this.status = orderNavIndex == '1' ? 0 : orderNavIndex - 1
+				this.status = orderNavIndex == '1' ? 6 : orderNavIndex - 1
 				this.navIndex = orderNavIndex
 			}
 			// 获取订单列表
@@ -162,6 +168,52 @@
 			this.getOrderStat()
 		},
 		methods: {
+			// 货主取消订单
+			sellerCancel(index){
+				let unitList = ['已断货','售罄','其他']
+				this.orderId = this.orders[index].orderId;
+				this.shopId = this.orders[index].shopId;
+				uni.showActionSheet({
+				    itemList,
+				    success: function (res) {
+						let data = {
+							orderId: this.orderId,
+							cancelReason : unitList[res.tapIndex]
+						}
+						sellerCancel(data).then(res=>{
+							if(res.code == '1000'){
+								// 获取订单列表
+								this.orders = []
+								this.getOrders()
+								// 统计订单状态条数
+								this.getOrderStat()
+							}
+						})
+				    },
+				    fail: function (res) {
+				        console.log(res.errMsg);
+				    }
+				});
+				
+				
+			},
+			// 货主确认订单
+			sellerConfirm(index){
+				this.orderId = this.orders[index].orderId;
+				this.shopId = this.orders[index].shopId;
+				let data = {
+					orderId: this.orderId
+				}
+				sellerConfirm(data).then(res=>{
+					if(res.code == '1000'){
+						// 获取订单列表
+						this.orders = []
+						this.getOrders()
+						// 统计订单状态条数
+						this.getOrderStat()
+					}
+				})
+			},
 			// 发货
 			deliverGoods(index){
 				let item = this.orders[index]

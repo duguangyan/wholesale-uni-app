@@ -373,7 +373,30 @@ const orderDelivery = data => {
 	})
 }
 
+// 货主发货
+const sellerConfirm = data => {
+	return request({
+		method: 'post',
+		url: '/api/order/order/sellerConfirm',
+		data,
+		type: 'form',
+	})
+}
+
+// 货主取消发货
+const sellerCancel = data => {
+	return request({
+		method: 'post',
+		url: '/api/order/order/sellerCancel',
+		data,
+		type: 'form',
+	})
+}
+
+
 export {
+	sellerCancel,
+	sellerConfirm,
 	orderDelivery,
 	fromIdGetShopUserInfo,
 	fromIdGetAgentUserInfo,

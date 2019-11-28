@@ -173,12 +173,16 @@
 			</div>
 		</div>
 
-		<div class="footer" v-if="status == 0 || status == 3">
+		<div class="footer" v-if="status == 0 || status == 3 || status == 6">
 			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 			<div class="btn-black btn" v-if="status == 0" @click="postOrderCancel">取消订单</div>
 			<div class="btn-red btn" v-if="status == 0" @click="showPay">去付款</div>
 			<div class="btn-red btn" v-if="status == 3" @click="postOrderConfirm">确认收货</div>
-			<view class="receive" v-if="status == 2 && roleId == '20002'" @click="deliverGoods()">发货</view>
+			<view class="btn-red btn" v-if="status == 2 && roleId == '20002'" @click="deliverGoods()">发货</view>
+			
+			<view class="btn-red btn" v-if="status == 6 && roleId == '20001'" @click="sellerCancel()">取消订单</view>
+			<view class="btn-red btn" v-if="status == 6 && roleId == '20001'" @click="sellerConfirm()">确认订单</view>
+			
 		</div>
 		<Pay :orderId="orderId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
 		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
@@ -210,6 +214,7 @@
 				</view>
 			</view>
 		</luPopupWrapper>
+		
 	</div>
 </template>
 
@@ -219,7 +224,9 @@
 	import {
 		getOrderDetailById,
 		postOrderCancel,
-		postOrderConfirm
+		postOrderConfirm,
+		sellerConfirm,
+		sellerCancel
 	} from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	import util from '@/utils/util.js'
@@ -286,6 +293,40 @@
 			}
 		},
 		methods: {
+			// 货主取消订单
+			sellerCancel(){
+				let unitList = ['已断货','售罄','其他']
+				uni.showActionSheet({
+				    itemList,
+				    success: function (res) {
+						let data = {
+							orderId: this.orderId,
+							cancelReason : unitList[res.tapIndex]
+						}
+						sellerCancel(data).then(res=>{
+							if(res.code == '1000'){
+								this.getOrderDetailById(this.orderId, this.shopId)
+							}
+						})
+				    },
+				    fail: function (res) {
+				        console.log(res.errMsg);
+				    }
+				});
+				
+				
+			},
+			// 货主确认订单
+			sellerConfirm(){
+				let data = {
+					orderId: this.orderId
+				}
+				sellerConfirm(data).then(res=>{
+					if(res.code == '1000'){
+						this.getOrderDetailById(this.orderId, this.shopId)
+					}
+				})
+			},
 			// 弹窗事件
 			show() {
 				this.$refs.luPopupWrapper.show();

@@ -125,17 +125,19 @@
 			upload(tempFilePath){
 				let _this = this
 				let url = ''
-				if(this.chooseType == 0) {
-					url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'http://wsm.qinlvny.com/upms/userImg/upload'
-				}else{
-					url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/ws/goods/goodImg/fileUpload' : 'https://wsm.qinlvny.com/ws/goods/goodImg/fileUpload'
-				}
+				// if(this.chooseType == 0) {
+				// 	url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'http://wsm.qinlvny.com/upms/userImg/upload'
+				// }else{
+				// 	url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/ws/goods/goodImg/fileUpload' : 'http://wsm.qinlvny.com/ws/goods/goodImg/fileUpload'
+				// }
+				url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/ws/goods/goodImg/fileUpload' : 'http://wsm.qinlvny.com/ws/goods/goodImg/fileUpload'
 				// 保存文件
 				uni.uploadFile({
 					url: url, //仅为示例，非真实的接口地址
 					filePath: tempFilePath,
 					name: 'file',
 					success: (uploadFileRes) => {
+						console.log('tempFilePath',tempFilePath)
 						console.log(uploadFileRes);
 						let res = JSON.parse(uploadFileRes.data)
 						if (res.code == '1000') {
