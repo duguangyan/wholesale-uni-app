@@ -109,6 +109,7 @@
 		},
 		methods:{
 			showDialog() {
+			  let _this = this
 			  uni.showModal({
 			      title: '提示',
 			      content: '是否退出当前账号?',
@@ -123,6 +124,7 @@
 			              // uni.switchTab({
 			              // 	url:'/pages/user/user'
 			              // })
+						  _this.$eventHub.$emit('goBlack',true)
 						  uni.navigateBack({
 						  	delta:1
 						  })
