@@ -170,23 +170,24 @@
 		methods: {
 			// 货主取消订单
 			sellerCancel(index){
-				let unitList = ['已断货','售罄','其他']
+				let itemList = ['已断货','售罄','其他']
 				this.orderId = this.orders[index].orderId;
 				this.shopId = this.orders[index].shopId;
+				let _this = this
 				uni.showActionSheet({
 				    itemList,
 				    success: function (res) {
 						let data = {
-							orderId: this.orderId,
-							cancelReason : unitList[res.tapIndex]
+							orderId: _this.orderId,
+							cancelReason : itemList[res.tapIndex]
 						}
 						sellerCancel(data).then(res=>{
 							if(res.code == '1000'){
 								// 获取订单列表
-								this.orders = []
-								this.getOrders()
+								_this.orders = []
+								_this.getOrders()
 								// 统计订单状态条数
-								this.getOrderStat()
+								_this.getOrderStat()
 							}
 						})
 				    },

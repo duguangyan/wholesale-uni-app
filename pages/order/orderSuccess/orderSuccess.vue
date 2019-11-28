@@ -3,12 +3,13 @@
 		<div class="success">
 			<div class="content">
 				<div class="img">
-					<img src="@/static/img/icon-finsh-order.png" alt="图片">
+					<img src="@/static/imgs/order-icon-1001.png" alt="图片">
 				</div>
 				<div class="d1 fs38 text-333 mt-20">
-					交易完成
+					订单提交成功,请等待货主确认
 				</div>
 				<div class="d2 flex text-333 fs28">
+					<p class="flex-1" @click="makePhoneCall">联系代办</p>
 					<p class="flex-1" @click="checkOrderDetal">查看订单</p>
 					<p class="flex-1" @click="goHome">返回首页</p>
 				</div>
@@ -26,15 +27,17 @@
 				query: '', // 获取传递参数
 				adPositione: '', // 获取广告位信息
 				orderId: '',
-				shopId: ''
+				shopId: '',
+				phone: ''
 			};
 		},
 		components: {
 			StrictlyGoods
 		},
 		onLoad(options) {
-			this.orderId = options.orderId;
-			this.shopId = options.shopId;
+			this.orderId = options.orderId
+			this.shopId  = options.shopId
+			this.phone   = options.phone
 		},
 		methods: {
 			// 广告位url跳转
@@ -47,7 +50,7 @@
 			checkOrderDetal() {
 				// 详情需要 orderId, shopId
 				uni.navigateTo({
-					url: '/pages/order/goodsDetail/goodsDetail?orderId=' + this.orderId + '&shopId=' + this.shopId
+					url: '/pages/user/order/detail?orderId=' + this.orderId + '&shopId=' + this.shopId
 				})
 			},
 			// 返回首页
@@ -55,6 +58,11 @@
 				uni.switchTab({
 					url: '/pages/main/main'
 				})
+			},
+			makePhoneCall(){
+				uni.makePhoneCall({
+				    phoneNumber: this.phone 
+				});
 			}
 		}
 	}
@@ -66,7 +74,9 @@
 			position: fixed;
 			top: 0;
 		}
-
+		.big-btn-active{
+			margin-top: 40upx;
+		}
 		.content{
 		  text-align: center;
 		  padding-top: 80upx;
@@ -84,7 +94,7 @@
 		    }
 		  }
 		  .d2{
-		    width: 200px;
+		    width: 300px;
 		    margin: 0 auto;
 		    margin-top: 20px;
 		    >p{
@@ -96,6 +106,9 @@
 		    :first-child{
 		      margin-right: 20px;
 		    }
+			:last-child{
+				margin-left: 20px;
+			}
 		  }
 		}
 	}

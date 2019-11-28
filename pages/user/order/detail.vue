@@ -295,17 +295,18 @@
 		methods: {
 			// 货主取消订单
 			sellerCancel(){
-				let unitList = ['已断货','售罄','其他']
+				let itemList = ['已断货','售罄','其他']
+				let _this = this
 				uni.showActionSheet({
 				    itemList,
 				    success: function (res) {
 						let data = {
-							orderId: this.orderId,
-							cancelReason : unitList[res.tapIndex]
+							orderId: _this.orderId,
+							cancelReason : itemList[res.tapIndex]
 						}
 						sellerCancel(data).then(res=>{
 							if(res.code == '1000'){
-								this.getOrderDetailById(this.orderId, this.shopId)
+								_this.getOrderDetailById(_this.orderId, _this.shopId)
 							}
 						})
 				    },

@@ -54,7 +54,7 @@
 		methods: {
 			goGoodsDetail() {
 				uni.navigateTo({
-					url: '/pages/user/order/detail?shopId=' + this.item.shopId + '&orderId=' + this.item.id
+					url: '/pages/order/goodsDetail/goodsDetail?shopId=' + this.item.shopId + '&goodsId=' + this.item.goodsId
 				})
 			},
 		}

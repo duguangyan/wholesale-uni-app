@@ -289,6 +289,9 @@ var vm = {
           if (res.code === '1000') {
             vm.isPay = vm.curItem.curAgent.id !== '';
             vm.order.orderId = res.data[vm.order.shopId].id;
+			uni.redirectTo({
+				url:'/pages/order/orderSuccess/orderSuccess?shopId='+vm.order.shopId + '&orderId=' + vm.order.orderId + '&phone=' + vm.curItem.curAgent.phone
+			})
           } else {
             T.tips(res.message || '提交订单失败');
           }

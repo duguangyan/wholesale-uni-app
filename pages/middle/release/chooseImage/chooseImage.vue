@@ -143,7 +143,7 @@
 						if (res.code == '1000') {
 							if(_this.chooseType == 0){
 								console.log('_this.items:',_this.items)
-								_this.items[_this.chooseIndex].imgs.push(res.data)
+								_this.items[_this.chooseIndex].imgs.push(res.data.url)
 							}else{
 								console.log('_this.items:',_this.items)
 								_this.items[_this.chooseIndex].videos.push(res.data)
