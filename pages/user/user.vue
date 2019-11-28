@@ -103,7 +103,17 @@
 				this.getOrderStat()
 				this.getUserInfoDates()
 			}
-			
+			// 上一页返回
+			this.$eventHub.$on('goBlack', (data) => {
+				this.titles = [
+					{t: '待确认', u: '/static/imgs/icon-1008.png',tip:''},
+					{t: '待支付', u: '/static/imgs/icon-1005.png',tip:''},
+					{t: '待发货', u: '/static/imgs/icon-1006.png',tip:''},
+					{t: '待收货', u: '/static/imgs/icon-1007.png',tip:''},
+					{t: '已完成', u: '/static/imgs/icon-1004.png',tip:''},
+				]
+				this.$eventHub.$off('goBlack');
+			})
 		},
 		computed: {
 		    dPhone() {
@@ -132,7 +142,6 @@
 			},
 			// 统计订单状态条数
 			getOrderStat(){
-				debugger
 				getOrderStat().then(res=>{
 					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
 					if(res.code == '1000'){
