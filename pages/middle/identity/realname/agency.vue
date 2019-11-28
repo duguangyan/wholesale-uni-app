@@ -23,6 +23,9 @@
 					<input type="text" v-model="code" :disabled="disabled" placeholder="请输入邀请码">
 				</view>
 			</view>
+			<view class="fs24 text-999 tip" v-if="!disabled && userRealInfo ==''">
+				邀请码需找销售人员提供
+			</view>
 			<!-- <view class="item-1">
 				<view class="fll">手机号</view>
 				<view class="flr">
@@ -43,7 +46,7 @@
 					<text>{{hasfrom==2?'经营地区':'代办地区'}}</text>
 				</view>
 				<view class="choose cf" @click="showPicker">
-					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?(hasfrom==2?'请选择经营地区':'请选择代办地区'):fullAddress}}</view>
+					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?(hasfrom==2?'请选择经营地区':'请选择代办地区'):this.address.province +"-"+ this.address.city}}</view>
 					<view class="flr" v-if="!disabled">
 						<image src="../../../../static/imgs/right.png"></image>
 					</view>
@@ -94,7 +97,7 @@
 		<view class="big-btn-active"  @click="setBack" v-if="disabled">撤回</view>
 		<view class="height100"></view>
 		<chooseType v-if="isChooseType" :list="categoryTree" @close="chooseTypeClose" @complete="chooseTypeComplete"></chooseType>
-		<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
+		<mpvue-city-picker :themeColor="themeColor" :hasArea='false' ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
 		 @onCancel="onCancel" @onConfirm="onConfirm"></mpvue-city-picker>
 	</view>
 </template>
@@ -254,7 +257,7 @@
 				    sourceType: ['album','camera'], //从相册选择
 				    success: function (res) {
 						const tempFilePaths = res.tempFilePaths;
-						let url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'https://m.qinlvny.com/upms/userImg/upload'
+						let url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'http://wsm.qinlvny.com/upms/userImg/upload'
 						uni.uploadFile({
 							url: url, //仅为示例，非真实的接口地址
 							filePath: tempFilePaths[0],
@@ -494,6 +497,10 @@
 		.user{
 			padding: 0 30upx;
 			border-bottom: 20upx solid #F5F5F5;
+			.tip{
+				line-height: 60upx;
+				margin-left: 140upx;
+			}
 			.item-2{
 				height: 100upx;
 				line-height: 100upx;

@@ -324,7 +324,7 @@
 				getUserRealInfoAll().then((res) => {
 					if (res.code === '1000') {
 						let roleId = res.data.userRole.roleId || ''
-						uni.setStorageSync('nickName', res.data.user.realName || res.data.user.nickName)
+						uni.setStorageSync('nickName', res.data.user.realName || (res.data.userRealInfo?res.data.userRealInfo.realName:'') || res.data.apply.realName)
 						uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
 						uni.setStorageSync('roleId', roleId)
 						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	

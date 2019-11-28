@@ -59,7 +59,7 @@
 
 <script>
 	import TabBar from '@/components/common/TabBar.vue'
-	import { getOrderStat } from '@/api/userApi.js'
+	import { getOrderStat, getUserRealInfoAll } from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
     export default {
         data() {
@@ -101,6 +101,7 @@
 			// 统计订单状态条数
 			if(uni.getStorageSync('access_token')){
 				this.getOrderStat()
+				this.getUserInfoDates()
 			}
 			
 		},
@@ -110,8 +111,28 @@
 		    }
 		},
         methods: {
+			// 获取用户信息
+			getUserInfoDates() {
+				getUserRealInfoAll().then((res) => {
+					if (res.code === '1000') {
+						let roleId = res.data.userRole.roleId || ''
+						uni.setStorageSync('nickName', res.data.user.realName || (res.data.userRealInfo?res.data.userRealInfo.realName:'') || res.data.apply.realName)
+						uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
+						uni.setStorageSync('roleId', roleId)
+						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
+						
+						this.nickName     = uni.getStorageSync('nickName')
+						let imageUrl      = uni.getStorageSync('headImgUrl')
+						this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png'
+						this.roleId       = uni.getStorageSync('roleId') || ''
+						
+					}
+				})
+			},
 			// 统计订单状态条数
 			getOrderStat(){
+				debugger
 				getOrderStat().then(res=>{
 					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
 					if(res.code == '1000'){

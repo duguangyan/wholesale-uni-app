@@ -120,9 +120,12 @@
 			              uni.clearStorageSync() // 清除缓存
 						  uni.setStorageSync('records',records)
 						  uni.setStorageSync('platform',platform)
-			              uni.switchTab({
-			              	url:'/pages/user/user'
-			              })
+			              // uni.switchTab({
+			              // 	url:'/pages/user/user'
+			              // })
+						  uni.navigateBack({
+						  	delta:1
+						  })
 			          } else if (res.cancel) {
 			              console.log('用户点击取消');
 			          }
@@ -161,7 +164,7 @@
 				    sourceType: ['album','camera'], //从相册选择
 				    success: function (res) {
 						const tempFilePaths = res.tempFilePaths;
-						let url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'https://m.qinlvny.com/upms/userImg/upload'
+						let url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'http://wsm.qinlvny.com/upms/userImg/upload'
 						uni.uploadFile({
 							url: url, //仅为示例，非真实的接口地址
 							filePath: tempFilePaths[0],

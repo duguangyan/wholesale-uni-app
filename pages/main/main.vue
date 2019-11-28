@@ -401,7 +401,7 @@
 							item.valueAddr = item.valueAddr.substring(0, 5)
 						})
 						
-						this.listWidth = uni.upx2px(this.homeList.list[3].list[1].goodsDetailRespList.length * 26) + 'px';
+						this.listWidth = uni.upx2px(this.homeList.list[0].list[0].list[0].adPosition.adSet.length * 30) + 'px';
 					}
 				})
 			},
@@ -413,7 +413,7 @@
 
 				if (item.type == 5) {
 					uni.navigateTo({
-						url: '/pages/order/goodsDetail/goodsDetail?shopId=' + item.shopId + '&goodsId=' + item.id
+						url: '/pages/order/goodsDetail/goodsDetail?shopId=' + item.id + '&goodsId=' + item.url
 					});
 				} else if (item.type == 1) {
 					uni.navigateTo({

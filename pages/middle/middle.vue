@@ -38,7 +38,7 @@
 				status: 1, // 登录用户状态
 				roleId: '',
 				userRealInfo:'',
-				userApply:'',
+				userApply:'1',
 				items:[
 					{
 						text:'我是代办',
