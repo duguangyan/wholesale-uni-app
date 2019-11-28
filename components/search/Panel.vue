@@ -10,10 +10,10 @@
           <section ref="area">
             <li
               v-for="(area,index) in list"
-              :class="{actived:filter.place==area}"
+              :class="{actived:filter.areaId==area.id}"
               :key="index"
               @click="getAreas(area)"
-            >{{area}}</li>
+            >{{area.name}}</li>
           </section>
         </div>
         <div v-if="isMoreBtn" class="more" @click="isMoreLocat = !isMoreLocat">
@@ -60,7 +60,8 @@ export default {
         Aimdown
       },
       filter: {
-        place: "",
+        areaLevel: 1,
+        areaId: '',
         priceBegin: "",
         priceEnd: ""
       },
@@ -83,7 +84,12 @@ export default {
   },
   methods: {
 	  getAreas(area){
-		  this.filter.place=area
+      if(this.filter.areaId === area.id){
+        this.filter.areaId = ''
+      }else{
+        this.filter.areaId = area.id
+      }
+		  
 	  },
     close() {
       this.$emit("close", false);
@@ -111,7 +117,8 @@ export default {
     },
     reset() {
       this.filter = {
-        place: "",
+        areaId: "",
+        areaLevel: 1,
         priceBegin: "",
         priceEnd: ""
       };
@@ -144,7 +151,9 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 99;
- 
+    li{
+      list-style: none;
+    }
   .price-area {
     text-align: left;
     position: relative;
