@@ -86,14 +86,21 @@
       <!--    // function payClose：关闭支付弹窗-->
       <!--    // function doPay: 点击支付按钮事件-->
       <Pay :orderId="payOrderId" :platform="platform" ref="pay" :show="isPay" @close="doClose" :price="totalMoney" v-on:doPay="doPay" />
-      <Agent v-if="isAgent" @close="isAgent = false" :list="curItem.agentList" @change="changeAgent" />
+      <!-- <Agent v-if="isAgent" @close="isAgent = false" :list="curItem.agentList" @change="changeAgent" /> -->
+      <view v-show="isAgent" class="agent-dialog">
+        <view name="mask"><view class="mask" @click="isAgent = false"></view></view>
+        <view name="body" class="body">
+          <view class="li" v-for="item in curItem.agentList" :key="item.id" @click="changeAgent(item)">{{item.realName}}</view>
+        </view>
+        <!-- <view class="xx" @click="isAgent = false">x</view> -->
+      </view>
     </div>
   </view>
 </template>
 
 <script>
 import Pay from '@/components/common/Pay.vue';
-import Agent from '@/components/common/Agent.vue';
+// import Agent from '@/components/common/Agent.vue';
 import Checked from '@/static/img/icon-checked.png';
 import Uncheck from '@/static/img/icon-uncheck.png';
 import Plat from '@/static/img/icon-plat.png';
@@ -139,7 +146,7 @@ var vm = {
     };
   },
   components: {
-    Agent,
+    // Agent,
     Pay
   },
   onLoad(options) {
@@ -148,7 +155,7 @@ var vm = {
   },
   onShow() {
     // 设备样式兼容
-    this.platform = uni.getStorageSync('platform')*1;
+    this.platform = uni.getStorageSync('platform') * 1;
     // 上一级传递参数：结算返回的数据
     if (this.isBuyNow) {
       let submitData = JSON.parse(this.submitData);
@@ -333,287 +340,346 @@ export default vm;
 </script>
 
 <style lang="scss" scoped>
-.tips {
-  line-height: 60upx;
-  background: #ffefeb;
-  padding-left: 30upx;
-  position: relative;
-  margin-bottom: 20upx;
-  img {
-    width: 40upx;
-    height: 40upx;
-    vertical-align: top;
-    position: absolute;
-    right: 20upx;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-}
-.submit {
-  min-height: 100vh;
-  background-color: #f0f0f0;
-  .freight-style {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    height: 130upx;
+  .tips {
+    line-height: 60upx;
+    background: #ffefeb;
     padding-left: 30upx;
-    line-height: 1;
-    border-bottom: 1px solid #f0f0f0;
-    .radio {
-      margin-left: 30upx;
-    }
-  }
-  .agent {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    height: 100upx;
-    padding-left: 30upx;
-    .uni-input {
-      margin-left: 30upx;
-      font-size: 28upx;
-    }
-    // margin-bottom: 20upx;
-  }
-  .calc {
-    line-height: 90upx;
-    text-align: right;
-    // padding-right: 30upx;
-  }
-  .list {
-    /*margin-top: 50upx;*/
-    margin-bottom: 30upx;
-    overflow: auto;
-    .count {
+    position: relative;
+    margin-bottom: 20upx;
+    img {
+      width: 40upx;
+      height: 40upx;
+      vertical-align: top;
       position: absolute;
-      bottom: 20upx;
       right: 20upx;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  .submit {
+    min-height: 100vh;
+    background-color: #f0f0f0;
+    .freight-style {
       display: flex;
       align-items: center;
-      input {
-        width: 84upx;
-        height: 44upx;
-        line-height: 44upx;
-        background-color: #f5f5f5;
-        margin-left: 8upx;
-        margin-right: 8upx;
-        font-size: 22upx;
-        color: #333;
-        text-align: center;
-        border: none;
-        outline: none;
+      background: #fff;
+      height: 130upx;
+      padding-left: 30upx;
+      line-height: 1;
+      border-bottom: 1px solid #f0f0f0;
+      .radio {
+        margin-left: 30upx;
       }
     }
-    .parent-title {
-      // margin-top: 30upx;
-      padding-bottom: 30upx;
-      padding-top: 30upx;
-      font-size: 28upx;
-
-      .text {
-        margin-left: 20upx;
+    .agent {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      height: 100upx;
+      padding-left: 30upx;
+      .uni-input {
+        margin-left: 30upx;
         font-size: 28upx;
-        position: relative;
-        top: -4upx;
       }
-      .plat {
-        width: 40upx;
-        height: 40upx;
-        position: relative;
-        top: -7upx;
-        > img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .parent-icon {
-        width: 34upx;
-        height: 34upx;
-        margin: 4upx 0upx 0 30upx;
-        img {
-          width: 100%;
-        }
-      }
+      // margin-bottom: 20upx;
     }
-
-    ul {
-      li {
-        background: #fff;
-        padding-top: 20upx;
-        position: relative;
-        padding: 0 30upx;
-        .icon {
-          width: 34upx;
-          height: 34upx;
-          margin-right: 30upx;
-          margin-top: 80upx;
-          img {
-            width: 100%;
-          }
+    .calc {
+      line-height: 90upx;
+      text-align: right;
+      // padding-right: 30upx;
+    }
+    .list {
+      /*margin-top: 50upx;*/
+      margin-bottom: 30upx;
+      overflow: auto;
+      .count {
+        position: absolute;
+        bottom: 20upx;
+        right: 20upx;
+        display: flex;
+        align-items: center;
+        input {
+          width: 84upx;
+          height: 44upx;
+          line-height: 44upx;
+          background-color: #f5f5f5;
+          margin-left: 8upx;
+          margin-right: 8upx;
+          font-size: 22upx;
+          color: #333;
+          text-align: center;
+          border: none;
+          outline: none;
         }
-        .img {
-          width: 200upx;
-          height: 200upx;
-          border-radius: 20upx;
-          overflow: hidden;
-          img {
+      }
+      .parent-title {
+        // margin-top: 30upx;
+        padding-bottom: 30upx;
+        padding-top: 30upx;
+        font-size: 28upx;
+
+        .text {
+          margin-left: 20upx;
+          font-size: 28upx;
+          position: relative;
+          top: -4upx;
+        }
+        .plat {
+          width: 40upx;
+          height: 40upx;
+          position: relative;
+          top: -7upx;
+          > img {
             width: 100%;
             height: 100%;
           }
         }
-        .info {
-          width: 460upx;
-
-          .s1 {
-            width: 320upx;
+        .parent-icon {
+          width: 34upx;
+          height: 34upx;
+          margin: 4upx 0upx 0 30upx;
+          img {
+            width: 100%;
           }
-          .p1 {
-            // height: 80upx;
-            .flr {
+        }
+      }
+
+      ul {
+        li {
+          background: #fff;
+          padding-top: 20upx;
+          position: relative;
+          padding: 0 30upx;
+          .icon {
+            width: 34upx;
+            height: 34upx;
+            margin-right: 30upx;
+            margin-top: 80upx;
+            img {
+              width: 100%;
+            }
+          }
+          .img {
+            width: 200upx;
+            height: 200upx;
+            border-radius: 20upx;
+            overflow: hidden;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .info {
+            width: 460upx;
+
+            .s1 {
+              width: 320upx;
+            }
+            .p1 {
+              // height: 80upx;
+              .flr {
+                position: relative;
+                right: -20upx;
+              }
+            }
+            .p2 {
+              position: absolute;
+              bottom: 0upx;
+              color: #fc2d2d;
+            }
+            .p3 {
+              display: inline-block;
+              width: 120upx;
+              height: 32upx;
+              line-height: 32upx;
+              text-align: center;
+              border-radius: 28upx;
+              background: #f5f5f5;
+              color: #666;
+              font-size: 24upx;
+              position: absolute;
+              bottom: 20upx;
+            }
+            .p4 {
+              // background: #f5f5f5;
+              // border-radius: 20rpx;
+              display: inline-block;
+              // padding: 4upx  4upx 14upx;
+              padding: 4upx 0;
+              margin-top: 2upx;
+              color: #999;
+            }
+            .p5 {
               position: relative;
+              top: -38upx;
               right: -20upx;
             }
           }
-          .p2 {
-            position: absolute;
-            bottom: 0upx;
-            color: #fc2d2d;
+          .info-edit {
+            width: 460upx;
           }
-          .p3 {
-            display: inline-block;
-            width: 120upx;
-            height: 32upx;
-            line-height: 32upx;
-            text-align: center;
-            border-radius: 28upx;
-            background: #f5f5f5;
-            color: #666;
-            font-size: 24upx;
-            position: absolute;
-            bottom: 20upx;
-          }
-          .p4 {
-            // background: #f5f5f5;
-            // border-radius: 20rpx;
-            display: inline-block;
-            // padding: 4upx  4upx 14upx;
-            padding: 4upx 0;
-            margin-top: 2upx;
-            color: #999;
-          }
-          .p5 {
-            position: relative;
-            top: -38upx;
-            right: -20upx;
-          }
-        }
-        .info-edit {
-          width: 460upx;
         }
       }
     }
-  }
-  .list {
-    // padding: 0 30upx 0 30upx;
-    background-color: #fff;
-    // margin-top: 20upx;
-    .title {
-      padding: 0 0 10upx 0;
-      display: flex;
-      justify-content: flex-start;
-      font-size: 24upx;
-      .platform {
-        color: #000;
-        margin-left: 10upx;
-        font-weight: bold;
-        flex-grow: 1;
-      }
-      .status {
-        color: #fc2d2d;
+    .list {
+      // padding: 0 30upx 0 30upx;
+      background-color: #fff;
+      // margin-top: 20upx;
+      .title {
+        padding: 0 0 10upx 0;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 24upx;
+        .platform {
+          color: #000;
+          margin-left: 10upx;
+          font-weight: bold;
+          flex-grow: 1;
+        }
+        .status {
+          color: #fc2d2d;
+        }
       }
     }
-  }
 
-  .others {
-    background-color: #fff;
-    margin-top: 20upx;
-    // padding: 0 30upx;
-    color: #000;
-    font-size: 24upx;
-    // margin-bottom: 200upx;
-    div {
+    .others {
+      background-color: #fff;
+      margin-top: 20upx;
+      // padding: 0 30upx;
+      color: #000;
+      font-size: 24upx;
+      // margin-bottom: 200upx;
+      div {
+        line-height: 90upx;
+      }
+      div:not(:last-child) {
+        border-bottom: 1upx solid #f0f0f0;
+      }
+      .freight {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .mark {
+        align-items: center;
+        display: flex;
+        justify-content: flex-start;
+        input {
+          margin-left: 20upx;
+          font-size: 24upx;
+          border: none;
+          width: 88%;
+          outline: none;
+          color: #333;
+        }
+      }
+    }
+
+    .operator {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      left: 0;
+      background-color: #fff;
+      padding: 0 30upx;
+      height: 100upx;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 30upx;
+      .nums {
+        color: #000;
+        margin-right: 30upx;
+      }
+      .total-price {
+        color: #000;
+        span {
+          color: #f5222d;
+          font-weight: bold;
+          font-size: 32upx;
+          &::before {
+            content: '￥';
+            font-weight: normal;
+            font-size: 28upx;
+            display: inline-block;
+          }
+        }
+      }
+      .btn {
+        background-color: #d9d9d9;
+        color: #fff;
+        text-align: center;
+        border-radius: 36upx;
+        width: 180upx;
+        line-height: 72upx;
+        position: absolute;
+        right: 90upx;
+      }
+      .active {
+        background-color: #fc2d2d;
+      }
+      .platform1 {
+        top: 15upx !important;
+      }
+    }
+  }
+  .agent-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    overflow: hidden;
+    height: 1000upx;
+    // background: red;
+    .li {
+      line-height: 90upx;
+      border-bottom: #f0f0f0 2upx solid;
+      text-align: center;
+      color: #333;
+      font-size: 28upx;
+    }
+    .xx {
+      position: absolute;
+      z-index: 999;
+      bottom: 100upx;
+      left: 50%;
+      margin-left: -50upx;
+      color: #fff;
+      font-size: 60upx;
+      width: 100upx;
+      height: 100upx;
+      background: #000;
+      border-radius: 50%;
+      text-align: center;
       line-height: 90upx;
     }
-    div:not(:last-child) {
-      border-bottom: 1upx solid #f0f0f0;
+    .mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      background-color: rgba(0, 0, 0, 0.3);
+      height: 100%;
     }
-    .freight {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .mark {
-      align-items: center;
-      display: flex;
-      justify-content: flex-start;
-      input {
-        margin-left: 20upx;
-        font-size: 24upx;
-        border: none;
-        width: 88%;
-        outline: none;
-        color: #333;
+    .body {
+      background-color: #fff;
+      height: 750upx;
+      position: fixed;
+      z-index: 2;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      color: #000;
+      overflow-y: auto;
+      .close {
+        position: absolute;
+        right: 20upx;
+        top: 0;
       }
     }
   }
-
-  .operator {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    background-color: #fff;
-    padding: 0 30upx;
-    height: 100upx;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: 30upx;
-    .nums {
-      color: #000;
-      margin-right: 30upx;
-    }
-    .total-price {
-      color: #000;
-      span {
-        color: #f5222d;
-        font-weight: bold;
-        font-size: 32upx;
-        &::before {
-          content: '￥';
-          font-weight: normal;
-          font-size: 28upx;
-          display: inline-block;
-        }
-      }
-    }
-    .btn {
-      background-color: #d9d9d9;
-      color: #fff;
-      text-align: center;
-      border-radius: 36upx;
-      width: 180upx;
-      line-height: 72upx;
-      position: absolute;
-      right: 90upx;
-    }
-    .active {
-      background-color: #fc2d2d;
-    }
-    .platform1 {
-      top: 15upx !important;
-    }
-  }
-}
 </style>
