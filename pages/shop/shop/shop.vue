@@ -6,8 +6,8 @@
       </div>
       <div>
         <div class="shop-name fs30">{{shopInfo.shopName}}</div>
-        <div class="shop-cla fs24">{{shopInfo.categoryName}}</div>
-        <div class="shop-ad fs24">{{shopInfo.address}}</div>
+        <div class="shop-cla fs24">主营:{{shopInfo.categoryName}}</div>
+        <div class="shop-ad fs24">经营地:{{shopInfo.address}}</div>
       </div>
     </div>
     <div class="count fs30 text-999">供应({{list.length}})</div>
