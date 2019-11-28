@@ -1,5 +1,5 @@
 <template>
-	<div class="good-detail" v-if="opt">
+	<view class="good-detail" v-if="opt">
 		<view class="top">
 			<view class="tips cf">
 				<!-- <view class="fll" @click="goBack">
@@ -21,9 +21,9 @@
 							 :duration="duration">
 								<swiper-item v-for="(item,index) in imageList" :key="index">
 									<view class="swiper-item">
-										<div v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
+										<view v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
 											<image class='img1' src="../../../static/img/play.png" mode="aspectFit"></image>
-										</div>
+										</view>
 										<image class="imgloading" v-if='imgLoading' src="../../../static/img/timg.gif" mode=""></image>
 										<image @load='imgLoad' :lazy-load="true" :src="item.imgUrl"></image>
 									</view>
@@ -36,197 +36,197 @@
 			<SwiperDot class="dot" :current="cur" :list="imageList"></SwiperDot>
 		</view>
 		
-		<div class="overall">
-			<div v-if="good.goods.showStyle==3 || good.goods.showStyle==1">
-				<span class="price">{{good.goods.minPrice || 0}} <span class="fs24 text-000" v-if="good.goodsSkuList.length <= 1">{{'/'+good.goods.unitName}}</span></span>
-				<span v-if="good.goodsSkuList.length > 1">
-					<span class="text-red">&nbsp;~&nbsp;</span>
-					<span class="price"><span>{{good.goods.maxPrice || 0}}</span></span>
-					<span class="unit" v-if="good.goods.unitName">{{'/'+good.goods.unitName}}</span>
-				</span>
-			</div>
-			<div v-if="good.goods.showStyle==2" class="cf goodsPrice">
-				<div v-for="(item,index) in good.goodsList" :key="index" class="fll" :class="{'left1': good.goodsList.length == 1, 'left2': good.goodsList.length == 2}">
-					<div class="multi-price">
-						<span>{{item.price || 0}}</span>
-						<span v-if="good.goods.unitName">/{{good.goods.unitName}}</span>
-					</div>
-					<div class="multi-sta">{{item.startNum}}{{good.goods.unitName}}起批</div>
-				</div>
-			</div>
-			<div v-if="good.goods.showStyle!=1 && good.goods.showStyle!=2 && good.goods.showStyle!=3">
-				<span class="price" v-if="good.goods.minPrice">{{good.goods.minPrice || 0}} <span v-if="good.goods.maxPrice">~ {{good.goods.maxPrice || 0}}</span></span>
-				<span class="unit" v-if="good.goods.unitName">{{'/'+good.goods.unitName}}</span>
-			</div>
-		</div>
+		<view class="overall">
+			<view v-if="good.goods.showStyle==3 || good.goods.showStyle==1">
+				<text class="price">{{good.goods.minPrice || 0}} <text class="fs24 text-000" v-if="good.goodsSkuList.length <= 1">{{'/'+good.goods.unitName}}</text></text>
+				<text v-if="good.goodsSkuList.length > 1">
+					<text class="text-red">&nbsp;~&nbsp;</text>
+					<text class="price"><text>{{good.goods.maxPrice || 0}}</text></text>
+					<text class="unit" v-if="good.goods.unitName">{{'/'+good.goods.unitName}}</text>
+				</text>
+			</view>
+			<view v-if="good.goods.showStyle==2" class="cf goodsPrice">
+				<view v-for="(item,index) in good.goodsList" :key="index" class="fll" :class="{'left1': good.goodsList.length == 1, 'left2': good.goodsList.length == 2}">
+					<view class="multi-price">
+						<text>{{item.price || 0}}</text>
+						<text v-if="good.goods.unitName">/{{good.goods.unitName}}</text>
+					</view>
+					<view class="multi-sta">{{item.startNum}}{{good.goods.unitName}}起批</view>
+				</view>
+			</view>
+			<view v-if="good.goods.showStyle!=1 && good.goods.showStyle!=2 && good.goods.showStyle!=3">
+				<text class="price" v-if="good.goods.minPrice">{{good.goods.minPrice || 0}} <text v-if="good.goods.maxPrice">~ {{good.goods.maxPrice || 0}}</text></text>
+				<text class="unit" v-if="good.goods.unitName">{{'/'+good.goods.unitName}}</text>
+			</view>
+		</view>
 
-		<div class="good-name">{{good.goods.name}}</div>
+		<view class="good-name">{{good.goods.name}}</view>
 
-		<div class="info">
-			<span>{{good.goods.hits || 0}}人看过</span>
-			<span>{{good.goods.spuSalesNum || 0}}订单数</span>
-			<div v-if="postType!==0" class="span" @click="goPostSetting(good.goods.postSettingId)">运费说明 <div class="icon-right"><img src="@/static/img/icon-right.png"></div> </div>
-			<span v-else class="limit-block">全国包邮</span>
-		</div>
+		<view class="info">
+			<text>{{good.goods.hits || 0}}人看过</text>
+			<text>{{good.goods.spuSalesNum || 0}}订单数</text>
+			<view v-if="postType!==0" class="text" @click="goPostSetting(good.goods.postSettingId)">运费说明 <view class="icon-right"><img src="@/static/img/icon-right.png"></view> </view>
+			<text v-else class="limit-block">全国包邮</text>
+		</view>
 		
-		<div v-if="good.goods.showStyle==3 || good.goods.showStyle==1 && good.goodsSkuList.length > 1" class="standard">
-		      <div class="tag1">
-		        <span>—</span>  <span>规格</span> <span>—</span>
-		      </div>
+		<view v-if="good.goods.showStyle==3 || good.goods.showStyle==1 && good.goodsSkuList.length > 1" class="standard">
+		      <view class="tag1">
+		        <text>—</text>  <text>规格</text> <text>—</text>
+		      </view>
 		      <li v-for="(item,index) in good.standardList" :key="index" v-show="index<3">
-		        <span v-for="(sta,staIdx) in item" :key="staIdx" :class="{'fix-block':staIdx == item.length-1}">{{sta}}</span>
+		        <text v-for="(sta,staIdx) in item" :key="staIdx" :class="{'fix-block':staIdx == item.length-1}">{{sta}}</text>
 		      </li>
-		      <div v-if="good.standardList.length > 3" class="check-more" @click="isStandard = true">查看更多
-				<div class="icon">
+		      <view v-if="good.standardList.length > 3" class="check-more" @click="isStandard = true">查看更多
+				<view class="icon">
 					<img src="@/static/img/tag-go.png">
-				</div>
-			  </div>
-		    </div>
-		<div class="line"></div>
+				</view>
+			  </view>
+		    </view>
+		<view class="line"></view>
     
-    <div class="shop">
+    <view class="shop">
       <img src="@/static/img/icon-user.png" alt="">
-      <span>货主:{{good.userRealInfoVo.realName}}</span>
-      <div @click="navToShop">查看店铺</div>
-    </div>
+      <text class="master">货主:{{good.userRealInfoVo.realName}}</text>
+      <view @click="navToShop">查看店铺</view>
+    </view>
     
-    <div class="line"></div>
+    <view class="line"></view>
     
-		<div class="props">
-			<div class="tag1">
-				<span>—</span> <span>商品属性</span> <span>—</span>
-			</div>
+		<view class="props">
+			<view class="tag1">
+				<text>—</text> <text>商品属性</text> <text>—</text>
+			</view>
 			<li v-for="(item,index) in good.goodsDetailAttrList" :key="index">
-				<span>{{item.name}}:</span>
-				<span v-if="item.inputType === 0">{{item.goodsDetailAttrValueList[0].remark}}</span>
-				<span v-else v-for="attr in item.goodsDetailAttrValueList" :key="attr.id">{{attr.value}}&ensp;</span>
+				<text>{{item.name}}:</text>
+				<text v-if="item.inputType === 0">{{item.goodsDetailAttrValueList[0].remark}}</text>
+				<text v-else v-for="attr in item.goodsDetailAttrValueList" :key="attr.id">{{attr.value}}&ensp;</text>
 			</li>
-		</div>
-		<div class="line" v-if="good.goodsDetailAttrList.length>0"></div>
-		<div class="det">
-			<div class="tag1">
-				<span>—</span>  <span>商品详情</span> <span>—</span>
-			</div>
-			<div class="txt">{{good.goods.detail}}</div>
-			<div class="tag2" v-for="(item,index) in imageList" :key="index" >
-				<!-- <div v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
+		</view>
+		<view class="line" v-if="good.goodsDetailAttrList.length>0"></view>
+		<view class="det">
+			<view class="tag1">
+				<text>—</text>  <text>商品详情</text> <text>—</text>
+			</view>
+			<view class="txt">{{good.goods.detail}}</view>
+			<view class="tag2" v-for="(item,index) in imageList" :key="index" >
+				<!-- <view v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
 					<image class='img2' src="../../../static/img/play.png" mode=""></image>
-				</div> -->
+				</view> -->
 				<img class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
-			</div>
+			</view>
 			
-		</div>
+		</view>
 
-		<div class="goodsTitle" v-if="isGoodsTitle">{{goodsTitle}}</div>
+		<view class="goodsTitle" v-if="isGoodsTitle">{{goodsTitle}}</view>
 
 
 
 		<!-- 0 待审核 1待修改 2申请驳回 3上架 4下架 -->
-		<div class="operator flex" v-if="good.goods.status == 3">
-			<div class="fir flex-1">
-				<div @click="changeCollect">
+		<view class="operator flex" v-if="good.goods.status == 3">
+			<view class="fir flex-1">
+				<view @click="changeCollect">
 					<img class="icon-18" src="@/static/imgs/icon-shop.png" />
-					<div>店铺</div>
-				</div>
-				<div tag="div" @click="goCart">
-					<div class="icon-15">
+					<view>店铺</view>
+				</view>
+				<view tag="div" @click="goCart">
+					<view class="icon-15">
 						<img class="icon-order" src="@/static/imgs/icon-phone.png" />
-					</div>
-					<div class="cart-text">
+					</view>
+					<view class="cart-text">
 						联系代办
-						<!-- <div v-show="counter > 0">{{counter}}</div> -->
-					</div>
-				</div>
-			</div>
+						<!-- <view v-show="counter > 0">{{counter}}</view> -->
+					</view>
+				</view>
+			</view>
 
 			
-			<div class="flex-2" v-if="good.isInvalid || good.goods.status!=3">
-				<div class="add" @click="goHome">再去逛逛</div>
-			</div>
-			<div class="flex-2" v-if="good.goods.status!=4 && !(good.isInvalid || good.goods.status!=3)">
-				<div class=" flex" v-if="!good.isInvalid || good.goods.status==3">
+			<view class="flex-2" v-if="good.isInvalid || good.goods.status!=3">
+				<view class="add" @click="goHome">再去逛逛</view>
+			</view>
+			<view class="flex-2" v-if="good.goods.status!=4 && !(good.isInvalid || good.goods.status!=3)">
+				<view class=" flex" v-if="!good.isInvalid || good.goods.status==3">
 					<!--  #ifdef  H5 || APP-PLUS -->
-					<div class="add flex-1" @click="showConfirm('/cart')">加入进货单</div>
-					<div class="buy flex-1" @click="showConfirm('/submit')">立即购买</div>
+					<view class="add flex-1" @click="showConfirm('/cart')">加入进货单</view>
+					<view class="buy flex-1" @click="showConfirm('/submit')">立即购买</view>
 					<!--  #endif -->
 					<!--  #ifdef  MP-WEIXIN -->
-					<div class="add flex-1">
+					<view class="add flex-1">
 						<form @submit="showConfirm1($event,'/cart')" report-submit="true">
 							<button form-type="submit">加入进货单</button>
 						</form>
-					</div>
-					<div class="buy flex-1">
+					</view>
+					<view class="buy flex-1">
 						<form @submit="showConfirm1($event,'/submit')" report-submit="true">
 							<button form-type="submit">立即购买</button>
 						</form>
-					</div>
+					</view>
 					<!--  #endif -->
-				</div>
-			</div>
+				</view>
+			</view>
 			
-		</div>
+		</view>
 
 		<!-- <Confirm :goodsId='goodsId' :shopId='shopId' :show="isSure" @close="isSure = false" :nav="nav" :good="good" @update="getUpdate" /> -->
 
 		<view v-show="isSure" class="good-confirm" :animation="animation">
 			<transition name="mask">
-				<div v-show="isSure" class="mask" @click="isSure = false"></div>
+				<view v-show="isSure" class="mask" @click="isSure = false"></view>
 			</transition>
 			<transition name="body">
-				<div v-show="isSure" class="body">
-					<div class="good">
-						<div class="photo">
+				<view v-show="isSure" class="body">
+					<view class="good">
+						<view class="photo">
 							<img class="icon-90" :src="good.goods.imgUri" width="90" height="90" alt />
-						</div>
-						<div class="unit fg1">
+						</view>
+						<view class="unit fg1">
 							{{totalPrice}}
-							<span>/{{good.goods.unitName}}</span>
-						</div>
+							<text>/{{good.goods.unitName}}</text>
+						</view>
 						<img class="icon-155" src="@/static/img/tag-close2.png" @click="isSure = false" />
-					</div>
+					</view>
 
 					<!-- 多规格 -->
-					<div v-if="good.goods.showStyle!=2" class="standard">
-						<div v-for="(spec,index) in good.goodsDetailSpecList" :key="spec.id">
-							<div class="sta-name">{{spec.name}}</div>
-							<div class="sta-item cf">
-								<div class='fll' v-for="(opt,ii) in spec.goodsDetailSpecValueList" :key="ii">
-									<div v-if="index == deep - 1">
-										<!-- <span :class="[!getStatus(opt.value)&&curs[index]['key']==opt.value?'actived':'',getStatus(opt.value)?'disabled':'']"
-										 :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}{{good.sufName}}/{{good.goods.unitName}}</span> -->
-										 <span :class="[!getStatus(opt.value)&&curs[index]['key']==opt.value?'actived':'',getStatus(opt.value)?'disabled':'']"
-										  :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}{{good.sufName}}</span>
-									</div>
-									<div v-if="index != deep - 1">
-										<span :class="{actived: curs[index]['key']===opt.value}" :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					<view v-if="good.goods.showStyle!=2" class="standard">
+						<view v-for="(spec,index) in good.goodsDetailSpecList" :key="spec.id">
+							<view class="sta-name">{{spec.name}}</view>
+							<view class="sta-item cf">
+								<view class='fll' v-for="(opt,ii) in spec.goodsDetailSpecValueList" :key="ii">
+									<view v-if="index == deep - 1">
+										<!-- <text :class="[!getStatus(opt.value)&&curs[index]['key']==opt.value?'actived':'',getStatus(opt.value)?'disabled':'']"
+										 :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}{{good.sufName}}/{{good.goods.unitName}}</text> -->
+										 <text :class="[!getStatus(opt.value)&&curs[index]['key']==opt.value?'actived':'',getStatus(opt.value)?'disabled':'']"
+										  :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}{{good.sufName}}</text>
+									</view>
+									<view v-if="index != deep - 1">
+										<text :class="{actived: curs[index]['key']===opt.value}" :key="opt.id" @click="selOption(opt.value,index)">{{opt.value}}</text>
+									</view>
+								</view>
+							</view>
+						</view>
+					</view>
 
-					<div class="count">
-						<span class="fg1">数量</span>
-						<div class="input cf">
-							<div class="fll" v-show="nums>startNum" @tap="doDecrease">-</div>
+					<view class="count">
+						<text class="fg1">数量</text>
+						<view class="input cf">
+							<view class="fll" v-show="nums>startNum" @tap="doDecrease">-</view>
 							<input class="fll" v-model="nums" type="number" @blur="checkNum($event)" />
-							<div class="flr" v-show="nums<stock"  @tap="doIncrease">+</div>
-						</div>
+							<view class="flr" v-show="nums<stock"  @tap="doIncrease">+</view>
+						</view>
 
-					</div>
-					<div class="money">
-						<span class="fg1">商品金额</span>
-						<span class="price">{{payPrice}}</span>
-					</div>
-					<div class="btn" @click="navigate">确定</div>
-				</div>
+					</view>
+					<view class="money">
+						<text class="fg1">商品金额</text>
+						<text class="price">{{payPrice}}</text>
+					</view>
+					<view class="btn" @click="navigate">确定</view>
+				</view>
 			</transition>
 		</view>
 
 		<Share :img='imageList[0].imgUrl' :name="good.goods.name" :shopId='shopId' :goodsId='goodsId' :show="isShare" @close="isShare = false" />
 		<Standard v-if="good.standardList.length>3" :show="isStandard" :list="good.standardList" @close="isStandard = false" />
 		
-	</div>
+	</view>
 </template>
 
 <script>
@@ -832,12 +832,12 @@
       padding: 0 30upx;
       line-height: 120upx;
       align-items: center;
-      span{
+      .master{
         font-size: 30upx;
         color: #333;
         flex-grow: 1;
       }
-      div{
+      view{
         font-size: 24upx;
         width: 120upx;
         height: 60upx;
@@ -981,6 +981,8 @@
 
 		.overall {
 			.goodsPrice{
+        display: flex;
+        width: 100%;
 				.fll{
 					width: 33%;
 				}
@@ -1046,7 +1048,7 @@
 				color: #f5222d;
 				text-align: center;
 
-				span {
+				text {
 					color: #000;
 					font-weight: normal;
 				}
@@ -1103,7 +1105,7 @@
 				}
 				display: inline-block;
 			}
-			.span{
+			.text{
 				height: 100%;
 			}
 		}
@@ -1152,7 +1154,7 @@
 			font-weight: 600;
 			font-size: 24upx;
 			// margin-top: 30upx;
-			span {
+			text {
 				margin: 0 10upx;
 				color: #333;
 			}
@@ -1179,7 +1181,7 @@
 				display: flex;
 				position: relative;
 					
-				span:first-child {
+				text:first-child {
 					width: 160upx;
 					display: inline-block;
 				}
@@ -1472,7 +1474,7 @@
 					// width: 150upx;
 					margin-right: 60upx;
 				}
-				span {
+				text {
 					display: inline-block;
 					// margin-right: 60upx;
 					padding: 0 20upx;
@@ -1540,7 +1542,7 @@
 						line-height: 1;
 						margin-left: 20upx;
 
-						span {
+						text {
 							color: #000;
 							font-size: 24upx;
 						}

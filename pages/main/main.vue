@@ -46,7 +46,7 @@
 		</view>
 		<!-- nav导航 -->
 		<view class="nav cf">
-			<view class="li fll" v-for="(item,index) in homeList.list[1].list[0].list" :key="index" @click="goSearchPage(item.name)">
+			<view class="li fll" v-for="(item,index) in homeList.list[1].list[0].list" :key="index" @click="goSearchPage(item.componentId)">
 				<view class="img">
 					<image :src="item.imgPath"></image>
 				</view>
@@ -381,7 +381,7 @@
 			// nav 去搜索页面
 			goSearchPage(name) {
 				uni.navigateTo({
-					url: '/pages/order/goodsList/goodsList?search=' + name
+					url: '/pages/order/goodsList/goodsList?categoryId=' + name
 				})
 			},
 			// 去搜索页面

@@ -5,16 +5,6 @@
       <img src="@/static/imgs/icon-close3.png" alt="" @click="isTips = false" />
     </div>
     <div class="submit">
-      <!-- <div class="address" @click="goAddress">
-        <div v-if="address == ''" class="addAd" to="/adedit">请添加收货地址</div>
-        <div v-if="address != ''" class="div">
-          <div class="ad-title">收货人: {{ address.name }}</div>
-          <div class="ad-det">收货地址:{{ address.province + address.city + address.region + address.address }}</div>
-          <div class="icon-right"><img class="tag-go" src="@/static/img/tag-go.png" width="10" height="10" alt /></div>
-        </div>
-        <div class="icon-bg"><img src="@/static/img/bg-line.png" alt="" /></div>
-      </div> -->
-
       <div class="freight-style fs28">
         <div>物流方式:</div>
         <radio-group @change="changeSendType">
@@ -87,7 +77,7 @@
           合计:&ensp;
           <span>{{ totalMoney }}</span>
         </div>
-        <div class="btn" v-bind:class="{ active: true, platform1: platform == 2 }" @click="showPay">提交订单</div>
+        <div class="btn" v-bind:class="{ active: curItem.curAgent.id, platform1: platform == 2 }" @click="showPay">提交订单</div>
       </div>
       <!--    // orderId：支付订单-->
       <!--    // show：支付上拉框是否弹起-->
@@ -96,7 +86,7 @@
       <!--    // function payClose：关闭支付弹窗-->
       <!--    // function doPay: 点击支付按钮事件-->
       <Pay :orderId="payOrderId" :platform="platform" ref="pay" :show="isPay" @close="doClose" :price="totalMoney" v-on:doPay="doPay" />
-      <Agent v-if="isAgent" :show="isAgent" @close="isAgent = false" :list="curItem.agentList" @change="changeAgent" />
+      <Agent v-if="isAgent" @close="isAgent = false" :list="curItem.agentList" @change="changeAgent" />
     </div>
   </view>
 </template>
@@ -297,57 +287,12 @@ var vm = {
           T.tips(err.message || '提交订单失败');
         });
     },
-    // 根据地址获取新数据
-    // getOrderCartByAddress(addressId) {
-    //   let userId = uni.getStorageSync('uid');
-    //   let data = {
-    //     userId,
-    //     cartIdList: this.cartIdList,
-    //     addressId: this.address.id,
-    //     postscript: this.message
-    //   };
-
-    //   if (this.isBuyNow) {
-    //     let submitData = JSON.parse(this.submitData);
-    //     this.totalMoney = submitData.totalMoney;
-    //     this.deliverMoney = submitData.deliverMoney;
-    //   } else {
-    //     getOrderCart(data)
-    //       .then(res => {
-    //         if (res.code === '1000') {
-    //           this.totalMoney = res.data.totalMoney;
-    //           this.deliverMoney = res.data.deliverMoney;
-    //         }
-    //       })
-    //       .catch(err => {
-    //         T.tips(err.message || '结算失败');
-    //       });
-    //   }
-    // },
-    // 提交订单
-    // submit() {
-    //   if (this.address === '') {
-    //     T.tips('请选择收货地址');
-    //     return false;
-    //   }
-    // },
     // 去详情
     goDetail(shopId, orderId) {
       uni.navigateTo({
         url: '/pages/user/order/detail?shopId=' + shopId + '&goodsId=' + orderId
       });
     },
-    // // 获取默认地址
-    // getAddressDefAddress() {
-    //   getAddressDefAddress().then(res => {
-    //     if (res.code === '1000') {
-    //       if (res.data) {
-    //         this.address = res.data;
-    //         this.getOrderCartByAddress(this.address.id);
-    //       }
-    //     }
-    //   });
-    // },
     // 获取数据
     getCartList() {
       getCartOrderList()
@@ -395,6 +340,7 @@ export default vm;
   position: relative;
   margin-bottom: 20upx;
   img {
+    width: 40upx;
     height: 40upx;
     vertical-align: top;
     position: absolute;
@@ -568,74 +514,6 @@ export default vm;
       }
     }
   }
-  .address {
-    height: 150upx;
-    background-color: #fff;
-    border-top: solid 1upx #f0f0f0;
-    position: relative;
-    line-height: 1;
-    .div {
-      padding: 0 60upx 0 30upx;
-      position: relative;
-      .icon-right {
-        width: 20upx;
-        height: 20upx;
-        position: absolute;
-        right: 30upx;
-        top: 30upx;
-        > img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
-    .icon-bg {
-      height: 6upx;
-      width: 100%;
-      position: absolute;
-      bottom: 30upx;
-      > img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .tag-go {
-      // position: absolute;
-      // right: 30upx;
-      // top: 50%;
-    }
-    .addAd {
-      margin-left: auto;
-      margin-right: auto;
-      width: 300upx;
-      line-height: 64upx;
-      text-align: center;
-      border-radius: 32upx;
-      // box-shadow: 0 0 0 1upx #d9d9d9 inset;
-      border: 1upx solid #d9d9d9;
-      font-size: 28upx;
-      color: #000;
-      position: relative;
-      top: 40upx;
-    }
-    .ad-title {
-      margin-top: 26upx;
-      color: #000;
-      font-size: 30upx;
-    }
-    .ad-det {
-      margin-top: 22upx;
-      font-size: 24upx;
-      color: #666;
-      &::after {
-        content: '';
-        display: block;
-        width: 20upx;
-        height: 20upx;
-      }
-    }
-  }
-
   .list {
     // padding: 0 30upx 0 30upx;
     background-color: #fff;

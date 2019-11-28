@@ -13,7 +13,7 @@ var vm = {
   props: {
     show: {
       type: Boolean,
-      default: false
+      default: true
     },
     list: {
       type: Array,
