@@ -82,7 +82,9 @@
 				attribute:'',
 				price:'',
 				goodsImg:'',
-				goodsImgList:[],
+				goodsImgList:[
+					{imgs:[]}
+				],
 				goodsImgLists:[],
 				goodsSkuList:[],
 				goodsId:'',
@@ -99,9 +101,9 @@
 		},
 		onHide() {
 			console.log('------------onHide')
-			if(this.goodsId!='' && this.shopId!=''){
-				this.doClearStorageSync()
-			}
+			// if(this.goodsId!='' && this.shopId!=''){
+			// 	this.doClearStorageSync()
+			// }
 		},
 		onLoad(options) {
 			// 货主编辑商品
@@ -122,9 +124,7 @@
 		},
 		onShow() {
 			// 获取缓存数据
-			if(this.goodsId=='' && this.shopId==''){
-				this.getStorageSyncBySelf()
-			}
+			this.getStorageSyncBySelf()
 			
 		},
 		methods:{
@@ -160,6 +160,7 @@
 						this.assembleAttrList(res)
 						// 编辑商品详情 ->货品价格
 						this.assembleGoodsSkuList(res)
+						
 						
 						// 货品标题
 						this.goodsTitile = res.data.goodsDetail.goods.name
@@ -223,7 +224,7 @@
 						uni.setStorageSync('addCategoryAddress',JSON.stringify(address))
 					}
 					// 后台属性
-					if(item.inputType==2){
+					if(item.inputType==2 || item.inputType==1){
 						categorysValues.push(item)
 					}
 					// 填写的属性
@@ -383,11 +384,14 @@
 					addCategoryAddress = JSON.parse(addCategoryAddress)
 					let categorysDates = uni.getStorageSync('categorysDates')
 					let categoryAttrId = ''
-					categorysDates.forEach(item=>{
-						if(item.inputType == 0){
-							categoryAttrId = item.id
-						}
-					})
+					if(categorysDates && categorysDates.length>0){
+						categorysDates.forEach(item=>{
+							if(item.inputType == 0){
+								categoryAttrId = item.id
+							}
+						})
+					}
+					
 					let obj = {
 						categoryAttrId,
 						goodsAttrValueList:[
@@ -407,12 +411,43 @@
 					goodsAttrList.push(obj)
 				}
 				if(categorysValues.length>0){
+					console.log(categorysValues)
+					
 					categorysValues.forEach((item,index)=>{
-						if(item.valueSet.length>0){
-							
-							let goodsAttrValueList = []
-							item.valueSet.forEach((it,ix)=>{
-								if(it.isCheck){
+						if(item.valueSet){
+							if(item.valueSet.length>0){
+								
+								let goodsAttrValueList = []
+								item.valueSet.forEach((it,ix)=>{
+									if(it.isCheck){
+										let obj = {
+											categoryAttrId:item.id,
+											remark:'',
+											sort:ix+1,
+											value:it.value
+										}
+										goodsAttrValueList.push(obj)
+									}
+								})
+								
+								let obj = {
+									categoryAttrId:item.id,
+									goodsAttrValueList,
+									goodsId:'',
+									name:item.name,
+									nameGroup:'',
+									inputType:item.inputType,
+									sort:index + 2
+								}
+								goodsAttrList.push(obj)
+							}
+						}
+						
+						if(item.goodsDetailAttrValueList){
+							if(item.goodsDetailAttrValueList.length>0){
+								
+								let goodsAttrValueList = []
+								item.goodsDetailAttrValueList.forEach((it,ix)=>{
 									let obj = {
 										categoryAttrId:item.id,
 										remark:'',
@@ -420,20 +455,21 @@
 										value:it.value
 									}
 									goodsAttrValueList.push(obj)
+								})
+								
+								let obj = {
+									categoryAttrId:item.id,
+									goodsAttrValueList,
+									goodsId:'',
+									name:item.name,
+									nameGroup:'',
+									inputType:item.inputType,
+									sort:index + 2
 								}
-							})
-							
-							let obj = {
-								categoryAttrId:item.id,
-								goodsAttrValueList,
-								goodsId:'',
-								name:item.name,
-								nameGroup:'',
-								inputType:item.inputType,
-								sort:index + 2
+								goodsAttrList.push(obj)
 							}
-							goodsAttrList.push(obj)
 						}
+						
 					})
 				}
 				if(categorysInput.length>0){
@@ -512,7 +548,7 @@
 					keywords:'',
 					name: this.goodsTitile,
 					purchaseNotes:'',
-					saveType:'',
+					saveType:1,
 					shopCategoryId:'',
 					shopId:'',
 					showStyle:2,
@@ -540,7 +576,7 @@
 				}else{  // 保存商品
 					postSaveGoods(GoodsSaveAndEditReq).then(res=>{
 						if(res.code == '1000'){
-							uni.reLaunch({
+							uni.redirectTo({
 								url:'/pages/middle/release/sendSuccess/sendSuccess?id='+ res.data.id + '&shopId='+ res.data.shopId
 							})
 						}else{

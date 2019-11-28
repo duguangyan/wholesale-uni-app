@@ -87,12 +87,8 @@
 			// 如果缓存有地址
 			if(uni.getStorageSync('addCategoryAddress')){
 				this.address = JSON.parse(uni.getStorageSync('addCategoryAddress'))
-				this.addressInfo = this.address.province + '-' + this.address.city
-			}else{
-				
+				this.addressInfo = this.address.province + ' ' + this.address.city
 			}
-			
-			// categorysInput如果有值
 			
 		},
 		methods:{
@@ -133,14 +129,28 @@
 							}
 						})
 						// 如果缓存有输出数据
-						if(uni.getStorageSync('categorysValues')){
-							this.categorys = uni.getStorageSync('categorysValues')
+						if(uni.getStorageSync('categorysValues') && uni.getStorageSync('categorysValues').length>0){
+							
+							// try{
+							// 	let categorysSync = uni.getStorageSync('categorysValues').goodsDetailAttrValueList[0].value
+							// 	categorys.forEach((item,index)=>{
+							// 		item.valueSet.forEach((it,ix)=>{
+							// 			if(it.value == categorysSync[index].goodsDetailAttrValueList[ix].value){
+							// 				it.isCheck = true
+							// 			}
+							// 		})
+							// 	})
+							// }catch(e){
+							// 	//TODO handle the exception
+							// }
+							
+							this.categorys = categorys
 						}else{
 							this.categorys = categorys
 						}
 						// this.categorys = categorys
 						
-						if(uni.getStorageSync('categorysInput')){
+						if(uni.getStorageSync('categorysInput') && uni.getStorageSync('categorysInput').length>0){
 							this.categorysInput = uni.getStorageSync('categorysInput')
 						}else{
 							this.categorysInput = categorysInput

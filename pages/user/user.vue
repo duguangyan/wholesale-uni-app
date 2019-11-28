@@ -184,7 +184,7 @@
 					if(index == 4) i = ''
 					uni.setStorageSync('orderNavIndex', i)
 					uni.navigateTo({
-						url:'/pages/user/order/list?from=user'
+						url:'/pages/user/order/list?from=user&businessType=2'
 					})
 				}else{
 					T.tips('请先登录')

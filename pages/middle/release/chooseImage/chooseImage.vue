@@ -90,7 +90,7 @@
 				}else{
 					this.items[index].videos.splice(idx,1)
 				}
-				
+				uni.setStorageSync('goodsImgList',this.items)
 			},
 			// 选择图片
 			actionSheetTap(index,type){

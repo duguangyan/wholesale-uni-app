@@ -2,7 +2,6 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch');
-	
 			// 获取 appid
 			uni.setStorageSync('appid', 'wxf89e01a251ab43f7')
 			

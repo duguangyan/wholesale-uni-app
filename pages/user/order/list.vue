@@ -127,7 +127,8 @@
 				navIndex: 0,
 				platform: 0,
 				from:'',
-				roleId:''
+				roleId:'',
+				businessType:''
 			}
 		},
 		components: {
@@ -149,7 +150,20 @@
 			}, 1000);
 		},
 		onLoad(options) {
-			this.from = options.from
+			if(options.from) this.from = options.from
+			if(options.businessType) this.businessType = options.businessType
+			
+			if(this.businessType == 1){
+				// 设置头部内容
+				uni.setNavigationBarTitle({
+				    title: '销售订单'
+				});
+			}else{
+				// 设置头部内容
+				uni.setNavigationBarTitle({
+				    title: '我的订单'
+				});
+			}
 		},
 		onShow() {
 			this.roleId = uni.getStorageSync('roleId')
@@ -337,17 +351,19 @@
 				let data = {
 					pageIndex: this.pageIndex,
 					status: this.status,
-					pageSize: this.pageSize
+					pageSize: this.pageSize,
+					businessType: this.businessType
 				}
+			
 				// 1:货主,2:代办,3:买家
-				let roleId = uni.getStorageSync('roleId')
-				if (roleId == 20001) {
-					data.businessType = 1
-				} else if (roleId == 20002) {
-					data.businessType = 2
-				} else if (roleId == 20003) {
-					data.businessType = 2
-				}
+				//let roleId = uni.getStorageSync('roleId')
+				// if (roleId == 20001) {
+				// 	data.businessType = 1
+				// } else if (roleId == 20002) {
+				// 	data.businessType = 2
+				// } else if (roleId == 20003) {
+				// 	data.businessType = 2
+				// }
 
 				getOrderPageMyOrder(data).then((res) => {
 					if (res.code === '1000') {

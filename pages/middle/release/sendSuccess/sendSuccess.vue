@@ -62,7 +62,6 @@
 			},
 			// 再发一条
 			resBack(){
-			
 				uni.redirectTo({
 					url:'/pages/middle/release/release'
 				})
