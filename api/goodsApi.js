@@ -227,6 +227,8 @@ const getShopInfo = data => {
 }
 
 
+
+
 export {
 	mainSelectCategory,
 	postEditGoods,
@@ -251,5 +253,6 @@ export {
 	getFreightPrompt,
 	getPostItem,
   getAgencyByArea,
-  getShopInfo
+  getShopInfo,
+  getMaster
 }

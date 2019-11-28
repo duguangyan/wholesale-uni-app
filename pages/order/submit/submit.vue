@@ -115,7 +115,8 @@ var vm = {
         agentList: [],
         curAgent: {
           id: '',
-          name: ''
+          name: '',
+          phone: ''
         }
       },
       isAgent: false,
@@ -225,6 +226,7 @@ var vm = {
       vm.isAgent = false;
       vm.curItem.curAgent.id = data.userId;
       vm.curItem.curAgent.name = data.realName;
+      vm.curItem.curAgent.phone = data.phone
     },
     showAgentDialog(item) {
       vm.isAgent = true;
@@ -268,6 +270,7 @@ var vm = {
       resList.map(item => {
         status = !!item.curAgent.id;
         item.agentcyUserId = item.curAgent.id;
+        item.phone = item.curAgent.phone;
         item.sendType = vm.sendType;
         return item;
       });
