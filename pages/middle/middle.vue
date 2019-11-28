@@ -38,7 +38,7 @@
 				status: 1, // 登录用户状态
 				roleId: '',
 				userRealInfo:'',
-				userApply:'',
+				userApply:'1',
 				items:[
 					{
 						text:'我是代办',
@@ -68,6 +68,7 @@
 			
 		},
 		onShow() {
+			if(uni.getStorageSync('roleId')) this.roleId = uni.getStorageSync('roleId')
 			// 未登录状态跳转 微信和APP不一样
 			// #ifdef  MP-WEIXIN
 			if(!uni.getStorageSync('access_token')){
@@ -164,15 +165,15 @@
 					uni.setTabBarItem({
 					  index: 1,
 					  text: '代办',
-					  iconPath: '/static/img/2.1.png',
-					  selectedIconPath: '/static/img/2.2.png'
+					  iconPath: 'static/img/2.1.png',
+					  selectedIconPath: 'static/img/2.2.png'
 					})
 				} else if(this.roleId == '20001') {
 					uni.setTabBarItem({
 					  index: 1,
 					  text: '我要卖',
-					  iconPath: '/static/img/4.1.png',
-					  selectedIconPath: '/static/img/4.2.png'
+					  iconPath: 'static/img/4.1.png',
+					  selectedIconPath: 'static/img/4.2.png'
 					})
 				}
 				

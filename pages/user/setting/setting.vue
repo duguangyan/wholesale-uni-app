@@ -16,7 +16,7 @@
 				  <view class="cf li">
 				    <view class="fll fs28">我的姓名</view>
 		
-					<view class="flr fs30 text-999 value">农百集</view>
+					<view class="flr fs30 text-999 value">{{nickName||'农百集'}}</view>
 				  </view>
 				  
 				  <view class="cf li">
@@ -40,7 +40,7 @@
 				 </view>
 				 
 				  <view class="cf li" v-if="roleId == 20001">
-				    <view class="fll fs28">经验类型</view>
+				    <view class="fll fs28">经营类目</view>
 				    
 					<view class="flr fs30 text-999 value">{{categoryName}}</view>
 				  </view>
@@ -86,15 +86,17 @@
 				province:'',
 				city:'',
 				region:'',
-				version: ''
+				version: '',
+				nickName:''
 			};
 		},
 		onShow() {
 			// 获取版本号
-			this.version = uni.getStorageSync('s') + ' ' + uni.getStorageSync('v')
+			this.version    = uni.getStorageSync('s') + ' ' + uni.getStorageSync('v')
 			// 获取缓存数据
 			this.isLogin    = uni.getStorageSync('access_token')
 			this.phone      = uni.getStorageSync('phone') || ''
+			this.nickName   = uni.getStorageSync('nickName')
 			this.roleId     = uni.getStorageSync('roleId')
 			this.headImgUrl = uni.getStorageSync('headImgUrl')
 			if(uni.getStorageSync('userApply')){
@@ -118,9 +120,12 @@
 			              uni.clearStorageSync() // 清除缓存
 						  uni.setStorageSync('records',records)
 						  uni.setStorageSync('platform',platform)
-			              uni.switchTab({
-			              	url:'/pages/user/user'
-			              })
+			              // uni.switchTab({
+			              // 	url:'/pages/user/user'
+			              // })
+						  uni.navigateBack({
+						  	delta:1
+						  })
 			          } else if (res.cancel) {
 			              console.log('用户点击取消');
 			          }
@@ -159,7 +164,7 @@
 				    sourceType: ['album','camera'], //从相册选择
 				    success: function (res) {
 						const tempFilePaths = res.tempFilePaths;
-						let url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'https://m.qinlvny.com/upms/userImg/upload'
+						let url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'http://wsm.qinlvny.com/upms/userImg/upload'
 						uni.uploadFile({
 							url: url, //仅为示例，非真实的接口地址
 							filePath: tempFilePaths[0],
@@ -216,6 +221,9 @@
 	}
 }
 .setting {
+	width: 750upx;
+	margin: 0 auto;
+	overflow-x: hidden;
 	.version{
 		height: 60upx;
 		line-height: 60upx;

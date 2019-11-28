@@ -126,9 +126,9 @@
 				let _this = this
 				let url = ''
 				if(this.chooseType == 0) {
-					url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'https://m.qinlvny.com/upms/userImg/upload'
+					url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/upms/userImg/upload' : 'http://wsm.qinlvny.com/upms/userImg/upload'
 				}else{
-					url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/ws/goods/goodImg/fileUpload' : 'https://m.qinlvny.com/ws/goods/goodImg/fileUpload'
+					url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/ws/goods/goodImg/fileUpload' : 'https://wsm.qinlvny.com/ws/goods/goodImg/fileUpload'
 				}
 				// 保存文件
 				uni.uploadFile({

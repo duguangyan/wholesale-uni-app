@@ -33,8 +33,7 @@
 			</view>
 			<view class="fs24 text-999">还没有货品</view>
 		</view>
-		
-		<view class="bar" @click="goRelease" v-if="roleId == '20001'">
+		<view class="bar" @click="goRelease" v-if="roleId == '20001' && userApply.status == 1">
 			<image src="../../../../../static/imgs/icon-1009.png" mode=""></image>
 		</view>
 		
@@ -84,7 +83,8 @@
 				hasData: true,
 				statisticsGoods:[], // 统计商品数量
 				itemDialogData:'',
-				itemDialogIndex:''
+				itemDialogIndex:'',
+				userApply:''
 			};
 		},
 		components:{Goodx,Dialog},
@@ -161,7 +161,7 @@
 						this.doHandlerGoods(item.id,1)
 						break;
 					case 2:
-						this.doHandlerGoods(item.id,3)
+						this.doHandlerGoods(item.id,2)
 						break;	
 					case 4:
 						this.doHandlerGoods(item.id,0)
@@ -291,7 +291,8 @@
 			},
 			// 判断用户角色
 			assessUserType(){
-				this.roleId = uni.getStorageSync('roleId')
+				this.roleId    = uni.getStorageSync('roleId')
+				this.userApply = JSON.parse(uni.getStorageSync('userApply')) 
 				if(this.roleId == '20001'){
 					uni.setNavigationBarTitle({
 					    title: '我的货品'

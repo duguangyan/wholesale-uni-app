@@ -331,7 +331,12 @@
 			background: #fff;
 			z-index: 99999;
 		}
-
+		
+		/*  #ifdef  H5  */
+		.top-warp{
+			top: 80upx;
+		}
+		/*  #endif  */
 		.load-text {
 			padding: 20upx 0;
 		}

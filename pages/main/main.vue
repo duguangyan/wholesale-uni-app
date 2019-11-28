@@ -198,20 +198,20 @@
 				// 设置底部tab样式
 				this.roleId = uni.getStorageSync('roleId')
 				if(this.roleId){
+					// 设置底部tab样式
 					if(this.roleId == '20002'){
 						uni.setTabBarItem({
 						  index: 1,
 						  text: '代办',
-						  iconPath: '/static/img/2.1.png',
-						  selectedIconPath: '/static/img/2.2.png'
+						  iconPath: 'static/img/2.1.png',
+						  selectedIconPath: 'static/img/2.2.png'
 						})
-						
 					} else if(this.roleId == '20001') {
 						uni.setTabBarItem({
 						  index: 1,
 						  text: '我要卖',
-						  iconPath: '/static/img/4.1.png',
-						  selectedIconPath: '/static/img/4.2.png'
+						  iconPath: 'static/img/4.1.png',
+						  selectedIconPath: 'static/img/4.2.png'
 						})
 					}
 				}
@@ -401,7 +401,7 @@
 							item.valueAddr = item.valueAddr.substring(0, 5)
 						})
 						
-						this.listWidth = uni.upx2px(this.homeList.list[3].list[1].goodsDetailRespList.length * 26) + 'px';
+						this.listWidth = uni.upx2px(this.homeList.list[0].list[0].list[0].adPosition.adSet.length * 30) + 'px';
 					}
 				})
 			},
@@ -413,7 +413,7 @@
 
 				if (item.type == 5) {
 					uni.navigateTo({
-						url: '/pages/order/goodsDetail/goodsDetail?shopId=' + item.shopId + '&goodsId=' + item.id
+						url: '/pages/order/goodsDetail/goodsDetail?shopId=' + item.id + '&goodsId=' + item.url
 					});
 				} else if (item.type == 1) {
 					uni.navigateTo({

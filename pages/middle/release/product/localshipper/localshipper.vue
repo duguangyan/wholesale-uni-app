@@ -6,7 +6,7 @@
 			</view>
 			<view class="items">
 				<view class="item flex" v-for="(item,index) in items" :key="index">
-					<view class="flex-1 fs28 text-333">{{item.realName}}</view>
+					<view class="flex-1 fs28 text-333 ellipsis">{{item.realName}}</view>
 					<view class="flex-2 fs28 text-666">{{item.phone}}</view>
 					<view class="flex-1"><view class="btn" @click="callByPhone(item.phone)">联系{{roleId == 20002?'货主':'代办'}}</view></view>
 				</view>
@@ -120,6 +120,11 @@
 				height: 100upx;
 				line-height: 100upx;
 				border-bottom: 1upx solid #f5f5f5;
+				.ellipsis{
+					padding-right: 20upx;
+					height: 100upx;
+					line-height: 100upx;
+				}
 				.btn{
 					width:150upx;
 					height:60upx;

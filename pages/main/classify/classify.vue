@@ -187,12 +187,14 @@
 			.items{
 				.item{
 					width: 150upx;
-					height: 70upx;
+					height: 68upx;
 					line-height: 70upx;
 					text-align: center;
-					border: 1upx solid #E6E6E6;
+					border: 1px solid #d9d9d9;
 					margin: 20upx 0 20upx 20upx;
 				}
+				
+				
 			}
 		}
 		.right{
