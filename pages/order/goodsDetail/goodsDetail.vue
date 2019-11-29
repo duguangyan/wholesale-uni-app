@@ -119,7 +119,7 @@
         <text>—</text>
       </view>
       <view class="txt">{{ good.goods.detail }}</view>
-      <view class="tag2" v-for="(item, index) in imageList" :key="index">
+      <view class="tag2" v-for="(item, index) in detailImageList" :key="index">
         <!-- <view v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
 					<image class='img2' src="../../../static/img/play.png" mode=""></image>
 				</view> -->
@@ -272,6 +272,7 @@ export default {
       isPlayer: false,
       videoUrl: '',
       imageList: [],
+      detailImageList: [],
       videoObj: {},
       postType: 0,
       isStandard: false,
@@ -343,7 +344,12 @@ export default {
         let imageList = [];
         d.goodsImgVOList.forEach(item => {
           if (item.type != 2) {
-            imageList.push(item);
+            if(item.primaryType == 1){
+              imageList.push(item);
+            }else{
+              detailImageList.push(item);
+            }
+            
           } else {
             this.videoObj[item.sort] = item.imgUrl;
           }

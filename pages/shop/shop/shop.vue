@@ -56,7 +56,7 @@ var vm = {
       let info = data.data
       vm.shopInfo.shopName = info.name
       vm.shopInfo.categoryName = info.categoryName
-      vm.shopInfo.address = `${info.province}${info.city}${info.region}${info.address}`
+      vm.shopInfo.address = `${info.province}${info.city}${info.region}`
     })
     
     // 加载商品信息
