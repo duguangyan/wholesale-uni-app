@@ -166,6 +166,10 @@
 						this.goodsTitile = res.data.goodsDetail.goods.name
 						// 货品描述
 						this.textareaValue = res.data.goodsDetail.goods.detail
+						
+						uni.setStorageSync('textareaValue',this.textareaValue)
+						uni.setStorageSync('goodsTitile',this.goodsTitile)
+						
 						this.mun = this.textareaValue.length
 						// 验证表单是否可以提交
 						this.assessHasData()
@@ -562,7 +566,7 @@
 				
 					postEditGoods(GoodsSaveAndEditReq).then(res=>{
 						if(res.code == '1000'){
-							uni.reLaunch({
+							uni.redirectTo({
 								url:'/pages/middle/release/sendSuccess/sendSuccess?id='+ res.data.id + '&shopId='+ res.data.shopId
 							})
 						}else{
@@ -799,6 +803,7 @@
 
 <style lang="scss" scoped>
 	.relesase{
+		padding-bottom: 60upx;
 		.big-btn-active{
 			margin: 30upx auto;
 		}

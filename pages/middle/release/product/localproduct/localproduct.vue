@@ -261,9 +261,16 @@
 							if(res.data.records.length>0 && res.data){
 								res.data.records.forEach((item,index)=>{
 									if(item.createTime){
-										let now  = util.getNowFormatDate().split(' ')[1].split(':')[0]
-										let pass = item.createTime.split(' ')[1].split(':')[0]
-										item.createTimeName =  pass - now
+										let pass = (new Date(item.createTime)).getTime()
+										let now  = (new Date(util.getNowFormatDate())).getTime()
+										let time = parseInt(now - pass)
+										time = parseInt(time / (60*60*1000)) 
+										if(time>=24){
+											time = '>24'
+										}else if(time<1){
+											time = '<1'
+										}
+										item.createTimeName = time
 									}
 								})
 								

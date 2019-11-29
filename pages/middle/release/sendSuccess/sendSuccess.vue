@@ -69,7 +69,7 @@
 			// 预览
 			showBack(){
 				// this.shopId = options.shopId;  this.goodsId = options.goodsId;
-				uni.navigateTo({
+				uni.redirectTo({
 					url:'/pages/order/goodsDetail/goodsDetail?shopId=' + this.shopId + '&goodsId='+ this.id
 				})
 			}

@@ -46,7 +46,7 @@
 				  </view>
 				  
 				  <view class="cf li">
-				    <view class="fll fs28">{{roleId == 20001?'经营地址':'代办地址'}}</view>
+				    <view class="fll fs28">{{roleId == 20001?'经营地区':'代办地区'}}</view>
 				    
 				  	<view class="flr fs30 text-999 value">{{province + city + region}}</view>
 				  </view>

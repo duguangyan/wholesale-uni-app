@@ -61,9 +61,12 @@
 		mounted() {
 			// 拼接商品规格
 			if(this.item.place ) this.attrValDescString += ' ' + this.item.place
-			this.item.attrValDesc.forEach(it=>{
-				if(it) this.attrValDescString += ' ' + it
-			})
+			if(this.item.attrValDesc && this.item.attrValDesc.length>0){
+				this.item.attrValDesc.forEach(it=>{
+					if(it) this.attrValDescString += ' ' + it
+				})
+			}
+			
 		},
 		methods: {
 
