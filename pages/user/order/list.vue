@@ -29,7 +29,8 @@
 							<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 							<text v-if="item.status === -1">已取消</text>
 							<text v-if="item.status === 0">待买家付款</text>
-							<text v-if="item.status === 2">待货主发货</text>
+							<text v-if="item.status === 2 && roleId != 20002">待代办发货</text>
+							<text v-if="item.status === 2 && roleId == 20002">待发货</text>
 							<text v-if="item.status === 3">待收货</text>
 							<text class="text-999" v-if="item.status === 4">已完成</text>
 							<text v-if="item.status === 5">已关闭</text>
@@ -151,6 +152,7 @@
 		},
 		onLoad(options) {
 			if(options.from) this.from = options.from
+			// (1:销售订单,2:我的订单)"
 			if(options.businessType) this.businessType = options.businessType
 			
 			if(this.businessType == 1){
@@ -245,15 +247,18 @@
 						// 获取用户类型 20001 货主 20002 代办   20003 买家
 						let roleId = uni.getStorageSync('roleId')
 						list.forEach((item,index)=>{
-							if(roleId == '20001') {
-								if(item.status == 6) this.tabs[1].tip = item.num	
+							// (1:销售订单,2:我的订单)"
+							if(this.businessType == 1){
+								if(roleId == '20001') {
+									if(item.status == 6) this.tabs[1].tip = item.num	
+								}
+								if(roleId == '20002'){
+									if(item.status == 2) this.tabs[3].tip = item.num
+								}
+							}else{
+								if(item.status == 0) this.tabs[2].tip = item.num
+								if(item.status == 3) this.tabs[4].tip = item.num
 							}
-							if(roleId == '20002'){
-								if(item.status == 2) this.tabs[3].tip = item.num
-							}
-							if(item.status == 0) this.tabs[2].tip = item.num
-							if(item.status == 3) this.tabs[4].tip = item.num
-								
 						})
 					}
 				})

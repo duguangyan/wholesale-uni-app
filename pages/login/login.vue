@@ -16,7 +16,9 @@
 			</view>
 			<view class="protocal">
 				登录表示同意
-				<text @click="goProtocal">用户服务协议</text>
+				<text @click="goProtocal">《用户服务协议》</text>
+				和
+				<text @click="goPrivacy"> 《隐私政策》</text>
 			</view>
 		</view>
 		<view :class="{'bg-theme':isRight}" @click="dologin" class="btn fs32">登录</view>
@@ -109,6 +111,12 @@
 			uni.setStorageSync('isLogin', 0)
 		},
 		methods: {
+			// 去隐私政策
+			goPrivacy(){
+				uni.navigateTo({
+					url: '/pages/user/privacy/privacy'
+				})
+			},
 			// 去用户协议
 			goProtocal() {
 				uni.navigateTo({

@@ -38,8 +38,8 @@
 					<div class="title" v-if="order.shopOrder && (status == -1)">
 						{{statusText}}
 					</div>
-					<div class="sub tick cf" v-if="status == -1">
-						<span class="fll fs24">原因:{{cancelReason}}</span>
+					<div class="sub tick cf" v-if="status == -1 && cancelReason">
+						<span class="fll fs24">原因:{{cancelReason || ''}}</span>
 					</div>
 				</view>
 				
@@ -108,7 +108,7 @@
 					<text>联系{{roleId=='20001'?'代办':'货主'}}</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="order.phone">
+			<view class="phone cf" v-if="order.phone && roleId != 20001">
 				<view class="fll">买家:{{order.userName || '暂无'}}</view>
 				<view class="flr" @click="callPhone(order.phone)">
 					<view class="image">
@@ -117,7 +117,7 @@
 					<text>联系买家</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="order.shopOrder.sendType">
+			<view class="phone cf" v-if="order.shopOrder.sendType && roleId != 20001">
 				<view class="fll">物流方式:</view>
 				<view class="flr" @click="showCarInfo">
 					<text class="text-theme">{{order.shopOrder.sendType == 1 ?'平台选车':'自驾车辆'}}</text>

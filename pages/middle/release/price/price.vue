@@ -25,7 +25,7 @@
 				<view class="fll">起批量</view>
 				<view class="fll"><input type="number" maxlength="10" @input="checkName" v-model="item.startQuantity" /></view>
 				<view class="fll">价格(元)</view>
-				<view class="fll"><input type="number" maxlength="10" @input="checkValue" v-model="item.price" /></view>
+				<view class="fll"><input type="digit" maxlength="10" @input="checkValue()" @blur='blurValue(index)' v-model="item.price" /></view>
 				<view class="fll add" v-if='index == 0' @click="add">新增</view>
 				<view class="fll del" v-if='index != 0' @click="del(index)">删除</view>
 			</view>
@@ -50,8 +50,8 @@
 				unitLists:[],
 				priceExpList:[
 					{
-						startQuantity: '',
-						price:''
+						startQuantity: '1',
+						price:'0.01'
 					}
 				]
 			};
@@ -71,13 +71,30 @@
 				this.priceExpList = goodsSkuList[0].priceExpList
 				this.assessHasData()
 			}
-			
 		},
 		methods:{
 			checkName(){
 				this.assessHasData()
 			},
-			checkValue(){
+			blurValue(index){
+				
+				let price = this.priceExpList[index].price + ''
+				if(price.indexOf('.') != -1){
+					let arr = price.split('.')
+					if(arr[0] == '')arr[0] = '0'
+					price = arr[0] + '.' + arr[1].substr(0,2)
+				}
+				if(price == 0 || price == 0.0 || price == 0.00) price = '0.01'
+				
+				let reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
+				let bool = reg.test(price)
+				if(!bool) {
+					price = '0.01'
+				}
+				
+				this.priceExpList[index].price = price
+			},
+			checkValue(index){
 				this.assessHasData()
 			},
 			// 库存输入框
@@ -124,9 +141,13 @@
 			},
 			// 新增报价
 			add(){
+				if(this.priceExpList.length>=3){
+					T.tips('最多新增3条起批量')
+					return false
+				}
 				let obj = {
-					startQuantity: '',
-					price:''
+					startQuantity: '1',
+					price:'0.01'
 				}
 				this.priceExpList.push(obj);
 			},

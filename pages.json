@@ -3,7 +3,7 @@
 		{
 			"path": "pages/main/main",
 			"style": {
-				"navigationBarTitleText": "农百集",
+				"navigationBarTitleText": "正鼎农品",
 				"enablePullDownRefresh": true,
 				"navigationStyle":"custom",
 				"app-plus":{
@@ -402,16 +402,28 @@
         }
         ,{
             "path" : "pages/middle/release/sendSuccess/sendSuccess",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "提交成功"
+			}
         }
         ,{
             "path" : "pages/middle/release/sendFail/sendFail",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "提交失败"
+			}
         }
         
         ,{
             "path" : "pages/shop/shop/shop",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "经营店铺"
+			}
+        }
+        ,{
+            "path" : "pages/user/privacy/privacy",
+            "style" : {
+				"navigationBarTitleText": "隐私政策"
+			}
         }
     ],
 	"tabBar": {
@@ -437,7 +449,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "农百集APP",
+		"navigationBarTitleText": "正鼎农品",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF",
 		// "enablePullDownRefresh": true,

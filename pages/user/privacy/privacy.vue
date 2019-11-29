@@ -1,6 +1,6 @@
 <template>
 	
-	<web-view src="http://wsm.qinlvny.com/static/protocal.html"></web-view>
+	<web-view src="http://wsm.qinlvny.com/static/privacy.html"></web-view>
 </template>
 
 <script>

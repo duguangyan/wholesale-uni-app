@@ -276,11 +276,11 @@ var vm = {
       });
       if (!status) {
         return T.tips('请选择代办人');
-      }
-
+      }	
+	  resList[0].postscript = this.message
       let list = {
         shopParamList: resList,
-        // postscript: this.message,
+        // postscript : this.message,
         // addressId: this.address.id,
         cartIdList: vm.cartIdList
       };
