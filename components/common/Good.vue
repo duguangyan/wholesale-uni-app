@@ -1,5 +1,5 @@
 <template>
-	<div class="good" :class="[(edit||cart)?'edit':'normal']" @click="goGoodsDetail">
+	<view class="good" :class="[(edit||cart)?'edit':'normal']" @click="goGoodsDetail">
 		<div name="check">
 			<div v-show="edit || cart" :class="['check',(cart && !good.isValid && !edit)?'hide':'']" @click="triggerCheck">
 				<img :src="(good.isCheck &&!edit || good.isEditCheck && edit)?Checked:Uncheck" width="17" height="17" />
@@ -43,7 +43,7 @@
 				<img src="@/static/img/icon-plus.png" alt width="15" height="15" @click="++good.num" />
 			</div>
 		</div>
-	</div>
+	</view>
 </template>
 
 <script>
