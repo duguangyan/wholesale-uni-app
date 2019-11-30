@@ -29,11 +29,15 @@
 		},
 		methods:{
 			del(){
+				let userApply = JSON.parse(uni.getStorageSync('userApply'))
 				if(this.index == 0){
 					uni.setStorageSync('agencyImgUpload1','')
+					userApply.cardImgFront = ''
 				}else if(this.index == 1){
 					uni.setStorageSync('agencyImgUpload2','')
+					userApply.cardImgReverse = ''
 				}
+				uni.setStorageSync('userApply',JSON.stringify(userApply))
 				uni.navigateBack({
 					delta:1
 				})

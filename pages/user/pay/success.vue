@@ -30,6 +30,7 @@
         query: '', // 获取传递参数
         adPositione: '', // 获取广告位信息
 		orderId:'',
+		shopId:'',
 		payPrice:''
       }
     },
@@ -38,7 +39,8 @@
       AdvertisingPosition
     },
     onLoad(options) {
-      this.orderId = options.orderId
+      this.orderId  = options.orderId
+	  this.shopId   = options.shopId
 	  this.payPrice = options.payPrice
     },
     methods: {
@@ -52,7 +54,7 @@
       checkOrderDetal() {
         // 详情需要 orderId, shopId
 		uni.navigateTo({
-			url:'/pages/user/order/detail?orderId=' + this.orderId
+			url:'/pages/user/order/detail?orderId=' + this.orderId +'&shopId='+ this.shopId
 		})
       },
       // 返回首页

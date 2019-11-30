@@ -18,15 +18,16 @@
           </label>
         </radio-group>
       </div>
-
-      <div class="list" v-if="list.length > 0">
-        <div v-for="(item, index) in list" :key="index">
-          <div class="agent fs28">
+		
+      <div class="list" v-if="submitData.shopList.length > 0">
+        <div v-for="(item, index) in submitData.shopList" :key="index" >
+			 <div class="gray-line"></div>
+          <div class="agent fs28" @click="showAgentDialog(item)">
             <div>找&ensp;代&ensp;办:</div>
             <!-- <input class="uni-input" placeholder="请选择代办人" readonly="readonly" /> -->
-            <div :class="['uni-input', 'fs28', item.curAgent.name ? 'text-333' : 'text-999']" @click="showAgentDialog(item)">{{ item.curAgent.name || '请选择代办人' }}</div>
+            <div :class="['uni-input', 'fs28', item.curAgent.name ? 'text-333' : 'text-999']" >{{ item.curAgent.name || '请选择代办人' }}</div>
           </div>
-          <div class="gray-line"></div>
+         
 
           <div class="cf parent-title pdl-30">
             <!-- <div class="fll plat"><img :src="Plat" alt="图标" /></div>
@@ -49,11 +50,25 @@
                   <span class="fll p4">{{ it.skuDesc || '' }}</span>
                   <!-- <span class="flr text-999 p5">x {{ it.goodsCount }}</span> -->
                 </p>
-                <p class="text-333 fs28 mgt-10">代办费&nbsp;￥{{ it.agencyPrice }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</p>
-                <p class=" fs24 p2">
-                  价格￥
-                  <span class="fs28">{{ it.price }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</span>
-                </p>
+                <p class="text-333 fs28 mgt-10">代办费&nbsp;￥{{ it.agencyMoney }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</p>
+                <div class="cf calculation">
+					<div class="fll">
+						<p class=" fs24 p2">
+						  价格￥
+						  <span class="fs28">{{ it.price }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</span>
+						</p>
+					</div>
+					<div class="count flr" v-if="!isEdit && it.status !== 4">
+						<span :class="{ 'text-999' : it.isColor999 }" @click="doCalculation(0,index,idx)">-</span>
+						
+						<input type="number" v-model="it.goodsCount" @click="clickInput(index,idx)" @change="changInput($event,index,idx)" />
+						
+						<span @click="doCalculation(1,index,idx)">+</span>
+					</div>
+				</div>
+				
+				
+				
               </div>
             </li>
           </ul>
@@ -64,7 +79,7 @@
             </div> -->
             <div class="mark pdl-30">
               <span>留言</span>
-              <input v-model="message" type="text" maxlength="100" placeholder="请输入留言信息" />
+              <input v-model="item.message" type="text" maxlength="100" placeholder="请输入留言信息" />
             </div>
           </div>
           <div class="calc text-red fs28 pdr-30">小计:￥{{ item.totalMoney }}</div>
@@ -72,10 +87,10 @@
       </div>
 
       <div class="operator">
-        <div class="nums">共&ensp;{{ totalCount }}&ensp;件</div>
+        <div class="nums">共&ensp;{{ submitData.totalCount }}&ensp;件</div>
         <div class="total-price fg1">
           合计:&ensp;
-          <span>{{ totalMoney }}</span>
+          <span>{{ submitData.totalMoney }}</span>
         </div>
         <div class="btn" v-bind:class="{ active: curItem.curAgent.id, platform1: platform == 2 }" @click="showPay">提交订单</div>
       </div>
@@ -104,9 +119,11 @@ import Pay from '@/components/common/Pay.vue';
 import Checked from '@/static/img/icon-checked.png';
 import Uncheck from '@/static/img/icon-uncheck.png';
 import Plat from '@/static/img/icon-plat.png';
-import { getCartOrderList, getAddressDefAddress, getOrderCart, postCreateOrder } from '@/api/cartApi.js';
+import { getCartOrderList, getAddressDefAddress, getOrderCart, postCreateOrder, getCartChangeNum } from '@/api/cartApi.js';
 import { buyGood, getAgencyByArea } from '@/api/goodsApi.js';
 import T from '@/utils/tips.js';
+import validator from '@/utils/validator.js'
+import util from '@/utils/util.js'
 var vm = {
   data() {
     vm = this;
@@ -152,6 +169,7 @@ var vm = {
   },
   onLoad(options) {
     this.submitData = options.submitData;
+	
     this.isBuyNow = options.isBuyNow;
   },
   onShow() {
@@ -159,66 +177,135 @@ var vm = {
     this.platform = uni.getStorageSync('platform') * 1;
     // 上一级传递参数：结算返回的数据
     if (this.isBuyNow) {
-      let submitData = JSON.parse(this.submitData);
-
       buyGood(submitData).then(data => {
         // this.address = data.data.address || '';
-        this.order.shopId = data.data.shopList[0].shopId;
-        this.list = data.data.shopList.map(item => {
-          item.agentList = [];
-          item.curAgent = {
-            id: '',
-            name: ''
-          };
-          return item;
-        });
+        // this.order.shopId = data.data.shopList[0].shopId;
+        // this.list = data.data.shopList.map(item => {
+        //   item.agentList = [];
+        //   item.curAgent = {
+        //     id: '',
+        //     name: ''
+        //   };
+        //   return item;
+        // });
 
-        this.totalMoney = data.data.totalMoney;
-        this.deliverMoney = data.data.deliverMoney;
-        this.cartIdList = data.data.cartIdList;
-        this.totalCount = data.data.totalCount;
+      
 
-        if (uni.getStorageSync('address')) {
-          this.address = JSON.parse(uni.getStorageSync('address'));
-          submitData.addressId = JSON.parse(uni.getStorageSync('address')).id;
-          setTimeout(() => {
-            uni.setStorageSync('address', '');
-          }, 300);
-        }
       });
     } else {
       if (this.submitData) {
-        let submitData = JSON.parse(this.submitData);
-        this.order.shopId = submitData.shopList[0].shopId;
-        this.list = submitData.shopList.map(item => {
-          item.agentList = [];
-          item.curAgent = {
-            id: '',
-            name: ''
-          };
-          return item;
-        });
-        this.totalMoney = submitData.totalMoney;
-        this.deliverMoney = submitData.deliverMoney;
-        this.cartIdList = submitData.cartIdList;
-        this.totalCount = submitData.totalCount;
-      }
-      // 判断是否有地址
-      if (uni.getStorageSync('address')) {
-        // 获取缓存地址
-        this.address = JSON.parse(uni.getStorageSync('address'));
-        // 根据地址获取运费
-        this.getOrderCartByAddress(this.address.id);
-        setTimeout(() => {
-          uni.setStorageSync('address', '');
-        }, 300);
-      } else {
-        // 获取默认地址
-        this.getAddressDefAddress();
+        this.submitData = JSON.parse(this.submitData);
+		this.submitData.shopList.forEach((item,index)=>{
+			item.agentList = []
+			item.message = ''
+			item.curAgent = {
+				id:'',
+				name:''
+			}
+		})
+		// console.log(submitData)
+  //       this.order.shopId = submitData.shopList[0].shopId;
+  //       this.list = submitData.shopList.map(item => {
+  //         item.agentList = [];
+  //         item.curAgent = {
+  //           id: '',
+  //           name: ''
+  //         };
+  //         return item;
+  //       });
+        
       }
     }
+	
+	
+	
   },
   methods: {
+	  clickInput(index, idx) {
+	  	this.clickNum = this.submitData.shopList[index].goodsParamList[idx].num
+	  },
+	  // 数量input改变
+	      changInput(e,index,idx) {
+	        let val = e.target.value
+	        if (validator.isNumber(val)) {
+	          if (val < this.submitData.shopList[index].goodsParamList[idx].startNum) {
+	            T.tips('数量不能小于起批量:'+this.submitData.shopList[index].goodsParamList[idx].startNum)
+	            this.submitData.shopList[index].goodsParamList[idx].num = this.submitData.shopList[index].goodsParamList[idx].startNum
+	            this.changeNum(index,idx,this.submitData.shopList[index].goodsParamList[idx].skuId, this.submitData.shopList[goodsParamList].items[idx].startNum)
+	          } else if(val > this.submitData.shopList[index].goodsParamList[idx].stock){
+	            T.tips('数量不能超过库存量:'+this.submitData.shopList[index].goodsParamList[idx].stock)
+	            this.submitData.shopList[index].goodsParamList[idx].num = this.submitData.shopList[index].goodsParamList[idx].stock
+	            this.changeNum(index,idx,this.submitData.shopList[index].goodsParamList[idx].skuId, this.submitData.shopList[index].goodsParamList[idx].stock)
+	          }else {
+	            this.changeNum(index,idx,this.submitData.shopList[index].goodsParamList[idx].skuId, val)
+	          }
+	        } else {
+	          T.tips('请输入正确的数量')
+	          this.changeNum(index,idx,this.submitData.shopList[index].goodsParamList[idx].skuId, this.submitData.shopList[index].goodsParamList[idx].startNum)
+	        }
+	      },
+		  // 计算总价格 totalMoney
+		  calculationTotalMoney(index) {
+		  	this.totalMoney = 0
+		  	this.validTotal = 0
+			
+			this.submitData.totalMoney = 0
+		  	this.submitData.shopList.forEach(item => {
+				let n = 0
+		  		item.goodsParamList.forEach(it => {
+		  			this.submitData.totalMoney =  util.accAdd(this.submitData.totalMoney,util.mul(it.goodsCount,it.price))
+					n += it.goodsCount
+				})
+				this.submitData.shopList[index].totalCount = n
+		  	})
+		  },
+		  // 改变数量
+		  changeNum(index, idx, skuId, num) {
+		  	if (this.isclock) {
+		  		// T.tips('数据正在请求中,请稍等')
+		  		return
+		  	}
+		  	let data = {
+		  		num,
+		  		skuId,
+		  		isLoading:1
+		  	}
+		  	this.isclock = true
+		  	getCartChangeNum(data).then(res => {
+		  		if (res.code === '1000') {
+		  			this.submitData.shopList[index].goodsParamList[idx].goodsCount = res.data.num
+		  			this.submitData.shopList[index].goodsParamList[idx].price = res.data.price
+		  			this.submitData.shopList[index].goodsParamList[idx].totalPrice = res.data.totalPrice
+		  			this.submitData.shopList[index].goodsParamList[idx].isColor999 = false
+		  			this.calculationTotalMoney(index)
+		  			this.isclock = false
+		  		} else {
+		  			T.tips(res.message || '修改数量失败')
+		  			this.submitData.shopList[index].goodsParamList[idx].isColor999 = true
+		  			this.isclock = false
+	
+		  		}
+		  	}).catch(err => {
+		  		T.tips(err.message || '修改数量失败')
+		  		this.isColor999 = true
+		  		this.isclock = false
+		  	})
+		  },
+	  // 购买数量计算  isCalculation: 0为减法 1为加法
+	      doCalculation(isCalculation, index, idx) {
+	        if (isCalculation === 0) {
+	          
+			  let num = this.submitData.shopList[index].goodsParamList[idx].goodsCount
+			  num--
+			  console.log(this.clickNum)
+			  this.changeNum(index,idx,this.submitData.shopList[index].goodsParamList[idx].skuId,num)
+	        } else {
+	         
+			  let num = this.submitData.shopList[index].goodsParamList[idx].goodsCount
+			  num++
+			  this.changeNum(index,idx,this.submitData.shopList[index].goodsParamList[idx].skuId,num)
+	        }
+	      },
     changeSendType(e) {
       vm.sendType = e.detail.value;
     },
@@ -264,7 +351,7 @@ var vm = {
       //   T.tips('请选择收货地址');
       //   return false;
       // }
-
+	
       let resList = [...vm.list];
       let status = true;
       resList.map(item => {
@@ -346,6 +433,39 @@ export default vm;
 </script>
 
 <style lang="scss" scoped>
+	.calculation{
+		.count {
+			position: absolute;
+			bottom: 20upx;
+			right: 16upx;
+			display: flex;
+			align-items: center;
+		
+			span {
+				font-size: 40upx;
+				position: relative;
+				top: -4upx;
+				margin: 0 20upx;
+			}
+		
+			input {
+				width: 60upx;
+				height: 20upx !important;
+				line-height: 20upx !important;
+				background-color: #f5f5f5;
+				margin-left: 8upx;
+				margin-right: 8upx;
+				font-size: 24upx;
+				color: #333;
+				text-align: center;
+				border: none;
+				outline: none;
+				border-radius: 3upx;
+				overflow: hidden;
+			}
+		}
+		
+	}
   .tips {
     line-height: 60upx;
     background: #ffefeb;
@@ -365,6 +485,7 @@ export default vm;
   .submit {
     min-height: 100vh;
     background-color: #f0f0f0;
+	padding-bottom: 100upx;
     .freight-style {
       display: flex;
       align-items: center;
@@ -451,11 +572,15 @@ export default vm;
       }
 
       ul {
+		li:first-child{
+			padding-top: 0upx !important;
+		}
         li {
           background: #fff;
-          padding-top: 20upx;
           position: relative;
           padding: 0 30upx;
+		  padding-top: 20upx;
+		  
           .icon {
             width: 34upx;
             height: 34upx;

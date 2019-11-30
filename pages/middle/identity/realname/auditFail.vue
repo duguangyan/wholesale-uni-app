@@ -7,7 +7,7 @@
 			审核失败
 		</view>
 		<view class="tip fs24 text-999">
-			提示: {{auditOpinion || '暂无数据'}}
+			审核提示: {{auditOpinion || '暂无数据'}}
 		</view>
 		
 		<view class="big-btn-active" @click="goRealname">去修改</view>
@@ -38,7 +38,7 @@
 		methods: {
 			goRealname(){
 				uni.redirectTo({
-					url:'/pages/middle/identity/realname/agency'
+					url:'/pages/middle/identity/realname/agency?from=auditFail'
 				})
 			}
 		}	

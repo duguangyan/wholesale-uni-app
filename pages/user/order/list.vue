@@ -21,7 +21,7 @@
 				<view class="li" v-for="(item, index) in orders" :key="item.id">
 					<view class="title cf fs28 text-333">
 						<text class="fll fs-w">货主:</text>
-						<text class="fll fs-w">{{item.shopName}} </text>
+						<text class="fll fs-w">{{item.agentcyUserName}} </text>
 						<view class="image fll">
 							<image src="../../../static/imgs/right.png" mode=""></image>
 						</view>
@@ -41,10 +41,10 @@
 					<view class="accu fs24">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001'?item.orderMoney:item.payMoney}}</text></view>
 					<view class="operator">
 						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
-						<view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view>
+						<!-- <view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view> -->
 						<view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view>
 						<view class="receive" v-if="item.status == 3" @click="postOrderConfirm(index)">确认收货</view>
-						<view class="receive" v-if="item.status == 0" @click="showPay(index)">去支付</view>
+						<view class="receive" v-if="item.status == 0 && businessType == 2" @click="showPay(index)">去支付</view>
 						<view class="receive" v-if="item.status == 2 && roleId == '20002'" @click="deliverGoods(index)">发货</view>
 						
 						
@@ -62,7 +62,7 @@
 		<!--    // price： 支付价格-->
 		<!--    // function payClose：关闭支付弹窗-->
 		<!--    // function doPay: 点击支付按钮事件-->
-		<Pay :orderId="payOrderId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
+		<Pay :orderId="payOrderId" :shopId='shopId' :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
 		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
 	</view>
 </template>
@@ -174,7 +174,9 @@
 			console.log('platform:', this.platform)
 			let orderNavIndex = uni.getStorageSync('orderNavIndex')
 			if (orderNavIndex) {
-				this.status = orderNavIndex == '1' ? 6 : orderNavIndex - 1
+				this.status = orderNavIndex - 1
+				if(orderNavIndex == '1') this.status = 6
+				if(orderNavIndex == '2') this.status = 0
 				this.navIndex = orderNavIndex
 			}
 			// 获取订单列表
@@ -290,7 +292,7 @@
 			goDetail(index, orderId, shopId) {
 				let item = this.orders[index]
 				uni.navigateTo({
-					url: '/pages/user/order/detail?orderId=' + item.orderId + '&shopId=' + item.shopId
+					url: '/pages/user/order/detail?orderId=' + item.orderId + '&shopId=' + item.shopId + '&businessType='+ this.businessType
 				})
 			},
 			goFreight(index) {
@@ -324,6 +326,7 @@
 			showPay(index) {
 				this.nowIndexPrice = this.orders[index].payMoney
 				this.payOrderId = this.orders[index].orderId
+				this.shopId = this.orders[index].shopId
 				this.isPayShow = !this.isPayShow
 			},
 			// 关闭支付弹窗

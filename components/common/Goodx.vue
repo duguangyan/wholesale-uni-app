@@ -25,12 +25,9 @@
 				</view>
 				<view class="address cf" v-if="roleId!='20001'">
 					<view class="fll img">
-						<!-- #ifdef MP-WEIXIN -->  
-						<image :src="'../../../../../static/imgs/main-icon-1.png'" mode=""></image>
-						<!-- #endif -->  
-						<!-- #ifdef APP-PLUS || H5 -->
-						<image src="../../static/imgs/main-icon-1.png" mode=""></image>
-						<!-- #endif --> 
+						
+						<image :src="'/static/imgs/main-icon-1.png'" mode=""></image>
+						
 					</view>
 					<view class="fll fs20 text-999">{{item.shopArea || ''}} <text class="mgl-20">{{item.realName || ''}}</text></view>
 					<view class="flr fs20 text-999" v-if="item.createTimeName">{{item.createTimeName}}小时前</view>

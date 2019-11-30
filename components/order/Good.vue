@@ -17,15 +17,15 @@
 						代办费:¥{{item.agentcyPrice}}/{{item.goodsUnit}}
 					</view>
 					<view class="flr fs24 text-999">
-						x{{item.num}}/{{item.goodsUnit}}
+						x{{item.num}}
 					</view>
 				</view>
 				<view class="price text-theme">
 					<view class="fll"> 
-						价格:¥{{item.num}}/{{item.goodsUnit}}
+						价格:¥{{item.price}}/{{item.goodsUnit}}
 					</view>
 					<view class="flr fs24 text-999" v-if="!hasAgencyFee">
-						x{{item.num}}/{{item.goodsUnit}}
+						x{{item.num}}
 					</view>
 				</view>
 			</view>

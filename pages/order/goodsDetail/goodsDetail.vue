@@ -342,6 +342,7 @@ export default {
 
         // 处理视频和图片
         let imageList = [];
+		let detailImageList = [];
         d.goodsImgVOList.forEach(item => {
           if (item.type != 2) {
             if(item.primaryType == 1){
@@ -355,6 +356,7 @@ export default {
           }
         });
         this.imageList = imageList;
+		this.detailImageList = detailImageList;
         this.total = imageList.length;
 
         if (d.goods.unitName == null) {

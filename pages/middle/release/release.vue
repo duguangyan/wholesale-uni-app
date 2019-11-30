@@ -476,6 +476,39 @@
 						
 					})
 				}
+				
+				if(addCategoryAttributes && addCategoryAttributes.length>0) {
+					
+					addCategoryAttributes.forEach((item,index)=>{
+						
+						let goodsAttrValueList = []
+						let obj = {
+							categoryAttrId:'',
+							remark:'',
+							sort:index+1,
+							value:item.values[0]
+						}
+						goodsAttrValueList.push(obj)
+						
+						
+						let obj1 = {
+							categoryAttrId:'',
+							goodsAttrValueList,
+							goodsId:'',
+							name:item.name,
+							nameGroup:'',
+							inputType:'',
+							sort:''
+						}
+						goodsAttrList.push(obj1)
+						
+					})
+					
+					
+					
+					
+				}
+				
 				if(categorysInput.length>0){
 					categorysInput.forEach((item,index)=>{
 						if(item.valueSet.length>0){

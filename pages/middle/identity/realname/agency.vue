@@ -2,7 +2,7 @@
 	<view class="agency">
 		<view class="top flex">
 			<view class="item fs24 flex-1 cf" v-for="(item,index) in progress" :key="index">
-				<view class="garden fll" :class="{'activeGarden':index == 0 || (index==1 && disabled)}">{{index}}</view>
+				<view class="garden fll" :class="{'activeGarden':index == 0 || (index==1 && disabled)}">{{index+1}}</view>
 				<view class="text fll" :class="{'activeText':index == 0  || (index==1 && disabled)}">{{item}}</view>
 				<view class="label fll" v-if="index < 2">
 					<image src="../../../../static/imgs/agency-right.png"></image>
@@ -46,7 +46,7 @@
 					<text>{{hasfrom==2?'经营地区':'代办地区'}}</text>
 				</view>
 				<view class="choose cf" @click="showPicker">
-					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?(hasfrom==2?'请选择经营地区':'请选择代办地区'):this.address.province +"-"+ this.address.city}}</view>
+					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?(hasfrom==2?'请选择经营地区':'请选择代办地区'):address.province +"-"+ address.city}} {{hasfrom == 1? address.region:''}}</view>
 					<view class="flr" v-if="!disabled">
 						<image src="../../../../static/imgs/right.png"></image>
 					</view>
@@ -97,8 +97,8 @@
 		<view class="big-btn-active"  @click="setBack" v-if="disabled">撤回</view>
 		<view class="height100"></view>
 		<chooseType v-if="isChooseType" :list="categoryTree" @close="chooseTypeClose" @complete="chooseTypeComplete"></chooseType>
-		<mpvue-city-picker :themeColor="themeColor" :hasArea='false' ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
-		 @onCancel="onCancel" @onConfirm="onConfirm"></mpvue-city-picker>
+		<mpvue-city-picker :themeColor="themeColor" :hasArea='hasArea' ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
+		 @onCancel="onCancel" @onConfirm="onConfirm" @onChange='onChange'></mpvue-city-picker>
 	</view>
 </template>
 
@@ -107,13 +107,15 @@
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import mpvueCityPicker from '@/components/common/mpvue-citypicker/mpvueCityPicker.vue'
 	import chooseType from '@/components/realname/ChooseType.vue'
-	import { postUserImgUpload, postUserHeadImg, postUpdateNickname, getUserRealInfoSettledIn, getUserRealInfoAll, applyAuditWithdraw, applyApplyUpdate } from '@/api/userApi.js'
+	import { postUserImgUpload, postUserHeadImg, postUpdateNickname, getUserRealInfoSettledIn, getUserRealInfoAll, applyAuditWithdraw, applyApplyUpdate, applyApplyModifySettledIn } from '@/api/userApi.js'
 	import { getCategoryTreeNode } from '@/api/goodsApi.js'
 	import T from '@/utils/tips.js'
 	export default {
 		name: 'agency',
 		data() {
 			return {
+				hasArea:false,
+				categoryId:'',
 				realNamePlaceholder:'', 
 				code :'',        // 邀请码
 				userApply:'',    // 用户类型
@@ -140,6 +142,7 @@
 				agencyImgUpload1: '',
 				agencyImgUpload2: '',
 				hasfrom:'',
+				from:'',
 				productType:'',
 				realName :'',        // 真实姓名
 				cardNo:'',           // 身份证号码
@@ -160,6 +163,7 @@
 			// hafrom : 1代办 2 货主
 			if(options.hasfrom){
 				this.hasfrom = options.hasfrom
+				this.hasArea = this.hasfrom == 1
 				// 如果是货主获取经营类型（产品分类）
 				if(this.hasfrom == 2){
 					getCategoryTreeNode().then(res=>{
@@ -169,6 +173,11 @@
 					})
 				}
 			}
+			// 审核失败页面返回
+			
+			if(options.from == 'auditFail'){
+				this.from = 'auditFail'
+			}
 		},
 		onShow() {
 			// 获取缓存数据
@@ -177,9 +186,23 @@
 			this.userRealInfo = uni.getStorageSync('userRealInfo') || ''
 			// 判断用户类型
 			this.assessUserType() 
+			
 		},
 		
 		methods: {
+			// 获取用户信息
+			getUserRealInfoAll(){
+				getUserRealInfoAll().then((res) => {
+					if (res.code === '1000') {
+						let roleId = res.data.userRole.roleId || ''
+						uni.setStorageSync('nickName', res.data.user.realName || (res.data.userRealInfo?res.data.userRealInfo.realName:'') || res.data.apply.realName)
+						uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
+						uni.setStorageSync('roleId', roleId)
+						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
+					}
+				})
+			},
 			// 撤回
 			setBack(){
 				applyAuditWithdraw().then(res=>{
@@ -199,15 +222,25 @@
 				if(userApply){
 					this.userApply        = JSON.parse(userApply) 
 					this.hasfrom          = this.userApply.type == 1 ? 2 : 1
-					this.disabled         = this.userApply.status != 3
-					this.realName         = this.userApply.realName
-					this.cardNo           = this.userApply.cardNo
-					this.agencyImgUpload1 = this.userApply.cardImgFront
-					this.agencyImgUpload2 = this.userApply.cardImgReverse
-					this.productType      = this.userApply.categoryName
-					this.fullAddress      = this.userApply.province + this.userApply.city + this.userApply.region
+					if(this.from == ''){
+						this.disabled     = this.userApply.status != 3
+					}else{
+						this.disabled     = false
+					}
+					this.realName           = this.userApply.realName
+					this.cardNo             = this.userApply.cardNo
+					this.categoryId         = this.userApply.categoryId
+					this.agencyImgUpload1   = this.userApply.cardImgFront
+					this.agencyImgUpload2   = this.userApply.cardImgReverse
+					this.productType        = this.userApply.categoryName
+					this.fullAddress        = this.userApply.province + this.userApply.city 
+					this.address.province   = this.userApply.province
+					this.address.provinceId = this.userApply.provinceId
+					this.address.city       = this.userApply.city
+					this.address.cityId     = this.userApply.cityId
+					this.address.region     = this.userApply.region
+					this.address.regionId   = this.userApply.regionId
 				}
-				
 				this.realNamePlaceholder = this.hasfrom==2?'请输入货主姓名':'请输入代办姓名'
 			},
 			chooseTypeComplete(e){
@@ -295,10 +328,12 @@
 			onCancel(e) {
 				console.log(e)
 			},
+			onChange(e){
+				
+			},
 			onConfirm(e) {
+				debugger
 				this.fullAddress = e.label
-				
-				
 				// full地址
 				let arr = this.fullAddress.split('-');
 				// 省
@@ -361,31 +396,54 @@
 					data.type = 2
 				}else if(this.hasfrom == 2){
 					data.type = 1
-					data.categoryId = this.productTypeId
+					data.categoryId = this.productTypeId || this.categoryId
 				}
 				
-				if(this.userApply.status == 3) { // 重新审核
+				if(this.userApply.status == 3 || this.from != '') { // 重新审核
 					data.id = this.userApply.id
 					data.status = 3
-					applyApplyUpdate(data).then(res=>{
-						if(res.code == '1000'){
-							getUserRealInfoAll().then((res) => {
-								if (res.code === '1000') {
-									let roleId = res.data.userRole.roleId || ''
-									uni.setStorageSync('nickName', res.data.user.nickName)
-									uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
-									uni.setStorageSync('roleId', roleId)
-									uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
-									uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
-									uni.switchTab({
-										url:'/pages/middle/middle'
-									})
-								}
-							})
-						}else{
-							 T.tips(res.message || '审核失败')
-						}
-					})
+					if(this.from !=''){
+						applyApplyModifySettledIn(data).then(res=>{
+							if(res.code == '1000'){
+								getUserRealInfoAll().then((res) => {
+									if (res.code === '1000') {
+										let roleId = res.data.userRole.roleId || ''
+										uni.setStorageSync('nickName', res.data.user.nickName)
+										uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
+										uni.setStorageSync('roleId', roleId)
+										uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+										uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
+										uni.switchTab({
+											url:'/pages/middle/middle'
+										})
+									}
+								})
+							}else{
+								 T.tips(res.message || '审核失败')
+							}
+						})
+					}else{
+						applyApplyUpdate(data).then(res=>{
+							if(res.code == '1000'){
+								getUserRealInfoAll().then((res) => {
+									if (res.code === '1000') {
+										let roleId = res.data.userRole.roleId || ''
+										uni.setStorageSync('nickName', res.data.user.nickName)
+										uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
+										uni.setStorageSync('roleId', roleId)
+										uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+										uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
+										uni.switchTab({
+											url:'/pages/middle/middle'
+										})
+									}
+								})
+							}else{
+								 T.tips(res.message || '审核失败')
+							}
+						})
+					}
+					
 				}else{  // 第一次审核
 					getUserRealInfoSettledIn(data).then(res=>{
 						if(res.code == '1000'){

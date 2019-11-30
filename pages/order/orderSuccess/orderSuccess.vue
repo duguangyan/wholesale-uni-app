@@ -38,6 +38,7 @@
 			this.orderId = options.orderId
 			this.shopId  = options.shopId
 			this.phone   = options.phone
+			console.log(this.phone)
 		},
 		methods: {
 			// 广告位url跳转

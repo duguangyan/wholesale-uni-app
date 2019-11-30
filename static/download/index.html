@@ -1,0 +1,117 @@
+
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>正鼎农品App下载</title>
+        <meta name='keywords' content='下载'>
+        <meta name='description' content=''>
+        <style>
+            a:link,a:visited,a:hover,a:active,a{
+                text-decoration: none;
+            }
+            .logo{
+                padding-top: 200px;
+                text-align: center;
+                margin-bottom: 70px;
+            }
+            .download>a{
+                display: block;
+                width: 400px;
+                height: 80px;
+                text-align: center;
+                line-height: 80px;
+                border-radius: 50px;
+                color: #fff;
+                font-size: 32px;
+              }
+              #ios{
+                background: #ffa812;
+                margin: 0 auto;
+              }
+              #android{
+                background: #fc2d2d;
+                margin: 0 auto 54px auto;
+              }
+              .dialog{
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                display: none;
+                position: fixed; 
+                top: 0; 
+                left: 0; 
+                background: rgba(0, 0, 0, .6);
+            }
+            .dialog>img{
+                max-width: 100%;
+                height: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="download">
+            <div class="logo">
+                <img src="/static/img/toplog.png" />
+            </div>
+            <a id="android">Android版下载</a>
+            <a id="ios" href="https://apps.apple.com/cn/app/%E4%B8%8A%E4%B8%8A%E5%86%9C%E5%A4%AB/id1484601336?l=zh">ios版下载</a>
+            <div id="wechat" class="dialog">
+                <img src="/static/img/dialog.png" />
+            </div>
+        </div>
+        <script>
+            window.onload=function(){
+                // 跳转链接判断
+                adaptSize(750);
+                var ua = window.navigator.userAgent.toLowerCase();
+                var ios = document.getElementById('ios');
+                var android = document.getElementById('android');
+                var dialog = document.getElementById('wechat');
+                if (ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1) {
+                    // to ios download
+                    android.style.display = 'none'
+                    window.location.href = 'https://apps.apple.com/cn/app/%E4%B8%8A%E4%B8%8A%E5%86%9C%E5%A4%AB/id1484601336?l=zh';
+                } else if (ua.indexOf('micromessenger') > -1) {
+                    ios.style.display = 'none'
+                    android.addEventListener('click', function(e) {
+                        dialog.style.display = 'block';
+                        e.preventDefault();
+                        androidDownload();
+                    })
+                } else {
+                    // to android download
+                    ios.style.display = 'none'
+                    android.innerHTML = '立即下载';
+                    android.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        androidDownload();
+                    })
+                }
+                dialog.addEventListener('click', function() {
+                    this.style.display = 'none';
+                })
+                
+                function adaptSize(baseSize) {
+                    var meta = document.querySelector('meta[name="viewport"]');
+
+                    meta.content =
+                    'width=375,  initial-scale=' +
+                    (window.innerWidth / baseSize).toFixed(4) +
+                    ', user-scalable=' +
+                    0
+                }
+
+                function androidDownload() {
+                    // android应用下载
+                    var src = 'https://xx-upms.oss-cn-zhangjiakou.aliyuncs.com/app/__UNI__E3A114F_1111192742.apk';
+                    var iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = "javascript: '<script>location.href=\"" + src + "\"<\/script>'";
+                    document.getElementsByTagName('body')[0].appendChild(iframe);
+                }
+            };
+        </script>
+    </body>
+</html>

@@ -1,6 +1,6 @@
- // let apiUrl = 'http://wsm.qinlvny.com/ws'; // 微信 APP 正式
+ let apiUrl = 'http://wsm.qinlvny.com/ws'; // 微信 APP 正式
 // let apiUrl = '/ws'; // H5正式
-let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
+//let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 
 const versionNumber = 'V1.0.1'; //版本号
 
@@ -126,7 +126,9 @@ const request = function(params = {}) {
 						}
 						console.log('tokenData',tokenData)
 						console.log('apiUrl',apiUrl + '/oauth/oauth/token')
-						apiUrl = apiUrl.split('/ws')[0]
+						if(apiUrl.indexOf('/ws') != -1){
+							apiUrl = apiUrl.split('/ws')[0]
+						}
 						uni.request({
 							url: apiUrl + '/oauth/oauth/token',
 							method: 'POST',

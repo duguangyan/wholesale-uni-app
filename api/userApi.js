@@ -31,6 +31,15 @@ const getUserInfoData = data => {
 	})
 }
 
+// 修改手机号
+const getUserModifyPhone = data => {
+	return request({
+		url: '/api/upms/user/modifyPhone',
+		data
+	})
+}
+
+
 // 跟新用户头像
 const postUserHeadImg = data => {
 	return request({
@@ -317,7 +326,7 @@ const applyAuditWithdraw = data => {
 	})
 }
 
-// 入驻申请撤回后提交更新
+// 入驻申请不通过提交更新
 const applyApplyUpdate = data => {
 	return request({
 		method: 'post',
@@ -326,6 +335,17 @@ const applyApplyUpdate = data => {
 		type: 'form',
 	})
 }
+
+// 入驻申请撤回后提交更新
+const applyApplyModifySettledIn = data => {
+	return request({
+		method: 'post',
+		url: '/api/goods/userRealInfo/modifySettledIn',
+		data,
+		type: 'form',
+	})
+}
+
 
 // 获取当前用户店铺信息
 const getShopInfo = data => {
@@ -395,6 +415,8 @@ const sellerCancel = data => {
 
 
 export {
+	getUserModifyPhone,
+	applyApplyModifySettledIn,
 	sellerCancel,
 	sellerConfirm,
 	orderDelivery,

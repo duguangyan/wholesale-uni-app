@@ -26,7 +26,7 @@
 </template>
 
 <script>
-	import { postUpdateNickname, postUserSms } from '@/api/userApi.js'
+	import { postUpdateNickname, postUserSms,getUserModifyPhone } from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	import validator from '@/utils/validator.js'
 	export default {
@@ -56,7 +56,7 @@
 					phone: this.phone,
 					code:this.code
 				}
-				postUpdateNickname(data).then(res => {
+				getUserModifyPhone(data).then(res => {
 					if (res.code === '1000') {
 						uni.setStorageSync('phone',this.phone)
 						uni.navigateBack({

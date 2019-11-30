@@ -1,9 +1,9 @@
 <template>
 	<div class="cart" :class="{'access_token':access_token!=''}">
-		<div class="edit cf" v-if="!hasData">
+		<div class="edit cf">
 			<view class="fll image" @click="goBack"><image src="../../static/img/tag-back.png"></image></view>
 			<div class="title fll fs38">进货单({{validTotal}})</div>
-			<div class="icon flr fs30" @click="isEdit = !isEdit">{{isEdit?'完成':'编辑'}}</div>
+			<div class="icon flr fs30" v-if="!hasData" @click="isEdit = !isEdit">{{isEdit?'完成':'编辑'}}</div>
 		</div>
 		<div class="cart-nodata" v-if="hasData">
 			<div class="img">
@@ -39,7 +39,7 @@
 						<div class="fll ml-10 info">
 							<p class="fs28 p1 ellipsis ellipsis-line2" @click="goDetail(item.shopId, it.goodsId)">{{it.goodsName || ''}}</p>
 							<p class="p4 text-999 fs20 ellipsis ellipsis-line3" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p>
-              <p class="text-333 fs28">代办费&nbsp;￥{{it.agencyFee}}{{it.unitName?`/${it.unitName}`:''}}</p>
+              <p class="text-333 fs28">代办费&nbsp;￥{{it.agencyFee || ''}}{{it.unitName?`/${it.unitName}`:''}}</p>
 							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
 							<p v-if="it.status !== 4" class=" fs-14 p2 text-red" @click="goDetail(item.shopId, it.goodsId)">价格: <span class="fs-18">￥{{it.price}}</span>{{it.unitName?`/${it.unitName}`:''}}</p>
 							<!-- <p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p> -->
@@ -219,7 +219,7 @@
 					// userId,
 					cartIdList
 				}
-				getOrderCart(data).then(res => {
+				getOrderCart(data).then(res => {debugger
 					if (res.code === '1000') {
 						this.clock = true
 						uni.navigateTo({

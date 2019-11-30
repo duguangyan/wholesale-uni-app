@@ -7,14 +7,14 @@
 			<!--  #ifdef  MP-WEIXIN ||APP-PLUS || H5 -->
 			<view class="content">
 				<view class="fll img-1" @click="goClassify">
-					<image src="../../static/imgs/search-left-1.png" mode=""></image>
+					<image src="/static/imgs/search-left-1.png" mode=""></image>
 					<view>分类</view>
 				</view>
 				<view class="img fll">
-					<image src="../../static/imgs/icon-search-1.png"  @click="goSearch"></image>
+					<image src="/static/imgs/icon-search-1.png"  @click="goSearch"></image>
 				</view>
 				<view class="flr img-2" @click="goOrder">
-					<image src="../../static/imgs/search-order-1.png" mode=""></image>
+					<image src="/static/imgs/search-order-1.png" mode=""></image>
 					<view>进货单</view>
 				</view>
 			</view>
@@ -22,7 +22,7 @@
 			<!--  #endif -->
 			<!--  #ifdef  MP-WEIXIN -->
 			<!-- <view class="img">
-				<image src="../../static/img/icon-search-2.png"></image>
+				<image src="/static/img/icon-search-2.png"></image>
 			</view> -->
 			<!--  #endif -->
 		</view>
@@ -63,7 +63,7 @@
 	   </form> -->
 
 		<!-- 广告 -->
-		<view class="advs" @click="goadSet(homeList.list[2].list[0].list[0].adPosition.adSet[0])">
+		<view class="advs" v-if="homeList.list[2].list[0].list[0].adPosition.adSet[0]" @click="goadSet(homeList.list[2].list[0].list[0].adPosition.adSet[0])">
 			<image :src="homeList.list[2].list[0].list[0].adPosition.adSet[0]?homeList.list[2].list[0].list[0].adPosition.adSet[0].path:''" mode=""></image>
 		</view>
 		<!-- 精选 -->
@@ -93,7 +93,7 @@
 						</view>
 						<view class="address cf">
 							<view class="fll img">
-								<image src="../../static/imgs/main-icon-1.png" mode=""></image>
+								<image src="/static/imgs/main-icon-1.png" mode=""></image>
 							</view>
 						</view>
 					</view>

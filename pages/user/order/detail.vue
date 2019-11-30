@@ -99,16 +99,16 @@
 					<div class="address">{{order.orderShipping.province + order.orderShipping.city + order.orderShipping.region + order.orderShipping.address}}</div>
 				</div>
 			</div> -->
-			<view class="phone cf" v-if="order.agentcyPhone">
-				<view class="fll">{{roleId=='20001'?'代办人':'货主'}}:{{order.agentcyUserName || '暂无'}}</view>
-				<view class="flr" @click="callPhone(order.agentcyPhone)">
+			<view class="phone cf" v-if="order.agentcyPhone && roleId != 20002">
+				<view class="fll">{{roleId=='20001' || roleId=='20003'?'代办人':'货主'}}:{{roleId=='20001' || roleId=='20003'?order.agentcyUserName : order.sellerName}}</view>
+				<view class="flr" @click="callPhone(roleId=='20001' || roleId=='20003'?order.agentcyPhone:order.sellerPhone)">
 					<view class="image">
 						<image src="../../../static/imgs/icon-phone.png" mode=""></image>
 					</view>
-					<text>联系{{roleId=='20001'?'代办':'货主'}}</text>
+					<text>联系{{roleId=='20001'|| roleId=='20003'?'代办':'货主'}}</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="order.phone && roleId != 20001">
+			<view class="phone cf" v-if="order.phone && roleId == 20002">
 				<view class="fll">买家:{{order.userName || '暂无'}}</view>
 				<view class="flr" @click="callPhone(order.phone)">
 					<view class="image">
@@ -121,7 +121,7 @@
 				<view class="fll">物流方式:</view>
 				<view class="flr" @click="showCarInfo">
 					<text class="text-theme">{{order.shopOrder.sendType == 1 ?'平台选车':'自驾车辆'}}</text>
-					<view class="right">
+					<view class="right" v-if="status>=3">
 						<image src="../../../static/imgs/right.png" mode=""></image>
 					</view>
 				</view>
@@ -166,17 +166,19 @@
 			<div class="info" v-if="order.shopOrder">
 				<div class="title">订单信息</div>
 				<div class="item">订单编号：{{order.shopOrder.orderId || ''}}</div>
-				<div class="item">创建时间：{{order.shopOrder.createTime || ''}}</div>
+				<div class="item">下单时间：{{order.shopOrder.createTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.payTime">支付时间：{{order.shopOrder.payTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.payTime">货主确认：{{order.shopOrder.payTime || ''}}</div>
-				<div class="item" v-if="order.shopOrder.sendTime">成交时间：{{order.shopOrder.sendTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.sendTime">发货时间：{{order.shopOrder.sendTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.finishTime">收货时间：{{order.shopOrder.finishTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.closeTime">取消订单：{{order.shopOrder.closeTime || ''}}</div>
 			</div>
 		</div>
 
-		<div class="footer" v-if="status == 0 || status == 3 || status == 6">
+		<div class="footer" v-if="status == 0 || status == 3 || status == 6 || status == 2">
 			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 			<div class="btn-black btn" v-if="status == 0" @click="postOrderCancel">取消订单</div>
-			<div class="btn-red btn" v-if="status == 0" @click="showPay">去付款</div>
+			<div class="btn-red btn" v-if="status == 0 && businessType == 2" @click="showPay">去付款</div>
 			<div class="btn-red btn" v-if="status == 3" @click="postOrderConfirm">确认收货</div>
 			<view class="btn-red btn" v-if="status == 2 && roleId == '20002'" @click="deliverGoods()">发货</view>
 			
@@ -184,7 +186,7 @@
 			<view class="btn-red btn" v-if="status == 6 && roleId == '20001'" @click="sellerConfirm()">确认订单</view>
 			
 		</div>
-		<Pay :orderId="orderId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
+		<Pay :orderId="orderId" :shopId="shopId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
 		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
 		<luPopupWrapper ref="luPopupWrapper" 
 		    :type="type"
@@ -236,6 +238,7 @@
 		name: 'orddetail',
 		data() {
 			return {
+				businessType:'',
 				cancelReason:'',
 				title: '确认收货吗?',
 				isShow: false,
@@ -272,8 +275,10 @@
 			luPopupWrapper
 		},
 		onLoad(options) {
-			this.orderId = options.orderId
-			this.shopId = options.shopId || 1
+			this.orderId      = options.orderId
+			this.shopId       = options.shopId || 1
+			this.businessType = options.businessType || 2
+			console.log(this.orderId,this.shopId,this.businessType)
 		},
 		onShow() {
 			// 用户类型
@@ -341,7 +346,9 @@
 			
 			// 显示司机信息
 			showCarInfo(){
-				this.show()
+				if(this.status >= 3) {
+					this.show()
+				}
 			},
 			// 拨打联系人电话
 			callPhone(phone){
@@ -449,6 +456,7 @@
 			},
 			// 获取订单详情
 			getOrderDetailById(orderId, shopId) {
+				let _this = this
 				let data = {
 					orderId
 				}
@@ -458,16 +466,29 @@
 				getOrderDetailById(data).then(res => {
 					if (res.code === '1000') {
 						this.order = res.data
-						if (this.order.shopOrder.status == 0 || this.order.shopOrder.status == 3) {
-							let expiresTime = this.order.expiresTime
-							this.timer = setInterval(() => {
-								expiresTime = expiresTime - 1000
-								this.expiresTime = this.order.shopOrder.status == 0 ? util.MillisecondToDate(expiresTime) : util.getLeftTime(
-									expiresTime)
-								if (expiresTime <= 0) {
-									clearInterval(this.timer)
-								}
-							}, 1000)
+						
+						if(this.order.shopOrder.status == 0 || this.order.shopOrder.status == 3){
+									 let expiresTime = ''
+									 let nowData = ''
+									 // if(_this.order.shopOrder.status == 0){
+										// nowData =  parseInt((new Date()).getTime() / 1000) * 1000
+										// expiresTime = this.order.expiresTime - nowData
+									 // }else{
+										// expiresTime = this.order.expiresTime
+									 // }
+									console.log(expiresTime)
+									expiresTime = this.order.expiresTime
+									 this.timer = setInterval(()=>{
+										 if(_this.order.shopOrder.status == 0){
+											 expiresTime = expiresTime - 1000;
+										 }
+										  _this.expiresTime = _this.order.shopOrder.status == 0 ? util.MillisecondToDate(expiresTime) : util.getLeftTime(expiresTime);
+										  if(expiresTime<= 0){
+											  clearInterval(_this.timer)
+											  _this.isOrderDialog = 1
+											  _this.doConfirm()
+										  }
+									 },1000)
 						}
 						this.statusText = ''
 						if (this.order.shopOrder) {
@@ -487,7 +508,7 @@
 										this.statusText = '已支付'
 										break
 									case 2:
-										this.statusText = '等待货主发货'
+										this.statusText = '等待代办发货'
 										break
 									case 3:
 										this.statusText = '等待买家收货'

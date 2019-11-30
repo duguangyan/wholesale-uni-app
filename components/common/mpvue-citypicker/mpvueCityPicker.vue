@@ -89,6 +89,7 @@
 								getChildrenByPId(data2).then(res => {
 									if (res.code === '1000') {
 										this.areaDataList = res.data
+										this.ids = [this.provinceDataList[this.pickerValue[0]].id,this.cityDataList[this.pickerValue[1]].id,this.areaDataList[this.pickerValue[2]].id]
 									}
 								})
 
@@ -166,7 +167,7 @@
 							getChildrenByPId(data2).then(res => {
 								if (res.code === '1000') {
 									this.areaDataList = res.data
-
+									this.ids = [this.provinceDataList[this.pickerValue[0]].id,this.cityDataList[this.pickerValue[1]].id,this.areaDataList[this.pickerValue[2]].id]
 
 								}
 							})
@@ -190,7 +191,7 @@
 						if (res.code === '1000') {
 							this.areaDataList = res.data
 
-
+							this.ids = [this.provinceDataList[this.pickerValue[0]].id,this.cityDataList[this.pickerValue[1]].id,this.areaDataList[this.pickerValue[2]].id]
 						}
 					})
 					changePickerValue[2] = 0;

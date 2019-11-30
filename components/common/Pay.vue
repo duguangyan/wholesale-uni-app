@@ -75,6 +75,10 @@
 				type: String,
 				default: ''
 			},
+			shopId: {
+				type: String,
+				default: ''
+			},
 			platform:{
 				type: Number,
 				default: 0
@@ -201,7 +205,7 @@
 									_this.clock = true
 							        console.log('success:' + JSON.stringify(res));
 									uni.reLaunch({
-										url:'/pages/user/pay/success?payPrice='+_this.price+'&orderId='+_this.orderId
+										url:'/pages/user/pay/success?payPrice='+_this.price+'&orderId='+_this.orderId+'&shopId='+ _this.shopId
 									})
 									
 							    },
@@ -210,7 +214,7 @@
 							        console.log('fail:' + JSON.stringify(err));
 									T.tips('支付失败')
 									uni.redirectTo({
-									    url: '/pages/user/order/detail?orderId='+_this.orderId
+									    url: '/pages/user/order/detail?orderId='+_this.orderId + +'&shopId='+ _this.shopId
 									});
 							    }
 							});
@@ -264,7 +268,7 @@
 									_this.clock = true
 							        console.log('success:' + JSON.stringify(res));
 									uni.reLaunch({
-										url:'/pages/user/pay/success?payPrice='+_this.price+'&orderId='+_this.orderId
+										url:'/pages/user/pay/success?payPrice='+_this.price+'&orderId='+_this.orderId +'&shopId='+ _this.shopId
 									})
 									// uni.showModal({
 									// 	content:JSON.stringify(res),
@@ -281,7 +285,7 @@
 							        console.log('fail:' + JSON.stringify(err));
 									T.tips('支付失败')
 									uni.redirectTo({
-									    url: '/pages/user/order/detail?orderId='+_this.orderId
+									    url: '/pages/user/order/detail?orderId='+_this.orderId +'&shopId='+ _this.shopId
 									});
 									// uni.showModal({
 									// 	content:JSON.stringify(err),

@@ -63,12 +63,12 @@ export default {
   methods: {
 	share(index){
 		let scene = 'WXSenceTimeline'; // 朋友圈
-		let title = "沁绿农业" + this.name
+		let title = "正鼎农品" + this.name
 		if(index == 0) { // 微信
 			scene = 'WXSceneSession'
-			title = "沁绿农业"
+			title = "正鼎农品"
 		}
-		let href = 'http://m.qinlvny.com/#/gooddetail/'+ this.shopId + '/' + this.goodsId
+		let href = 'http://wsm.qinlvny.com/#/pages/order/goodsDetail/goodsDetail/'+ this.shopId + '/' + this.goodsId
 		console.log(href)
 		
 		let summary = this.name

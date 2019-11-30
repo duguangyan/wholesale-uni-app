@@ -2,8 +2,12 @@ import {request}  from './request.js'
 
 // 支付宝wap网页支付
 const payAlipayByWap = data => {
+	let url = '/api/order/order/pay';
+	// #ifdef H5 
+		url = '/api/ws/order/order/pay';  
+	// #endif
   return request({
-    url: '/api/order/order/pay',
+    url: url,
     method: 'post',
     data,
     type: 'form'
