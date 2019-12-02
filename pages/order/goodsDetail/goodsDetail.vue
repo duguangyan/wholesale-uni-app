@@ -130,7 +130,23 @@
     <view class="goodsTitle" v-if="isGoodsTitle">{{ goodsTitle }}</view>
 
     <!-- 0 待审核 1待修改 2申请驳回 3上架 4下架 -->
-    <view class="operator flex" v-if="good.goods.status == 3">
+    <view v-if="isMaster" class="">
+      <!-- 审核驳回显示驳回信息 -->
+      <view v-if="good.goods.status == 2" class="bottom-tips">{{ good.goodsAuditLogVO.auditOpinion }}</view>
+      <view v-if="good.goods.status == 1" class="bottom-tips">审核中</view>
+
+      <!-- 审核中 -->
+      <view class="bottom-btn">
+        <view v-if="good.goods.status == 1" @click="rollback">撤回</view>
+        <!-- 审核驳回 -->
+        <view :class="{ mr10: good.goods.status == 4 }" v-if="good.goods.status == 2 || good.goods.status == 4" @click="modify">修改</view>
+        <!-- 已上架 -->
+        <view v-if="good.goods.status == 3" @click="unpublish">下架</view>
+        <!-- 一下机 -->
+        <view class="ml10" v-if="good.goods.status == 4" @click="publish">上架</view>
+      </view>
+    </view>
+    <view class="operator flex" v-else-if="good.goods.status == 3">
       <view class="fir flex-1">
         <view @click="navToShop">
           <img class="icon-18" src="@/static/imgs/icon-shop.png" />
@@ -146,7 +162,7 @@
       </view>
 
       <view class="flex-2" v-if="good.isInvalid || good.goods.status != 3"><view class="add" @click="goHome">再去逛逛</view></view>
-      <view class="flex-2" v-if="good.goods.status != 4 && !(good.isInvalid || good.goods.status != 3)">
+      <view class="flex-2" v-else-if="good.goods.status != 4 && !(good.isInvalid || good.goods.status != 3)">
         <view class=" flex" v-if="!good.isInvalid || good.goods.status == 3">
           <!--  #ifdef  H5 || APP-PLUS -->
           <view class="add flex-1" @click="showConfirm('/cart')">加入进货单</view>
@@ -242,16 +258,18 @@ import Standard from '@/components/good/Standard';
 import ColSta from '@/static/img/icon-collect.png';
 import ColAct from '@/static/img/icon-collect2.png';
 import { addToCart } from '@/api/goodsApi.js';
-import { getDetail, setCollect, removeCollect, getGoodNums, getPostItem, getHasCollect, getGoodsDetail } from '@/api/goodsApi.js';
+import { handlerGoods,getDetail, getGoodNums, getPostItem, getHasCollect, getGoodsDetail } from '@/api/goodsApi.js';
 import { getSetFormId } from '@/api/userApi.js';
 import T from '@/utils/tips.js';
 import util from '@/utils/util.js';
 import SwiperDot from '@/components/common/SwiperDot.vue';
-export default {
+var vm =  {
   data() {
+    vm = this
     return {
-      isCall: false,
-      callList: [],
+      isMaster: /*是否货主*/ false,
+      isCall: /*是否展示拨号*/ false,
+      callList: /*代办人号码列表*/ [],
       animation: '',
       imgLoading: true,
       opt: false,
@@ -313,186 +331,217 @@ export default {
     this.goodsId = options.goodsId;
   },
   onShow() {
-    // if (uni.getStorageSync("access_token")) {
-    // 	getGoodNums({
-    // 		status: ""
-    // 	}).then(data => {
-    // 		if(data.code == '1000'){
-    // 			this.counter = data.data.itemNum;
-    // 		}
-
-    // 	});
-    // }
-
-    getGoodsDetail({
-      shopId: this.shopId,
-      goodsId: this.goodsId
-    }).then(data => {
-      if (data.code == '1000') {
-        let d = data.data.goodsDetail;
-        d.hasColletion = data.data.hasColletion;
-        d.standardList = [];
-        
-        // 获取代办人列表
-        this.callList = d.agencyList
-
-        //处理金额
-        d.goods.minPrice = util.formatMoney(d.goods.minPrice, 2);
-        d.goods.maxPrice = util.formatMoney(d.goods.maxPrice, 2);
-
-        // 处理视频和图片
-        let imageList = [];
-		let detailImageList = [];
-        d.goodsImgVOList.forEach(item => {
-          if (item.type != 2) {
-            if(item.primaryType == 1){
-              imageList.push(item);
-            }else{
-              detailImageList.push(item);
-            }
-            
-          } else {
-            this.videoObj[item.sort] = item.imgUrl;
-          }
-        });
-        this.imageList = imageList;
-		this.detailImageList = detailImageList;
-        this.total = imageList.length;
-
-        if (d.goods.unitName == null) {
-          d.goods.unitName = d.goodsDetailSpecList[0].name;
-        }
-
-        const setNode = (node, key) => {
-          node[key] = {};
-          return node[key];
-        };
-
-        // 生成规格树
-        let tree = {};
-        // let specLen = d.goodsDetailSpecList.length;
-        let parentNodes = [tree];
-
-        d.goodsDetailSpecList.forEach(spec => {
-          // 为每个父节点插入子节点
-          let nodes = [];
-          parentNodes.forEach(node => {
-            spec.goodsDetailSpecValueList.forEach((val, index) => {
-              // 重置当前遍历的父节点
-              nodes.push(setNode(node, val.value));
-            });
-          });
-          parentNodes = nodes;
-        });
-
-        let sufName;
-        let isSection = d.goods.showStyle == 1 && d.goodsSkuList.length > 1 ? true : false;
-        // if (isSection) {
-        //   sufName = d.goodsDetailSpecList[0].valueSuffix;
-        // } else {
-        //   sufName = "";
-        // }
-        sufName = d.goodsDetailSpecList[0].valueSuffix || '';
-
-        let grades = JSON.parse(d.goodsSkuList[0].priceExp);
-        if (d.goods.showStyle == 2) {
-          d.goodsSkuList[0].price = grades[0].price;
-          d.goodsSkuList[0].startNum = grades[0].startQuantity;
-        }
-
-        // 配置节点
-        let isInvalid = /* 是否无效效商品 */ true;
-        d.goodsSkuList.forEach((sku, exIndex) => {
-          let curNode = tree;
-          let len = sku.attrValueList.length;
-          d.standardList[exIndex] = [];
-
-          sku.attrValueList.forEach((val, index) => {
-            curNode = curNode[val.value];
-            if (len - 1 == index) {
-              // 配置参数
-              curNode.disabled = !!(sku.stock < sku.startNum);
-              curNode.price = sku.price;
-              curNode.stock = sku.stock;
-              curNode.id = sku.id;
-              curNode.startNum = sku.startNum;
-            }
-            // 顺便处理规格
-            if (isSection) {
-              d.standardList[exIndex].push(`${sku.startNum}${d.goods.unitName}起批`);
-              d.standardList[exIndex].push(`${val.value}${+d.goods.showStyle !== 3 ? sufName : ''}`);
-            } else {
-              d.standardList[exIndex].push(val.value);
-            }
-
-            // 累计无效次
-            isInvalid = isInvalid && curNode.disabled;
-          });
-          d.standardList[exIndex].push(`￥${sku.price}/${d.goods.unitName}`);
-        });
-        d.tree = tree;
-        d.isInvalid = isInvalid;
-
-        if (d.isInvalid) {
-          this.isGoodsTitle = true;
-          this.goodsTitle = '库存不足,请浏览别的商品吧~';
-          // T.tips("库存不足,请浏览别的商品吧~");
-        }
-
-        // 0 待审核 1待修改 2申请驳回 3上架 4下架
-        if (d.goods.status == 4) {
-          T.tips('商品已下架啦,看下其它的吧');
-        }
-
-        if (d.goods.showStyle == 2) {
-          let sku = d.goodsSkuList[0].attrValueList[0];
-          d.goodsList = [];
-          let grades = JSON.parse(d.goodsSkuList[0].priceExp);
-          grades.forEach((item, index) => {
-            d.goodsList.push({
-              startNum: item.startQuantity,
-              price: item.price,
-              unit: sku.name,
-              id: sku.skuId
-            });
-          });
-        }
-
-        d.sufName = sufName;
-
-        this.good = d || {};
-
-        // 商品购买面板
-        this.deep = this.good.goodsDetailSpecList.length;
-        this.good.goodsDetailSpecList.forEach(spec => {
-          this.curs.push({
-            key: spec.goodsDetailSpecValueList[0].value,
-            disabled: undefined
-          });
-        });
-        this.calcPrice();
-        this.opt = true;
-        // 获得邮费方案
-        // getPostItem({
-        // 	id: d.goods.postSettingId
-        // }).then(data => {
-        // 	this.postType = data.data.type;
-        // });
-
-        this.good.goods.detail = util.formatRichText(this.good.goods.detail);
-        console.log(this.good.goods.detail);
-        // 判断商品是否备收藏
-        if (uni.getStorageSync('access_token')) {
-          this.getHasCollect(this.goodsId);
-        }
-      }
-    });
+    vm.load()
   },
   methods: {
+    load(){
+      getGoodsDetail({
+          shopId: this.shopId,
+          goodsId: this.goodsId
+        }).then(data => {
+          if (data.code == '1000') {
+            let d = data.data.goodsDetail;
+            d.hasColletion = data.data.hasColletion;
+            d.standardList = [];
+      
+            // 便被身份
+            try {
+              vm.isMaster = uni.getStorageSync('roleId') == 20001;
+            } catch (err) {}
+      
+            // 获取代办人列表
+            vm.callList = d.agencyList;
+      
+            //处理金额
+            d.goods.minPrice = util.formatMoney(d.goods.minPrice, 2);
+            d.goods.maxPrice = util.formatMoney(d.goods.maxPrice, 2);
+      
+            // 处理视频和图片
+            let imageList = [];
+            d.goodsImgVOList.forEach(item => {
+              if (item.type != 2) {
+                if (item.primaryType == 1) {
+                  imageList.push(item);
+                } else {
+                  this.detailImageList.push(item);
+                }
+              } else {
+                this.videoObj[item.sort] = item.imgUrl;
+              }
+            });
+            this.imageList = imageList;
+            this.total = imageList.length;
+      
+            if (d.goods.unitName == null) {
+              d.goods.unitName = d.goodsDetailSpecList[0].name;
+            }
+      
+            const setNode = (node, key) => {
+              node[key] = {};
+              return node[key];
+            };
+      
+            // 生成规格树
+            let tree = {};
+            // let specLen = d.goodsDetailSpecList.length;
+            let parentNodes = [tree];
+      
+            d.goodsDetailSpecList.forEach(spec => {
+              // 为每个父节点插入子节点
+              let nodes = [];
+              parentNodes.forEach(node => {
+                spec.goodsDetailSpecValueList.forEach((val, index) => {
+                  // 重置当前遍历的父节点
+                  nodes.push(setNode(node, val.value));
+                });
+              });
+              parentNodes = nodes;
+            });
+      
+            let sufName;
+            let isSection = d.goods.showStyle == 1 && d.goodsSkuList.length > 1 ? true : false;
+            // if (isSection) {
+            //   sufName = d.goodsDetailSpecList[0].valueSuffix;
+            // } else {
+            //   sufName = "";
+            // }
+            sufName = d.goodsDetailSpecList[0].valueSuffix || '';
+      
+            let grades = JSON.parse(d.goodsSkuList[0].priceExp);
+            if (d.goods.showStyle == 2) {
+              d.goodsSkuList[0].price = grades[0].price;
+              d.goodsSkuList[0].startNum = grades[0].startQuantity;
+            }
+      
+            // 配置节点
+            let isInvalid = /* 是否无效效商品 */ true;
+            d.goodsSkuList.forEach((sku, exIndex) => {
+              let curNode = tree;
+              let len = sku.attrValueList.length;
+              d.standardList[exIndex] = [];
+      
+              sku.attrValueList.forEach((val, index) => {
+                curNode = curNode[val.value];
+                if (len - 1 == index) {
+                  // 配置参数
+                  curNode.disabled = !!(sku.stock < sku.startNum);
+                  curNode.price = sku.price;
+                  curNode.stock = sku.stock;
+                  curNode.id = sku.id;
+                  curNode.startNum = sku.startNum;
+                }
+                // 顺便处理规格
+                if (isSection) {
+                  d.standardList[exIndex].push(`${sku.startNum}${d.goods.unitName}起批`);
+                  d.standardList[exIndex].push(`${val.value}${+d.goods.showStyle !== 3 ? sufName : ''}`);
+                } else {
+                  d.standardList[exIndex].push(val.value);
+                }
+      
+                // 累计无效次
+                isInvalid = isInvalid && curNode.disabled;
+              });
+              d.standardList[exIndex].push(`￥${sku.price}/${d.goods.unitName}`);
+            });
+            d.tree = tree;
+            d.isInvalid = isInvalid;
+      
+            if (d.isInvalid) {
+              this.isGoodsTitle = true;
+              this.goodsTitle = '库存不足,请浏览别的商品吧~';
+              // T.tips("库存不足,请浏览别的商品吧~");
+            }
+      
+            // 0 待审核 1待修改 2申请驳回 3上架 4下架
+            if (d.goods.status == 4) {
+              T.tips('商品已下架啦,看下其它的吧');
+            }
+      
+            if (d.goods.showStyle == 2) {
+              let sku = d.goodsSkuList[0].attrValueList[0];
+              d.goodsList = [];
+              let grades = JSON.parse(d.goodsSkuList[0].priceExp);
+              grades.forEach((item, index) => {
+                d.goodsList.push({
+                  startNum: item.startQuantity,
+                  price: item.price,
+                  unit: sku.name,
+                  id: sku.skuId
+                });
+              });
+            }
+      
+            d.sufName = sufName;
+      
+            this.good = d || {};
+      
+            // 商品购买面板
+            this.deep = this.good.goodsDetailSpecList.length;
+            this.good.goodsDetailSpecList.forEach(spec => {
+              this.curs.push({
+                key: spec.goodsDetailSpecValueList[0].value,
+                disabled: undefined
+              });
+            });
+            this.calcPrice();
+            this.opt = true;
+            // 获得邮费方案
+            // getPostItem({
+            // 	id: d.goods.postSettingId
+            // }).then(data => {
+            // 	this.postType = data.data.type;
+            // });
+      
+            this.good.goods.detail = util.formatRichText(this.good.goods.detail);
+            console.log(this.good.goods.detail);
+            // 判断商品是否备收藏
+            if (uni.getStorageSync('access_token')) {
+              this.getHasCollect(this.goodsId);
+            }
+          }
+        });
+      
+    },
+    
+    updateGood(ids,type){
+      handlerGoods({
+        "goodsIds": ids,
+        "handlerType": type,
+      }).then(data=>{
+        uni.showToast({
+          title: data.message,
+          duration: 2000,
+          icon :'none'
+        })
+        vm.load()
+       }).catch(err=>{
+        uni.showToast({
+          title: '网络出错，请稍后再试',
+          duration: 2000,
+          icon :'none'
+        })
+       });
+    },
+    publish(){
+      vm.updateGood([vm.good.goods.id],0)
+    },
+    unpublish(){
+      vm.updateGood([vm.good.goods.id],1)
+    },
+    // 修改
+    modify(){
+      uni.navigateTo({
+        url: `/pages/middle/release/release?shopId=${vm.good.goods.shopId}&goodsId=${vm.good.goods.id}`
+      })
+    },
+    rollback(){
+      vm.updateGood([vm.good.goods.id],2)
+    },
     callAgent(item) {
-      item.phone && uni.makePhoneCall({
-        phoneNumber: item.phone //仅为示例
-      });
+      item.phone &&
+        uni.makePhoneCall({
+          phoneNumber: item.phone //仅为示例
+        });
       this.isCall = false;
     },
     navToShop() {
@@ -539,11 +588,12 @@ export default {
       this.calcPrice(1);
     },
     doDecrease() {
+      // debugger
       if (+this.nums > this.startNum) {
         --this.nums;
-        if (!this.curDisable) {
-          this.nums = this.startNum;
-        }
+        // if (!this.curDisable) {
+        //   this.nums = this.startNum;
+        // }
       }
       this.calcPrice(1);
     },
@@ -757,34 +807,19 @@ export default {
       }
     },
     // #endif
-    changeCollect() {
-      if (uni.getStorageSync('access_token')) {
-        this.good.hasColletion = !this.good.hasColletion;
-        if (this.good.hasColletion) {
-          T.tips('已收藏');
-        } else {
-          T.tips('取消收藏');
-        }
-        this.good.hasColletion
-          ? setCollect({
-              goodsId: this.good.goods.id,
-              isLoading: 1
-            })
-          : removeCollect({
-              goodsId: this.good.goods.id,
-              isLoading: 1
-            });
-      } else {
-        uni.navigateTo({
-          url: '/pages/login/login'
-        });
-      }
-    }
+
   }
 };
+export default vm
 </script>
 
 <style lang="scss" scoped>
+.ml10 {
+  margin-left: 20upx;
+}
+.mr10 {
+  margin-right: 20upx;
+}
 .call-dialog {
   position: absolute;
   top: 0;
@@ -854,6 +889,37 @@ export default {
   overflow-x: hidden;
   background: #fff;
   height: 100vh;
+  .bottom-btn {
+    line-height: 80upx;
+    text-align: center;
+    width: 650upx;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 20upx;
+    color: #fff;
+    font-size: 32upx;
+    margin: auto;
+
+    & > view {
+      background-color: #fe3b0b;
+      width: 650upx;
+      border-radius: 40upx;
+    }
+  }
+  .bottom-tips {
+    position: fixed;
+    left: 0;
+    background-color: rgba(0,0,0,0.3);
+    width: 100%;
+    line-height: 70upx;
+    text-align: center;
+    bottom: 120upx;
+    color: #fff;
+    font-size: 28upx;
+  }
   .shop {
     display: flex;
     padding: 0 30upx;
@@ -1235,7 +1301,7 @@ export default {
   .det {
     text-align: center;
     padding-bottom: 120upx;
-    height: 100vh;
+    // height: 100vh;
     padding-top: 30upx;
     background-color: #fff !important;
     .img {
