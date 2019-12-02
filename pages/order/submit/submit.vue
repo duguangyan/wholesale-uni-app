@@ -5,16 +5,6 @@
       <img src="@/static/imgs/icon-close3.png" alt="" @click="isTips = false" />
     </div>
     <div class="submit">
-      <!-- <div class="address" @click="goAddress">
-        <div v-if="address == ''" class="addAd" to="/adedit">请添加收货地址</div>
-        <div v-if="address != ''" class="div">
-          <div class="ad-title">收货人: {{ address.name }}</div>
-          <div class="ad-det">收货地址:{{ address.province + address.city + address.region + address.address }}</div>
-          <div class="icon-right"><img class="tag-go" src="@/static/img/tag-go.png" width="10" height="10" alt /></div>
-        </div>
-        <div class="icon-bg"><img src="@/static/img/bg-line.png" alt="" /></div>
-      </div> -->
-
       <div class="freight-style fs28">
         <div>物流方式:</div>
         <radio-group @change="changeSendType">
@@ -86,7 +76,7 @@
           合计:&ensp;
           <span>{{ totalMoney }}</span>
         </div>
-        <div class="btn" v-bind:class="{ active: address !== '', platform1: platform == 2 }" @click="showPay">提交订单</div>
+        <div class="btn" v-bind:class="{ active: curItem.curAgent.id, platform1: platform == 2 }" @click="showPay">提交订单</div>
       </div>
       <!--    // orderId：支付订单-->
       <!--    // show：支付上拉框是否弹起-->
@@ -95,14 +85,21 @@
       <!--    // function payClose：关闭支付弹窗-->
       <!--    // function doPay: 点击支付按钮事件-->
       <Pay :orderId="payOrderId" :platform="platform" ref="pay" :show="isPay" @close="doClose" :price="totalMoney" v-on:doPay="doPay" />
-      <Agent v-if="isAgent" :show="isAgent" @close="isAgent = false" :list="curItem.agentList" @change="changeAgent" />
+      <!-- <Agent v-if="isAgent" @close="isAgent = false" :list="curItem.agentList" @change="changeAgent" /> -->
+      <view v-show="isAgent" class="agent-dialog">
+        <view name="mask"><view class="mask" @click="isAgent = false"></view></view>
+        <view name="body" class="body">
+          <view class="li" v-for="item in curItem.agentList" :key="item.id" @click="changeAgent(item)">{{item.realName}}</view>
+        </view>
+        <!-- <view class="xx" @click="isAgent = false">x</view> -->
+      </view>
     </div>
   </view>
 </template>
 
 <script>
 import Pay from '@/components/common/Pay.vue';
-import Agent from '@/components/common/Agent.vue';
+// import Agent from '@/components/common/Agent.vue';
 import Checked from '@/static/img/icon-checked.png';
 import Uncheck from '@/static/img/icon-uncheck.png';
 import Plat from '@/static/img/icon-plat.png';
@@ -114,7 +111,12 @@ var vm = {
     vm = this;
     return {
       curItem: {
-        agentList: []
+        agentList: [],
+        curAgent: {
+          id: '',
+          name: '',
+          phone: ''
+        }
       },
       isAgent: false,
       sendType: /*1 平台找车,2: 自驾车辆*/ 1,
@@ -129,7 +131,7 @@ var vm = {
       Plat,
       totalNum: 0, // 总数量
       totalMoney: 0, // 总金额
-      address: '', // 地址
+      // address: '', // 地址
       message: '', //留言
       deliverMoney: 0, // 运费
       payOrderId: '', //订单ID
@@ -144,7 +146,7 @@ var vm = {
     };
   },
   components: {
-    Agent,
+    // Agent,
     Pay
   },
   onLoad(options) {
@@ -153,7 +155,7 @@ var vm = {
   },
   onShow() {
     // 设备样式兼容
-    this.platform = uni.getStorageSync('platform');
+    this.platform = uni.getStorageSync('platform') * 1;
     // 上一级传递参数：结算返回的数据
     if (this.isBuyNow) {
       let submitData = JSON.parse(this.submitData);
@@ -223,6 +225,7 @@ var vm = {
       vm.isAgent = false;
       vm.curItem.curAgent.id = data.userId;
       vm.curItem.curAgent.name = data.realName;
+      vm.curItem.curAgent.phone = data.phone
     },
     showAgentDialog(item) {
       vm.isAgent = true;
@@ -266,6 +269,7 @@ var vm = {
       resList.map(item => {
         status = !!item.curAgent.id;
         item.agentcyUserId = item.curAgent.id;
+        item.phone = item.curAgent.phone;
         item.sendType = vm.sendType;
         return item;
       });
@@ -277,13 +281,16 @@ var vm = {
         shopParamList: resList,
         // postscript: this.message,
         // addressId: this.address.id,
-        cartIdList: this.cartIdList
+        cartIdList: vm.cartIdList
       };
       postCreateOrder(list)
         .then(res => {
           if (res.code === '1000') {
-            this.isPay = this.address !== '';
-            this.order.orderId = res.data[this.order.shopId].id;
+            vm.isPay = vm.curItem.curAgent.id !== '';
+            vm.order.orderId = res.data[vm.order.shopId].id;
+			uni.redirectTo({
+				url:'/pages/order/orderSuccess/orderSuccess?shopId='+vm.order.shopId + '&orderId=' + vm.order.orderId + '&phone=' + vm.curItem.curAgent.phone
+			})
           } else {
             T.tips(res.message || '提交订单失败');
           }
@@ -292,55 +299,10 @@ var vm = {
           T.tips(err.message || '提交订单失败');
         });
     },
-    // 根据地址获取新数据
-    getOrderCartByAddress(addressId) {
-      let userId = uni.getStorageSync('uid');
-      let data = {
-        userId,
-        cartIdList: this.cartIdList,
-        addressId: this.address.id,
-        postscript: this.message
-      };
-
-      if (this.isBuyNow) {
-        let submitData = JSON.parse(this.submitData);
-        this.totalMoney = submitData.totalMoney;
-        this.deliverMoney = submitData.deliverMoney;
-      } else {
-        getOrderCart(data)
-          .then(res => {
-            if (res.code === '1000') {
-              this.totalMoney = res.data.totalMoney;
-              this.deliverMoney = res.data.deliverMoney;
-            }
-          })
-          .catch(err => {
-            T.tips(err.message || '结算失败');
-          });
-      }
-    },
-    // 提交订单
-    submit() {
-      if (this.address === '') {
-        T.tips('请选择收货地址');
-        return false;
-      }
-    },
     // 去详情
     goDetail(shopId, orderId) {
       uni.navigateTo({
         url: '/pages/user/order/detail?shopId=' + shopId + '&goodsId=' + orderId
-      });
-    },
-    // 获取默认地址
-    getAddressDefAddress() {
-      getAddressDefAddress().then(res => {
-        if (res.code === '1000') {
-          if (res.data) {
-            this.address = res.data;
-            this.getOrderCartByAddress(this.address.id);
-          }
-        }
       });
     },
     // 获取数据
@@ -382,34 +344,20 @@ export default vm;
 </script>
 
 <style lang="scss" scoped>
-.tips {
-  line-height: 60upx;
-  background: #ffefeb;
-  padding-left: 30upx;
-  position: relative;
-  margin-bottom: 20upx;
-  img {
-    height: 40upx;
-    vertical-align: top;
-    position: absolute;
-    right: 20upx;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-}
-.submit {
-  min-height: 100vh;
-  background-color: #f0f0f0;
-  .freight-style {
-    display: flex;
-    align-items: center;
-    background: #fff;
-    height: 130upx;
+  .tips {
+    line-height: 60upx;
+    background: #ffefeb;
     padding-left: 30upx;
-    line-height: 1;
-    border-bottom: 1px solid #f0f0f0;
-    .radio {
-      margin-left: 30upx;
+    position: relative;
+    margin-bottom: 20upx;
+    img {
+      width: 40upx;
+      height: 40upx;
+      vertical-align: top;
+      position: absolute;
+      right: 20upx;
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
   .submit {
@@ -423,31 +371,24 @@ export default vm;
     .freight-style {
       display: flex;
       align-items: center;
-      input {
-        width: 84upx;
-        height: 44upx;
-        line-height: 44upx;
-        background-color: #f5f5f5;
-        margin-left: 8upx;
-        margin-right: 8upx;
-        font-size: 22upx;
-        color: #333;
-        text-align: center;
-        border: none;
-        outline: none;
+      background: #fff;
+      height: 130upx;
+      padding-left: 30upx;
+      line-height: 1;
+      border-bottom: 1px solid #f0f0f0;
+      .radio {
+        margin-left: 30upx;
       }
     }
-    .parent-title {
-      // margin-top: 30upx;
-      padding-bottom: 30upx;
-      padding-top: 30upx;
-      font-size: 28upx;
-
-      .text {
-        margin-left: 20upx;
+    .agent {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      height: 100upx;
+      padding-left: 30upx;
+      .uni-input {
+        margin-left: 30upx;
         font-size: 28upx;
-        position: relative;
-        top: -4upx;
       }
       // margin-bottom: 20upx;
     }
@@ -480,261 +421,274 @@ export default vm;
           outline: none;
         }
       }
-      .parent-icon {
-        width: 34upx;
-        height: 34upx;
-        margin: 4upx 0upx 0 30upx;
-        img {
-          width: 100%;
-        }
-      }
-    }
+      .parent-title {
+        // margin-top: 30upx;
+        padding-bottom: 30upx;
+        padding-top: 30upx;
+        font-size: 28upx;
 
-    ul {
-      li {
-        background: #fff;
-        padding-top: 20upx;
-        position: relative;
-        padding: 0 30upx;
-        .icon {
-          width: 34upx;
-          height: 34upx;
-          margin-right: 30upx;
-          margin-top: 80upx;
-          img {
-            width: 100%;
-          }
+        .text {
+          margin-left: 20upx;
+          font-size: 28upx;
+          position: relative;
+          top: -4upx;
         }
-        .img {
-          width: 200upx;
-          height: 200upx;
-          border-radius: 20upx;
-          overflow: hidden;
-          img {
+        .plat {
+          width: 40upx;
+          height: 40upx;
+          position: relative;
+          top: -7upx;
+          > img {
             width: 100%;
             height: 100%;
           }
         }
-        .info {
-          width: 460upx;
-
-          .s1 {
-            width: 320upx;
+        .parent-icon {
+          width: 34upx;
+          height: 34upx;
+          margin: 4upx 0upx 0 30upx;
+          img {
+            width: 100%;
           }
-          .p1 {
-            // height: 80upx;
-            .flr {
+        }
+      }
+
+      ul {
+        li {
+          background: #fff;
+          padding-top: 20upx;
+          position: relative;
+          padding: 0 30upx;
+          .icon {
+            width: 34upx;
+            height: 34upx;
+            margin-right: 30upx;
+            margin-top: 80upx;
+            img {
+              width: 100%;
+            }
+          }
+          .img {
+            width: 200upx;
+            height: 200upx;
+            border-radius: 20upx;
+            overflow: hidden;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .info {
+            width: 460upx;
+
+            .s1 {
+              width: 320upx;
+            }
+            .p1 {
+              // height: 80upx;
+              .flr {
+                position: relative;
+                right: -20upx;
+              }
+            }
+            .p2 {
+              position: absolute;
+              bottom: 0upx;
+              color: #fc2d2d;
+            }
+            .p3 {
+              display: inline-block;
+              width: 120upx;
+              height: 32upx;
+              line-height: 32upx;
+              text-align: center;
+              border-radius: 28upx;
+              background: #f5f5f5;
+              color: #666;
+              font-size: 24upx;
+              position: absolute;
+              bottom: 20upx;
+            }
+            .p4 {
+              // background: #f5f5f5;
+              // border-radius: 20rpx;
+              display: inline-block;
+              // padding: 4upx  4upx 14upx;
+              padding: 4upx 0;
+              margin-top: 2upx;
+              color: #999;
+            }
+            .p5 {
               position: relative;
+              top: -38upx;
               right: -20upx;
             }
           }
-          .p2 {
-            position: absolute;
-            bottom: 0upx;
-            color: #fc2d2d;
+          .info-edit {
+            width: 460upx;
           }
-          .p3 {
-            display: inline-block;
-            width: 120upx;
-            height: 32upx;
-            line-height: 32upx;
-            text-align: center;
-            border-radius: 28upx;
-            background: #f5f5f5;
-            color: #666;
-            font-size: 24upx;
-            position: absolute;
-            bottom: 20upx;
-          }
-          .p4 {
-            // background: #f5f5f5;
-            // border-radius: 20rpx;
-            display: inline-block;
-            // padding: 4upx  4upx 14upx;
-            padding: 4upx 0;
-            margin-top: 2upx;
-            color: #999;
-          }
-          .p5 {
-            position: relative;
-            top: -38upx;
-            right: -20upx;
-          }
-        }
-        .info-edit {
-          width: 460upx;
         }
       }
     }
-  }
-  .address {
-    height: 150upx;
-    background-color: #fff;
-    border-top: solid 1upx #f0f0f0;
-    position: relative;
-    line-height: 1;
-    .div {
-      padding: 0 60upx 0 30upx;
-      position: relative;
-      .icon-right {
-        width: 20upx;
-        height: 20upx;
-        position: absolute;
-        right: 30upx;
-        top: 30upx;
-        > img {
-          width: 100%;
-          height: 100%;
+    .list {
+      // padding: 0 30upx 0 30upx;
+      background-color: #fff;
+      // margin-top: 20upx;
+      .title {
+        padding: 0 0 10upx 0;
+        display: flex;
+        justify-content: flex-start;
+        font-size: 24upx;
+        .platform {
+          color: #000;
+          margin-left: 10upx;
+          font-weight: bold;
+          flex-grow: 1;
+        }
+        .status {
+          color: #fc2d2d;
         }
       }
     }
-    .icon-bg {
-      height: 6upx;
+
+    .others {
+      background-color: #fff;
+      margin-top: 20upx;
+      // padding: 0 30upx;
+      color: #000;
+      font-size: 24upx;
+      // margin-bottom: 200upx;
+      div {
+        line-height: 90upx;
+      }
+      div:not(:last-child) {
+        border-bottom: 1upx solid #f0f0f0;
+      }
+      .freight {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .mark {
+        align-items: center;
+        display: flex;
+        justify-content: flex-start;
+        input {
+          margin-left: 20upx;
+          font-size: 24upx;
+          border: none;
+          width: 88%;
+          outline: none;
+          color: #333;
+        }
+      }
+    }
+
+    .operator {
+      position: fixed;
+      bottom: 0;
       width: 100%;
-      position: absolute;
-      bottom: 30upx;
-      > img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .tag-go {
-      // position: absolute;
-      // right: 30upx;
-      // top: 50%;
-    }
-    .addAd {
-      margin-left: auto;
-      margin-right: auto;
-      width: 300upx;
-      line-height: 64upx;
-      text-align: center;
-      border-radius: 32upx;
-      // box-shadow: 0 0 0 1upx #d9d9d9 inset;
-      border: 1upx solid #d9d9d9;
-      font-size: 28upx;
-      color: #000;
-      position: relative;
-      top: 40upx;
-    }
-    .ad-title {
-      margin-top: 26upx;
-      color: #000;
-      font-size: 30upx;
-    }
-    .ad-det {
-      margin-top: 22upx;
-      font-size: 24upx;
-      color: #666;
-      &::after {
-        content: '';
-        display: block;
-        width: 20upx;
-        height: 20upx;
-      }
-    }
-  }
-
-  .list {
-    // padding: 0 30upx 0 30upx;
-    background-color: #fff;
-    // margin-top: 20upx;
-    .title {
-      padding: 0 0 10upx 0;
+      left: 0;
+      background-color: #fff;
+      padding: 0 30upx;
+      height: 100upx;
       display: flex;
+      align-items: center;
       justify-content: flex-start;
-      font-size: 24upx;
-      .platform {
+      font-size: 30upx;
+      .nums {
         color: #000;
-        margin-left: 10upx;
-        font-weight: bold;
-        flex-grow: 1;
+        margin-right: 30upx;
       }
-      .status {
-        color: #fc2d2d;
+      .total-price {
+        color: #000;
+        span {
+          color: #f5222d;
+          font-weight: bold;
+          font-size: 32upx;
+          &::before {
+            content: '￥';
+            font-weight: normal;
+            font-size: 28upx;
+            display: inline-block;
+          }
+        }
+      }
+      .btn {
+        background-color: #d9d9d9;
+        color: #fff;
+        text-align: center;
+        border-radius: 36upx;
+        width: 180upx;
+        line-height: 72upx;
+        position: absolute;
+        right: 90upx;
+      }
+      .active {
+        background-color: #fc2d2d;
+      }
+      .platform1 {
+        top: 15upx !important;
       }
     }
   }
-
-  .others {
-    background-color: #fff;
-    margin-top: 20upx;
-    // padding: 0 30upx;
-    color: #000;
-    font-size: 24upx;
-    // margin-bottom: 200upx;
-    div {
+  .agent-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    overflow: hidden;
+    height: 1000upx;
+    // background: red;
+    .li {
+      line-height: 90upx;
+      border-bottom: #f0f0f0 2upx solid;
+      text-align: center;
+      color: #333;
+      font-size: 28upx;
+    }
+    .xx {
+      position: absolute;
+      z-index: 999;
+      bottom: 100upx;
+      left: 50%;
+      margin-left: -50upx;
+      color: #fff;
+      font-size: 60upx;
+      width: 100upx;
+      height: 100upx;
+      background: #000;
+      border-radius: 50%;
+      text-align: center;
       line-height: 90upx;
     }
-    div:not(:last-child) {
-      border-bottom: 1upx solid #f0f0f0;
+    .mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      background-color: rgba(0, 0, 0, 0.3);
+      height: 100%;
     }
-    .freight {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .mark {
-      align-items: center;
-      display: flex;
-      justify-content: flex-start;
-      input {
-        margin-left: 20upx;
-        font-size: 24upx;
-        border: none;
-        width: 88%;
-        outline: none;
-        color: #333;
+    .body {
+      background-color: #fff;
+      height: 750upx;
+      position: fixed;
+      z-index: 2;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      color: #000;
+      overflow-y: auto;
+      .close {
+        position: absolute;
+        right: 20upx;
+        top: 0;
       }
     }
   }
-
-  .operator {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    background-color: #fff;
-    padding: 0 30upx;
-    height: 100upx;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: 30upx;
-    .nums {
-      color: #000;
-      margin-right: 30upx;
-    }
-    .total-price {
-      color: #000;
-      span {
-        color: #f5222d;
-        font-weight: bold;
-        font-size: 32upx;
-        &::before {
-          content: '￥';
-          font-weight: normal;
-          font-size: 28upx;
-          display: inline-block;
-        }
-      }
-    }
-    .btn {
-      background-color: #d9d9d9;
-      color: #fff;
-      text-align: center;
-      border-radius: 36upx;
-      width: 180upx;
-      line-height: 72upx;
-      position: absolute;
-      right: 90upx;
-    }
-    .active {
-      background-color: #fc2d2d;
-    }
-    .platform1 {
-      top: 15upx !important;
-    }
-  }
-}
 </style>
