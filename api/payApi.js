@@ -89,6 +89,15 @@ const validCard = data => {
 	})
 }
 
+// 验证银行卡修改
+const bankCardCertification = data => {
+	return request({
+		url: '/api/pay/bank/bankCardCertification',
+		data,
+		type: 'form',
+	})
+}
+
 // 获取我的账户资金
 const accountSub = data => {
 	return request({
@@ -128,8 +137,17 @@ const postPayApply = data => {
 }
 
 
-
+const postAccountSubSendSms = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/accountSub/sendSms',
+		data,
+		type: 'form',
+	})
+}
 export {
+	postAccountSubSendSms,
+	bankCardCertification,
 	postPayApply,
 	validPayPwd,
 	deleteBank,

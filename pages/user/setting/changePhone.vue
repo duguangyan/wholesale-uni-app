@@ -16,7 +16,7 @@
 				<view class="fll input">
 					<input type="number" @input="changeCode" v-model="code" placeholder="请输入验证码">
 				</view>
-				<view class="flr text-theme fs30"  :class="{'text-999':codeNum!==''}" @click="getCode">{{codeNum}} {{codeText}}</view>
+				<view class="flr text-theme fs30"  :class="{'text-999':codeNum!=''}" @click="getCode">{{codeNum!=''?codeNum:''}} {{codeText}}</view>
 			</view>
 		</view>
 		<view class="big-btn-active" :class="{nodata:hasData}" @click="save">
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-	import { postUpdateNickname, postUserSms,getUserModifyPhone } from '@/api/userApi.js'
+	import { postUpdateNickname, postUserSms,getUserModifyPhone, getUserSendValidateCode } from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	import validator from '@/utils/validator.js'
 	export default {
@@ -48,6 +48,7 @@
 		},
 		onShow() {
 			// this.phone = uni.getStorageSync('phone')
+			this.codeNum = ''
 		},
 		methods:{
 			//理解修改
@@ -96,10 +97,9 @@
 				this.deviceId = this.getUUID()
 				// 获取手机验证码
 				let data = {
-					mobile: this.phone,
-					deviceId: this.deviceId
+					phone: this.phone
 				}
-				postUserSms(data).then((res) => {
+				getUserSendValidateCode(data).then((res) => {
 					T.tips(res.message)
 					if (res.code === '1000') {
 						this.codeText = '重新发送'

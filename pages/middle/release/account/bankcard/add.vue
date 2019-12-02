@@ -21,7 +21,7 @@
 </template>
 
 <script>
-	import { getBankInsert, validCard } from '@/api/payApi.js'
+	import { getBankInsert, bankCardCertification } from '@/api/payApi.js'
 	import T from '@/utils/tips.js'
 	export default {
 		data() {
@@ -48,14 +48,14 @@
 					return false
 				}
 				let data = {
-					cardNo:this.cardNo,
-					realName:this.realName
+					acctPan:this.cardNo,
+					acctName:this.realName
 				}
 				
-				validCard(data).then(res=>{
-					if(res.code== '1000' && res.data.status == 1){
+				bankCardCertification(data).then(res=>{
+					if(res.code== '1000'){
 						uni.redirectTo({
-							url:'/pages/middle/release/account/bankcard/addinfo?bankName='+ res.data.bankName + '&cardType='+ res.data.cardType +'&realName =' +this.realName +'&cardNo=' + this.cardNo + '&bankCode=' + res.data.bankCode 
+							url:'/pages/middle/release/account/bankcard/addinfo?bankName='+ res.data.data.bank_name + '&cardType='+ res.data.data.card_type +'&realName=' +this.realName +'&cardNo=' + this.cardNo
 						})
 					}else{
 						T.tips(res.message || '银行卡新增失败')

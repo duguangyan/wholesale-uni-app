@@ -51,25 +51,12 @@
 		},
 		onLoad(options) {
 			// 1-储蓄卡 2-贷记合一 3-信用卡
-			this.cardType = options.cardType
-			switch (this.cardType){
-				case 1:
-				this.typeName = '储蓄卡'
-					break;
-				case 2:
-				this.typeName = '贷记合一'
-					break;
-				case 3:
-				this.typeName = '信用卡'
-					break;
-				default:
-				this.typeName = '暂无数据'
-					break;
-			}
-			this.bankName = options.bankName || '暂无数据'
-			this.cardNo   = options.cardNo || '暂无数据'
-			this.realName = options.realName || '暂无数据'
-			this.bankCode = options.bankCode || '暂无数据'
+			// this.cardType = options.cardType
+			this.typeName = options.cardType
+			this.bankName = options.bankName || ''
+			this.cardNo   = options.cardNo || ''
+			this.realName = options.realName || ''
+			//this.bankCode = options.bankCode || '暂无数据'
 		},
 		methods:{
 			// 验证数据是否添加
@@ -81,25 +68,23 @@
 				if(this.hasData) {
 					return false
 				}
-				// let data = {
-				// 	userCardNo :this.card,
-				// 	phone :this.phone ,
-				// 	cardType :this.cardType,
-				// 	bankName :this.bankName,
-				// 	cardNo: this.cardNo,
-				// 	realName:this.realName,
-				// 	bankCode: this.bankCode
-				// }
-				
 				let data = {
-					userCardNo : '513821199012116170',
-					phone : '15817390700' ,
-					cardType :1,
-					bankName :'中国银行',
-					cardNo: '6217211107001880725',
-					realName:'李强',
-					bankCode: 'ICI'
+					certId :this.card,
+					phoneNum :this.phone ,
+					acctPan: this.cardNo,
+					acctName:this.realName,
+					type:4
 				}
+				
+				// let data = {
+				// 	userCardNo : '513821199012116170',
+				// 	phone : '15817390700' ,
+				// 	cardType :1,
+				// 	bankName :'中国银行',
+				// 	cardNo: '6217211107001880725',
+				// 	realName:'李强',
+				// 	bankCode: 'ICI'
+				// }
 				
 				getBankInsert(data).then(res=>{
 					if(res.code== '1000'){

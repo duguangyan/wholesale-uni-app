@@ -11,7 +11,7 @@
 						</view>
 						<view class="del" @click="del(index,ix,0)">x</view>
 					</view>
-					<view class="img fll" @click="actionSheetTap(index,0)" v-if="item.imgs.length<5">
+					<view class="img fll" @click="actionSheetTap(index,0)" v-if="index==0 ?(item.imgs.length<5):(item.imgs.length<10)">
 						<image src="../../../../static/imgs/icon-1036.png" mode=""></image>
 					</view>
 					
@@ -24,7 +24,7 @@
 							<image src="../../../../static/imgs/icon-1038.png" mode=""></image>
 						</view>
 					</view>
-					<view class="img fll" @click="actionSheetTap(index,1)"  v-if="item.imgs.length<10">
+					<view class="img fll" @click="actionSheetTap(index,1)"  v-if="index==0 ?(item.videos.length<5):(item.videos.length<10)">
 						<image src="../../../../static/imgs/icon-1037.png" mode=""></image>
 					</view>
 				</view>
@@ -220,7 +220,7 @@
 					.img{
 						width: 140upx;
 						height: 140upx;
-						margin-right: 20upx;
+						margin-right: 30upx;
 						margin-bottom: 20upx;
 						.im{
 							width: 140upx;
