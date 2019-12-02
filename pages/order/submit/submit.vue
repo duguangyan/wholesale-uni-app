@@ -21,12 +21,13 @@
 
       <div class="list" v-if="list.length > 0">
         <div v-for="(item, index) in list" :key="index">
+          <div class="gray-line"></div>
           <div class="agent fs28">
             <div>找&ensp;代&ensp;办:</div>
             <!-- <input class="uni-input" placeholder="请选择代办人" readonly="readonly" /> -->
             <div :class="['uni-input', 'fs28', item.curAgent.name ? 'text-333' : 'text-999']" @click="showAgentDialog(item)">{{ item.curAgent.name || '请选择代办人' }}</div>
           </div>
-          <div class="gray-line"></div>
+          
 
           <div class="cf parent-title pdl-30">
             <!-- <div class="fll plat"><img :src="Plat" alt="图标" /></div>
@@ -39,11 +40,6 @@
               <div class="fll mgl-20 info fs28">
                 <p class="fs-16 p1 cf">
                   <span class="s1 ellipsis ellipsis-line2 fll">{{ it.goodsName }}</span>
-
-                  <!-- <span class="flr fs24">
-                    ￥
-                    <span class="fs28">{{ it.price }}</span>
-                  </span> -->
                 </p>
                 <p class="text-666 fs24 cf mt-10">
                   <span class="fll p4">{{ it.skuDesc || '' }}</span>
@@ -53,6 +49,9 @@
                 <p class=" fs24 p2">
                   价格￥
                   <span class="fs28">{{ it.price }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</span>
+                </p>
+                <p class="fs28 fixed">
+                  x{{item.totalCount}}
                 </p>
               </div>
             </li>
@@ -178,13 +177,13 @@ var vm = {
         this.cartIdList = data.data.cartIdList;
         this.totalCount = data.data.totalCount;
 
-        if (uni.getStorageSync('address')) {
-          this.address = JSON.parse(uni.getStorageSync('address'));
-          submitData.addressId = JSON.parse(uni.getStorageSync('address')).id;
-          setTimeout(() => {
-            uni.setStorageSync('address', '');
-          }, 300);
-        }
+        // if (uni.getStorageSync('address')) {
+        //   this.address = JSON.parse(uni.getStorageSync('address'));
+        //   submitData.addressId = JSON.parse(uni.getStorageSync('address')).id;
+        //   setTimeout(() => {
+        //     uni.setStorageSync('address', '');
+        //   }, 300);
+        // }
       });
     } else {
       if (this.submitData) {
@@ -204,18 +203,18 @@ var vm = {
         this.totalCount = submitData.totalCount;
       }
       // 判断是否有地址
-      if (uni.getStorageSync('address')) {
-        // 获取缓存地址
-        this.address = JSON.parse(uni.getStorageSync('address'));
-        // 根据地址获取运费
-        this.getOrderCartByAddress(this.address.id);
-        setTimeout(() => {
-          uni.setStorageSync('address', '');
-        }, 300);
-      } else {
-        // 获取默认地址
-        this.getAddressDefAddress();
-      }
+      // if (uni.getStorageSync('address')) {
+      //   // 获取缓存地址
+      //   this.address = JSON.parse(uni.getStorageSync('address'));
+      //   // 根据地址获取运费
+      //   this.getOrderCartByAddress(this.address.id);
+      //   setTimeout(() => {
+      //     uni.setStorageSync('address', '');
+      //   }, 300);
+      // } else {
+      //   // 获取默认地址
+      //   this.getAddressDefAddress();
+      // }
     }
   },
   methods: {
@@ -324,7 +323,6 @@ var vm = {
                     totalMoney += it.totalPrice;
                   }
                 });
-                console.log(m + '===' + item.items.length);
                 if (m) {
                   this.list[index].checked = 1;
                 }
@@ -364,6 +362,11 @@ export default vm;
   }
   .submit {
     min-height: 100vh;
+    .fixed{
+      position: absolute;
+      right: 30upx;
+      bottom: 0;
+    }
     background-color: #f0f0f0;
     .freight-style {
       display: flex;
@@ -396,7 +399,7 @@ export default vm;
     }
     .list {
       /*margin-top: 50upx;*/
-      margin-bottom: 30upx;
+      margin-bottom: 120upx;
       overflow: auto;
       .count {
         position: absolute;
