@@ -1,6 +1,6 @@
 <template>
 	<view class="verifiy">
-		<view class="tip">本次操作需验证手机号码，我们会向你198****666发送验证码</view>
+		<view class="tip">本次操作需验证手机号码，我们会向你{{phone}}发送验证码</view>
 		<view class="content">
 			<view class="cf">
 				<view class="fll fs30 text-333">验证码</view>
@@ -20,6 +20,7 @@
 
 <script>
 	import { postUserSms } from '@/api/userApi.js'
+	import { postAccountSubSendSms } from '@/api/payApi.js'
 	import T from '@/utils/tips.js'
 	export default {
 		data() {
@@ -28,7 +29,8 @@
 				codeText: '获取验证码',
 				codeNum: '', // 定时器时间
 				setCodeInterval:'', // 定时器
-				from:''
+				from:'',
+				phone:''
 			};
 		},
 		onHide() {
@@ -41,7 +43,7 @@
 			if(options.from) this.from = options.from
 		},
 		onShow() {
-			
+			this.phone = uni.getStorageSync('phone').substr(0,2) + '****' + uni.getStorageSync('phone').substr(9,2)
 		},
 		methods:{
 			// 去设置密码
@@ -68,10 +70,9 @@
 				this.deviceId = this.getUUID()
 				// 获取手机验证码
 				let data = {
-					mobile: uni.getStorageSync('phone'),
-					deviceId: this.deviceId
+					type: 1
 				}
-				postUserSms(data).then((res) => {
+				postAccountSubSendSms(data).then((res) => {
 					T.tips(res.message)
 					if (res.code === '1000') {
 						this.codeText = '重新发送'

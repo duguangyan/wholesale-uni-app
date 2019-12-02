@@ -56,7 +56,7 @@
 			// 添加银行卡
 			addBankcard(){
 				uni.navigateTo({
-					url:'/pages/middle/release/account/payps/resPassword?add=1'
+					url:'/pages/middle/release/account/payps/resPassword?from=addBank'
 				})
 			},
 			// 获取银行卡信息

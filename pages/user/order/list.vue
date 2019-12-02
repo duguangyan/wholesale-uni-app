@@ -37,7 +37,10 @@
 							<text v-if="item.status === 6">待货主审核</text>
 						</text>
 					</view>
-					<Good v-for="good in item.orderDetailList" :key="good.id" :item="good"></Good>
+					<view class="mgb-20">
+						<Good v-for="good in item.orderDetailList" :key="good.id" :item="good"></Good>
+					</view>
+					
 					<view class="accu fs24">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001'?item.orderMoney:item.payMoney}}</text></view>
 					<view class="operator">
 						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->

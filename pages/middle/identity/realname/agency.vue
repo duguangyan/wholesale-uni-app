@@ -14,7 +14,7 @@
 			<view class="item-1">
 				<view class="fll">姓名</view>
 				<view class="flr">
-					<input type="text" v-model="realName" :disabled="disabled" :placeholder="realNamePlaceholder">
+					<input type="text" v-model="realName" :disabled="disabled || userRealInfo.realName" :placeholder="realNamePlaceholder">
 				</view>
 			</view>
 			<view class="item-1" v-if="!disabled && userRealInfo ==''">
@@ -66,7 +66,7 @@
 			<view class="cat cf">
 				<view class="title fll">身份证号</view>
 				<view class="input flr">
-					<input type="idcard" v-model="cardNo" :disabled="disabled" placeholder="请输入身份证号码">
+					<input type="idcard" v-model="cardNo" :disabled="disabled || userRealInfo.cardNo" placeholder="请输入身份证号码">
 				</view>
 			</view>
 		</view>
@@ -183,7 +183,12 @@
 			// 获取缓存数据
 			this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1')
 			this.agencyImgUpload2 = uni.getStorageSync('agencyImgUpload2')
-			this.userRealInfo = uni.getStorageSync('userRealInfo') || ''
+			if(uni.getStorageSync('userRealInfo')){
+				this.userRealInfo =JSON.parse(uni.getStorageSync('userRealInfo'))
+				this.cardNo   = this.userRealInfo.cardNo
+				this.realName = this.userRealInfo.realName
+			}
+			
 			// 判断用户类型
 			this.assessUserType() 
 			

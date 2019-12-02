@@ -14,7 +14,7 @@
 				</view>
 				<view class="cf" v-if="hasAgencyFee">
 					<view class="fll">
-						代办费:¥{{item.agentcyPrice}}/{{item.goodsUnit}}
+						代办费:¥{{item.agentcyPrice || '0'}} <text v-if="item.goodsUnit">/</text>{{item.goodsUnit || ''}}
 					</view>
 					<view class="flr fs24 text-999">
 						x{{item.num}}

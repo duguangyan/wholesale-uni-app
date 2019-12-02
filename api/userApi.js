@@ -40,6 +40,13 @@ const getUserModifyPhone = data => {
 }
 
 
+// 修改手机号短信验证码
+const getUserSendValidateCode = data => {
+	return request({
+		url: '/api/upms/user/sendValidateCode',
+		data
+	})
+}
 // 跟新用户头像
 const postUserHeadImg = data => {
 	return request({
@@ -415,6 +422,7 @@ const sellerCancel = data => {
 
 
 export {
+	getUserSendValidateCode,
 	getUserModifyPhone,
 	applyApplyModifySettledIn,
 	sellerCancel,

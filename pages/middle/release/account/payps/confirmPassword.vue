@@ -3,7 +3,7 @@
 	<view class="content">
 		<view class="login">
 			<view class="l_top" style="margin-bottom:100upx;">
-				<view class="l_text">请{{code==''?'':'再次'}}输入6位新的支付密码，注意不要重复或连续数字</view>
+				<view class="l_text">请再次输入6位{{code!=''?'':'新的'}}支付密码，注意不要重复或连续数字</view>
 			</view>
 			<view class="l_top">
 				<view class="mima">
@@ -123,7 +123,7 @@
 					},
 					{
 						id: 12,
-						con: "x",
+						con: "退格",
 						checked: false
 					},
 
@@ -192,7 +192,8 @@
 			},
 
 			// 确认执行的方法
-			setpwd() {
+			setpwd() {    
+				
 				if (this.trade_pwd.length < 6) {
 					T.tips('密码长度不能少于6位')
 					return;
@@ -201,6 +202,17 @@
 					T.tips('两次输入得密码不一致')
 					return;
 				}
+				
+				
+				let reg = /^(\d)\1{5}$/; // 不重复6位 类似111111,222222
+				let str = '0123456789_9876543210'; // str.indexOf(value) > -1 不连续判断 类似123456
+				 
+				if (this.trade_pwd.length!==6 || reg.test(this.trade_pwd) || str.indexOf(this.trade_pwd) > -1) {
+				    T.tips('请输入正确的密码')
+					return
+				} 
+				
+				
 				// 密码长度为6位以后执行方法
 				console.log(this.trade_pwd);
 				if(this.code == ''){

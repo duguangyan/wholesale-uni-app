@@ -631,12 +631,12 @@
 			},
 			// 编辑图片方法 i 1主图还是2详情  ii 类型 1图片 2视频 3视频截图
 			utilGoodsImgLists(goodsImgList,i,ii){
-				goodsImgList[i].imgs.forEach(item=>{
+				goodsImgList[i].imgs.forEach((item,index)=>{
 					let obj = {
 								goodId:'',
 								imgUrl:item,
 								primaryType:i + 1,
-								sort:1,
+								sort:index,
 								type:ii
 							}
 					this.goodsImgLists.push(obj)

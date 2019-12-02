@@ -5,8 +5,11 @@
 				<image :src="item.imgUri" mode=""></image>
 			</view>
 			<view class="warp fll">
-				<view class="fs28 ellipsis-line2">
-					{{item.name || '暂无'}}
+				<view class="fs28 cf">
+					<view class="ellipsis-line2 fll" :class="{'with300':item.status == 0 || item.status == 2}">{{item.name || '暂无'}}</view>
+					<view class="flr fs24 text-theme status ellipsis" v-if="item.status == 0">审核中</view>
+					<view class="flr fs24 text-theme status ellipsis" v-if="item.status == 2">审核不通过</view>
+					<!-- {{item.rejectReason || ''}} -->
 				</view>
 				<view class="deliver ellipsis fs24 text-999">
 					{{attrValDescString}}
@@ -88,10 +91,14 @@
 				padding: 4upx 20upx;
 				position: relative;
 				width: 460upx;
+				.status{
+					position: relative;
+					top: 8upx;
+					width: 120upx;
+				}
 				.deliver{
 					height: 40upx;
 					.tip{
-						
 						color: #999;
 						display: inline-block;
 						font-size: 24upx;
@@ -125,7 +132,11 @@
 						}
 					}
 				}
+				.with300{
+					width: 300upx;
+				}
 				.ellipsis-line2 {
+					
 					height: 78upx;
 					line-height: 39upx;
 					font-size: 30upx;
