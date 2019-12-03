@@ -46,7 +46,7 @@
 					<text>{{hasfrom==2?'经营地区':'代办地区'}}</text>
 				</view>
 				<view class="choose cf" @click="showPicker">
-					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?(hasfrom==2?'请选择经营地区':'请选择代办地区'):address.province +"-"+ address.city}} {{hasfrom == 1? address.region:''}}</view>
+					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?(hasfrom==2?'请选择经营地区':'请选择代办地区'):address.province + ' ' + address.city}} {{hasfrom == 2? address.region:''}}</view>
 					<view class="flr" v-if="!disabled">
 						<image src="../../../../static/imgs/right.png"></image>
 					</view>
@@ -163,7 +163,7 @@
 			// hafrom : 1代办 2 货主
 			if(options.hasfrom){
 				this.hasfrom = options.hasfrom
-				this.hasArea = this.hasfrom == 1
+				this.hasArea = this.hasfrom == 2
 				// 如果是货主获取经营类型（产品分类）
 				if(this.hasfrom == 2){
 					getCategoryTreeNode().then(res=>{
@@ -337,7 +337,6 @@
 				
 			},
 			onConfirm(e) {
-				debugger
 				this.fullAddress = e.label
 				// full地址
 				let arr = this.fullAddress.split('-');

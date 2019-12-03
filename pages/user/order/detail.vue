@@ -256,7 +256,6 @@
 				timer: '',
 				expiresTime: '',
 				roleId:'', // 用户类型
-				
 				type:"bottom",// left right top bottom center
 				transition:"slider",//none slider fade
 				backgroundColor:'#FFF',
@@ -467,7 +466,7 @@
 					if (res.code === '1000') {
 						this.order = res.data
 						
-						if(this.order.shopOrder.status == 0 || this.order.shopOrder.status == 3){
+						if(this.order.shopOrder.status == 0 || this.order.shopOrder.status == 3 || this.order.shopOrder.status == 6){
 									 let expiresTime = ''
 									 let nowData = ''
 									 // if(_this.order.shopOrder.status == 0){
@@ -485,8 +484,12 @@
 										  _this.expiresTime = _this.order.shopOrder.status == 0 ? util.MillisecondToDate(expiresTime) : util.getLeftTime(expiresTime);
 										  if(expiresTime<= 0){
 											  clearInterval(_this.timer)
-											  _this.isOrderDialog = 1
-											  _this.doConfirm()
+											  if(_this.order.shopOrder.status == 6) { // 待审核
+												  _this.getOrderDetailById(this.orderId, this.shopId)
+											  }else{  // 待支付 待发货
+												  _this.isOrderDialog = 1
+												  _this.doConfirm()
+											  }
 										  }
 									 },1000)
 						}

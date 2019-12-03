@@ -29,7 +29,7 @@
 				<view class="address cf" v-if="roleId!='20001'">
 					<view class="fll img">
 						
-						<image :src="'/static/imgs/main-icon-1.png'" mode=""></image>
+						<image :class="{'platformIos':platform == 2}" :src="'/static/imgs/main-icon-1.png'" mode=""></image>
 						
 					</view>
 					<view class="fll fs20 text-999">{{item.shopArea || ''}} <text class="mgl-20">{{item.realName || ''}}</text></view>
@@ -55,7 +55,8 @@
 		},
 		data() {
 			return {
-				attrValDescString: ''
+				attrValDescString: '',
+				platform:''
 			}
 		},
 		mounted() {
@@ -66,7 +67,7 @@
 					if(it) this.attrValDescString += ' ' + it
 				})
 			}
-			
+			this.platform = uni.getStorageSync('platform')
 		},
 		methods: {
 
@@ -123,12 +124,15 @@
 							height: 100%;
 							position: relative;
 							/* #ifdef MP-WEIXIN */  
-							top: -4upx
+							top: -4upx;
 							/* #endif */ 
 							/* #ifdef APP-PLUS || H5 */
-							top: -2upx
+							top: -14upx;
 							/* #endif */ 
 							
+						}
+						.platformIos{
+							top: -8upx !important;
 						}
 					}
 				}

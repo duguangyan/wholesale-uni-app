@@ -21,7 +21,7 @@
 				<view class="li" v-for="(item, index) in orders" :key="item.id">
 					<view class="title cf fs28 text-333">
 						<text class="fll fs-w">货主:</text>
-						<text class="fll fs-w">{{item.agentcyUserName}} </text>
+						<text class="fll fs-w">{{item.sellName}} </text>
 						<view class="image fll">
 							<image src="../../../static/imgs/right.png" mode=""></image>
 						</view>

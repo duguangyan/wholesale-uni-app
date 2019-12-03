@@ -25,7 +25,7 @@
 		<view class="content">
 			<view class="title">
 				<view class="name fs34 text-333">货品标题</view>
-				<view class="input fs24"><input type="text" @input="checkTitle" maxlength="50" v-model="goodsTitile" placeholder="输入货品标题方便用户找到你的货品15-50个字以内"></view>
+				<view class="input fs24"><input type="text" @input="checkTitle" @blur="checkTitle" maxlength="50" v-model="goodsTitile" placeholder="输入货品标题方便用户找到你的货品15-50个字以内"></view>
 				
 				<view class="items">
 					<view class="item cf" @click="goVarieties" >
@@ -52,7 +52,7 @@
 			<view class="title fs34 text-333">货品描述</view>
 			<view class="tips fs20 text-999">请如实填写货品信息（图片、价格、描述等），否则会影响审核发布！</view>
 			<view class="textarea">
-				<textarea maxlength="1000" v-model="textareaValue" @input="textareaInput" placeholder="请对货品进行详细描述，可参考以下内容,货品介绍：如货品的优势、质量等级,经营能力：如基地/产地/企业规模、相关设施、供货能力" />
+				<textarea maxlength="1000" v-model="textareaValue" @input="textareaInput" @blur="textareaInput" placeholder="请对货品进行详细描述，可参考以下内容,货品介绍：如货品的优势、质量等级,经营能力：如基地/产地/企业规模、相关设施、供货能力" />
 				<view class="num">
 					<view @click="clearTextarea">
 						<text>{{num}}/1000</text>
