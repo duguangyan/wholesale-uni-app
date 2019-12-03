@@ -345,9 +345,9 @@ var vm =  {
             d.standardList = [];
       
             // 便被身份
-            try {
-              vm.isMaster = uni.getStorageSync('roleId') == 20001;
-            } catch (err) {}
+ 
+             vm.isMaster = uni.getStorageSync('roleId') == 20001 && (uni.getStorageSync('uid') == d.userRealInfoVo.userId);
+
       
             // 获取代办人列表
             vm.callList = d.agencyList;
