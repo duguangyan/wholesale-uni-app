@@ -85,6 +85,7 @@
 	import { accountSub } from '@/api/payApi.js'
 	import util from '@/utils/util.js'
 	import T from '@/utils/tips.js'
+	import { getUserRealInfoAll, getShopIdByUser } from '@/api/userApi.js'
 	export default {
 		name: 'agency',
 		props: {
@@ -99,13 +100,29 @@
 			userApply:{
 				type: Object,
 				default: null
+			},
+			yearAndMonth:{
+				type: String,
+				default: ''
+			},
+			totalPrice:{
+				type: String,
+				default: ''
+			},
+			orderInfos:{
+				type: Object,
+				default: null
+			},
+			spOrders:{
+				type: Array,
+				default: []
 			}
 		},
 		data() {
 			return {
-				orderInfos:'',
-				totalPrice:'',
-				yearAndMonth:'',
+				// orderInfos:'',
+				// totalPrice:'',
+				// yearAndMonth:'',
 				shippers: ['我是代办', '我要卖货'],
 				spListValue: '158.55',
 				spGoodsByAgency: [{
@@ -129,28 +146,28 @@
 						img: '../../static/imgs/icon-1033.png',
 						text: '货主'
 					}
-				],
-				spOrders: [{
-					img: '../../static/imgs/icon-1004.png',
-					text: '待确认',
-					tip: ''
-				}, {
-					img: '../../static/imgs/icon-1005.png',
-					text: '待买家支付',
-					tip: ''
-				}, {
-					img: '../../static/imgs/icon-1006.png',
-					text: '代办发货',
-					tip: ''
-				}, {
-					img: '../../static/imgs/icon-1007.png',
-					text: '待买家收货',
-					tip: ''
-				}, {
-					img: '../../static/imgs/icon-1008.png',
-					text: '已完成',
-					tip: ''
-				}]
+				]
+				// spOrders: [{
+				// 	img: '../../static/imgs/icon-1004.png',
+				// 	text: '待确认',
+				// 	tip: ''
+				// }, {
+				// 	img: '../../static/imgs/icon-1005.png',
+				// 	text: '待买家支付',
+				// 	tip: ''
+				// }, {
+				// 	img: '../../static/imgs/icon-1006.png',
+				// 	text: '代办发货',
+				// 	tip: ''
+				// }, {
+				// 	img: '../../static/imgs/icon-1007.png',
+				// 	text: '待买家收货',
+				// 	tip: ''
+				// }, {
+				// 	img: '../../static/imgs/icon-1008.png',
+				// 	text: '已完成',
+				// 	tip: ''
+				// }]
 			};
 		},
 		components: {
@@ -163,13 +180,13 @@
 			console.log(this.userApply)
 			// 获取用户类型
 			// 统计订单状态条数
-			this.getOrderStat()
-			// 主页订单交易统计
-			this.getStatOrderInfo()
-			// 获取资金账户
-			this.getAccountSub()
-			// 获取年月
-			this.getYearAndMonth()
+			// this.getOrderStat()
+			// // 主页订单交易统计
+			// this.getStatOrderInfo()
+			// // 获取资金账户
+			// this.getAccountSub()
+			// // 获取年月
+			// this.getYearAndMonth()
 		},
 		methods: {
 			// 去订单页面
@@ -206,7 +223,10 @@
 			},
 			// 统计订单状态条数
 			getOrderStat(){
-				getOrderStat().then(res=>{
+				let data = {
+					businessType: 1   // 1销售订单  2我的订单
+				}
+				getOrderStat(data).then(res=>{
 					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
 					if(res.code == '1000'){
 						let list = res.data

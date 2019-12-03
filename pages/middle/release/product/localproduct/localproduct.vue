@@ -93,19 +93,13 @@
 			if(options.index) this.index = options.index
 		},
 		onShow() {
-			// 判断用户角色
-			this.assessUserType()
-			
-			// 商品列表 APP-我的货品
-			this.records = []
-			this.pageIndex = 1
-			this.getPageGoods()
-			
-			// 获取商品统计数量
-			if(uni.getStorageSync('roleId') == '20001'){
-				this.getStatisticsGoods()
-			}
-			
+			this.dataInit()
+		},
+		onPullDownRefresh(){
+			this.dataInit()
+			setTimeout(function () {
+				uni.stopPullDownRefresh();
+			}, 1000);
 		},
 		onReachBottom(){
 			if(this.hasData){
@@ -114,6 +108,19 @@
 			}
 		},
 		methods:{
+			// 初始化
+			dataInit(){
+				// 判断用户角色
+				this.assessUserType()
+				// 商品列表 APP-我的货品
+				this.records = []
+				this.pageIndex = 1
+				this.getPageGoods()
+				// 获取商品统计数量
+				if(uni.getStorageSync('roleId') == '20001'){
+					this.getStatisticsGoods()
+				}
+			},
 			// 弹窗取消
 			doCancel(){
 				this.isShow = false
@@ -198,6 +205,7 @@
 			getStatisticsGoods(){
 				statisticsGoods().then(res=>{
 					if(res.code == '1000'){
+						this.navs[3].n = 0
 						res.data.forEach((item,index)=>{
 							switch (item.status){
 								case 3:

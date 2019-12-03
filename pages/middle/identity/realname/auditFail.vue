@@ -7,7 +7,7 @@
 			审核失败
 		</view>
 		<view class="tip fs24 text-999">
-			审核提示: {{auditOpinion || '暂无数据'}}
+			审核结果: {{auditOpinion || '暂无数据'}}
 		</view>
 		
 		<view class="big-btn-active" @click="goRealname">去修改</view>

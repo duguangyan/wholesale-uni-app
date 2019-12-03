@@ -43,7 +43,7 @@ const fundRecordDetail = data => {
 // 获取用户银行卡列表
 const getBankList = data => {
 	return request({
-		url: '/api/pay/bank/listPage',
+		url: '/api/pay/bank/getListBySubAccountId',
 		data,
 		type: 'form',
 	})

@@ -245,7 +245,10 @@
 			},
 			// 统计订单状态条数
 			getOrderStat(){
-				getOrderStat().then(res=>{
+				let data = {
+					businessType: this.businessType
+				}
+				getOrderStat(data).then(res=>{
 					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
 					if(res.code == '1000'){
 						let list = res.data

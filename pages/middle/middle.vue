@@ -6,7 +6,7 @@
 		</view> -->
 		<!-- 货主 -->
 		<view v-if="userApply!='' && (roleId==20001 || roleId==20002)">
-			<agency :roleId='roleId' :userApply='userApply'></agency>
+			<agency :roleId='roleId' :userApply='userApply' :yearAndMonth='yearAndMonth' :totalPrice="totalPrice" :orderInfos='orderInfos' :spOrders="spOrders"></agency>
 		</view>
 		<!-- 买家 -->
 		<!-- <view v-if="roleId==20003">
@@ -31,10 +31,35 @@
 	import buyer from '@/components/middle/buyer.vue'
 	import shipper from '@/components/middle/shipper.vue'
 	import util from '@/utils/util.js'
-	import { getUserRealInfoAll, getShopIdByUser } from '@/api/userApi.js'
+	import { getUserRealInfoAll, getShopIdByUser, getOrderStat, statOrderInfo } from '@/api/userApi.js'
+	import { accountSub } from '@/api/payApi.js'
 	export default {
 		data() {
 			return {
+				yearAndMonth:'',
+				totalPrice:'',
+				orderInfos:'',
+				spOrders: [{
+					img: '../../static/imgs/icon-1004.png',
+					text: '待确认',
+					tip: ''
+				}, {
+					img: '../../static/imgs/icon-1005.png',
+					text: '待买家支付',
+					tip: ''
+				}, {
+					img: '../../static/imgs/icon-1006.png',
+					text: '代办发货',
+					tip: ''
+				}, {
+					img: '../../static/imgs/icon-1007.png',
+					text: '待买家收货',
+					tip: ''
+				}, {
+					img: '../../static/imgs/icon-1008.png',
+					text: '已完成',
+					tip: ''
+				}],
 				status: 1, // 登录用户状态
 				roleId: '',
 				userRealInfo:'',
@@ -94,6 +119,15 @@
 				}else{
 					this.getUserRealInfoAll()
 					// this.getShopIdByUser()
+					
+					// 统计订单状态条数
+					this.getOrderStat()
+					// 主页订单交易统计
+					this.getStatOrderInfo()
+					// 获取资金账户
+					this.getAccountSub()
+					// 获取年月
+					this.getYearAndMonth()
 				}
 			}
 			// #endif
@@ -111,12 +145,69 @@
 				}else{
 					this.getUserRealInfoAll()
 					// this.getShopIdByUser()
+					
+					// 统计订单状态条数
+					this.getOrderStat()
+					// 主页订单交易统计
+					this.getStatOrderInfo()
+					// 获取资金账户
+					this.getAccountSub()
+					// 获取年月
+					this.getYearAndMonth()
 				}
 				
 			}
 			// #endif
 		},
 		methods:{
+			// 获取年月
+			getYearAndMonth(){
+				this.yearAndMonth = util.doHandleYear() + '年' + util.doHandleMonth() + '月'
+			},
+			// 获取资金账户
+			getAccountSub(){
+				accountSub().then(res=>{
+					if(res.code == '1000'){
+						this.totalPrice       = res.data.balance
+						// this.bankCardNum      = res.data.bankCardNum
+						// this.setPayPwd        = res.data.setPayPwd
+						// this.accountSubDates  = res.data
+					}
+				})
+			},
+			// 主页订单交易统计
+			getStatOrderInfo(){
+				statOrderInfo().then(res=>{
+					if(res.code == '1000'){
+						this.orderInfos = res.data.orderStatVO
+					}
+				})
+			},
+			// 统计订单状态条数
+			getOrderStat(){
+				let data = {
+					businessType: 1   // 1销售订单  2我的订单
+				}
+				getOrderStat(data).then(res=>{
+					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
+					if(res.code == '1000'){
+						let list = res.data
+						list.forEach((item,index)=>{
+							let roleId = uni.getStorageSync('roleId')
+							if(roleId == '20001') {
+								if(item.status == 6) this.spOrders[0].tip = item.num	
+							}
+							if(roleId == '20002'){
+								if(item.status == 2) this.spOrders[2].tip = item.num
+							}
+							if(item.status == 0) this.spOrders[1].tip = item.num
+							if(item.status == 3) this.spOrders[3].tip = item.num
+						})
+					}
+					
+				})
+			},
+			
 			// 获取店铺ID
 			getShopIdByUser(){
 				getShopIdByUser().then(res=>{

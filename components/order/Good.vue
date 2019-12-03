@@ -14,7 +14,7 @@
 				</view>
 				<view class="cf" v-if="hasAgencyFee">
 					<view class="fll">
-						代办费:¥{{item.agentcyPrice || '0'}} <text v-if="item.goodsUnit">/</text>{{item.goodsUnit || ''}}
+						代办费:¥{{item.agentcyPrice || '0'}} 元<text v-if="item.goodsUnit">/</text>{{item.goodsUnit || '斤'}}
 					</view>
 					<view class="flr fs24 text-999">
 						x{{item.num}}
@@ -22,7 +22,7 @@
 				</view>
 				<view class="price text-theme">
 					<view class="fll"> 
-						价格:¥{{item.price}}/{{item.goodsUnit}}
+						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
 					<view class="flr fs24 text-999" v-if="!hasAgencyFee">
 						x{{item.num}}

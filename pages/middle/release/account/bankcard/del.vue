@@ -4,7 +4,7 @@
 			<view class="item cf">
 				<view class="left fll">
 					<view class="image">
-						<image src="../../../../../static/imgs/icon-1017.png" mode=""></image>
+						<image :src="item.item.bankLogo || '../../../../../static/imgs/icon-1017.png'" mode=""></image>
 					</view>
 				</view>
 				<view class="right fll">

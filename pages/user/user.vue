@@ -142,18 +142,21 @@
 			},
 			// 统计订单状态条数
 			getOrderStat(){
-				getOrderStat().then(res=>{
+				let data = { 
+					businessType: 2   // 1销售订单  2我的订单
+				}
+				getOrderStat(data).then(res=>{
 					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
 					if(res.code == '1000'){
 						let list = res.data
 						list.forEach((item,index)=>{
 							let roleId = uni.getStorageSync('roleId')
-							if(roleId == '20001') {
-								if(item.status == 6) this.titles[0].tip = item.num	
-							}
-							if(roleId == '20002'){
-								if(item.status == 2) this.titles[2].tip = item.num
-							}
+							// if(roleId == '20001') {
+							// 	if(item.status == 6) this.titles[0].tip = item.num	
+							// }
+							// if(roleId == '20002'){
+							// 	if(item.status == 2) this.titles[2].tip = item.num
+							// }
 							if(item.status == 0) this.titles[1].tip = item.num
 							if(item.status == 3) this.titles[3].tip = item.num
 						})
