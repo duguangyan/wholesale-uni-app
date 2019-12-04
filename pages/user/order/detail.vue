@@ -144,7 +144,10 @@
 						<span v-if="order.status == 6">待审核</span>
 					</span>
 				</div>
-				<Good v-for="good in order.shopOrder.orderDetailList" :hasAgencyFee="false" :key="good.id" :item="good"></Good>
+				<view class="mgb-30" v-for="good in order.shopOrder.orderDetailList" :key="good.id" >
+					<Good :hasAgencyFee="false" :item="good"></Good>
+				</view>
+				
 				<div class="goods-price">
 					<span>商品总价</span>
 					<span class="money">￥{{order.shopOrder.orderMoney}}</span>

@@ -219,11 +219,11 @@
         ,{
             "path" : "pages/middle/release/attribute/add/add",
             "style" : {
-				"navigationBarTitleText": "添加属性",
-				"navigationStyle":"custom",
-				"app-plus":{
-					"titleView":false
-				}
+				"navigationBarTitleText": "添加属性"
+				// "navigationStyle":"custom",
+				// "app-plus":{
+				// 	"titleView":false
+				// }
 			}
         }
         ,{

@@ -2,10 +2,10 @@
     <view class="mine">
 		<view class="top">
 			<view class="img">
-				<image src="../../static/img/bg-mine.png" mode=""></image>
+				<image src="/static/img/bg-mine.png" mode=""></image>
 			</view>
 			<view class="setting" @click="goSettingPage">
-				<image src="../../static/img/icon-setting.png" mode=""></image>
+				<image src="/static/img/icon-setting.png" mode=""></image>
 			</view>
 			<!-- 我的状态 -->
 			<view class="status">
@@ -26,8 +26,8 @@
         <view class="order">
           <view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
             <view class="p1 fll fs36">我的订单</view>
-			<view class="img flr">
-				<image src="../../static/img/tag-go.png"/>
+			<view class="img flr" :class="{'platformOPPO': platform == 1}" >
+				<image src="/static/img/tag-go.png"/>
 			</view>
 			<view class="p2 text-999 fs24 flr">全部订单</view>
           </view>
@@ -402,6 +402,10 @@
 			  width: 100%;
 			  height: 100%;
 		  }
+		  
+	  }
+	  .platformOPPO{
+	  	top: 4upx !important;
 	  }
       & > .p2 {
         color: #999;
