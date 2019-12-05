@@ -34,13 +34,13 @@
     <view class="overall">
       <view v-if="good.goods.showStyle == 3 || good.goods.showStyle == 1">
         <text class="price">
-          {{ good.goods.minPrice || 0 }}
+          {{ good.goods.minPrice || 0 }}元
           <text class="fs24 text-000" v-if="good.goodsSkuList.length <= 1">{{ '/' + good.goods.unitName }}</text>
         </text>
         <text v-if="good.goodsSkuList.length > 1">
           <text class="text-red">&nbsp;~&nbsp;</text>
           <text class="price">
-            <text>{{ good.goods.maxPrice || 0 }}</text>
+            <text>{{ good.goods.maxPrice || 0 }}元</text>
           </text>
           <text class="unit" v-if="good.goods.unitName">{{ '/' + good.goods.unitName }}</text>
         </text>
@@ -48,7 +48,7 @@
       <view v-if="good.goods.showStyle == 2" class="cf goodsPrice">
         <view v-for="(item, index) in good.goodsList" :key="index" class="fll" :class="{ left1: good.goodsList.length == 1, left2: good.goodsList.length == 2 }">
           <view class="multi-price">
-            <text>{{ item.price || 0 }}</text>
+            <text>{{ item.price || 0 }}元</text>
             <text v-if="good.goods.unitName">/{{ good.goods.unitName }}</text>
           </view>
           <view class="multi-sta">{{ item.startNum }}{{ good.goods.unitName }}起批</view>
@@ -57,7 +57,7 @@
       <view v-if="good.goods.showStyle != 1 && good.goods.showStyle != 2 && good.goods.showStyle != 3">
         <text class="price" v-if="good.goods.minPrice">
           {{ good.goods.minPrice || 0 }}
-          <text v-if="good.goods.maxPrice">~ {{ good.goods.maxPrice || 0 }}</text>
+          <text v-if="good.goods.maxPrice">~ {{ good.goods.maxPrice || 0 }}元</text>
         </text>
         <text class="unit" v-if="good.goods.unitName">{{ '/' + good.goods.unitName }}</text>
       </view>
@@ -189,7 +189,7 @@
           <view class="good">
             <view class="photo"><img class="icon-90" :src="good.goods.imgUri" width="90" height="90" alt /></view>
             <view class="unit fg1">
-              {{ totalPrice }}
+              {{ totalPrice }}元
               <text>/{{ good.goods.unitName }}</text>
             </view>
             <img class="icon-155" src="@/static/img/tag-close2.png" @click="isSure = false" />
@@ -441,7 +441,7 @@ var vm =  {
                 // 累计无效次
                 isInvalid = isInvalid && curNode.disabled;
               });
-              d.standardList[exIndex].push(`￥${sku.price}/${d.goods.unitName}`);
+              d.standardList[exIndex].push(`￥${sku.price}元/${d.goods.unitName}`);
             });
             d.tree = tree;
             d.isInvalid = isInvalid;

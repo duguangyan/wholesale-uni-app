@@ -1,5 +1,5 @@
 <template>
-  <view class="shop">
+  <div class="shop">
     <div class="info">
       <div class="avatar">
         <img src="../../../static/imgs/shop-avatar.png" width="100%" alt="">
@@ -14,12 +14,12 @@
     <div class="list">
       <Good v-for="(item,index) in list" :key="item.id" :item="item" :level="2" scoped="shop" />
     </div>
-  </view>
+  </div>
 </template>
 
 <script>
 import { getList, getShopInfo } from '@/api/goodsApi.js';
-import Good from '@/components/common/Good.vue';
+import Good from "@/components/common/Good.vue";
 
 var vm = {
   data() {
@@ -48,7 +48,8 @@ var vm = {
   },
   onLoad(options) {
     vm.shopId = options.shopId
-    
+  },
+  onShow(){
     // 加载店铺信息
     getShopInfo({
       shopId: vm.shopId
@@ -61,7 +62,7 @@ var vm = {
     
     // 加载商品信息
     vm.load()
-  },
+  }
   
 };
 export default vm

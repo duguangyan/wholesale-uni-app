@@ -6,7 +6,7 @@
     <transition name="body">
       <div v-show="show" class="body">
         <!-- 产地 -->
-        <div :class="['location',isMoreLocat?'scale':'']">
+        <!-- <div :class="['location',isMoreLocat?'scale':'']">
           <section ref="area">
             <li
               v-for="(area,index) in list"
@@ -18,7 +18,7 @@
         </div>
         <div v-if="isMoreBtn" class="more" @click="isMoreLocat = !isMoreLocat">
           <img :src="isMoreLocat?icon.Aimdown:icon.Aimup" width="19" height="15" alt />
-        </div>
+        </div> -->
 
         <!-- 价格区间 -->
         <div class="price-area"  :calss="{'Android': platform == 3}">
@@ -27,6 +27,13 @@
           <input v-model="filter.priceEnd" type="number" placeholder="最高价" @blur="valiPriceEnd" />
         </div>
         <div class="weight"></div>
+        <!-- 起批量 -->
+        <div class="price-area"  :calss="{'Android': platform == 3}">
+          <input v-model="filter.startNumStart" type="number" placeholder="最低起批量" @blur="valiStartNumStart" />
+          <span></span>
+          <input v-model="filter.startNumEnd" type="number" placeholder="最高起批量" @blur="valiStartNumEnd" />
+        </div>
+        
         <div class="operator">
           <div class="reset" @click="reset">重置</div>
           <div class="confirm" @click="submit">确定</div>
@@ -60,13 +67,17 @@ export default {
         Aimdown
       },
       filter: {
-        areaLevel: 1,
-        areaId: '',
+        // areaLevel: 1,
+        // areaId: '',
         priceBegin: "",
-        priceEnd: ""
+        priceEnd: "",
+        startNumStart: '',
+        startNumEnd: ''
       },
       isMinOk: true,
-      isMaxOk: true
+      isMaxOk: true,
+      isStartOk: true,
+      isEndOk: true
     };
   },
   mounted() {
@@ -113,6 +124,26 @@ export default {
           return T.tips("请输入0-9999.99的数字");
         }
         this.isMaxOk = true;
+      }
+    },
+    valiStartNumStart(){
+      let val = this.filter.priceBegin;
+      if (this.filter.priceBegin !== "") {
+        if (!val.match(/^(^[1-9]\d+|^[0-9])$/)) {
+          this.isStartOk = false;
+          return T.tips("请输入0-9999的数字");
+        }
+        this.isStartOk = true;
+      }
+    },
+    valiStartNumEnd(){
+      let val = this.filter.priceBegin;
+      if (this.filter.priceBegin !== "") {
+        if (!val.match(/^(^[1-9]\d+|^[0-9])$/)) {
+          this.isEndOk = false;
+          return T.tips("请输入0-9999的数字");
+        }
+        this.isEndOk = true;
       }
     },
     reset() {
@@ -203,7 +234,7 @@ export default {
     }
 	/*  #ifdef  APP-PLUS || H5 */
 	span{
-		 top: -8upx;
+		 // top: -8upx;
 	}
 	/*  #endif  */
   }
