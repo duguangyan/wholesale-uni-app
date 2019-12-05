@@ -126,7 +126,7 @@
 							top: -4upx;
 							/* #endif */ 
 							/* #ifdef APP-PLUS || H5 */
-							top: -8upx;
+							top: -17upx;
 							/* #endif */  
 							
 						}

@@ -70,11 +70,8 @@
 					return false
 				}
 				uni.navigateTo({
-					url:'/pages/middle/release/account/payps/resPassword?cash=1&amount='+this.totalPrice+'&receiveAccount='+this.bankCardList[this.bankChcekIndex].id
+					url:'/pages/middle/release/account/payps/resPassword?from=cash&amount='+this.totalPrice+'&receiveAccount='+this.bankCardList[this.bankChcekIndex].id
 				})
-				
-				
-				
 			},
 			// 全部提现
 			getAllCash(){
@@ -87,8 +84,8 @@
 				}
 				getBankList(data).then(res=>{
 					if(res.code == '1000'){
-						this.bankCardList = res.data.records
-						this.bankCard = res.data.records[0]
+						this.bankCardList = res.data
+						this.bankCard = res.data[0]
 						let cardNo = this.bankCard.cardNo
 						cardNo = cardNo.substr(cardNo.length-4)
 						this.bankCard.cardNo = cardNo

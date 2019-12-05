@@ -2,8 +2,8 @@
     "name" : "正鼎农品",
     "appid" : "__UNI__E3A114F",
     "description" : "正鼎农品专业的红薯销售平台，提供全国最优质的红薯",
-    "versionName" : "1.0.1",
-    "versionCode" : 101,
+    "versionName" : "1.0.4",
+    "versionCode" : 104,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -15,7 +15,6 @@
             "OAuth" : {},
             "Payment" : {},
             "Share" : {},
-            "Speech" : {},
             "Messaging" : {}
         },
         /* 应用发布信息 */
@@ -73,7 +72,8 @@
                     "NSLocationWhenInUseUsageDescription" : "上上农业需要打开您的地理位置获取地址定位信息",
                     "NSLocationAlwaysUsageDescription" : "上上农业需要打开您的地理位置获取地址定位信息",
                     "NSLocationAlwaysAndWhenInUseUsageDescription" : "上上农业需要打开您的地理位置获取地址定位信息"
-                }
+                },
+                "idfa" : false
             },
             /* SDK配置 */
             "sdkConfigs" : {
@@ -81,26 +81,24 @@
                 "payment" : {
                     "weixin" : {
                         "appid" : "wx26baf2267dd24e83",
-                        "UniversalLinks" : "https://m.qinlvny.com/static/"
+                        "UniversalLinks" : "https://wsm.qinlvny.com/static/"
                     },
                     "alipay" : {}
                 },
                 "share" : {
                     "weixin" : {
                         "appid" : "wx26baf2267dd24e83",
-                        "UniversalLinks" : "https://m.qinlvny.com/static/"
+                        "UniversalLinks" : "https://wsm.qinlvny.com/static/"
                     }
                 },
                 "oauth" : {
                     "weixin" : {
                         "appid" : "wx26baf2267dd24e83",
                         "appsecret" : "3acbb7d4ad8582d32e7f8da7a07878fc",
-                        "UniversalLinks" : "https://m.qinlvny.com/static/"
+                        "UniversalLinks" : "https://wsm.qinlvny.com/static/"
                     }
                 },
-                "speech" : {
-                    "ifly" : {}
-                }
+                "speech" : {}
             },
             "icons" : {
                 "android" : {
@@ -136,28 +134,31 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "xhdpi" : "C:/Users/ZZT/Desktop/默认图/720-1242.png",
-                    "hdpi" : "C:/Users/ZZT/Desktop/默认图/480-762.png",
-                    "xxhdpi" : "C:/Users/ZZT/Desktop/默认图/1080-1882.png"
+                    "xhdpi" : "C:/Users/ZZT/Desktop/默认图1/720-1242.png",
+                    "hdpi" : "C:/Users/ZZT/Desktop/默认图1/480-762.png",
+                    "xxhdpi" : "C:/Users/ZZT/Desktop/默认图1/1080-1882.png"
                 },
                 "ios" : {
                     "iphone" : {
-                        "portrait-896h@3x" : "C:/Users/ZZT/Desktop/默认图/1242-2688.png",
-                        "retina55" : "C:/Users/ZZT/Desktop/默认图/1242-2208.png",
-                        "retina47" : "C:/Users/ZZT/Desktop/默认图/750-1334.png",
-                        "landscape-896h@3x" : "C:/Users/ZZT/Desktop/默认图/1242-2688-1.png",
-                        "portrait-896h@2x" : "C:/Users/ZZT/Desktop/默认图/828-1792.png",
-                        "landscape-896h@2x" : "C:/Users/ZZT/Desktop/默认图/828-1792-1.png",
-                        "iphonex" : "C:/Users/ZZT/Desktop/默认图/1125-2436-2.png",
-                        "iphonexl" : "C:/Users/ZZT/Desktop/默认图/1125-2436-1.png",
-                        "retina55l" : "C:/Users/ZZT/Desktop/默认图/1242-2208-2.png",
-                        "retina47l" : "C:/Users/ZZT/Desktop/默认图/750-1334-2.png",
-                        "retina40" : "C:/Users/ZZT/Desktop/默认图/640-1136.png",
-                        "retina40l" : "C:/Users/ZZT/Desktop/默认图/640-1136-2.png",
-                        "retina35" : "C:/Users/ZZT/Desktop/默认图/640-960.png"
+                        "portrait-896h@3x" : "C:/Users/ZZT/Desktop/默认图1/1242-2688.png",
+                        "retina55" : "C:/Users/ZZT/Desktop/默认图1/1242-2208.png",
+                        "retina47" : "C:/Users/ZZT/Desktop/默认图1/750-1334.png",
+                        "landscape-896h@3x" : "C:/Users/ZZT/Desktop/默认图1/1242-2688-1.png",
+                        "portrait-896h@2x" : "C:/Users/ZZT/Desktop/默认图1/828-1792.png",
+                        "landscape-896h@2x" : "C:/Users/ZZT/Desktop/默认图1/828-1792-1.png",
+                        "iphonex" : "C:/Users/ZZT/Desktop/默认图1/1125-2436-2.png",
+                        "iphonexl" : "C:/Users/ZZT/Desktop/默认图1/1125-2436-1.png",
+                        "retina55l" : "C:/Users/ZZT/Desktop/默认图1/1242-2208-2.png",
+                        "retina47l" : "C:/Users/ZZT/Desktop/默认图1/750-1334-2.png",
+                        "retina40" : "C:/Users/ZZT/Desktop/默认图1/640-1136.png",
+                        "retina40l" : "C:/Users/ZZT/Desktop/默认图1/640-1136-2.png",
+                        "retina35" : "C:/Users/ZZT/Desktop/默认图1/640-960.png"
                     }
                 }
             }
+        },
+        "splashscreen" : {
+            "waiting" : false
         }
     },
     /* 快应用特有相关 */

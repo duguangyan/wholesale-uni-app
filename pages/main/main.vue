@@ -73,7 +73,7 @@
 			</view>
 			<view class="content">
 				<view v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
-					<Goodx :item='item' :roleId="roleId"></Goodx>
+					<Goodx :item='item' :roleId="1"></Goodx>
 				</view>
 				
 				<!-- <view class="item cf" v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">

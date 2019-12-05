@@ -269,7 +269,8 @@
 				// 获取手机验证码
 				let data = {
 					mobile: this.phone,
-					deviceId: this.deviceId
+					deviceId: this.deviceId,
+					systemId: 4
 				}
 				postUserSms(data).then((res) => {
 					T.tips(res.message)
