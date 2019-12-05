@@ -38,13 +38,13 @@
 						</div>
 						<div class="fll ml-10 info">
 							<p class="fs28 p1 ellipsis ellipsis-line2" @click="goDetail(item.shopId, it.goodsId)">{{it.goodsName || ''}}</p>
-							<p class="attrText p4 text-999 fs20 ellipsis" @click="goDetail(item.shopId, it.goodsId)">
+							<p class="attrText p4 text-999 fs20 ellipsis lh1" @click="goDetail(item.shopId, it.goodsId)">
                 <span class="mr10" v-for="attr in it.goodsDetailAttrList" :key="attr.id">
                   {{attr.name}}:
                   <span v-for="attrVal in attr.goodsDetailAttrValueList" :key="attr.id">{{attrVal.remark || attrVal.value}}</span>
                 </span>
               </p>
-              <p class="text-333 fs28">代办费&nbsp;￥{{it.agencyFee}}元{{it.unitName?`/${it.unitName}`:''}}</p>
+              <p class="text-333 fs28 lh1">代办费&nbsp;￥{{it.agencyFee}}元{{it.unitName?`/${it.unitName}`:''}}</p>
 							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
 							<p v-if="it.status !== 4" class=" fs-14 p2 text-red" @click="goDetail(item.shopId, it.goodsId)">价格: <span class="fs-18">￥{{it.price}}元</span>{{it.unitName?`/${it.unitName}`:''}}</p>
 							<!-- <p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p> -->
@@ -513,6 +513,9 @@
 	}
 </script>
 <style lang="scss" scoped>
+  .lh1{
+    line-height: 1;
+  }
   .attrText{
     line-height: 2;
   }

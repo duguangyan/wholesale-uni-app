@@ -234,7 +234,7 @@ export default {
     }
 	/*  #ifdef  APP-PLUS || H5 */
 	span{
-		 top: -8upx;
+		 // top: -8upx;
 	}
 	/*  #endif  */
   }
