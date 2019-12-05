@@ -37,7 +37,7 @@
 		components:{ NavigationBar },
 		onBackPress(){
 			T.tips('请选择角色')
-			return false
+			return true
 		},
 		onLoad() {
 			

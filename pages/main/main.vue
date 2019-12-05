@@ -199,17 +199,24 @@
 				this.roleId = uni.getStorageSync('roleId')
 				if(this.roleId){
 					// 设置底部tab样式
-					if(this.roleId == '20002' || this.roleId == '20003'){
+					if(this.roleId == '20002'){
 						uni.setTabBarItem({
 						  index: 1,
 						  text: '代办',
 						  iconPath: 'static/img/2.1.png',
 						  selectedIconPath: 'static/img/2.2.png'
 						})
-					} else if(this.roleId == '20001') {
+					}if(this.roleId == '20003'){
 						uni.setTabBarItem({
 						  index: 1,
-						  text: '我要卖',
+						  text: '入驻',
+						  iconPath: 'static/img/2.1.png',
+						  selectedIconPath: 'static/img/2.2.png'
+						})
+					} else if(this.roleId == '20001' || this.roleId == '20004') {
+						uni.setTabBarItem({
+						  index: 1,
+						  text: '发布',
 						  iconPath: 'static/img/4.1.png',
 						  selectedIconPath: 'static/img/4.2.png'
 						})

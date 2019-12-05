@@ -4,7 +4,7 @@
 			<view class="item cf" :style="{color:item.sizColor,background:item.bgcolor}" v-for="(item,index) in records" :key="index" @click="goDel(item)">
 				<view class="left fll">
 					<view class="image">
-						<image :src="item.bankLogo || '/static/imgs/bank-icon.png'" mode=""></image>
+						<image :src="item.bankLogo || '/static/imgs/bank-icon.png'" mode="aspectFit"></image>
 					</view>
 				</view>
 				<view class="right fll">
@@ -35,10 +35,6 @@
 				pageIndex:1,
 				records:[]
 			};
-		},
-		onReachBottom(){
-			this.pageIndex++
-			this.getBankList()
 		},
 		onShow() {
 			// 获取银行卡信息
@@ -209,11 +205,13 @@
 				.left{
 					width: 20%;
 					.image{
-						width: 70upx;
-						height: 70upx;
+						width: 80upx;
+						height: 80upx;
 						position: relative;
+						background: #f5f5f5;
+						border-radius: 50%;
 						top: 30upx;
-						left: 60upx;
+						left: 50upx;
 						>image{
 							width: 100%;
 							height: 100%;

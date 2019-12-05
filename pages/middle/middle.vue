@@ -72,10 +72,6 @@
 					{
 						text:'我要卖货',
 						imgUrl:'/static/imgs/icon-2.png'
-					},
-					{
-						text:'我要采购',
-						imgUrl:'/static/imgs/icon-3.png'
 					}
 				]
 			};
@@ -167,33 +163,6 @@
 			// 获取用户类型
 			getUserType(){
 				if(uni.getStorageSync('roleId')) this.roleId = uni.getStorageSync('roleId')
-				if(this.roleId == '20003' || this.roleId == ''){
-					this.items=[
-						{
-							text:'我是代办',
-							imgUrl:'/static/imgs/icon-1.png'
-						},
-						{
-							text:'我要卖货',
-							imgUrl:'/static/imgs/icon-2.png'
-						},
-						{
-							text:'我要采购',
-							imgUrl:'/static/imgs/icon-3.png'
-						}
-					]
-				}else{
-					this.items=[
-						{
-							text:'我是代办',
-							imgUrl:'/static/imgs/icon-1.png'
-						},
-						{
-							text:'我要卖货',
-							imgUrl:'/static/imgs/icon-2.png'
-						}
-					]
-				}
 				
 				this.spOrders = [{
 					img: '/static/imgs/icon-1004.png',
@@ -309,17 +278,24 @@
 					});
 				}
 				// 设置底部tab样式
-				if(this.roleId == '20002' || this.roleId == '20003'){
+				if(this.roleId == '20002'){
 					uni.setTabBarItem({
 					  index: 1,
 					  text: '代办',
 					  iconPath: 'static/img/2.1.png',
 					  selectedIconPath: 'static/img/2.2.png'
 					})
-				} else if(this.roleId == '20001') {
+				}if( this.roleId == '20003'){
 					uni.setTabBarItem({
 					  index: 1,
-					  text: '我要卖',
+					  text: '入驻',
+					  iconPath: 'static/img/2.1.png',
+					  selectedIconPath: 'static/img/2.2.png'
+					})
+				} else if(this.roleId == '20001' || this.roleId == '20004') {
+					uni.setTabBarItem({
+					  index: 1,
+					  text: '发布',
 					  iconPath: 'static/img/4.1.png',
 					  selectedIconPath: 'static/img/4.2.png'
 					})

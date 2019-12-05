@@ -343,8 +343,8 @@
 							case '20003':
 							let userRealInfo  = uni.getStorageSync('userRealInfo')
 								if(userRealInfo == ''){
-									uni.switchTab({
-										url: '/pages/middle/middle'
+									uni.redirectTo({
+										url: '/pages/middle/identity/identity'
 									})
 								}else{
 									uni.switchTab({

@@ -247,8 +247,7 @@
         ,{
             "path" : "pages/middle/release/account/bankcard/bankcard",
             "style" : {
-				"navigationBarTitleText": "我的银行卡",
-				 "enablePullDownRefresh": true
+				"navigationBarTitleText": "我的银行卡"
 			}
         }
 		,{
@@ -437,7 +436,7 @@
 			"selectedIconPath": "static/img/1.2.png"
 		}, {
 			"pagePath": "pages/middle/middle",
-			"text": "买货",
+			"text": "发布",
 			"iconPath": "static/img/2.1.png",
 			"selectedIconPath": "static/img/2.2.png"
 		}, {
