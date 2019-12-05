@@ -107,21 +107,39 @@
 			},
 			// 去银行卡页面
 			goBankcard(){
-				uni.navigateTo({
-					url:'/pages/middle/release/account/bankcard/bankcard'
-				})
+				
+				if(!this.setPayPwd){
+					uni.navigateTo({
+						url:'/pages/middle/release/account/payps/verifiyPhone'
+					})
+				}else{
+					uni.navigateTo({
+						url:'/pages/middle/release/account/bankcard/bankcard'
+					})
+				}
+				
 			},
 			// 去支付密码页面
 			goPayps(){
-				uni.navigateTo({
-					url:'/pages/middle/release/account/payps/payps'
-				})
+				if(!this.setPayPwd){
+					uni.navigateTo({
+						url:'/pages/middle/release/account/payps/verifiyPhone'
+					})
+				}else{
+					uni.navigateTo({
+						url:'/pages/middle/release/account/payps/payps'
+					})
+				}
+				
 			},
 			// 点击确定
 			doConfirm(){
 				this.isShow = false
+				// uni.navigateTo({
+				// 	url:'/pages/middle/release/account/bankcard/add'
+				// })
 				uni.navigateTo({
-					url:'/pages/middle/release/account/bankcard/add'
+					url:'/pages/middle/release/account/payps/resPassword?from=addBank'
 				})
 			},
 			// 点击取消
@@ -137,20 +155,15 @@
 				}else{
 					if(!this.setPayPwd){
 						uni.navigateTo({
-							url:'/pages/middle/release/account/payps/verifiyPhone?from=cash'
+							url:'/pages/middle/release/account/payps/verifiyPhone'
 						})
 					}else{
 						if(this.bankCardNum<=0){
 							this.isShow = true
 						}
 					}
-					
-					
 				}
-				
-				
 			}
-			
 		}
 	}
 </script>
