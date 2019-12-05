@@ -3,11 +3,11 @@
 		<view class="items">
 			<view class="item cf" @click="goReset">
 				<view class="fll">重置支付密码</view>
-				<view class="flr image"><image src="../../../../../static/imgs/right.png" mode=""></image></view>
+				<view class="flr image"><image src="/static/imgs/right.png" mode=""></image></view>
 			</view>
 			<view class="item cf" @click="goRevise">
 				<view class="fll">修改支付密码</view>
-				<view class="flr image"><image src="../../../../../static/imgs/right.png" mode=""></image></view>
+				<view class="flr image"><image src="/static/imgs/right.png" mode=""></image></view>
 			</view>
 		</view>
 	</view>
@@ -36,7 +36,7 @@
 			// 去修改密码页面
 			goRevise(){
 				uni.navigateTo({
-					url:'/pages/middle/release/account/payps/resPassword'
+					url:'/pages/middle/release/account/payps/resPassword?from=revise'
 				})
 			}
 			

@@ -65,7 +65,9 @@
 			return {
 				code:'',
 				trade_pwd_first:'',
+				trade_pwd_old:'',
 				trade_pwd: '',
+				old_trade_pwd:'',
 				focus: true,
 				show: false,
 				numarr: [],
@@ -140,8 +142,14 @@
 			}
 		},
 		onLoad(options) {
-			this.trade_pwd_first = options.trade_pwd
-			if(options.code) this.code = options.code
+			if(options.old_trade_pwd){
+				this.trade_pwd_old = options.old_trade_pwd
+				this.trade_pwd_first = options.trade_pwd
+			}
+			if(options.code) {
+				this.code = options.code
+				this.trade_pwd_first = options.trade_pwd
+			}
 		},
 		methods: {
 			writepwd(num) {
@@ -198,11 +206,11 @@
 					T.tips('密码长度不能少于6位')
 					return;
 				}
+				
 				if(this.trade_pwd_first != this.trade_pwd){
 					T.tips('两次输入得密码不一致')
 					return;
 				}
-				
 				
 				let reg = /^(\d)\1{5}$/; // 不重复6位 类似111111,222222
 				let str = '0123456789_9876543210'; // str.indexOf(value) > -1 不连续判断 类似123456
@@ -218,7 +226,7 @@
 				if(this.code == ''){
 					let data = {
 						newPassword:this.trade_pwd,
-						oldPassword:this.trade_pwd_first
+						oldPassword:this.trade_pwd_old
 					}
 					setBankmodifyPwd(data).then(res=>{
 						if(res.code == '1000'){

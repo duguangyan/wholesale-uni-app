@@ -4,7 +4,7 @@
 		<view class="login">
 			<view class="l_top" style="margin-bottom:100upx;">
 				<view class="l_text" v-if="code!=''">请输入6位新的支付密码，注意不要重复或连续数字</view>
-				<view class="l_text" v-if="code==''">请输入支付密码</view>
+				<view class="l_text" v-if="code==''">{{tip}}</view>
 				
 			</view>
 			<view class="l_top">
@@ -64,6 +64,8 @@
 		},
 		data() {
 			return {
+				old_trade_pwd:'',
+				tip:'',
 				from:'',
 				add: '',
 				id:'',
@@ -150,7 +152,7 @@
 					this.amount            = options.amount
 					this.receiveAccount    = options.receiveAccount
 				}
-				if(this.from == 'addBank' || this.from == 'delBank' || this.from == 'cash' || this.from != ''){
+				if(this.from == 'addBank' || this.from == 'delBank' || this.from == 'cash' || this.from == 'revise'){
 					uni.setNavigationBarTitle({
 					    title: '输入支付密码'
 					});
@@ -162,6 +164,9 @@
 			}    
 			if(options.code) this.code = options.code      // 来自重置密码
 			if(options.id) this.id     = options.id         // 来自删除银行卡
+		},
+		onShow() {
+			this.tip = '请输入支付密码'
 		},
 		methods: {
 			writepwd(num) {
@@ -214,7 +219,7 @@
 			setPassword(){
 				let url = ''
 				if(this.code == ''){
-					url = '/pages/middle/release/account/payps/confirmPassword?trade_pwd='+ this.trade_pwd
+					url = '/pages/middle/release/account/payps/confirmPassword?trade_pwd='+ this.trade_pwd +'&old_trade_pwd=' +this.old_trade_pwd
 				}else{
 					url = '/pages/middle/release/account/payps/confirmPassword?trade_pwd='+ this.trade_pwd + '&code=' + this.code
 				}
@@ -279,6 +284,28 @@
 					}
 				})
 			},
+			// 重置密码
+			doRevise(){
+				
+				let data = {
+					password: this.trade_pwd
+				}
+				validPayPwd(data).then(res=>{
+					if(res.code == '1000'){
+						uni.setNavigationBarTitle({
+						    title: '设置新支付密码'
+						});
+						this.old_trade_pwd = this.trade_pwd
+						this.numarr = []
+						this.trade_pwd = ''
+						this.from = ''
+						this.tip = '请输入新的支付密码'
+					}else{
+						T.tips(res.message || '输入密码错误')
+					}
+				})
+				
+			},
 			// 确认执行的方法
 			setpwd() {
 				if (this.trade_pwd.length < 6) {
@@ -300,7 +327,7 @@
 				
 				switch (this.from){
 					case 'cash':
-						// 重置设置密码
+						// 提现
 						this.doCash()
 						break;
 					case 'addBank':
@@ -311,6 +338,10 @@
 						// 删除银行卡
 						this.delBankCat()
 						break;
+					case 'revise':
+						// 删除银行卡
+						this.doRevise()
+						break;	
 					default:
 						// 重置设置密码
 						this.setPassword()
