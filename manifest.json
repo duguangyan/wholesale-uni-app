@@ -16,7 +16,8 @@
             "Payment" : {},
             "Share" : {},
             "Speech" : {},
-            "Messaging" : {}
+            "Messaging" : {},
+            "LivePusher" : {}
         },
         /* 应用发布信息 */
         "distribute" : {

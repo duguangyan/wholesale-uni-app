@@ -32,7 +32,7 @@
       
       <!-- 店铺信息 -->
       <div v-if="scoped !== 'shop'" class="shop">
-        <span>{{good.shopArea}}}</span>
+        <span>{{good.shopArea}}</span>
         <span class="ml5">{{good.realName}}</span>
       </div>
 
