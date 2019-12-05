@@ -73,7 +73,7 @@
 			</view>
 			<view class="content">
 				<view v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
-					<Goodx :item='item'></Goodx>
+					<Goodx :item='item' :roleId="1"></Goodx>
 				</view>
 				
 				<!-- <view class="item cf" v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
@@ -199,7 +199,7 @@
 				this.roleId = uni.getStorageSync('roleId')
 				if(this.roleId){
 					// 设置底部tab样式
-					if(this.roleId == '20002'){
+					if(this.roleId == '20002' || this.roleId == '20003'){
 						uni.setTabBarItem({
 						  index: 1,
 						  text: '代办',

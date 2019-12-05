@@ -145,7 +145,12 @@
 		onLoad(options) {
 			if(options.from){   // 设置密码
 				this.from = options.from
-				if(this.from == 'addBank' || this.from == 'delBank' || this.cash != ''){
+				if(this.from == 'cash'){
+					this.cash              = options.cash
+					this.amount            = options.amount
+					this.receiveAccount    = options.receiveAccount
+				}
+				if(this.from == 'addBank' || this.from == 'delBank' || this.from == 'cash' || this.from != ''){
 					uni.setNavigationBarTitle({
 					    title: '输入支付密码'
 					});
@@ -157,12 +162,6 @@
 			}    
 			if(options.code) this.code = options.code      // 来自重置密码
 			if(options.id) this.id     = options.id         // 来自删除银行卡
-			if(options.cash){                               // 来自提现
-				this.cash              = options.cash   
-				this.amount            = options.amount
-				this.receiveAccount    = options.receiveAccount
-			} 
-			
 		},
 		methods: {
 			writepwd(num) {
@@ -302,7 +301,7 @@
 				switch (this.from){
 					case 'cash':
 						// 重置设置密码
-						this.setPassword()
+						this.doCash()
 						break;
 					case 'addBank':
 						// 添加银行卡

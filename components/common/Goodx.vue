@@ -12,25 +12,23 @@
 					<!-- {{item.rejectReason || ''}} -->
 				</view>
 				<view class="deliver ellipsis fs24 text-999">
-					{{attrValDescString}}
+					<text v-for="(item,index) in item.attrValDesc" :key="index">{{" " + item}}</text>
 					<!-- <text class="fs20 text-999">{{item.place || ''}}</text>
 					<text class="tip fs20 text-999" v-if="ix<2" v-for="(it,ix) in item.attrValDesc" :key="ix">{{it || ' '}}</text> -->
 				</view>
 				<view class="price cf" :class="{'role':roleId=='20001'}">
-					<view class="fs28 text-red fll">
+					<view class="fs28 text-red fll"  :class="{'platformOPPO':platform == 1}">
 						￥{{item.minprice || item.minPrice}} 
 						<text v-if="item.maxprice && item.maxprice!=item.minprice">~{{item.maxprice}}</text>
 						元/斤起
 					</view>
-					<view class="fs28 text-999 flr"  v-if="roleId=='20001'">
+					<view class="fs28 text-999 flr" :class="{'platformOPPOSales':platform == 1}" v-if="roleId=='20001'">
 						销量:{{item.spuSalesNum}}斤
 					</view>
 				</view>
 				<view class="address cf" v-if="roleId!='20001'">
 					<view class="fll img">
-						
-						<image :class="{'platformIos':platform == 2}" :src="'/static/imgs/main-icon-1.png'" mode=""></image>
-						
+						<image :class="{'platformOPPO':platform == 1}" :src="'/static/imgs/main-icon-1.png'" mode=""></image>
 					</view>
 					<view class="fll fs20 text-999">{{item.shopArea || ''}} <text class="mgl-20">{{item.realName || ''}}</text></view>
 					<view class="flr fs20 text-999" v-if="item.createTimeName">{{item.createTimeName}}小时前</view>
@@ -61,12 +59,12 @@
 		},
 		mounted() {
 			// 拼接商品规格
-			if(this.item.place ) this.attrValDescString += ' ' + this.item.place
-			if(this.item.attrValDesc && this.item.attrValDesc.length>0){
-				this.item.attrValDesc.forEach(it=>{
-					if(it) this.attrValDescString += ' ' + it
-				})
-			}
+			// if(this.item.place ) this.attrValDescString += ' ' + this.item.place
+			// if(this.item.attrValDesc && this.item.attrValDesc.length>0){
+			// 	this.item.attrValDesc.forEach(it=>{
+			// 		if(it) this.attrValDescString += ' ' + it
+			// 	})
+			// }
 			this.platform = uni.getStorageSync('platform')
 		},
 		methods: {
@@ -99,17 +97,18 @@
 				}
 				.deliver{
 					height: 40upx;
-					.tip{
-						color: #999;
-						display: inline-block;
-						font-size: 24upx;
-						margin-left: 10upx;
-						padding: 2upx 4upx;
-					}
+					line-height: 40upx;
 				}
 				.price{
-					margin-top: 20upx;
+					margin-top: 28upx;
 					margin-bottom: 10upx;
+					.platformOPPO{
+						margin-top: 12upx;
+					}
+					.platformOPPOSales{
+						position: relative;
+						top: 10upx;
+					}
 				}
 				.role{
 					margin-top: 60upx;
@@ -127,12 +126,12 @@
 							top: -4upx;
 							/* #endif */ 
 							/* #ifdef APP-PLUS || H5 */
-							top: -14upx;
-							/* #endif */ 
+							top: -17upx;
+							/* #endif */  
 							
 						}
-						.platformIos{
-							top: -8upx !important;
+						.platformOPPO{
+							top: -13upx !important;
 						}
 					}
 				}

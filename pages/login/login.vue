@@ -269,7 +269,8 @@
 				// 获取手机验证码
 				let data = {
 					mobile: this.phone,
-					deviceId: this.deviceId
+					deviceId: this.deviceId,
+					systemId: 4
 				}
 				postUserSms(data).then((res) => {
 					T.tips(res.message)
@@ -342,8 +343,8 @@
 							case '20003':
 							let userRealInfo  = uni.getStorageSync('userRealInfo')
 								if(userRealInfo == ''){
-									uni.redirectTo({
-										url: '/pages/middle/identity/identity'
+									uni.switchTab({
+										url: '/pages/middle/middle'
 									})
 								}else{
 									uni.switchTab({

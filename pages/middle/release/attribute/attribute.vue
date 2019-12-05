@@ -90,6 +90,7 @@
 				this.addressInfo = this.address.province + ' ' + this.address.city
 			}
 			
+			
 		},
 		methods:{
 			// 编辑属性
@@ -130,21 +131,29 @@
 						})
 						// 如果缓存有输出数据
 						if(uni.getStorageSync('categorysValues') && uni.getStorageSync('categorysValues').length>0){
-							
-							// try{
-							// 	let categorysSync = uni.getStorageSync('categorysValues').goodsDetailAttrValueList[0].value
-							// 	categorys.forEach((item,index)=>{
-							// 		item.valueSet.forEach((it,ix)=>{
-							// 			if(it.value == categorysSync[index].goodsDetailAttrValueList[ix].value){
-							// 				it.isCheck = true
-							// 			}
-							// 		})
-							// 	})
-							// }catch(e){
-							// 	//TODO handle the exception
-							// }
+							let categorysSync = uni.getStorageSync('categorysValues')
+							try{
+								categorys.forEach((item,index)=>{
+									item.valueSet.forEach((it,ix)=>{
+										if(it.id == categorysSync[index].valueSet[ix].id){
+											it.isCheck = categorysSync[index].valueSet[ix].isCheck
+										}else{
+											categorysSync.forEach((nn,mm)=>{
+												nn.valueSet.forEach((n,m)=>{
+													if(it.id == n.id){
+														it.isCheck = n.isCheck
+													}
+												})
+											})
+										}
+									})
+								})
+							}catch(e){
+								//TODO handle the exception
+							}
 							
 							this.categorys = categorys
+							
 						}else{
 							this.categorys = categorys
 						}

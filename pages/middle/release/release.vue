@@ -109,6 +109,10 @@
 			// 货主编辑商品
 			if(options.goodsId) this.goodsId = options.goodsId
 			if(options.shopId)  this.shopId = options.shopId
+			
+			
+		},
+		onShow() {
 			if(this.goodsId!='' && this.shopId!=''){
 				uni.setNavigationBarTitle({
 				    title: '编辑商品'
@@ -119,12 +123,10 @@
 				uni.setNavigationBarTitle({
 				    title: '发布商品'
 				});
+				// 获取缓存数据
+				this.getStorageSyncBySelf()
 			}
 			
-		},
-		onShow() {
-			// 获取缓存数据
-			this.getStorageSyncBySelf()
 			
 		},
 		methods:{

@@ -1,5 +1,5 @@
 <template>
-	<view class="middle">
+	<view class="middle" v-if="roleId!=''">
 		<!-- 代办 -->
 		<!-- <view v-if="roleId==2002">
 			<agency></agency>
@@ -67,11 +67,15 @@
 				items:[
 					{
 						text:'我是代办',
-						imgUrl:'../../static/imgs/icon-1.png'
+						imgUrl:'/static/imgs/icon-1.png'
 					},
 					{
 						text:'我要卖货',
-						imgUrl:'../../static/imgs/icon-2.png'
+						imgUrl:'/static/imgs/icon-2.png'
+					},
+					{
+						text:'我要采购',
+						imgUrl:'/static/imgs/icon-3.png'
 					}
 				]
 			};
@@ -93,7 +97,9 @@
 			
 		},
 		onShow() {
-			if(uni.getStorageSync('roleId')) this.roleId = uni.getStorageSync('roleId')
+			// 根据不同状态获取不同业务
+			this.getUserType()
+			
 			// 未登录状态跳转 微信和APP不一样
 			// #ifdef  MP-WEIXIN
 			if(!uni.getStorageSync('access_token')){
@@ -113,12 +119,11 @@
 			}else{
 				// 获取用户信息
 				if(uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')){
-					uni.navigateTo({
-						url:'/pages/middle/identity/identity'
-					})
+					// uni.navigateTo({
+					// 	url:'/pages/middle/identity/identity'
+					// })
 				}else{
 					this.getUserRealInfoAll()
-					// this.getShopIdByUser()
 					
 					// 统计订单状态条数
 					this.getOrderStat()
@@ -139,13 +144,12 @@
 			}else{
 				// 获取用户信息
 				if(uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')){
-					uni.navigateTo({
-						url:'/pages/middle/identity/identity'
-					})
+					// uni.navigateTo({
+					// 	url:'/pages/middle/identity/identity'
+					// })
 				}else{
 					this.getUserRealInfoAll()
-					// this.getShopIdByUser()
-					
+			
 					// 统计订单状态条数
 					this.getOrderStat()
 					// 主页订单交易统计
@@ -160,6 +164,59 @@
 			// #endif
 		},
 		methods:{
+			// 获取用户类型
+			getUserType(){
+				if(uni.getStorageSync('roleId')) this.roleId = uni.getStorageSync('roleId')
+				if(this.roleId == '20003' || this.roleId == ''){
+					this.items=[
+						{
+							text:'我是代办',
+							imgUrl:'/static/imgs/icon-1.png'
+						},
+						{
+							text:'我要卖货',
+							imgUrl:'/static/imgs/icon-2.png'
+						},
+						{
+							text:'我要采购',
+							imgUrl:'/static/imgs/icon-3.png'
+						}
+					]
+				}else{
+					this.items=[
+						{
+							text:'我是代办',
+							imgUrl:'/static/imgs/icon-1.png'
+						},
+						{
+							text:'我要卖货',
+							imgUrl:'/static/imgs/icon-2.png'
+						}
+					]
+				}
+				
+				this.spOrders = [{
+					img: '/static/imgs/icon-1004.png',
+					text: '待确认',
+					tip: ''
+				}, {
+					img: '/static/imgs/icon-1005.png',
+					text: '待买家支付',
+					tip: ''
+				}, {
+					img: '/static/imgs/icon-1006.png',
+					text: '代办发货',
+					tip: ''
+				}, {
+					img: '/static/imgs/icon-1007.png',
+					text: '待买家收货',
+					tip: ''
+				}, {
+					img: '/static/imgs/icon-1008.png',
+					text: '已完成',
+					tip: ''
+				}]
+			},
 			// 获取年月
 			getYearAndMonth(){
 				this.yearAndMonth = util.doHandleYear() + '年' + util.doHandleMonth() + '月'
@@ -252,7 +309,7 @@
 					});
 				}
 				// 设置底部tab样式
-				if(this.roleId == '20002'){
+				if(this.roleId == '20002' || this.roleId == '20003'){
 					uni.setTabBarItem({
 					  index: 1,
 					  text: '代办',
@@ -283,7 +340,12 @@
 						uni.navigateTo({
 							url:'/pages/middle/identity/realname/agency?hasfrom=2'
 						})
-						break;	
+						break;
+					// 买家		
+					case 2:
+						uni.navigateTo({
+							url:'/pages/middle/identity/realname/buyer'
+						})	
 					default:
 						break;
 				}

@@ -37,8 +37,8 @@
 							<text v-if="item.status === 6">待货主审核</text>
 						</text>
 					</view>
-					<view class="mgb-20">
-						<Good v-for="good in item.orderDetailList" :key="good.id" :item="good"></Good>
+					<view class="mgb-30" v-for="good in item.orderDetailList" :key="good.id" >
+						<Good :item="good"></Good>
 					</view>
 					
 					<view class="accu fs24">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001'?item.orderMoney:item.payMoney}}</text></view>
@@ -248,12 +248,44 @@
 				let data = {
 					businessType: this.businessType
 				}
+				
+				
+				
 				getOrderStat(data).then(res=>{
 					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
 					if(res.code == '1000'){
+						
+						this.tabs = [{
+										name: '全部',
+										status: '',
+										tip:''
+									},
+									{
+										name: '待确认',
+										status: 6,
+										tip:''
+									},
+									{
+										name: '待支付',
+										status: 0,
+										tip:''
+									},
+									{
+										name: '待发货',
+										status: 2,
+										tip:''
+									},
+									{
+										name: '待收货',
+										status: 3,
+										tip:''
+									}
+								]
+						
 						let list = res.data
 						// 获取用户类型 20001 货主 20002 代办   20003 买家
 						let roleId = uni.getStorageSync('roleId')
+						
 						list.forEach((item,index)=>{
 							// (1:销售订单,2:我的订单)"
 							if(this.businessType == 1){

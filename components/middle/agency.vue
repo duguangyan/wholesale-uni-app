@@ -19,25 +19,25 @@
 		</view>
 		<view class="account">
 			<view class="cf" v-if="userApply.status == 0" @click="goRealname">
-				<view class="fll image"><image src="../../static/imgs/icon-1001.png" mode=""></image></view>
+				<view class="fll image"><image src="/static/imgs/icon-1001.png" mode=""></image></view>
 				<view class="fll">你的资料正在审核中，审核通过后可用</view>
-				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
+				<view class="flr right"><image src="/static/imgs/right.png" mode=""></view>
 			</view>
 			<view class="cf" v-if="userApply.status == 1" @click="goAccount">
-				<view class="fll image img44"><image src="../../static/imgs/icon-1010.png" mode=""></image></view>
+				<view class="fll image img44"><image src="/static/imgs/icon-1010.png" mode=""></image></view>
 				<view class="fll text-333">我的账户</view>
-				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
+				<view class="flr right"><image src="/static/imgs/right.png" mode=""></view>
 				<view class="flr mgr-20">{{totalPrice || 0}}元</view>
 			</view>
 			<view class="cf" v-if="userApply.status == 2" @click="goRealnameFail(userApply.auditOpinion)">
-				<view class="fll image"><image src="../../static/imgs/icon-1001.png" mode=""></image></view>
+				<view class="fll image"><image src="/static/imgs/icon-1001.png" mode=""></image></view>
 				<view class="fll">审核失败</view>
-				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
+				<view class="flr right"><image src="/static/imgs/right.png" mode=""></view>
 			</view>
 			<view class="cf" v-if="userApply.status == 3" @click="goRealname">
-				<view class="fll image"><image src="../../static/imgs/icon-1001.png" mode=""></image></view>
+				<view class="fll image"><image src="/static/imgs/icon-1001.png" mode=""></image></view>
 				<view class="fll">审核已撤回,请重新提交</view>
-				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
+				<view class="flr right"><image src="/static/imgs/right.png" mode=""></view>
 			</view>
 		</view>
 		<view class="goods">
@@ -60,7 +60,7 @@
 		<view class="goods orders">
 			<view class="title cf" @click="goOrderList('')">
 				{{roleId=='2002'?'订单':'销售订单'}}
-				<view class="flr right"><image src="../../static/imgs/right.png" mode=""></view>
+				<view class="flr right"><image src="/static/imgs/right.png" mode=""></view>
 			</view>
 			<view class="flex fs28">
 				<view class="flex-1" v-for="(item,index) in spOrders" :key="index" @click="goOrderList(index)">
@@ -115,7 +115,7 @@
 			},
 			spOrders:{
 				type: Array,
-				default: []
+				default: null
 			}
 		},
 		data() {
@@ -358,6 +358,11 @@
 				.right{
 					width: 24upx;
 					height: 24upx;
+					position: relative;
+					top: 6upx;
+					/*  #ifdef  MP-WEIXIN  */
+					top: 2upx;
+					/*  #endif  */
 					>image{
 						width: 100%;
 						height: 100%;
@@ -389,6 +394,7 @@
 					width: 100%;
 					height: 100%;
 				}
+				
 			}
 			.flex{
 				margin-top: 30upx !important;
@@ -416,6 +422,10 @@
 						width: 100%;
 						height: 100%;
 					}
+					top: 10upx;
+					/*  #ifdef  MP-WEIXIN  */
+					top: 4upx;
+					/*  #endif  */
 				}
 			}
 			.flex{
