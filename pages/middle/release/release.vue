@@ -1,19 +1,19 @@
 <template>
 	<view class="relesase">
 		<view class="top">
-			<view class="camera" @click="actionSheetTap" v-if="goodsImgLists.length<=0">
+			<view class="camera" @click="actionSheetTap" v-if="goodsImgList[0].imgs.length<=0 && goodsImgList[0].videos.length<=0 ">
 				<view class="image"><image src="../../../static/imgs/icon-1034.png" mode=""></image></view>
 				<view class="fs28 text-333">上传图片/视频的货品更有吸引力</view>
 				<view class="fs24 text-999">(最少需上传1张)</view>
 			</view>
-			<view v-if="goodsImgLists.length>0">
+			<view v-if="!(goodsImgList[0].imgs.length<=0 && goodsImgList[0].videos.length<=0)">
 				<view class="edit flex">
 					<view class="flex-1">
 						<view class="image">
-							<image :src="goodsImg" mode=""></image>
+							<image :src="goodsImgList[0].imgs[0] || goodsImgList[0].videos[0].zipUrl" mode=""></image>
 						</view>
-						<view class="video"  v-if="goodsImgList[0].imgs.length<=0" @click="goVideo(goodsImgList[0].videos[0].url)">
-							<image src="../../../static/imgs/icon-1038.png" mode=""></image>
+						<view class="video"  v-if="goodsImgList[0].imgs.length == 0" @click="goVideo(goodsImgList[0].videos[0].url)">
+							<image src="/static/imgs/icon-1038.png" mode=""></image>
 						</view>
 					</view>
 					<view class="flex-1" @click="editGoodsImgList">
@@ -31,17 +31,17 @@
 					<view class="item cf" @click="goVarieties" >
 						<view class="fll text-theme">*</view>
 						<view class="fll fs30 text-333">{{varieties?varieties:'货品品种'}}</view>
-						<view class="flr"><image src="../../../static/imgs/right.png" mode=""></image></view>
+						<view class="flr"><image src="/static/imgs/right.png" mode=""></image></view>
 					</view>
 					<view class="item cf" @click="goAttribute">
 						<view class="fll text-theme">*</view>
 						<view class="fll fs30 text-333 ellipsis">{{attribute?attribute:'货品属性'}}</view>
-						<view class="flr"><image src="../../../static/imgs/right.png" mode=""></image></view>
+						<view class="flr"><image src="/static/imgs/right.png" mode=""></image></view>
 					</view>
 					<view class="item cf" @click="goPrice">
 						<view class="fll text-theme">*</view>
 						<view class="fll fs30 text-333">{{price?price:'货品价格'}}</view>
-						<view class="flr"><image src="../../../static/imgs/right.png" mode=""></image></view>
+						<view class="flr"><image src="/static/imgs/right.png" mode=""></image></view>
 					</view>
 				</view>
 				
@@ -180,30 +180,36 @@
 			},
 			// 编辑商品详情 ->货品价格
 			assembleGoodsSkuList(res){
-				let sku          = res.data.goodsDetail.goodsSkuList
-				
-				let goodsSkuList = [
-					{
-						id:'',
-						unitId:'',
-						price:'',
-						priceType:2,
-						sort:1,
-						startNum:'',
-						stock: sku[0].stock,
-						unit: sku[0].attrValueList[0].name,
-						volume:'',
-						weight:'',
-						skuAttrValues:[{
-							name:sku[0].attrValueList[0].name,
-							skuId:sku[0].attrValueList[0].id,
-							value:sku[0].attrValueList[0].value
-						}],
-						priceExpList: JSON.parse(sku[0].priceExp) 
-					}
-				]
-				
-				uni.setStorageSync('goodsSkuList',goodsSkuList)
+				let goodsSkuList = []
+				if(uni.getStorageSync('goodsSkuList')){
+					goodsSkuList = uni.getStorageSync('goodsSkuList')
+				}else{
+					let sku          = res.data.goodsDetail.goodsSkuList
+					
+					goodsSkuList = [
+						{
+							id:'',
+							unitId:'',
+							price:'',
+							priceType:2,
+							sort:1,
+							startNum:'',
+							stock: sku[0].stock,
+							unit: sku[0].attrValueList[0].name,
+							volume:'',
+							weight:'',
+							skuAttrValues:[{
+								name:sku[0].attrValueList[0].name,
+								skuId:sku[0].attrValueList[0].id,
+								value:sku[0].attrValueList[0].value
+							}],
+							priceExpList: JSON.parse(sku[0].priceExp) 
+						}
+					]
+					
+					uni.setStorageSync('goodsSkuList',goodsSkuList)
+					
+				}
 				let arr = []
 				
 				goodsSkuList[0].priceExpList.forEach(item=>{
@@ -220,139 +226,162 @@
 			},
 			// 编辑商品详情 ->货品属性
 			assembleAttrList(res){
-				let attrList        = res.data.goodsDetail.goodsDetailAttrList
-				let categorysValues = []
-				let categorysInput  = []
-				attrList.forEach(item=>{
-					// 地址
-					if(item.inputType==0){
-						let address = {"province":"","provinceId":"","city":item.goodsDetailAttrValueList[0].remark,"cityId": item.goodsDetailAttrValueList[0].value}
-						uni.setStorageSync('addCategoryAddress',JSON.stringify(address))
-					}
-					// 后台属性
-					if(item.inputType==2 || item.inputType==1){
-						categorysValues.push(item)
-					}
-					// 填写的属性
-					if(item.inputType==4){
-						categorysInput.push(item)
-					}
-					
-					if(item.inputType!=0){
-						item.goodsDetailAttrValueList.forEach(it=>{
-							this.attribute += ' ' + it.value
-						})
-					}
-				})
+				if(uni.getStorageSync('categorysValues')){
+					if(uni.getStorageSync('attribute')) this.attribute = uni.getStorageSync('attribute')
+				}else{
+					let attrList        = res.data.goodsDetail.goodsDetailAttrList
+					let categorysValues = []
+					let categorysInput  = []
+					attrList.forEach(item=>{
+						// 地址
+						if(item.inputType==0){
+							let address = {"province":"","provinceId":"","city":item.goodsDetailAttrValueList[0].remark,"cityId": item.goodsDetailAttrValueList[0].value}
+							uni.setStorageSync('addCategoryAddress',JSON.stringify(address))
+						}
+						// 后台属性
+						if(item.inputType==2 || item.inputType==1){
+							categorysValues.push(item)
+						}
+						// 填写的属性
+						if(item.inputType==4){
+							categorysInput.push(item)
+						}
+						
+						if(item.inputType!=0){
+							item.goodsDetailAttrValueList.forEach(it=>{
+								this.attribute += ' ' + it.value
+							})
+						}
+					})
+					uni.setStorageSync('categorysValues',categorysValues)
+					uni.setStorageSync('categorysInput',categorysInput)
+				}
 				
-				uni.setStorageSync('categorysValues',categorysValues)
-				uni.setStorageSync('categorysInput',categorysInput)
+				
 				
 			},
 			// 编辑商品详情 ->货品品种
 			assembleVarieties(res){
-				this.varieties   = res.data.goodsDetail.goods.categoryName
-				let categoryId   = res.data.goodsDetail.goods.categoryId
-				let categoryName = res.data.goodsDetail.goods.categoryName
-				let varieties = {"id":categoryId,"parentId":"","sort":0,"children":null,"name":categoryName,"initials":"","imgUrl":""}
-				uni.setStorageSync('varieties',JSON.stringify(varieties))
+				if(uni.getStorageSync('varieties')){
+					this.varieties = JSON.parse(uni.getStorageSync('varieties')).name
+				}else{
+					this.varieties   = res.data.goodsDetail.goods.categoryName
+					let categoryId   = res.data.goodsDetail.goods.categoryId
+					let categoryName = res.data.goodsDetail.goods.categoryName
+					let varieties = {"id":categoryId,"parentId":"","sort":0,"children":null,"name":categoryName,"initials":"","imgUrl":""}
+					uni.setStorageSync('varieties',JSON.stringify(varieties))
+				}
+				
 			},
 			// 编辑商品详情 ->组装图片
 			assembleImage(res){
-				this.goodsImgLists = res.data.goodsDetail.goodsImgVOList
-				let imgs = res.data.goodsDetail.goodsImgVOList
-				
-				let goodsImgList = [
-					{
-						title:'货品主图',
-						tip:'显示在列表和详情页头图，图片最多上传5张/视频可上传5张',
-						imgs:[],
-						videos:[]
-					},
-					{
-						title:'货品详情图',
-						tip:'显示在详情页下方，图片或视频最多只可上传10张',
-						imgs:[],
-						videos:[]
-					}
-				]
-				let videoUrl = {
-						a:[],
-						b:[]
-					}
-				let videoZipUrl = {
-						a:[],
-						b:[]
-					}
-				imgs.forEach((item,index)=>{
+				if(uni.getStorageSync('goodsImgList')){
+					this.goodsImg = uni.getStorageSync('goodsImgList')[0].imgs[0] || uni.getStorageSync('goodsImgList')[0].videos[0].zipUrl
+					this.goodsImgList = uni.getStorageSync('goodsImgList')
 					
-					// 主键类型：1商品主图 2商品详情图
-					if(item.primaryType == 1){  // 主图
-						// 类型 1图片 2视频 3视频截图
-						
-						switch (item.type){
-							case 1:
-								this.goodsImg = item.imgUrl
-								goodsImgList[0].imgs.push(item.imgUrl)
-								break;
-							case 2:
-								videoUrl.a.push(item.imgUrl)
-								break;	
-							case 3:
-								this.goodsImg = item.imgUrl
-								videoZipUrl.a.push(item.imgUrl)
-								break;
-							default:
-								break;
+				}else{
+					this.goodsImgLists = res.data.goodsDetail.goodsImgVOList
+					let imgs = res.data.goodsDetail.goodsImgVOList
+					
+					let goodsImgList = [
+						{
+							title:'货品主图',
+							tip:'显示在列表和详情页头图，图片最多上传5张/视频可上传5张',
+							imgs:[],
+							videos:[]
+						},
+						{
+							title:'货品详情图',
+							tip:'显示在详情页下方，图片或视频最多只可上传10张',
+							imgs:[],
+							videos:[]
 						}
-						
-						
-					}else{  // 详情图
-						// 类型 1图片 2视频 3视频截图
-						switch (item.type){
-							case 1:
-								goodsImgList[1].imgs.push(item.imgUrl)
-								break;
-							case 2:
-								videoUrl.b.push(item.imgUrl)
-								break;	
-							case 3:
-								videoZipUrl.b.push(item.imgUrl)
-								break;
-							default:
-								break;
+					]
+					let videoUrl = {
+							a:[],
+							b:[]
 						}
-					}
-				})
+					let videoZipUrl = {
+							a:[],
+							b:[]
+						}
+					imgs.forEach((item,index)=>{
+						
+						// 主键类型：1商品主图 2商品详情图
+						if(item.primaryType == 1){  // 主图
+							// 类型 1图片 2视频 3视频截图
+							
+							switch (item.type){
+								case 1:
+									this.goodsImg = item.imgUrl
+									goodsImgList[0].imgs.push(item.imgUrl)
+									break;
+								case 2:
+									videoUrl.a.push(item.imgUrl)
+									break;	
+								case 3:
+									this.goodsImg = item.imgUrl
+									videoZipUrl.a.push(item.imgUrl)
+									break;
+								default:
+									break;
+							}
+							
+							
+						}else{  // 详情图
+							// 类型 1图片 2视频 3视频截图
+							switch (item.type){
+								case 1:
+									goodsImgList[1].imgs.push(item.imgUrl)
+									break;
+								case 2:
+									videoUrl.b.push(item.imgUrl)
+									break;	
+								case 3:
+									videoZipUrl.b.push(item.imgUrl)
+									break;
+								default:
+									break;
+							}
+						}
+					})
+					
+					videoUrl.a.forEach((item,index)=>{
+						let o = {
+							url:item,
+							zipUrl:videoZipUrl.a[index]
+						}
+						goodsImgList[0].videos.push(o)
+					})
+					videoUrl.b.forEach((item,index)=>{
+						let o = {
+							url:item,
+							zipUrl:videoZipUrl.b[index]
+						}
+						goodsImgList[1].videos.push(o)
+					})
+					uni.setStorageSync('goodsImgList',goodsImgList)
+				}
 				
-				videoUrl.a.forEach((item,index)=>{
-					let o = {
-						url:item,
-						zipUrl:videoZipUrl.a[index]
-					}
-					goodsImgList[0].videos.push(o)
-				})
-				videoUrl.b.forEach((item,index)=>{
-					let o = {
-						url:item,
-						zipUrl:videoZipUrl.b[index]
-					}
-					goodsImgList[1].videos.push(o)
-				})
 				
-				uni.setStorageSync('goodsImgList',goodsImgList)
+				
+				
+				
+				
+				
+				
 			},
 			// 发布货品
 			doRelease(){
 				// 数据验证
-				if(this.goodsImg == ''){
+				if(this.goodsImgList[0].imgs.length<=0 && this.goodsImgList[0].videos.length<=0){
 					T.tips('请上传图片')
 					return false
 				}
-				if(this.goodsTitile == ''){
-					T.tips('请填写标题名称')
-					return false
-				}
+				// if(this.goodsTitile == ''){
+				// 	T.tips('请填写标题名称')
+				// 	return false
+				// }
 				if(this.varieties == ''){
 					T.tips('请填写货品品种')
 					return false
@@ -365,10 +394,10 @@
 					T.tips('请填写货品价格')
 					return false
 				}
-				if(this.textareaValue == ''){
-					T.tips('请填写货品描述')
-					return false
-				}
+				// if(this.textareaValue == ''){
+				// 	T.tips('请填写货品描述')
+				// 	return false
+				// }
 				
 				
 				// 分类信息
@@ -585,7 +614,7 @@
 					  ],
 					imgUrl:'',
 					keywords:'',
-					name: this.goodsTitile,
+					name: this.goodsTitile || JSON.parse(uni.getStorageSync('varieties')).name,
 					purchaseNotes:'',
 					saveType:1,
 					shopCategoryId:'',
@@ -685,7 +714,10 @@
 					if(this.goodsImgList[0].imgs.length > 0){
 						this.goodsImg = this.goodsImgList[0].imgs[0]
 					}else{
-						this.goodsImg = this.goodsImgList[0].videos[0].zipUrl
+						if(this.goodsImgList[0].videos.length>0){
+							this.goodsImg = this.goodsImgList[0].videos[0].zipUrl
+						}
+						
 					}
 				}
 				
@@ -712,12 +744,13 @@
 				}
 				
 				
-				console.log(this.goodsImgLists)
+				console.log(this.goodsImgList)
+				
 				this.assessHasData()
 			},
 			// 判断是否可以提交数据
 			assessHasData(){
-				this.hasData = this.goodsImg == '' || this.goodsTitile == '' || this.varieties == '' || this.attribute == '' || this.price == '' || this.textareaValue == ''
+				this.hasData = (this.goodsImgList[0].imgs.length<=0 && this.goodsImgList[0].videos.length<=0) || this.varieties == '' || this.attribute == '' || this.price == '' 
 			},
 			checkTitle(){
 				this.assessHasData()
