@@ -103,7 +103,7 @@
 				<view class="fll">{{roleId=='20001' || roleId=='20003'?'代办人':'货主'}}:{{roleId=='20001' || roleId=='20003'?order.agentcyUserName : order.sellerName}}</view>
 				<view class="flr" @click="callPhone(roleId=='20001' || roleId=='20003'?order.agentcyPhone:order.sellerPhone)">
 					<view class="image">
-						<image src="../../../static/imgs/icon-phone.png" mode=""></image>
+						<image src="/static/imgs/icon-phone.png" mode=""></image>
 					</view>
 					<text>联系{{roleId=='20001'|| roleId=='20003'?'代办':'货主'}}</text>
 				</view>
@@ -112,7 +112,7 @@
 				<view class="fll">买家:{{order.userName || '暂无'}}</view>
 				<view class="flr" @click="callPhone(order.phone)">
 					<view class="image">
-						<image src="../../../static/imgs/icon-phone.png" mode=""></image>
+						<image src="/static/imgs/icon-phone.png" mode=""></image>
 					</view>
 					<text>联系买家</text>
 				</view>
@@ -121,8 +121,8 @@
 				<view class="fll">物流方式:</view>
 				<view class="flr" @click="showCarInfo">
 					<text class="text-theme">{{order.shopOrder.sendType == 1 ?'平台选车':'自驾车辆'}}</text>
-					<view class="right" v-if="status>=3">
-						<image src="../../../static/imgs/right.png" mode=""></image>
+					<view class="right" v-if="(orderId == 20002 && status >= 2) || status >= 3">
+						<image src="/static/imgs/right.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -206,7 +206,7 @@
 		    <view class="luPopupWrapper-content">
 				<view class="title">
 					<text class="text-theme fs34">司机信息</text>
-					<view class="close" @click="close"><image src="../../../static/img/tag-close2.png" mode=""></image></view>
+					<view class="close" @click="close"><image src="/static/img/tag-close2.png" mode=""></image></view>
 				</view>
 				<view class="item">
 					司机姓名: {{order.orderShipping.driver || ''}}
@@ -348,7 +348,8 @@
 			
 			// 显示司机信息
 			showCarInfo(){
-				if(this.status >= 3) {
+				// 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核
+				if((this.orderId == 20002 && this.status >= 2) || this.status >= 3){
 					this.show()
 				}
 			},
