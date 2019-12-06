@@ -163,6 +163,12 @@
 			// 获取用户类型
 			getUserType(){
 				if(uni.getStorageSync('roleId')) this.roleId = uni.getStorageSync('roleId')
+				if(uni.getStorageSync('userRealInfo'))this.userRealInfo = uni.getStorageSync('userRealInfo')
+				if(this.userRealInfo == ''){
+					uni.redirectTo({
+						url: '/pages/middle/identity/identity'
+					})
+				}
 				
 				this.spOrders = [{
 					img: '/static/imgs/icon-1004.png',

@@ -79,6 +79,7 @@
 		background: #fff;
 		min-height: 100vh;
 		padding-top: 100upx;
+		overflow: hidden;
 		.item{
 			text-align: center;
 			margin-top: 120upx;
