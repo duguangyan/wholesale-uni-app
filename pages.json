@@ -309,6 +309,12 @@
 			}
         },
 		{
+		    "path" : "pages/middle/identity/realname/company",
+		    "style" : {
+				"navigationBarTitleText": "企业信息填写"
+			}
+		},
+		{
 		    "path" : "pages/middle/identity/realname/auditFail",
 		    "style" : {
 				"navigationBarTitleText": "审核结果"

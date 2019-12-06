@@ -1,12 +1,15 @@
 <template>
 	<view class="identity">
 		<NavigationBar :title="title" :isBack="isBack"></NavigationBar>
-		<view class="item" v-for="(item,index) in items" :key="index" @click="goPage(index)">
-			<view class="image">
-				<image :src="item.imgUrl"></image>
+		<view class="items cf">
+			<view class="item fll" v-for="(item,index) in items" :key="index" @click="goPage(index)">
+				<view class="image">
+					<image :src="item.imgUrl"></image>
+				</view>
+				<view class="text">{{item.text}}</view>
 			</view>
-			<view class="text">{{item.text}}</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -21,15 +24,19 @@
 				items:[
 					{
 						text:'我是代办',
-						imgUrl:'../../../static/imgs/icon-1.png'
+						imgUrl:'/static/imgs/icon-1.png'
 					},
 					{
-						text:'我要卖货',
-						imgUrl:'../../../static/imgs/icon-2.png'
+						text:'我是种植户',
+						imgUrl:'/static/imgs/icon-2.png'
 					},
 					{
-						text:'我要采购',
-						imgUrl:'../../../static/imgs/icon-3.png'
+						text:'我是批发商',
+						imgUrl:'/static/imgs/icon-3.png'
+					},
+					{
+						text:'我是企业',
+						imgUrl:'/static/imgs/icon-4.png'
 					},
 				]
 			};
@@ -59,12 +66,19 @@
 						uni.navigateTo({
 							url:'/pages/middle/identity/realname/agency?hasfrom=2'
 						})
-						break;	
+						break;
+					// 买家		
 					case 2:
 						uni.navigateTo({
 							url:'/pages/middle/identity/realname/buyer'
 						})
 						break;
+					case 3:
+					// 企业
+						uni.navigateTo({
+							url:'/pages/middle/identity/realname/company'
+						})
+						break;	
 					default:
 						break;
 				}
@@ -80,9 +94,13 @@
 		min-height: 100vh;
 		padding-top: 100upx;
 		overflow: hidden;
+		.items{
+			margin-top: 100upx;
+		}
 		.item{
 			text-align: center;
 			margin-top: 120upx;
+			width: 50%;
 			.image{
 				width: 180upx;
 				height: 180upx;
