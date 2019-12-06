@@ -270,8 +270,23 @@
 					url: '/pages/middle/release/account/account'
 				})
 			},
+			// 去除缓存
+			doClearStorageSync(){
+				uni.removeStorageSync('goodsTitile')
+				uni.removeStorageSync('varieties')
+				uni.removeStorageSync('addCategoryAddress')
+				uni.removeStorageSync('addCategoryAttributes')
+				uni.removeStorageSync('categorysInput')
+				uni.removeStorageSync('categorysValues')
+				uni.removeStorageSync('attribute')
+				uni.removeStorageSync('goodsSkuList')
+				uni.removeStorageSync('textareaValue')
+				uni.removeStorageSync('goodsImgList')
+				uni.removeStorageSync('categorysDates')
+			},
 			// 去发布商品
 			goRelease() {
+				this.doClearStorageSync()
 				uni.navigateTo({
 					url: '/pages/middle/release/release'
 				})

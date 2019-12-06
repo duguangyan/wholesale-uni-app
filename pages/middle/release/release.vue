@@ -1,16 +1,16 @@
 <template>
 	<view class="relesase">
 		<view class="top">
-			<view class="camera" @click="actionSheetTap" v-if="goodsImgList[0].imgs.length<=0 && goodsImgList[0].videos.length<=0 ">
-				<view class="image"><image src="../../../static/imgs/icon-1034.png" mode=""></image></view>
+			<view class="camera" @click="actionSheetTap" v-if="goodsImg == ''">
+				<view class="image"><image src="/static/imgs/icon-1034.png" mode=""></image></view>
 				<view class="fs28 text-333">上传图片/视频的货品更有吸引力</view>
 				<view class="fs24 text-999">(最少需上传1张)</view>
 			</view>
-			<view v-if="!(goodsImgList[0].imgs.length<=0 && goodsImgList[0].videos.length<=0)">
+			<view v-if="goodsImg!=''">
 				<view class="edit flex">
 					<view class="flex-1">
 						<view class="image">
-							<image :src="goodsImgList[0].imgs[0] || goodsImgList[0].videos[0].zipUrl" mode=""></image>
+							<image :src="goodsImg" mode=""></image>
 						</view>
 						<view class="video"  v-if="goodsImgList[0].imgs.length == 0" @click="goVideo(goodsImgList[0].videos[0].url)">
 							<image src="/static/imgs/icon-1038.png" mode=""></image>
@@ -83,7 +83,6 @@
 				price:'',
 				goodsImg:'',
 				goodsImgList:[
-					{imgs:[]}
 				],
 				goodsImgLists:[],
 				goodsSkuList:[],
@@ -239,7 +238,7 @@
 							uni.setStorageSync('addCategoryAddress',JSON.stringify(address))
 						}
 						// 后台属性
-						if(item.inputType==2 || item.inputType==1){
+						if(item.inputType==2 || item.inputType==1 || item.inputType==null){
 							categorysValues.push(item)
 						}
 						// 填写的属性
@@ -374,7 +373,7 @@
 			// 发布货品
 			doRelease(){
 				// 数据验证
-				if(this.goodsImgList[0].imgs.length<=0 && this.goodsImgList[0].videos.length<=0){
+				if(this.goodsImg == ''){
 					T.tips('请上传图片')
 					return false
 				}
@@ -528,7 +527,7 @@
 							goodsId:'',
 							name:item.name,
 							nameGroup:'',
-							inputType:'',
+							inputType:4,
 							sort:''
 						}
 						goodsAttrList.push(obj1)
@@ -541,29 +540,27 @@
 				}
 				
 				if(categorysInput.length>0){
+					
 					categorysInput.forEach((item,index)=>{
-						if(item.valueSet.length>0){
-							let obj = {
-								categoryAttrId:item.id,
-								goodsAttrValueList:[
-									{
-										categoryAttrId:item.id,
-										remark:'',
-										sort:item.isCheckIndex+1,
-										value:item.valueSet[item.isCheckIndex].value	
-									}
-								],
-								goodsId:'',
-								name:item.name,
-								nameGroup:'',
-								inputType:item.inputType,
-								sort:goodsAttrList.length + 1 + index
-							}
-							goodsAttrList.push(obj)
+						let obj = {
+							categoryAttrId:item.id,
+							goodsAttrValueList:[
+								{
+									categoryAttrId:item.id,
+									remark:'',
+									sort:index+1,
+									value:item.inputVal	
+								}
+							],
+							goodsId:'',
+							name:item.name,
+							nameGroup:'',
+							inputType:item.inputType,
+							sort:goodsAttrList.length + 1 + index
 						}
+						goodsAttrList.push(obj)
 					})
 				}
-				
 				
 				// 编辑图片
 				this.goodsImgLists = []
@@ -750,7 +747,8 @@
 			},
 			// 判断是否可以提交数据
 			assessHasData(){
-				this.hasData = (this.goodsImgList[0].imgs.length<=0 && this.goodsImgList[0].videos.length<=0) || this.varieties == '' || this.attribute == '' || this.price == '' 
+				this.hasData = this.goodsImg == '' || this.varieties == '' || this.attribute == '' || this.price == '' 
+				
 			},
 			checkTitle(){
 				this.assessHasData()

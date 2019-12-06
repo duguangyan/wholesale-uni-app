@@ -80,7 +80,14 @@
 						delta:1
 					})
 				} else {
-					T.tips('货品主图和详情图至少上传一张')
+					if(!(this.items[0].imgs.length>0 || this.items[0].videos.length>0)){
+						T.tips('货品主图至少上传一张')
+						return false
+					}
+					if(!(this.items[1].imgs.length>0 || this.items[1].videos.length>0)){
+						T.tips('详情图至少上传一张')
+						return false
+					}
 				}
 			},
 			// 删除图片

@@ -292,7 +292,7 @@
 					})
 					this.categorys[index].valueSet[ix].isCheck = true
 				}
-				
+				uni.setStorageSync('categorysValues',this.categorys)
 			}
 		}
 	}
