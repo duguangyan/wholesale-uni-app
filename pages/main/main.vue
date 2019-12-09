@@ -132,7 +132,7 @@
 			return {
 				hasSlot:true,
 				dialogTitle:'服务协议和隐私政策',
-				dialogIsShow:true,
+				dialogIsShow:false,
 				cancelText:'暂不使用',
 				confirmText:'同意',
 				checkIndex: 0,
@@ -183,6 +183,7 @@
 			this.assessUserType()
 			
 			
+			
 		},
 		onPullDownRefresh() {
 			//监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
@@ -228,6 +229,13 @@
 			assessUserType(){
 				// 设置底部tab样式
 				this.roleId = uni.getStorageSync('roleId')
+				// 判断用户是否同意协议
+				let dialogIsShow = uni.getStorageSync('dialogIsShow')
+				if(dialogIsShow == "" || dialogIsShow == '1'){
+					this.dialogIsShow = true
+				}else{
+					this.dialogIsShow = false
+				}
 				if(this.roleId){
 					// 设置底部tab样式
 					if(this.roleId == '20002'){
