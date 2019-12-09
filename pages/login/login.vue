@@ -390,6 +390,11 @@
 									url: '/pages/middle/middle'
 								})
 								break;
+							case '20004':
+								uni.switchTab({
+									url: '/pages/middle/middle'
+								})
+								break;
 							default:
 								break;
 						}

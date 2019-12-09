@@ -44,7 +44,7 @@
 			<view class="title">
 				{{roleId=='20002'?'农产品':'我的商品'}}
 			</view>
-			<view class="list cf fs28" v-if="roleId == 20001">
+			<view class="list cf fs28" v-if="roleId == 20001 || roleId == 20004">
 				<view @click="goGoodsCheck(index)" class="fll" v-for="(item,index) in spGoodsByAgency" :key="index">
 					<view class="img"><image :src="item.img" mode=""></image></view>
 					<view class="text">{{item.text}}</view>
@@ -253,10 +253,18 @@
 			},
 			// 去审核页面
 			goRealname(){
-				let index = uni.getStorageSync('roleId') == '20001' ? 2 : 1
-				uni.navigateTo({
-					url: '/pages/middle/identity/realname/agency?hasfrom=' + index
-				})
+				
+				if(this.roleId == 20004){
+					uni.navigateTo({
+						url: '/pages/middle/identity/realname/company?hasfrom=3'
+					})
+				}else{
+					let index = uni.getStorageSync('roleId') == '20001' ? 2 : 1
+					uni.navigateTo({
+						url: '/pages/middle/identity/realname/agency?hasfrom=' + index
+					})
+				}
+				
 			},
 			//  去订单页面
 			goOrder(){

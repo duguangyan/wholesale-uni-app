@@ -7,36 +7,50 @@
 				  <view class="cf li header">
 				    <view class="fll fs28">我的头像</view>
 				    <view class="icon flr">
-				      <image src="../../../static/img/tag-go.png" />
+				      <image src="/static/img/tag-go.png" />
 				    </view>
 					<view class="image flr" @click="onUpload">
 						<image :src="headImgUrl" mode=""></image>
 					</view>
 				  </view>
-				  <view class="cf li">
+				  <view class="cf li" v-if="roleId != 20004">
 				    <view class="fll fs28">我的姓名</view>
-		
-					<view class="flr fs30 text-999 value">{{nickName||'农百集'}}</view>
+					<view class="flr fs30 text-999 value">{{nickName||'正鼎农品'}}</view>
 				  </view>
-				  
+				  <view v-if="roleId == 20004">
+					  <view class="cf li">
+					    <view class="fll fs28">企业名称</view>
+					  	<view class="flr fs30 text-999 value">{{nickName||'正鼎农品'}}</view>
+					  </view>
+					  <view class="cf li">
+					    <view class="fll fs28">营业执照号</view>
+					  	<view class="flr fs30 text-999 value">{{nickName||'正鼎农品'}}</view>
+					  </view>
+					  <view class="cf li">
+					    <view class="fll fs28">法人</view>
+					  	<view class="flr fs30 text-999 value">{{nickName||'正鼎农品'}}</view>
+					  </view>
+				  </view>
 				  <view class="cf li">
 				    <view class="fll fs28">手机号</view>
 				    <view class="icon flr" @click="goChangePhone">
-				      <image src="../../../static/img/tag-go.png" />
+				      <image src="/static/img/tag-go.png" />
 				    </view>
 				  	<view class="flr fs30 text-999 value" @click="goChangePhone">{{phone}}</view>
 				  </view>
 				</view>
 			</view>
 			
-			<view class="items" v-if="roleId == 20001 || roleId == 20002">
+			<view class="items" v-if="roleId == 20001 || roleId == 20002 || roleId == 20004">
 				<view class="title">行业信息</view>
 				<view class="list">
 				 
 				 <view class="cf li">
 				   <view class="fll fs28">我的身份</view>
 				   
-				   <view class="flr fs30 text-999 value">{{roleId == 20001?'货主':'代办'}}</view>
+				   <view class="flr fs30 text-999 value" v-if="roleId == 20001">种植户</view>
+				   <view class="flr fs30 text-999 value" v-if="roleId == 20002">代办</view>
+				   <view class="flr fs30 text-999 value" v-if="roleId == 20004">企业</view>
 				 </view>
 				 
 				  <view class="cf li" v-if="roleId == 20001">
@@ -79,7 +93,7 @@
 		data() {
 			return {
 				isLogin: false,
-				headImgUrl: '../../../static/img/icon-user.png',
+				headImgUrl: '/static/img/icon-user.png',
 				phone:'',
 				roleId:'',
 				categoryName:'',
@@ -98,7 +112,9 @@
 			this.phone      = uni.getStorageSync('phone') || ''
 			this.nickName   = uni.getStorageSync('nickName')
 			this.roleId     = uni.getStorageSync('roleId')
-			this.headImgUrl = uni.getStorageSync('headImgUrl')
+			if(uni.getStorageSync('headImgUrl') != null){
+				this.headImgUrl = uni.getStorageSync('headImgUrl')
+			}
 			if(uni.getStorageSync('userApply')){
 				let userApply     = JSON.parse(uni.getStorageSync('userApply'))
 				this.categoryName = userApply.categoryName || ''

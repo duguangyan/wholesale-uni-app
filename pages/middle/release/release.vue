@@ -659,16 +659,30 @@
 			},
 			// 编辑图片方法 i 1主图还是2详情  ii 类型 1图片 2视频 3视频截图
 			utilGoodsImgLists(goodsImgList,i,ii){
-				goodsImgList[i].imgs.forEach((item,index)=>{
-					let obj = {
-								goodId:'',
-								imgUrl:item,
-								primaryType:i + 1,
-								sort:index,
-								type:ii
-							}
-					this.goodsImgLists.push(obj)
-				})	
+				if(ii == 1){
+					goodsImgList[i].imgs.forEach((item,index)=>{
+						let obj = {
+									goodId:'',
+									imgUrl:item,
+									primaryType:i + 1,
+									sort:index,
+									type:ii
+								}
+						this.goodsImgLists.push(obj)
+					})
+				}else{
+					goodsImgList[i].videos.forEach((item,index)=>{
+						let obj = {
+									goodId:'',
+									imgUrl:ii == 2 ? item.url : item.zipUrl,
+									primaryType:i + 1,
+									sort:index,
+									type:ii
+								}
+						this.goodsImgLists.push(obj)
+					})
+				}
+					
 			},
 			// 获取缓存数据
 			getStorageSyncBySelf(){

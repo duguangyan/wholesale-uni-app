@@ -17,13 +17,13 @@
 			<view class="item-1">
 				<view class="fll">企业名称</view>
 				<view class="flr">
-					<input type="text" v-model="enterpriseName"  placeholder="需和营业执照相同">
+					<input type="text" :disabled="disabled" v-model="enterpriseName"  placeholder="需和营业执照相同">
 				</view>
 			</view>
 			<view class="item-1">
 				<view class="fll">企业执照号</view>
 				<view class="flr">
-					<input type="text" v-model="licenseNo" placeholder="需和营业执照编号相同">
+					<input type="text" :disabled="disabled" v-model="licenseNo" placeholder="需和营业执照编号相同">
 				</view>
 			</view>
 			
@@ -110,8 +110,8 @@
 				</view>
 				<view class="choose cf">
 					<view class="fll" @click="showPickerAreas(index)" :class="{'text-333':item.province!=''}">{{item.province==''?'请选择经营地区':item.province + ' ' + item.city}}</view>
-					<view class="flr fs24 text-theme addanddel" v-if="index>0" @click="delAreas(index)">-删除</view>
-					<view class="flr fs24 text-theme addanddel" v-if="index==0" @click="addAreas">+新增地区</view>
+					<view class="flr fs24 text-theme addanddel" v-if="index>0 && !disabled" @click="delAreas(index)">-删除</view>
+					<view class="flr fs24 text-theme addanddel" v-if="index==0 && !disabled" @click="addAreas">+新增地区</view>
 					<view class="flr right" v-if="!disabled">
 						<image src="/static/imgs/right.png"></image>
 					</view>
@@ -214,23 +214,27 @@
 		},
 		onLoad(options) {
 			// hafrom : 1代办 2 货主 3企业
-			if(options.hasfrom) this.hasfrom = options.hasfrom
+			if(options.hasfrom) {
+				this.hasfrom = options.hasfrom
+				// this.disabled = true
+			}
 			// 审核失败页面返回
 			if(options.from == 'auditFail') this.from = 'auditFail'
-			// 获取经营类型（产品分类）
-			this.getCategoryTreeNode()
+			
 			
 		},
 		onShow() {
+			// 获取经营类型（产品分类）
+			this.getCategoryTreeNode()
 			// 获取缓存数据
 			this.cardImgFront  = uni.getStorageSync('cardImgFront')
 			this.cardImgReverse  = uni.getStorageSync('cardImgReverse')
 			this.licenseImage  = uni.getStorageSync('licenseImage')
-			if(uni.getStorageSync('userRealInfo')){
-				this.userRealInfo =JSON.parse(uni.getStorageSync('userRealInfo'))
-				this.cardNo   = this.userRealInfo.cardNo
-				this.realName = this.userRealInfo.realName
-			}
+			// if(uni.getStorageSync('userRealInfo')){
+			// 	this.userRealInfo =JSON.parse(uni.getStorageSync('userRealInfo'))
+			// 	this.cardNo   = this.userRealInfo.cardNo
+			// 	this.realName = this.userRealInfo.realName
+			// }
 			
 			// 判断用户类型
 			this.assessUserType() 
@@ -290,13 +294,10 @@
 				// 判断用户类型
 				let userApply             = uni.getStorageSync('userApply')
 				if(userApply){
-					this.userApply        = JSON.parse(userApply) 
-					this.hasfrom          = this.userApply.type == 1 ? 2 : 1
-					if(this.from == ''){
-						this.disabled     = this.userApply.status != 3
-					}else{
-						this.disabled     = false
-					}
+					this.userApply          = JSON.parse(userApply) 
+					
+					this.hasfrom            = this.userApply.type == 1 ? 2 : 1
+					this.disabled           = this.userApply.status != 3
 					this.realName           = this.userApply.realName
 					this.cardNo             = this.userApply.cardNo
 					this.categoryId         = this.userApply.categoryId
@@ -304,12 +305,20 @@
 					this.cardImgReverse     = this.userApply.cardImgReverse
 					this.productType        = this.userApply.categoryName
 					this.fullAddress        = this.userApply.province + this.userApply.city 
-					this.address.province   = this.userApply.province
-					this.address.provinceId = this.userApply.provinceId
-					this.address.city       = this.userApply.city
-					this.address.cityId     = this.userApply.cityId
-					this.address.region     = this.userApply.region
-					this.address.regionId   = this.userApply.regionId
+					this.addressObj.province   = this.userApply.province
+					this.addressObj.provinceId = this.userApply.provinceId
+					this.addressObj.city       = this.userApply.city
+					this.addressObj.cityId     = this.userApply.cityId
+					this.addressObj.region     = this.userApply.region
+					this.addressObj.regionId   = this.userApply.regionId
+					
+					// 企业
+					this.enterpriseName = this.userApply.enterpriseName
+					this.licenseNo      = this.userApply.licenseNo
+					this.licenseImage   = this.userApply.licenseImage
+					this.address        = this.userApply.address
+					this.productTypeId  = this.userApply.categoryId
+					this.areas          = JSON.parse(this.userApply.areas)
 				}
 			},
 			chooseTypeComplete(e){
@@ -330,6 +339,9 @@
 			},
 			// 查看示例
 			showImage(index){
+				if(this.disabled){
+					return false
+				}
 				uni.navigateTo({
 					url:'/pages/common/showImage/showImage?agency='+index
 				})
@@ -575,7 +587,6 @@
 				}else{  // 第一次审核
 					enterpriseSettledIn(data).then(res=>{
 						if(res.code == '1000'){
-							debugger
 							getUserRealInfoAll().then((res) => {
 								if (res.code === '1000') {
 									let roleId = res.data.userRole.roleId || ''

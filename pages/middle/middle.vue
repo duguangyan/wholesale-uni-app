@@ -5,7 +5,7 @@
 			<agency></agency>
 		</view> -->
 		<!-- 货主 -->
-		<view v-if="userApply!='' && (roleId==20001 || roleId==20002)">
+		<view v-if="userApply!='' && (roleId=='20001' || roleId=='20002' || roleId=='20004')">
 			<agency :roleId='roleId' :userApply='userApply' :yearAndMonth='yearAndMonth' :totalPrice="totalPrice" :orderInfos='orderInfos' :spOrders="spOrders"></agency>
 		</view>
 		<!-- 买家 -->
@@ -13,7 +13,7 @@
 			<buyer></buyer>
 		</view> -->
 		<!-- 已经实名 -->
-		<view v-if="userApply=='' && roleId !=''">
+		<view v-if="userApply=='' && roleId =='20003'">
 			<view class="identity">
 				<view class="item" v-for="(item,index) in items" :key="index" @click="goPage(index)">
 					<view class="image">
@@ -71,7 +71,7 @@
 						imgUrl:'/static/imgs/icon-1.png'
 					},
 					{
-						text:'我要卖货',
+						text:'我是种植户',
 						imgUrl:'/static/imgs/icon-2.png'
 					}
 				]
