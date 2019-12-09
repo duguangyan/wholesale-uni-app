@@ -36,6 +36,7 @@
 	export default {
 		data() {
 			return {
+				access_token:'',
 				yearAndMonth:'',
 				totalPrice:'',
 				orderInfos:'',
@@ -164,7 +165,8 @@
 			getUserType(){
 				if(uni.getStorageSync('roleId')) this.roleId = uni.getStorageSync('roleId')
 				if(uni.getStorageSync('userRealInfo'))this.userRealInfo = uni.getStorageSync('userRealInfo')
-				if(this.userRealInfo == ''){
+				if(uni.getStorageSync('access_token')) this.access_token = uni.getStorageSync('access_token')
+				if(this.access_token != '' && this.userRealInfo == ''){
 					uni.redirectTo({
 						url: '/pages/middle/identity/identity'
 					})
