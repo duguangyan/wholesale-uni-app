@@ -419,9 +419,19 @@ const sellerCancel = data => {
 		type: 'form',
 	})
 }
+// 企业入驻
+const enterpriseSettledIn = data => {
+	return request({
+		url: '/api/goods/userRealInfo/enterpriseSettledIn',
+		data,
+		type: 'form',
+	})
+}
+
 
 
 export {
+	enterpriseSettledIn,
 	getUserSendValidateCode,
 	getUserModifyPhone,
 	applyApplyModifySettledIn,

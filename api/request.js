@@ -1,6 +1,6 @@
- let apiUrl = 'http://wsm.qinlvny.com/ws'; // 微信 APP 正式
+// let apiUrl = 'http://wsm.qinlvny.com/ws'; // 微信 APP 正式
 // let apiUrl = '/ws'; // H5正式
-// let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
+ let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 
 const versionNumber = 'V1.0.5'; //版本号
 

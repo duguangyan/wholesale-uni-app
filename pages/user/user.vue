@@ -16,7 +16,7 @@
 				<view class="role" v-if="roleId == 20002">代办</view>
 			  <view class="content">
 			    <view v-if="isLogin" @click="goInfo">
-			      <view class="uid fs28">{{nickName || '农百集'}}</view>
+			      <view class="uid fs28">{{nickName || '正鼎农品'}}</view>
 			    </view>
 			    <view class="fs30 mgl-20" v-if="!isLogin" @click="goLogin">点击登录</view>
 			  </view>

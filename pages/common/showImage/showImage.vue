@@ -53,12 +53,12 @@
 								let res = JSON.parse(uploadFileRes.data)
 								if (res.code === '1000') {
 									if(_this.agency == 0){
-										uni.setStorageSync('agencyImgUpload1',res.data)
+										uni.setStorageSync('cardImgFront',res.data)
 										uni.navigateBack({
 											delta:1
 										})
 									}else{
-										uni.setStorageSync('agencyImgUpload2',res.data)
+										uni.setStorageSync('cardImgReverse',res.data)
 										uni.navigateBack({
 											delta:1
 										})

@@ -29,15 +29,29 @@
 		},
 		methods:{
 			del(){
-				let userApply = JSON.parse(uni.getStorageSync('userApply'))
-				if(this.index == 0){
-					uni.setStorageSync('agencyImgUpload1','')
-					userApply.cardImgFront = ''
-				}else if(this.index == 1){
-					uni.setStorageSync('agencyImgUpload2','')
-					userApply.cardImgReverse = ''
+				let userApply = ''
+				if(uni.getStorageSync('userApply')){
+					userApply = JSON.parse(uni.getStorageSync('userApply'))
 				}
-				uni.setStorageSync('userApply',JSON.stringify(userApply))
+				if(this.index == 0){
+					uni.setStorageSync('cardImgFront','')
+					if(uni.getStorageSync('userApply')){
+						userApply.cardImgFront = ''
+					}
+				}else if(this.index == 1){
+					uni.setStorageSync('cardImgReverse','')
+					if(uni.getStorageSync('userApply')){
+						userApply.cardImgReverse = ''
+					}
+				}else if(this.index == 2){
+					uni.setStorageSync('licenseImage','')
+					if(uni.getStorageSync('userApply')){
+						userApply.licenseImage = ''
+					}
+				}
+				if(uni.getStorageSync('userApply')){
+					uni.setStorageSync('userApply',JSON.stringify(userApply))
+				}
 				uni.navigateBack({
 					delta:1
 				})

@@ -76,7 +76,7 @@
 					case 3:
 					// 企业
 						uni.navigateTo({
-							url:'/pages/middle/identity/realname/company'
+							url:'/pages/middle/identity/realname/company?hasfrom=3'
 						})
 						break;	
 					default:

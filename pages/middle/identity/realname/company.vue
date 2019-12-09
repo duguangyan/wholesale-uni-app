@@ -17,27 +17,27 @@
 			<view class="item-1">
 				<view class="fll">企业名称</view>
 				<view class="flr">
-					<input type="text" v-model="realName" :disabled="disabled || userRealInfo.realName" placeholder="需和营业执照相同">
+					<input type="text" v-model="enterpriseName"  placeholder="需和营业执照相同">
 				</view>
 			</view>
 			<view class="item-1">
 				<view class="fll">企业执照号</view>
 				<view class="flr">
-					<input type="text" v-model="realName" :disabled="disabled || userRealInfo.realName" placeholder="需和营业执照编号相同">
+					<input type="text" v-model="licenseNo" placeholder="需和营业执照编号相同">
 				</view>
 			</view>
 			
 			<view class="upload cf license">
 				<view class="title">上传营业执照</view>
-				<view class="img fll" @click="chooseImage(1)">
-					<image :src="agencyImgUpload3==''?'/static/imgs/cat-3.png':agencyImgUpload3" mode=""></image>
+				<view class="img fll" @click="chooseImage(2)">
+					<image :src="licenseImage==''?'/static/imgs/cat-3.png':licenseImage" mode=""></image>
 				</view>
 			</view>
 			<view class="content">
-				<view class="item regaddress" @click="showType">
+				<view class="item regaddress">
 					<view class="title">注册地址</view>
-					<view class="choose cf">
-						<view class="fll" :class="{'text-666':productType!=''}">{{productType == ''?'请选择地区':productType}}</view>
+					<view class="choose cf" @click="showPicker">
+						<view class="fll" :class="{'text-333':addressObj.province!=''}">{{addressObj.province==''?'请选择地区':addressObj.province + ' ' + addressObj.city + ' ' + addressObj.region}}</view>
 						<view class="flr" v-if="!disabled">
 							<image src="/static/imgs/right.png"></image>
 						</view>
@@ -47,7 +47,7 @@
 			<view class="item-1">
 				<view class="fll">详细地址</view>
 				<view class="flr detailed ">
-					<input type="text" v-model="realName" :disabled="disabled || userRealInfo.realName" placeholder="输入详细地址">
+					<input type="text" v-model="address" :disabled="disabled" placeholder="输入详细地址">
 				</view>
 			</view>
 		</view>
@@ -59,36 +59,34 @@
 				<view class="item-1">
 					<view class="fll">姓名</view>
 					<view class="flr">
-						<input type="text" v-model="realName" :disabled="disabled || userRealInfo.realName" placeholder="请输入法人信息">
+						<input type="text" v-model="realName" :disabled="disabled" placeholder="请输入法人信息">
 					</view>
 				</view>
 				<view class="item-1">
 					<view class="fll">身份证号</view>
 					<view class="flr">
-						<input type="text" v-model="realName" :disabled="disabled || userRealInfo.realName" placeholder="请输入法人身份证号">
+						<input type="text" v-model="cardNo" :disabled="disabled" placeholder="请输入法人身份证号">
 					</view>
 				</view>
 			</view>
 			<view class="upload cf">
 				<view class="title"><text>上传身份证</text><text class="tips">（正面）</text> </view>
-				<view class="img fll" @click="showImage(0)"  v-if="userApply==''">
+				<view class="img fll" @click="showImage(0)">
 					<image src="/static/imgs/cat-1.png" mode=""></image>
 				</view>
 				<view class="img fll" @click="chooseImage(0)">
 			
-					<image :src="agencyImgUpload1==''?'/static/imgs/cat-3.png':agencyImgUpload1" mode=""></image>
+					<image :src="cardImgFront ==''?'/static/imgs/cat-3.png':cardImgFront" mode=""></image>
 					
 				</view>
 			</view>
 			<view class="upload cf">
 				<view class="title"><text>上传身份证</text><text class="tips">（反面）</text> </view>
-				<view class="img fll" @click="showImage(1)" v-if="userApply==''">
+				<view class="img fll" @click="showImage(1)">
 					<image src="/static/imgs/cat-2.png" mode=""></image>
 				</view>
 				<view class="img fll" @click="chooseImage(1)">
-					
-					<image :src="agencyImgUpload2==''?'/static/imgs/cat-3.png':agencyImgUpload2" mode=""></image>
-					
+					<image :src="cardImgReverse ==''?'/static/imgs/cat-3.png':cardImgReverse" mode=""></image>
 				</view>
 			</view>
 		</view>
@@ -106,20 +104,23 @@
 					</view>
 				</view>
 			</view>
-			<view class="item">
+			<view class="item" v-for="(item,index) in areas" :key="index">
 				<view class="title">
-					<text>经营地区</text> <text class="fs24 text-999">（如需多个经营地区，可通过“加号”增加经营地区）</text>
+					<text>经营地区</text> <text class="fs24 text-999">（可通过“加号”增加经营地区）</text>
 				</view>
-				<view class="choose cf" @click="showPicker">
-					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?'请选择经营地区':address.province + ' ' + address.city}} {{hasfrom == 2? address.region:''}}</view>
-					<view class="flr" v-if="!disabled">
+				<view class="choose cf">
+					<view class="fll" @click="showPickerAreas(index)" :class="{'text-333':item.province!=''}">{{item.province==''?'请选择经营地区':item.province + ' ' + item.city}}</view>
+					<view class="flr fs24 text-theme addanddel" v-if="index>0" @click="delAreas(index)">-删除</view>
+					<view class="flr fs24 text-theme addanddel" v-if="index==0" @click="addAreas">+新增地区</view>
+					<view class="flr right" v-if="!disabled">
 						<image src="/static/imgs/right.png"></image>
 					</view>
+					
 				</view>
 			</view>
-			<view class="cf add">
+			<!-- <view class="cf add" @click="addAreas">
 				<view class="text-theme fs24 flr">+新增地区</view>
-			</view>
+			</view> -->
 			
 		</view>
 		
@@ -152,7 +153,7 @@
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import mpvueCityPicker from '@/components/common/mpvue-citypicker/mpvueCityPicker.vue'
 	import chooseType from '@/components/realname/ChooseType.vue'
-	import { postUserImgUpload, postUserHeadImg, postUpdateNickname, getUserRealInfoSettledIn, getUserRealInfoAll, applyAuditWithdraw, applyApplyUpdate, applyApplyModifySettledIn } from '@/api/userApi.js'
+	import { postUserImgUpload, postUserHeadImg, postUpdateNickname, getUserRealInfoSettledIn, getUserRealInfoAll, applyAuditWithdraw, applyApplyUpdate, applyApplyModifySettledIn,enterpriseSettledIn } from '@/api/userApi.js'
 	import { getCategoryTreeNode } from '@/api/goodsApi.js'
 	import T from '@/utils/tips.js'
 	export default {
@@ -168,8 +169,8 @@
 				isChooseType:false,
 				cityPickerValueDefault: [0, 0, 1],
 				themeColor: '#007AFF',
-				fullAddress:'',
-				address: {
+				address:'',
+				addressObj: {
 					name: '',
 					phone: '',
 					area: '',
@@ -182,10 +183,13 @@
 					regionId: '',
 					def: 1
 				},
+				areas:[{
+					"provinceId": "",
+					"province": "",
+					"cityId": "",
+					"city": ""
+				}],
 				imgIndex: '',
-				agencyImgUpload1: '',
-				agencyImgUpload2: '',
-				agencyImgUpload3: '',
 				hasfrom:'',
 				from:'',
 				productType:'',
@@ -196,6 +200,10 @@
 				categoryTree:'',     // 产品分类
 				productTypeId:'',    // 分类Id
 				userRealInfo:'',     // 邀请码
+				enterpriseName:'',   // 企业名称
+				licenseNo:'',        // 营业执照号码
+				licenseImage:'',     // 营业执照照片
+				showPickerAreasIndex:''
 			};
 		},
 		components: {
@@ -205,29 +213,19 @@
 			chooseType
 		},
 		onLoad(options) {
-			// hafrom : 1代办 2 货主
-			if(options.hasfrom){
-				this.hasfrom = options.hasfrom
-				this.hasArea = this.hasfrom == 2
-				// 如果是货主获取经营类型（产品分类）
-				if(this.hasfrom == 2){
-					getCategoryTreeNode().then(res=>{
-						if(res.code == '1000'){
-							this.categoryTree = res.data
-						}
-					})
-				}
-			}
+			// hafrom : 1代办 2 货主 3企业
+			if(options.hasfrom) this.hasfrom = options.hasfrom
 			// 审核失败页面返回
+			if(options.from == 'auditFail') this.from = 'auditFail'
+			// 获取经营类型（产品分类）
+			this.getCategoryTreeNode()
 			
-			if(options.from == 'auditFail'){
-				this.from = 'auditFail'
-			}
 		},
 		onShow() {
 			// 获取缓存数据
-			this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1')
-			this.agencyImgUpload2 = uni.getStorageSync('agencyImgUpload2')
+			this.cardImgFront  = uni.getStorageSync('cardImgFront')
+			this.cardImgReverse  = uni.getStorageSync('cardImgReverse')
+			this.licenseImage  = uni.getStorageSync('licenseImage')
 			if(uni.getStorageSync('userRealInfo')){
 				this.userRealInfo =JSON.parse(uni.getStorageSync('userRealInfo'))
 				this.cardNo   = this.userRealInfo.cardNo
@@ -240,6 +238,28 @@
 		},
 		
 		methods: {
+			// 删除地区
+			delAreas(index){
+				this.areas.splice(index,1);
+			},
+			// 新增地区
+			addAreas(){
+				let obj = {
+					"provinceId": "",
+					"province": "",
+					"cityId": "",
+					"city": ""
+				}
+				this.areas.push(obj)
+			},
+			// 获取分类
+			getCategoryTreeNode(){
+				getCategoryTreeNode().then(res=>{
+					if(res.code == '1000'){
+						this.categoryTree = res.data
+					}
+				})
+			},
 			// 获取用户信息
 			getUserRealInfoAll(){
 				getUserRealInfoAll().then((res) => {
@@ -280,8 +300,8 @@
 					this.realName           = this.userApply.realName
 					this.cardNo             = this.userApply.cardNo
 					this.categoryId         = this.userApply.categoryId
-					this.agencyImgUpload1   = this.userApply.cardImgFront
-					this.agencyImgUpload2   = this.userApply.cardImgReverse
+					this.cardImgFront       = this.userApply.cardImgFront
+					this.cardImgReverse     = this.userApply.cardImgReverse
 					this.productType        = this.userApply.categoryName
 					this.fullAddress        = this.userApply.province + this.userApply.city 
 					this.address.province   = this.userApply.province
@@ -316,18 +336,26 @@
 			},
 			// 选择图片
 			chooseImage(index){
+				
 				if(this.disabled){
 					return false
 				}
-				if(this.agencyImgUpload1 !='' && index == 0){
+				if(this.cardImgFront  !='' && index == 0){
 					uni.navigateTo({
-						url:'/pages/common/picture/picture?index=0&url='+this.agencyImgUpload1
+						url:'/pages/common/picture/picture?index=0&url='+this.cardImgFront 
 					})
 					return false
 				}
-				if(this.agencyImgUpload2 !='' && index == 1){
+				if(this.cardImgReverse  !='' && index == 1){
 					uni.navigateTo({
-						url:'/pages/common/picture/picture?index=1&url='+this.agencyImgUpload2
+						url:'/pages/common/picture/picture?index=1&url='+this.cardImgReverse 
+					})
+					return false
+				}
+				
+				if(this.licenseImage  !='' && index == 2){
+					uni.navigateTo({
+						url:'/pages/common/picture/picture?index=2&url='+this.licenseImage 
 					})
 					return false
 				}
@@ -349,12 +377,15 @@
 								let res = JSON.parse(uploadFileRes.data)
 								if (res.code === '1000') {
 									if(_this.imgIndex == 0){
-										_this.agencyImgUpload1 = res.data
-										uni.setStorageSync('agencyImgUpload1',_this.agencyImgUpload1)
+										_this.cardImgFront  = res.data
+										uni.setStorageSync('cardImgFront',_this.cardImgFront )
 										// this.$store.commit('updateNickName',this.nickName);
-									}else{
-										_this.agencyImgUpload2 = res.data
-										uni.setStorageSync('agencyImgUpload2',_this.agencyImgUpload2)
+									}else if(_this.imgIndex == 1){
+										_this.cardImgReverse  = res.data
+										uni.setStorageSync('cardImgReverse',_this.cardImgReverse)
+									}else if(_this.imgIndex == 2){
+										_this.licenseImage = res.data
+										uni.setStorageSync('licenseImage',_this.licenseImage)
 									}
 								} else {
 									T.tips(res.message || '上传图片失败')
@@ -372,6 +403,15 @@
 				if(this.disabled){
 					return false
 				}
+				this.hasArea = true
+				this.$refs.mpvueCityPicker.show()
+			},
+			showPickerAreas(index){
+				if(this.disabled){
+					return false
+				}
+				this.showPickerAreasIndex = index
+				this.hasArea = false
 				this.$refs.mpvueCityPicker.show()
 			},
 			onCancel(e) {
@@ -381,25 +421,83 @@
 				
 			},
 			onConfirm(e) {
-				this.fullAddress = e.label
-				// full地址
-				let arr = this.fullAddress.split('-');
-				// 省
-				this.address.province   = arr[0]
-				this.address.provinceId = e.ids[0]
-				// 市
-				this.address.city       = arr[1]
-				this.address.cityId     = e.ids[1]
-				// 区
-				this.address.region     = arr[2]
-				this.address.regionId   = e.ids[2]
+				let arr = e.label.split('-');
+				if(this.hasArea) { // 注册地址
+					// 省
+					this.addressObj.province   = arr[0]
+					this.addressObj.provinceId = e.ids[0]
+					// 市
+					this.addressObj.city       = arr[1]
+					this.addressObj.cityId     = e.ids[1]
+					// 区
+					this.addressObj.region     = arr[2]
+					this.addressObj.regionId   = e.ids[2]
+				}else{ // 经营地区
+					this.areas[this.showPickerAreasIndex].provinceId = e.ids[0]
+					this.areas[this.showPickerAreasIndex].province =  arr[0]
+					this.areas[this.showPickerAreasIndex].cityId = e.ids[1]
+					this.areas[this.showPickerAreasIndex].city = arr[1]
+				}
+				
 			},
 			doSubmit(){
 				// 数据验证
+				if(this.enterpriseName == ''){
+					T.tips('企业名称不能为空')
+					return false
+				}
+				if(this.licenseNo == ''){
+					T.tips('营业执照号码不能为空')
+					return false
+				}
+				
+				if(this.licenseImage == ''){
+					T.tips('请上传营业执照')
+					return false
+				}
+				if(this.addressObj.province == ''){
+					T.tips('请选择注册地址')
+					return false
+				}
+				
 				if(this.realName == ''){
 					T.tips('姓名不能为空')
 					return false
 				}
+				
+				
+				if(this.cardNo == ''){
+					T.tips('身份证号码不能为空')
+					return false
+				}
+				
+				
+				
+				if(this.cardImgFront  == ''){
+					T.tips('身份证正面照不能为空')
+					return false
+				}
+				if(this.cardImgReverse  == ''){
+					T.tips('身份证反面照不能为空')
+					return false
+				}
+				
+				if(this.productType == ''){
+					T.tips('经营类型不能为空')
+					return false
+				}
+				
+				let n = 0 
+				this.areas.forEach(item=>{
+					if(item.province !=''){
+						n++
+					}
+				})
+				if(n == 0){
+					T.tips('至少选着一个经营地区')
+					return false
+				}
+				
 				if(!uni.getStorageSync('userRealInfo')){
 					if(this.code == ''){
 						T.tips('邀请码不能为空')
@@ -407,44 +505,26 @@
 					}
 				}
 				
-				if(this.cardNo == ''){
-					T.tips('身份证号码不能为空')
-					return false
-				}
-				if(this.fullAddress == ''){
-					T.tips('请选择地址')
-					return false
-				}
-				if(this.agencyImgUpload1 == ''){
-					T.tips('身份证正面照不能为空')
-					return false
-				}
-				if(this.agencyImgUpload2 == ''){
-					T.tips('身份证反面照不能为空')
-					return false
-				}
 				//  实名认证
 				let data = {
-					cardImgFront:   this.agencyImgUpload1,
-					cardImgReverse: this.agencyImgUpload2,
+					cardImgFront:   this.cardImgFront,
+					cardImgReverse: this.cardImgReverse,
 					cardNo:         this.cardNo,
 					realName:       this.realName,
-					province:       this.address.province,
-					provinceId:     this.address.provinceId,
-					city:           this.address.city,
-					cityId:         this.address.cityId,
-					region:         this.address.region,
-					regionId:       this.address.regionId
-				}
-				if(!uni.getStorageSync('userRealInfo')){
-					data.code = this.code
-				}
-				// 代办 货主判断  hasfrom : 1代办 2货主
-				if(this.hasfrom == 1){
-					data.type = 2
-				}else if(this.hasfrom == 2){
-					data.type = 1
-					data.categoryId = this.productTypeId || this.categoryId
+					province:       this.addressObj.province,
+					provinceId:     this.addressObj.provinceId,
+					city:           this.addressObj.city,
+					cityId:         this.addressObj.cityId,
+					region:         this.addressObj.region,
+					regionId:       this.addressObj.regionId,
+					type:           4,
+					enterpriseName: this.enterpriseName,
+					licenseNo:      this.licenseNo,
+					licenseImage:   this.licenseImage,
+					categoryId:     this.productTypeId,
+					code:           this.code,
+					areas:          JSON.stringify(this.areas),
+					address:        this.address
 				}
 				
 				if(this.userApply.status == 3 || this.from != '') { // 重新审核
@@ -493,8 +573,9 @@
 					}
 					
 				}else{  // 第一次审核
-					getUserRealInfoSettledIn(data).then(res=>{
+					enterpriseSettledIn(data).then(res=>{
 						if(res.code == '1000'){
+							debugger
 							getUserRealInfoAll().then((res) => {
 								if (res.code === '1000') {
 									let roleId = res.data.userRole.roleId || ''
@@ -599,6 +680,16 @@
 					color: #CCCCCC;
 					border-bottom: 1upx solid #F0F0F0;
 					padding: 20upx 0;
+					.fll{
+						width: 500upx;
+					}
+					.addanddel{
+						width: 140upx !important;
+					}
+					.right{
+						position: relative;
+						right: 140upx;
+					}
 					.flr{
 						width: 24upx;
 						height: 24upx;

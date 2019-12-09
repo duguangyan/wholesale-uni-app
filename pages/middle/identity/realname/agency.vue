@@ -77,7 +77,7 @@
 			</view>
 			<view class="img fll" @click="chooseImage(0)">
 
-				<image :src="agencyImgUpload1==''?'../../../../static/imgs/cat-3.png':agencyImgUpload1" mode=""></image>
+				<image :src="cardImgFront==''?'../../../../static/imgs/cat-3.png':cardImgFront" mode=""></image>
 				
 			</view>
 		</view>
@@ -88,7 +88,7 @@
 			</view>
 			<view class="img fll" @click="chooseImage(1)">
 				
-				<image :src="agencyImgUpload2==''?'../../../../static/imgs/cat-3.png':agencyImgUpload2" mode=""></image>
+				<image :src="cardImgReverse==''?'../../../../static/imgs/cat-3.png':cardImgReverse" mode=""></image>
 				
 			</view>
 		</view>
@@ -139,8 +139,6 @@
 					def: 1
 				},
 				imgIndex: '',
-				agencyImgUpload1: '',
-				agencyImgUpload2: '',
 				hasfrom:'',
 				from:'',
 				productType:'',
@@ -181,8 +179,8 @@
 		},
 		onShow() {
 			// 获取缓存数据
-			this.agencyImgUpload1 = uni.getStorageSync('agencyImgUpload1')
-			this.agencyImgUpload2 = uni.getStorageSync('agencyImgUpload2')
+			this.cardImgFront = uni.getStorageSync('cardImgFront')
+			this.cardImgReverse = uni.getStorageSync('cardImgReverse')
 			if(uni.getStorageSync('userRealInfo')){
 				this.userRealInfo =JSON.parse(uni.getStorageSync('userRealInfo'))
 				this.cardNo   = this.userRealInfo.cardNo
@@ -235,8 +233,8 @@
 					this.realName           = this.userApply.realName
 					this.cardNo             = this.userApply.cardNo
 					this.categoryId         = this.userApply.categoryId
-					this.agencyImgUpload1   = this.userApply.cardImgFront
-					this.agencyImgUpload2   = this.userApply.cardImgReverse
+					this.cardImgFront   = this.userApply.cardImgFront
+					this.cardImgReverse   = this.userApply.cardImgReverse
 					this.productType        = this.userApply.categoryName
 					this.fullAddress        = this.userApply.province + this.userApply.city 
 					this.address.province   = this.userApply.province
@@ -275,15 +273,15 @@
 				if(this.disabled){
 					return false
 				}
-				if(this.agencyImgUpload1 !='' && index == 0){
+				if(this.cardImgFront !='' && index == 0){
 					uni.navigateTo({
-						url:'/pages/common/picture/picture?index=0&url='+this.agencyImgUpload1
+						url:'/pages/common/picture/picture?index=0&url='+this.cardImgFront
 					})
 					return false
 				}
-				if(this.agencyImgUpload2 !='' && index == 1){
+				if(this.cardImgReverse !='' && index == 1){
 					uni.navigateTo({
-						url:'/pages/common/picture/picture?index=1&url='+this.agencyImgUpload2
+						url:'/pages/common/picture/picture?index=1&url='+this.cardImgReverse
 					})
 					return false
 				}
@@ -305,12 +303,12 @@
 								let res = JSON.parse(uploadFileRes.data)
 								if (res.code === '1000') {
 									if(_this.imgIndex == 0){
-										_this.agencyImgUpload1 = res.data
-										uni.setStorageSync('agencyImgUpload1',_this.agencyImgUpload1)
+										_this.cardImgFront = res.data
+										uni.setStorageSync('cardImgFront',_this.cardImgFront)
 										// this.$store.commit('updateNickName',this.nickName);
 									}else{
-										_this.agencyImgUpload2 = res.data
-										uni.setStorageSync('agencyImgUpload2',_this.agencyImgUpload2)
+										_this.cardImgReverse = res.data
+										uni.setStorageSync('cardImgReverse',_this.cardImgReverse)
 									}
 								} else {
 									T.tips(res.message || '上传图片失败')
@@ -371,18 +369,18 @@
 					T.tips('请选择地址')
 					return false
 				}
-				if(this.agencyImgUpload1 == ''){
+				if(this.cardImgFront == ''){
 					T.tips('身份证正面照不能为空')
 					return false
 				}
-				if(this.agencyImgUpload2 == ''){
+				if(this.cardImgReverse == ''){
 					T.tips('身份证反面照不能为空')
 					return false
 				}
 				//  实名认证
 				let data = {
-					cardImgFront:   this.agencyImgUpload1,
-					cardImgReverse: this.agencyImgUpload2,
+					cardImgFront:   this.cardImgFront,
+					cardImgReverse: this.cardImgReverse,
 					cardNo:         this.cardNo,
 					realName:       this.realName,
 					province:       this.address.province,
