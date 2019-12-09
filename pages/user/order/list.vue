@@ -38,10 +38,10 @@
 						</text>
 					</view>
 					<view class="mgb-30" v-for="good in item.orderDetailList" :key="good.id" >
-						<Good :item="good"></Good>
+						<Good :item="good" :roleId='roleId'></Good>
 					</view>
 					
-					<view class="accu fs24">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001'?item.orderMoney:item.payMoney}}</text></view>
+					<view class="accu fs24">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001'?item.orderMoney:item.totalMoney}}</text></view>
 					<view class="operator">
 						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 						<!-- <view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view> -->
@@ -51,8 +51,8 @@
 						<view class="receive" v-if="item.status == 2 && roleId == '20002'" @click="deliverGoods(index)">发货</view>
 						
 						
-						<view class="receive" v-if="item.status == 6 && roleId == '20001'" @click="sellerCancel(index)">取消订单</view>
-						<view class="receive" v-if="item.status == 6 && roleId == '20001'" @click="sellerConfirm(index)">确认订单</view>
+						<view class="receive" v-if="item.status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerCancel(index)">取消订单</view>
+						<view class="receive" v-if="item.status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerConfirm(index)">确认订单</view>
 					</view>
 				</view>
 			</view>
@@ -86,6 +86,7 @@
 		name: 'ordlist',
 		data() {
 			return {
+				uid:'',
 				title: '确认收货吗?',
 				hasOrders: false,
 				isShow: false,
@@ -172,6 +173,7 @@
 		},
 		onShow() {
 			this.roleId = uni.getStorageSync('roleId')
+			this.uid    = uni.getStorageSync('uid')
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
 			console.log('platform:', this.platform)
