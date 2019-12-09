@@ -6,6 +6,9 @@
     <transition name="body">
       <div v-if="isShow" class="body">
         <div class="title">{{title}}</div>
+		<div class="slot" v-if="hasSlot">
+			<slot></slot>
+		</div>		
         <div class="footer">
           <div class="cancel btn" @click="doCancel">{{cancelText}}</div>
           <div class="confirm btn" @click="doConfirm">{{confirmText}}</div>
@@ -23,6 +26,10 @@ export default {
       type: String,
       default: '标题'
     },
+	hasSlot:{
+		type: Boolean,
+		default: false
+	},
 	isShow:{
 		type: Boolean,
 		default: false
@@ -78,6 +85,12 @@ export default {
     width: 500upx;
     padding: 76upx 30upx 30upx;
     text-align: center;
+	.slot{
+		position: relative;
+		text-align: left;
+		font-size: 24upx;
+		top: -50upx;
+	}
     .title {
       font-size: 32upx;
       color: #000;

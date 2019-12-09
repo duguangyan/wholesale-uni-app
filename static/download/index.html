@@ -27,11 +27,11 @@
                 font-size: 32px;
               }
               #ios{
-                background: #ffa812;
+                background: #0BCF55;
                 margin: 0 auto;
               }
               #android{
-                background: #fc2d2d;
+                background: #FE3B0B;
                 margin: 0 auto 54px auto;
               }
               .dialog{
@@ -56,7 +56,7 @@
                 <img src="/static/img/toplog.png" />
             </div>
             <a id="android">Android版下载</a>
-            <a id="ios" href="https://apps.apple.com/cn/app/%E4%B8%8A%E4%B8%8A%E5%86%9C%E5%A4%AB/id1484601336?l=zh">ios版下载</a>
+            <a id="ios" href="https://apps.apple.com/cn/app/%E6%AD%A3%E9%BC%8E%E5%86%9C%E5%93%81/id1489894617?l=zh">ios版下载</a>
             <div id="wechat" class="dialog">
                 <img src="/static/img/dialog.png" />
             </div>
@@ -72,7 +72,7 @@
                 if (ua.indexOf('iphone') > -1 || ua.indexOf('ipad') > -1 || ua.indexOf('ipod') > -1) {
                     // to ios download
                     android.style.display = 'none'
-                    window.location.href = 'https://apps.apple.com/cn/app/%E4%B8%8A%E4%B8%8A%E5%86%9C%E5%A4%AB/id1484601336?l=zh';
+                    window.location.href = 'https://apps.apple.com/cn/app/%E6%AD%A3%E9%BC%8E%E5%86%9C%E5%93%81/id1489894617?l=zh';
                 } else if (ua.indexOf('micromessenger') > -1) {
                     ios.style.display = 'none'
                     android.addEventListener('click', function(e) {
@@ -105,7 +105,7 @@
 
                 function androidDownload() {
                     // android应用下载
-                    var src = 'https://xx-upms.oss-cn-zhangjiakou.aliyuncs.com/app/__UNI__E3A114F_1111192742.apk';
+                    var src = 'https://xx-upms.oss-cn-zhangjiakou.aliyuncs.com/app/__UNI__E3A114F_1209103903.apk';
                     var iframe = document.createElement('iframe');
                     iframe.style.display = 'none';
                     iframe.src = "javascript: '<script>location.href=\"" + src + "\"<\/script>'";

@@ -118,9 +118,11 @@
 			          if (res.confirm) {
 			              let records  = uni.getStorageSync('records')
 						  let platform = uni.getStorageSync('platform')
+						  let dialogIsShow = uni.getStorageSync('dialogIsShow')
 			              uni.clearStorageSync() // 清除缓存
 						  uni.setStorageSync('records',records)
 						  uni.setStorageSync('platform',platform)
+						  uni.setStorageSync('dialogIsShow',dialogIsShow)
 			              // uni.switchTab({
 			              // 	url:'/pages/user/user'
 			              // })

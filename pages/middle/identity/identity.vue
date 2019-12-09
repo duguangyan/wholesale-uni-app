@@ -34,10 +34,10 @@
 						text:'我是批发商',
 						imgUrl:'/static/imgs/icon-3.png'
 					},
-					{
-						text:'我是企业',
-						imgUrl:'/static/imgs/icon-4.png'
-					},
+					// {
+					// 	text:'我是企业',
+					// 	imgUrl:'/static/imgs/icon-4.png'
+					// },
 				]
 			};
 		},
