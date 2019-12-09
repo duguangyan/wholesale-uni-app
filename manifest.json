@@ -66,12 +66,12 @@
                     "Set :NSLocationAlwaysAndWhenInUseUsageDescription 说明使用用户地理位置的原因"
                 ],
                 "privacyDescription" : {
-                    "NSPhotoLibraryUsageDescription" : "上上农业需要打开您的手机相册获取照片",
-                    "NSPhotoLibraryAddUsageDescription" : "上上农业需要打开您的手机相册保存照片",
-                    "NSCameraUsageDescription" : "上上农业需要打开您的手机摄像头获取照片",
-                    "NSLocationWhenInUseUsageDescription" : "上上农业需要打开您的地理位置获取地址定位信息",
-                    "NSLocationAlwaysUsageDescription" : "上上农业需要打开您的地理位置获取地址定位信息",
-                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "上上农业需要打开您的地理位置获取地址定位信息"
+                    "NSPhotoLibraryUsageDescription" : "正鼎农品需要打开您的手机相册获取照片",
+                    "NSPhotoLibraryAddUsageDescription" : "正鼎农品需要打开您的手机相册保存照片",
+                    "NSCameraUsageDescription" : "正鼎农品需要打开您的手机摄像头获取照片",
+                    "NSLocationWhenInUseUsageDescription" : "正鼎农品需要打开您的地理位置获取地址定位信息",
+                    "NSLocationAlwaysUsageDescription" : "正鼎农品需要打开您的地理位置获取地址定位信息",
+                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "正鼎农品需要打开您的地理位置获取地址定位信息"
                 },
                 "idfa" : false
             },

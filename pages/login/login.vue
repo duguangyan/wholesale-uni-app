@@ -47,13 +47,19 @@
 			</button>
 		</view> -->
 		<!--  #endif -->
-
+		<Dialog :hasSlot="hasSlot" :title="dialogTitle" @doCancel="doCancel" @doConfirm="doConfirm" :isShow="dialogIsShow" :cancelText="cancelText" :confirmText="confirmText">
+			<view>
+				<view>请你务必审阅、充分理解“服务协议”和“隐私政策”各条款，包括不限于：为了向你提供即时通讯、内容分享登服务，我们需要收集你的设备信息、操作日志登个人信息。你可以在“设置”中查看、变更、删除个人信息并管理你的授权。</view>
+				<view>你可阅读 <text class="dialog-txt" @click="goProtocal">《服务协议》</text>和<text class="dialog-txt" @click="goPrivacy">《隐私政策》</text>了解详细信息。如你同意，请点击“同意”开始接受我们的服务</view>
+			</view>
+		</Dialog>
 	</view>
 </template>
 
 <script>
 	import validator from '../../utils/validator.js'
 	import T from '@/utils/tips.js'
+	import Dialog from '@/components/common/Dialog.vue'
 	import {
 		postUserLogin,
 		getUserInfoData,
@@ -67,6 +73,11 @@
 	export default {
 		data() {
 			return {
+				hasSlot:true,
+				dialogTitle:'服务协议和隐私政策',
+				dialogIsShow:false,
+				cancelText:'暂不使用',
+				confirmText:'同意',
 				phone: '',
 				code: '',
 				codeText: '获取验证码',
@@ -81,7 +92,7 @@
 			}
 		},
 		components: {
-
+			Dialog
 		},
 		onBackPress() {
 			if (!uni.getStorageSync('access_token')) {
@@ -111,18 +122,28 @@
 			uni.setStorageSync('isLogin', 0)
 		},
 		methods: {
-			// 去隐私政策
+			doConfirm(){
+				this.dialogIsShow = false
+				uni.setStorageSync('dialogIsShow',2)
+				this.dologin()
+			},
+			doCancel(){
+				this.dialogIsShow = false
+				uni.setStorageSync('dialogIsShow',1)
+			},
+			// 隐私协议
 			goPrivacy(){
 				uni.navigateTo({
-					url: '/pages/user/privacy/privacy'
+					url:'/pages/user/privacy/privacy'
 				})
 			},
 			// 去用户协议
-			goProtocal() {
+			goProtocal(){
 				uni.navigateTo({
-					url: '/pages/user/protocal/protocal'
+					url:'/pages/user/protocal/protocal'
 				})
 			},
+			
 			// 获取openid
 			getOpenIdByCode() {
 				uni.login({
@@ -293,6 +314,13 @@
 			// 登录
 			dologin: function() {
 				if (this.isRight) {
+					
+					let dialogIsShow = uni.getStorageSync('dialogIsShow')
+					if(dialogIsShow == 1 || dialogIsShow == ''){
+						this.dialogIsShow = true
+						return
+					}
+					
 					//#ifdef APP-PLUS  
 					var uuid = plus.device.uuid;
 					//#endif
@@ -409,6 +437,9 @@
 </script>
 
 <style lang="scss" scoped>
+	.dialog-txt{
+		color: #1AAD19;
+	}
 	.login {
 		height: 100vh;
 		background: #fff;

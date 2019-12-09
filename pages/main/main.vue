@@ -102,7 +102,12 @@
 
 		</view>
 		<!-- <TabBar :checkIndex='checkIndex'></TabBar> -->
-
+		<Dialog :hasSlot="hasSlot" :title="dialogTitle" @doCancel="doCancel" @doConfirm="doConfirm" :isShow="dialogIsShow" :cancelText="cancelText" :confirmText="confirmText">
+			<view>
+				<view>请你务必审阅、充分理解“服务协议”和“隐私政策”各条款，包括不限于：为了向你提供即时通讯、内容分享登服务，我们需要收集你的设备信息、操作日志登个人信息。你可以在“设置”中查看、变更、删除个人信息并管理你的授权。</view>
+				<view>你可阅读 <text class="dialog-txt" @click="goProtocal">《服务协议》</text>和<text class="dialog-txt" @click="goPrivacy">《隐私政策》</text>了解详细信息。如你同意，请点击“同意”开始接受我们的服务</view>
+			</view>
+		</Dialog>
 	</view>
 </template>
 
@@ -121,9 +126,15 @@
 	import TabBar from '@/components/common/TabBar.vue'
 	import SwiperDot from "@/components/common/SwiperDotByMain.vue"
 	import Goodx from "@/components/common/Goodx.vue"
+	import Dialog from '@/components/common/Dialog.vue'
 	export default {
 		data() {
 			return {
+				hasSlot:true,
+				dialogTitle:'服务协议和隐私政策',
+				dialogIsShow:true,
+				cancelText:'暂不使用',
+				confirmText:'同意',
 				checkIndex: 0,
 				homeList: {},
 				banner: [], // 轮播图
@@ -147,7 +158,7 @@
 			}
 		},
 		components: {
-			TabBar,SwiperDot,Goodx
+			TabBar,SwiperDot,Goodx,Dialog
 		},
 		onTabItemTap(e){
 			uni.setStorageSync('pagePath','main')
@@ -183,16 +194,36 @@
 			}, 1000);
 		},
 		methods: {
-      // 计算颜色
-      calcAttr(attr){
-      	let str = attr.substr(0,1)
-      	let color = this.colorPattern[str] || '165,165,165'
-      	return {
-      		color: 'rgba('+color+',1)',
-      		bg: 'rgba('+color+',0.1)'
-      	}
-      	
-      },
+			// 隐私协议
+			goPrivacy(){
+				uni.navigateTo({
+					url:'/pages/user/privacy/privacy'
+				})
+			},
+			// 去用户协议
+			goProtocal(){
+				uni.navigateTo({
+					url:'/pages/user/protocal/protocal'
+				})
+			},
+			doConfirm(){
+				this.dialogIsShow = false
+				uni.setStorageSync('dialogIsShow',2)
+			},
+			doCancel(){
+				this.dialogIsShow = false
+				uni.setStorageSync('dialogIsShow',1)
+			},
+			  // 计算颜色
+			  calcAttr(attr){
+				let str = attr.substr(0,1)
+				let color = this.colorPattern[str] || '165,165,165'
+				return {
+					color: 'rgba('+color+',1)',
+					bg: 'rgba('+color+',0.1)'
+				}
+				
+			  },
 			// 判断用户类型
 			assessUserType(){
 				// 设置底部tab样式
@@ -458,6 +489,9 @@
 </script>
 
 <style lang="scss" scoped>
+	.dialog-txt{
+		color: #1AAD19;
+	}
 	.dot{
 		position: absolute;
 		z-index: 9999;
