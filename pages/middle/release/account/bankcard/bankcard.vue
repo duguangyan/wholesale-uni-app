@@ -1,5 +1,6 @@
 <template>
 	<view class="bankcard">
+		<!-- v-if="item.accountType == 2 && item.status != 1" -->
 		<view class="tip" @click="toDetail" v-if="item.accountType == 2 && item.status != 1">您的账户认证失败， <text class="text-theme">查看进度</text></view>
 		<view class="items">
 			<view class="item cf" :style="{color:item.sizColor,background:item.bgcolor}" v-for="(item,index) in records" :key="index" @click="goDel(item)">
@@ -189,6 +190,12 @@
 
 <style lang="scss" scoped>
 	.bankcard{
+		.tip{
+			height: 60upx;
+			line-height: 60upx;
+			padding: 0 30upx;
+			background: #fff;
+		}
 		.footer{
 			position: fixed;
 			bottom: 30upx;
