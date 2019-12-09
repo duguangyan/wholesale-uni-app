@@ -41,7 +41,8 @@
 						<Good :item="good" :roleId='roleId'></Good>
 					</view>
 					
-					<view class="accu fs24">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001'?item.orderMoney:item.totalMoney}}</text></view>
+					<view class="accu fs24" v-if="roleId == '20001' && item.sellerId == uid">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001' && item.sellerId == uid?item.orderMoney:item.totalMoney}}</text></view>
+					<view class="accu fs24" v-if="roleId == '20001' && item.sellerId != uid">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001' && item.sellerId != uid?item.totalMoney:item.orderMoney}}</text></view>
 					<view class="operator">
 						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 						<!-- <view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view> -->

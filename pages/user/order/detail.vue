@@ -150,7 +150,8 @@
 				
 				<div class="goods-price">
 					<span>商品总价</span>
-					<span class="money">￥{{order.shopOrder.orderMoney}}</span>
+					<span class="money" v-if="order.shopOrder.sellerId != uid ">￥{{ order.shopOrder.sellerId != uid ? order.shopOrder.totalMoney:order.shopOrder.orderMoney}}</span>
+					<span class="money" v-if="order.shopOrder.sellerId == uid ">￥{{ order.shopOrder.sellerId == uid ? order.shopOrder.orderMoney:order.shopOrder.totalMoney}}</span>
 				</div>
 				<div class="freight">
 					<span>运费  <span class="fs24 text-999 mgl-10"> (运费买家线下支付)</span> </span>
@@ -158,7 +159,8 @@
 				</div>
 				<div class="total-price bb1">
 					<span class="fs28">订单总价</span>
-					<span class="fs32">￥{{order.shopOrder.totalMoney}}</span>
+					<span class="fs32" v-if="order.shopOrder.sellerId != uid">￥{{ roleId == '20001' && order.shopOrder.sellerId != uid ? order.shopOrder.totalMoney : order.shopOrder.orderMoney}}</span>
+					<span class="fs32" v-if="order.shopOrder.sellerId == uid">￥{{ roleId == '20001' && order.shopOrder.sellerId == uid ? order.shopOrder.orderMoney : order.shopOrder.totalMoney}}</span>
 				</div>
 				<div class="msg cf">
 					<span class="span-1 fll">买家留言</span>
@@ -185,8 +187,8 @@
 			<div class="btn-red btn" v-if="status == 3" @click="postOrderConfirm">确认收货</div>
 			<view class="btn-red btn" v-if="status == 2 && roleId == '20002'" @click="deliverGoods()">发货</view>
 			
-			<view class="btn-red btn" v-if="status == 6 && roleId == '20001'" @click="sellerCancel()">取消订单</view>
-			<view class="btn-red btn" v-if="status == 6 && roleId == '20001'" @click="sellerConfirm()">确认订单</view>
+			<view class="btn-red btn" v-if="status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerCancel()">取消订单</view>
+			<view class="btn-red btn" v-if="status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerConfirm()">确认订单</view>
 			
 		</div>
 		<Pay :orderId="orderId" :shopId="shopId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
@@ -241,6 +243,7 @@
 		name: 'orddetail',
 		data() {
 			return {
+				uid:'',
 				businessType:'',
 				cancelReason:'',
 				title: '确认收货吗?',
@@ -285,6 +288,7 @@
 		onShow() {
 			// 用户类型
 			this.roleId = uni.getStorageSync('roleId')
+			this.uid    = uni.getStorageSync('uid')
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
 			// 获取参数

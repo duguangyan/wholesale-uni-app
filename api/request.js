@@ -8,7 +8,7 @@ if (apiUrl == 'http://192.168.0.202:8000/ws') {
 	uni.setStorageSync('v', versionNumber);
 	uni.setStorageSync('s', '开发');
 } else {
-	uni.setStorageSync('v', versionNumber);
+	uni.setStorageSync('v', versionNumber); 
 	uni.setStorageSync('s', '正式');
 }
 Promise.prototype.finally = function(callback) {
