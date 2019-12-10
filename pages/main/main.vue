@@ -165,14 +165,12 @@
 		},
 		onLoad() {
 			uni.setStorageSync('pagePath','main')
+			// 设备样式兼容
+			this.platform = uni.getStorageSync('platform');
 			// 版本更新 （APP）
 			// #ifdef APP-PLUS
 			this.updataApp()
 			// #endif	
-
-
-			// 设备样式兼容
-			this.platform = uni.getStorageSync('platform');
 		},
 		onShow() {
 			
