@@ -267,6 +267,11 @@
 		    "style" : {
 				"navigationBarTitleText": "解绑银行卡" 
 			}
+		},{
+		    "path" : "pages/middle/release/account/bankcard/paid",
+		    "style" : {
+				"navigationBarTitleText": "打款确认" 
+			}
 		}
 		,{
 		    "path" : "pages/middle/release/account/bankcard/addinfo",

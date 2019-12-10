@@ -235,7 +235,8 @@
 				validPayPwd(data).then(res=>{
 					if(res.code == '1000'){
 						let dto = {
-							id: this.id
+							id: this.id,
+							password: this.trade_pwd
 						}
 						deleteBank(dto).then(res=>{
 							if(res.code == '1000') {

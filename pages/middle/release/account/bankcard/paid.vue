@@ -4,13 +4,36 @@
 			<image src="/static/imgs/icon-1019.png" mode=""></image>
 		</view>
 		<view class="title fs28 text-333">
-			你已成功提交企业对公账户认证信息，请耐心等待！
+			沁绿农业已于2019年12月3号向河南沁绿农业科技有限公司（8111 1111 1111 1111 111）提交一笔1元以下的打款申请，请于到账后7日内在此确认打款金额
 		</view>
 		<view class="tip fs24 text-999">
-			打款需要2~3个工作日，请关注银行通知及时打款确认
+			<view>
+				1、您需要查询银行卡的收支明细，确认打款
+			</view>
+			<view>
+				2、由于银行返回打款成功信息有延迟，如未查询到打款信息，请一天后重新查询
+			</view>
 		</view>
-		<view class="big-btn-active" @click="showDetail">
-			查看进度
+		
+		<view class="items">
+			<view class="item">
+				开户银行：中信银行郑州航海路支行
+			</view>
+			<view class="item">
+				银行卡号：8111 1111 1111 1111 111
+			</view>
+			<view class="item">
+				开户名称：河南沁绿农业科技有限公司
+			</view>
+			<view class="item">
+				打款金额:  
+				<view class="input"> <input @input="changeInput" @blur="changeBlur" v-model="price" type="digit" placeholder="输入0.01~0.99" /></view>   
+				元
+			</view>
+		</view>
+		
+		<view class="big-btn-active" :class="{'hasData': !hasData}" @click="doSubmit">
+			提交认证
 		</view>
 	</view>
 </template>
@@ -21,17 +44,33 @@
 	export default {
 		data() {
 			return {
-				
+				price: '',
+				hasData: false
 			};
 		},
 		onLoad(options) {
 		
 		},
+		onShow() {
+			
+		},
 		methods:{
-			showDetail(){
-				uni.navigateBack({
-					delta:1
-				})
+			doSubmit(){
+				if(this.hasData){
+					
+				}
+			},
+			changeInput(){
+				let reg = /^0\.(?!00)\d{1,2}$/;
+				this.hasData = reg.test(this.price) && this.price!='0.0'
+				
+			},
+			changeBlur(){
+				let reg = /^0\.(?!00)\d{1,2}$/;
+				if(!reg.test(this.price) || this.price == '0.0'){
+					this.price = ''
+					T.tips('请输入0.01~0.99之间的金额')
+				}
 			}
 		}
 	}
@@ -41,6 +80,23 @@
 	.add{
 		background: #fff;
 		min-height: 100vh;
+		.hasData{
+			background: #D9D9D9;
+		}
+		.items{
+			padding: 0 100upx;
+			margin-bottom: 100upx;
+			.item{
+				line-height: 60upx;
+				.input{
+					display: inline-block;
+					position: relative;
+					top: 10upx;
+					padding-left: 20upx;
+					border-bottom: 1upx solid #f5f5f5;
+				}
+			}
+		}
 		.img{
 			width: 120upx;
 			height: 120upx;
@@ -52,14 +108,16 @@
 			padding-top: 100upx;
 		}
 		.title{
-			margin-top: 60upx;
+			margin: 60upx 0 30upx 0;
 		}
 		.title,.tip{
-			text-align: center;
-			line-height: 60upx;
+			text-align: left;
+			line-height: 40upx;
+			padding: 0 100upx;
 		}
 		.tip{
 			margin-bottom: 100upx;
+			
 		}
 	}
 </style>

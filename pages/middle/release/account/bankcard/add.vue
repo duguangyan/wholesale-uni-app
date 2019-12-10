@@ -128,17 +128,17 @@
 							realName:this.realName,
 							bankName:this.bankName
 						}
-						if(this.btnText == '提交认证'){
+						if(this.btnText == '提交认证'){ // 企业
 							enterpriseUpdate(data).then(res=>{
 								if(res.code == '1000'){
 									uni.redirectTo({
-										url:'/pages/middle/release/account/bankcard/compSendSuccess'
+										url:'/pages/middle/release/account/bankcard/paid'
 									})
 								}else{
 									T.tips(res.message || '银行卡新增失败')
 								}
 							})
-						}else{
+						}else{ // 个人
 							enterpriseInsert(data).then(res=>{
 								if(res.code == '1000'){
 									uni.redirectTo({
