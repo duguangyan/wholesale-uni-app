@@ -136,7 +136,7 @@ const postPayApply = data => {
 	})
 }
 
-
+// 发送验证码
 const postAccountSubSendSms = data => {
 	return request({
 		method: 'post',
@@ -145,7 +145,31 @@ const postAccountSubSendSms = data => {
 		type: 'form',
 	})
 }
+
+// 企业银行卡新增数据
+const enterpriseInsert = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/bank/enterpriseInsert',
+		data,
+		type: 'form',
+	})
+}
+
+// 企业银行卡更新
+const enterpriseUpdate = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/bank/enterpriseUpdate',
+		data,
+		type: 'form',
+	})
+}
+
+
 export {
+	enterpriseUpdate,
+	enterpriseInsert,
 	postAccountSubSendSms,
 	bankCardCertification,
 	postPayApply,

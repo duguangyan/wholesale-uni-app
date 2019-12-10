@@ -316,7 +316,7 @@ const getOrderStat = data => {
 // 主页订单交易统计
 const statOrderInfo = data => {
 	return request({
-		url: '/api/order/orderStat/statOrderInfo',
+		url: '/api/order/orderStat/statByUserId',
 		data,
 		type: 'form',
 	})

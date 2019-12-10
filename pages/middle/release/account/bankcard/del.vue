@@ -1,10 +1,10 @@
 <template>
 	<view class="bankcard">
 		<view class="items">
-			<view class="item cf" :style="{color:item.sizColor,background:item.bgcolor}" v-for="(item,index) in records" :key="index" @click="goDel(item)">
+			<view class="item cf" :style="{color:item.sizColor,background:item.bgcolor}">
 				<view class="left fll">
 					<view class="image">
-						<image :src="item.bankLogo || '/static/imgs/bank-icon.png'" mode="left"></image>
+						<image :src="item.bankLogo || '/static/imgs/bank-icon.png'" mode=""></image>
 					</view>
 				</view>
 				<view class="right fll">
@@ -40,7 +40,6 @@
 		components:{ Dialog },
 		onLoad(options) {
 			let item = JSON.parse(options.item)
-			
 			// 1-借记卡 2-贷记合一 3-贷记卡
 			if(item.cardType == 1){
 				item.cardName = '借记卡'

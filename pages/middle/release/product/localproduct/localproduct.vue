@@ -29,12 +29,12 @@
 		
 		<view class="nodata" v-if="records.length<=0">
 			<view class="image">
-				<image src="../../../../../static/imgs/localproduct.png" mode=""></image>
+				<image src="/static/imgs/localproduct.png" mode=""></image>
 			</view>
 			<view class="fs24 text-999">还没有货品</view>
 		</view>
-		<view class="bar" @click="goRelease" v-if="roleId == '20001' && userApply.status == 1">
-			<image src="../../../../../static/imgs/icon-1009.png" mode=""></image>
+		<view class="bar" @click="goRelease" v-if="(roleId == '20001' || roleId == '20004') && userApply.status == 1">
+			<image src="/static/imgs/icon-1009.png" mode=""></image>
 		</view>
 		
 		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>

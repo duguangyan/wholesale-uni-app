@@ -257,6 +257,12 @@
 			}
 		}
 		,{
+		    "path" : "pages/middle/release/account/bankcard/compSendSuccess",
+		    "style" : {
+				"navigationBarTitleText": "提交成功" 
+			}
+		}
+		,{
 		    "path" : "pages/middle/release/account/bankcard/del",
 		    "style" : {
 				"navigationBarTitleText": "解绑银行卡" 

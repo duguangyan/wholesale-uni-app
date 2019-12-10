@@ -71,7 +71,7 @@
 			</view>
 		</view>
 
-		<view class="bar" @click="goRelease" v-if="roleId == '20001' && userApply.status == 1">
+		<view class="bar" @click="goRelease" v-if="(roleId == '20001' || roleId == '20004') && userApply.status == 1">
 			<image src="../../static/imgs/icon-1009.png" mode=""></image>
 		</view>
 	</view>
@@ -116,6 +116,10 @@
 			spOrders:{
 				type: Array,
 				default: null
+			},
+			spGoodsByAgency:{
+				type: Array,
+				default: null
 			}
 		},
 		data() {
@@ -125,25 +129,17 @@
 				// yearAndMonth:'',
 				shippers: ['我是代办', '我要卖货'],
 				spListValue: '158.55',
-				spGoodsByAgency: [{
-						img: '../../static/imgs/icon-1003.png',
-						text: '我的货品'
-					},
-					{
-						img: '../../static/imgs/icon-1002.png',
-						text: '本地代办'
-					}
-				],
+				
 				spGoodsByShipper: [{
-						img: '../../static/imgs/icon-1031.png',
+						img: '/static/imgs/icon-1031.png',
 						text: '新发布'
 					},
 					{
-						img: '../../static/imgs/icon-1032.png',
+						img: '/static/imgs/icon-1032.png',
 						text: '全部产品'
 					},
 					{
-						img: '../../static/imgs/icon-1033.png',
+						img: '/static/imgs/icon-1033.png',
 						text: '货主'
 					}
 				]
@@ -313,7 +309,7 @@
 				}
 				let index = i
 				// 2001 货主  2002代办
-				if(this.roleId == 20001){
+				if(this.roleId == 20001 || this.roleId == 20004){
 					if(index === 0){
 						uni.navigateTo({
 							url:'/pages/middle/release/product/localproduct/localproduct'

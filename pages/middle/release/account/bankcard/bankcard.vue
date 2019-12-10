@@ -1,6 +1,7 @@
 <template>
 	<view class="bankcard">
-		<view class="tip" @click="toDetail" v-if="item.accountType == 2 && item.status != 1">您的账户认证失败， <text class="text-theme">查看进度</text></view>
+		<!-- v-if="item.accountType == 2 && item.status != 1" -->
+		<view class="tips" @click="toDetail" v-if="roleId == '20004'">您的账户认证失败， <text class="text-theme">查看进度</text></view>
 		<view class="items">
 			<view class="item cf" :style="{color:item.sizColor,background:item.bgcolor}" v-for="(item,index) in records" :key="index" @click="goDel(item)">
 				<view class="left fll">
@@ -22,7 +23,7 @@
 			</view>
 		</view>
 		<view class="footer">
-			<view class="big-btn-active" @click="addBankcard" v-if="item.accountType == 1">+添加银行卡</view>
+			<view class="big-btn-active" @click="addBankcard">+添加银行卡</view>
 		</view>
 		
 	</view>
@@ -30,20 +31,30 @@
 
 <script>
 	import { getBankList } from '@/api/payApi.js'
+	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
 				pageIndex:1,
-				records:[]
+				records:[],
+				roleId:''
 			};
 		},
 		onShow() {
+			// 用户类型
+			this.roleId = uni.getStorageSync('roleId')
 			// 获取银行卡信息
 			this.records = []
 			this.pageIndex = 1
 			this.getBankList()
 		},
 		methods:{
+			// 查看进度
+			toDetail(){
+				uni.navigateTo({
+					url:'/pages/middle/release/account/bankcard/add?from=toDetail'
+				})
+			},
 			//删除银行卡
 			goDel(item){
 				uni.navigateTo({
@@ -52,9 +63,14 @@
 			},
 			// 添加银行卡
 			addBankcard(){
-				uni.navigateTo({
-					url:'/pages/middle/release/account/payps/resPassword?from=addBank'
-				})
+				if(this.roleId == '20004' && this.records.length > 0){
+					T.tips('你已绑定银行卡，如有更换请先解绑')
+				}else{
+					uni.navigateTo({
+						url:'/pages/middle/release/account/payps/resPassword?from=addBank'
+					})
+				}
+				
 			},
 			// 获取银行卡信息
 			getBankList(){
@@ -189,6 +205,12 @@
 
 <style lang="scss" scoped>
 	.bankcard{
+		.tips{
+			height: 60upx;
+			line-height: 60upx;
+			padding: 0 40upx;
+			background: #fff;
+		}
 		.footer{
 			position: fixed;
 			bottom: 30upx;

@@ -6,7 +6,7 @@
 		</view> -->
 		<!-- 货主 -->
 		<view v-if="userApply!='' && (roleId=='20001' || roleId=='20002' || roleId=='20004')">
-			<agency :roleId='roleId' :userApply='userApply' :yearAndMonth='yearAndMonth' :totalPrice="totalPrice" :orderInfos='orderInfos' :spOrders="spOrders"></agency>
+			<agency :spGoodsByAgency='spGoodsByAgency' :roleId='roleId' :userApply='userApply' :yearAndMonth='yearAndMonth' :totalPrice="totalPrice" :orderInfos='orderInfos' :spOrders="spOrders"></agency>
 		</view>
 		<!-- 买家 -->
 		<!-- <view v-if="roleId==20003">
@@ -73,6 +73,15 @@
 					{
 						text:'我是种植户',
 						imgUrl:'/static/imgs/icon-2.png'
+					}
+				],
+				spGoodsByAgency: [{
+						img: '/static/imgs/icon-1003.png',
+						text: '我的货品'
+					},
+					{
+						img: '/static/imgs/icon-1002.png',
+						text: '本地代办'
 					}
 				]
 			};
@@ -171,7 +180,27 @@
 						url: '/pages/middle/identity/identity'
 					})
 				}
-				
+				let userApply = ''
+				if(uni.getStorageSync('userApply') && this.roleId == '20004'){
+					userApply = JSON.parse(uni.getStorageSync('userApply'))
+					if(userApply.isAgentcy == '0'){
+						this.spGoodsByAgency = [{
+								img: '/static/imgs/icon-1003.png',
+								text: '我的货品'
+							}
+						]
+					}
+				}else{
+					this.spGoodsByAgency =[{
+							img: '/static/imgs/icon-1003.png',
+							text: '我的货品'
+						},
+						{
+							img: '/static/imgs/icon-1002.png',
+							text: '本地代办'
+						}
+					]
+				}
 				this.spOrders = [{
 					img: '/static/imgs/icon-1004.png',
 					text: '待确认',
@@ -211,9 +240,20 @@
 			},
 			// 主页订单交易统计
 			getStatOrderInfo(){
-				statOrderInfo().then(res=>{
+				let roleId = uni.getStorageSync('roleId')
+				let data   = ''
+				if(roleId == '20002'){
+					data = {
+						businessType: 2   // 1货主 2代办
+					}
+				}else{
+					data = {
+						businessType: 1   // 1货主 2代办
+					}
+				}
+				statOrderInfo(data).then(res=>{
 					if(res.code == '1000'){
-						this.orderInfos = res.data.orderStatVO
+						this.orderInfos = res.data
 					}
 				})
 			},
