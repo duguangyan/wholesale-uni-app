@@ -53,9 +53,6 @@
 					<div class="sub tick cf" v-if="status == 1">
 						<span class="fll fs24">请联系代办尽快安排装车发货</span>
 					</div>
-					
-					
-					
 					<div class="title" v-if="order.shopOrder && (status == 6 || status == 3)">
 						确认倒计时: 
 						<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
@@ -126,6 +123,17 @@
 					</view>
 				</view>
 			</view>
+			
+			<view class="logistics bb1" v-if="order.shopOrder.enterpriseStatus == 1 && order.orderShipping">
+				<view class="cf title">
+					<view class="fll ellipsis">收货人: {{order.orderShipping.receiver || ''}}</view>
+					<view class="flr">{{order.orderShipping.phone || ''}}</view>
+				</view>
+				<view class="address ellipsis">
+					收货地址: {{order.orderShipping.province + order.orderShipping.city + order.orderShipping.region + order.orderShipping.address}}
+				</view>
+			</view>
+			
 			<div class="list" v-if="order.shopOrder">
 				<div class="title">
 					<!-- <div class='icon-30' :class="{'Android': platform == 1}">
@@ -185,7 +193,7 @@
 			<div class="btn-black btn" v-if="status == 0" @click="postOrderCancel">取消订单</div>
 			<div class="btn-red btn" v-if="status == 0 && businessType == 2" @click="showPay">去付款</div>
 			<div class="btn-red btn" v-if="status == 3" @click="postOrderConfirm">确认收货</div>
-			<view class="btn-red btn" v-if="status == 2 && roleId == '20002'" @click="deliverGoods()">发货</view>
+			<view class="btn-red btn" v-if="status == 2 && roleId == '20002'" @click="deliverGoods">发货</view>
 			
 			<view class="btn-red btn" v-if="status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerCancel()">取消订单</view>
 			<view class="btn-red btn" v-if="status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerConfirm()">确认订单</view>
@@ -577,6 +585,23 @@
 </script>
 
 <style lang="scss" scoped>
+	.logistics{
+		height: 200upx;
+		padding: 0 30upx;
+		background: #fff;
+		color: #333;
+		.title{
+			height: 60upx;
+			line-height: 60upx;
+			.fll{
+				width: 500upx;
+			}
+		}
+		.address{
+			height: 60upx;
+			line-height: 60upx;
+		}
+	}
 	.luPopupWrapper-content{
 		padding: 0 30upx;
 		width: 100%;
