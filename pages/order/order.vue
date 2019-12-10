@@ -45,7 +45,7 @@
                 </span>
               </p>
               <p class="text-333 fs28 lh1">代办费&nbsp;￥{{it.agencyFee}}元{{it.unitName?`/${it.unitName}`:''}}</p>
-							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁")-->
+							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁)-->
 							<p v-if="it.status !== 4" class=" fs-14 p2 text-red" @click="goDetail(item.shopId, it.goodsId)">价格: <span class="fs-18">￥{{it.price}}元</span>{{it.unitName?`/${it.unitName}`:''}}</p>
 							<!-- <p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p> -->
 							<!-- <p class="p4 text-666 fs20 ellipsis ellipsis-line3" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p> -->
@@ -224,7 +224,7 @@
 					// userId,
 					cartIdList
 				}
-				getOrderCart(data).then(res => {debugger
+				getOrderCart(data).then(res => {
 					if (res.code === '1000') {
 						this.clock = true
 						uni.navigateTo({
