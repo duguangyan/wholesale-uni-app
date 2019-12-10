@@ -124,7 +124,7 @@
 			
 		</view>
 		
-		<view class="user">
+		<view class="user" v-if="isSetBack">
 			
 			<view class="item-1" v-if="!disabled && userRealInfo ==''">
 				<view class="fll">邀请码</view>
@@ -160,6 +160,7 @@
 		name: 'agency',
 		data() {
 			return {
+				isSetBack: true,
 				hasArea:false,
 				categoryId:'',
 				code :'',        // 邀请码
@@ -219,7 +220,9 @@
 				// this.disabled = true
 			}
 			// 审核失败页面返回
-			if(options.from == 'auditFail') this.from = 'auditFail'
+			if(options.from == 'auditFail') {
+				this.from = 'auditFail'
+			}
 			
 			
 		},
@@ -286,6 +289,7 @@
 						this.userApply   = userApply
 						uni.setStorageSync('userApply',userApply)
 						this.disabled    = false
+						this.isSetBack   = false
 					}
 				})
 			},
@@ -313,12 +317,22 @@
 					this.addressObj.regionId   = this.userApply.regionId
 					
 					// 企业
+					let userRealInfo    = JSON.parse(uni.getStorageSync('userRealInfo')) 
 					this.enterpriseName = this.userApply.enterpriseName
-					this.licenseNo      = this.userApply.licenseNo
+					this.licenseNo      = userRealInfo.licenseNo
 					this.licenseImage   = this.userApply.licenseImage
 					this.address        = this.userApply.address
 					this.productTypeId  = this.userApply.categoryId
 					this.areas          = JSON.parse(this.userApply.areas)
+					// 撤回
+					if(this.userApply.status == 3) this.isSetBack = false
+					// 审核失败
+					if(this.from = 'auditFail'){
+						this.disabled = false
+						this.isSetBack = false
+					} 
+					
+					
 				}
 			},
 			chooseTypeComplete(e){

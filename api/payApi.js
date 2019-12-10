@@ -166,8 +166,18 @@ const enterpriseUpdate = data => {
 	})
 }
 
+// 用户认证企业公账银行卡
+const enterpriseAuditCheckUp = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/bank/enterpriseAuditCheckUp',
+		data,
+		type: 'form',
+	})
+}
 
 export {
+	enterpriseAuditCheckUp,
 	enterpriseUpdate,
 	enterpriseInsert,
 	postAccountSubSendSms,

@@ -1,7 +1,9 @@
 <template>
 	<view class="bankcard">
 		<!-- v-if="item.accountType == 2 && item.status != 1" -->
-		<view class="tips" @click="toDetail" v-if="roleId == '20004'">您的账户认证失败， <text class="text-theme">查看进度</text></view>
+		<!-- 0 认证中 1认证通过 2不通过 -->
+		<view class="tips" @click="toDetail(records[0])" v-if="roleId == '20004' && records[0].status == 0">您的账户认证中， <text class="text-theme">查看进度</text></view>
+		<view class="tips" @click="toDetail(records[0])" v-if="roleId == '20004' && records[0].status == 2">您的账户认证失败， <text class="text-theme">查看进度</text></view>
 		<view class="items">
 			<view class="item cf" :style="{color:item.sizColor,background:item.bgcolor}" v-for="(item,index) in records" :key="index" @click="goDel(item)">
 				<view class="left fll">
@@ -46,13 +48,13 @@
 			// 获取银行卡信息
 			this.records = []
 			this.pageIndex = 1
-			this.getBankList()
+			this.getBankLists()
 		},
 		methods:{
 			// 查看进度
-			toDetail(){
+			toDetail(item){
 				uni.navigateTo({
-					url:'/pages/middle/release/account/bankcard/add?from=toDetail'
+					url:'/pages/middle/release/account/bankcard/add?from=toDetail&item='+ JSON.stringify(item)
 				})
 			},
 			//删除银行卡
@@ -73,12 +75,13 @@
 				
 			},
 			// 获取银行卡信息
-			getBankList(){
+			getBankLists(){
 				let data = {
 					pageIndex:this.pageIndex
 				}
 				getBankList(data).then(res=>{
 					if(res.code == '1000'){
+						// 0 认证中 1认证通过 2不通过 
 						let list = res.data
 						list.forEach(item=>{
 							// 1-借记卡 2-贷记合一 3-贷记卡

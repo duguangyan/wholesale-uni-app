@@ -21,9 +21,10 @@
 				</view>
 			</view>
 		</view>
-		<view class="tip" v-if="roleId == '20004'">
+		<view class="tip" v-if="roleId == '20004' && item == ''">
 			为了能尽快审核通过，请仔细核对银行信息
 		</view>
+		<view class="tip" v-if="roleId == '20004' && item.status == 2">失败原因：{{item.remark}}</view>
 		<view class="big-btn-active" :class="{nodata: hasData}" @click="addInfo">
 			{{btnText}}
 		</view>
@@ -43,34 +44,44 @@
 				hasData: true,
 				roleId: '',
 				disabled: false,
-				from:''
+				from:'',
+				item:''
 			};
 		},
 		onLoad(options) {
 			if(options.from) {
 				this.hasData = false
 				this.from = options.from
-				this.btnText = '修改资料'
-			}else{
-				this.btnText = '提交'
-			} 
+				if(this.from == 'toDetail'){
+					this.item = JSON.parse(options.item) 
+				}
+			}
 		},
 		onShow() {
 			// 用户类型
 			this.roleId = uni.getStorageSync('roleId')
 			
 			if(this.roleId == '20004'){
-				if(uni.getStorageSync('userApply')){
-					this.realName = JSON.parse(uni.getStorageSync('userApply')).enterpriseName
-					this.cardNo = JSON.parse(uni.getStorageSync('userApply')).cardNo
-					this.bankName = JSON.parse(uni.getStorageSync('userApply')).bankName
+				if(this.item != ''){
+					this.realName = this.item.realName
+					this.cardNo = this.item.cardNo
+					this.bankName = this.item.bankName
 					this.disabled = true
-					uni.setNavigationBarTitle({
-						title: '认证中'
-					});
+					if(this.item.status == 0){
+						uni.setNavigationBarTitle({
+							title: '认证中'
+						});
+					}else{
+						uni.setNavigationBarTitle({
+							title: '认证失败'
+						});
+					}
+					
+					this.btnText = '修改资料'
 				}
 			}else{
 				this.disabled = false
+				this.btnText = '提交'
 				uni.setNavigationBarTitle({
 					title: '添加银行卡'
 				});
@@ -83,7 +94,6 @@
 				}else{
 					this.hasData = this.cardNo == '' || this.realName == ''
 				}
-				
 			},
 			addInfo(){
 				let _this = this
@@ -105,7 +115,10 @@
 					    }
 					});
 				}else{  // 新增
-				
+					if(this.cardNo.indexOf('****') > -1 ){
+						T.tips('请输入正确的银行卡卡号')
+						return false
+					}
 					if(this.hasData) {
 						return false
 					}
@@ -118,7 +131,7 @@
 						return false
 					}
 					let data = ''
-					if(this.roleId == '20004'){
+					if(this.roleId == '20004'){ // 企业 
 						if(this.bankName == ''){
 							T.tips('开户行名称不能为空')
 							return false
@@ -128,17 +141,17 @@
 							realName:this.realName,
 							bankName:this.bankName
 						}
-						if(this.btnText == '提交认证'){ // 企业
+						if(this.btnText == '提交认证'){ // 更新
 							enterpriseUpdate(data).then(res=>{
 								if(res.code == '1000'){
 									uni.redirectTo({
-										url:'/pages/middle/release/account/bankcard/paid'
+										url:'/pages/middle/release/account/bankcard/compSendSuccess'
 									})
 								}else{
 									T.tips(res.message || '银行卡新增失败')
 								}
 							})
-						}else{ // 个人
+						}else{  // 提交
 							enterpriseInsert(data).then(res=>{
 								if(res.code == '1000'){
 									uni.redirectTo({
@@ -151,7 +164,7 @@
 						}
 						
 						
-					}else{
+					}else{// 个人
 						data = {
 							acctPan:this.cardNo,
 							acctName:this.realName

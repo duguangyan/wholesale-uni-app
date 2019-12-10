@@ -4,7 +4,7 @@
 			<image src="/static/imgs/icon-1019.png" mode=""></image>
 		</view>
 		<view class="title fs28 text-333">
-			沁绿农业已于2019年12月3号向河南沁绿农业科技有限公司（8111 1111 1111 1111 111）提交一笔1元以下的打款申请，请于到账后7日内在此确认打款金额
+			沁绿农业已于2019年12月3号向{{item.realName}}（{{item.cardNo}}）提交一笔1元以下的打款申请，请于到账后 <text class="text-theme">7日内</text>在此确认打款金额
 		</view>
 		<view class="tip fs24 text-999">
 			<view>
@@ -17,13 +17,13 @@
 		
 		<view class="items">
 			<view class="item">
-				开户银行：中信银行郑州航海路支行
+				开户银行：{{item.bankName}}
 			</view>
 			<view class="item">
-				银行卡号：8111 1111 1111 1111 111
+				银行卡号：{{item.cardNo}}
 			</view>
 			<view class="item">
-				开户名称：河南沁绿农业科技有限公司
+				开户名称：{{item.realName}}
 			</view>
 			<view class="item">
 				打款金额:  
@@ -39,17 +39,18 @@
 </template>
 
 <script>
-	import { getBankInsert } from '@/api/payApi.js'
+	import { getBankInsert, enterpriseAuditCheckUp } from '@/api/payApi.js'
 	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
 				price: '',
-				hasData: false
+				hasData: false,
+				item:''
 			};
 		},
 		onLoad(options) {
-		
+			this.item = JSON.parse(options.item)
 		},
 		onShow() {
 			
@@ -57,7 +58,26 @@
 		methods:{
 			doSubmit(){
 				if(this.hasData){
-					
+					let data = {
+						id: this.item.id,
+						transferAmount: this.price
+					}
+					enterpriseAuditCheckUp(data).then(res=>{
+						if(res.code == '1000'){
+							uni.redirectTo({
+								url: '/pages/middle/release/account/bankcard/bankcard'
+							});
+						}else{
+							if(res.code== 'pay-1009'){
+								uni.navigateTo({
+									url:'/pages/middle/release/account/bankcard/add?from=toDetail&item='+ JSON.stringify(this.item)
+								})
+							}else{
+								T.tips(res.message || '提交失败')
+							}
+							
+						}
+					})
 				}
 			},
 			changeInput(){

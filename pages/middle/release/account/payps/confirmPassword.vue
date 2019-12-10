@@ -301,6 +301,7 @@
 			.pan_num_key {
 				width: 30%;
 				height: 80upx;
+				line-height: 80upx;
 				float: Left;
 				margin-left: 2.1%;
 				margin-top: 2.1%;

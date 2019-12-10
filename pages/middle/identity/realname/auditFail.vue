@@ -21,7 +21,8 @@
 		name: 'auditFail',
 		data() {
 			return {
-				auditOpinion:''
+				auditOpinion:'',
+				roleId:''
 			};
 		},
 		components: {
@@ -32,14 +33,21 @@
 			
 		},
 		onShow() {
-			
+			this.roleId = uni.getStorageSync('roleId')
 		},
 		
 		methods: {
 			goRealname(){
-				uni.redirectTo({
-					url:'/pages/middle/identity/realname/agency?from=auditFail'
-				})
+				if(this.roleId == '20004'){
+					uni.redirectTo({
+						url:'/pages/middle/identity/realname/company?from=auditFail'
+					})
+				}else{
+					uni.redirectTo({
+						url:'/pages/middle/identity/realname/agency?from=auditFail'
+					})
+				}
+				
 			}
 		}	
 	}

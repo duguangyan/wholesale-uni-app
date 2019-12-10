@@ -20,12 +20,13 @@
 	import uniList from "@/components/uni-list/uni-list.vue"
 	import uniListItem from "@/components/uni-list-item/uni-list-item.vue"
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
-	import { accountSub } from '@/api/payApi.js' 
+	import { accountSub, getBankList } from '@/api/payApi.js' 
 	import Dialog from '@/components/common/Dialog.vue'
 	import T from '@/utils/tips.js'
 	export default {
 		data() {
 			return {
+				roleId:'',
 				accountSubDates:'',
 				availableBalance:'',
 				freezeBalance:'',
@@ -67,6 +68,7 @@
 		onShow() {
 			// 获取资金账户
 			this.getAccountSub()
+			this.roleId = uni.getStorageSync('roleId')
 		},
 		methods:{
 			// 获取资金账户
@@ -113,9 +115,32 @@
 						url:'/pages/middle/release/account/payps/verifiyPhone'
 					})
 				}else{
-					uni.navigateTo({
-						url:'/pages/middle/release/account/bankcard/bankcard'
-					})
+					if(this.roleId == '20004'){ // 企业
+						let data = {
+							pageIndex:1
+						}
+						getBankList(data).then(res=>{
+							if(res.code == '1000'){
+								if(res.data[0].status == 3){ // 打款完成
+									uni.navigateTo({
+										url:'/pages/middle/release/account/bankcard/paid?item='+ JSON.stringify(res.data[0])
+									})
+								}else{ // 审核 1完成 2失败  0中
+									uni.navigateTo({
+										url:'/pages/middle/release/account/bankcard/bankcard'
+									})
+								}
+							}
+						})
+					}else{ // 个人
+						uni.navigateTo({
+							url:'/pages/middle/release/account/bankcard/bankcard'
+						})
+					}
+					
+					
+					
+					
 				}
 				
 			},
@@ -148,6 +173,10 @@
 			},
 			// 提现
 			goCash(){
+				if(this.totalPrice <= 0){
+					T.tips('我的金额（可提现金额）必须大于零')
+					return false
+				}
 				if(this.setPayPwd && this.bankCardNum>0){
 					uni.navigateTo({
 						url:'/pages/middle/release/account/cash/cash?accountSubDates=' + JSON.stringify(this.accountSubDates)

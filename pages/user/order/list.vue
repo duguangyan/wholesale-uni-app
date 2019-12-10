@@ -23,7 +23,7 @@
 						<text class="fll fs-w">货主:</text>
 						<text class="fll fs-w">{{item.sellName}} </text>
 						<view class="image fll">
-							<image src="../../../static/imgs/right.png" mode=""></image>
+							<image src="/static/imgs/right.png" mode=""></image>
 						</view>
 						<text class="status flr text-theme">
 							<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
@@ -47,7 +47,7 @@
 						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 						<!-- <view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view> -->
 						<view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view>
-						<view class="receive" v-if="item.status == 3" @click="postOrderConfirm(index)">确认收货</view>
+						<view class="receive" v-if="item.status == 3 && businessType == 2" @click="postOrderConfirm(index)">确认收货</view>
 						<view class="receive" v-if="item.status == 0 && businessType == 2" @click="showPay(index)">去支付</view>
 						<view class="receive" v-if="item.status == 2 && roleId == '20002'" @click="deliverGoods(index)">发货</view>
 						
