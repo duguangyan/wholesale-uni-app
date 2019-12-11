@@ -49,7 +49,7 @@
 						<view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view>
 						<view class="receive" v-if="item.status == 3 && businessType == 2" @click="postOrderConfirm(index)">确认收货</view>
 						<view class="receive" v-if="item.status == 0 && businessType == 2" @click="showPay(index)">去支付</view>
-						<view class="receive" v-if="item.status == 2 && roleId == '20002'" @click="deliverGoods(index)">发货</view>
+						<view class="receive" v-if="item.status == 2 && roleId == '20002' && businessType == 1" @click="deliverGoods(index)">发货</view>
 						
 						
 						<view class="receive" v-if="item.status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerCancel(index)">取消订单</view>

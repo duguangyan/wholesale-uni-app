@@ -20,16 +20,23 @@
 				  <view v-if="roleId == 20004">
 					  <view class="cf li">
 					    <view class="fll fs28">企业名称</view>
-					  	<view class="flr fs30 text-999 value">{{nickName||'正鼎农品'}}</view>
+					  	<view class="flr fs30 text-999 value">{{userApply.enterpriseName||''}}</view>
 					  </view>
 					  <view class="cf li">
 					    <view class="fll fs28">营业执照号</view>
-					  	<view class="flr fs30 text-999 value">{{nickName||'正鼎农品'}}</view>
+					  	<view class="flr fs30 text-999 value">{{userApply.licenseNo||''}}</view>
 					  </view>
 					  <view class="cf li">
 					    <view class="fll fs28">法人</view>
-					  	<view class="flr fs30 text-999 value">{{nickName||'正鼎农品'}}</view>
+					  	<view class="flr fs30 text-999 value">{{userApply.realName||''}}</view>
 					  </view>
+					  
+				  </view>
+				  <view class="cf li" v-if="roleId == 20004" @click="goAddress">
+				    <view class="fll fs28">收货地址</view>
+				    <view class="icon flr">
+				      <image src="/static/img/tag-go.png" />
+				    </view>
 				  </view>
 				  <view class="cf li">
 				    <view class="fll fs28">手机号</view>
@@ -101,7 +108,8 @@
 				city:'',
 				region:'',
 				version: '',
-				nickName:''
+				nickName:'',
+				userApply:''
 			};
 		},
 		onShow() {
@@ -116,14 +124,20 @@
 				this.headImgUrl = uni.getStorageSync('headImgUrl')
 			}
 			if(uni.getStorageSync('userApply')){
-				let userApply     = JSON.parse(uni.getStorageSync('userApply'))
-				this.categoryName = userApply.categoryName || ''
-				this.province     = userApply.province || ''
-				this.city         = userApply.city || ''
-				this.region       = userApply.region || ''
+				this.userApply     = JSON.parse(uni.getStorageSync('userApply'))
+				this.categoryName  = this.userApply.categoryName || ''
+				this.province      = this.userApply.province || ''
+				this.city          = this.userApply.city || ''
+				this.region        = this.userApply.region || ''
 			}
 		},
 		methods:{
+			// 去收货地址
+			goAddress(){
+				uni.navigateTo({
+					url:'/pages/user/addlist/addlist'
+				})
+			},
 			showDialog() {
 			  let _this = this
 			  uni.showModal({

@@ -283,7 +283,7 @@
 							    fail: function (err) {
 									_this.clock = true
 							        console.log('fail:' + JSON.stringify(err));
-									T.tips('支付失败')
+									// T.tips('支付失败')
 									uni.redirectTo({
 									    url: '/pages/user/order/detail?orderId='+_this.orderId +'&shopId='+ _this.shopId
 									});

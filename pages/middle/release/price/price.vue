@@ -23,10 +23,10 @@
 		<view class="ul fs24">
 			<view class="li cf"  v-for="(item,index) in priceExpList" :key="index">
 				<view class="fll">起批量</view>
-				<view class="fll"><input type="number" maxlength="10" @input="checkName" v-model="item.startQuantity" /></view>
+				<view class="fll"><input type="number" @blur="blurStartQuantity(index)" maxlength="10" @input="checkName" v-model="item.startQuantity" /></view>
 				<view class="fll">价格(元)</view>
 				<view class="fll"><input type="digit" maxlength="10" @input="checkValue()" @blur='blurValue(index)' v-model="item.price" /></view>
-				<view class="fll add" v-if='index == 0' @click="add">新增</view>
+				<view class="fll add" v-if='index == 0' @click="add(index)">新增</view>
 				<view class="fll del" v-if='index != 0' @click="del(index)">删除</view>
 			</view>
 		</view>
@@ -38,6 +38,7 @@
 <script>
 	import { getCategoryUnitList } from '@/api/goodsApi.js'
 	import T from '@/utils/tips.js'
+	import util from '@/utils/util.js'
 	export default {
 		data() {
 			return {
@@ -50,8 +51,8 @@
 				unitLists:[],
 				priceExpList:[
 					{
-						startQuantity: '1',
-						price:'0.01'
+						startQuantity: '',
+						price:''
 					}
 				]
 			};
@@ -76,8 +77,18 @@
 			checkName(){
 				this.assessHasData()
 			},
+			blurStartQuantity(index){
+				if(index > 0){
+					let n = this.priceExpList[index].startQuantity
+					let m = this.priceExpList[index - 1].startQuantity
+					if(parseInt(n) <= parseInt(m)){
+						T.tips('第'+ (index+1) + '阶梯起批量必须大于第' + index + '阶梯起批量')
+						// this.priceExpList[index].startQuantity = n < m ? (parseInt(m)  + 1) : n
+						this.hasData = true
+					}
+				}
+			},
 			blurValue(index){
-				
 				let price = this.priceExpList[index].price + ''
 				if(price.indexOf('.') != -1){
 					let arr = price.split('.')
@@ -93,6 +104,21 @@
 				}
 				
 				this.priceExpList[index].price = price
+				
+				if(index>0){
+					// this.priceExpList[index].price = this.priceExpList[index].price >= this.priceExpList[index - 1].price ? util.accSub(this.priceExpList[index - 1].price,0.01) : this.priceExpList[index].price
+					if(this.priceExpList[index].price >= this.priceExpList[index - 1].price){
+						T.tips('第'+ (index+1) + '阶梯起批价格必须小于第' + index + '阶梯起批量价格')
+						this.hasData = true
+						if(this.priceExpList[index].price == '0.00'){
+							this.priceExpList[index].price = ''
+							this.hasData = true
+						} 
+					}
+					
+					
+				}
+				
 			},
 			checkValue(index){
 				this.assessHasData()
@@ -104,6 +130,61 @@
 			// 判断数据是否完整
 			assessHasData(){
 				this.hasData =  this.unit == '' || this.stock == '' || this.priceExpList[0].name =='' || this.priceExpList[0].value ==''
+				// 判断价格和起批量
+				this.assessPriceExpList()
+				
+				
+			},
+			// 判断价格和起批量
+			assessPriceExpList(){
+				if(this.priceExpList.length == 2){
+					let s0 = parseInt(this.priceExpList[0].startQuantity)
+					let p0 = this.priceExpList[0].price
+					let s1 = parseInt(this.priceExpList[1].startQuantity)
+					let p1 = this.priceExpList[1].price
+					if(s1 <= s0){
+						T.tips('第2阶梯起批量不能小于第1阶梯起批量')
+						this.hasData = true
+					}
+					if(util.mul(p0,100) <= util.mul(p1,100)){
+						T.tips('第2阶梯起批量价格不能大于第1阶梯起批量价格')
+						this.hasData = true
+					}
+				}
+				if(this.priceExpList.length == 3){
+					let s2 = parseInt(this.priceExpList[1].startQuantity)
+					let p2 = this.priceExpList[1].price
+					let s3 = parseInt(this.priceExpList[2].startQuantity)
+					let p3 = this.priceExpList[2].price
+					if(s3 <= s2){
+						T.tips('第3阶梯起批量不能小于第3阶梯起批量')
+						this.hasData = true
+					}
+					if(util.mul(p2,100) <= util.mul(p3,100)){
+						T.tips('第3阶梯起批量价格不能大于第2阶梯起批量价格')
+						this.hasData = true
+					}
+					
+					let s0 = parseInt(this.priceExpList[0].startQuantity)
+					let p0 = this.priceExpList[0].price
+					let s1 = parseInt(this.priceExpList[1].startQuantity)
+					let p1 = this.priceExpList[1].price
+					if(s1 <= s0){
+						T.tips('第2阶梯起批量不能小于第1阶梯起批量')
+						this.hasData = true
+					}
+					if(util.mul(p0,100) <= util.mul(p1,100)){
+						T.tips('第2阶梯起批量价格不能大于第1阶梯起批量价格')
+						this.hasData = true
+					}
+					
+				}
+				
+				this.priceExpList.forEach(item=>{
+					if(item.startQuantity == '' || item.price == ''){
+						this.hasData = true
+					}
+				})
 				
 			},
 			// 获取分类单位
@@ -140,14 +221,25 @@
 				});
 			},
 			// 新增报价
-			add(){
+			add(index){
+				let le = this.priceExpList.length - 1
+				if(this.priceExpList[le].startQuantity == '' || this.priceExpList[le].price == ''){
+					T.tips('请先填写正确的起批量和价格')
+					return false
+				}
+				
+				if(this.priceExpList[le].price == '0.01'){
+					T.tips('第'+(le+1)+'阶梯价格为0.01，已是最低价格')
+					return false
+				}
+				
 				if(this.priceExpList.length>=3){
 					T.tips('最多新增3条起批量')
 					return false
 				}
 				let obj = {
-					startQuantity: '1',
-					price:'0.01'
+					startQuantity:'',
+					price: ''
 				}
 				this.priceExpList.push(obj);
 			},
@@ -161,6 +253,13 @@
 			},
 			// 保存
 			save(){
+				console.log(this.hasData)
+				// 判断价格和起批量
+				this.assessPriceExpList()
+				
+				if(this.hasData){
+					return false
+				}
 				if(this.unit == '') {
 					T.tips('请选择计量单位')
 					return false

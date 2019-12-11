@@ -3,7 +3,7 @@
 		onLaunch: function() {
 			console.log('App Launch');
 			// 获取 appid
-			uni.setStorageSync('appid', 'wxf89e01a251ab43f7')
+			uni.setStorageSync('appid', 'wxce7493e1240543c2')
 			console.log(uni.getSystemInfoSync())
 			// 判断设备  android:10 , ios:2 , 运行在开发者工具上: 3
 			switch (uni.getSystemInfoSync().platform) {

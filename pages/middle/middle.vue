@@ -333,7 +333,7 @@
 					  iconPath: 'static/img/2.1.png',
 					  selectedIconPath: 'static/img/2.2.png'
 					})
-				}if( this.roleId == '20003'){
+				}else if( this.roleId == '20003'){
 					uni.setTabBarItem({
 					  index: 1,
 					  text: '入驻',

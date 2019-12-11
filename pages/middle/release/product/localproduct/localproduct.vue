@@ -283,8 +283,8 @@
 						if(res.code == '1000') {
 							if(res.data.records.length>0 && res.data){
 								res.data.records.forEach((item,index)=>{
-									if(item.createTime){
-										let pass = (new Date(item.createTime)).getTime()
+									if(item.sellTime){
+										let pass = (new Date(item.sellTime)).getTime()
 										let now  = (new Date(util.getNowFormatDate())).getTime()
 										let time = parseInt(now - pass)
 										time = parseInt(time / (60*60*1000)) 
