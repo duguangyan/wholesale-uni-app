@@ -19,6 +19,16 @@
         </radio-group>
       </div>
 
+      <!-- 地址模块 -->
+      <div v-show="sendType == 1" class="address" @click="navToAd">
+        <div v-if="address == null" class="addAd" to="/adedit">请添加收货地址</div>
+        <template v-else>
+          <div class="ad-title">收货人: {{ address.name }}</div>
+          <div class="ad-det">收货地址:{{ address.province + address.city + address.region + address.address }}</div>
+          <img class="tag-go" src="/static/imgs/tag-go.png" width="10" height="10" alt />
+        </template>
+      </div>
+
       <div class="list" v-if="list.length > 0">
         <div v-for="(item, index) in list" :key="index">
           <div class="gray-line"></div>
@@ -27,7 +37,6 @@
             <!-- <input class="uni-input" placeholder="请选择代办人" readonly="readonly" /> -->
             <div :class="['uni-input', 'fs28', item.curAgent.name ? 'text-333' : 'text-999']" @click="showAgentDialog(item)">{{ item.curAgent.name || '请选择代办人' }}</div>
           </div>
-          
 
           <div class="cf parent-title pdl-30">
             <!-- <div class="fll plat"><img :src="Plat" alt="图标" /></div>
@@ -50,9 +59,7 @@
                   价格￥
                   <span class="fs28">{{ it.price }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</span>
                 </p>
-                <p class="fs28 fixed">
-                  x{{item.totalCount}}
-                </p>
+                <p class="fs28 fixed">x{{ item.totalCount }}</p>
               </div>
             </li>
           </ul>
@@ -89,7 +96,7 @@
       <view v-show="isAgent" class="agent-dialog">
         <view name="mask"><view class="mask" @click="isAgent = false"></view></view>
         <view name="body" class="body">
-          <view class="li" v-for="item in curItem.agentList" :key="item.id" @click="changeAgent(item)">{{item.realName}}</view>
+          <view class="li" v-for="item in curItem.agentList" :key="item.id" @click="changeAgent(item)">{{ item.realName }}</view>
         </view>
         <!-- <view class="xx" @click="isAgent = false">x</view> -->
       </view>
@@ -110,6 +117,7 @@ var vm = {
   data() {
     vm = this;
     return {
+      address: '',
       curItem: {
         agentList: [],
         curAgent: {
@@ -169,7 +177,7 @@ var vm = {
             id: '',
             name: ''
           };
-          item.postscript = ''
+          item.postscript = '';
           return item;
         });
 
@@ -178,13 +186,19 @@ var vm = {
         this.cartIdList = data.data.cartIdList;
         this.totalCount = data.data.totalCount;
 
-        // if (uni.getStorageSync('address')) {
-        //   this.address = JSON.parse(uni.getStorageSync('address'));
-        //   submitData.addressId = JSON.parse(uni.getStorageSync('address')).id;
-        //   setTimeout(() => {
-        //     uni.setStorageSync('address', '');
-        //   }, 300);
-        // }
+        if (uni.getStorageSync('address')) {
+          this.address = JSON.parse(uni.getStorageSync('address'));
+          submitData.addressId = address.id;
+          setTimeout(() => {
+            uni.setStorageSync('address', '');
+          }, 300);
+        }else{
+          getAddressDefAddress().then(res => {
+            if (res.code === "1000") {
+              vm.address = res.data;
+            }
+          });
+        }
       });
     } else {
       if (this.submitData) {
@@ -196,7 +210,7 @@ var vm = {
             id: '',
             name: ''
           };
-          item.postscript = ''
+          item.postscript = '';
           return item;
         });
         this.totalMoney = submitData.totalMoney;
@@ -205,21 +219,30 @@ var vm = {
         this.totalCount = submitData.totalCount;
       }
       // 判断是否有地址
-      // if (uni.getStorageSync('address')) {
-      //   // 获取缓存地址
-      //   this.address = JSON.parse(uni.getStorageSync('address'));
-      //   // 根据地址获取运费
-      //   this.getOrderCartByAddress(this.address.id);
-      //   setTimeout(() => {
-      //     uni.setStorageSync('address', '');
-      //   }, 300);
-      // } else {
-      //   // 获取默认地址
-      //   this.getAddressDefAddress();
-      // }
+      if (uni.getStorageSync('address')) {
+        // 获取缓存地址
+        this.address = JSON.parse(uni.getStorageSync('address'));
+        // 根据地址获取运费
+        // this.getOrderCartByAddress(this.address.id);
+        setTimeout(() => {
+          uni.setStorageSync('address', '');
+        }, 300);
+      } else {
+        // 获取默认地址
+        getAddressDefAddress().then(res => {
+          if (res.code === "1000") {
+            vm.address = res.data;
+          }
+        });
+      }
     }
   },
   methods: {
+    navToAd(){
+       uni.navigateTo({
+         url: '/pages/user/addlist/addlist?from=submit'
+       })
+    },
     changeSendType(e) {
       vm.sendType = e.detail.value;
     },
@@ -227,7 +250,7 @@ var vm = {
       vm.isAgent = false;
       vm.curItem.curAgent.id = data.userId;
       vm.curItem.curAgent.name = data.realName;
-      vm.curItem.curAgent.phone = data.phone
+      vm.curItem.curAgent.phone = data.phone;
     },
     showAgentDialog(item) {
       vm.isAgent = true;
@@ -261,10 +284,11 @@ var vm = {
     },
     // 显示支付
     showPay() {
-      // if (this.address == '') {
-      //   T.tips('请选择收货地址');
-      //   return false;
-      // }
+      if (this.sendType == 1 && this.address == '') {
+        T.tips('请选择收货地址');
+        return false;
+      }
+      
       let resList = [...vm.list];
       let status = true;
       resList.map(item => {
@@ -285,14 +309,18 @@ var vm = {
         cartIdList: vm.cartIdList
       };
       
+      if(this.sendType == 1){
+        list.addressId = this.address.id
+      }
+
       postCreateOrder(list)
         .then(res => {
           if (res.code === '1000') {
             vm.isPay = vm.curItem.curAgent.id !== '';
             vm.order.orderId = res.data[vm.order.shopId].id;
-			uni.redirectTo({
-				url:'/pages/order/orderSuccess/orderSuccess?shopId='+vm.order.shopId + '&orderId=' + vm.order.orderId + '&phone=' + vm.curItem.curAgent.phone
-			})
+            uni.redirectTo({
+              url: '/pages/order/orderSuccess/orderSuccess?shopId=' + vm.order.shopId + '&orderId=' + vm.order.orderId + '&phone=' + vm.curItem.curAgent.phone
+            });
           } else {
             T.tips(res.message || '提交订单失败');
           }
@@ -364,7 +392,55 @@ export default vm;
   }
   .submit {
     min-height: 100vh;
-    .fixed{
+    .address {
+      height: 75px;
+      background-color: #fff;
+      background-image: url(/static/imgs/bg-line.png);
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      background-size: 100% auto;
+      border-top: solid 1px #f0f0f0;
+      padding: 0 15px;
+      position: relative;
+      line-height: 1;
+      .tag-go {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .addAd {
+        margin-left: auto;
+        margin-right: auto;
+        width: 150px;
+        line-height: 32px;
+        text-align: center;
+        border-radius: 16px;
+        box-shadow: 0 0 0 1px #d9d9d9 inset;
+        font-size: 14px;
+        color: #000;
+        transform: translateY(18px);
+      }
+      .ad-title {
+        margin-top: 13px;
+        color: #000;
+        font-size: 15px;
+      }
+      .ad-det {
+        margin-top: 6px;
+        font-size: 12px;
+        color: #666;
+        line-height: 1.5;
+        max-width: 330px;
+        &::after {
+          content: '';
+          display: block;
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+    .fixed {
       position: absolute;
       right: 30upx;
       bottom: 0;

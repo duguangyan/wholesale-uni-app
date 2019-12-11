@@ -46,7 +46,7 @@
 		</view>
 		<!-- nav导航 -->
 		<view class="nav cf">
-			<view class="li fll" v-for="(item,index) in homeList.list[1].list[0].list" :key="index" @click="goSearchPage(item.componentId)">
+			<view class="li fll" v-for="(item,index) in homeList.list[1].list[0].list" :key="index" @click="goSearchPage(item.componentId,item.isAgentcy)">
 				<view class="img">
 					<image :src="item.imgPath"></image>
 				</view>
@@ -423,9 +423,16 @@
 				}
 			},
 			// nav 去搜索页面
-			goSearchPage(name) {
+			goSearchPage(name,isAgentcy) {
+        let path = ''
+        if(isAgentcy.toString()==='0'){
+          path = '/pages/order/company/company?categoryId=' + name
+        }else{
+          path = '/pages/order/goodsList/goodsList?categoryId=' + name
+        }
+        
 				uni.navigateTo({
-					url: '/pages/order/goodsList/goodsList?categoryId=' + name
+					url: path
 				})
 			},
 			// 去搜索页面
