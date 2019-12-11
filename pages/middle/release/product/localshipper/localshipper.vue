@@ -49,7 +49,7 @@
 			assessUserType(){
 				this.roleId = uni.getStorageSync('roleId')
 				this.userApply = JSON.parse(uni.getStorageSync('userApply'))
-				if(this.roleId == '20001'){
+				if(this.roleId == '20001' || this.roleId == '20004'){
 					uni.setNavigationBarTitle({
 					    title: '本地代办'
 					});

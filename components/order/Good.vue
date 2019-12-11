@@ -13,7 +13,7 @@
 					{{item.skuDesc || ''}}
 				</view>
 				<view class="cf" v-if="hasAgencyFee">
-					<view class="fll" v-if="roleId != '20001'">
+					<view class="fll" v-if="roleId == '20002'">
 						代办费:¥{{item.agentcyPrice || '0'}} 元<text v-if="item.goodsUnit">/</text>{{item.goodsUnit || '斤'}}
 					</view>
 					<view class="flr fs24 text-999">

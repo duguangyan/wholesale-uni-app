@@ -12,8 +12,9 @@
 				<view class="img">
 					<image :src="headimageUrl" @click="goInfo"/>
 				</view>
-				<view class="role" v-if="roleId == 20001">货主</view>
-				<view class="role" v-if="roleId == 20002">代办</view>
+				<view class="role" v-if="roleId == '20001'">货主</view>
+				<view class="role" v-if="roleId == '20004'">企业</view>
+				<view class="role" v-if="roleId == '20002'">代办</view>
 			  <view class="content">
 			    <view v-if="isLogin" @click="goInfo">
 			      <view class="uid fs28">{{nickName || '正鼎农品'}}</view>

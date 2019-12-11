@@ -268,7 +268,7 @@
 						let list = res.data
 						list.forEach((item,index)=>{
 							let roleId = uni.getStorageSync('roleId')
-							if(roleId == '20001') {
+							if(roleId == '20001' || roleId == '20004') {
 								if(item.status == 6) this.spOrders[0].tip = item.num	
 							}
 							if(roleId == '20002'){

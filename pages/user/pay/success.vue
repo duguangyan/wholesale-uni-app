@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import StrictlyGoods from '@/components/common/StrictlyGoods'
+  import StrictlyGoods from '@/components/common/StrictlyGoods'       
   import AdvertisingPosition from '@/components/common/AdvertisingPosition'
   import T from '@/utils/tips.js'
   export default {
