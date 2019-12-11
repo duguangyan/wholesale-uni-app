@@ -80,25 +80,26 @@
                 "push" : {},
                 "payment" : {
                     "weixin" : {
-                        "appid" : "wx26baf2267dd24e83",
+                        "appid" : "wxce7493e1240543c2",
                         "UniversalLinks" : "https://wsm.qinlvny.com/static/"
                     },
                     "alipay" : {}
                 },
                 "share" : {
                     "weixin" : {
-                        "appid" : "wx26baf2267dd24e83",
+                        "appid" : "wxce7493e1240543c2",
                         "UniversalLinks" : "https://wsm.qinlvny.com/static/"
                     }
                 },
                 "oauth" : {
                     "weixin" : {
-                        "appid" : "wx26baf2267dd24e83",
-                        "appsecret" : "3acbb7d4ad8582d32e7f8da7a07878fc",
+                        "appid" : "wxce7493e1240543c2",
+                        "appsecret" : "e33bc80f7ee075b64a9636f50abd721d",
                         "UniversalLinks" : "https://wsm.qinlvny.com/static/"
                     }
                 },
-                "speech" : {}
+                "speech" : {},
+                "maps" : {}
             },
             "icons" : {
                 "android" : {

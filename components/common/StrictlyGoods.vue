@@ -15,7 +15,7 @@
 						<div class="content">
 							<div class="name ellipsis-line2">{{item.name}}</div>
 							<div class="cf">
-								<div class="fll text-red fs28"><span>￥</span>{{item.minPrice}}  <span class="fs28">{{'/'+item.unitName}}</span> </div>
+								<div class="fll text-red fs28"><span>￥</span>{{item.minPrice}}  <span class="fs28">{{'元/'+item.unitName}}</span> </div>
 								<div class="flr text-999 fs24">{{item.valueAddr}}</div>
 							</div>
 						</div>

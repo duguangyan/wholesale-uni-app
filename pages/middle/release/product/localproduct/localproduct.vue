@@ -1,6 +1,6 @@
 <template>
 	<view class="localproduct">
-		<view class="top-warp" v-if="roleId == 20001">
+		<view class="top-warp" v-if="roleId == '20001' || roleId == '20004'">
 			<view class="tags-con">
 				<view class="tabs cf">
 					<view class="fll li" v-for="(item,index) in navs" :key="index" @click="checkNav(index)">
@@ -16,7 +16,7 @@
 					<Goodx :item="item" :roleId='roleId'></Goodx>
 				</view>
 				
-				<view class="role cf" v-if="roleId == 20001">
+				<view class="role cf" v-if="roleId == '20001' || roleId == '20004'">
 					<view class="btn flr" v-if="navIndex == 0" @click="clickHandledDialog(1,item)"><view>下架</view></view>
 					<view class="btn flr" v-if="navIndex == 1" @click="clickHandledDialog(2,item)"><view>撤销</view></view>
 					<view class="btn flr cf" v-if="navIndex == 2"><view class="fll"  @click="clickHandledDialog(3,item)">修改</view> <view class="fll"  @click="clickHandledDialog(4,item)">上架</view></view>
@@ -117,7 +117,7 @@
 				this.pageIndex = 1
 				this.getPageGoods()
 				// 获取商品统计数量
-				if(uni.getStorageSync('roleId') == '20001'){
+				if(uni.getStorageSync('roleId') == '20001' || uni.getStorageSync('roleId') == '20004'){
 					this.getStatisticsGoods()
 				}
 			},
@@ -250,7 +250,7 @@
 			// 商品列表 APP-我的货品 
 			getPageGoods(){
 				let roleId = uni.getStorageSync('roleId')
-				if(roleId == '20001'){ // 货主
+				if(roleId == '20001' || roleId == '20004'){ // 货主
 					let data = {
 						pageIndex: this.pageIndex,
 						status: this.status
@@ -323,7 +323,7 @@
 			assessUserType(){
 				this.roleId    = uni.getStorageSync('roleId')
 				this.userApply = JSON.parse(uni.getStorageSync('userApply')) 
-				if(this.roleId == '20001'){
+				if(this.roleId == '20001' || this.roleId == '20004'){
 					uni.setNavigationBarTitle({
 					    title: '我的货品'
 					});

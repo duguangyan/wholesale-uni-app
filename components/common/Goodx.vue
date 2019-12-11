@@ -16,7 +16,7 @@
 					<!-- <text class="fs20 text-999">{{item.place || ''}}</text>
 					<text class="tip fs20 text-999" v-if="ix<2" v-for="(it,ix) in item.attrValDesc" :key="ix">{{it || ' '}}</text> -->
 				</view>
-				<view class="price cf" :class="{'role':roleId=='20001'}">
+				<view class="price cf" :class="{'role':roleId=='20001' || roleId=='20004'}">
 					<view class="fs28 text-red fll"  :class="{'platformOPPO':platform == 1}">
 						￥{{item.minprice || item.minPrice}} 
 						<text v-if="item.maxprice && item.maxprice!=item.minprice">~{{item.maxprice}}</text>
@@ -26,7 +26,7 @@
 						销量:{{item.spuSalesNum}}斤
 					</view>
 				</view>
-				<view class="address cf" v-if="roleId!='20001'">
+				<view class="address cf" v-if="roleId!='20001' && roleId!='20004'">
 					<view class="fll img">
 						<image :class="{'platformOPPO':platform == 1}" :src="'/static/imgs/main-icon-1.png'" mode=""></image>
 					</view>

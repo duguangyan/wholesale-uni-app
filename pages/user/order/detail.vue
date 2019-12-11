@@ -3,14 +3,14 @@
 		<div class="top">
 			<div class="img">
 				<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
-				<img v-if="status == -1" src="@/static/img/icon-order-5.png" alt="图片">
-				<img v-if="status == 0" src="@/static/img/icon-order-2.png" alt="图片">
-				<img v-if="status == 1" src="@/static/img/icon-order-5.png" alt="图片">
-				<img v-if="status == 2" src="@/static/img/icon-order-1.png" alt="图片">
-				<img v-if="status == 3" src="@/static/img/icon-order-4.png" alt="图片">
-				<img v-if="status == 4" src="@/static/img/icon-order-6.png" alt="图片">
-				<img v-if="status == 5" src="@/static/img/icon-order-5.png" alt="图片">
-				<img v-if="status == 6" src="@/static/img/icon-order-6.png" alt="图片">
+				<img v-if="status == -1" src="/static/img/icon-order-5.png" alt="图片">
+				<img v-if="status == 0" src="/static/img/icon-order-2.png" alt="图片">
+				<img v-if="status == 1" src="/static/img/icon-order-5.png" alt="图片">
+				<img v-if="status == 2" src="/static/img/icon-order-1.png" alt="图片">
+				<img v-if="status == 3" src="/static/img/icon-order-4.png" alt="图片">
+				<img v-if="status == 4" src="/static/img/icon-order-6.png" alt="图片">
+				<img v-if="status == 5" src="/static/img/icon-order-5.png" alt="图片">
+				<img v-if="status == 6" src="/static/img/icon-order-6.png" alt="图片">
 			</div>
 			<div class="annoc">
 				<!--      状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭-->
@@ -43,7 +43,7 @@
 					</div>
 				</view>
 				
-				<view v-if="roleId == '20001'">
+				<view v-if="roleId == '20001' || roleId == '20004'">
 					<div class="title" v-if="order.shopOrder && (status == 0 || status == 1 || status == 2 || status == 4 || status == 5)">
 						{{statusText}}
 					</div>
@@ -97,12 +97,12 @@
 				</div>
 			</div> -->
 			<view class="phone cf" v-if="order.agentcyPhone && roleId != 20002">
-				<view class="fll">{{roleId=='20001' || roleId=='20003'?'代办人':'货主'}}:{{roleId=='20001' || roleId=='20003'?order.agentcyUserName : order.sellerName}}</view>
-				<view class="flr" @click="callPhone(roleId=='20001' || roleId=='20003'?order.agentcyPhone:order.sellerPhone)">
+				<view class="fll">{{roleId=='20001' || roleId=='20003' || roleId=='20004'?'代办人':'货主'}}:{{roleId=='20001' || roleId=='20003' || roleId=='20004'?order.agentcyUserName : order.sellerName}}</view>
+				<view class="flr" @click="callPhone(roleId=='20001' || roleId=='20003' || roleId=='20004'?order.agentcyPhone:order.sellerPhone)">
 					<view class="image">
 						<image src="/static/imgs/icon-phone.png" mode=""></image>
 					</view>
-					<text>联系{{roleId=='20001'|| roleId=='20003'?'代办':'货主'}}</text>
+					<text>联系{{roleId=='20001'|| roleId=='20003' || roleId=='20004'?'代办':'货主'}}</text>
 				</view>
 			</view>
 			<view class="phone cf" v-if="order.phone && roleId == 20002">
@@ -114,7 +114,7 @@
 					<text>联系买家</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="order.shopOrder.sendType && roleId != 20001">
+			<view class="phone cf" v-if="order.shopOrder.sendType && roleId != 20001 && roleId != 20004">
 				<view class="fll">物流方式:</view>
 				<view class="flr" @click="showCarInfo">
 					<text class="text-theme">{{order.shopOrder.sendType == 1 ?'平台选车':'自驾车辆'}}</text>
@@ -153,7 +153,7 @@
 					</span>
 				</div>
 				<view class="mgb-30" v-for="good in order.shopOrder.orderDetailList" :key="good.id" >
-					<Good :hasAgencyFee="false" :item="good"></Good>
+					<Good :item="good" :roleId="roleId"></Good>
 				</view>
 				
 				<div class="goods-price">
@@ -195,8 +195,8 @@
 			<div class="btn-red btn" v-if="status == 3" @click="postOrderConfirm">确认收货</div>
 			<view class="btn-red btn" v-if="status == 2 && roleId == '20002'" @click="deliverGoods">发货</view>
 			
-			<view class="btn-red btn" v-if="status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerCancel()">取消订单</view>
-			<view class="btn-red btn" v-if="status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerConfirm()">确认订单</view>
+			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerCancel">取消订单</view>
+			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerConfirm">确认订单</view>
 			
 		</div>
 		<Pay :orderId="orderId" :shopId="shopId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
@@ -514,7 +514,7 @@
 							this.status = this.order.shopOrder.status;
 							console.log('status', this.status)
 							// 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核
-							if(this.roleId == '20002' || this.roleId == '20001'){ // 代办 买家
+							if(this.roleId == '20002' || this.roleId == '20001' ||  this.roleId == '20004'){ // 代办 买家 企业
 								switch (this.status) {
 									case -1:
 										this.statusText = '订单已取消'

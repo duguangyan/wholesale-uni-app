@@ -63,7 +63,7 @@
             </div> -->
             <div class="mark pdl-30">
               <span>留言</span>
-              <input v-model="message" type="text" maxlength="100" placeholder="请输入留言信息" />
+              <input v-model="item.postscript" type="text" maxlength="100" placeholder="请输入留言信息" />
             </div>
           </div>
           <div class="calc text-red fs28 pdr-30">小计:￥{{ item.totalMoney }}</div>
@@ -169,6 +169,7 @@ var vm = {
             id: '',
             name: ''
           };
+          item.postscript = ''
           return item;
         });
 
@@ -195,6 +196,7 @@ var vm = {
             id: '',
             name: ''
           };
+          item.postscript = ''
           return item;
         });
         this.totalMoney = submitData.totalMoney;
@@ -263,7 +265,6 @@ var vm = {
       //   T.tips('请选择收货地址');
       //   return false;
       // }
-
       let resList = [...vm.list];
       let status = true;
       resList.map(item => {
@@ -283,6 +284,7 @@ var vm = {
         // addressId: this.address.id,
         cartIdList: vm.cartIdList
       };
+      
       postCreateOrder(list)
         .then(res => {
           if (res.code === '1000') {

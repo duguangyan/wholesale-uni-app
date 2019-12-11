@@ -41,26 +41,26 @@
 				</view>
 			</view>
 			
-			<view class="items" v-if="roleId == 20001 || roleId == 20002 || roleId == 20004">
+			<view class="items" v-if="roleId == '20001' || roleId == '20002' || roleId == '20004'">
 				<view class="title">行业信息</view>
 				<view class="list">
 				 
 				 <view class="cf li">
 				   <view class="fll fs28">我的身份</view>
 				   
-				   <view class="flr fs30 text-999 value" v-if="roleId == 20001">种植户</view>
-				   <view class="flr fs30 text-999 value" v-if="roleId == 20002">代办</view>
-				   <view class="flr fs30 text-999 value" v-if="roleId == 20004">企业</view>
+				   <view class="flr fs30 text-999 value" v-if="roleId == '20001'">种植户</view>
+				   <view class="flr fs30 text-999 value" v-if="roleId == '20002'">代办</view>
+				   <view class="flr fs30 text-999 value" v-if="roleId == '20004'">企业</view>
 				 </view>
 				 
-				  <view class="cf li" v-if="roleId == 20001">
+				  <view class="cf li" v-if="roleId == '20001' || roleId == '20004'">
 				    <view class="fll fs28">经营类目</view>
 				    
 					<view class="flr fs30 text-999 value">{{categoryName}}</view>
 				  </view>
 				  
 				  <view class="cf li">
-				    <view class="fll fs28">{{roleId == 20001?'经营地区':'代办地区'}}</view>
+				    <view class="fll fs28">{{(roleId == '20001' || roleId == '20004')?'经营地区':'代办地区'}}</view>
 				    
 				  	<view class="flr fs30 text-999 value">{{province + city + region}}</view>
 				  </view>

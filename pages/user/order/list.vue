@@ -41,8 +41,8 @@
 						<Good :item="good" :roleId='roleId'></Good>
 					</view>
 					
-					<view class="accu fs24" v-if="roleId == '20001' && item.sellerId == uid">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001' && item.sellerId == uid?item.orderMoney:item.totalMoney}}</text></view>
-					<view class="accu fs24" v-if="roleId == '20001' && item.sellerId != uid">订单金额:￥<text class='fs32 fs-w'>{{roleId == '20001' && item.sellerId != uid?item.totalMoney:item.orderMoney}}</text></view>
+					<view class="accu fs24" v-if="(roleId == '20001' || roleId == '20004') && item.sellerId == uid">订单金额:￥<text class='fs32 fs-w'>{{(roleId == '20001' || roleId == '20004') && item.sellerId == uid?item.orderMoney:item.totalMoney}}</text></view>
+					<view class="accu fs24" v-if="(roleId == '20001' || roleId == '20004') && item.sellerId != uid">订单金额:￥<text class='fs32 fs-w'>{{(roleId == '20001' || roleId == '20004') && item.sellerId != uid?item.totalMoney:item.orderMoney}}</text></view>
 					<view class="operator">
 						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 						<!-- <view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view> -->
@@ -52,8 +52,8 @@
 						<view class="receive" v-if="item.status == 2 && roleId == '20002'" @click="deliverGoods(index)">发货</view>
 						
 						
-						<view class="receive" v-if="item.status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerCancel(index)">取消订单</view>
-						<view class="receive" v-if="item.status == 6 && roleId == '20001' && item.sellerId == uid" @click="sellerConfirm(index)">确认订单</view>
+						<view class="receive" v-if="item.status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerCancel(index)">取消订单</view>
+						<view class="receive" v-if="item.status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerConfirm(index)">确认订单</view>
 					</view>
 				</view>
 			</view>
@@ -292,7 +292,7 @@
 						list.forEach((item,index)=>{
 							// (1:销售订单,2:我的订单)"
 							if(this.businessType == 1){
-								if(roleId == '20001') {
+								if(roleId == '20001' || roleId == '20004') {
 									if(item.status == 6) this.tabs[1].tip = item.num	
 								}
 								if(roleId == '20002'){
