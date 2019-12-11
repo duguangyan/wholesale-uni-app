@@ -226,7 +226,13 @@ const getShopInfo = data => {
   })
 }
 
-
+// 分类ID获取企业类表 {categoryId}
+const getCompany = data => {
+  return request({
+  	url: '/api/goods/shop/getShopByCategoryId',
+  	data
+  })
+}
 
 
 export {
@@ -254,5 +260,6 @@ export {
 	getPostItem,
   getAgencyByArea,
   getShopInfo,
-  getMaster
+  getMaster,
+  getCompany
 }

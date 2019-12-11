@@ -62,6 +62,7 @@
 				loading: false,
 				hasData: false,
 				search: {
+          shopId: '',
           categoryLevel: '',
           categoryId: '',
 					// attrValueList: ["string"],
@@ -102,6 +103,8 @@
 			}else if(options.categoryId){
         this.search.categoryId = options.categoryId
         this.search.level = options.level || ''
+      }else if(options.shopId){
+        this.search.shopId = options.shopId
       }else{
 				this.search.attrValueList = [];
 				this.search.attrValueList.push(options.attrValueList);

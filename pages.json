@@ -441,6 +441,12 @@
 				"navigationBarTitleText": "隐私政策"
 			}
         }
+        ,{
+            "path" : "pages/order/company/company",
+            "style" : {
+              "navigationBarTitleText": "选择企业"
+            }
+        }
     ],
 	"tabBar": {
 		"color": "#D9D9D9",
