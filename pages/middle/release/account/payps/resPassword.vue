@@ -240,9 +240,13 @@
 						}
 						deleteBank(dto).then(res=>{
 							if(res.code == '1000') {
-								uni.navigateBack({
-									delta:1
-								})
+								T.tips('解绑成功')
+								setTimeout(function() {
+									uni.navigateBack({
+										delta:1
+									})
+								}, 1000);
+								
 							}else{
 								T.tips(res.message || ' 删除失败')
 							}

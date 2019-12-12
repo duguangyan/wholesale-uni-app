@@ -230,9 +230,13 @@
 					}
 					setBankmodifyPwd(data).then(res=>{
 						if(res.code == '1000'){
-							uni.navigateBack({
-								delta:1
-							})
+							T.tips('密码修改成功')
+							setTimeout(function() {
+								uni.navigateBack({
+									delta:1
+								})
+							}, 1000);
+							
 						}else{
 							T.tips(res.message || '密码修改失败')
 						}
@@ -244,9 +248,12 @@
 					}
 					setBanksetNewPwd(data).then(res=>{
 						if(res.code == '1000'){
-							uni.navigateBack({
-								delta:1
-							})
+							T.tips('密码重置成功')
+							setTimeout(function() {
+								uni.navigateBack({
+									delta:1
+								})
+							}, 1000);
 						}else{
 							T.tips(res.message || '密码重置失败')
 						}

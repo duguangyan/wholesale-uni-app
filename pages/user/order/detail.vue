@@ -192,7 +192,7 @@
 			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 			<div class="btn-black btn" v-if="status == 0" @click="postOrderCancel">取消订单</div>
 			<div class="btn-red btn" v-if="status == 0 && businessType == 2" @click="showPay">去付款</div>
-			<div class="btn-red btn" v-if="status == 3" @click="postOrderConfirm">确认收货</div>
+			<div class="btn-red btn" v-if="status == 3 && businessType == 2" @click="postOrderConfirm">确认收货</div>
 			<view class="btn-red btn" v-if="status == 2 && roleId == '20002' && businessType == 1" @click="deliverGoods">发货</view>
 			
 			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerCancel">取消订单</view>
