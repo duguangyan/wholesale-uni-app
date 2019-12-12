@@ -879,7 +879,7 @@ video {
   z-index: 9999;
   width: 100%;
   height: 40upx;
-  bottom: 30upx;
+  bottom: 80upx;
 }
 .opt {
   opacity: 0;
