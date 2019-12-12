@@ -427,7 +427,10 @@
         ,{
             "path" : "pages/shop/shop/shop",
             "style" : {
-				"navigationBarTitleText": "经营店铺"
+				"navigationBarTitleText": "经营店铺",
+        "usingComponents":{
+          "good": "/components/common/Good"
+        }
 			}
         }
         ,{
