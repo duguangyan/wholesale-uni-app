@@ -195,8 +195,8 @@
 			<div class="btn-red btn" v-if="status == 3 && businessType == 2" @click="postOrderConfirm">确认收货</div>
 			<view class="btn-red btn" v-if="status == 2 && roleId == '20002' && businessType == 1" @click="deliverGoods">发货</view>
 			
-			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerCancel">取消订单</view>
-			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerConfirm">确认订单</view>
+			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid" @click="sellerCancel">取消订单</view>
+			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid" @click="sellerConfirm">确认订单</view>
 			
 		</div>
 		<Pay :orderId="orderId" :shopId="shopId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>

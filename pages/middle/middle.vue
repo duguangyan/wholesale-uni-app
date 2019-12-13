@@ -99,6 +99,7 @@
 			
 		},
 		onLoad(options) {
+			// 获取用户类型
 			if(options.roleId) this.roleId = options.roleId
 			
 		},
@@ -129,6 +130,7 @@
 					// 	url:'/pages/middle/identity/identity'
 					// })
 				}else{
+					// 获取用户信息
 					this.getUserRealInfoAll()
 					
 					// 统计订单状态条数
@@ -154,6 +156,7 @@
 					// 	url:'/pages/middle/identity/identity'
 					// })
 				}else{
+					// 获取用户信息
 					this.getUserRealInfoAll()
 			
 					// 统计订单状态条数
@@ -351,6 +354,7 @@
 				
 				})
 			},
+			// 跳转页面
 			goPage(index){
 				switch (index){
 					case 0:

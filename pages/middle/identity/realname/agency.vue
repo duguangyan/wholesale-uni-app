@@ -233,8 +233,8 @@
 					this.realName           = this.userApply.realName
 					this.cardNo             = this.userApply.cardNo
 					this.categoryId         = this.userApply.categoryId
-					this.cardImgFront   = this.userApply.cardImgFront
-					this.cardImgReverse   = this.userApply.cardImgReverse
+					this.cardImgFront       = this.userApply.cardImgFront
+					this.cardImgReverse     = this.userApply.cardImgReverse
 					this.productType        = this.userApply.categoryName
 					this.fullAddress        = this.userApply.province + this.userApply.city 
 					this.address.province   = this.userApply.province
