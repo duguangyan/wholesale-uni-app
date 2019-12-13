@@ -294,64 +294,100 @@
 			// 获取用户信息
 			getUserRealInfoAll(){
 				getUserRealInfoAll().then((res) => {
-					let roleId = res.data.userRole.roleId || ''
-				// 获取用户角色状态  2001 货主 2002 代办
-				// uni.setStorageSync('roleId','2001')
-				this.roleId = res.data.userRole.roleId || ''
-				this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : ''
-				this.userApply = res.data.apply.id ? res.data.apply : ''
-				
-				uni.setStorageSync('roleId', roleId)
-				uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
-				uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')
-				
-				
-				
-				// 设置头部样式
-				if(!this.roleId && this.userRealInfo){
-					uni.setNavigationBarColor({
-						backgroundColor:"#FFFFFF",
-						frontColor:"#000000"
-					})
-					// 设置头部内容
-					uni.setNavigationBarTitle({
-					    title: '选择身份'
-					});
-				}else{
-					uni.setNavigationBarColor({
-						backgroundColor:"#FE3B0B",
-						frontColor:"#ffffff"
-					})
-					// 设置头部内容
-					let time =  util.doHandleYear()+ '年' + util.doHandleMonth() + '月'
-					uni.setNavigationBarTitle({
-					    title: time
-					});
-				}
-				// 设置底部tab样式
-				if(this.roleId == '20002'){
-					uni.setTabBarItem({
-					  index: 1,
-					  text: '代办',
-					  iconPath: 'static/img/2.1.png',
-					  selectedIconPath: 'static/img/2.2.png'
-					})
-				}else if( this.roleId == '20003'){
-					uni.setTabBarItem({
-					  index: 1,
-					  text: '入驻',
-					  iconPath: 'static/img/2.1.png',
-					  selectedIconPath: 'static/img/2.2.png'
-					})
-				} else if(this.roleId == '20001' || this.roleId == '20004') {
-					uni.setTabBarItem({
-					  index: 1,
-					  text: '发布',
-					  iconPath: 'static/img/4.1.png',
-					  selectedIconPath: 'static/img/4.2.png'
-					})
-				}
-				
+					if(res.code == '1000'){
+						let roleId = res.data.userRole.roleId || ''
+						// 获取用户角色状态  2001 货主 2002 代办
+						// uni.setStorageSync('roleId','2001')
+						this.roleId = res.data.userRole.roleId || ''
+						this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : ''
+						this.userApply = res.data.apply.id ? res.data.apply : ''
+										
+						uni.setStorageSync('roleId', roleId)
+						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')
+										
+										
+										
+						// 设置头部样式
+						if(!this.roleId && this.userRealInfo){
+							uni.setNavigationBarColor({
+								backgroundColor:"#FFFFFF",
+								frontColor:"#000000"
+							})
+							// 设置头部内容
+							uni.setNavigationBarTitle({
+								title: '选择身份'
+							});
+						}else{
+							uni.setNavigationBarColor({
+								backgroundColor:"#FE3B0B",
+								frontColor:"#ffffff"
+							})
+							// 设置头部内容
+							let time =  util.doHandleYear()+ '年' + util.doHandleMonth() + '月'
+							uni.setNavigationBarTitle({
+								title: time
+							});
+						}
+						// 设置底部tab样式
+						if(this.roleId == '20002'){
+							if(uni.getStorageSync('platform') == '1'){
+								uni.setTabBarItem({
+								  index: 1,
+								  text: '代办',
+								  iconPath: 'static/img/2.2.png',
+								  selectedIconPath: 'static/img/2.1.png'
+								})
+							}else{
+								uni.setTabBarItem({
+								  index: 1,
+								  text: '代办',
+								  iconPath: 'static/img/2.1.png',
+								  selectedIconPath: 'static/img/2.2.png'
+								})
+							}
+							
+						}else if( this.roleId == '20003'){
+							
+							if(uni.getStorageSync('platform') == '1'){
+								uni.setTabBarItem({
+								  index: 1,
+								  text: '入驻',
+								  iconPath: 'static/img/2.2.png',
+								  selectedIconPath: 'static/img/2.1.png'
+								})
+							}else{
+								uni.setTabBarItem({
+								  index: 1,
+								  text: '入驻',
+								  iconPath: 'static/img/2.1.png',
+								  selectedIconPath: 'static/img/2.2.png'
+								})
+							}
+							
+						} else if(this.roleId == '20001' || this.roleId == '20004'){
+							
+							
+							if(uni.getStorageSync('platform') == '1'){
+								uni.setTabBarItem({
+								  index: 1,
+								  text: '发布',
+								  iconPath: 'static/img/4.2.png',
+								  selectedIconPath: 'static/img/4.1.png'
+								})
+							}else{
+								uni.setTabBarItem({
+								  index: 1,
+								  text: '发布',
+								  iconPath: 'static/img/4.1.png',
+								  selectedIconPath: 'static/img/4.2.png'
+								})
+							}
+							
+						}
+					}
+					console.log('1111111111111111111');
+					
 				})
 			},
 			// 跳转页面

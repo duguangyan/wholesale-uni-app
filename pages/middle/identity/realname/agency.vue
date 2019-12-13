@@ -354,12 +354,12 @@
 					T.tips('姓名不能为空')
 					return false
 				}
-				if(!uni.getStorageSync('userRealInfo')){
-					if(this.code == ''){
-						T.tips('邀请码不能为空')
-						return false
-					}
-				}
+				// if(!uni.getStorageSync('userRealInfo')){
+				// 	if(this.code == ''){
+				// 		T.tips('邀请码不能为空')
+				// 		return false
+				// 	}
+				// }
 				
 				if(this.cardNo == ''){
 					T.tips('身份证号码不能为空')

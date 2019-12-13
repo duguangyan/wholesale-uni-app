@@ -524,12 +524,12 @@
 					return false
 				}
 				
-				if(!uni.getStorageSync('userRealInfo')){
-					if(this.code == ''){
-						T.tips('邀请码不能为空')
-						return false
-					}
-				}
+				// if(!uni.getStorageSync('userRealInfo')){
+				// 	if(this.code == ''){
+				// 		T.tips('邀请码不能为空')
+				// 		return false
+				// 	}
+				// }
 				
 				//  实名认证
 				let data = {

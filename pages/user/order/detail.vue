@@ -199,6 +199,9 @@
 			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid" @click="sellerConfirm">确认订单</view>
 			
 		</div>
+		
+		<div class="big-btn-active" v-if="status == -1 && businessType == 2" @click="goSubmit">重新购买</div>
+		
 		<Pay :orderId="orderId" :shopId="shopId" :platform='platform' :show="isPayShow" v-on:close="payClose" v-on:doPay="doPay" :price="nowIndexPrice"></Pay>
 		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
 		<luPopupWrapper ref="luPopupWrapper" 
@@ -243,6 +246,9 @@
 		sellerConfirm,
 		sellerCancel
 	} from '@/api/userApi.js'
+	import {
+		getOrderCart
+	} from '@/api/cartApi.js'
 	import T from '@/utils/tips.js'
 	import util from '@/utils/util.js'
 	import Dialog from '@/components/common/Dialog.vue'
@@ -279,6 +285,7 @@
 				popupId:1,
 				maskShow:true,
 				maskClick:true,
+				clock: true,
 			}
 		},
 		components: {
@@ -312,6 +319,20 @@
 			}
 		},
 		methods: {
+			// 重新购买
+			goSubmit(){
+				console.log(this.order)
+				let submitData = JSON.stringify({
+				  addressId: '',
+				  goodsCount: this.order.shopOrder.orderDetailList[0].num,
+				  goodsId: this.order.shopOrder.orderDetailList[0].goodsId,
+				  shopId: this.order.shopOrder.orderDetailList[0].shopId,
+				  skuId: this.order.shopOrder.orderDetailList[0].skuId
+				});
+				uni.navigateTo({
+				  url: '/pages/order/submit/submit?submitData=' + submitData + '&isBuyNow=1'
+				});
+			},
 			// 货主取消订单
 			sellerCancel(){
 				let itemList = ['已断货','售罄','其他']
@@ -585,6 +606,10 @@
 </script>
 
 <style lang="scss" scoped>
+	.big-btn-active{
+		margin-top: 60upx;
+		margin-bottom: 60upx;
+	}
 	.logistics{
 		height: 200upx;
 		padding: 0 30upx;
