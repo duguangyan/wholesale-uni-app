@@ -1,6 +1,6 @@
 <template>
 	<view class="varieties">
-		<view class="title fs24 text-999">根据你的经营类目，只能发布红薯货品</view>
+		<view class="title fs24 text-999">根据你的经营类目，只能发布以下货品</view>
 		
 		<view class="items cf">
 			

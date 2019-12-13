@@ -95,7 +95,7 @@
 		<view class="content pdt-30">
 			<view class="item" @click="showType">
 				<view class="title">
-					<text>经营类型</text> <text class="fs24 text-999">（审核通过后不可更改）</text>
+					<text>经营类目</text> <text class="fs24 text-999">（审核通过后不可更改）</text>
 				</view>
 				<view class="choose cf">
 					<view class="fll" :class="{'text-666':productType!=''}">{{productType == ''?'请选择类型:如农产品、蔬菜、白菜':productType}}</view>

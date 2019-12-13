@@ -105,6 +105,17 @@
 					<text>联系{{roleId=='20001'|| roleId=='20003' || roleId=='20004'?'代办':'货主'}}</text>
 				</view>
 			</view>
+			
+			<view class="phone cf" v-if="!order.agentcyPhone && roleId != 20002">
+				<view class="fll">货主:{{order.sellerNam}}</view>
+				<view class="flr" @click="callPhone(order.sellerPhone)">
+					<view class="image">
+						<image src="/static/imgs/icon-phone.png" mode=""></image>
+					</view>
+					<text>联系货主</text>
+				</view>
+			</view>
+			
 			<view class="phone cf" v-if="order.phone && roleId == 20002">
 				<view class="fll">买家:{{order.userName || '暂无'}}</view>
 				<view class="flr" @click="callPhone(order.phone)">

@@ -32,7 +32,7 @@
 					  </view>
 					  
 				  </view>
-				  <view class="cf li" v-if="roleId == 20004" @click="goAddress">
+				  <view class="cf li" @click="goAddress">
 				    <view class="fll fs28">收货地址</view>
 				    <view class="icon flr">
 				      <image src="/static/img/tag-go.png" />
