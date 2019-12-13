@@ -425,7 +425,7 @@
 			// nav 去搜索页面
 			goSearchPage(name,isAgentcy) {
         let path = ''
-        if(isAgentcy.toString()==='0'){
+        if((isAgentcy+'')==='0'){
           path = '/pages/order/company/company?categoryId=' + name
         }else{
           path = '/pages/order/goodsList/goodsList?categoryId=' + name

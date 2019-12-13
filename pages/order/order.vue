@@ -719,7 +719,7 @@
 							margin-bottom: 4upx;
 							// background: #F5F5F5;
 							// border-radius: 20upx;
-							display: inline-block;
+							// display: inline-block;
 							padding: 4upx 0;
 							font-size: 20upx;
 							

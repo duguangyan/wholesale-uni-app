@@ -21,18 +21,19 @@
 
       <!-- 地址模块 -->
       <div v-show="sendType == 1" class="address" @click="navToAd">
+        <image class="bg-line" src="../../../static/img/bg-line.png" mode=""></image>
         <div v-if="address == null" class="addAd" to="/adedit">请添加收货地址</div>
         <template v-else>
           <div class="ad-title">收货人: {{ address.name }}</div>
           <div class="ad-det">收货地址:{{ address.province + address.city + address.region + address.address }}</div>
-          <img class="tag-go" src="/static/imgs/tag-go.png" width="10" height="10" alt />
+          <!-- <img class="tag-go" src="/static/imgs/tag-go.png" width="10" height="10" alt /> -->
         </template>
       </div>
 
       <div class="list" v-if="list.length > 0">
         <div v-for="(item, index) in list" :key="index">
           <div class="gray-line"></div>
-          <div class="agent fs28">
+          <div v-if="needAgentcy != 1" class="agent fs28">
             <div>找&ensp;代&ensp;办:</div>
             <!-- <input class="uni-input" placeholder="请选择代办人" readonly="readonly" /> -->
             <div :class="['uni-input', 'fs28', item.curAgent.name ? 'text-333' : 'text-999']" @click="showAgentDialog(item)">{{ item.curAgent.name || '请选择代办人' }}</div>
@@ -177,6 +178,7 @@ var vm = {
             id: '',
             name: ''
           };
+          
           item.postscript = '';
           return item;
         });
@@ -284,7 +286,7 @@ var vm = {
     },
     // 显示支付
     showPay() {
-      if (this.sendType == 1 && this.address == '') {
+      if (this.sendType == 1 && !this.address) {
         T.tips('请选择收货地址');
         return false;
       }
@@ -292,8 +294,11 @@ var vm = {
       let resList = [...vm.list];
       let status = true;
       resList.map(item => {
-        status = !!item.curAgent.id;
-        item.agentcyUserId = item.curAgent.id;
+        if(item.needAgentcy == 1){
+          status = !!item.curAgent.id;
+          item.agentcyUserId = item.curAgent.id;
+        }
+        
         item.phone = item.curAgent.phone;
         item.sendType = vm.sendType;
         return item;
@@ -374,6 +379,7 @@ export default vm;
 </script>
 
 <style lang="scss" scoped>
+  
   .tips {
     line-height: 60upx;
     background: #ffefeb;
@@ -392,13 +398,22 @@ export default vm;
   }
   .submit {
     min-height: 100vh;
+    .bg-line{
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 8upx;
+      bottom: 0;
+    }
     .address {
+      position: relative;
       height: 75px;
       background-color: #fff;
-      background-image: url(/static/imgs/bg-line.png);
-      background-repeat: no-repeat;
-      background-position: 0 100%;
-      background-size: 100% auto;
+      // background-image: url();
+      // background-repeat: no-repeat;
+      // background-position: 0 100%;
+      // background-size: 100% auto;
       border-top: solid 1px #f0f0f0;
       padding: 0 15px;
       position: relative;
