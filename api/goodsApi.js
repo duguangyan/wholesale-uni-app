@@ -234,8 +234,17 @@ const getCompany = data => {
   })
 }
 
+// 根据企业ID获取代表信息列表
+const enterpriseAgentUserInfo = data => {
+  return request({
+  	url: '/api/goods/agentArea/enterpriseAgentUserInfo',
+  	data
+  })
+}
+
 
 export {
+	enterpriseAgentUserInfo,
 	mainSelectCategory,
 	postEditGoods,
 	handlerGoods,

@@ -1,31 +1,68 @@
 <template>
 	<view class="localshipper">
-		<view v-if="items.length>0">
-			<view class="tip">
-				以下为{{userApply.province + userApply.city}}地区{{roleId == 20002?'货主':'代办'}}联系方式
-			</view>
-			<view class="items">
-				<view class="item flex" v-for="(item,index) in items" :key="index">
-					<view class="flex-1 fs28 text-333 ellipsis">{{item.realName || ''}}</view>
-					<view class="flex-2 fs28 text-666">{{item.phone || ''}}</view>
-					<view class="flex-1"><view class="btn" @click="callByPhone(item.phone)">联系{{roleId == 20002?'货主':'代办'}}</view></view>
+		<view v-if="items.length>0 && (roleId == '20001' || roleId == '20002')">
+			<view>
+				<view class="tip">
+					以下为{{userApply.province + userApply.city}}地区{{roleId == 20002?'货主':'代办'}}联系方式
+				</view>
+				<view class="items">
+					<view class="item flex" v-for="(item,index) in items" :key="index">
+						<view class="flex-1 fs28 text-333 ellipsis">{{item.realName || ''}}</view>
+						<view class="flex-2 fs28 text-666">{{item.phone || ''}}</view>
+						<view class="flex-1"><view class="btn" @click="callByPhone(item.phone)">联系{{roleId == 20002?'货主':'代办'}}</view></view>
+					</view>
 				</view>
 			</view>
-		</view>
-		<view class="nodata" v-if="items.length<=0">
-			<view class="image">
-				<image src="../../../../../static/imgs/localshipper.png" mode=""></image>
+			<view class="nodata" v-if="items.length<=0">
+				<view class="image">
+					<image src="/static/imgs/localshipper.png" mode=""></image>
+				</view>
+				<view class="fs24 text-999">
+					该地区还没有 {{roleId == '20002'?'货主':'代办'}}
+				</view>
 			</view>
-			<view class="fs24 text-999">
-				该地区还没有 {{roleId == 20002?'货主':'代办'}}
-			</view>
+			
 		</view>
+		
+		
+		<view v-if="items.length>0 && roleId == '20004'">
+			
+			<view v-for="(item,index) in items" :key="index">
+				<view>
+					<view class="tip">
+						以下为{{item.address}}地区代办联系方式
+					</view>
+					<view class="items">
+						<view class="item flex" v-for="(it,ix) in item.list" :key="ix">
+							<view class="flex-1 fs28 text-333 ellipsis">{{it.realName || ''}}</view>
+							<view class="flex-2 fs28 text-666">{{it.phone || ''}}</view>
+							<view class="flex-1"><view class="btn" @click="callByPhone(it.phone)">联系代办</view></view>
+						</view>
+					</view>
+				</view>
+				<view class="nodata" v-if="items.length<=0">
+					<view class="image">
+						<image src="/static/imgs/localshipper.png" mode=""></image>
+					</view>
+					<view class="fs24 text-999">
+						该地区还没有代办
+					</view>
+				</view>
+			</view>
+			
+			
+			
+		</view>
+		
+		
+		
 		
 	</view>
 </template>
 
 <script>
 	import { getShopInfo , fromIdGetAgent ,fromIdGetAgentUserInfo,fromIdGetShopUserInfo } from '@/api/userApi.js'
+	import { enterpriseAgentUserInfo } from '@/api/goodsApi.js'
 	export default {
 		data() {
 			return {
@@ -45,6 +82,7 @@
 			
 		},
 		methods:{
+			
 			// 判断用户类型
 			assessUserType(){
 				this.roleId = uni.getStorageSync('roleId')
@@ -53,13 +91,26 @@
 					uni.setNavigationBarTitle({
 					    title: '本地代办'
 					});
-					this.fromIdGetAgentUserInfo()
+					if(this.roleId == '20001'){
+						this.fromIdGetAgentUserInfo()
+					}else{
+						this.getEnterpriseAgentUserInfo()
+					}
+					
 				}else if(this.roleId == '20002'){
 					uni.setNavigationBarTitle({
 					    title: '本地货主'
 					});
 					this.fromIdGetShopUserInfo()
 				}
+			},
+			// 企业
+			getEnterpriseAgentUserInfo(){
+				enterpriseAgentUserInfo().then(res=>{
+					if(res.code == '1000'){
+						this.items = res.data
+					}
+				})
 			},
 			// 代办
 			fromIdGetAgentUserInfo(){

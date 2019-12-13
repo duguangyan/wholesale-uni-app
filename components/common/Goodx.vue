@@ -122,13 +122,7 @@
 							width: 100%;
 							height: 100%;
 							position: relative;
-							/* #ifdef MP-WEIXIN */  
-							top: -4upx;
-							/* #endif */ 
-							/* #ifdef APP-PLUS || H5 */
-							top: -17upx;
-							/* #endif */  
-							
+							top: -6upx; 
 						}
 						.platformOPPO{
 							top: -13upx !important;

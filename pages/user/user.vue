@@ -277,7 +277,7 @@
 		height: 300upx;
 		.img{
 			width: 100%;
-			height: 260upx;
+			height: 300upx;
 			overflow: hidden;
 			position: absolute;
 			top: 0;

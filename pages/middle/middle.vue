@@ -104,8 +104,7 @@
 			
 		},
 		onShow() {
-			// 根据不同状态获取不同业务
-			this.getUserType()
+			
 			
 			// 未登录状态跳转 微信和APP不一样
 			// #ifdef  MP-WEIXIN
@@ -190,6 +189,16 @@
 						this.spGoodsByAgency = [{
 								img: '/static/imgs/icon-1003.png',
 								text: '我的货品'
+							}
+						]
+					}else{
+						this.spGoodsByAgency =[{
+								img: '/static/imgs/icon-1003.png',
+								text: '我的货品'
+							},
+							{
+								img: '/static/imgs/icon-1002.png',
+								text: '本地代办'
 							}
 						]
 					}
@@ -307,7 +316,8 @@
 						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')
 										
 										
-										
+						// 根据不同状态获取不同业务
+						this.getUserType()				
 						// 设置头部样式
 						if(!this.roleId && this.userRealInfo){
 							uni.setNavigationBarColor({

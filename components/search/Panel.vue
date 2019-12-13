@@ -21,16 +21,16 @@
         </div> -->
 
         <!-- 价格区间 -->
-        <div class="price-area"  :calss="{'Android': platform == 3}">
+        <div class="price-area">
           <input v-model="filter.priceBegin" type="number" placeholder="最低价" @blur="valiPriceBegin" />
-          <span></span>
+          <span :class="{'oppo': platform == '1'}"></span>
           <input v-model="filter.priceEnd" type="number" placeholder="最高价" @blur="valiPriceEnd" />
         </div>
         <div class="weight"></div>
         <!-- 起批量 -->
-        <div class="price-area"  :calss="{'Android': platform == 3}">
+        <div class="price-area">
           <input v-model="filter.startNumStart" type="number" placeholder="最低起批量" @blur="valiStartNumStart" />
-          <span></span>
+          <span :class="{'oppo': platform == '1'}"></span>
           <input v-model="filter.startNumEnd" type="number" placeholder="最高起批量" @blur="valiStartNumEnd" />
         </div>
         
@@ -54,11 +54,14 @@ export default {
     show: {
       type: Boolean,
       default: false
-    }
+    },
+	platform: {
+	  type: String,
+	  default: ''
+	}
   },
   data() {
     return {
-  		platform: 0,
       list: [],
       isMoreLocat: false,
       isMoreBtn: false,
@@ -82,8 +85,6 @@ export default {
   },
   mounted() {
 	  // 设备样式兼容
-	  this.platform = uni.getStorageSync('platform');
-	  console.log('platform:',this.platform)
     getArea().then(data => {
       let d = data.data;
       let res = [];
@@ -167,14 +168,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
- .Android{
-	  >span{
-		  display: inline-block !important;
-		  height: 2upx !important;
-		  width: 20upx !important;
-		  background: #333 !important;
-	  }
-  }
+.oppo{
+    top: -28upx !important;
+}
 .panel {
   position: fixed;
   top: 0;
@@ -189,6 +185,7 @@ export default {
     text-align: left;
     position: relative;
     padding-top: 80upx;
+	padding-bottom: 60upx;
 	left: 30upx;
     &::before {
       content: "价格区间";
@@ -225,19 +222,18 @@ export default {
       margin-left: 16upx;
       margin-right: 16upx;
 	  position: relative;
-	  top: -28upx;
+	  top: -4upx;
 	  display: inline-block;
 	  width: 20upx;
 	  height: 2upx;
 	  background: #333;
-	 
+	 /*  #ifdef  MP-WEIXIN  */
+	  top: -28upx;
+	 /*  #endif  */
     }
-	/*  #ifdef  APP-PLUS || H5 */
-	span{
-		 // top: -8upx;
-	}
-	/*  #endif  */
+
   }
+  
   .mask {
     position: fixed;
     top: 0;

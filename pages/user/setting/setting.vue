@@ -13,11 +13,11 @@
 						<image :src="headImgUrl" mode=""></image>
 					</view>
 				  </view>
-				  <view class="cf li" v-if="roleId != 20004">
+				  <view class="cf li" v-if="roleId != '20004'">
 				    <view class="fll fs28">我的姓名</view>
 					<view class="flr fs30 text-999 value">{{nickName||'正鼎农品'}}</view>
 				  </view>
-				  <view v-if="roleId == 20004">
+				  <view v-if="roleId == '20004'">
 					  <view class="cf li">
 					    <view class="fll fs28">企业名称</view>
 					  	<view class="flr fs30 text-999 value">{{userApply.enterpriseName||''}}</view>
