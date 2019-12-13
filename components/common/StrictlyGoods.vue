@@ -118,7 +118,7 @@
 
 			ul {
 				li:nth-of-type(even) {
-					margin-left: 16upx;
+					margin-left: 10upx;
 				}
 
 				li {
