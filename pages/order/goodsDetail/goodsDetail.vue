@@ -153,10 +153,10 @@
           <img class="icon-18" src="@/static/imgs/icon-shop.png" />
           <view>店铺</view>
         </view>
-        <view tag="div" @click="isCall = true">
+        <view tag="div" @click="callMaster(good.userRealInfoVo.phone)">
           <view class="icon-15"><img class="icon-order" src="@/static/imgs/icon-phone.png" /></view>
           <view class="cart-text">
-            联系代办
+            联系货主
             <!-- <view v-show="counter > 0">{{counter}}</view> -->
           </view>
         </view>
@@ -549,6 +549,11 @@ var vm =  {
           phoneNumber: item.phone //仅为示例
         });
       this.isCall = false;
+    },
+    callMaster(phone){
+      uni.makePhoneCall({
+        phoneNumber: phone //仅为示例
+      });
     },
     navToShop() {
       uni.navigateTo({
