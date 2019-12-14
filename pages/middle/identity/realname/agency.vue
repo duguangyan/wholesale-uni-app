@@ -164,7 +164,10 @@
 				this.hasArea = this.hasfrom == 2
 				// 如果是货主获取经营类型（产品分类）
 				if(this.hasfrom == 2){
-					getCategoryTreeNode().then(res=>{
+					let data = {
+						roleType:'20001'
+					}
+					getCategoryTreeNode(data).then(res=>{
 						if(res.code == '1000'){
 							this.categoryTree = res.data
 						}

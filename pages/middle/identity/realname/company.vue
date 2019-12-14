@@ -261,7 +261,10 @@
 			},
 			// 获取分类
 			getCategoryTreeNode(){
-				getCategoryTreeNode().then(res=>{
+				let data = {
+					roleType: '20004'
+				}
+				getCategoryTreeNode(data).then(res=>{
 					if(res.code == '1000'){
 						this.categoryTree = res.data
 					}

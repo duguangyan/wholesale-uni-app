@@ -73,7 +73,7 @@
 		},
 		methods: {
 			checkSubmit(){
-				if(this.code !='' && this.name !='' && this.number !=''){
+				if(this.name !='' && this.number !=''){
 					this.isDoSubmit = false
 				}else{
 					this.isDoSubmit = true
@@ -92,10 +92,10 @@
 					T.tips('请输入身份证')
 					return false
 				}
-				if(this.code == ''){
-					T.tips('请输入邀请码')
-					return false
-				}
+				// if(this.code == ''){
+				// 	T.tips('请输入邀请码')
+				// 	return false
+				// }
 				
 				// 实名认证
 				let data = {

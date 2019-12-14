@@ -5,7 +5,7 @@
 			<view class="items">
 				<view class="item cf" v-for="(it,ix) in item.list" :key="ix" @click="goDetail(it.id,it.type)">
 					<view class="fll">
-						<view class="fs30 text-333 ellipsis">{{it.remark}}</view>
+						<view class="fs30 text-333 ellipsis">{{it.title}}</view>
 						<view class="tip fs20 text-999">{{it.createTime}}</view>
 					</view>
 					<view class="flr fs30 text-333">

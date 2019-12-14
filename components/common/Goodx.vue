@@ -30,7 +30,7 @@
 					<view class="fll img">
 						<image :class="{'platformOPPO':platform == 1}" :src="'/static/imgs/main-icon-1.png'" mode=""></image>
 					</view>
-					<view class="fll fs20 text-999">{{item.shopArea || ''}} <text class="mgl-20">{{item.realName || ''}}</text></view>
+					<view class="fll fs20 text-999">{{item.shopArea[0] || ''}} <text class="mgl-20">{{item.realName || ''}}</text></view>
 					<view class="flr fs20 text-999" v-if="item.createTimeName">{{item.createTimeName}}小时前</view>
 				</view>
 			</view>
