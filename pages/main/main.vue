@@ -54,14 +54,6 @@
 			</view>
 		</view>
 
-
-		<!-- <form bindsubmit="submitInfo" report-submit='true' > <button formType="submit"> 111111111111 </button> </form> -->
-		<!-- <form @submit="submitInfo" report-submit="true">
-	   	formId
-	   	<button form-type="submit">Submit</button>
-	   	<button form-type="reset">Reset</button>
-	   </form> -->
-
 		<!-- 广告 -->
 		<view class="advs" v-if="homeList.list[2].list[0].list[0].adPosition.adSet[0]" @click="goadSet(homeList.list[2].list[0].list[0].adPosition.adSet[0])">
 			<image :src="homeList.list[2].list[0].list[0].adPosition.adSet[0]?homeList.list[2].list[0].list[0].adPosition.adSet[0].path:''" mode=""></image>
@@ -75,29 +67,6 @@
 				<view v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
 					<Goodx :item='item' :roleId="1"></Goodx>
 				</view>
-				
-				<!-- <view class="item cf" v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
-					<view class="img fll">
-						<image :src="item.imgUri" mode=""></image>
-					</view>
-					<view class="warp fll" :class="{'Android': platform == 1}">
-						<view class="fs28 ellipsis-line2">
-							{{item.name}}
-						</view>
-						<view class="deliver">
-							<text class="fs20 text-999">{{item.valueAddr}}</text>
-							<span class="attr" v-for="attr in item.attrValDesc" :key="attr" :style="'background:' + calcAttr(attr).bg+';color:'+calcAttr(attr).color">{{attr}}</span>
-						</view>
-						<view class="price">
-							<view class="fs34 text-red"><text class="fs24">￥</text>{{item.minPrice}}<text class="fs24">元/{{item.unitName}}起</text></view>
-						</view>
-						<view class="address cf">
-							<view class="fll img">
-								<image src="/static/imgs/main-icon-1.png" mode=""></image>
-							</view>
-						</view>
-					</view>
-				</view> -->
 			</view>
 
 		</view>

@@ -347,7 +347,7 @@ var vm =  {
       
             // 便被身份
  
-             vm.isMaster = uni.getStorageSync('roleId') == 20001 && (uni.getStorageSync('uid') == d.userRealInfoVo.userId);
+             vm.isMaster = (uni.getStorageSync('roleId') == 20001 || uni.getStorageSync('roleId') == 20004) && (uni.getStorageSync('uid') == d.userRealInfoVo.userId);
 
       
             // 获取代办人列表
