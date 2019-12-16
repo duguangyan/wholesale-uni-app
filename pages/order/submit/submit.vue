@@ -33,7 +33,7 @@
       <div class="list" v-if="list.length > 0">
         <div v-for="(item, index) in list" :key="index">
           <div class="gray-line"></div>
-          <div v-if="needAgentcy != 1" class="agent fs28">
+          <div v-if="needAgentcy == 1" class="agent fs28">
             <div>找&ensp;代&ensp;办:</div>
             <!-- <input class="uni-input" placeholder="请选择代办人" readonly="readonly" /> -->
             <div :class="['uni-input', 'fs28', item.curAgent.name ? 'text-333' : 'text-999']" @click="showAgentDialog(item)">{{ item.curAgent.name || '请选择代办人' }}</div>
@@ -301,6 +301,11 @@ var vm = {
         
         item.phone = item.curAgent.phone;
         item.sendType = vm.sendType;
+        
+        if(vm.sendType == 1){
+          item.addressId = vm.address.id
+        }
+        item.addre
         return item;
       });
       if (!status) {
@@ -314,9 +319,9 @@ var vm = {
         cartIdList: vm.cartIdList
       };
       
-      if(this.sendType == 1){
-        list.addressId = this.address.id
-      }
+      // if(this.sendType == 1){
+      //   list.addressId = this.address.id
+      // }
 
       postCreateOrder(list)
         .then(res => {

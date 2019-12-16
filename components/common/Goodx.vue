@@ -20,7 +20,7 @@
 					<view class="fs28 text-red fll"  :class="{'platformOPPO':platform == 1}">
 						￥{{item.minprice || item.minPrice}} 
 						<text v-if="item.maxprice && item.maxprice!=item.minprice">~{{item.maxprice}}</text>
-						元/斤起
+						元/{{item.unitName}}起
 					</view>
 					<view class="fs28 text-999 flr" :class="{'platformOPPOSales':platform == 1}" v-if="roleId=='20001'">
 						销量:{{item.spuSalesNum}}斤
@@ -47,7 +47,7 @@
 				default: null
 			},
 			roleId: {
-				type: String,
+				type: String | Number,
 				default: null
 			}
 		},
