@@ -3,7 +3,7 @@ import {
 } from './request.js'
 const getList = data => {
   return request({
-    url: '/api/search/goods/search',
+    url: '/api/ws/search/goods/search',
     method: 'post',
     data,
     isIndicator: true 
@@ -12,14 +12,14 @@ const getList = data => {
 
 const getDetail = data => {
 	return request({
-		url: '/api/goods/goods/goodsDetail/' + data.shopId + '/' + data.goodsId,
+		url: '/api/ws/goods/goods/goodsDetail/' + data.shopId + '/' + data.goodsId,
 		// data,
 		isIndicator: true
 	})
 }
 const setCollect = data => {
 	return request({
-		url: '/api/cart/collect/goods/add',
+		url: '/api/ws/cart/collect/goods/add',
 		data,
 		method: 'post',
 		type: 'form'
@@ -28,28 +28,28 @@ const setCollect = data => {
 
 const removeCollect = data => {
 	return request({
-		url: '/api/cart/collect/goods/remove',
+		url: '/api/ws/cart/collect/goods/remove',
 		data
 	})
 }
 
 const addToCart = data => {
 	return request({
-		url: '/api/cart/cart/addItem',
+		url: '/api/ws/cart/cart/addItem',
 		data
 	})
 }
 
 const getGoodNums = data => {
 	return request({
-		url: '/api/cart/cart/getOptInfo',
+		url: '/api/ws/cart/cart/getOptInfo',
 		data
 	})
 }
 
 const buyGood = data => {
 	return request({
-		url: '/api/order/order/calcOrderNow',
+		url: '/api/ws/order/order/calcOrderNow',
 		method: 'post',
 		// type: 'form',
 		data
@@ -58,7 +58,7 @@ const buyGood = data => {
 
 const getFreightPrompt = data => {
 	return request({
-		url: '/api/goods/postSolution/selectSolution',
+		url: '/api/ws/goods/postSolution/selectSolution',
 		method: 'post',
 		type: 'form',
 		data
@@ -67,7 +67,7 @@ const getFreightPrompt = data => {
 
 const getPostItem = data => {
 	return request({
-		url: '/api/goods/postSolution/getById',
+		url: '/api/ws/goods/postSolution/getById',
 		method: 'get',
 		data
 	})
@@ -75,7 +75,7 @@ const getPostItem = data => {
 // 判断是否备收藏
 const getHasCollect = data => {
 	return request({
-		url: '/api/cart/collect/hasCollect',
+		url: '/api/ws/cart/collect/hasCollect',
 		data,
 		type: 'form'
 	})
@@ -84,7 +84,7 @@ const getHasCollect = data => {
 // 根据店铺shopId获取商品分类
 const getCategoryTreeNode = data => {
 	return request({
-		url: '/api/goods/category/getCategoryTreeNode',
+		url: '/api/ws/goods/category/getCategoryTreeNode',
 		data,
 		type: 'form'
 	})
@@ -93,7 +93,7 @@ const getCategoryTreeNode = data => {
 // 获取商品分类
 const selectCategoryTreeNode = data => {
 	return request({
-		url: '/api/goods/category/selectCategoryTreeNode',
+		url: '/api/ws/goods/category/selectCategoryTreeNode',
 		data,
 		type: 'form'
 	})
@@ -102,7 +102,7 @@ const selectCategoryTreeNode = data => {
 // 根据商品分类ID获取分类属性
 const getByCategoryId = data => {
 	return request({
-		url: '/api/goods/categoryAttr/getByCategoryId',
+		url: '/api/ws/goods/categoryAttr/getByCategoryId',
 		data,
 		type: 'form'
 	})
@@ -111,7 +111,7 @@ const getByCategoryId = data => {
 // 获取分类
 const getCategoryUnitList = data => {
 	return request({
-		url: '/api/goods/categoryUnit/getCategoryUnitList',
+		url: '/api/ws/goods/categoryUnit/getCategoryUnitList',
 		data,
 		type: 'form'
 	})
@@ -121,7 +121,7 @@ const getCategoryUnitList = data => {
 const postSaveGoods = data => {
 	return request({
 		method: 'post',
-		url: '/api/goods/goods/saveGoods',
+		url: '/api/ws/goods/goods/saveGoods',
 		data,
 		// type: 'form'
 	})
@@ -131,7 +131,7 @@ const postSaveGoods = data => {
 const postEditGoods = data => {
 	return request({
 		method: 'post',
-		url: '/api/goods/goods/editGoods',
+		url: '/api/ws/goods/goods/editGoods',
 		data,
 		// type: 'form'
 	})
@@ -141,7 +141,7 @@ const postEditGoods = data => {
 // B2B获取商品详情
 const getGoodsDetail = data => {
 	return request({
-		url: '/api/goods/goods/goodsDetail/' + data.shopId + '/' + data.goodsId,
+		url: '/api/ws/goods/goods/goodsDetail/' + data.shopId + '/' + data.goodsId,
 		// data,
 		// type: 'form'
 	})
@@ -150,7 +150,7 @@ const getGoodsDetail = data => {
 // B2B商品列表 APP-我的货品
 const getPageGoods = data => {
 	return request({
-		url: '/api/goods/goods/myPageGoods',
+		url: '/api/ws/goods/goods/myPageGoods',
 		data,
 		type: 'form'
 	})
@@ -160,7 +160,7 @@ const getPageGoods = data => {
 const getPageGoodsSearch = data => {
 	return request({
 		method: 'post',
-		url: '/api/search/goods/search',
+		url: '/api/ws/search/goods/search',
 		data,
 		// type: 'form'
 	})
@@ -169,7 +169,7 @@ const getPageGoodsSearch = data => {
 // 统计APP-我的货品商品
 const statisticsGoods = data => {
 	return request({
-		url: '/api/goods/goods/statisticsGoods',
+		url: '/api/ws/goods/goods/statisticsGoods',
 		data,
 		type: 'form'
 	})
@@ -179,7 +179,7 @@ const statisticsGoods = data => {
 const handlerGoods = data => {
 	return request({
 		method: 'post',
-		url: '/api/goods/goods/handlerGoods',
+		url: '/api/ws/goods/goods/handlerGoods',
 		data,
 		// type: 'form'
 	})
@@ -188,7 +188,7 @@ const handlerGoods = data => {
 // APP-首页分类查找
 const mainSelectCategory = data => {
 	return request({
-		url: '/api/goods/category/selectCategory',
+		url: '/api/ws/goods/category/selectCategory',
 		data,
 		// type: 'form'
 	})
@@ -197,7 +197,7 @@ const mainSelectCategory = data => {
 
 const getMaster = data => {
   return request({
-  	url: '/api/goods/userRealInfo/fromIdGetShopUserInfo',
+  	url: '/api/ws/goods/userRealInfo/fromIdGetShopUserInfo',
   	data
   })
 }
@@ -205,7 +205,7 @@ const getMaster = data => {
 // 根据角色获取代办人列表
 const getAgencyByRole = data=>{
   return request({
-  	url: '/api/goods/userRealInfo/fromIdGetAgentUserInfo',
+  	url: '/api/ws/goods/userRealInfo/fromIdGetAgentUserInfo',
   	data
   })
 }
@@ -213,7 +213,7 @@ const getAgencyByRole = data=>{
 // 根据区域获取代办人类表
 const getAgencyByArea = data => {
   return request({
-  	url: '/api/goods/agentArea/fromIdGetAgent',
+  	url: '/api/ws/goods/agentArea/fromIdGetAgent',
   	data
   })
 }
@@ -221,7 +221,7 @@ const getAgencyByArea = data => {
 // 店铺信息
 const getShopInfo = data => {
   return request({
-  	url: '/api/goods/shop/ShopInfoById',
+  	url: '/api/ws/goods/shop/ShopInfoById',
   	data
   })
 }
