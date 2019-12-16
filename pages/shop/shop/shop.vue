@@ -5,7 +5,7 @@
       <div>
         <div class="shop-name fs30">{{ shopInfo.shopName }}</div>
         <div class="shop-cla fs24">主营:&nbsp;{{ shopInfo.categoryName }}</div>
-        <div class="shop-ad fs24">经营地:&nbsp;{{ shopInfo.address }}</div>
+        <div class="shop-ad fs24">经营地:&nbsp;{{ shopInfo.area }}</div>
       </div>
     </div>
     <div class="count fs30 text-999">供应({{ list.length }})</div>
@@ -24,7 +24,8 @@ var vm = {
       shopInfo: {
         shopName: '',
         categoryName: '',
-        address: ''
+        address: '',
+        area: ''
       },
       list: [],
       shopId: '',
@@ -63,7 +64,7 @@ var vm = {
     Good
   },
   onReachBottom() {
-    vm.loadMore()();
+    vm.loadMore();
   },
   onLoad(options) {
     vm.shopId = options.shopId;
@@ -77,7 +78,8 @@ var vm = {
       let info = data.data;
       vm.shopInfo.shopName = info.name;
       vm.shopInfo.categoryName = info.categoryName;
-      vm.shopInfo.address = `${info.province}${info.city}${info.region}`;
+      // vm.shopInfo.address = `${info.province}${info.city}${info.region}`;
+      vm.shopInfo.area = info.area
     });
 
     // 加载商品信息

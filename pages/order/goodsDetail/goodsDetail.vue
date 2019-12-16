@@ -19,14 +19,12 @@
                     <!-- type 1:图片；2::视频；3.贴图 -->
                     <view v-if="item.type == 3">
                       <image @load="imgLoad" :lazy-load="true" :src="item.imgUrl"></image>
-                      <image class='img1' style="width: 100upx;height: 100upx;" src="../../../static/img/play.png" mode=""></image>
+                      <image class="img1" style="width: 100upx;height: 100upx;" src="../../../static/img/play.png" mode=""></image>
                     </view>
                     <view v-else>
                       <image class="imgloading" v-if="imgLoading" src="../../../static/img/timg.gif" mode=""></image>
                       <image @load="imgLoad" :lazy-load="true" :src="item.imgUrl"></image>
-                      
                     </view>
-                    
                   </view>
                 </swiper-item>
               </swiper>
@@ -256,7 +254,7 @@
       </view>
       <!-- <view class="xx" @click="isAgent = false">x</view> -->
     </view>
-    
+
     <!-- <Player v-if="isPlayer" :src="videoUrl" @close="closePlayer" ></Player> -->
     <view v-if="isPlayer" class="player">
       <view name="mask"><view class="mask" @click="close"></view></view>
@@ -275,14 +273,14 @@ import Standard from '@/components/good/Standard';
 import ColSta from '@/static/img/icon-collect.png';
 import ColAct from '@/static/img/icon-collect2.png';
 import { addToCart } from '@/api/goodsApi.js';
-import { handlerGoods,getDetail, getGoodNums, getPostItem, getHasCollect, getGoodsDetail } from '@/api/goodsApi.js';
+import { handlerGoods, getDetail, getGoodNums, getPostItem, getHasCollect, getGoodsDetail } from '@/api/goodsApi.js';
 import { getSetFormId } from '@/api/userApi.js';
 import T from '@/utils/tips.js';
 import util from '@/utils/util.js';
 import SwiperDot from '@/components/common/SwiperDot.vue';
-var vm =  {
+var vm = {
   data() {
-    vm = this
+    vm = this;
     return {
       isMaster: /*是否货主*/ false,
       isCall: /*是否展示拨号*/ false,
@@ -330,7 +328,7 @@ var vm =  {
       nav: '',
       isGoodsTitle: false,
       goodsTitle: '',
-      videoUrl: '',
+      videoUrl: ''
     };
   },
   components: {
@@ -349,228 +347,227 @@ var vm =  {
     this.goodsId = options.goodsId;
   },
   onShow() {
-    vm.load()
-    
-    if(uni.getStorageSync('dataList')){
+    vm.load();
+
+    if (uni.getStorageSync('dataList')) {
       uni.removeStorage({
         key: 'dataList'
-      })
+      });
     }
   },
   methods: {
-    showPlayer(sort){
+    showPlayer(sort) {
       vm.isPlayer = true;
-      vm.videoUrl = vm.videoObj[sort]
+      vm.videoUrl = vm.videoObj[sort];
     },
-    load(){
+    load() {
       getGoodsDetail({
-          shopId: this.shopId,
-          goodsId: this.goodsId
-        }).then(data => {
-          if (data.code == '1000') {
-            let d = data.data.goodsDetail;
-            d.hasColletion = data.data.hasColletion;
-            d.standardList = [];
-      
-            // 便被身份
- 
-             vm.isMaster = (uni.getStorageSync('roleId') == 20001 || uni.getStorageSync('roleId') == 20004) && (uni.getStorageSync('uid') == d.userRealInfoVo.userId);
+        shopId: this.shopId,
+        goodsId: this.goodsId
+      }).then(data => {
+        if (data.code == '1000') {
+          let d = data.data.goodsDetail;
+          d.hasColletion = data.data.hasColletion;
+          d.standardList = [];
 
-      
-            // 获取代办人列表
-            vm.callList = d.agencyList;
-      
-            //处理金额
-            d.goods.minPrice = util.formatMoney(d.goods.minPrice, 2);
-            d.goods.maxPrice = util.formatMoney(d.goods.maxPrice, 2);
-      
-            // 处理视频和图片
-            let imageList = [];
-            d.goodsImgVOList.forEach(item => {
+          // 便被身份
+
+          vm.isMaster = (uni.getStorageSync('roleId') == 20001 || uni.getStorageSync('roleId') == 20004) && uni.getStorageSync('uid') == d.userRealInfoVo.userId;
+
+          // 获取代办人列表
+          vm.callList = d.agencyList;
+
+          //处理金额
+          d.goods.minPrice = util.formatMoney(d.goods.minPrice, 2);
+          d.goods.maxPrice = util.formatMoney(d.goods.maxPrice, 2);
+
+          // 处理视频和图片
+          let imageList = [];
+          d.goodsImgVOList.forEach(item => {
+            // if (item.type != 2) {
+            if (item.primaryType == 1) {
+              if (item.type != 2) {
+                imageList.push(item);
+              } else {
+                this.videoObj[item.sort] = item.imgUrl;
+              }
+            } else {
               // if (item.type != 2) {
-                if (item.primaryType == 1) {
-                  if(item.type != 2){
-                    imageList.push(item);
-                  }else{
-                    this.videoObj[item.sort] = item.imgUrl;
-                  }
-                  
-                } else {
-                  // if (item.type != 2) {
-                    this.detailImageList.push(item);
-                  // }
-                }
-              // } else {
-              //   this.videoObj[item.sort] = item.imgUrl;
+              this.detailImageList.push(item);
               // }
-            });
-            this.imageList = imageList;
-            this.total = imageList.length;
-      
-            if (d.goods.unitName == null) {
-              d.goods.unitName = d.goodsDetailSpecList[0].name;
             }
-      
-            const setNode = (node, key) => {
-              node[key] = {};
-              return node[key];
-            };
-      
-            // 生成规格树
-            let tree = {};
-            // let specLen = d.goodsDetailSpecList.length;
-            let parentNodes = [tree];
-      
-            d.goodsDetailSpecList.forEach(spec => {
-              // 为每个父节点插入子节点
-              let nodes = [];
-              parentNodes.forEach(node => {
-                spec.goodsDetailSpecValueList.forEach((val, index) => {
-                  // 重置当前遍历的父节点
-                  nodes.push(setNode(node, val.value));
-                });
-              });
-              parentNodes = nodes;
-            });
-      
-            let sufName;
-            let isSection = d.goods.showStyle == 1 && d.goodsSkuList.length > 1 ? true : false;
-            // if (isSection) {
-            //   sufName = d.goodsDetailSpecList[0].valueSuffix;
             // } else {
-            //   sufName = "";
+            //   this.videoObj[item.sort] = item.imgUrl;
             // }
-            sufName = d.goodsDetailSpecList[0].valueSuffix || '';
-      
-            let grades = JSON.parse(d.goodsSkuList[0].priceExp);
-            if (d.goods.showStyle == 2) {
-              d.goodsSkuList[0].price = grades[0].price;
-              d.goodsSkuList[0].startNum = grades[0].startQuantity;
-            }
-      
-            // 配置节点
-            let isInvalid = /* 是否无效效商品 */ true;
-            d.goodsSkuList.forEach((sku, exIndex) => {
-              let curNode = tree;
-              let len = sku.attrValueList.length;
-              d.standardList[exIndex] = [];
-      
-              sku.attrValueList.forEach((val, index) => {
-                curNode = curNode[val.value];
-                if (len - 1 == index) {
-                  // 配置参数
-                  curNode.disabled = !!(sku.stock < sku.startNum);
-                  curNode.price = sku.price;
-                  curNode.stock = sku.stock;
-                  curNode.id = sku.id;
-                  curNode.startNum = sku.startNum;
-                }
-                // 顺便处理规格
-                if (isSection) {
-                  d.standardList[exIndex].push(`${sku.startNum}${d.goods.unitName}起批`);
-                  d.standardList[exIndex].push(`${val.value}${+d.goods.showStyle !== 3 ? sufName : ''}`);
-                } else {
-                  d.standardList[exIndex].push(val.value);
-                }
-      
-                // 累计无效次
-                isInvalid = isInvalid && curNode.disabled;
-              });
-              d.standardList[exIndex].push(`￥${sku.price}元/${d.goods.unitName}`);
-            });
-            d.tree = tree;
-            d.isInvalid = isInvalid;
-      
-            if (d.isInvalid) {
-              this.isGoodsTitle = true;
-              this.goodsTitle = '库存不足,请浏览别的商品吧~';
-              // T.tips("库存不足,请浏览别的商品吧~");
-            }
-      
-            // 0 待审核 1待修改 2申请驳回 3上架 4下架
-            if (d.goods.status == 4) {
-              T.tips('商品已下架啦,看下其它的吧');
-            }
-      
-            if (d.goods.showStyle == 2) {
-              let sku = d.goodsSkuList[0].attrValueList[0];
-              d.goodsList = [];
-              let grades = JSON.parse(d.goodsSkuList[0].priceExp);
-              grades.forEach((item, index) => {
-                d.goodsList.push({
-                  startNum: item.startQuantity,
-                  price: item.price,
-                  unit: sku.name,
-                  id: sku.skuId
-                });
-              });
-            }
-      
-            d.sufName = sufName;
-      
-            this.good = d || {};
-      
-            // 商品购买面板
-            this.deep = this.good.goodsDetailSpecList.length;
-            this.good.goodsDetailSpecList.forEach(spec => {
-              this.curs.push({
-                key: spec.goodsDetailSpecValueList[0].value,
-                disabled: undefined
-              });
-            });
-            this.calcPrice();
-            this.opt = true;
-            // 获得邮费方案
-            // getPostItem({
-            // 	id: d.goods.postSettingId
-            // }).then(data => {
-            // 	this.postType = data.data.type;
-            // });
-      
-            this.good.goods.detail = util.formatRichText(this.good.goods.detail);
-            console.log(this.good.goods.detail);
-            // 判断商品是否备收藏
-            if (uni.getStorageSync('access_token')) {
-              this.getHasCollect(this.goodsId);
-            }
+          });
+          this.imageList = imageList;
+          this.total = imageList.length;
+
+          if (d.goods.unitName == null) {
+            d.goods.unitName = d.goodsDetailSpecList[0].name;
           }
-        });
-      
+
+          const setNode = (node, key) => {
+            node[key] = {};
+            return node[key];
+          };
+
+          // 生成规格树
+          let tree = {};
+          // let specLen = d.goodsDetailSpecList.length;
+          let parentNodes = [tree];
+
+          d.goodsDetailSpecList.forEach(spec => {
+            // 为每个父节点插入子节点
+            let nodes = [];
+            parentNodes.forEach(node => {
+              spec.goodsDetailSpecValueList.forEach((val, index) => {
+                // 重置当前遍历的父节点
+                nodes.push(setNode(node, val.value));
+              });
+            });
+            parentNodes = nodes;
+          });
+
+          let sufName;
+          let isSection = d.goods.showStyle == 1 && d.goodsSkuList.length > 1 ? true : false;
+          // if (isSection) {
+          //   sufName = d.goodsDetailSpecList[0].valueSuffix;
+          // } else {
+          //   sufName = "";
+          // }
+          sufName = d.goodsDetailSpecList[0].valueSuffix || '';
+
+          let grades = JSON.parse(d.goodsSkuList[0].priceExp);
+          if (d.goods.showStyle == 2) {
+            d.goodsSkuList[0].price = grades[0].price;
+            d.goodsSkuList[0].startNum = grades[0].startQuantity;
+          }
+
+          // 配置节点
+          let isInvalid = /* 是否无效效商品 */ true;
+          d.goodsSkuList.forEach((sku, exIndex) => {
+            let curNode = tree;
+            let len = sku.attrValueList.length;
+            d.standardList[exIndex] = [];
+
+            sku.attrValueList.forEach((val, index) => {
+              curNode = curNode[val.value];
+              if (len - 1 == index) {
+                // 配置参数
+                curNode.disabled = !!(sku.stock < sku.startNum);
+                curNode.price = sku.price;
+                curNode.stock = sku.stock;
+                curNode.id = sku.id;
+                curNode.startNum = sku.startNum;
+              }
+              // 顺便处理规格
+              if (isSection) {
+                d.standardList[exIndex].push(`${sku.startNum}${d.goods.unitName}起批`);
+                d.standardList[exIndex].push(`${val.value}${+d.goods.showStyle !== 3 ? sufName : ''}`);
+              } else {
+                d.standardList[exIndex].push(val.value);
+              }
+
+              // 累计无效次
+              isInvalid = isInvalid && curNode.disabled;
+            });
+            d.standardList[exIndex].push(`￥${sku.price}元/${d.goods.unitName}`);
+          });
+          d.tree = tree;
+          d.isInvalid = isInvalid;
+
+          if (d.isInvalid) {
+            this.isGoodsTitle = true;
+            this.goodsTitle = '库存不足,请浏览别的商品吧~';
+            // T.tips("库存不足,请浏览别的商品吧~");
+          }
+
+          // 0 待审核 1待修改 2申请驳回 3上架 4下架
+          if (d.goods.status == 4) {
+            T.tips('商品已下架啦,看下其它的吧');
+          }
+
+          if (d.goods.showStyle == 2) {
+            let sku = d.goodsSkuList[0].attrValueList[0];
+            d.goodsList = [];
+            let grades = JSON.parse(d.goodsSkuList[0].priceExp);
+            grades.forEach((item, index) => {
+              d.goodsList.push({
+                startNum: item.startQuantity,
+                price: item.price,
+                unit: sku.name,
+                id: sku.skuId
+              });
+            });
+          }
+
+          d.sufName = sufName;
+
+          this.good = d || {};
+
+          // 商品购买面板
+          this.deep = this.good.goodsDetailSpecList.length;
+          this.good.goodsDetailSpecList.forEach(spec => {
+            this.curs.push({
+              key: spec.goodsDetailSpecValueList[0].value,
+              disabled: undefined
+            });
+          });
+          this.calcPrice();
+          this.opt = true;
+          // 获得邮费方案
+          // getPostItem({
+          // 	id: d.goods.postSettingId
+          // }).then(data => {
+          // 	this.postType = data.data.type;
+          // });
+
+          this.good.goods.detail = util.formatRichText(this.good.goods.detail);
+          console.log(this.good.goods.detail);
+          // 判断商品是否备收藏
+          if (uni.getStorageSync('access_token')) {
+            this.getHasCollect(this.goodsId);
+          }
+        }
+      });
     },
-    
-    updateGood(ids,type){
+
+    updateGood(ids, type) {
       handlerGoods({
-        "goodsIds": ids,
-        "handlerType": type,
-      }).then(data=>{
-        uni.showToast({
-          title: data.message,
-          duration: 2000,
-          icon :'none'
+        goodsIds: ids,
+        handlerType: type
+      })
+        .then(data => {
+          uni.showToast({
+            title: data.message,
+            duration: 2000,
+            icon: 'none'
+          });
+          vm.load();
         })
-        vm.load()
-       }).catch(err=>{
-        uni.showToast({
-          title: '网络出错，请稍后再试',
-          duration: 2000,
-          icon :'none'
-        })
-       });
+        .catch(err => {
+          uni.showToast({
+            title: '网络出错，请稍后再试',
+            duration: 2000,
+            icon: 'none'
+          });
+        });
     },
-    publish(){
-      vm.updateGood([vm.good.goods.id],0)
+    publish() {
+      vm.updateGood([vm.good.goods.id], 0);
     },
-    unpublish(){
-      vm.updateGood([vm.good.goods.id],1)
+    unpublish() {
+      vm.updateGood([vm.good.goods.id], 1);
     },
     // 修改
-    modify(){
+    modify() {
       uni.navigateTo({
         url: `/pages/middle/release/release?shopId=${vm.good.goods.shopId}&goodsId=${vm.good.goods.id}`
-      })
+      });
     },
-    rollback(){
-      vm.updateGood([vm.good.goods.id],2)
+    rollback() {
+      vm.updateGood([vm.good.goods.id], 2);
     },
     callAgent(item) {
       item.phone &&
@@ -579,7 +576,7 @@ var vm =  {
         });
       this.isCall = false;
     },
-    callMaster(phone){
+    callMaster(phone) {
       uni.makePhoneCall({
         phoneNumber: phone //仅为示例
       });
@@ -845,12 +842,11 @@ var vm =  {
 
         animation.export();
       }
-    },
+    }
     // #endif
-
   }
 };
-export default vm
+export default vm;
 </script>
 
 <style lang="scss" scoped>
@@ -924,7 +920,7 @@ video {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 .good-detail {
   padding-bottom: 120upx;
@@ -955,7 +951,7 @@ video {
   .bottom-tips {
     position: fixed;
     left: 0;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     width: 100%;
     line-height: 70upx;
     text-align: center;
