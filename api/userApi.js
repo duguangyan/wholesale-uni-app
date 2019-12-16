@@ -164,7 +164,7 @@ const getOrderDetailById = data => {
 // 取消订单
 const postOrderCancel = data => {
 	return request({
-		url: '/api/order/order/cancel',
+		url: '/api/ws/order/order/cancel',
 		data,
 		method: 'post',
 		type: 'form'
@@ -174,7 +174,7 @@ const postOrderCancel = data => {
 // 确认收货
 const postOrderConfirm = data => {
 	return request({
-		url: '/api/order/order/confirm',
+		url: '/api/ws/order/order/confirm',
 		data,
 		method: 'post',
 		type: 'form'
@@ -184,7 +184,7 @@ const postOrderConfirm = data => {
 // 查看物流信息
 const postOrderLogisticsQuery = data => {
 	return request({
-		url: '/api/order/order/logisticsQuery',
+		url: '/api/ws/order/order/logisticsQuery',
 		data,
 		type: 'form'
 	})
@@ -202,7 +202,7 @@ const getCollectGoodsRemove = data => {
 // 根据ID查询广告位
 const getAdPositioneById = data => {
 	return request({
-		url: '/api/act/adPosition/getById',
+		url: '/api/ws/act/adPosition/getById',
 		data,
 		type: 'form'
 	})
@@ -211,7 +211,7 @@ const getAdPositioneById = data => {
 // 严选好物
 const getPageLayout = data => {
 	return request({
-		url: '/api/act/pageLayout/getListByParentId',
+		url: '/api/ws/act/pageLayout/getListByParentId',
 		data,
 		type: 'form'
 	})
@@ -260,7 +260,7 @@ const appUpdate = data => {
 // 根据用户ID获取用户状态信息
 const getUserRealInfo = data => {
 	return request({
-		url: '/api/goods/userRealInfo/getUserRoleAndUserRealInfo',
+		url: '/api/ws/goods/userRealInfo/getUserRoleAndUserRealInfo',
 		data,
 		type: 'form',
 	})
@@ -271,7 +271,7 @@ const getUserRealInfo = data => {
 const getUserRealInfoSettledIn = data => {
 	return request({
 		method: 'post',
-		url: '/api/goods/userRealInfo/settledIn',
+		url: '/api/ws/goods/userRealInfo/settledIn',
 		data,
 		type: 'form',
 	})
@@ -280,7 +280,7 @@ const getUserRealInfoSettledIn = data => {
 const getByUserIdAndType = data => {
 	return request({
 		method: 'post',
-		url: '/api/goods/apply/getByUserIdAndType',
+		url: '/api/ws/goods/apply/getByUserIdAndType',
 		data,
 		type: 'form',
 	})
@@ -289,7 +289,7 @@ const getByUserIdAndType = data => {
 // 获取用户全部信息 实名 认证 
 const getUserRealInfoAll = data => {
 	return request({
-		url: '/api/goods/userRealInfo/getUserInfo',
+		url: '/api/ws/goods/userRealInfo/getUserInfo',
 		data,
 		type: 'form',
 	})
@@ -298,7 +298,7 @@ const getUserRealInfoAll = data => {
 // 获取用户全部信息
 const getShopIdByUser = data => {
 	return request({
-		url: '/api/goods/shop/getShop',
+		url: '/api/ws/goods/shop/getShop',
 		data,
 		type: 'form',
 	})
@@ -307,7 +307,7 @@ const getShopIdByUser = data => {
 // 统计订单状态条数
 const getOrderStat = data => {
 	return request({
-		url: '/api/order/order/myOrderStat',
+		url: '/api/ws/order/order/myOrderStat',
 		data,
 		type: 'form',
 	})
@@ -316,7 +316,7 @@ const getOrderStat = data => {
 // 主页订单交易统计
 const statOrderInfo = data => {
 	return request({
-		url: '/api/order/orderStat/statByUserId',
+		url: '/api/ws/order/orderStat/statByUserId',
 		data,
 		type: 'form',
 	})
@@ -327,7 +327,7 @@ const statOrderInfo = data => {
 // 入驻申请撤回
 const applyAuditWithdraw = data => {
 	return request({
-		url: '/api/goods/apply/auditWithdraw',
+		url: '/api/ws/goods/apply/auditWithdraw',
 		data,
 		type: 'form',
 	})
@@ -337,7 +337,7 @@ const applyAuditWithdraw = data => {
 const applyApplyUpdate = data => {
 	return request({
 		method: 'post',
-		url: '/api/goods/apply/update',
+		url: '/api/ws/goods/apply/update',
 		data,
 		type: 'form',
 	})
@@ -347,7 +347,7 @@ const applyApplyUpdate = data => {
 const applyApplyModifySettledIn = data => {
 	return request({
 		method: 'post',
-		url: '/api/goods/userRealInfo/modifySettledIn',
+		url: '/api/ws/goods/userRealInfo/modifySettledIn',
 		data,
 		type: 'form',
 	})
@@ -357,7 +357,7 @@ const applyApplyModifySettledIn = data => {
 // 获取当前用户店铺信息
 const getShopInfo = data => {
 	return request({
-		url: '/api/goods/shop/getShop',
+		url: '/api/ws/goods/shop/getShop',
 		data,
 		type: 'form',
 	})
@@ -366,7 +366,7 @@ const getShopInfo = data => {
 // 根据店铺ID获取地区代办列表
 const fromIdGetAgent = data => {
 	return request({
-		url: '/api/goods/agentArea/fromIdGetAgent',
+		url: '/api/ws/goods/agentArea/fromIdGetAgent',
 		data,
 		type: 'form',
 	})
@@ -375,7 +375,7 @@ const fromIdGetAgent = data => {
 // 根据货主ID获取代办信息列表
 const fromIdGetAgentUserInfo = data => {
 	return request({
-		url: '/api/goods/userRealInfo/fromIdGetAgentUserInfo',
+		url: '/api/ws/goods/userRealInfo/fromIdGetAgentUserInfo',
 		data,
 		type: 'form',
 	})
@@ -384,7 +384,7 @@ const fromIdGetAgentUserInfo = data => {
 // 根据代办ID获取货主信息列表
 const fromIdGetShopUserInfo = data => {
 	return request({
-		url: '/api/goods/userRealInfo/fromIdGetShopUserInfo',
+		url: '/api/ws/goods/userRealInfo/fromIdGetShopUserInfo',
 		data,
 		type: 'form',
 	})
@@ -394,7 +394,7 @@ const fromIdGetShopUserInfo = data => {
 const orderDelivery = data => {
 	return request({
 		method: 'post',
-		url: '/api/order/order/delivery',
+		url: '/api/ws/order/order/delivery',
 		data,
 		type: 'form',
 	})
@@ -404,7 +404,7 @@ const orderDelivery = data => {
 const sellerConfirm = data => {
 	return request({
 		method: 'post',
-		url: '/api/order/order/sellerConfirm',
+		url: '/api/ws/order/order/sellerConfirm',
 		data,
 		type: 'form',
 	})
@@ -414,7 +414,7 @@ const sellerConfirm = data => {
 const sellerCancel = data => {
 	return request({
 		method: 'post',
-		url: '/api/order/order/sellerCancel',
+		url: '/api/ws/order/order/sellerCancel',
 		data,
 		type: 'form',
 	})
@@ -422,7 +422,7 @@ const sellerCancel = data => {
 // 企业入驻
 const enterpriseSettledIn = data => {
 	return request({
-		url: '/api/goods/userRealInfo/enterpriseSettledIn',
+		url: '/api/ws/goods/userRealInfo/enterpriseSettledIn',
 		data,
 		type: 'form',
 	})
