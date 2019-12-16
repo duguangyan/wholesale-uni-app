@@ -4,7 +4,7 @@
 			<div class="top cf">
 				<div class="search fll">
 					<div class="icon-30">
-						<img :class="{'platform':platform==2}" src="@/static/img/icon-search2.png" />
+						<img :class="{'platform':platform==2,'platformXiaomi':platform==5}" src="@/static/img/icon-search2.png" />
 					</div>
 					<input class="fs28" type="text" confirm-type="search" @confirm="toSearch($event)" v-model="search" placeholder="输入商品名称" />
 				</div>
@@ -157,8 +157,8 @@
 
 				input {
 					position: absolute;
-					top: 14upx;
-					left: 68upx;
+					top: 12upx;
+					left: 64upx;
 					width: 84%;
 					height: 40upx;
 					min-height:40upx;
@@ -172,7 +172,7 @@
 					height: 36upx;
 					position: absolute;
 					left: 20upx;
-					top: 8upx;
+					top: 14upx;
 
 					>img {
 						width: 100%;
@@ -180,7 +180,7 @@
 					}
 				}
 				
-				/* #ifdef APP-PLUS || APP-PLUS-NVUE */
+				/* #ifdef APP-PLUS || H5 */
 				.icon-30 {
 					width: 30upx;
 					height: 30upx;
@@ -189,6 +189,10 @@
 				/* #endif */
 				
 				.platform{
+					position: relative;
+					top: -10upx;
+				}
+				.platformXiaomi{
 					position: relative;
 					top: -10upx;
 				}

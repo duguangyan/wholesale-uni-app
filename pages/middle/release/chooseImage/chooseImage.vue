@@ -13,6 +13,10 @@
 					</view>
 					<view class="img fll" @click="actionSheetTap(index,0)" v-if="index==0 ?(item.imgs.length<5):(item.imgs.length<10)">
 						<image src="/static/imgs/icon-1036.png" mode=""></image>
+						<view class="progress" v-if="uploadTaskProgress>0 && uploadTaskProgress<=99 && uploadTaskProgressItemsIndex == 0 && uploadTaskProgressIndex == index">
+							<cmd-circle cid="circle10" type="circle" :percent="uploadTaskProgress"></cmd-circle>
+						</view>
+						
 					</view>
 					
 					<view class="warp img fll" v-for="(it,ix) in item.videos" :key="ix" v-if="item.videos.length>0">
@@ -26,19 +30,29 @@
 					</view>
 					<view class="img fll" @click="actionSheetTap(index,1)"  v-if="index==0 ?(item.videos.length<5):(item.videos.length<10)">
 						<image src="/static/imgs/icon-1037.png" mode=""></image>
+						<view class="progress"  v-if="uploadTaskProgress > 0 && uploadTaskProgress<=99 &&  uploadTaskProgressItemsIndex == 1 && uploadTaskProgressIndex == index">
+							<cmd-circle cid="circle10" type="circle" :percent="uploadTaskProgress"></cmd-circle>
+						</view>
 					</view>
 				</view>
 			</view>
 		</view>
+		
 		<view class="big-btn-active" @click="save">保存</view>
 	</view>
 </template>
 
 <script>
 	import T from '@/utils/tips.js'
+	import cmdCircle from "@/components/cmd-circle/cmd-circle.vue"
 	export default {
 		data() {
 			return {
+				isClock: false,
+				gapDegree:360,  // 进度条缺口
+				uploadTaskProgress:0,  // 进度条
+				uploadTaskProgressIndex: '', // 当前进度条索引
+				uploadTaskProgressItemsIndex: '',
 				chooseIndex:'',  // 0 是主图 1是详情
 				chooseType:'',   // 0 是图片 2是视频
 				items:[
@@ -57,6 +71,7 @@
 				]
 			};
 		},
+		components: {cmdCircle},
 		onShow() {
 			// 如果有缓存
 			this.goodsImgList = uni.getStorageSync('goodsImgList')
@@ -101,10 +116,20 @@
 			},
 			// 选择图片
 			actionSheetTap(index,type){
+				if(this.isClock){
+					return false
+				}
+				if(this.uploadTaskProgress > 0 && this.uploadTaskProgress < 100){
+					T.tips('图片或视频正在上传中，请稍等...')
+					return false
+				}
+				this.uploadTaskProgressItemsIndex = type
+				this.uploadTaskProgressIndex = index
 				let _this = this
 				// index 0 主图 1 详情图
 				this.chooseIndex = index
 				this.chooseType  = type
+				this.isClock = true
 				if(type == 0){
 					uni.chooseImage({
 						count:this.chooseIndex==0?5:10 , //默认9
@@ -139,7 +164,7 @@
 				// }
 				url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/ws/goods/goodImg/fileUpload' : 'http://wsm.qinlvny.com/ws/goods/goodImg/fileUpload'
 				// 保存文件
-				uni.uploadFile({
+				 const uploadTask = uni.uploadFile({
 					url: url, //仅为示例，非真实的接口地址
 					filePath: tempFilePath,
 					name: 'file',
@@ -157,14 +182,36 @@
 							}
 							
 							uni.setStorageSync('goodsImgList',_this.items)
+							_this.isClock = false
 						} else {
 							T.tips(res.message || '上传图片失败')
+							_this.isClock = false
 						}
 					},
 					fail:(err) => {
 						T.tips('上传图片失败')
+						_this.isClock = false
+					},
+					complete:() => {
+						_this.isClock = false
 					}
 				});
+				
+				
+				uploadTask.onProgressUpdate((res) => {
+					// console.log('上传进度' + res.progress);
+					// console.log('已经上传的数据长度' + res.totalBytesSent);
+					// console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend);
+					this.uploadTaskProgress = res.progress
+					if(this.uploadTaskProgress >= 100){
+						this.uploadTaskProgress = 0
+					}
+					// 测试条件，取消上传任务。
+					// if (res.progress > 50) {
+					// 	uploadTask.abort();
+					// }
+				});
+				
 			}
 		}
 	}
@@ -229,6 +276,7 @@
 						height: 140upx;
 						margin-right: 30upx;
 						margin-bottom: 20upx;
+						position: relative;
 						.im{
 							width: 140upx;
 							height: 140upx;
@@ -242,6 +290,14 @@
 						>image{
 							width: 100%;
 							height: 100%;
+						}
+						.progress{
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 100%;
+							height: 100%;
+							background: #fff;
 						}
 					}
 				}

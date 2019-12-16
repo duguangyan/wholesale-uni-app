@@ -30,7 +30,7 @@
 					<view class="fll img">
 						<image :class="{'platformOPPO':platform == 1, 'platformXiaomi':platform == 5}" :src="'/static/imgs/main-icon-1.png'" mode=""></image>
 					</view>
-					<view class="fll fs20 text-999">{{item.realName || ''}} <text class="mgl-20" v-for="(area,areaIdx) in item.shopArea" :key="areaIdx">{{area}}</text> </view>
+					<view class="fll fs20 text-999 ellipsis">{{item.realName || ''}} <text class="mgl-20" v-for="(area,areaIdx) in item.shopArea" :key="areaIdx">{{area}}</text> </view>
 					<view class="flr fs20 text-999" v-if="item.createTimeName">{{item.createTimeName}}小时前</view>
 				</view>
 			</view>
@@ -109,10 +109,7 @@
 						position: relative;
 						top: 10upx;
 					}
-					.platformXiaomi{
-						position: relative;
-						top: -10upx;
-					}
+					
 				}
 				.role{
 					margin-top: 60upx;
@@ -127,10 +124,19 @@
 							height: 100%;
 							position: relative;
 							top: -6upx; 
+							/*  #ifdef  MP-WEIXIN  */
+							top: -4upx; 
+							/*  #endif  */
 						}
 						.platformOPPO{
 							top: -13upx !important;
 						}
+						.platformXiaomi{
+							top: -20upx !important;
+						}
+					}
+					.ellipsis{
+						width: 70%;
 					}
 				}
 				.with300{

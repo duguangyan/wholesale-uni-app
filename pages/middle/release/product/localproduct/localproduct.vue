@@ -42,7 +42,7 @@
 </template>
 
 <script>
-	import { getShopInfo , fromIdGetAgent } from '@/api/userApi.js'
+	import { getShopInfo , fromIdGetAgent, shopAreaFromUserId } from '@/api/userApi.js'
 	import { getPageGoods, getPageGoodsSearch, statisticsGoods, handlerGoods } from '@/api/goodsApi.js'
 	import Goodx from '@/components/common/Goodx.vue'
 	import Dialog from'@/components/common/Dialog.vue'
@@ -93,7 +93,7 @@
 			if(options.index) this.index = options.index
 		},
 		onShow() {
-			this.dataInit()
+			this.shopAreaFromUserId()
 		},
 		onPullDownRefresh(){
 			this.dataInit()
@@ -108,6 +108,20 @@
 			}
 		},
 		methods:{
+			// 获取经营地区IDs
+			shopAreaFromUserId(){
+				shopAreaFromUserId().then(res=>{
+					if(res.code == '1000'){
+						this.userAreas = []
+						if(res.data.length>0){
+							res.data.forEach(item=>{
+								this.userAreas.push(item.id)
+							})
+						}
+						this.dataInit()
+					}
+				})
+			},
 			// 初始化
 			dataInit(){
 				// 判断用户角色
@@ -253,7 +267,8 @@
 				if(roleId == '20001' || roleId == '20004'){ // 货主
 					let data = {
 						pageIndex: this.pageIndex,
-						status: this.status
+						status: this.status,
+						shopAreaId:this.userAreas
 					}
 					getPageGoods(data).then(res=>{
 						if(res.code == '1000' && res.data){
@@ -268,7 +283,8 @@
 					})
 				}else{ // 代办
 					let data = {
-						pageIndex: this.pageIndex
+						pageIndex: this.pageIndex,
+						shopAreaId:this.userAreas
 					}
 					// 代办农产品
 					if(this.index == 1) {

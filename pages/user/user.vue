@@ -160,7 +160,7 @@
 						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
 						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
 						
-						this.nickName     = uni.getStorageSync('nickName')
+						this.nickName     =  res.data.apply.enterpriseName || uni.getStorageSync('nickName')
 						let imageUrl      = uni.getStorageSync('headImgUrl')
 						this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png'
 						this.roleId       = uni.getStorageSync('roleId') || ''

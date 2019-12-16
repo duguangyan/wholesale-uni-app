@@ -13,14 +13,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="nodata" v-if="items.length<=0">
-				<view class="image">
-					<image src="/static/imgs/localshipper.png" mode=""></image>
-				</view>
-				<view class="fs24 text-999">
-					该地区还没有 {{roleId == '20002'?'货主':'代办'}}
-				</view>
-			</view>
+		
 			
 		</view>
 		
@@ -40,21 +33,20 @@
 						</view>
 					</view>
 				</view>
-				<view class="nodata" v-if="items.length<=0">
-					<view class="image">
-						<image src="/static/imgs/localshipper.png" mode=""></image>
-					</view>
-					<view class="fs24 text-999">
-						该地区还没有代办
-					</view>
-				</view>
 			</view>
 			
 			
 			
 		</view>
 		
-		
+		<view class="nodata" v-if="items.length<=0">
+			<view class="image">
+				<image src="/static/imgs/localshipper.png" mode=""></image>
+			</view>
+			<view class="fs24 text-999" v-if="roleId != '20004'">
+				该地区还没有 {{roleId == '20002'?'货主':'代办'}}
+			</view>
+		</view>
 		
 		
 	</view>
@@ -63,26 +55,39 @@
 <script>
 	import { getShopInfo , fromIdGetAgent ,fromIdGetAgentUserInfo,fromIdGetShopUserInfo } from '@/api/userApi.js'
 	import { enterpriseAgentUserInfo } from '@/api/goodsApi.js'
+	import { shopAreaFromUserId } from '@/api/userApi.js'
 	export default {
 		data() {
 			return {
 				items:[
-					{
-						realName:'农百集',
-						phone:'15817390700'
-					}
+					
 				],
 				roleId:'',
-				userApply:''
+				userApply:'',
+				userAreas:''
 			};
 		},
 		onShow() {
-			// 判断用户类型
-			this.assessUserType()
 			
+			// 获取经营地区IDs
+			this.shopAreaFromUserId()
 		},
 		methods:{
-			
+			// 获取经营地区IDs
+			shopAreaFromUserId(){
+				shopAreaFromUserId().then(res=>{
+					if(res.code == '1000'){
+						this.userAreas = []
+						if(res.data.length>0){
+							res.data.forEach(item=>{
+								this.userAreas.push(item.id)
+							})
+						}
+						// 判断用户类型
+						this.assessUserType()
+					}
+				})
+			},
 			// 判断用户类型
 			assessUserType(){
 				this.roleId = uni.getStorageSync('roleId')
@@ -106,7 +111,10 @@
 			},
 			// 企业
 			getEnterpriseAgentUserInfo(){
-				enterpriseAgentUserInfo().then(res=>{
+				let data = {
+					shopAreaId: this.userAreas
+				}
+				enterpriseAgentUserInfo(data).then(res=>{
 					if(res.code == '1000'){
 						this.items = res.data
 					}
@@ -114,7 +122,10 @@
 			},
 			// 代办
 			fromIdGetAgentUserInfo(){
-				fromIdGetAgentUserInfo().then(res=>{
+				let data = {
+					shopAreaId: this.userAreas
+				}
+				fromIdGetAgentUserInfo(data).then(res=>{
 					if(res.code == '1000'){
 						this.items = res.data
 					}
@@ -122,7 +133,10 @@
 			},
 			// 货主
 			fromIdGetShopUserInfo(){
-				fromIdGetShopUserInfo().then(res=>{
+				let data = {
+					shopAreaId: this.userAreas
+				}
+				fromIdGetShopUserInfo(data).then(res=>{
 					if(res.code == '1000'){
 						this.items = res.data
 					}

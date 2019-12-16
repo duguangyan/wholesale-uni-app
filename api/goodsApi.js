@@ -229,7 +229,7 @@ const getShopInfo = data => {
 // 分类ID获取企业类表 {categoryId}
 const getCompany = data => {
   return request({
-  	url: '/api/goods/shop/getShopByCategoryId',
+  	url: '/api/ws/goods/shop/getShopByCategoryId',
   	data
   })
 }
@@ -237,7 +237,7 @@ const getCompany = data => {
 // 根据企业ID获取代表信息列表
 const enterpriseAgentUserInfo = data => {
   return request({
-  	url: '/api/goods/agentArea/enterpriseAgentUserInfo',
+  	url: '/api/ws/goods/agentArea/enterpriseAgentUserInfo',
   	data
   })
 }

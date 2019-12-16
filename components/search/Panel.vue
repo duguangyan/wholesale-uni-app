@@ -23,14 +23,14 @@
         <!-- 价格区间 -->
         <div class="price-area">
           <input v-model="filter.priceBegin" type="number" placeholder="最低价" @blur="valiPriceBegin" />
-          <span :class="{'oppo': platform == '1'}"></span>
+          <span :class="{'oppo': platform == '1' || platform == '5'}"></span>
           <input v-model="filter.priceEnd" type="number" placeholder="最高价" @blur="valiPriceEnd" />
         </div>
         <div class="weight"></div>
         <!-- 起批量 -->
         <div class="price-area">
           <input v-model="filter.startNumStart" type="number" placeholder="最低起批量" @blur="valiStartNumStart" />
-          <span :class="{'oppo': platform == '1'}"></span>
+          <span :class="{'oppo': platform == '1' || platform == '5'}"></span>
           <input v-model="filter.startNumEnd" type="number" placeholder="最高起批量" @blur="valiStartNumEnd" />
         </div>
         
@@ -56,7 +56,7 @@ export default {
       default: false
     },
 	platform: {
-	  type: String,
+	  type: String || Number,
 	  default: ''
 	}
   },
