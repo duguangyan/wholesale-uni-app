@@ -14,15 +14,19 @@
           <view class="page-section swiper">
             <view class="page-section-spacing">
               <swiper @change="changeBanner" class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-                <swiper-item v-for="(item, index) in imageList" :key="index">
+                <swiper-item v-for="(item, index) in imageList" :key="index" @click="showPlayer(item.sort)">
                   <view class="swiper-item">
                     <!-- type 1:图片；2::视频；3.贴图 -->
-                    <view v-if="item.type == 1">
-                      <!-- <video v-if="item.type == 2" id="myVideo" :src="item.imgUrl" :danmu-list="danmuList" enable-danmu danmu-btn controls></video> -->
-                      <image class="img1" src="../../../static/img/play.png" mode="aspectFit"></image>
+                    <view v-if="item.type == 3">
+                      <image @load="imgLoad" :lazy-load="true" :src="item.imgUrl"></image>
+                      <image class='img1' style="width: 100upx;height: 100upx;" src="../../../static/img/play.png" mode=""></image>
                     </view>
-                    <image v-else class="imgloading" v-if="imgLoading" src="../../../static/img/timg.gif" mode=""></image>
-                    <image @load="imgLoad" :lazy-load="true" :src="item.imgUrl"></image>
+                    <view v-else>
+                      <image class="imgloading" v-if="imgLoading" src="../../../static/img/timg.gif" mode=""></image>
+                      <image @load="imgLoad" :lazy-load="true" :src="item.imgUrl"></image>
+                      
+                    </view>
+                    
                   </view>
                 </swiper-item>
               </swiper>
@@ -122,10 +126,11 @@
       </view>
       <view class="txt">{{ good.goods.detail }}</view>
       <view class="tag2" v-for="(item, index) in detailImageList" :key="index">
-        <!-- <view v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
+        <!-- <view v-if="item.type==3" :class="{'img-con':item.type==3}" @click="show(item)">
 					<image class='img2' src="../../../static/img/play.png" mode=""></image>
 				</view> -->
-        <img class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
+        <video v-if="item.type == 2" :src="item.imgUrl" id="myVideo" enable-danmu danmu-btn controls></video>
+        <img v-if="item.type == 1" class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
       </view>
     </view>
 
@@ -135,11 +140,12 @@
     <view v-if="isMaster" class="">
       <!-- 审核驳回显示驳回信息 -->
       <view v-if="good.goods.status == 2" class="bottom-tips">{{ good.goodsAuditLogVO.auditOpinion }}</view>
-      <view v-if="good.goods.status == 1" class="bottom-tips">审核中</view>
+      <view v-if="good.goods.status == 0" class="bottom-tips">审核中</view>
 
       <!-- 审核中 -->
       <view class="bottom-btn">
-        <view v-if="good.goods.status == 1" @click="rollback">撤回</view>
+        <view v-if="good.goods.status == 0" @click="rollback">撤回</view>
+        <view v-if="good.goods.status == 1" @click="modify">修改</view>
         <!-- 审核驳回 -->
         <view :class="{ mr10: good.goods.status == 4 }" v-if="good.goods.status == 2 || good.goods.status == 4" @click="modify">修改</view>
         <!-- 已上架 -->
@@ -250,12 +256,21 @@
       </view>
       <!-- <view class="xx" @click="isAgent = false">x</view> -->
     </view>
+    
+    <!-- <Player v-if="isPlayer" :src="videoUrl" @close="closePlayer" ></Player> -->
+    <view v-if="isPlayer" class="player">
+      <view name="mask"><view class="mask" @click="close"></view></view>
+      <view name="body">
+        <view class="body"><video :src="videoUrl" id="myVideo" enable-danmu danmu-btn controls></video></view>
+      </view>
+      <view class="xx" @click="isPlayer = false">x</view>
+    </view>
   </view>
 </template>
 
 <script>
 import Share from '@/components/good/Share';
-import Player from '@/components/common/Player.vue';
+// import Player from '@/components/common/Player.vue';
 import Standard from '@/components/good/Standard';
 import ColSta from '@/static/img/icon-collect.png';
 import ColAct from '@/static/img/icon-collect2.png';
@@ -314,13 +329,14 @@ var vm =  {
       isShare: false,
       nav: '',
       isGoodsTitle: false,
-      goodsTitle: ''
+      goodsTitle: '',
+      videoUrl: '',
     };
   },
   components: {
     Share,
     Standard,
-    Player,
+    // Player,
     SwiperDot
   },
   computed: {
@@ -342,6 +358,10 @@ var vm =  {
     }
   },
   methods: {
+    showPlayer(sort){
+      vm.isPlayer = true;
+      vm.videoUrl = vm.videoObj[sort]
+    },
     load(){
       getGoodsDetail({
           shopId: this.shopId,
@@ -367,20 +387,22 @@ var vm =  {
             // 处理视频和图片
             let imageList = [];
             d.goodsImgVOList.forEach(item => {
-              if (item.type != 2) {
+              // if (item.type != 2) {
                 if (item.primaryType == 1) {
                   if(item.type != 2){
                     imageList.push(item);
+                  }else{
+                    this.videoObj[item.sort] = item.imgUrl;
                   }
                   
                 } else {
-                  if (item.type != 2) {
+                  // if (item.type != 2) {
                     this.detailImageList.push(item);
-                  }
+                  // }
                 }
-              } else {
-                this.videoObj[item.sort] = item.imgUrl;
-              }
+              // } else {
+              //   this.videoObj[item.sort] = item.imgUrl;
+              // }
             });
             this.imageList = imageList;
             this.total = imageList.length;
@@ -897,13 +919,12 @@ video {
   opacity: 0;
 }
 .img1 {
-  width: 100upx !important;
-  height: 100upx !important;
+  width: 100upx;
+  height: 100upx;
   position: absolute;
   left: 50%;
-  margin-left: -50upx;
   top: 50%;
-  margin-top: -50upx;
+  transform: translate(-50%,-50%);
 }
 .good-detail {
   padding-bottom: 120upx;
@@ -1468,6 +1489,7 @@ video {
     }
 
     .swiper-item {
+      position: relative;
       background-image: url('~@/static/img/default-xiangqing.png');
       background-repeat: no-repeat;
       background-size: 100% 100%;
@@ -1815,6 +1837,100 @@ video {
     &.invalid::after {
       background-color: #ccc;
     }
+  }
+}
+.player {
+  video {
+    width: 100%;
+    height: 750upx;
+  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  overflow: hidden;
+  // height: 1000upx;
+  // background: red;
+  .xx {
+    position: absolute;
+    z-index: 999;
+    bottom: 100upx;
+    left: 50%;
+    margin-left: -50upx;
+    color: #fff;
+    font-size: 60upx;
+    width: 100upx;
+    height: 100upx;
+    background: #000;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 90upx;
+  }
+  .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100%;
+  }
+  .body {
+    background-color: #fff;
+    height: 750upx;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    left: 0;
+    top: 0;
+    color: #000;
+    > video {
+      width: 750upx;
+      height: 100%;
+    }
+    .h1 {
+      font-size: 28upx;
+      position: relative;
+      text-align: center;
+      > img {
+        position: absolute;
+        right: 0;
+      }
+    }
+    .close {
+      position: absolute;
+      right: 20upx;
+      top: 0;
+    }
+  }
+  .mask-enter-active,
+  .mask-leave-active,
+  .body-enter-active,
+  .body-leave-active {
+    transition: all 0.5s;
+  }
+  .mask-enter,
+  .body-enter,
+  .mask-leave-to,
+  .body-leave-to {
+    opacity: 0;
+  }
+  .body-enter,
+  .body-leave-to {
+    transform: translateY(100%);
+  }
+  .body-enter-to,
+  .body-leave {
+    transform: translateY(0%);
+  }
+  .mask-enter-to,
+  .body-enter-to,
+  .mask-leave,
+  .body-leave {
+    opacity: 1;
   }
 }
 </style>
