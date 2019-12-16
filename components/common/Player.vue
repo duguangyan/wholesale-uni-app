@@ -10,6 +10,7 @@
     </view>
 	<view class="xx" @click="close">x</view>
   </view>
+  
 </template>
 <script>
 var vm = {
