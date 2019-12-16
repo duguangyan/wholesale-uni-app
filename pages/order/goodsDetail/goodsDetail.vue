@@ -16,10 +16,11 @@
               <swiper @change="changeBanner" class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
                 <swiper-item v-for="(item, index) in imageList" :key="index">
                   <view class="swiper-item">
-                    <!-- <view v-if="item.type == 1"> -->
-                      <video v-if="item.type == 2" id="myVideo" :src="item.imgUrl" :danmu-list="danmuList" enable-danmu danmu-btn controls></video>
-                      <!-- <image class="img1" src="../../../static/img/play.png" mode="aspectFit"></image> -->
-                    <!-- </view> -->
+                    <!-- type 1:图片；2::视频；3.贴图 -->
+                    <view v-if="item.type == 1">
+                      <!-- <video v-if="item.type == 2" id="myVideo" :src="item.imgUrl" :danmu-list="danmuList" enable-danmu danmu-btn controls></video> -->
+                      <image class="img1" src="../../../static/img/play.png" mode="aspectFit"></image>
+                    </view>
                     <image v-else class="imgloading" v-if="imgLoading" src="../../../static/img/timg.gif" mode=""></image>
                     <image @load="imgLoad" :lazy-load="true" :src="item.imgUrl"></image>
                   </view>
@@ -333,6 +334,12 @@ var vm =  {
   },
   onShow() {
     vm.load()
+    
+    if(uni.getStorageSync('dataList')){
+      uni.removeStorage({
+        key: 'dataList'
+      })
+    }
   },
   methods: {
     load(){
@@ -360,9 +367,9 @@ var vm =  {
             // 处理视频和图片
             let imageList = [];
             d.goodsImgVOList.forEach(item => {
-              // if (item.type != 2) {
+              if (item.type != 2) {
                 if (item.primaryType == 1) {
-                  if(item.type!=3){
+                  if(item.type != 2){
                     imageList.push(item);
                   }
                   
@@ -371,9 +378,9 @@ var vm =  {
                     this.detailImageList.push(item);
                   }
                 }
-              // } else {
+              } else {
                 this.videoObj[item.sort] = item.imgUrl;
-              // }
+              }
             });
             this.imageList = imageList;
             this.total = imageList.length;

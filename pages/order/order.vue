@@ -186,6 +186,12 @@
 				this.platform = uni.getStorageSync('platform');
 			}
 			// #endif
+      
+      if(uni.getStorageSync('dataList')){
+        uni.removeStorage({
+          key: 'dataList'
+        })
+      }
 			
 		},
 		methods: {

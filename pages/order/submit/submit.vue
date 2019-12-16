@@ -33,7 +33,7 @@
       <div class="list" v-if="list.length > 0">
         <div v-for="(item, index) in list" :key="index">
           <div class="gray-line"></div>
-          <div v-if="needAgentcy == 1" class="agent fs28">
+          <div v-if="item.needAgentcy == 1" class="agent fs28">
             <div>找&ensp;代&ensp;办:</div>
             <!-- <input class="uni-input" placeholder="请选择代办人" readonly="readonly" /> -->
             <div :class="['uni-input', 'fs28', item.curAgent.name ? 'text-333' : 'text-999']" @click="showAgentDialog(item)">{{ item.curAgent.name || '请选择代办人' }}</div>
@@ -84,7 +84,7 @@
           合计:&ensp;
           <span>{{ totalMoney }}</span>
         </div>
-        <div class="btn" v-bind:class="{ active: curItem.curAgent.id, platform1: platform == 2 }" @click="showPay">提交订单</div>
+        <div class="btn" v-bind:class="{ active: true, platform1: platform == 2 }" @click="showPay">提交订单</div>
       </div>
       <!--    // orderId：支付订单-->
       <!--    // show：支付上拉框是否弹起-->
@@ -161,6 +161,9 @@ var vm = {
   onLoad(options) {
     this.submitData = options.submitData;
     this.isBuyNow = options.isBuyNow;
+    uni.removeStorage({
+      key: 'dataList'
+    });
   },
   onShow() {
     // 设备样式兼容
@@ -172,16 +175,22 @@ var vm = {
       buyGood(submitData).then(data => {
         // this.address = data.data.address || '';
         this.order.shopId = data.data.shopList[0].shopId;
-        this.list = data.data.shopList.map(item => {
-          item.agentList = [];
-          item.curAgent = {
-            id: '',
-            name: ''
-          };
-          
-          item.postscript = '';
-          return item;
-        });
+
+        // 如果有前任数据，替换list
+        if (uni.getStorageSync('dataList')) {
+          vm.list = uni.getStorageSync('dataList');
+        } else {
+          this.list = data.data.shopList.map(item => {
+            item.agentList = [];
+            item.curAgent = {
+              id: '',
+              name: ''
+            };
+
+            item.postscript = '';
+            return item;
+          });
+        }
 
         this.totalMoney = data.data.totalMoney;
         this.deliverMoney = data.data.deliverMoney;
@@ -194,9 +203,9 @@ var vm = {
           setTimeout(() => {
             uni.setStorageSync('address', '');
           }, 300);
-        }else{
+        } else {
           getAddressDefAddress().then(res => {
-            if (res.code === "1000") {
+            if (res.code === '1000') {
               vm.address = res.data;
             }
           });
@@ -206,15 +215,19 @@ var vm = {
       if (this.submitData) {
         let submitData = JSON.parse(this.submitData);
         this.order.shopId = submitData.shopList[0].shopId;
-        this.list = submitData.shopList.map(item => {
-          item.agentList = [];
-          item.curAgent = {
-            id: '',
-            name: ''
-          };
-          item.postscript = '';
-          return item;
-        });
+        if (uni.getStorageSync('dataList')) {
+          vm.list = uni.getStorageSync('dataList');
+        } else {
+          this.list = submitData.shopList.map(item => {
+            item.agentList = [];
+            item.curAgent = {
+              id: '',
+              name: ''
+            };
+            item.postscript = '';
+            return item;
+          });
+        }
         this.totalMoney = submitData.totalMoney;
         this.deliverMoney = submitData.deliverMoney;
         this.cartIdList = submitData.cartIdList;
@@ -232,18 +245,20 @@ var vm = {
       } else {
         // 获取默认地址
         getAddressDefAddress().then(res => {
-          if (res.code === "1000") {
+          if (res.code === '1000') {
             vm.address = res.data;
           }
         });
       }
     }
   },
+
   methods: {
-    navToAd(){
-       uni.navigateTo({
-         url: '/pages/user/addlist/addlist?from=submit'
-       })
+    navToAd() {
+      uni.setStorageSync('dataList', vm.list);
+      uni.navigateTo({
+        url: '/pages/user/addlist/addlist?from=submit'
+      });
     },
     changeSendType(e) {
       vm.sendType = e.detail.value;
@@ -278,34 +293,28 @@ var vm = {
         url: '/pages/user/order/detail?orderId=' + this.order.orderId + '&shopId=' + this.order.shopId
       });
     },
-    // 去选择地址
-    goAddress() {
-      uni.navigateTo({
-        url: '/pages/user/addlist/addlist?from=submit'
-      });
-    },
     // 显示支付
     showPay() {
       if (this.sendType == 1 && !this.address) {
         T.tips('请选择收货地址');
         return false;
       }
-      
+
       let resList = [...vm.list];
       let status = true;
       resList.map(item => {
-        if(item.needAgentcy == 1){
+        if (item.needAgentcy == 1) {
           status = !!item.curAgent.id;
           item.agentcyUserId = item.curAgent.id;
         }
-        
+
         item.phone = item.curAgent.phone;
         item.sendType = vm.sendType;
-        
-        if(vm.sendType == 1){
-          item.addressId = vm.address.id
+
+        if (vm.sendType == 1) {
+          item.addressId = vm.address.id;
         }
-        item.addre
+        item.addre;
         return item;
       });
       if (!status) {
@@ -318,7 +327,7 @@ var vm = {
         // addressId: this.address.id,
         cartIdList: vm.cartIdList
       };
-      
+
       // if(this.sendType == 1){
       //   list.addressId = this.address.id
       // }
@@ -333,6 +342,12 @@ var vm = {
             });
           } else {
             T.tips(res.message || '提交订单失败');
+          }
+
+          if (uni.getStorageSync('dataList')) {
+            uni.removeStorage({
+              key: 'dataList'
+            });
           }
         })
         .catch(err => {
@@ -384,409 +399,408 @@ export default vm;
 </script>
 
 <style lang="scss" scoped>
-  
-  .tips {
-    line-height: 60upx;
-    background: #ffefeb;
-    padding-left: 30upx;
+.tips {
+  line-height: 60upx;
+  background: #ffefeb;
+  padding-left: 30upx;
+  position: relative;
+  margin-bottom: 20upx;
+  img {
+    width: 40upx;
+    height: 40upx;
+    vertical-align: top;
+    position: absolute;
+    right: 20upx;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+.submit {
+  min-height: 100vh;
+  .bg-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 8upx;
+    bottom: 0;
+  }
+  .address {
     position: relative;
-    margin-bottom: 20upx;
-    img {
-      width: 40upx;
-      height: 40upx;
-      vertical-align: top;
+    height: 75px;
+    background-color: #fff;
+    // background-image: url();
+    // background-repeat: no-repeat;
+    // background-position: 0 100%;
+    // background-size: 100% auto;
+    border-top: solid 1px #f0f0f0;
+    padding: 0 15px;
+    position: relative;
+    line-height: 1;
+    .tag-go {
       position: absolute;
-      right: 20upx;
+      right: 15px;
       top: 50%;
       transform: translateY(-50%);
     }
+    .addAd {
+      margin-left: auto;
+      margin-right: auto;
+      width: 150px;
+      line-height: 32px;
+      text-align: center;
+      border-radius: 16px;
+      box-shadow: 0 0 0 1px #d9d9d9 inset;
+      font-size: 14px;
+      color: #000;
+      transform: translateY(18px);
+    }
+    .ad-title {
+      margin-top: 13px;
+      color: #000;
+      font-size: 15px;
+    }
+    .ad-det {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+      max-width: 330px;
+      &::after {
+        content: '';
+        display: block;
+        width: 10px;
+        height: 10px;
+      }
+    }
   }
-  .submit {
-    min-height: 100vh;
-    .bg-line{
-      position: absolute;
-      left: 0;
-      right: 0;
-      width: 100%;
-      height: 8upx;
-      bottom: 0;
+  .fixed {
+    position: absolute;
+    right: 30upx;
+    bottom: 0;
+  }
+  background-color: #f0f0f0;
+  .freight-style {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    height: 130upx;
+    padding-left: 30upx;
+    line-height: 1;
+    border-bottom: 1px solid #f0f0f0;
+    .radio {
+      margin-left: 30upx;
     }
-    .address {
-      position: relative;
-      height: 75px;
-      background-color: #fff;
-      // background-image: url();
-      // background-repeat: no-repeat;
-      // background-position: 0 100%;
-      // background-size: 100% auto;
-      border-top: solid 1px #f0f0f0;
-      padding: 0 15px;
-      position: relative;
-      line-height: 1;
-      .tag-go {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-      .addAd {
-        margin-left: auto;
-        margin-right: auto;
-        width: 150px;
-        line-height: 32px;
+  }
+  .agent {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    height: 100upx;
+    padding-left: 30upx;
+    .uni-input {
+      margin-left: 30upx;
+      font-size: 28upx;
+    }
+    // margin-bottom: 20upx;
+  }
+  .calc {
+    line-height: 90upx;
+    text-align: right;
+    // padding-right: 30upx;
+  }
+  .list {
+    /*margin-top: 50upx;*/
+    margin-bottom: 120upx;
+    overflow: auto;
+    .count {
+      position: absolute;
+      bottom: 20upx;
+      right: 20upx;
+      display: flex;
+      align-items: center;
+      input {
+        width: 84upx;
+        height: 44upx;
+        line-height: 44upx;
+        background-color: #f5f5f5;
+        margin-left: 8upx;
+        margin-right: 8upx;
+        font-size: 22upx;
+        color: #333;
         text-align: center;
-        border-radius: 16px;
-        box-shadow: 0 0 0 1px #d9d9d9 inset;
-        font-size: 14px;
-        color: #000;
-        transform: translateY(18px);
-      }
-      .ad-title {
-        margin-top: 13px;
-        color: #000;
-        font-size: 15px;
-      }
-      .ad-det {
-        margin-top: 6px;
-        font-size: 12px;
-        color: #666;
-        line-height: 1.5;
-        max-width: 330px;
-        &::after {
-          content: '';
-          display: block;
-          width: 10px;
-          height: 10px;
-        }
+        border: none;
+        outline: none;
       }
     }
-    .fixed {
-      position: absolute;
-      right: 30upx;
-      bottom: 0;
-    }
-    background-color: #f0f0f0;
-    .freight-style {
-      display: flex;
-      align-items: center;
-      background: #fff;
-      height: 130upx;
-      padding-left: 30upx;
-      line-height: 1;
-      border-bottom: 1px solid #f0f0f0;
-      .radio {
-        margin-left: 30upx;
-      }
-    }
-    .agent {
-      display: flex;
-      align-items: center;
-      background: #fff;
-      height: 100upx;
-      padding-left: 30upx;
-      .uni-input {
-        margin-left: 30upx;
-        font-size: 28upx;
-      }
-      // margin-bottom: 20upx;
-    }
-    .calc {
-      line-height: 90upx;
-      text-align: right;
-      // padding-right: 30upx;
-    }
-    .list {
-      /*margin-top: 50upx;*/
-      margin-bottom: 120upx;
-      overflow: auto;
-      .count {
-        position: absolute;
-        bottom: 20upx;
-        right: 20upx;
-        display: flex;
-        align-items: center;
-        input {
-          width: 84upx;
-          height: 44upx;
-          line-height: 44upx;
-          background-color: #f5f5f5;
-          margin-left: 8upx;
-          margin-right: 8upx;
-          font-size: 22upx;
-          color: #333;
-          text-align: center;
-          border: none;
-          outline: none;
-        }
-      }
-      .parent-title {
-        // margin-top: 30upx;
-        padding-bottom: 30upx;
-        padding-top: 30upx;
-        font-size: 28upx;
+    .parent-title {
+      // margin-top: 30upx;
+      padding-bottom: 30upx;
+      padding-top: 30upx;
+      font-size: 28upx;
 
-        .text {
-          margin-left: 20upx;
-          font-size: 28upx;
-          position: relative;
-          top: -4upx;
+      .text {
+        margin-left: 20upx;
+        font-size: 28upx;
+        position: relative;
+        top: -4upx;
+      }
+      .plat {
+        width: 40upx;
+        height: 40upx;
+        position: relative;
+        top: -7upx;
+        > img {
+          width: 100%;
+          height: 100%;
         }
-        .plat {
-          width: 40upx;
-          height: 40upx;
-          position: relative;
-          top: -7upx;
-          > img {
-            width: 100%;
-            height: 100%;
-          }
+      }
+      .parent-icon {
+        width: 34upx;
+        height: 34upx;
+        margin: 4upx 0upx 0 30upx;
+        img {
+          width: 100%;
         }
-        .parent-icon {
+      }
+    }
+
+    ul {
+      li {
+        background: #fff;
+        padding-top: 20upx;
+        position: relative;
+        padding: 0 30upx;
+        .icon {
           width: 34upx;
           height: 34upx;
-          margin: 4upx 0upx 0 30upx;
+          margin-right: 30upx;
+          margin-top: 80upx;
           img {
             width: 100%;
           }
         }
-      }
-
-      ul {
-        li {
-          background: #fff;
-          padding-top: 20upx;
-          position: relative;
-          padding: 0 30upx;
-          .icon {
-            width: 34upx;
-            height: 34upx;
-            margin-right: 30upx;
-            margin-top: 80upx;
-            img {
-              width: 100%;
-            }
+        .img {
+          width: 200upx;
+          height: 200upx;
+          border-radius: 20upx;
+          overflow: hidden;
+          img {
+            width: 100%;
+            height: 100%;
           }
-          .img {
-            width: 200upx;
-            height: 200upx;
-            border-radius: 20upx;
-            overflow: hidden;
-            img {
-              width: 100%;
-              height: 100%;
-            }
-          }
-          .info {
-            width: 460upx;
+        }
+        .info {
+          width: 460upx;
 
-            .s1 {
-              width: 320upx;
-            }
-            .p1 {
-              // height: 80upx;
-              .flr {
-                position: relative;
-                right: -20upx;
-              }
-            }
-            .p2 {
-              position: absolute;
-              bottom: 0upx;
-              color: #fc2d2d;
-            }
-            .p3 {
-              display: inline-block;
-              width: 120upx;
-              height: 32upx;
-              line-height: 32upx;
-              text-align: center;
-              border-radius: 28upx;
-              background: #f5f5f5;
-              color: #666;
-              font-size: 24upx;
-              position: absolute;
-              bottom: 20upx;
-            }
-            .p4 {
-              // background: #f5f5f5;
-              // border-radius: 20rpx;
-              display: inline-block;
-              // padding: 4upx  4upx 14upx;
-              padding: 4upx 0;
-              margin-top: 2upx;
-              color: #999;
-            }
-            .p5 {
+          .s1 {
+            width: 320upx;
+          }
+          .p1 {
+            // height: 80upx;
+            .flr {
               position: relative;
-              top: -38upx;
               right: -20upx;
             }
           }
-          .info-edit {
-            width: 460upx;
+          .p2 {
+            position: absolute;
+            bottom: 0upx;
+            color: #fc2d2d;
           }
-        }
-      }
-    }
-    .list {
-      // padding: 0 30upx 0 30upx;
-      background-color: #fff;
-      // margin-top: 20upx;
-      .title {
-        padding: 0 0 10upx 0;
-        display: flex;
-        justify-content: flex-start;
-        font-size: 24upx;
-        .platform {
-          color: #000;
-          margin-left: 10upx;
-          font-weight: bold;
-          flex-grow: 1;
-        }
-        .status {
-          color: #fc2d2d;
-        }
-      }
-    }
-
-    .others {
-      background-color: #fff;
-      margin-top: 20upx;
-      // padding: 0 30upx;
-      color: #000;
-      font-size: 24upx;
-      // margin-bottom: 200upx;
-      div {
-        line-height: 90upx;
-      }
-      div:not(:last-child) {
-        border-bottom: 1upx solid #f0f0f0;
-      }
-      .freight {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .mark {
-        align-items: center;
-        display: flex;
-        justify-content: flex-start;
-        input {
-          margin-left: 20upx;
-          font-size: 24upx;
-          border: none;
-          width: 88%;
-          outline: none;
-          color: #333;
-        }
-      }
-    }
-
-    .operator {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      left: 0;
-      background-color: #fff;
-      padding: 0 30upx;
-      height: 100upx;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: 30upx;
-      .nums {
-        color: #000;
-        margin-right: 30upx;
-      }
-      .total-price {
-        color: #000;
-        span {
-          color: #f5222d;
-          font-weight: bold;
-          font-size: 32upx;
-          &::before {
-            content: '￥';
-            font-weight: normal;
-            font-size: 28upx;
+          .p3 {
             display: inline-block;
+            width: 120upx;
+            height: 32upx;
+            line-height: 32upx;
+            text-align: center;
+            border-radius: 28upx;
+            background: #f5f5f5;
+            color: #666;
+            font-size: 24upx;
+            position: absolute;
+            bottom: 20upx;
+          }
+          .p4 {
+            // background: #f5f5f5;
+            // border-radius: 20rpx;
+            display: inline-block;
+            // padding: 4upx  4upx 14upx;
+            padding: 4upx 0;
+            margin-top: 2upx;
+            color: #999;
+          }
+          .p5 {
+            position: relative;
+            top: -38upx;
+            right: -20upx;
           }
         }
-      }
-      .btn {
-        background-color: #d9d9d9;
-        color: #fff;
-        text-align: center;
-        border-radius: 36upx;
-        width: 180upx;
-        line-height: 72upx;
-        position: absolute;
-        right: 90upx;
-      }
-      .active {
-        background-color: #fc2d2d;
-      }
-      .platform1 {
-        top: 15upx !important;
+        .info-edit {
+          width: 460upx;
+        }
       }
     }
   }
-  .agent-dialog {
+  .list {
+    // padding: 0 30upx 0 30upx;
+    background-color: #fff;
+    // margin-top: 20upx;
+    .title {
+      padding: 0 0 10upx 0;
+      display: flex;
+      justify-content: flex-start;
+      font-size: 24upx;
+      .platform {
+        color: #000;
+        margin-left: 10upx;
+        font-weight: bold;
+        flex-grow: 1;
+      }
+      .status {
+        color: #fc2d2d;
+      }
+    }
+  }
+
+  .others {
+    background-color: #fff;
+    margin-top: 20upx;
+    // padding: 0 30upx;
+    color: #000;
+    font-size: 24upx;
+    // margin-bottom: 200upx;
+    div {
+      line-height: 90upx;
+    }
+    div:not(:last-child) {
+      border-bottom: 1upx solid #f0f0f0;
+    }
+    .freight {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mark {
+      align-items: center;
+      display: flex;
+      justify-content: flex-start;
+      input {
+        margin-left: 20upx;
+        font-size: 24upx;
+        border: none;
+        width: 88%;
+        outline: none;
+        color: #333;
+      }
+    }
+  }
+
+  .operator {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    background-color: #fff;
+    padding: 0 30upx;
+    height: 100upx;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 30upx;
+    .nums {
+      color: #000;
+      margin-right: 30upx;
+    }
+    .total-price {
+      color: #000;
+      span {
+        color: #f5222d;
+        font-weight: bold;
+        font-size: 32upx;
+        &::before {
+          content: '￥';
+          font-weight: normal;
+          font-size: 28upx;
+          display: inline-block;
+        }
+      }
+    }
+    .btn {
+      background-color: #d9d9d9;
+      color: #fff;
+      text-align: center;
+      border-radius: 36upx;
+      width: 180upx;
+      line-height: 72upx;
+      position: absolute;
+      right: 90upx;
+    }
+    .active {
+      background-color: #fc2d2d;
+    }
+    .platform1 {
+      top: 15upx !important;
+    }
+  }
+}
+.agent-dialog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  overflow: hidden;
+  height: 1000upx;
+  // background: red;
+  .li {
+    line-height: 90upx;
+    border-bottom: #f0f0f0 2upx solid;
+    text-align: center;
+    color: #333;
+    font-size: 28upx;
+  }
+  .xx {
     position: absolute;
+    z-index: 999;
+    bottom: 100upx;
+    left: 50%;
+    margin-left: -50upx;
+    color: #fff;
+    font-size: 60upx;
+    width: 100upx;
+    height: 100upx;
+    background: #000;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 90upx;
+  }
+  .mask {
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 99;
-    overflow: hidden;
-    height: 1000upx;
-    // background: red;
-    .li {
-      line-height: 90upx;
-      border-bottom: #f0f0f0 2upx solid;
-      text-align: center;
-      color: #333;
-      font-size: 28upx;
-    }
-    .xx {
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100%;
+  }
+  .body {
+    background-color: #fff;
+    height: 750upx;
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    color: #000;
+    overflow-y: auto;
+    .close {
       position: absolute;
-      z-index: 999;
-      bottom: 100upx;
-      left: 50%;
-      margin-left: -50upx;
-      color: #fff;
-      font-size: 60upx;
-      width: 100upx;
-      height: 100upx;
-      background: #000;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 90upx;
-    }
-    .mask {
-      position: fixed;
+      right: 20upx;
       top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-      background-color: rgba(0, 0, 0, 0.3);
-      height: 100%;
-    }
-    .body {
-      background-color: #fff;
-      height: 750upx;
-      position: fixed;
-      z-index: 2;
-      width: 100%;
-      bottom: 0;
-      left: 0;
-      color: #000;
-      overflow-y: auto;
-      .close {
-        position: absolute;
-        right: 20upx;
-        top: 0;
-      }
     }
   }
+}
 </style>
