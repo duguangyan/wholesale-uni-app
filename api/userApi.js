@@ -126,7 +126,7 @@ const postUpdateNickname = data => {
 // 获取用户商品收藏商品
 const getCollectGoodsList = data => {
 	return request({
-		url: '/api/cart/collect/goods/list',
+		url: '/api/ws/cart/collect/goods/list',
 		data,
 		type: 'form'
 	})
@@ -136,7 +136,7 @@ const getCollectGoodsList = data => {
 // 订单列表
 const getOrderPageMyOrder = data => {
 	return request({
-		url: '/api/order/order/pageMyOrder',
+		url: '/api/ws/order/order/pageMyOrder',
 		data,
 		type: 'form'
 	})
@@ -155,7 +155,7 @@ const postUserImgUpload = data => {
 // 用户订单详情
 const getOrderDetailById = data => {
 	return request({
-		url: '/api/order/order/myOrderInfo',
+		url: '/api/ws/order/order/myOrderInfo',
 		data,
 		type: 'form'
 	})

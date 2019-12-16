@@ -1,4 +1,4 @@
- let apiUrl = 'http://wsm.qinlvny.com/ws'; // 微信 APP 正式
+ let apiUrl = 'http://wsm.qinlvny.com'; // 微信 APP 正式
 // let apiUrl = '/ws'; // H5正式
 // let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 
@@ -34,7 +34,7 @@ const request = function(params = {}) {
 	return new Promise((resolve, reject) => {
 		let data = params.data || {};
 		let header = {}
-		if (uni.getStorageSync("access_token") && params.url !='/api/act/pageLayout/getListByParentId' &&  params.url !='/api/oauth/oauth/token') {
+		if (uni.getStorageSync("access_token")  &&  params.url !='/api/oauth/oauth/token') {
 			header = {
 				'Authorization': 'Bearer ' + uni.getStorageSync("access_token") || ''
 			};
@@ -52,36 +52,7 @@ const request = function(params = {}) {
 		if (params.url.indexOf('/api') != -1) {
 			newUrl = newUrl.split('/api')[1]
 		}  
-		console.log('apiUrl:',apiUrl)
-		if(apiUrl.indexOf('http://192.168.0.202:8000') != -1){ // APP开发
-			if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1 || params.url.indexOf('/pay') != -1) {
-				apiUrl = apiUrl.split('/ws')[0]
-			}else{
-				if(apiUrl.indexOf('/ws') == -1){
-					apiUrl = apiUrl + '/ws'
-				}
-			} 
-		}else if(apiUrl.indexOf('http://wsm.qinlvny.com') != -1){ // APP正式
-			if (params.url.indexOf('/oauth/') != -1 || params.url.indexOf('/upms/') != -1 || params.url.indexOf('/pay/') != -1) {
-				apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1]
-			}else{
-				if(apiUrl.split('/ws').length<=1){
-					apiUrl = apiUrl + '/ws'
-				}else{
-					apiUrl = apiUrl.split('/ws')[0] + '/ws' + apiUrl.split('/ws')[1] + '/ws'
-				}
-			}
-			
-		}else if(apiUrl.indexOf('/ws') != -1 || apiUrl == ''){ // H5正式
-			if (params.url.indexOf('/oauth') != -1 || params.url.indexOf('/upms') != -1 || params.url.indexOf('/pay') != -1) {
-				apiUrl = apiUrl.split('/ws')[0]
-			}else{
-				if(apiUrl.indexOf('/ws') == -1 || apiUrl == ''){
-					apiUrl = apiUrl + '/ws'
-				}
-			} 
-		}
-		 
+		
 
 		// try{
 		// 	if(params.data.grant_type == 'mini_program' || params.data.grant_type == 'wx_app'){

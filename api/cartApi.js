@@ -3,7 +3,7 @@ import {request}  from './request.js'
 // 获取进货单列表
 const getCartOrderList = data => {
   return request({
-    url: '/api/cart/cart/index',
+    url: '/api/ws/cart/cart/index',
     data,
   })
 }
@@ -11,7 +11,7 @@ const getCartOrderList = data => {
 // 选中sku
 const getCartCheck = data => {
   return request({
-    url: '/api/cart/cart/check',
+    url: '/api/ws/cart/cart/check',
     data,
     type: 'form'
   })
@@ -19,7 +19,7 @@ const getCartCheck = data => {
 // 取消选中sku
 const getCartUncheck = data => {
   return request({
-    url: '/api/cart/cart/unCheck',
+    url: '/api/ws/cart/cart/unCheck',
     data,
     type: 'form'
   })
@@ -28,7 +28,7 @@ const getCartUncheck = data => {
 // 取消选中sku
 const getCartChangeNum = data => {
   return request({
-    url: '/api/cart/cart/changeNum',
+    url: '/api/ws/cart/cart/changeNum',
     data,
     type: 'form'
   })
@@ -37,7 +37,7 @@ const getCartChangeNum = data => {
 // 从购物车中移除
 const getCartRemove = data => {
   return request({
-    url: '/api/cart/cart/remove',
+    url: '/api/ws/cart/cart/remove',
     data,
     type: 'form'
   })
@@ -55,7 +55,7 @@ const getAddressDefAddress = data => {
 // 进货单结算
 const getOrderCart = data => {
   return request({
-    url: '/api/order/order/calcOrderCart',
+    url: '/api/ws/order/order/calcOrderCart',
     data,
     method: 'post',
   })
@@ -64,7 +64,7 @@ const getOrderCart = data => {
 // 提交订单
 const postCreateOrder = data => {
   return request({
-    url: '/api/order/order/createOrder',
+    url: '/api/ws/order/order/createOrder',
     data,
     method: 'post',
   })
