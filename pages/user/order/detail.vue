@@ -39,7 +39,7 @@
 						{{statusText}}
 					</div>
 					<div class="sub tick cf" v-if="status == -1 && cancelReason">
-						<span class="fll fs24">原因:{{cancelReason || ''}}</span>
+						<span class="fll fs24">原因:{{cancelReason != null?cancelReason:''}}</span>
 					</div>
 				</view>
 				
@@ -48,7 +48,8 @@
 						{{statusText}}
 					</div>
 					<div class="sub tick cf" v-if="status == 0">
-						<span class="fll fs24">你也可以联系代办协调买家支付</span>
+						<span class="fll fs24" v-if="order.shopOrder.enterpriseStatus == 0 && order.shopOrder.needAgentcy == 1">你也可以联系代办协调买家支付</span>
+						<span class="fll fs24" v-if="order.shopOrder.needAgentcy == 0">你也可以联系{{order.shopOrder.enterpriseStatus == 1?'企业':'买家'}}协调支付</span>
 					</div>
 					<div class="sub tick cf" v-if="status == 1">
 						<span class="fll fs24">请联系代办尽快安排装车发货</span>
@@ -65,7 +66,7 @@
 						{{statusText}}
 					</div>
 					<div class="sub tick cf" v-if="status == -1">
-						<span class="fll fs24">原因:{{cancelReason}}</span>
+						<span class="fll fs24">原因:{{cancelReason != null?cancelReason:''}}</span>
 					</div>
 				</view>
 			</div>
@@ -96,18 +97,44 @@
 					<div class="address">{{order.orderShipping.province + order.orderShipping.city + order.orderShipping.region + order.orderShipping.address}}</div>
 				</div>
 			</div> -->
-			<view class="phone cf" v-if="order.agentcyPhone && roleId != 20002">
-				<view class="fll">{{roleId=='20001' || roleId=='20003' || roleId=='20004'?'代办人':'货主'}}:{{roleId=='20001' || roleId=='20003' || roleId=='20004'?order.agentcyUserName : order.sellerName}}</view>
+			
+			
+		<!-- 	<view class="phone cf" v-if="roleId != 20002">
+				<view class="fll" v-if="order.shopOrder.enterpriseStatus == 0">{{roleId=='20001' || roleId=='20003' || roleId=='20004'?'代办人':'货主'}}:{{roleId=='20001' || roleId=='20003' || roleId=='20004'?order.agentcyUserName : order.sellerName}}</view>
+				<view class="fll" v-if="order.shopOrder.enterpriseStatus == 1">企业:{{order.shopOrder.shopName}}</view>
+				
+				
 				<view class="flr" @click="callPhone(roleId=='20001' || roleId=='20003' || roleId=='20004'?order.agentcyPhone:order.sellerPhone)">
 					<view class="image">
 						<image src="/static/imgs/icon-phone.png" mode=""></image>
 					</view>
-					<text>联系{{roleId=='20001'|| roleId=='20003' || roleId=='20004'?'代办':'货主'}}</text>
+					<text v-if="order.shopOrder.enterpriseStatus == 0">联系{{roleId=='20001'|| roleId=='20003' || roleId=='20004'?'代办':'货主'}}</text>
+					<text v-if="order.shopOrder.enterpriseStatus == 1">联系企业</text>
+				</view>
+			</view> -->
+			
+			
+			<view class="phone cf" v-if="roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.shopOrder.needAgentcy == 0">
+				<view class="fll">企业: {{order.shopOrder.shopName}}</view>
+				<view class="flr" @click="callPhone(order.sellerPhone)">
+					<view class="image">
+						<image src="/static/imgs/icon-phone.png" mode=""></image>
+					</view>
+					<text>联系企业</text>
+				</view>
+			</view>
+			<view class="phone cf" v-if="roleId != 20002 && order.shopOrder.needAgentcy == 1">
+				<view class="fll">代办: {{order.agentcyPhone}}</view>
+				<view class="flr" @click="callPhone(order.agentcyPhone)">
+					<view class="image">
+						<image src="/static/imgs/icon-phone.png" mode=""></image>
+					</view>
+					<text>联系代办</text>
 				</view>
 			</view>
 			
-			<view class="phone cf" v-if="!order.agentcyPhone && roleId != 20002">
-				<view class="fll">货主:{{order.sellerNam}}</view>
+			<view class="phone cf" v-if="roleId != 20002 && order.shopOrder.enterpriseStatus == 0 && order.shopOrder.needAgentcy == 0">
+				<view class="fll">货主: {{order.sellerPhone}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
 						<image src="/static/imgs/icon-phone.png" mode=""></image>
@@ -115,6 +142,17 @@
 					<text>联系货主</text>
 				</view>
 			</view>
+			
+			
+		<!-- 	<view class="phone cf" v-if="!order.agentcyPhone && roleId != 20002">
+				<view class="fll">货主:{{order.sellerName}}</view>
+				<view class="flr" @click="callPhone(order.sellerPhone)">
+					<view class="image">
+						<image src="/static/imgs/icon-phone.png" mode=""></image>
+					</view>
+					<text>联系货主</text>
+				</view>
+			</view> -->
 			
 			<view class="phone cf" v-if="order.phone && roleId == 20002">
 				<view class="fll">买家:{{order.userName || '暂无'}}</view>
@@ -140,7 +178,7 @@
 					<view class="fll ellipsis">收货人: {{order.orderShipping.receiver || ''}}</view>
 					<view class="flr">{{order.orderShipping.phone || ''}}</view>
 				</view>
-				<view class="address ellipsis">
+				<view class="address">
 					收货地址: {{order.orderShipping.province + order.orderShipping.city + order.orderShipping.region + order.orderShipping.address}}
 				</view>
 			</view>
@@ -357,6 +395,7 @@
 						}
 						sellerCancel(data).then(res=>{
 							if(res.code == '1000'){
+								T.tips('取消订单成功')
 								_this.getOrderDetailById(_this.orderId, _this.shopId)
 							}
 						})
@@ -375,6 +414,7 @@
 				}
 				sellerConfirm(data).then(res=>{
 					if(res.code == '1000'){
+						T.tips('确认订单成功')
 						this.getOrderDetailById(this.orderId, this.shopId)
 					}
 				})
@@ -422,6 +462,7 @@
 						}
 						postOrderCancel(data).then(res => {
 							if (res.code === '1000') {
+								T.tips('取消订单成功')
 								_this.status = -1
 								_this.statusText = '已取消'
 								_this.expiresTime = ''
@@ -442,6 +483,7 @@
 					if (_this.order.shopOrder.orderId && _this.order.shopOrder.shopId) {
 						postOrderConfirm(data).then(res => {
 							if (res.code === '1000') {
+								T.tips('确认收货成功')
 								// 去完成收货页面
 								_this.isShow = false
 								_this.goFinshPage()
@@ -622,8 +664,8 @@
 		margin-bottom: 60upx;
 	}
 	.logistics{
-		height: 200upx;
-		padding: 0 30upx;
+		min-height: 100upx;
+		padding: 30upx;
 		background: #fff;
 		color: #333;
 		.title{
@@ -633,10 +675,10 @@
 				width: 500upx;
 			}
 		}
-		.address{
-			height: 60upx;
-			line-height: 60upx;
-		}
+		// .address{
+		// 	height: 60upx;
+		// 	line-height: 60upx;
+		// }
 	}
 	.luPopupWrapper-content{
 		padding: 0 30upx;

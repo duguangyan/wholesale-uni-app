@@ -51,7 +51,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="bb-20">
+		<!-- <view class="bb-20">
 			<view class="user">
 				<view class="title">
 					<text>法人信息</text>
@@ -89,7 +89,7 @@
 					<image :src="cardImgReverse ==''?'/static/imgs/cat-3.png':cardImgReverse" mode=""></image>
 				</view>
 			</view>
-		</view>
+		</view> -->
 		
 		
 		<view class="content pdt-30">
@@ -133,7 +133,7 @@
 				</view>
 			</view>
 			<view class="fs24 text-999 tip" v-if="!disabled && userRealInfo ==''">
-				邀请码需找销售人员提供
+				邀请码需找销售人员提供(非必填)
 			</view>
 			
 		</view>
@@ -489,27 +489,27 @@
 					return false
 				}
 				
-				if(this.realName == ''){
-					T.tips('姓名不能为空')
-					return false
-				}
+				// if(this.realName == ''){
+				// 	T.tips('姓名不能为空')
+				// 	return false
+				// }
 				
 				
-				if(this.cardNo == ''){
-					T.tips('身份证号码不能为空')
-					return false
-				}
+				// if(this.cardNo == ''){
+				// 	T.tips('身份证号码不能为空')
+				// 	return false
+				// }
 				
 				
 				
-				if(this.cardImgFront  == ''){
-					T.tips('身份证正面照不能为空')
-					return false
-				}
-				if(this.cardImgReverse  == ''){
-					T.tips('身份证反面照不能为空')
-					return false
-				}
+				// if(this.cardImgFront  == ''){
+				// 	T.tips('身份证正面照不能为空')
+				// 	return false
+				// }
+				// if(this.cardImgReverse  == ''){
+				// 	T.tips('身份证反面照不能为空')
+				// 	return false
+				// }
 				
 				if(this.productType == ''){
 					T.tips('经营类型不能为空')
@@ -536,10 +536,10 @@
 				
 				//  实名认证
 				let data = {
-					cardImgFront:   this.cardImgFront,
-					cardImgReverse: this.cardImgReverse,
-					cardNo:         this.cardNo,
-					realName:       this.realName,
+					// cardImgFront:   this.cardImgFront,
+					// cardImgReverse: this.cardImgReverse,
+					// cardNo:         this.cardNo,
+					// realName:       this.realName,
 					province:       this.addressObj.province,
 					provinceId:     this.addressObj.provinceId,
 					city:           this.addressObj.city,

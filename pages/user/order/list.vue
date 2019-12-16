@@ -207,6 +207,7 @@
 						}
 						sellerCancel(data).then(res=>{
 							if(res.code == '1000'){
+								T.tips('取消订单成功')
 								// 获取订单列表
 								_this.orders = []
 								_this.getOrders()
@@ -231,6 +232,7 @@
 				}
 				sellerConfirm(data).then(res=>{
 					if(res.code == '1000'){
+						T.tips('确认订单成功')
 						// 获取订单列表
 						this.orders = []
 						this.getOrders()
@@ -314,6 +316,7 @@
 				if (this.orderId && this.shopId) {
 					postOrderConfirm(data).then(res => {
 						if (res.code === '1000') {
+							T.tips('收货成功')
 							// 去收货成功页面
 							this.isShow = false
 							this.goFinshPage()

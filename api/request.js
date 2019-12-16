@@ -2,7 +2,7 @@
 // let apiUrl = '/ws'; // H5正式
 // let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
 
-const versionNumber = 'V1.0.5'; //版本号
+const versionNumber = 'V1.0.6.2'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000/ws') {
 	uni.setStorageSync('v', versionNumber);
@@ -110,76 +110,97 @@ const request = function(params = {}) {
 				} else {
 					// 请求成功非1000	
 					if(res.code == '1011'){
-						// if(newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder'){
-						// 	uni.removeStorageSync('access_token')
-						// 	uni.navigateTo({
-						// 		url:'/pages/login/login'
-						// 	})
-						// }
+						if(newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder'){
+							uni.removeStorageSync('access_token')
+							let records  = uni.getStorageSync('records')
+							let platform = uni.getStorageSync('platform')
+							let dialogIsShow = uni.getStorageSync('dialogIsShow')
+							uni.clearStorageSync() // 清除缓存
+							uni.setStorageSync('records',records)
+							uni.setStorageSync('platform',platform)
+							uni.setStorageSync('dialogIsShow',dialogIsShow)
+							
+							uni.navigateTo({
+								url:'/pages/login/login'
+							})
+						}
 					}else if(res.code == '1017'){
-						let tokenData = {
-							grant_type:'refresh_token',
-							scope:2,
-							client_id: 'cwap',
-							client_secret:'xx',
-							refresh_token: uni.getStorageSync('refresh_token')
+						if(newUrl != '/cart/cart/index' || newUrl != '/api/order/order/pageMyOrder'){
+							uni.removeStorageSync('access_token')
+							let records  = uni.getStorageSync('records')
+							let platform = uni.getStorageSync('platform')
+							let dialogIsShow = uni.getStorageSync('dialogIsShow')
+							uni.clearStorageSync() // 清除缓存
+							uni.setStorageSync('records',records)
+							uni.setStorageSync('platform',platform)
+							uni.setStorageSync('dialogIsShow',dialogIsShow)
+							uni.navigateTo({
+								url:'/pages/login/login'
+							})
 						}
-						console.log('tokenData',tokenData)
-						console.log('apiUrl',apiUrl + '/oauth/oauth/token')
-						if(apiUrl.indexOf('/ws') != -1){
-							apiUrl = apiUrl.split('/ws')[0]
-						}
-						uni.request({
-							url: apiUrl + '/oauth/oauth/token',
-							method: 'POST',
-							data: tokenData,
-							header:{
-								'content-type':'application/x-www-form-urlencoded'
-							},
-							success(res) { 
-								console.log('1',res)
-								if(res.data && res.data.access_token){
-									uni.setStorageSync('access_token', res.data.access_token)
-									uni.setStorageSync('refresh_token', res.data.refresh_token)
-									uni.request({
-										url: apiUrl + newUrl,
-										method: params.method || 'GET',
-										data: params.data,
-										header,
-										success(res) {
-											console.log('2',res)
-											if(res.code == '1000'){
-												resolve(res);
-											}else{
-												uni.showToast({
-												    title: '请求数据错误',
-												    duration: 2000,
-													icon :'none'
-												});
-											}
-										},
-										fail() {
-											uni.showToast({
-											    title: '请求数据错误',
-											    duration: 2000,
-												icon :'none'
-											});
-										}
-									})
-								} else {
-									uni.navigateTo({
-										url:'/pages/login/login'
-									})
-								}
-							},
-							fail(err) {
-								uni.showToast({
-								    title: '请求数据错误',
-								    duration: 2000,
-									icon :'none'
-								});
-							}
-						})
+						// let tokenData = {
+						// 	grant_type:'refresh_token',
+						// 	scope:2,
+						// 	client_id: 'cwap',
+						// 	client_secret:'xx',
+						// 	refresh_token: uni.getStorageSync('refresh_token')
+						// }
+						// console.log('tokenData',tokenData)
+						// console.log('apiUrl',apiUrl + '/oauth/oauth/token')
+						// if(apiUrl.indexOf('/ws') != -1){
+						// 	apiUrl = apiUrl.split('/ws')[0]
+						// }
+						// uni.request({
+						// 	url: apiUrl + '/oauth/oauth/token',
+						// 	method: 'POST',
+						// 	data: tokenData,
+						// 	header:{
+						// 		'content-type':'application/x-www-form-urlencoded'
+						// 	},
+						// 	success(res) { 
+						// 		console.log('1',res)
+						// 		if(res.data && res.data.access_token){
+						// 			uni.setStorageSync('access_token', res.data.access_token)
+						// 			uni.setStorageSync('refresh_token', res.data.refresh_token)
+						// 			uni.request({
+						// 				url: apiUrl + newUrl,
+						// 				method: params.method || 'GET',
+						// 				data: params.data,
+						// 				header,
+						// 				success(res) {
+						// 					console.log('2',res)
+						// 					if(res.code == '1000'){
+						// 						resolve(res);
+						// 					}else{
+						// 						uni.showToast({
+						// 						    title: '请求数据错误',
+						// 						    duration: 2000,
+						// 							icon :'none'
+						// 						});
+						// 					}
+						// 				},
+						// 				fail() {
+						// 					uni.showToast({
+						// 					    title: '请求数据错误',
+						// 					    duration: 2000,
+						// 						icon :'none'
+						// 					});
+						// 				}
+						// 			})
+						// 		} else {
+						// 			uni.navigateTo({
+						// 				url:'/pages/login/login'
+						// 			})
+						// 		}
+						// 	},
+						// 	fail(err) {
+						// 		uni.showToast({
+						// 		    title: '请求数据错误',
+						// 		    duration: 2000,
+						// 			icon :'none'
+						// 		});
+						// 	}
+						// })
 					} else {
 						if(res.code != '9999') {
 							if(!uni.getStorageSync('access_token')){
