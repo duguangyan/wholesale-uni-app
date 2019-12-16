@@ -2,7 +2,7 @@
   <div class="success">
     <div class="content">
       <div class="img">
-        <img src="@/static/img/icon-finsh-order.png" alt="图片">
+        <img src="/static/img/icon-finsh-order.png" alt="图片">
       </div>
       <div class="d1 fs38 text-333 mt-20">
         支付完成

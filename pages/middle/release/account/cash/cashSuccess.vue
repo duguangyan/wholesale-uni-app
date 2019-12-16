@@ -2,7 +2,7 @@
 	<view class="cash">
 		<view class="content">
 			<view class="image">
-				<image src="../../../../../static/imgs/icon-1019.png"></image>
+				<image src="/static/imgs/icon-1019.png"></image>
 			</view>
 			<view class="fs34 text-333">提交成功</view>
 			<view class="fs24 text-999 mgt-20">

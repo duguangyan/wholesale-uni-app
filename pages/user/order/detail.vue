@@ -114,7 +114,7 @@
 			</view> -->
 			
 			
-			<view class="phone cf" v-if="roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.shopOrder.needAgentcy == 0">
+			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.shopOrder.needAgentcy == 0">
 				<view class="fll">企业: {{order.shopOrder.shopName}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
@@ -123,7 +123,7 @@
 					<text>联系企业</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="roleId != 20002 && order.shopOrder.needAgentcy == 1">
+			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.needAgentcy == 1">
 				<view class="fll">代办: {{order.agentcyPhone}}</view>
 				<view class="flr" @click="callPhone(order.agentcyPhone)">
 					<view class="image">
@@ -133,7 +133,7 @@
 				</view>
 			</view>
 			
-			<view class="phone cf" v-if="roleId != 20002 && order.shopOrder.enterpriseStatus == 0 && order.shopOrder.needAgentcy == 0">
+			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 0 && order.shopOrder.needAgentcy == 0">
 				<view class="fll">货主: {{order.sellerPhone}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
@@ -142,6 +142,10 @@
 					<text>联系货主</text>
 				</view>
 			</view>
+			
+			
+			
+			
 			
 			
 		<!-- 	<view class="phone cf" v-if="!order.agentcyPhone && roleId != 20002">

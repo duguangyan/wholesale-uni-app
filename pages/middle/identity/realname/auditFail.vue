@@ -1,7 +1,7 @@
 <template>
 	<view class="auditFail">
 		<view class="image">
-			<image src="../../../../static/imgs/submit-2.png" mode=""></image>
+			<image src="/static/imgs/submit-2.png" mode=""></image>
 		</view>
 		<view class="title fs32 text-333">
 			审核失败

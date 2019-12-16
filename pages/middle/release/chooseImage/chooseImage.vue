@@ -12,7 +12,7 @@
 						<view class="del" @click="del(index,ix,0)">x</view>
 					</view>
 					<view class="img fll" @click="actionSheetTap(index,0)" v-if="index==0 ?(item.imgs.length<5):(item.imgs.length<10)">
-						<image src="../../../../static/imgs/icon-1036.png" mode=""></image>
+						<image src="/static/imgs/icon-1036.png" mode=""></image>
 					</view>
 					
 					<view class="warp img fll" v-for="(it,ix) in item.videos" :key="ix" v-if="item.videos.length>0">
@@ -21,11 +21,11 @@
 						</view>
 						<view class="del" @click="del(index,ix,1)">x</view>
 						<view class="video" @click="showVideo(it.url)">
-							<image src="../../../../static/imgs/icon-1038.png" mode=""></image>
+							<image src="/static/imgs/icon-1038.png" mode=""></image>
 						</view>
 					</view>
 					<view class="img fll" @click="actionSheetTap(index,1)"  v-if="index==0 ?(item.videos.length<5):(item.videos.length<10)">
-						<image src="../../../../static/imgs/icon-1037.png" mode=""></image>
+						<image src="/static/imgs/icon-1037.png" mode=""></image>
 					</view>
 				</view>
 			</view>

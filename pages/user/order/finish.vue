@@ -2,7 +2,7 @@
   <div class="finish">
     <div class="body">
 		<div class="icon-40">
-			<img src="@/static/img/icon-finish.png" width="40" height="40" alt />
+			<img src="/static/img/icon-finish.png" width="40" height="40" alt />
 		</div>
       
       <div class="title">交易完成</div>

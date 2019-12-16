@@ -17,7 +17,7 @@
 			</view>
 		</view>
 		<view v-if="records<=0" class="nodata">
-			<view class="image"><image src="../../../../../static/imgs/records-icon.png" mode=""></image></view>
+			<view class="image"><image src="/static/imgs/records-icon.png" mode=""></image></view>
 			<view class="text">还没有你的账单记录</view>
 		</view>
 	</view>

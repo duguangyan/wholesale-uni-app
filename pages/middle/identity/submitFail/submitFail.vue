@@ -3,7 +3,7 @@
 
 		<view class="content">
 			<view class="img">
-				<image src="../../../../static/imgs/submit-2.png" mode=""></image>
+				<image src="/static/imgs/submit-2.png" mode=""></image>
 			</view>
 			<view class="p">
 				审核失败

@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<view class="order-no-data" v-if="hasOrders">
-			<img src="../../../static/imgs/records-icon.png" alt="图片">
+			<img src="/static/imgs/records-icon.png" alt="图片">
 				<view class="text-999 fs28">您还没有相关订单</view>
 		</view>
 		<view class="list" v-if="!hasOrders">

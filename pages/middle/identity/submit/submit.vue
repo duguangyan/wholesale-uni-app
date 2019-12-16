@@ -5,13 +5,13 @@
 				<view class="garden fll" :class="{'activeGarden':index < 2}">{{index}}</view>
 				<view class="text fll" :class="{'activeText':index < 2}">{{item}}</view>
 				<view class="label fll" v-if="index < 2">
-					<image src="../../../../static/imgs/agency-right.png"></image>
+					<image src="/static/imgs/agency-right.png"></image>
 				</view>
 			</view>
 		</view>
 		<view class="content">
 			<view class="img">
-				<image src="../../../../static/imgs/submit-1.png" mode=""></image>
+				<image src="/static/imgs/submit-1.png" mode=""></image>
 			</view>
 			<view class="p">
 				资料已提交成功

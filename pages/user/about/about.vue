@@ -2,7 +2,7 @@
 	<view>
 		<div class="about">
 			<div class="img">
-				<img src="@/static/img/icon-logo.png" >
+				<img src="/static/img/icon-logo.png" >
 			</div>
 		    <div class="text">沁绿农业科技有限公司</div>
 		    <div class="text">{{v}}</div>
