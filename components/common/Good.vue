@@ -25,7 +25,7 @@
 			<div class="price">
 				<div v-if="good.status===undefined || good.status === 3">
 					<span class="coin">￥</span>
-					{{good.minprice}}
+					{{good.minprice}}元/{{good.unitName}}
 				</div>
 				<span v-else class="invalid">下架商品</span>
 			</div>

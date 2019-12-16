@@ -14,14 +14,17 @@
           <view class="page-section swiper">
             <view class="page-section-spacing">
               <swiper @change="changeBanner" class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-                <swiper-item v-for="(item, index) in imageList" :key="index">
+                <swiper-item v-for="(item, index) in imageList" :key="index" @click="showPlayer(item.sort)">
                   <view class="swiper-item">
-                    <!-- <view v-if="item.type == 1"> -->
-                      <video v-if="item.type == 2" id="myVideo" :src="item.imgUrl" :danmu-list="danmuList" enable-danmu danmu-btn controls></video>
-                      <!-- <image class="img1" src="../../../static/img/play.png" mode="aspectFit"></image> -->
-                    <!-- </view> -->
-                    <image v-else class="imgloading" v-if="imgLoading" src="../../../static/img/timg.gif" mode=""></image>
-                    <image @load="imgLoad" :lazy-load="true" :src="item.imgUrl"></image>
+                    <!-- type 1:图片；2::视频；3.贴图 -->
+                    <view v-if="item.type == 3">
+                      <image @load="imgLoad" :lazy-load="true" :src="item.imgUrl"></image>
+                      <image class="img1" style="width: 100upx;height: 100upx;" src="../../../static/img/play.png" mode=""></image>
+                    </view>
+                    <view v-else>
+                      <image class="imgloading" v-if="imgLoading" src="../../../static/img/timg.gif" mode=""></image>
+                      <image @load="imgLoad" :lazy-load="true" :src="item.imgUrl"></image>
+                    </view>
                   </view>
                 </swiper-item>
               </swiper>
@@ -121,10 +124,11 @@
       </view>
       <view class="txt">{{ good.goods.detail }}</view>
       <view class="tag2" v-for="(item, index) in detailImageList" :key="index">
-        <!-- <view v-if="item.type==3" :class="{'img-con':item.type==3}" @click="play(item)">
+        <!-- <view v-if="item.type==3" :class="{'img-con':item.type==3}" @click="show(item)">
 					<image class='img2' src="../../../static/img/play.png" mode=""></image>
 				</view> -->
-        <img class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
+        <video v-if="item.type == 2" :src="item.imgUrl" id="myVideo" enable-danmu danmu-btn controls></video>
+        <img v-if="item.type == 1" class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
       </view>
     </view>
 
@@ -134,11 +138,12 @@
     <view v-if="isMaster" class="">
       <!-- 审核驳回显示驳回信息 -->
       <view v-if="good.goods.status == 2" class="bottom-tips">{{ good.goodsAuditLogVO.auditOpinion }}</view>
-      <view v-if="good.goods.status == 1" class="bottom-tips">审核中</view>
+      <view v-if="good.goods.status == 0" class="bottom-tips">审核中</view>
 
       <!-- 审核中 -->
       <view class="bottom-btn">
-        <view v-if="good.goods.status == 1" @click="rollback">撤回</view>
+        <view v-if="good.goods.status == 0" @click="rollback">撤回</view>
+        <view v-if="good.goods.status == 1" @click="modify">修改</view>
         <!-- 审核驳回 -->
         <view :class="{ mr10: good.goods.status == 4 }" v-if="good.goods.status == 2 || good.goods.status == 4" @click="modify">修改</view>
         <!-- 已上架 -->
@@ -249,24 +254,33 @@
       </view>
       <!-- <view class="xx" @click="isAgent = false">x</view> -->
     </view>
+
+    <!-- <Player v-if="isPlayer" :src="videoUrl" @close="closePlayer" ></Player> -->
+    <view v-if="isPlayer" class="player">
+      <view name="mask"><view class="mask" @click="close"></view></view>
+      <view name="body">
+        <view class="body"><video :src="videoUrl" id="myVideo" enable-danmu danmu-btn controls></video></view>
+      </view>
+      <view class="xx" @click="isPlayer = false">x</view>
+    </view>
   </view>
 </template>
 
 <script>
 import Share from '@/components/good/Share';
-import Player from '@/components/common/Player.vue';
+// import Player from '@/components/common/Player.vue';
 import Standard from '@/components/good/Standard';
 import ColSta from '@/static/img/icon-collect.png';
 import ColAct from '@/static/img/icon-collect2.png';
 import { addToCart } from '@/api/goodsApi.js';
-import { handlerGoods,getDetail, getGoodNums, getPostItem, getHasCollect, getGoodsDetail } from '@/api/goodsApi.js';
+import { handlerGoods, getDetail, getGoodNums, getPostItem, getHasCollect, getGoodsDetail } from '@/api/goodsApi.js';
 import { getSetFormId } from '@/api/userApi.js';
 import T from '@/utils/tips.js';
 import util from '@/utils/util.js';
 import SwiperDot from '@/components/common/SwiperDot.vue';
-var vm =  {
+var vm = {
   data() {
-    vm = this
+    vm = this;
     return {
       isMaster: /*是否货主*/ false,
       isCall: /*是否展示拨号*/ false,
@@ -313,13 +327,14 @@ var vm =  {
       isShare: false,
       nav: '',
       isGoodsTitle: false,
-      goodsTitle: ''
+      goodsTitle: '',
+      videoUrl: ''
     };
   },
   components: {
     Share,
     Standard,
-    Player,
+    // Player,
     SwiperDot
   },
   computed: {
@@ -332,216 +347,227 @@ var vm =  {
     this.goodsId = options.goodsId;
   },
   onShow() {
-    vm.load()
+    vm.load();
+
+    if (uni.getStorageSync('dataList')) {
+      uni.removeStorage({
+        key: 'dataList'
+      });
+    }
   },
   methods: {
-    load(){
+    showPlayer(sort) {
+      vm.isPlayer = true;
+      vm.videoUrl = vm.videoObj[sort];
+    },
+    load() {
       getGoodsDetail({
-          shopId: this.shopId,
-          goodsId: this.goodsId
-        }).then(data => {
-          if (data.code == '1000') {
-            let d = data.data.goodsDetail;
-            d.hasColletion = data.data.hasColletion;
-            d.standardList = [];
-      
-            // 便被身份
- 
-             vm.isMaster = (uni.getStorageSync('roleId') == 20001 || uni.getStorageSync('roleId') == 20004) && (uni.getStorageSync('uid') == d.userRealInfoVo.userId);
+        shopId: this.shopId,
+        goodsId: this.goodsId
+      }).then(data => {
+        if (data.code == '1000') {
+          let d = data.data.goodsDetail;
+          d.hasColletion = data.data.hasColletion;
+          d.standardList = [];
 
-      
-            // 获取代办人列表
-            vm.callList = d.agencyList;
-      
-            //处理金额
-            d.goods.minPrice = util.formatMoney(d.goods.minPrice, 2);
-            d.goods.maxPrice = util.formatMoney(d.goods.maxPrice, 2);
-      
-            // 处理视频和图片
-            let imageList = [];
-            d.goodsImgVOList.forEach(item => {
-              // if (item.type != 2) {
-                if (item.primaryType == 1) {
-                  if(item.type!=3){
-                    imageList.push(item);
-                  }
-                  
-                } else {
-                  if (item.type != 2) {
-                    this.detailImageList.push(item);
-                  }
-                }
-              // } else {
+          // 便被身份
+
+          vm.isMaster = (uni.getStorageSync('roleId') == 20001 || uni.getStorageSync('roleId') == 20004) && uni.getStorageSync('uid') == d.userRealInfoVo.userId;
+
+          // 获取代办人列表
+          vm.callList = d.agencyList;
+
+          //处理金额
+          d.goods.minPrice = util.formatMoney(d.goods.minPrice, 2);
+          d.goods.maxPrice = util.formatMoney(d.goods.maxPrice, 2);
+
+          // 处理视频和图片
+          let imageList = [];
+          d.goodsImgVOList.forEach(item => {
+            // if (item.type != 2) {
+            if (item.primaryType == 1) {
+              if (item.type != 2) {
+                imageList.push(item);
+              } else {
                 this.videoObj[item.sort] = item.imgUrl;
+              }
+            } else {
+              // if (item.type != 2) {
+              this.detailImageList.push(item);
               // }
-            });
-            this.imageList = imageList;
-            this.total = imageList.length;
-      
-            if (d.goods.unitName == null) {
-              d.goods.unitName = d.goodsDetailSpecList[0].name;
             }
-      
-            const setNode = (node, key) => {
-              node[key] = {};
-              return node[key];
-            };
-      
-            // 生成规格树
-            let tree = {};
-            // let specLen = d.goodsDetailSpecList.length;
-            let parentNodes = [tree];
-      
-            d.goodsDetailSpecList.forEach(spec => {
-              // 为每个父节点插入子节点
-              let nodes = [];
-              parentNodes.forEach(node => {
-                spec.goodsDetailSpecValueList.forEach((val, index) => {
-                  // 重置当前遍历的父节点
-                  nodes.push(setNode(node, val.value));
-                });
-              });
-              parentNodes = nodes;
-            });
-      
-            let sufName;
-            let isSection = d.goods.showStyle == 1 && d.goodsSkuList.length > 1 ? true : false;
-            // if (isSection) {
-            //   sufName = d.goodsDetailSpecList[0].valueSuffix;
             // } else {
-            //   sufName = "";
+            //   this.videoObj[item.sort] = item.imgUrl;
             // }
-            sufName = d.goodsDetailSpecList[0].valueSuffix || '';
-      
-            let grades = JSON.parse(d.goodsSkuList[0].priceExp);
-            if (d.goods.showStyle == 2) {
-              d.goodsSkuList[0].price = grades[0].price;
-              d.goodsSkuList[0].startNum = grades[0].startQuantity;
-            }
-      
-            // 配置节点
-            let isInvalid = /* 是否无效效商品 */ true;
-            d.goodsSkuList.forEach((sku, exIndex) => {
-              let curNode = tree;
-              let len = sku.attrValueList.length;
-              d.standardList[exIndex] = [];
-      
-              sku.attrValueList.forEach((val, index) => {
-                curNode = curNode[val.value];
-                if (len - 1 == index) {
-                  // 配置参数
-                  curNode.disabled = !!(sku.stock < sku.startNum);
-                  curNode.price = sku.price;
-                  curNode.stock = sku.stock;
-                  curNode.id = sku.id;
-                  curNode.startNum = sku.startNum;
-                }
-                // 顺便处理规格
-                if (isSection) {
-                  d.standardList[exIndex].push(`${sku.startNum}${d.goods.unitName}起批`);
-                  d.standardList[exIndex].push(`${val.value}${+d.goods.showStyle !== 3 ? sufName : ''}`);
-                } else {
-                  d.standardList[exIndex].push(val.value);
-                }
-      
-                // 累计无效次
-                isInvalid = isInvalid && curNode.disabled;
-              });
-              d.standardList[exIndex].push(`￥${sku.price}元/${d.goods.unitName}`);
-            });
-            d.tree = tree;
-            d.isInvalid = isInvalid;
-      
-            if (d.isInvalid) {
-              this.isGoodsTitle = true;
-              this.goodsTitle = '库存不足,请浏览别的商品吧~';
-              // T.tips("库存不足,请浏览别的商品吧~");
-            }
-      
-            // 0 待审核 1待修改 2申请驳回 3上架 4下架
-            if (d.goods.status == 4) {
-              T.tips('商品已下架啦,看下其它的吧');
-            }
-      
-            if (d.goods.showStyle == 2) {
-              let sku = d.goodsSkuList[0].attrValueList[0];
-              d.goodsList = [];
-              let grades = JSON.parse(d.goodsSkuList[0].priceExp);
-              grades.forEach((item, index) => {
-                d.goodsList.push({
-                  startNum: item.startQuantity,
-                  price: item.price,
-                  unit: sku.name,
-                  id: sku.skuId
-                });
-              });
-            }
-      
-            d.sufName = sufName;
-      
-            this.good = d || {};
-      
-            // 商品购买面板
-            this.deep = this.good.goodsDetailSpecList.length;
-            this.good.goodsDetailSpecList.forEach(spec => {
-              this.curs.push({
-                key: spec.goodsDetailSpecValueList[0].value,
-                disabled: undefined
-              });
-            });
-            this.calcPrice();
-            this.opt = true;
-            // 获得邮费方案
-            // getPostItem({
-            // 	id: d.goods.postSettingId
-            // }).then(data => {
-            // 	this.postType = data.data.type;
-            // });
-      
-            this.good.goods.detail = util.formatRichText(this.good.goods.detail);
-            console.log(this.good.goods.detail);
-            // 判断商品是否备收藏
-            if (uni.getStorageSync('access_token')) {
-              this.getHasCollect(this.goodsId);
-            }
+          });
+          this.imageList = imageList;
+          this.total = imageList.length;
+
+          if (d.goods.unitName == null) {
+            d.goods.unitName = d.goodsDetailSpecList[0].name;
           }
-        });
-      
+
+          const setNode = (node, key) => {
+            node[key] = {};
+            return node[key];
+          };
+
+          // 生成规格树
+          let tree = {};
+          // let specLen = d.goodsDetailSpecList.length;
+          let parentNodes = [tree];
+
+          d.goodsDetailSpecList.forEach(spec => {
+            // 为每个父节点插入子节点
+            let nodes = [];
+            parentNodes.forEach(node => {
+              spec.goodsDetailSpecValueList.forEach((val, index) => {
+                // 重置当前遍历的父节点
+                nodes.push(setNode(node, val.value));
+              });
+            });
+            parentNodes = nodes;
+          });
+
+          let sufName;
+          let isSection = d.goods.showStyle == 1 && d.goodsSkuList.length > 1 ? true : false;
+          // if (isSection) {
+          //   sufName = d.goodsDetailSpecList[0].valueSuffix;
+          // } else {
+          //   sufName = "";
+          // }
+          sufName = d.goodsDetailSpecList[0].valueSuffix || '';
+
+          let grades = JSON.parse(d.goodsSkuList[0].priceExp);
+          if (d.goods.showStyle == 2) {
+            d.goodsSkuList[0].price = grades[0].price;
+            d.goodsSkuList[0].startNum = grades[0].startQuantity;
+          }
+
+          // 配置节点
+          let isInvalid = /* 是否无效效商品 */ true;
+          d.goodsSkuList.forEach((sku, exIndex) => {
+            let curNode = tree;
+            let len = sku.attrValueList.length;
+            d.standardList[exIndex] = [];
+
+            sku.attrValueList.forEach((val, index) => {
+              curNode = curNode[val.value];
+              if (len - 1 == index) {
+                // 配置参数
+                curNode.disabled = !!(sku.stock < sku.startNum);
+                curNode.price = sku.price;
+                curNode.stock = sku.stock;
+                curNode.id = sku.id;
+                curNode.startNum = sku.startNum;
+              }
+              // 顺便处理规格
+              if (isSection) {
+                d.standardList[exIndex].push(`${sku.startNum}${d.goods.unitName}起批`);
+                d.standardList[exIndex].push(`${val.value}${+d.goods.showStyle !== 3 ? sufName : ''}`);
+              } else {
+                d.standardList[exIndex].push(val.value);
+              }
+
+              // 累计无效次
+              isInvalid = isInvalid && curNode.disabled;
+            });
+            d.standardList[exIndex].push(`￥${sku.price}元/${d.goods.unitName}`);
+          });
+          d.tree = tree;
+          d.isInvalid = isInvalid;
+
+          if (d.isInvalid) {
+            this.isGoodsTitle = true;
+            this.goodsTitle = '库存不足,请浏览别的商品吧~';
+            // T.tips("库存不足,请浏览别的商品吧~");
+          }
+
+          // 0 待审核 1待修改 2申请驳回 3上架 4下架
+          if (d.goods.status == 4) {
+            T.tips('商品已下架啦,看下其它的吧');
+          }
+
+          if (d.goods.showStyle == 2) {
+            let sku = d.goodsSkuList[0].attrValueList[0];
+            d.goodsList = [];
+            let grades = JSON.parse(d.goodsSkuList[0].priceExp);
+            grades.forEach((item, index) => {
+              d.goodsList.push({
+                startNum: item.startQuantity,
+                price: item.price,
+                unit: sku.name,
+                id: sku.skuId
+              });
+            });
+          }
+
+          d.sufName = sufName;
+
+          this.good = d || {};
+
+          // 商品购买面板
+          this.deep = this.good.goodsDetailSpecList.length;
+          this.good.goodsDetailSpecList.forEach(spec => {
+            this.curs.push({
+              key: spec.goodsDetailSpecValueList[0].value,
+              disabled: undefined
+            });
+          });
+          this.calcPrice();
+          this.opt = true;
+          // 获得邮费方案
+          // getPostItem({
+          // 	id: d.goods.postSettingId
+          // }).then(data => {
+          // 	this.postType = data.data.type;
+          // });
+
+          this.good.goods.detail = util.formatRichText(this.good.goods.detail);
+          console.log(this.good.goods.detail);
+          // 判断商品是否备收藏
+          if (uni.getStorageSync('access_token')) {
+            this.getHasCollect(this.goodsId);
+          }
+        }
+      });
     },
-    
-    updateGood(ids,type){
+
+    updateGood(ids, type) {
       handlerGoods({
-        "goodsIds": ids,
-        "handlerType": type,
-      }).then(data=>{
-        uni.showToast({
-          title: data.message,
-          duration: 2000,
-          icon :'none'
+        goodsIds: ids,
+        handlerType: type
+      })
+        .then(data => {
+          uni.showToast({
+            title: data.message,
+            duration: 2000,
+            icon: 'none'
+          });
+          vm.load();
         })
-        vm.load()
-       }).catch(err=>{
-        uni.showToast({
-          title: '网络出错，请稍后再试',
-          duration: 2000,
-          icon :'none'
-        })
-       });
+        .catch(err => {
+          uni.showToast({
+            title: '网络出错，请稍后再试',
+            duration: 2000,
+            icon: 'none'
+          });
+        });
     },
-    publish(){
-      vm.updateGood([vm.good.goods.id],0)
+    publish() {
+      vm.updateGood([vm.good.goods.id], 0);
     },
-    unpublish(){
-      vm.updateGood([vm.good.goods.id],1)
+    unpublish() {
+      vm.updateGood([vm.good.goods.id], 1);
     },
     // 修改
-    modify(){
+    modify() {
       uni.navigateTo({
         url: `/pages/middle/release/release?shopId=${vm.good.goods.shopId}&goodsId=${vm.good.goods.id}`
-      })
+      });
     },
-    rollback(){
-      vm.updateGood([vm.good.goods.id],2)
+    rollback() {
+      vm.updateGood([vm.good.goods.id], 2);
     },
     callAgent(item) {
       item.phone &&
@@ -550,7 +576,7 @@ var vm =  {
         });
       this.isCall = false;
     },
-    callMaster(phone){
+    callMaster(phone) {
       uni.makePhoneCall({
         phoneNumber: phone //仅为示例
       });
@@ -816,12 +842,11 @@ var vm =  {
 
         animation.export();
       }
-    },
+    }
     // #endif
-
   }
 };
-export default vm
+export default vm;
 </script>
 
 <style lang="scss" scoped>
@@ -890,13 +915,12 @@ video {
   opacity: 0;
 }
 .img1 {
-  width: 100upx !important;
-  height: 100upx !important;
+  width: 100upx;
+  height: 100upx;
   position: absolute;
   left: 50%;
-  margin-left: -50upx;
   top: 50%;
-  margin-top: -50upx;
+  transform: translate(-50%, -50%);
 }
 .good-detail {
   padding-bottom: 120upx;
@@ -927,7 +951,7 @@ video {
   .bottom-tips {
     position: fixed;
     left: 0;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
     width: 100%;
     line-height: 70upx;
     text-align: center;
@@ -1461,6 +1485,7 @@ video {
     }
 
     .swiper-item {
+      position: relative;
       background-image: url('~@/static/img/default-xiangqing.png');
       background-repeat: no-repeat;
       background-size: 100% 100%;
@@ -1808,6 +1833,100 @@ video {
     &.invalid::after {
       background-color: #ccc;
     }
+  }
+}
+.player {
+  video {
+    width: 100%;
+    height: 750upx;
+  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  overflow: hidden;
+  // height: 1000upx;
+  // background: red;
+  .xx {
+    position: absolute;
+    z-index: 999;
+    bottom: 100upx;
+    left: 50%;
+    margin-left: -50upx;
+    color: #fff;
+    font-size: 60upx;
+    width: 100upx;
+    height: 100upx;
+    background: #000;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 90upx;
+  }
+  .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100%;
+  }
+  .body {
+    background-color: #fff;
+    height: 750upx;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    left: 0;
+    top: 0;
+    color: #000;
+    > video {
+      width: 750upx;
+      height: 100%;
+    }
+    .h1 {
+      font-size: 28upx;
+      position: relative;
+      text-align: center;
+      > img {
+        position: absolute;
+        right: 0;
+      }
+    }
+    .close {
+      position: absolute;
+      right: 20upx;
+      top: 0;
+    }
+  }
+  .mask-enter-active,
+  .mask-leave-active,
+  .body-enter-active,
+  .body-leave-active {
+    transition: all 0.5s;
+  }
+  .mask-enter,
+  .body-enter,
+  .mask-leave-to,
+  .body-leave-to {
+    opacity: 0;
+  }
+  .body-enter,
+  .body-leave-to {
+    transform: translateY(100%);
+  }
+  .body-enter-to,
+  .body-leave {
+    transform: translateY(0%);
+  }
+  .mask-enter-to,
+  .body-enter-to,
+  .mask-leave,
+  .body-leave {
+    opacity: 1;
   }
 }
 </style>
