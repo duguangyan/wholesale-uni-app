@@ -262,12 +262,12 @@
 					password: this.trade_pwd
 				}
 				validPayPwd(data).then(res=>{
-					if(res.code == '1000'){
+					if(res.code == '1000' && res.data){
 						uni.redirectTo({
 							url:'/pages/middle/release/account/bankcard/add'
 						})
 					}else{
-						T.tips(res.message || '输入密码错误')
+						T.tips('输入密码错误')
 					}
 				})
 			},

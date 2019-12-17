@@ -183,9 +183,8 @@
 						url: '/pages/middle/identity/identity'
 					})
 				}
-				let userApply = ''
+				let userApply = JSON.parse(uni.getStorageSync('userApply'))
 				if(uni.getStorageSync('userApply') && this.roleId == '20004'){
-					userApply = JSON.parse(uni.getStorageSync('userApply'))
 					if(userApply.isAgentcy == '0'){
 						this.spGoodsByAgency = [{
 								img: '/static/imgs/icon-1003.png',
@@ -214,6 +213,9 @@
 						}
 					]
 				}
+				
+				
+				
 				this.spOrders = [{
 					img: '/static/imgs/icon-1004.png',
 					text: '待确认',
@@ -224,7 +226,7 @@
 					tip: ''
 				}, {
 					img: '/static/imgs/icon-1006.png',
-					text: '代办发货',
+					text: userApply.isAgentcy == 0 ?'发货':'代办发货',
 					tip: ''
 				}, {
 					img: '/static/imgs/icon-1007.png',
@@ -235,6 +237,10 @@
 					text: '已完成',
 					tip: ''
 				}]
+				
+				
+				
+				
 			},
 			// 获取年月
 			getYearAndMonth(){
@@ -283,6 +289,9 @@
 							let roleId = uni.getStorageSync('roleId')
 							if(roleId == '20001' || roleId == '20004') {
 								if(item.status == 6) this.spOrders[0].tip = item.num	
+								if(this.userApply.isAgentcy == 0){
+									if(item.status == 2) this.spOrders[2].tip = item.num
+								}
 							}
 							if(roleId == '20002'){
 								if(item.status == 2) this.spOrders[2].tip = item.num

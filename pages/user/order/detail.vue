@@ -177,7 +177,7 @@
 				</view>
 			</view>
 			
-			<view class="logistics bb1" v-if="order.shopOrder.enterpriseStatus == 1 && order.orderShipping">
+			<view class="logistics bb1 fs28" v-if="order.shopOrder.enterpriseStatus == 1 && order.orderShipping">
 				<view class="cf title">
 					<view class="fll ellipsis">收货人: {{order.orderShipping.receiver || ''}}</view>
 					<view class="flr">{{order.orderShipping.phone || ''}}</view>
@@ -247,6 +247,8 @@
 			<div class="btn-red btn" v-if="status == 0 && businessType == 2" @click="showPay">去付款</div>
 			<div class="btn-red btn" v-if="status == 3 && businessType == 2" @click="postOrderConfirm">确认收货</div>
 			<view class="btn-red btn" v-if="status == 2 && roleId == '20002' && businessType == 1" @click="deliverGoods">发货</view>
+			
+			<view class="btn-red btn" v-if="status == 2 && userApply.isAgentcy == 0 && businessType == 1" @click="deliverGoods">发货</view>
 			
 			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid" @click="sellerCancel">取消订单</view>
 			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid" @click="sellerConfirm">确认订单</view>
@@ -339,6 +341,7 @@
 				maskShow:true,
 				maskClick:true,
 				clock: true,
+				userApply:''
 			}
 		},
 		components: {
@@ -355,10 +358,11 @@
 		},
 		onShow() {
 			// 用户类型
-			this.roleId = uni.getStorageSync('roleId')
-			this.uid    = uni.getStorageSync('uid')
+			this.roleId    = uni.getStorageSync('roleId')
+			this.uid       = uni.getStorageSync('uid')
+			this.userApply = JSON.parse(uni.getStorageSync('userApply'))
 			// 设备样式兼容
-			this.platform = uni.getStorageSync('platform');
+			this.platform  = uni.getStorageSync('platform');
 			// 获取参数
 			if (this.orderId) {
 				this.getOrderDetailById(this.orderId, this.shopId)
