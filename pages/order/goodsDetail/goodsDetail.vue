@@ -127,7 +127,7 @@
         <!-- <view v-if="item.type==3" :class="{'img-con':item.type==3}" @click="show(item)">
 					<image class='img2' src="../../../static/img/play.png" mode=""></image>
 				</view> -->
-        <video v-if="item.type == 2" :src="item.imgUrl" id="myVideo" enable-danmu danmu-btn controls></video>
+        <video v-if="item.type == 2" :src="item.imgUrl" enable-danmu danmu-btn controls></video>
         <img v-if="item.type == 1" class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
       </view>
     </view>
@@ -307,6 +307,7 @@ var vm = {
       imageList: [],
       detailImageList: [],
       videoObj: {},
+      detVideoObj: {},
       postType: 0,
       isStandard: false,
       good: {
@@ -383,6 +384,7 @@ var vm = {
 
           // 处理视频和图片
           let imageList = [];
+          let detailImageList = [];
           d.goodsImgVOList.forEach(item => {
             // if (item.type != 2) {
             if (item.primaryType == 1) {
@@ -393,7 +395,12 @@ var vm = {
               }
             } else {
               // if (item.type != 2) {
-              this.detailImageList.push(item);
+              //   detailImageList.push(item);.push(item);
+              // } else {
+              //   this.detVideoObj[item.sort] = item.imgUrl;
+              // }
+              // if (item.type != 2) {
+              detailImageList.push(item);
               // }
             }
             // } else {
@@ -401,6 +408,7 @@ var vm = {
             // }
           });
           this.imageList = imageList;
+          this.detailImageList = detailImageList;
           this.total = imageList.length;
 
           if (d.goods.unitName == null) {
