@@ -8,7 +8,7 @@
         <div class="shop-ad fs24">经营地:&nbsp;{{ shopInfo.area }}</div>
       </div>
     </div>
-    <div class="count fs30 text-999">供应({{ list.length }})</div>
+    <div class="count fs30 text-999">供应({{ totalProduct }})</div>
     <div class="list"><Good v-for="(item, index) in list" :key="item.id" :item="item" :level="2" scoped="shop" /></div>
   </div>
 </template>
@@ -30,7 +30,8 @@ var vm = {
       list: [],
       shopId: '',
       pageIndex: 1,
-      isLoadMore: true
+      isLoadMore: true,
+      totalProduct: 0
     };
   },
   methods: {
@@ -41,6 +42,7 @@ var vm = {
       }).then(data => {
         vm.pageIndex++;
         vm.list = data.data.records;
+        vm.totalProduct = data.data.total;
       });
     },
     loadMore() {
