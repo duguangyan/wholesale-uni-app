@@ -104,7 +104,8 @@
 			
 		},
 		onShow() {
-			
+			// 根据不同状态获取不同业务
+			this.getUserType()	
 			
 			// 未登录状态跳转 微信和APP不一样
 			// #ifdef  MP-WEIXIN
@@ -182,9 +183,8 @@
 						url: '/pages/middle/identity/identity'
 					})
 				}
-				let userApply = ''
+				let userApply = JSON.parse(uni.getStorageSync('userApply'))
 				if(uni.getStorageSync('userApply') && this.roleId == '20004'){
-					userApply = JSON.parse(uni.getStorageSync('userApply'))
 					if(userApply.isAgentcy == '0'){
 						this.spGoodsByAgency = [{
 								img: '/static/imgs/icon-1003.png',
@@ -213,6 +213,9 @@
 						}
 					]
 				}
+				
+				
+				
 				this.spOrders = [{
 					img: '/static/imgs/icon-1004.png',
 					text: '待确认',
@@ -223,7 +226,7 @@
 					tip: ''
 				}, {
 					img: '/static/imgs/icon-1006.png',
-					text: '代办发货',
+					text: userApply.isAgentcy == 0 ?'发货':'代办发货',
 					tip: ''
 				}, {
 					img: '/static/imgs/icon-1007.png',
@@ -234,6 +237,10 @@
 					text: '已完成',
 					tip: ''
 				}]
+				
+				
+				
+				
 			},
 			// 获取年月
 			getYearAndMonth(){
@@ -282,6 +289,9 @@
 							let roleId = uni.getStorageSync('roleId')
 							if(roleId == '20001' || roleId == '20004') {
 								if(item.status == 6) this.spOrders[0].tip = item.num	
+								if(this.userApply.isAgentcy == 0){
+									if(item.status == 2) this.spOrders[2].tip = item.num
+								}
 							}
 							if(roleId == '20002'){
 								if(item.status == 2) this.spOrders[2].tip = item.num
@@ -307,17 +317,14 @@
 						let roleId = res.data.userRole.roleId || ''
 						// 获取用户角色状态  2001 货主 2002 代办
 						// uni.setStorageSync('roleId','2001')
-						this.roleId = res.data.userRole.roleId || ''
+						this.roleId       = res.data.userRole.roleId || ''
 						this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : ''
-						this.userApply = res.data.apply.id ? res.data.apply : ''
+						this.userApply    = res.data.apply.id ? res.data.apply : ''
 										
 						uni.setStorageSync('roleId', roleId)
 						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
 						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')
-										
-										
-						// 根据不同状态获取不同业务
-						this.getUserType()				
+		
 						// 设置头部样式
 						if(!this.roleId && this.userRealInfo){
 							uni.setNavigationBarColor({
@@ -359,7 +366,7 @@
 							
 						}else if( this.roleId == '20003'){
 							
-							if(uni.getStorageSync('platform') == '1'){
+							if(uni.getStorageSync('platform') == '1' || uni.getStorageSync('platform') == '5'){
 								uni.setTabBarItem({
 								  index: 1,
 								  text: '入驻',
@@ -378,7 +385,7 @@
 						} else if(this.roleId == '20001' || this.roleId == '20004'){
 							
 							
-							if(uni.getStorageSync('platform') == '1'){
+							if(uni.getStorageSync('platform') == '1'|| uni.getStorageSync('platform') == '5'){
 								uni.setTabBarItem({
 								  index: 1,
 								  text: '发布',
@@ -395,8 +402,19 @@
 							}
 							
 						}
+						
+						
+						// // 统计订单状态条数
+						// this.getOrderStat()
+						// // 主页订单交易统计
+						// this.getStatOrderInfo()
+						// // 获取资金账户
+						// this.getAccountSub()
+						// // 获取年月
+						// this.getYearAndMonth()
+						
 					}
-					console.log('1111111111111111111');
+					
 					
 				})
 			},

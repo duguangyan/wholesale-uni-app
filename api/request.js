@@ -1,8 +1,8 @@
  let apiUrl = 'http://wsm.qinlvny.com'; // 微信 APP 正式
-// let apiUrl = '/ws'; // H5正式
-// let apiUrl = 'http://192.168.0.202:8000/ws'; // 开发
+// let apiUrl = ''; // H5正式
+// let apiUrl = 'http://192.168.0.202:8000'; // 开发
 
-const versionNumber = 'V1.0.6.1'; //版本号
+const versionNumber = 'V1.0.6.3'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000/ws') {
 	uni.setStorageSync('v', versionNumber);
@@ -90,18 +90,14 @@ const request = function(params = {}) {
 					}else if(res.code == '1017'){
 						let tokenData = {
 							grant_type:'refresh_token',
-							scope:2,
-							client_id: 'cwap',
+							scope: '4',
+							client_id: 'bwap',
 							client_secret:'xx',
 							refresh_token: uni.getStorageSync('refresh_token')
 						}
-						console.log('tokenData',tokenData)
-						console.log('apiUrl',apiUrl + '/oauth/oauth/token')
-						if(apiUrl.indexOf('/ws') != -1){
-							apiUrl = apiUrl.split('/ws')[0]
-						}
+						
 						uni.request({
-							url: apiUrl + '/oauth/oauth/token',
+							url: 'http://wsm.qinlvny.com/oauth/oauth/token',
 							method: 'POST',
 							data: tokenData,
 							header:{
@@ -112,6 +108,10 @@ const request = function(params = {}) {
 								if(res.data && res.data.access_token){
 									uni.setStorageSync('access_token', res.data.access_token)
 									uni.setStorageSync('refresh_token', res.data.refresh_token)
+									header = {
+										'Authorization': 'Bearer ' + uni.getStorageSync("access_token") || ''
+									};
+									
 									uni.request({
 										url: apiUrl + newUrl,
 										method: params.method || 'GET',
@@ -121,12 +121,6 @@ const request = function(params = {}) {
 											console.log('2',res)
 											if(res.code == '1000'){
 												resolve(res);
-											}else{
-												uni.showToast({
-												    title: '请求数据错误',
-												    duration: 2000,
-													icon :'none'
-												});
 											}
 										},
 										fail() {

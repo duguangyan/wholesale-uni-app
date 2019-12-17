@@ -2,7 +2,7 @@
 	<view class="sendSuccess">
 		<view class="warp">
 			<view class="image">
-				<image src="../../../../static/imgs/icon-1019.png" mode=""></image>
+				<image src="/static/imgs/icon-1019.png" mode=""></image>
 			</view>
 			<view class="fs34 text-333 fs-w mgt-10">
 				等待审核

@@ -5,7 +5,7 @@
 		</view> -->
 		<view class="body">
 			<view class="logo">
-				<image src="../../static/imgs/icon-1022.png" mode=""></image>
+				<image src="/static/imgs/icon-1022.png" mode=""></image>
 			</view>
 			<view class="name">
 				<input class="fs30" v-model="phone" @input="doIsLogin" type="number" placeholder="请输入手机号码" />

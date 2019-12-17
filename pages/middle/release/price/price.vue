@@ -3,7 +3,7 @@
 		
 		<view class="unit cf" @click="getUnit" >
 			<view class="fll"> <text class="text-theme mgr-10">*</text> <text>计量单位</text></view>
-			<view class="flr image"><image src="../../../../static/imgs/right.png" mode=""></image></view>
+			<view class="flr image"><image src="/static/imgs/right.png" mode=""></image></view>
 			<view class="flr text-999 mgr-20" :class="{'text-333':unit!=''}">{{unit?unit:'选择计量单位'}}</view>
 		</view>
 		

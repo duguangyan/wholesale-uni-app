@@ -9,7 +9,7 @@
 			<view class="item cf" v-for="(item,index) in icons" :key="index" @click="doClick(index)">
 				<view class="left fll"><image :src="item.url" mode=""></image></view>
 				<view class="fll">{{item.title}}</view>
-				<view class="right flr"><image src="../../../../static/imgs/right.png"></image></view>
+				<view class="right flr"><image src="/static/imgs/right.png"></image></view>
 			</view>
 		</view>
 		<Dialog :title='title' :confirmText='confirmText' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>

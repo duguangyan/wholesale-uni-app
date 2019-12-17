@@ -2,7 +2,7 @@
 	<view class="cash">
 		<view class="top cf" @click="goBankList">
 			<view class="fll fs32 text-333">提现到银行卡</view>
-			<view class="flr img"><image src="../../../../../static/imgs/right.png" mode=""></image></view>
+			<view class="flr img"><image src="/static/imgs/right.png" mode=""></image></view>
 			<view class="flr fs28 text-theme mgr-20">{{bankCard.bankName}}({{bankCard.cardNo}})</view>
 		</view>
 		<view class="content">
@@ -18,7 +18,7 @@
 		</view>
 		<view class="tip cf" @click="clickTip">
 			<view class="img fll">
-				<image src="../../../../../static/imgs/icon-1018.png" mode=""></image>
+				<image src="/static/imgs/icon-1018.png" mode=""></image>
 			</view>
 			<view class="text fs24 text-999 fll">
 				账户余额¥{{accountSubDates.balance}}，其中¥{{accountSubDates.freezeBalance}}不可提现

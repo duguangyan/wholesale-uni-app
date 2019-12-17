@@ -19,6 +19,10 @@
 							console.log('运行华为上')
 							uni.setStorageSync('platform', '4')
 							break;	
+						case 'Xiaomi':
+							console.log('运行小米 MI 6上')
+							uni.setStorageSync('platform', '5')
+							break;	
 					}
 					break;
 				case 'ios':

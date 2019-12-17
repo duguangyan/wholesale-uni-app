@@ -3,7 +3,7 @@
     <div class="top">
       <div class="title" v-if="info !== ''">
 		  <div class="icon-50">
-			<img src="@/static/img/icon-bus.png" width="50" height="50" alt />  
+			<img src="/static/img/icon-bus.png" width="50" height="50" alt />  
 		  </div>
         
         <div>
@@ -17,7 +17,7 @@
       <li v-for="(item,index) in info.traceList" :key="index">
         <div class="l">
           <div class="point">
-			  <img v-if="index === 0" src="@/static/img/icon-finish.png" alt="">
+			  <img v-if="index === 0" src="/static/img/icon-finish.png" alt="">
 		  </div>
         </div>
         <div class="r">

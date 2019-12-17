@@ -188,7 +188,7 @@
 					goodsSkuList = [
 						{
 							id:'',
-							unitId:'',
+							unitId:sku[0].attrValueList[0].skuId,
 							price:'',
 							priceType:2,
 							sort:1,
@@ -618,7 +618,7 @@
 					shopId:'',
 					showStyle:2,
 					sort:1,
-					unit:goodsSkuList[0].unitId
+					unit:goodsSkuList[0].unitId || goodsSkuList[0].unit
 				}
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)
 				if(this.goodsId!='' && this.shopId!=''){  // 编辑商品

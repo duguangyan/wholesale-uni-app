@@ -11,10 +11,10 @@
 					<view><text class="fs32">{{orderInfos.tradingMoney || 0}}</text><text class="fs24">元</text></view>
 					<view class="fs24">{{roleId=='20002'?'代办费':'交易额'}}</view>
 				</view>
-				<view class="flex-1">
+				<!-- <view class="flex-1">
 					<view><text class="fs32">{{orderInfos.tradingNum || 0}} </text><text class="">斤</text></view>
 					<view class="fs24">交易量</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<view class="account">

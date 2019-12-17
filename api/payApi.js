@@ -26,7 +26,7 @@ const payWXpayByWap = data => {
 //
 const fundRecordList = data => {
   return request({
-    url: '/api/pay/fundRecord/pageMyList',
+    url: '/api/pay/bill/pageMyList',
     data,
 	type: 'form'
   })
@@ -35,7 +35,7 @@ const fundRecordList = data => {
 // 我的账单详情
 const fundRecordDetail = data => {
 	return request({
-		url: '/api/pay/fundRecord/detail',
+		url: '/api/pay/bill/detail',
 		data,
 		type: 'form',
 	})

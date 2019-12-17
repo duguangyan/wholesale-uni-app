@@ -5,7 +5,7 @@
 			
 
 			<div class="collection-no-data" v-if="list.length<=0">
-				<img src="@/static/img/icon-collection-no.png" alt="图片">
+				<img src="/static/img/icon-collection-no.png" alt="图片">
 				<div class="text-999 fs28">收藏夹还没有你的收藏 已是空空如也</div>
 			</div>
 			<div class="list" v-if="list.length>0">

@@ -101,7 +101,7 @@
 			
 			// 统计订单状态条数
 			if(uni.getStorageSync('access_token')){
-				this.getOrderStat()
+				
 				this.getUserInfoDates()
 			}
 			// 上一页返回
@@ -152,13 +152,15 @@
 				getUserRealInfoAll().then((res) => {
 					if (res.code === '1000') {
 						let roleId = res.data.userRole.roleId || ''
+						
+						this.getOrderStat()
 						uni.setStorageSync('nickName', res.data.user.realName || (res.data.userRealInfo?res.data.userRealInfo.realName:'') || res.data.apply.realName)
 						uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
 						uni.setStorageSync('roleId', roleId)
 						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
 						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
 						
-						this.nickName     = uni.getStorageSync('nickName')
+						this.nickName     =  res.data.apply.enterpriseName || uni.getStorageSync('nickName')
 						let imageUrl      = uni.getStorageSync('headImgUrl')
 						this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png'
 						this.roleId       = uni.getStorageSync('roleId') || ''

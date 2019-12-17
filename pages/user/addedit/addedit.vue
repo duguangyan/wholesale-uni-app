@@ -17,7 +17,7 @@
 					<span class="fll">所在地区</span>
 					<input class="flr" placeholder="请选择地址" disabled v-model="fullAddress" />
 					<div class="tag-go">
-						<img src="@/static/img/tag-go.png" width="10" height="10" alt class="pr" />
+						<img src="/static/img/tag-go.png" width="10" height="10" alt class="pr" />
 					</div>
 				</div>
 				

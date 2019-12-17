@@ -5,7 +5,7 @@
 				<view class="garden fll" :class="{'activeGarden':index == 0}">{{index}}</view>
 				<view class="text fll" :class="{'activeText':index == 0}">{{item}}</view>
 				<view class="label fll" v-if="index < 2">
-					<image src="../../../../static/imgs/agency-right.png"></image>
+					<image src="/static/imgs/agency-right.png"></image>
 				</view>
 			</view>
 		</view>
@@ -40,7 +40,7 @@
 					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?'请选择经营地区':fullAddress}}</view>
 					<view class="flr">
 
-						<image src="../../../../static/imgs/right.png"></image>
+						<image src="/static/imgs/right.png"></image>
 						
 					</view>
 				</view>
@@ -53,7 +53,7 @@
 					<view class="fll">请选择类型:如农产品、蔬菜、白菜</view>
 					<view class="flr">
 						
-						<image src="../../../../static/imgs/right.png"></image>
+						<image src="/static/imgs/right.png"></image>
 						
 					</view>
 				</view>
@@ -68,22 +68,22 @@
 		<view class="upload cf">
 			<view class="title"><text>上传身份证</text><text class="tips">（正面）</text> </view>
 			<view class="img fll" @click="showImage(0)">
-				<image src="../../../../static/imgs/cat-1.png" mode=""></image>
+				<image src="/static/imgs/cat-1.png" mode=""></image>
 			</view>
 			<view class="img fll" @click="chooseImage(0)">
 
-				<image :src="agencyImgUpload1==''?'../../../../static/imgs/cat-3.png':agencyImgUpload1" mode=""></image>
+				<image :src="agencyImgUpload1==''?'/static/imgs/cat-3.png':agencyImgUpload1" mode=""></image>
 				
 			</view>
 		</view>
 		<view class="upload cf">
 			<view class="title"><text>上传身份证</text><text class="tips">（反面）</text> </view>
 			<view class="img fll" @click="showImage(1)">
-				<image src="../../../../static/imgs/cat-2.png" mode=""></image>
+				<image src="/static/imgs/cat-2.png" mode=""></image>
 			</view>
 			<view class="img fll" @click="chooseImage(1)">
 				
-				<image :src="agencyImgUpload2==''?'../../../../static/imgs/cat-3.png':agencyImgUpload2" mode=""></image>
+				<image :src="agencyImgUpload2==''?'/static/imgs/cat-3.png':agencyImgUpload2" mode=""></image>
 				
 			</view>
 		</view>

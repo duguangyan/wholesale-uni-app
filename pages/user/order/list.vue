@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<view class="order-no-data" v-if="hasOrders">
-			<img src="../../../static/imgs/records-icon.png" alt="图片">
+			<img src="/static/imgs/records-icon.png" alt="图片">
 				<view class="text-999 fs28">您还没有相关订单</view>
 		</view>
 		<view class="list" v-if="!hasOrders">
@@ -50,7 +50,7 @@
 						<view class="receive" v-if="item.status == 3 && businessType == 2" @click="postOrderConfirm(index)">确认收货</view>
 						<view class="receive" v-if="item.status == 0 && businessType == 2" @click="showPay(index)">去支付</view>
 						<view class="receive" v-if="item.status == 2 && roleId == '20002' && businessType == 1" @click="deliverGoods(index)">发货</view>
-						
+						<view class="receive" v-if="item.status == 2 && userApply.isAgentcy == 0 && businessType == 1" @click="deliverGoods(index)">发货</view>
 						
 						<view class="receive" v-if="item.status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerCancel(index)">取消订单</view>
 						<view class="receive" v-if="item.status == 6 && (roleId == '20001' || roleId == '20004') && item.sellerId == uid" @click="sellerConfirm(index)">确认订单</view>
@@ -134,7 +134,8 @@
 				platform: 0,
 				from:'',
 				roleId:'',
-				businessType:''
+				businessType:'',
+				userApply:''
 			}
 		},
 		components: {
@@ -173,8 +174,9 @@
 			}
 		},
 		onShow() {
-			this.roleId = uni.getStorageSync('roleId')
-			this.uid    = uni.getStorageSync('uid')
+			this.roleId    = uni.getStorageSync('roleId')
+			this.uid       = uni.getStorageSync('uid')
+			this.userApply = JSON.parse(uni.getStorageSync('userApply')) 
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
 			console.log('platform:', this.platform)
@@ -207,6 +209,7 @@
 						}
 						sellerCancel(data).then(res=>{
 							if(res.code == '1000'){
+								T.tips('取消订单成功')
 								// 获取订单列表
 								_this.orders = []
 								_this.getOrders()
@@ -231,6 +234,7 @@
 				}
 				sellerConfirm(data).then(res=>{
 					if(res.code == '1000'){
+						T.tips('确认订单成功')
 						// 获取订单列表
 						this.orders = []
 						this.getOrders()
@@ -294,6 +298,10 @@
 							if(this.businessType == 1){
 								if(roleId == '20001' || roleId == '20004') {
 									if(item.status == 6) this.tabs[1].tip = item.num	
+									let userApply = JSON.parse(uni.getStorageSync('userApply'))
+									if(userApply.isAgentcy == 0){
+										if(item.status == 2) this.tabs[3].tip = item.num
+									}
 								}
 								if(roleId == '20002'){
 									if(item.status == 2) this.tabs[3].tip = item.num
@@ -314,6 +322,7 @@
 				if (this.orderId && this.shopId) {
 					postOrderConfirm(data).then(res => {
 						if (res.code === '1000') {
+							T.tips('收货成功')
 							// 去收货成功页面
 							this.isShow = false
 							this.goFinshPage()

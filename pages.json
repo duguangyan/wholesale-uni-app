@@ -118,10 +118,10 @@
     }, {
       "path": "pages/order/goodsDetail/goodsDetail",
       "style": {
-        "navigationBarTitleText": "商品详情",
-        "usingComponents": {
-          "Player": "/components/common/Player"
-        }
+        "navigationBarTitleText": "商品详情"
+        // "usingComponents": {
+        //   "Player": "/components/common/Player"
+        // }
       }
     }, {
       "path": "pages/order/prompt/prompt",
@@ -141,7 +141,7 @@
     }, {
       "path": "pages/order/orderSuccess/orderSuccess",
       "style": {
-        "navigationBarTitleText": "订单完成"
+        "navigationBarTitleText": "提交成功"
       }
     }, {
       "path": "pages/main/search/search",

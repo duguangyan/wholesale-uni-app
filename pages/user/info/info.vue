@@ -8,17 +8,17 @@
 					<img :src="headImgUrl" width="50" height="50" alt />
 				</div>
 				<div class="icon flr">
-					<img src="@/static/img/tag-go.png" width="10" height="10" alt />
+					<img src="/static/img/tag-go.png" width="10" height="10" alt />
 				</div>
 				<input type="file" id="file" @change='onUpload' />
 				<!--  #endif -->
 				
 				<!--  #ifdef  APP-PLUS || MP-WEIXIN -->
 				<div class="head-icon flr" @click="onUpload">
-					<img :src="headImgUrl || '@/static/img/icon-user.png'" width="50" height="50" alt />
+					<img :src="headImgUrl || '/static/img/icon-user.png'" width="50" height="50" alt />
 				</div>
 				<div class="icon flr" @click="onUpload">
-					<img src="@/static/img/tag-go.png" width="10" height="10" alt />
+					<img src="/static/img/tag-go.png" width="10" height="10" alt />
 				</div>
 				<!--  #endif -->
 				

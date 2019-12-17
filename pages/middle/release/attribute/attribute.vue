@@ -5,7 +5,7 @@
 		<!-- <view class="edit fs28" @click="goAdd">新增属性</view> -->
 		<view class="address cf" @click="showPicker" v-if="hasAddress.length>0">
 			<view class="fll"> <text class="text-theme mgr-10">*</text> <text>产地</text></view>
-			<view class="flr image"><image src="../../../../static/imgs/right.png" mode=""></image></view>
+			<view class="flr image"><image src="/static/imgs/right.png" mode=""></image></view>
 			<view class="flr text-999 mgr-20" :class="{'text-333':addressInfo!=''}">{{addressInfo?addressInfo:'请选择产地'}}</view>
 		</view>
 		<view class="content">

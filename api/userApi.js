@@ -428,9 +428,19 @@ const enterpriseSettledIn = data => {
 	})
 }
 
+// 根据店铺ID获取经营区域
+const shopAreaFromUserId = data => {
+	return request({
+		url: '/api/ws/goods/shopArea/fromUserId',
+		data,
+		type: 'form',
+	})
+}
+
 
 
 export {
+	shopAreaFromUserId,
 	enterpriseSettledIn,
 	getUserSendValidateCode,
 	getUserModifyPhone,

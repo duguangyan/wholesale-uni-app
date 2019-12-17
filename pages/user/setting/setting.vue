@@ -24,7 +24,7 @@
 					  </view>
 					  <view class="cf li">
 					    <view class="fll fs28">营业执照号</view>
-					  	<view class="flr fs30 text-999 value">{{userApply.licenseNo||''}}</view>
+					  	<view class="flr fs30 text-999 value">{{userRealInfo.licenseNo||''}}</view>
 					  </view>
 					  <view class="cf li">
 					    <view class="fll fs28">法人</view>
@@ -66,11 +66,18 @@
 					<view class="flr fs30 text-999 value">{{categoryName}}</view>
 				  </view>
 				  
-				  <view class="cf li">
-				    <view class="fll fs28">{{(roleId == '20001' || roleId == '20004')?'经营地区':'代办地区'}}</view>
-				    
-				  	<view class="flr fs30 text-999 value">{{province + city + region}}</view>
+				  <view class="cf li" v-if="roleId != '20004'">
+				    <view class="fll fs28">{{roleId == '20001'?'经营地区':'代办地区'}}</view>
+				  	<view class="flr fs30 text-999 value" v-if="roleId == '20001'">{{province + city + region}}</view>
+				  	<view class="flr fs30 text-999 value" v-if="roleId == '20002'">{{province + city}}</view>
 				  </view>
+				  
+				  
+				  <view class="cf li" v-if="roleId == '20004'" v-for="(item,index) in areas" :key="index">
+				    <view class="fll fs28" v-if="index == 0">经营地区</view>
+				  	<view class="flr fs30 text-999 value">{{item.province + item.city}}</view>
+				  </view>
+				  
 				</view>
 			</view>
 			
@@ -109,7 +116,9 @@
 				region:'',
 				version: '',
 				nickName:'',
-				userApply:''
+				userApply:'',
+				userRealInfo:'',
+				areas:''
 			};
 		},
 		onShow() {
@@ -125,10 +134,14 @@
 			}
 			if(uni.getStorageSync('userApply')){
 				this.userApply     = JSON.parse(uni.getStorageSync('userApply'))
+				this.userRealInfo  = JSON.parse(uni.getStorageSync('userRealInfo'))
 				this.categoryName  = this.userApply.categoryName || ''
 				this.province      = this.userApply.province || ''
 				this.city          = this.userApply.city || ''
 				this.region        = this.userApply.region || ''
+				if(this.roleId == '20004'){
+					this.areas = JSON.parse(this.userApply.areas)
+				}
 			}
 		},
 		methods:{
