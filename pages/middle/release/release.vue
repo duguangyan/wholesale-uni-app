@@ -12,7 +12,7 @@
 						<view class="image">
 							<image :src="goodsImg" mode=""></image>
 						</view>
-						<view class="video"  v-if="goodsImgList[0].imgs.length == 0" @click="goVideo(goodsImgList[0].videos[0].url)">
+						<view class="video"  v-if="goodsImgs.length == 0" @click="goVideo(goodsImgList[0].videos[0].url)">
 							<image src="/static/imgs/icon-1038.png" mode=""></image>
 						</view>
 					</view>
@@ -86,6 +86,7 @@
 				],
 				goodsImgLists:[],
 				goodsSkuList:[],
+				goodsImgs:'',
 				goodsId:'',
 				shopId:'',
 				editGoods:'' // 编辑时候请求的数据
@@ -275,9 +276,9 @@
 			// 编辑商品详情 ->组装图片
 			assembleImage(res){
 				if(uni.getStorageSync('goodsImgList')){
-					this.goodsImg = uni.getStorageSync('goodsImgList')[0].imgs[0] || uni.getStorageSync('goodsImgList')[0].videos[0].zipUrl
+					this.goodsImg     = uni.getStorageSync('goodsImgList')[0].imgs[0] || uni.getStorageSync('goodsImgList')[0].videos[0].zipUrl
 					this.goodsImgList = uni.getStorageSync('goodsImgList')
-					
+					this.goodsImgs    =  this.goodsImgList[0].imgs
 				}else{
 					this.goodsImgLists = res.data.goodsDetail.goodsImgVOList
 					let imgs = res.data.goodsDetail.goodsImgVOList
@@ -360,6 +361,7 @@
 						goodsImgList[1].videos.push(o)
 					})
 					uni.setStorageSync('goodsImgList',goodsImgList)
+					this.goodsImgs    =  goodsImgList[0].imgs
 				}
 				
 				

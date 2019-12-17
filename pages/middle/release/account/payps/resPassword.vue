@@ -233,7 +233,7 @@
 					password: this.trade_pwd
 				}
 				validPayPwd(data).then(res=>{
-					if(res.code == '1000'){
+					if(res.code == '1000' && res.data){
 						let dto = {
 							id: this.id,
 							password: this.trade_pwd
@@ -251,6 +251,22 @@
 								T.tips(res.message || ' 删除失败')
 							}
 						})
+					}else if(res.code == 'pay-0001'){
+						uni.showModal({
+							title: '提示',
+							confirmText:'重置密码',
+							content: '支付密码错误，请重新输入，或点击重置密码进行重置',
+							success: function (res) {
+								if (res.confirm) {
+									console.log('用户点击确定');
+									uni.redirectTo({
+										url:'/pages/middle/release/account/payps/verifiyPhone'
+									})
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						});
 					}else{
 						T.tips(res.message || '输入密码错误')
 					}
@@ -266,6 +282,22 @@
 						uni.redirectTo({
 							url:'/pages/middle/release/account/bankcard/add'
 						})
+					}else if(res.code == 'pay-0001'){
+						uni.showModal({
+							title: '提示',
+							confirmText:'重置密码',
+							content: '支付密码错误，请重新输入，或点击重置密码进行重置',
+							success: function (res) {
+								if (res.confirm) {
+									console.log('用户点击确定');
+									uni.redirectTo({
+										url:'/pages/middle/release/account/payps/verifiyPhone'
+									})
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						});
 					}else{
 						T.tips('输入密码错误')
 					}
@@ -296,7 +328,7 @@
 					password: this.trade_pwd
 				}
 				validPayPwd(data).then(res=>{
-					if(res.code == '1000'){
+					if(res.code == '1000' && res.data){
 						uni.setNavigationBarTitle({
 						    title: '设置新支付密码'
 						});
@@ -305,6 +337,24 @@
 						this.trade_pwd = ''
 						this.from = ''
 						this.tip = '请输入新的支付密码'
+					}else if(res.code == 'pay-0001'){
+						
+						uni.showModal({
+							title: '提示',
+							confirmText:'重置密码',
+							content: '支付密码错误，请重新输入，或点击重置密码进行重置',
+							success: function (res) {
+								if (res.confirm) {
+									console.log('用户点击确定');
+									uni.redirectTo({
+										url:'/pages/middle/release/account/payps/verifiyPhone'
+									})
+								} else if (res.cancel) {
+									console.log('用户点击取消');
+								}
+							}
+						});
+						
 					}else{
 						T.tips(res.message || '输入密码错误')
 					}

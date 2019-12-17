@@ -40,19 +40,19 @@
 				icons:[
 					{
 						title:'账单',
-						url:'../../../../static/imgs/icon-1011.png'
+						url:'/static/imgs/icon-1011.png'
 					},
 					{
 						title:'我的银行卡',
-						url:'../../../../static/imgs/icon-1012.png'
+						url:'/static/imgs/icon-1012.png'
 					},
 					{
 						title:'支付密码',
-						url:'../../../../static/imgs/icon-1013.png'
+						url:'/static/imgs/icon-1013.png'
 					},
 					{
 						title:'提现',
-						url:'../../../../static/imgs/icon-1014.png'
+						url:'/static/imgs/icon-1014.png'
 					}
 				]
 			};

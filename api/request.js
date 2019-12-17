@@ -2,7 +2,7 @@
 // let apiUrl = ''; // H5正式
 // let apiUrl = 'http://192.168.0.202:8000'; // 开发
 
-const versionNumber = 'V1.0.6.3'; //版本号
+const versionNumber = 'V1.0.6.4'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000/ws') {
 	uni.setStorageSync('v', versionNumber);
@@ -29,7 +29,6 @@ Promise.prototype.finally = function(callback) {
  * @param {*} fail Function
  * @param {*} complete Function
  */
-let islogin = uni.getStorageSync('isLogin')
 const request = function(params = {}) {
 	return new Promise((resolve, reject) => {
 		let data = params.data || {};

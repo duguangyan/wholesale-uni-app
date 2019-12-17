@@ -89,7 +89,7 @@
 		components: {agency,buyer,shipper},
 		onTabItemTap(e){
 			
-			// #ifdef  MP-WEIXIN
+			// #ifdef  MP-WEIXIN || H5
 			if(!uni.getStorageSync('access_token')){
 				uni.navigateTo({
 					url:'/pages/login/login'
@@ -108,7 +108,7 @@
 			this.getUserType()	
 			
 			// 未登录状态跳转 微信和APP不一样
-			// #ifdef  MP-WEIXIN
+			// #ifdef  MP-WEIXIN 
 			if(!uni.getStorageSync('access_token')){
 				if(uni.getStorageSync('pagePath') == 'main'){
 					uni.switchTab({
@@ -183,8 +183,9 @@
 						url: '/pages/middle/identity/identity'
 					})
 				}
-				let userApply = JSON.parse(uni.getStorageSync('userApply'))
-				if(uni.getStorageSync('userApply') && this.roleId == '20004'){
+				let userApply = ''
+				if(uni.getStorageSync('userApply')){
+					userApply = JSON.parse(uni.getStorageSync('userApply'))
 					if(userApply.isAgentcy == '0'){
 						this.spGoodsByAgency = [{
 								img: '/static/imgs/icon-1003.png',
@@ -202,41 +203,8 @@
 							}
 						]
 					}
-				}else{
-					this.spGoodsByAgency =[{
-							img: '/static/imgs/icon-1003.png',
-							text: '我的货品'
-						},
-						{
-							img: '/static/imgs/icon-1002.png',
-							text: '本地代办'
-						}
-					]
 				}
 				
-				
-				
-				this.spOrders = [{
-					img: '/static/imgs/icon-1004.png',
-					text: '待确认',
-					tip: ''
-				}, {
-					img: '/static/imgs/icon-1005.png',
-					text: '待买家支付',
-					tip: ''
-				}, {
-					img: '/static/imgs/icon-1006.png',
-					text: userApply.isAgentcy == 0 ?'发货':'代办发货',
-					tip: ''
-				}, {
-					img: '/static/imgs/icon-1007.png',
-					text: '待买家收货',
-					tip: ''
-				}, {
-					img: '/static/imgs/icon-1008.png',
-					text: '已完成',
-					tip: ''
-				}]
 				
 				
 				
@@ -285,6 +253,29 @@
 					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
 					if(res.code == '1000'){
 						let list = res.data
+						let userApply = JSON.parse(uni.getStorageSync('userApply'))
+						this.spOrders = [{
+							img: '/static/imgs/icon-1004.png',
+							text: '待确认',
+							tip: ''
+						}, {
+							img: '/static/imgs/icon-1005.png',
+							text: '待买家支付',
+							tip: ''
+						}, {
+							img: '/static/imgs/icon-1006.png',
+							text: userApply.isAgentcy == 0 ?'发货':'代办发货',
+							tip: ''
+						}, {
+							img: '/static/imgs/icon-1007.png',
+							text: '待买家收货',
+							tip: ''
+						}, {
+							img: '/static/imgs/icon-1008.png',
+							text: '已完成',
+							tip: ''
+						}]
+						
 						list.forEach((item,index)=>{
 							let roleId = uni.getStorageSync('roleId')
 							if(roleId == '20001' || roleId == '20004') {

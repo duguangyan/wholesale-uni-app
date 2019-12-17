@@ -19,7 +19,7 @@
 			    <view v-if="isLogin" @click="goInfo">
 			      <view class="uid fs28">{{nickName || '正鼎农品'}}</view>
 			    </view>
-			    <view class="fs30 mgl-20" v-if="!isLogin" @click="goLogin">点击登录</view>
+			    <view class="fs30 mgl-10" v-if="!isLogin" @click="goLogin">点击登录</view>
 			  </view>
 			</view>
 		</view>
@@ -76,7 +76,7 @@
               isLogin: false,
               uid: '',
               phone: '',
-              headimageUrl: '/static/img/icon-user.png',
+              headimageUrl: '/static/imgs/shop-avatar.png',
 			  nickName:'',
 			  platform: 0,
 			  roleId:''
@@ -94,7 +94,7 @@
 			this.uid          = uni.getStorageSync('uid')
 			this.nickName     = uni.getStorageSync('nickName')
 			let imageUrl      = uni.getStorageSync('headImgUrl')
-			this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png'
+			this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/imgs/shop-avatar.png'
 			// 判断是否登录
 			this.isLogin      = this.uid!='' 
 			this.roleId       = uni.getStorageSync('roleId') || ''
@@ -225,6 +225,10 @@
 			goInfo() {
 				if(this.isLogin) {
 					this.goSettingPage()
+				}else{
+					uni.navigateTo({
+					    url: '/pages/login/login'
+					});
 				}
 			},
 			// 去登录
@@ -276,10 +280,10 @@
 	/* #ifdef APP-PLUS || H5 */  
 	.top{
 		width: 100%;
-		height: 300upx;
+		height: 260upx;
 		.img{
 			width: 100%;
-			height: 300upx;
+			height: 260upx;
 			overflow: hidden;
 			position: absolute;
 			top: 0;
@@ -305,7 +309,7 @@
 		  justify-content: flex-start;
 		  align-items: center;
 			position: relative;
-			top: 140upx;
+			top: 120upx;
 			.role{
 				width:54upx;
 				height:24upx;
@@ -336,10 +340,10 @@
 	/* #ifdef MP-WEIXIN */
 	.top{
 		width: 100%;
-		height: 300upx;
+		height: 260upx;
 		.img{
 			width: 100%;
-			height: 300upx;
+			height: 260upx;
 			overflow: hidden;
 			position: absolute;
 			top: 0;
@@ -365,7 +369,7 @@
 		  justify-content: flex-start;
 		  align-items: center;
 			position: relative;
-			top: 160upx;
+			top: 120upx;
 			.role{
 				width:54upx;
 				height:24upx;
@@ -445,7 +449,7 @@
         color: #333;
         font-weight: blod;
 		position: relative;
-		top: 10upx;
+		top: 4upx;
 		left: 10upx;
       }
       &>image{
@@ -454,7 +458,7 @@
     }
     .tags {
       display: flex;
-      padding: 20upx 50upx;
+      padding: 20upx 30upx;
       justify-content: space-between;
       align-items: center;
       text-align: center;

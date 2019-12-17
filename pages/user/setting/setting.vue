@@ -26,10 +26,10 @@
 					    <view class="fll fs28">营业执照号</view>
 					  	<view class="flr fs30 text-999 value">{{userRealInfo.licenseNo||''}}</view>
 					  </view>
-					  <view class="cf li">
+					<!--  <view class="cf li">
 					    <view class="fll fs28">法人</view>
 					  	<view class="flr fs30 text-999 value">{{userApply.realName||''}}</view>
-					  </view>
+					  </view> -->
 					  
 				  </view>
 				  <view class="cf li" @click="goAddress">

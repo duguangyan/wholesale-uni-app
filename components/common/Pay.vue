@@ -221,6 +221,9 @@
 						} else {
 							T.tips(res.message || '调用支付失败')
 							this.clock = true
+							uni.redirectTo({
+							    url: '/pages/user/order/detail?orderId='+_this.orderId + +'&shopId='+ _this.shopId
+							});
 						}
 					}).catch(err => {
 						T.tips(err.message || '调用支付失败')

@@ -94,11 +94,11 @@
 				default: ''
 			},
 			roleId: {
-				type: String,
+				type: String || Number,
 				default: ''
 			},
 			userApply:{
-				type: Object,
+				type: Object || String,
 				default: null
 			},
 			yearAndMonth:{

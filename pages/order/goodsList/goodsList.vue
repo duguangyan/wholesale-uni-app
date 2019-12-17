@@ -37,7 +37,7 @@
 			<p class='center-p fs20 text-999'>{{loading?'数据加载中...':'数据加载完毕'}}</p>
 		</div>
 		<div class="no-data" v-if="hasData">
-			<img src="@/static/img/icon-search-no.png">
+			<img src="@/static/imgs/serach-1.png">
 			<p class="fs24 text-999">哦噢，没有搜到您的商品 换个关键词试试</p>
 		</div>
 		<Panel :platform="platform" :show="isShow" @close="panelClose" @filter="doFilter" />

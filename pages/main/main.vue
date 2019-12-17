@@ -1,24 +1,24 @@
 <template>
 
 	<view class="main">
-		 <view class="titleNview-placing"></view>
+		<view class="titleNview-placing"></view>
 		<view class="seach">
 			<!-- <view class="bg"></view> -->
 			<!--  #ifdef  MP-WEIXIN ||APP-PLUS || H5 -->
 			<view class="content">
 				<view class="fll img-1" @click="goClassify">
 					<image src="/static/imgs/search-left-1.png" mode=""></image>
-					<view>分类</view>
+					<view class="text">分类</view>
 				</view>
 				<view class="img fll">
-					<image src="/static/imgs/icon-search-1.png"  @click="goSearch"></image>
+					<image src="/static/imgs/icon-search-1.png" @click="goSearch"></image>
 				</view>
 				<view class="flr img-2" @click="goOrder">
 					<image src="/static/imgs/search-order-1.png" mode=""></image>
-					<view>进货单</view>
+					<view class="text">进货单</view>
 				</view>
 			</view>
-			
+
 			<!--  #endif -->
 			<!--  #ifdef  MP-WEIXIN -->
 			<!-- <view class="img">
@@ -31,9 +31,9 @@
 			<view class="uni-padding-wrap">
 				<view class="page-section swiper">
 					<view class="page-section-spacing">
-						<swiper @change="changeBanner" class="swiper" indicator-color="rgba(0,0,0,.3)" indicator-active-color='#FC2D2D' :indicator-dots="indicatorDots"
-						 :autoplay="autoplay" :interval="interval" :duration="duration">
-							<swiper-item v-for="(item,index) in homeList.list[0].list[0].list[0].adPosition.adSet" :key="index" @click="goNextPage(item)">
+						<swiper @change="changeBanner" class="swiper" indicator-color="rgba(0,0,0,.3)" indicator-active-color='#FC2D2D'
+						 :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+							<swiper-item v-for="(item,index) in adSet" :key="index" @click="goNextPage(item)">
 								<view class="swiper-item">
 									<image :src="item.path"></image>
 								</view>
@@ -42,11 +42,11 @@
 					</view>
 				</view>
 			</view>
-			<SwiperDot class="dot" :listWidth="listWidth" :current="cur" :list="homeList.list[0].list[0].list[0].adPosition.adSet"></SwiperDot>
+			<SwiperDot class="dot" :listWidth="listWidth" :current="cur" :list="adSet"></SwiperDot>
 		</view>
 		<!-- nav导航 -->
 		<view class="nav cf">
-			<view class="li fll" v-for="(item,index) in homeList.list[1].list[0].list" :key="index" @click="goSearchPage(item.componentId,item.isAgentcy)">
+			<view class="li fll" v-for="(item,index) in navList" :key="index" @click="goSearchPage(item.componentId,item.isAgentcy)">
 				<view class="img">
 					<image :src="item.imgPath"></image>
 				</view>
@@ -55,23 +55,25 @@
 		</view>
 
 		<!-- 广告 -->
-		<view class="advs" v-if="homeList.list[2].list[0].list[0].adPosition.adSet[0]" @click="goadSet(homeList.list[2].list[0].list[0].adPosition.adSet[0])">
-			<image :src="homeList.list[2].list[0].list[0].adPosition.adSet[0]?homeList.list[2].list[0].list[0].adPosition.adSet[0].path:''" mode=""></image>
+		<view class="advs" v-if="adSet2.length>0" @click="goadSet(adSet2[0])">
+			<image :src="adSet2[0].path"
+			 mode=""></image>
 		</view>
 		<!-- 精选 -->
 		<view class="seles">
 			<view class="title">
-				<image :src="homeList.list[3].list[0].list[0].imgPath"></image>
+				<image :src="imgPath"></image>
 			</view>
 			<view class="content">
-				<view v-for="(item,index) in homeList.list[3].list[1].goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
+				<view v-for="(item,index) in goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
 					<Goodx :item='item' :roleId="1"></Goodx>
 				</view>
 			</view>
 
 		</view>
 		<!-- <TabBar :checkIndex='checkIndex'></TabBar> -->
-		<Dialog :hasSlot="hasSlot" :title="dialogTitle" @doCancel="doCancel" @doConfirm="doConfirm" :isShow="dialogIsShow" :cancelText="cancelText" :confirmText="confirmText">
+		<Dialog :hasSlot="hasSlot" :title="dialogTitle" @doCancel="doCancel" @doConfirm="doConfirm" :isShow="dialogIsShow"
+		 :cancelText="cancelText" :confirmText="confirmText">
 			<view>
 				<view>请你务必审阅、充分理解“服务协议”和“隐私政策”各条款，包括不限于：为了向你提供即时通讯、内容分享登服务，我们需要收集你的设备信息、操作日志登个人信息。你可以在“设置”中查看、变更、删除个人信息并管理你的授权。</view>
 				<view>你可阅读 <text class="dialog-txt" @click="goProtocal">《服务协议》</text>和<text class="dialog-txt" @click="goPrivacy">《隐私政策》</text>了解详细信息。如你同意，请点击“同意”开始接受我们的服务</view>
@@ -99,11 +101,16 @@
 	export default {
 		data() {
 			return {
-				hasSlot:true,
-				dialogTitle:'服务协议和隐私政策',
-				dialogIsShow:false,
-				cancelText:'暂不使用',
-				confirmText:'同意',
+				goodsDetailRespList:[],
+				navList: [],
+				imgPath:'',
+				adSet: '',
+				adSet2:'',
+				hasSlot: true,
+				dialogTitle: '服务协议和隐私政策',
+				dialogIsShow: false,
+				cancelText: '暂不使用',
+				confirmText: '同意',
 				checkIndex: 0,
 				homeList: {},
 				banner: [], // 轮播图
@@ -115,25 +122,28 @@
 				interval: 3000,
 				duration: 500,
 				platform: 0,
-				cur:0,
-				listWidth:0,
-				roleId:'',
-        colorPattern: {
-        	'红': '255,0,0',
-        	'黄': '255,55,0',
-        	'蓝': '30,30,255',
-        	'紫': '200,50,248',
-        },
+				cur: 0,
+				listWidth: 0,
+				roleId: '',
+				colorPattern: {
+					'红': '255,0,0',
+					'黄': '255,55,0',
+					'蓝': '30,30,255',
+					'紫': '200,50,248',
+				},
 			}
 		},
 		components: {
-			TabBar,SwiperDot,Goodx,Dialog
+			TabBar,
+			SwiperDot,
+			Goodx,
+			Dialog
 		},
-		onTabItemTap(e){
-			uni.setStorageSync('pagePath','main')
+		onTabItemTap(e) {
+			uni.setStorageSync('pagePath', 'main')
 		},
 		onLoad() {
-			uni.setStorageSync('pagePath','main')
+			uni.setStorageSync('pagePath', 'main')
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
 			// 版本更新 （APP）
@@ -142,15 +152,10 @@
 			// #endif	
 		},
 		onShow() {
-			
-			uni.hideLoading()
 			// 获取首页banner
 			this.getHomeList()
 			// 判断用户类型
 			this.assessUserType()
-			
-			
-			
 		},
 		onPullDownRefresh() {
 			//监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
@@ -163,68 +168,69 @@
 		},
 		methods: {
 			// 隐私协议
-			goPrivacy(){
+			goPrivacy() {
 				uni.navigateTo({
-					url:'/pages/user/privacy/privacy'
+					url: '/pages/user/privacy/privacy'
 				})
 			},
 			// 去用户协议
-			goProtocal(){
+			goProtocal() {
 				uni.navigateTo({
-					url:'/pages/user/protocal/protocal'
+					url: '/pages/user/protocal/protocal'
 				})
 			},
-			doConfirm(){
+			doConfirm() {
 				this.dialogIsShow = false
-				uni.setStorageSync('dialogIsShow',2)
+				uni.setStorageSync('dialogIsShow', 2)
 			},
-			doCancel(){
+			doCancel() {
 				this.dialogIsShow = false
-				uni.setStorageSync('dialogIsShow',1)
+				uni.setStorageSync('dialogIsShow', 1)
 			},
-			  // 计算颜色
-			  calcAttr(attr){
-				let str = attr.substr(0,1)
+			// 计算颜色
+			calcAttr(attr) {
+				let str = attr.substr(0, 1)
 				let color = this.colorPattern[str] || '165,165,165'
 				return {
-					color: 'rgba('+color+',1)',
-					bg: 'rgba('+color+',0.1)'
+					color: 'rgba(' + color + ',1)',
+					bg: 'rgba(' + color + ',0.1)'
 				}
-				
-			  },
+
+			},
 			// 判断用户类型
-			assessUserType(){
+			assessUserType() {
 				// 设置底部tab样式
 				this.roleId = uni.getStorageSync('roleId')
 				// 判断用户是否同意协议
 				let dialogIsShow = uni.getStorageSync('dialogIsShow')
-				if(dialogIsShow == "" || dialogIsShow == '1'){
+				if (dialogIsShow == "" || dialogIsShow == '1') {
 					this.dialogIsShow = true
-				}else{
+				} else {
 					this.dialogIsShow = false
 				}
-				if(this.roleId){
+				if (this.roleId) {
 					// 设置底部tab样式
-					if(this.roleId == '20002'){
+					if (this.roleId == '20002') {
 						uni.setTabBarItem({
-						  index: 1,
-						  text: '代办',
-						  iconPath: 'static/img/2.1.png',
-						  selectedIconPath: 'static/img/2.2.png'
+							index: 1,
+							text: '代办',
+							iconPath: 'static/img/2.1.png',
+							selectedIconPath: 'static/img/2.2.png'
 						})
-					}if(this.roleId == '20003'){
+					}
+					if (this.roleId == '20003') {
 						uni.setTabBarItem({
-						  index: 1,
-						  text: '入驻',
-						  iconPath: 'static/img/2.1.png',
-						  selectedIconPath: 'static/img/2.2.png'
+							index: 1,
+							text: '入驻',
+							iconPath: 'static/img/2.1.png',
+							selectedIconPath: 'static/img/2.2.png'
 						})
-					} else if(this.roleId == '20001' || this.roleId == '20004') {
+					} else if (this.roleId == '20001' || this.roleId == '20004') {
 						uni.setTabBarItem({
-						  index: 1,
-						  text: '发布',
-						  iconPath: 'static/img/4.1.png',
-						  selectedIconPath: 'static/img/4.2.png'
+							index: 1,
+							text: '发布',
+							iconPath: 'static/img/4.1.png',
+							selectedIconPath: 'static/img/4.2.png'
 						})
 					}
 				}
@@ -233,15 +239,15 @@
 				this.cur = e.detail.current;
 			},
 			// 显示分类
-			goClassify(){
+			goClassify() {
 				uni.navigateTo({
-					url:'/pages/main/classify/classify'
+					url: '/pages/main/classify/classify'
 				})
 			},
 			//去进货单
-			goOrder(){
+			goOrder() {
 				uni.navigateTo({
-					url:'/pages/order/order'
+					url: '/pages/order/order'
 				})
 			},
 			// 更新版本
@@ -252,7 +258,7 @@
 					code: '003'
 				}
 				// ios
-				if(this.platform == '2'){
+				if (this.platform == '2') {
 					data.code = '004'
 				}
 				appUpdate(data).then(res => {
@@ -262,13 +268,13 @@
 						//  "appid": plus.runtime.appid,  
 						//  "version": plus.runtime.version  
 						// }
-						if(res.data){
+						if (res.data) {
 							// 判断是否强制更新
 							let forceUpdate = 0
-							if(res.data.forceUpdate == 1){
+							if (res.data.forceUpdate == 1) {
 								forceUpdate = 1
 							}
-							plus.runtime.getProperty( plus.runtime.appid, function ( wgtinfo ) {
+							plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
 								// let nowVersions = plus.runtime.version.split('.');
 								let nowVersions = wgtinfo.version.split('.');
 								let serverVersions = res.data.version.split('.');
@@ -278,11 +284,11 @@
 										uni.showModal({
 											title: '版本更新',
 											content: "有新的版本发布,是否立即进行新版本下载？",
-											cancelText:forceUpdate == 0?'取消':'退出',
+											cancelText: forceUpdate == 0 ? '取消' : '退出',
 											success: function(model) {
 												if (model.confirm) {
 													uni.showLoading({
-													    title: '正在跳转...'
+														title: '正在跳转...'
 													});
 													if (uni.getStorageSync('platformAndroid') == '10') { // 安卓更新
 														console.log('packagePath:', res.data.packagePath)
@@ -314,9 +320,10 @@
 													}
 												} else if (model.cancel) {
 													console.log(forceUpdate)
-													if(forceUpdate == 1){
-														 // plus.runtime.quit();
-														 plus.os.name=="Android"?plus.runtime.quit():plus.ios.import("UIApplication").sharedApplication().performSelector("exit");
+													if (forceUpdate == 1) {
+														// plus.runtime.quit();
+														plus.os.name == "Android" ? plus.runtime.quit() : plus.ios.import("UIApplication").sharedApplication()
+															.performSelector("exit");
 													}
 													console.log('用户点击取消');
 												}
@@ -329,11 +336,11 @@
 											uni.showModal({
 												title: '版本更新',
 												content: "有新的版本发布,是否立即进行新版本下载？",
-												cancelText:forceUpdate == 0?'取消':'退出',
+												cancelText: forceUpdate == 0 ? '取消' : '退出',
 												success: function(model) {
 													if (model.confirm) {
 														uni.showLoading({
-														    title: '正在下载...'
+															title: '正在下载...'
 														});
 														uni.downloadFile({
 															url: res.data.updatePackagePath,
@@ -343,7 +350,7 @@
 																	plus.runtime.install(downloadResult.tempFilePath, {
 																		force: false
 																	}, function(e) {
-																		console.log('install success...',e);
+																		console.log('install success...', e);
 																		uni.hideLoading();
 																		plus.runtime.restart();
 																	}, function(e) {
@@ -353,15 +360,16 @@
 																}
 															}
 														});
-														setTimeout(function () {
-														    uni.hideLoading();
+														setTimeout(function() {
+															uni.hideLoading();
 														}, 2000);
-													}  else if (model.cancel) {
+													} else if (model.cancel) {
 														console.log('用户点击取消');
 														console.log(forceUpdate)
-														if(forceUpdate == 1){
+														if (forceUpdate == 1) {
 															// plus.runtime.quit();
-															plus.os.name=="Android"?plus.runtime.quit():plus.ios.import("UIApplication").sharedApplication().performSelector("exit");
+															plus.os.name == "Android" ? plus.runtime.quit() : plus.ios.import("UIApplication").sharedApplication()
+																.performSelector("exit");
 														}
 													}
 												}
@@ -369,7 +377,7 @@
 										}
 									}
 								}
-								
+
 							});
 						}
 					}
@@ -392,14 +400,14 @@
 				}
 			},
 			// nav 去搜索页面
-			goSearchPage(name,isAgentcy) {
-        let path = ''
-        if((isAgentcy+'')==='0'){
-          path = '/pages/order/company/company?categoryId=' + name
-        }else{
-          path = '/pages/order/goodsList/goodsList?categoryId=' + name
-        }
-        
+			goSearchPage(name, isAgentcy) {
+				let path = ''
+				if ((isAgentcy + '') === '0') {
+					path = '/pages/order/company/company?categoryId=' + name
+				} else {
+					path = '/pages/order/goodsList/goodsList?categoryId=' + name
+				}
+
 				uni.navigateTo({
 					url: path
 				})
@@ -417,11 +425,17 @@
 				}).then((res) => {
 					if (res.code == '1000') {
 						this.homeList = res.data
-						this.homeList.list[3].list[1].goodsDetailRespList.forEach((item, index) => {
+						this.adSet    = this.homeList.list[0].list[0].list[0].adPosition.adSet
+						this.adSet2   = this.homeList.list[2].list[0].list[0].adPosition.adSet
+						this.navList  = this.homeList.list[1].list[0].list
+						this.imgPath  = this.homeList.list[3].list[0].list[0].imgPath
+						this.goodsDetailRespList = this.homeList.list[3].list[1].goodsDetailRespList
+						this.goodsDetailRespList.forEach((item, index) => {
 							item.valueAddr = item.valueAddr.substring(0, 5)
 						})
 						
-						this.listWidth = uni.upx2px(this.homeList.list[0].list[0].list[0].adPosition.adSet.length * 30) + 'px';
+						this.listWidth = uni.upx2px(this.adSet.length * 30) + 'px';
+
 					}
 				})
 			},
@@ -446,22 +460,22 @@
 					url: '/pages/order/goodsDetail/goodsDetail?shopId=' + shopId + '&goodsId=' + goodsId
 				})
 			},
-			chooseColorValue(v){
+			chooseColorValue(v) {
 				let obg = {}
-				if(v.indexOf('黄') != '-1'){
+				if (v.indexOf('黄') != '-1') {
 					obg = {
-						bgColor:'#FF5500',
-						fontColor:'#FFF6F0'
+						bgColor: '#FF5500',
+						fontColor: '#FFF6F0'
 					}
-				}else if(v.indexOf('红') != '-1'){
+				} else if (v.indexOf('红') != '-1') {
 					obg = {
-						bgColor:'#FFF0F0',
-						fontColor:'#FF0000'
+						bgColor: '#FFF0F0',
+						fontColor: '#FF0000'
 					}
-				}else if(v.indexOf('紫') != '-1'){
+				} else if (v.indexOf('紫') != '-1') {
 					obg = {
-						bgColor:'#FBF0FF',
-						fontColor:'#C42AFD'
+						bgColor: '#FBF0FF',
+						fontColor: '#C42AFD'
 					}
 				}
 				return obj;
@@ -471,26 +485,30 @@
 </script>
 
 <style lang="scss" scoped>
-	.dialog-txt{
+	.dialog-txt {
 		color: #1AAD19;
 	}
-	.dot{
+
+	.dot {
 		position: absolute;
 		z-index: 9999;
 		width: 100%;
 		height: 40upx;
 		bottom: -10upx;
 	}
+
 	.titleNview-placing {
 		height: var(--status-bar-height);
 		// padding-top: 44px;
 		box-sizing: content-box;
 	}
+
 	.main {
 		width: 750upx;
 		margin: 0 auto;
 		overflow-x: hidden;
 		background: #fff;
+
 		// padding-bottom: 100upx;
 		.bb1 {
 			position: fixed;
@@ -526,28 +544,45 @@
 				left: 300upx;
 			}
 
-			.content{
-				.img-1{
+			.content {
+				.img-1 {
 					text-align: center;
-					>image{
+
+					>image {
 						width: 36upx;
 						height: 36upx;
 						margin: 0 auto;
+						position: relative;
+						top: 2upx;
 					}
+					
 					margin-left: 30upx;
 					font-size: 20upx;
 					color: #48484C;
+					.text{
+						position: relative;
+						top: -6upx;
+					}
 				}
-				.img-2{
+
+				.img-2 {
 					text-align: center;
-					>image{
+
+					>image {
 						width: 36upx;
 						height: 36upx;
 						margin: 0 auto;
+						position: relative;
+						top: 2upx;
 					}
+
 					font-size: 20upx;
 					color: #48484C;
 					margin-right: 30upx;
+					.text{
+						position: relative;
+						top: -6upx;
+					}
 				}
 			}
 
@@ -592,7 +627,7 @@
 
 		.seles {
 			.content {
-				
+
 
 				.item {
 					padding: 0 30upx;
@@ -603,12 +638,14 @@
 					background: #fff;
 					margin-bottom: 20upx;
 					border-bottom: 1upx solid #f5f5f5;
+
 					.warp {
 						margin-top: 18upx;
 						padding: 4upx 20upx;
 						position: relative;
-						.deliver{
-							.tip{
+
+						.deliver {
+							.tip {
 								background: #999;
 								color: #fff;
 								display: inline-block;
@@ -617,20 +654,23 @@
 								padding: 2upx 4upx;
 							}
 						}
-						.address{
-							.img{
+
+						.address {
+							.img {
 								width: 28upx;
 								height: 22upx;
 								margin-right: 6upx;
-								>image{
+
+								>image {
 									width: 100%;
 									height: 100%;
 									position: relative;
 									top: -12upx;
-									
+
 								}
 							}
 						}
+
 						.ellipsis-line2 {
 							height: 78upx;
 							line-height: 39upx;
@@ -664,6 +704,7 @@
 						height: 220upx;
 						border-radius: 20upx;
 						overflow: hidden;
+
 						>image {
 							width: 100%;
 							height: 100%;
@@ -678,6 +719,7 @@
 				width: 240upx;
 				height: 40upx;
 				margin: 30upx auto;
+
 				// background-image: url('~@/static/img/default-shouye.png');
 				// background-repeat: no-repeat;
 				// background-size: 100% 100%;
@@ -706,11 +748,12 @@
 
 		.nav {
 			// margin: 20upx 0;
-       margin-top: 20upx;
+			margin-top: 20upx;
+
 			.li {
 				width: 20%;
 				text-align: center;
-        margin-bottom: 20upx;
+				margin-bottom: 20upx;
 
 				.name {
 					margin-top: 4upx;
@@ -740,6 +783,7 @@
 			border-radius: 20upx;
 			overflow: hidden;
 			position: relative;
+
 			// background: #fff;
 			swiper {
 				height: 250upx;
@@ -800,11 +844,12 @@
 			}
 
 		}
-    .attr {
-        padding: 3px  5px;
-        font-size: 10px;
-        margin-left: 5px;
-        border-radius: 30px;
-    }
+
+		.attr {
+			padding: 3px 5px;
+			font-size: 10px;
+			margin-left: 5px;
+			border-radius: 30px;
+		}
 	}
 </style>

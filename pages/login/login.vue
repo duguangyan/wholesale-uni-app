@@ -12,13 +12,13 @@
 			</view>
 			<view class="code">
 				<input class="fs30" v-model="code" @input="doIsLogin" type="number" placeholder="请输入验证码" />
-				<text class="getcode" @click="getCode" :class="{'text-999':codeNum!==''}">{{codeNum}} {{codeText}}</text>
+				<text class="getcode" @click="getCode" :class="{'text-theme':codeNum!==''}">{{codeNum}} {{codeText}}</text>
 			</view>
 			<view class="protocal">
 				登录表示同意
-				<text @click="goProtocal">《用户服务协议》</text>
+				<text @click="goProtocal" class="dialog-txt">《用户服务协议》</text>
 				和
-				<text @click="goPrivacy"> 《隐私政策》</text>
+				<text @click="goPrivacy" class="dialog-txt"> 《隐私政策》</text>
 			</view>
 		</view>
 		<view :class="{'bg-theme':isRight}" @click="dologin" class="btn fs32">登录</view>
@@ -47,7 +47,8 @@
 			</button>
 		</view> -->
 		<!--  #endif -->
-		<Dialog :hasSlot="hasSlot" :title="dialogTitle" @doCancel="doCancel" @doConfirm="doConfirm" :isShow="dialogIsShow" :cancelText="cancelText" :confirmText="confirmText">
+		<Dialog :hasSlot="hasSlot" :title="dialogTitle" @doCancel="doCancel" @doConfirm="doConfirm" :isShow="dialogIsShow"
+		 :cancelText="cancelText" :confirmText="confirmText">
 			<view>
 				<view>请你务必审阅、充分理解“服务协议”和“隐私政策”各条款，包括不限于：为了向你提供即时通讯、内容分享登服务，我们需要收集你的设备信息、操作日志登个人信息。你可以在“设置”中查看、变更、删除个人信息并管理你的授权。</view>
 				<view>你可阅读 <text class="dialog-txt" @click="goProtocal">《服务协议》</text>和<text class="dialog-txt" @click="goPrivacy">《隐私政策》</text>了解详细信息。如你同意，请点击“同意”开始接受我们的服务</view>
@@ -73,11 +74,11 @@
 	export default {
 		data() {
 			return {
-				hasSlot:true,
-				dialogTitle:'服务协议和隐私政策',
-				dialogIsShow:false,
-				cancelText:'暂不使用',
-				confirmText:'同意',
+				hasSlot: true,
+				dialogTitle: '服务协议和隐私政策',
+				dialogIsShow: false,
+				cancelText: '暂不使用',
+				confirmText: '同意',
 				phone: '',
 				code: '',
 				codeText: '获取验证码',
@@ -122,28 +123,28 @@
 			uni.setStorageSync('isLogin', 0)
 		},
 		methods: {
-			doConfirm(){
+			doConfirm() {
 				this.dialogIsShow = false
-				uni.setStorageSync('dialogIsShow',2)
+				uni.setStorageSync('dialogIsShow', 2)
 				this.dologin()
 			},
-			doCancel(){
+			doCancel() {
 				this.dialogIsShow = false
-				uni.setStorageSync('dialogIsShow',1)
+				uni.setStorageSync('dialogIsShow', 1)
 			},
 			// 隐私协议
-			goPrivacy(){
+			goPrivacy() {
 				uni.navigateTo({
-					url:'/pages/user/privacy/privacy'
+					url: '/pages/user/privacy/privacy'
 				})
 			},
 			// 去用户协议
-			goProtocal(){
+			goProtocal() {
 				uni.navigateTo({
-					url:'/pages/user/protocal/protocal'
+					url: '/pages/user/protocal/protocal'
 				})
 			},
-			
+
 			// 获取openid
 			getOpenIdByCode() {
 				uni.login({
@@ -314,13 +315,13 @@
 			// 登录
 			dologin: function() {
 				if (this.isRight) {
-					
+
 					let dialogIsShow = uni.getStorageSync('dialogIsShow')
-					if(dialogIsShow == 1 || dialogIsShow == ''){
+					if (dialogIsShow == 1 || dialogIsShow == '') {
 						this.dialogIsShow = true
 						return
 					}
-					
+
 					//#ifdef APP-PLUS  
 					var uuid = plus.device.uuid;
 					//#endif
@@ -356,25 +357,26 @@
 			},
 			getUserInfoDates() {
 				// #ifdef  MP-WEIXIN
-				// this.getOpenIdByCode();
+				this.getOpenIdByCode();
 				// #endif
 				getUserRealInfoAll().then((res) => {
 					if (res.code === '1000') {
 						let roleId = res.data.userRole.roleId || ''
-						uni.setStorageSync('nickName', res.data.user.realName || (res.data.userRealInfo?res.data.userRealInfo.realName:'') || res.data.apply.realName)
+						uni.setStorageSync('nickName', res.data.user.realName || (res.data.userRealInfo ? res.data.userRealInfo.realName :
+							'') || res.data.apply.realName)
 						uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
 						uni.setStorageSync('roleId', roleId)
-						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
-						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
-						
+						uni.setStorageSync('userRealInfo', res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')
+						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')
+
 						switch (roleId) {
 							case '20003':
-							let userRealInfo  = uni.getStorageSync('userRealInfo')
-								if(userRealInfo == ''){
+								let userRealInfo = uni.getStorageSync('userRealInfo')
+								if (userRealInfo == '') {
 									uni.redirectTo({
 										url: '/pages/middle/identity/identity'
 									})
-								}else{
+								} else {
 									uni.switchTab({
 										url: '/pages/main/main'
 									})
@@ -442,9 +444,22 @@
 </script>
 
 <style lang="scss" scoped>
-	.dialog-txt{
-		color: #1AAD19;
+	input::-webkit-input-placeholder {
+		color: #999999;
 	}
+
+	input::-moz-input-placeholder {
+		color: #999999;
+	}
+
+	input::-ms-input-placeholder {
+		color: #999999;
+	}
+
+	.dialog-txt {
+		color: #FE3B0B !important;
+	}
+
 	.login {
 		height: 100vh;
 		background: #fff;
@@ -463,12 +478,13 @@
 		.body {
 			margin-left: 56upx;
 			margin-right: 56upx;
+			padding-top: 10upx;
 
 			.logo {
-				width: 90upx;
-				height: 90upx;
+				width: 200upx;
+				height: 200upx;
 				margin: 0 auto;
-				padding-top: 50upx;
+				padding-top: 20upx;
 
 				>image {
 					width: 100%;
