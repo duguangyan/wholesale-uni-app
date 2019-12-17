@@ -7,15 +7,15 @@
 			<!--  #ifdef  MP-WEIXIN ||APP-PLUS || H5 -->
 			<view class="content">
 				<view class="fll img-1" @click="goClassify">
-					<image src="/static/imgs/search-left-1.png" mode=""></image>
-					<view class="text">分类</view>
+					<image :class="{nmt2:platform == 1}" src="/static/imgs/search-left-1.png" mode=""></image>
+					<view :class="['text',platform == 1?'mt10':'']">分类</view>
 				</view>
 				<view class="img fll">
 					<image src="/static/imgs/icon-search-1.png" @click="goSearch"></image>
 				</view>
 				<view class="flr img-2" @click="goOrder">
-					<image src="/static/imgs/search-order-1.png" mode=""></image>
-					<view class="text">进货单</view>
+					<image :class="{nmt2:platform == 1}" src="/static/imgs/search-order-1.png" mode=""></image>
+					<view :class="['text',platform == 1?'mt10':'']">进货单</view>
 				</view>
 			</view>
 
@@ -50,7 +50,7 @@
 				<view class="img">
 					<image :src="item.imgPath"></image>
 				</view>
-				<view class="name fs24 text-333">{{item.name}}</view>
+				<view class="name fs26 text-333">{{item.name}}</view>
 			</view>
 		</view>
 
@@ -488,6 +488,14 @@
 	.dialog-txt {
 		color: #1AAD19;
 	}
+  
+  .mt10{
+     margin-top: 10upx;
+  }
+  .nmt2{
+    transform: translateY(-4upx);
+    // top: -8upx;
+  }
 
 	.dot {
 		position: absolute;
@@ -626,6 +634,7 @@
 
 
 		.seles {
+      margin-top: -20upx;
 			.content {
 
 
@@ -716,9 +725,9 @@
 
 		.seles {
 			.title {
-				width: 240upx;
-				height: 40upx;
-				margin: 30upx auto;
+				width: 310upx;
+				height: 50upx;
+				margin: 26upx auto 18upx auto;
 
 				// background-image: url('~@/static/img/default-shouye.png');
 				// background-repeat: no-repeat;
@@ -748,15 +757,15 @@
 
 		.nav {
 			// margin: 20upx 0;
-			margin-top: 20upx;
+			margin-top: 30upx;
 
 			.li {
 				width: 20%;
 				text-align: center;
-				margin-bottom: 20upx;
+				margin-bottom: 34upx;
 
 				.name {
-					margin-top: 4upx;
+					margin-top: 18upx;
 				}
 
 				.img {
