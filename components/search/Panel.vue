@@ -283,7 +283,7 @@ export default {
     }
     .confirm {
       color: #fff;
-      background-color: #fc2d2d;
+      background-color: #FE3B0B;
       width: 280upx;
       border-radius: 40upx;
 	  position: relative;
@@ -330,7 +330,7 @@ export default {
         transition: all 0.5s;
         &.actived {
           background-color: #fff5f5;
-          color: #fc2d2d;
+          color: #FE3B0B;
         }
       }
     }

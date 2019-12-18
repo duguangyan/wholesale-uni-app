@@ -267,7 +267,7 @@
 			margin: 40upx auto auto;
 
 			&.actived {
-				background-color: #fc2d2d;
+				background-color: #FE3B0B;
 			}
 		}
 		.footer {

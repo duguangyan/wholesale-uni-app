@@ -15,7 +15,7 @@
 			<div class="text-fff shop-btn" @click="goHome">去购物</div>
 		</div>
 		<div class="list" v-if="!hasData">
-			<div v-for="(item,index) in list" :key="index" style="margin-top: 10upx" :class="{'Android': platform == 1}">
+			<div v-for="(item,index) in list" :key="index" :class="[platform == 1?'Android':'','shop-block' ]">
 				<div class="cf parent-title"  >
 					<div class="fll parent-icon" @click="checkParentIcon(index)">
 						<img :src="item.checked !== 0 ? Checked : Uncheck" alt="icon">
@@ -38,15 +38,15 @@
 						</div>
 						<div class="fll ml-10 info">
 							<p class="fs28 p1 ellipsis ellipsis-line2" @click="goDetail(item.shopId, it.goodsId)">{{it.goodsName || ''}}</p>
-							<p class="attrText p4 text-999 fs20 ellipsis lh1" @click="goDetail(item.shopId, it.goodsId)">
+							<!-- <p class="attrText p4 text-999 fs20 ellipsis lh1" @click="goDetail(item.shopId, it.goodsId)">
                 <span class="mr10" v-for="attr in it.goodsDetailAttrList" :key="attr.id">
                   {{attr.name}}:
                   <span v-for="attrVal in attr.goodsDetailAttrValueList" :key="attrVal.id">{{attrVal.remark || attrVal.value}}</span>
                 </span>
-              </p>
-              <p class="text-333 fs28 lh1" v-if="isAgentcy == 1">代办费&nbsp;￥{{it.agencyFee}}元{{it.unitName?`/${it.unitName}`:''}}</p>
+              </p> -->
+              <p class="text-333 fs30 lh1 pab" v-if="isAgentcy == 1">代办费￥{{it.agencyFee || '0'}}<text class="fs24">元{{it.unitName?`/${it.unitName}`:''}}</text></p>
 							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁)-->
-							<p v-if="it.status !== 4" class=" fs-14 p2 text-red" @click="goDetail(item.shopId, it.goodsId)">价格: <span class="fs-18">￥{{it.price}}元</span>{{it.unitName?`/${it.unitName}`:''}}</p>
+							<p v-if="it.status !== 4" class=" fs30 p2 text-red" @click="goDetail(item.shopId, it.goodsId)">价格: <span class="fs30">￥{{it.price}}</span><span class="fs24">元{{it.unitName?`/${it.unitName}`:''}}</span></p>
 							<!-- <p v-if="it.status === 4" class="text-red fs-14 p3"> <span>下架商品</span></p> -->
 							<!-- <p class="p4 text-666 fs20 ellipsis ellipsis-line3" @click="goDetail(item.shopId, it.goodsId)">{{it.skuDesc || '--'}}</p> -->
 							<!--              status 商品状态(-1 已删除 0待审核 1审核中  2审核驳回  3已上架   4已下架  5 锁定 6 申请解锁)-->
@@ -404,7 +404,7 @@
 				this.list[index].checked = n === this.list[index].items.length ? 1 : 0
 				this.$set(this.list[index], 'isColor999', false)
 				// this.list[index].isColor999 = false
-				// 计算总金额
+				// 计算总金额 
 				this.calculationTotalMoney()
 			},
 			// 全选
@@ -525,6 +525,14 @@
 	}
 </script>
 <style lang="scss" scoped>
+  .shop-block{
+    // margin-top: 10upx;
+    margin-bottom: 20upx;
+  }
+  .pab{
+    position: absolute;
+    bottom: 40px;
+  }
   .lh1{
     line-height: 1;
   }
@@ -558,16 +566,19 @@
 		.edit {
 			text-align: right;
 			background-color: #fff;
-			padding: 10upx 30upx 20upx 10upx;
+			height: 88upx;
+			// padding: 7px 3px;
 			position: relative;
+      display: flex;
+      align-items: center;
 			padding-top: var(--status-bar-height);
 			.image{
 				width: 40upx;
 				height: 40upx;
 				position: absolute;
 				left: 30upx;
-				top: var(--status-bar-height);
-				margin-top: 6upx;
+				// top: var(--status-bar-height);
+				// margin-top: 6upx;
 				>image{
 					width: 100%;
 					height: 100%;
@@ -579,10 +590,15 @@
 			}
 			.icon {
 				position: absolute;
-				top: var(--status-bar-height);
+				// top: var(--status-bar-height);
 				right: 30upx;
-				text-underline: underline ;
-				margin-top: 10upx;
+        top: 50%;
+        
+        transform: translateY(10upx);
+				// text-underline: underline ;
+    //     white-space: nowrap;
+    //     margin-right: 30upx;
+				// margin-top: 10upx;
 			}
 			/* #ifdef MP-WEIXIN */  
 			.icon {
@@ -593,8 +609,8 @@
 		}
 
 		.list {
-			margin-top: 100upx;
-			margin-bottom: 30upx;
+			// margin-top: 100upx;
+			// margin-bottom: 30upx;
 			overflow: auto;
 			.count {
 				position: absolute;
@@ -628,7 +644,9 @@
 			}
 
 			.parent-title {
-				margin-top: 20upx;
+				// margin-top: 20upx;
+        padding: 20upx 0;
+        background: #fff;
 				.text {
 					margin-left: 20upx;
 					font-size: 30upx;
@@ -663,7 +681,7 @@
 			
 
 			ul {
-				margin-top: 10upx;
+				// margin-top: 10upx;
 
 				li {
 					background: #fff;
@@ -684,8 +702,8 @@
 					}
 
 					.img {
-						width: 200upx;
-						height: 200upx;
+						width: 180upx;
+						height: 180upx;
 						border-radius: 20upx;
 						overflow: hidden;
 
@@ -752,7 +770,7 @@
 		}
 		.Android{
 			.parent-title {
-				margin-top: 30upx !important;
+				// margin-top: 30upx !important;
 				.text{
 					top: 8upx !important;
 				}
@@ -802,13 +820,13 @@
 				border-radius: 60upx;
 				margin-top: 20upx;
 				font-size: 28upx;
-				background: #FC2D2D;
+				background: #FE3B0B;
 			}
 		}
 
 		.list {
 			margin-top: 20upx;
-			background-color: #fff;
+			// background-color: #fff;
 
 			.title {
 				img:first-child {
@@ -874,7 +892,7 @@
 				
 				span {
 					margin-left: 8upx;
-					color: #fc2d2d;
+					color: #FE3B0B;
 					font-size: 34upx;
 					line-height: 24upx;
 					position: relative;
@@ -893,7 +911,7 @@
 				color: #fff;
 				text-align: center;
 				border-radius: 32upx;
-				background-color: #fc2d2d;
+				background-color: #FE3B0B;
 				position: relative;
 				left: -60upx;
 				top: -15upx;
@@ -904,8 +922,8 @@
 				width: 150upx;
 				line-height: 60upx;
 				height: 60upx;
-				color: #fc2d2d;
-				border: 2upx solid #fc2d2d;
+				color: #FE3B0B;
+				border: 2upx solid #FE3B0B;
 				text-align: center;
 				border-radius: 32upx;
 				position: absolute;

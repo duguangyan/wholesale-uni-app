@@ -84,7 +84,7 @@ export default {
 					margin-top: 10upx;
 				}
 				.active{
-					color: #FC2D2D;
+					color: #FE3B0B;
 				}
 			}
 		}

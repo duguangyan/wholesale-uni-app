@@ -27,10 +27,10 @@
         <view class="order">
           <view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
             <view class="p1 fll fs36">我的订单</view>
-			<view class="img flr" :class="{'platformOPPO': platform == 1}" >
+			<view class="img flr" :class="{platformOPPO: platform == 1}" >
 				<image src="/static/img/tag-go.png"/>
 			</view>
-			<view class="p2 text-999 fs24 flr">全部订单</view>
+			<view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
           </view>
           <view class="tags">
             <view class="li" v-for="(item,index) in titles" :key="index" @click="goOrderList(index)">
@@ -258,6 +258,9 @@
 	position: relative;
 	top: -6upx !important;
 }
+.nmt{
+  margin-top: -6upx;
+}
 .fg1 {
   flex-grow: 1;
 }
@@ -414,20 +417,28 @@
     }
   }
   .order {
-    padding: 14upx 20upx 20upx 20upx;
+    padding: 8upx 30upx 20upx 20upx;
 	// border-bottom: 20upx solid #f0f0f0;
     .title {
 		border-bottom: 1upx solid #f0f0f0;
+    padding-bottom: 30upx;
+    /*  #ifdef MP-WEIXIN  */
 		padding-bottom: 20upx;
+    /*  #endif  */
+    /*  #ifdef H5  */
+    padding-bottom: 20upx;
+    /*  #endif  */
 		// height: 60upx;
 		position: relative;
 		top: 14upx;
-		
+		.mt10{
+       top: 30upx;
+    }
 	  .img{
 		  width: 20upx;
 		  height: 20upx;
 		  position: relative;
-		  top: -2upx;
+		  top: 20upx;
 		  /* #ifdef MP-WEIXIN */  
 		  top: 10upx;
 		  /* #endif */
@@ -439,7 +450,7 @@
 		  
 	  }
 	  .platformOPPO{
-	  	top: 4upx !important;
+	  	top: 10upx !important;
 	  }
       & > .p2 {
         color: #999;

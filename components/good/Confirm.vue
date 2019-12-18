@@ -1,40 +1,34 @@
 <template>
   <div v-show="show" class="good-confirm">
-    <transition name="mask">
-      <div v-show="show" class="mask" @click="close"></div>
-    </transition>
+    <transition name="mask"><div v-show="show" class="mask" @click="close"></div></transition>
     <transition name="body">
       <div v-show="show" class="body">
         <div class="good">
-          <div class="photo">
-            <img class="icon-90" :src="good.goods.imgUri" width="90" height="90" alt />
-          </div>
+          <div class="photo"><img class="icon-90" :src="good.goods.imgUri" width="90" height="90" alt /></div>
           <div class="unit fg1">
-            {{totalPrice}}
-            <span>/{{good.goods.unitName}}</span>
+            {{ totalPrice }}
+            <span>/{{ good.goods.unitName }}</span>
           </div>
           <img class="icon-15 flr" src="@/static/img/tag-close2.png" width="15" height="15" @click="close" />
         </div>
 
         <!-- 多规格 -->
-        <div v-if="good.goods.showStyle!==2" class="standard">
-          <div v-for="(spec,index) in good.goodsDetailSpecList" :key="spec.id">
-            <div class="sta-name">{{spec.name}}</div>
+        <div v-if="good.goods.showStyle !== 2" class="standard">
+          <div v-for="(spec, index) in good.goodsDetailSpecList" :key="spec.id">
+            <div class="sta-name">{{ spec.name }}</div>
             <div class="sta-item">
-              <template v-for="(opt) in spec.goodsDetailSpecValueList">
+              <template v-for="opt in spec.goodsDetailSpecValueList">
                 <template v-if="index === deep - 1">
                   <span
-                    :class="[!getStatus(opt.value)&&curs[index]['key']===opt.value?'actived':'',getStatus(opt.value)?'disabled':'']"
+                    :class="[!getStatus(opt.value) && curs[index]['key'] === opt.value ? 'actived' : '', getStatus(opt.value) ? 'disabled' : '']"
                     :key="opt.id"
-                    @click="getStatus(opt.value)?'':selOption(opt.value,index)"
-                  >{{opt.value}}{{good.sufName}}/{{good.goods.unitName}}</span>
+                    @click="getStatus(opt.value) ? '' : selOption(opt.value, index)"
+                  >
+                    {{ opt.value }}{{ good.sufName }}/{{ good.goods.unitName }}
+                  </span>
                 </template>
                 <template v-else>
-                  <span
-                    :class="{actived: curs[index]['key']===opt.value}"
-                    :key="opt.id"
-                    @click="selOption(opt.value,index)"
-                  >{{opt.value}}</span>
+                  <span :class="{ actived: curs[index]['key'] === opt.value }" :key="opt.id" @click="selOption(opt.value, index)">{{ opt.value }}</span>
                 </template>
               </template>
             </div>
@@ -43,16 +37,15 @@
 
         <div class="count">
           <span class="fg1">数量</span>
-		  <div class="flr">
-			 <div v-show="nums>startNum" class="icon-min" @click="--nums"></div>
-			 <input v-model="nums" type="number" />
-			 <div v-show="nums<stock" class="icon-plus" @click="++nums"></div> 
-		  </div>
-          
+          <div class="flr">
+            <div v-show="nums > startNum" :class="['icon-min',platform!=1?'nmt4':'']" @click="--nums"></div>
+            <input v-model="nums" type="number" />
+            <div v-show="nums < stock" :class="['icon-plus',platform!=1?'nmt4':'']" @click="++nums"></div>
+          </div>
         </div>
         <div class="money">
           <span class="fg1">商品金额</span>
-          <span class="price">{{payPrice}}</span>
+          <span class="price">{{ payPrice }}</span>
         </div>
         <div class="btn" @click="navigate">确定</div>
       </div>
@@ -61,11 +54,11 @@
 </template>
 
 <script>
-import { addToCart } from "@/api/goodsApi.js";
-import util from '@/utils/util.js'
-import T from '@/utils/tips.js'
+import { addToCart } from '@/api/goodsApi.js';
+import util from '@/utils/util.js';
+import T from '@/utils/tips.js';
 export default {
-  name: "good-confirm",
+  name: 'good-confirm',
   props: {
     show: {
       type: Boolean,
@@ -79,16 +72,16 @@ export default {
     },
     nav: {
       type: String,
-      default: ""
+      default: ''
     },
-	goodsId:{
-		type: String,
-		default: ""
-	},
-	shopId:{
-		type: String,
-		default: ""
-	},
+    goodsId: {
+      type: String,
+      default: ''
+    },
+    shopId: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -99,8 +92,13 @@ export default {
       totalPrice: 0,
       stock: 0,
       deep: 1,
-      list: []
+      list: [],
+      platform: -1
+      
     };
+  },
+  onLoad(){
+    this.platform = uni.getStorageSync('platform')*1;
   },
   computed: {
     payPrice() {
@@ -140,7 +138,7 @@ export default {
           node = node[key];
           return node.disabled;
         } else {
-          node = node[this.curs[i]["key"]];
+          node = node[this.curs[i]['key']];
         }
       }
     },
@@ -148,19 +146,19 @@ export default {
       let node = this.good.tree;
       if (this.good.goods.showStyle !== 2) {
         this.curs.forEach((cur, index) => {
-          node = node[cur["key"]];
-          if (index ===  this.curs.length - 1) {
-			this.totalPrice = node.price || 0;
-			this.stock = node.stock;
-			!reset && (this.nums = node.disabled ? 0 : node.startNum);
-			this.startNum = node.startNum || 0;
-			cur.disabled = node.disabled;
-			this.curDisable = node.disabled;
+          node = node[cur['key']];
+          if (index === this.curs.length - 1) {
+            this.totalPrice = node.price || 0;
+            this.stock = node.stock;
+            !reset && (this.nums = node.disabled ? 0 : node.startNum);
+            this.startNum = node.startNum || 0;
+            cur.disabled = node.disabled;
+            this.curDisable = node.disabled;
           }
         });
       } else {
         this.curs.forEach((cur, index) => {
-          node = node[cur["key"]];
+          node = node[cur['key']];
           if (index === this.curs.length - 1) {
             this.stock = node.stock;
             !reset && (this.nums = node.disabled ? 0 : node.startNum);
@@ -190,12 +188,12 @@ export default {
     },
     selOption(data, index) {
       let list = [...this.curs];
-      list[index]["key"] = data;
+      list[index]['key'] = data;
       this.curs = list;
       this.calcPrice();
     },
     close() {
-      this.$emit("close", false);
+      this.$emit('close', false);
     },
     minNums() {},
     plusNums() {},
@@ -204,41 +202,38 @@ export default {
       let isInvalid = false;
       let node = this.good.tree;
       for (let i = 0; i < this.deep; i++) {
-        node = node[this.curs[i]["key"]];
+        node = node[this.curs[i]['key']];
         if (i === this.deep - 1) {
           isInvalid = node.disabled;
         }
       }
       if (isInvalid) {
-        return T.tips("请选择所有的项");
+        return T.tips('请选择所有的项');
       }
       if (this.nav.match(/cart/)) {
         addToCart({
           skuId: node.id,
           num: this.nums
         }).then(data => {
-      
-          this.$emit("update");
+          this.$emit('update');
         });
       } else {
         if (!!this.nav.match(/submit/i)) {
-			let submitData = JSON.stringify({
-                addressId: "",
-                goodsCount: this.nums,
-                goodsId: this.goodsId,
-                shopId: this.shopId,
-                skuId: node.id
-                // userId: localStorage.getItem("uid")
-              })
-			uni.navigateTo({
-				url:'/pages/order/submit/submit?submitData='+submitData+'&isBuyNow='+1
-				
-			})
-    
+          let submitData = JSON.stringify({
+            addressId: '',
+            goodsCount: this.nums,
+            goodsId: this.goodsId,
+            shopId: this.shopId,
+            skuId: node.id
+            // userId: localStorage.getItem("uid")
+          });
+          uni.navigateTo({
+            url: '/pages/order/submit/submit?submitData=' + submitData + '&isBuyNow=' + 1
+          });
         } else {
-			uni.switchTab({
-				url:'/pages/order/order'
-			})
+          uni.switchTab({
+            url: '/pages/order/order'
+          });
         }
       }
     }
@@ -259,10 +254,14 @@ export default {
   -webkit-overflow-scrolling: touch;
   .standard {
     border-bottom: 1px solid #f0f0f0;
-	max-height: 200px;
-	overflow-y: auto;
-	height: 200px;
-	padding-left: 2px;
+    max-height: 200px;
+    overflow-y: auto;
+    height: 200px;
+    padding-left: 2px;
+  }
+  .nmt4{
+    position: relative;
+    top: -8upx;
   }
   .sta-name {
     color: #333;
@@ -283,8 +282,8 @@ export default {
       box-shadow: 0 0 0 1upx #666;
       transition: all 0.5s;
       &.actived {
-        box-shadow: 0 0 0 1upx #fc2d2d;
-        color: #fc2d2d;
+        box-shadow: 0 0 0 1upx #fe3b0b;
+        color: #fe3b0b;
       }
       &.disabled {
         box-shadow: 0 0 0 1upx #bebebe;
@@ -309,22 +308,22 @@ export default {
     max-height: 1000upx;
     bottom: 0;
     z-index: 5;
-	.icon-15{
-		width: 30upx;
-		height: 30upx;
-		position: absolute;
-		right: 40upx;
-		top: 0upx;
-	}
-	.icon-90{
-		width: 180upx;
-		height: 180upx;
-	}
+    .icon-15 {
+      width: 30upx;
+      height: 30upx;
+      position: absolute;
+      right: 40upx;
+      top: 0upx;
+    }
+    .icon-90 {
+      width: 180upx;
+      height: 180upx;
+    }
     .good {
       display: flex;
       align-items: flex-start;
       justify-content: flex-start;
-	  position: relative;
+      position: relative;
       .photo {
         width: 180upx;
         height: 180upx;
@@ -340,7 +339,7 @@ export default {
           font-size: 24upx;
         }
         &::before {
-          content: "￥";
+          content: '￥';
           display: inline-block;
           color: #f5222d;
           font-size: 20upx;
@@ -356,11 +355,11 @@ export default {
       font-size: 30upx;
       padding-top: 24upx;
       // margin-top: 74upx;
-	  position: relative;
-	  .flr{
-		  position: absolute;
-		  right: 90upx;
-	  }
+      position: relative;
+      .flr {
+        position: absolute;
+        right: 90upx;
+      }
       input {
         margin-left: 20upx;
         margin-right: 20upx;
@@ -383,10 +382,10 @@ export default {
       font-size: 30upx;
       .price {
         color: #f5222d;
-		position: relative;
-		left: -30upx;
+        position: relative;
+        left: -30upx;
         &::before {
-          content: "￥";
+          content: '￥';
           display: inline-block;
           font-size: 24upx;
         }
@@ -396,7 +395,7 @@ export default {
       margin-top: 96upx;
       width: 640upx;
       line-height: 80upx;
-      background-color: #fc2d2d;
+      background-color: #fe3b0b;
       color: #fff;
       border-radius: 40upx;
       font-size: 32upx;

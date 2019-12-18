@@ -466,7 +466,7 @@
 					width: 640upx;
 					line-height: 80upx;
 					border-radius: 40upx;
-					background-color: #FC2D2D !important;
+					background-color: #FE3B0B !important;
 					text-align: center;
 					color: #fff;
 					margin: 0 auto;

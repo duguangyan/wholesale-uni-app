@@ -505,7 +505,7 @@
 					position: relative;
 
 					.navActive {
-						color: #fc2d2d;
+						color: #FE3B0B;
 					}
 
 					i {
@@ -514,7 +514,7 @@
 						height: 6upx;
 						width: 20%;
 						display: block;
-						background: #fc2d2d;
+						background: #FE3B0B;
 						margin-left: 40%;
 					}
 					.tip{
@@ -540,7 +540,7 @@
 				height: 6upx;
 				position: absolute;
 				bottom: 0;
-				background-color: #fc2d2d;
+				background-color: #FE3B0B;
 				left: 60upx;
 				z-index: 2;
 				transition: left 0.5s;
@@ -599,8 +599,8 @@
 					color: #666;
 
 					&.receive {
-						color: #FC2D2D;
-						border: 1upx solid #FC2D2D;
+						color: #FE3B0B;
+						border: 1upx solid #FE3B0B;
 					}
 				}
 			}

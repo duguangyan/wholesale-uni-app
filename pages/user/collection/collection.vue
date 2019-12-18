@@ -240,7 +240,7 @@
 		border-radius: 40upx;
 		font-size: 32upx;
 		margin: 40upx auto auto;
-		background: #fc2d2d;
+		background: #FE3B0B;
 		position: fixed;
 		bottom: 120upx;
 		left: 50%;
@@ -398,8 +398,8 @@
 			.del {
 				width: 120upx;
 				line-height: 60upx;
-				border: 1upx solid #fc2d2d;
-				color: #fc2d2d;
+				border: 1upx solid #FE3B0B;
+				color: #FE3B0B;
 				font-size: 30upx;
 				text-align: center;
 				border-radius: 32upx;

@@ -72,9 +72,17 @@
 			},
 			// 去搜索页面
 			goSeach(item){
-				uni.navigateTo({
-					url:'/pages/order/goodsList/goodsList?categoryId='+item.id + '&level=' + item.level
-				})
+        let path = ''
+        if ((item.isCompany + '') === '1') {
+        	path = '/pages/order/company/company?categoryId=' + item.id
+        } else {
+        	path = '/pages/order/goodsList/goodsList?categoryId='+item.id + '&level=' + item.level
+        }
+        
+        uni.navigateTo({
+        	url: path
+        })
+				
 			},
 			// 选择分类
 			checkClassfiy(index){

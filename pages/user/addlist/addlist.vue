@@ -98,7 +98,7 @@
 		border-radius: 40upx;
 		font-size: 32upx;
 		margin: 40upx auto auto;
-		background: #fc2d2d;
+		background: #FE3B0B;
 		position: fixed;
 		bottom: 20upx;
 		left: 50%;
@@ -203,7 +203,7 @@
 			}
 
 			.tag {
-				background-color: #fc2d2d;
+				background-color: #FE3B0B;
 				border-radius: 6upx;
 				font-size: 20upx;
 				color: #fff;

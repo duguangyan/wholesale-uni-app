@@ -948,7 +948,7 @@
 				}
 
 				.status {
-					color: #fc2d2d;
+					color: #FE3B0B;
 				}
 			}
 
@@ -1048,8 +1048,8 @@
 			}
 
 			.btn-red {
-				border: 1upx solid #fc2d2d;
-				color: #fc2d2d;
+				border: 1upx solid #FE3B0B;
+				color: #FE3B0B;
 				margin-right: 30upx;
 			}
 
