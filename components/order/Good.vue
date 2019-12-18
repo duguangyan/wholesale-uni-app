@@ -56,6 +56,10 @@
 			isAgentcy:{
 				type: Boolean,
 				default: true
+			},
+			goDetailNumber:{
+				type: String,
+				default: ''
 			}
 		},
 		data() {
@@ -65,15 +69,15 @@
 		},
 		methods: {
 			goGoodsDetail() {
-				// uni.navigateTo({
-				// 	url: '/pages/order/goodsDetail/goodsDetail?shopId=' + this.item.shopId + '&goodsId=' + this.item.goodsId
-				// })
-				
-				// let item = this.orders[index]
-				uni.navigateTo({
-					url: '/pages/user/order/detail?orderId=' + this.item.orderId + '&shopId=' + this.item.shopId + '&businessType='+ this.businessType
-				})
-				
+				if(this.goDetailNumber == '1'){
+					uni.navigateTo({
+						url: '/pages/order/goodsDetail/goodsDetail?shopId=' + this.item.shopId + '&goodsId=' + this.item.goodsId
+					})
+				}else{
+					uni.navigateTo({
+						url: '/pages/user/order/detail?orderId=' + this.item.orderId + '&shopId=' + this.item.shopId + '&businessType='+ this.businessType
+					})
+				}
 			},
 		}
 	}

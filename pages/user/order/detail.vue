@@ -206,7 +206,7 @@
 					</span>
 				</div>
 				<view class="mgb-30" v-for="good in order.shopOrder.orderDetailList" :key="good.id" >
-					<Good :item="good" :roleId="roleId" :isAgentcy="isAgentcy" ></Good>
+					<Good :item="good" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber'></Good>
 				</view>
 				
 				<div class="goods-price">
@@ -312,6 +312,7 @@
 		name: 'orddetail',
 		data() {
 			return {
+				goDetailNumber:'1',
 				uid:'',
 				businessType:'',
 				cancelReason:'',

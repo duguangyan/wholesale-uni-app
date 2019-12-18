@@ -18,8 +18,8 @@
 		<view class="list" v-if="!hasOrders">
 
 			<view class="ul">
-				<view class="li" v-for="(item, index) in orders" :key="item.id">
-					<view class="title cf fs28 text-333">
+				<view class="li" v-for="(item, index) in orders" :key="index">
+					<view class="title cf fs28 text-333" @click="goToShop(item.shopId)">
 						<text class="fll fs-w">货主:</text>
 						<text class="fll fs-w">{{item.sellName}} </text>
 						<view class="image fll">
@@ -198,6 +198,12 @@
 			this.getOrderStat()
 		},
 		methods: {
+			// 去店铺
+			goToShop(shopId){
+				uni.navigateTo({
+					url:'/pages/shop/shop/shop?shopId='+shopId
+				})
+			},
 			// 货主取消订单
 			sellerCancel(index){
 				let itemList = ['已断货','售罄','其他']
