@@ -620,7 +620,8 @@
 					shopId:'',
 					showStyle:2,
 					sort:1,
-					unit:goodsSkuList[0].unitId || goodsSkuList[0].unit
+					unit:goodsSkuList[0].unitId,
+					unitName:goodsSkuList[0].unit
 				}
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)
 				if(this.goodsId!='' && this.shopId!=''){  // 编辑商品

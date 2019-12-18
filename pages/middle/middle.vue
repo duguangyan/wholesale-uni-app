@@ -39,7 +39,11 @@
 				access_token:'',
 				yearAndMonth:'',
 				totalPrice:'',
-				orderInfos:'',
+				orderInfos:{
+					tradingOrder:0,
+					tradingMoney:0,
+					tradingNum:0
+				},
 				spOrders: [{
 					img: '../../static/imgs/icon-1004.png',
 					text: '待确认',
@@ -64,7 +68,7 @@
 				status: 1, // 登录用户状态
 				roleId: '',
 				userRealInfo:'',
-				userApply:'1',
+				userApply:'',
 				items:[
 					{
 						text:'我是代办',
@@ -239,7 +243,7 @@
 					}
 				}
 				statOrderInfo(data).then(res=>{
-					if(res.code == '1000'){
+					if(res.code == '1000' && res.data){
 						this.orderInfos = res.data
 					}
 				})
@@ -253,7 +257,11 @@
 					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
 					if(res.code == '1000'){
 						let list = res.data
-						let userApply = JSON.parse(uni.getStorageSync('userApply'))
+						let userApply = ''
+						if(uni.getStorageSync('userApply')){
+							userApply = JSON.parse(uni.getStorageSync('userApply'))
+						}
+						
 						this.spOrders = [{
 							img: '/static/imgs/icon-1004.png',
 							text: '待确认',
@@ -310,11 +318,14 @@
 						// uni.setStorageSync('roleId','2001')
 						this.roleId       = res.data.userRole.roleId || ''
 						this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : ''
-						this.userApply    = res.data.apply.id ? res.data.apply : ''
+						if(res.data.apply.id){
+							this.userApply = res.data.apply 
+							uni.setStorageSync('userApply', JSON.stringify(res.data.apply))
+						}
 										
 						uni.setStorageSync('roleId', roleId)
 						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
-						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')
+						
 		
 						// 设置头部样式
 						if(!this.roleId && this.userRealInfo){

@@ -72,7 +72,7 @@
 		</view>
 
 		<view class="bar" @click="goRelease" v-if="(roleId == '20001' || roleId == '20004') && userApply.status == 1">
-			<image src="../../static/imgs/icon-1009.png" mode=""></image>
+			<image src="/static/imgs/icon-1009.png" mode=""></image>
 		</view>
 	</view>
 
@@ -106,7 +106,7 @@
 				default: ''
 			},
 			totalPrice:{
-				type: String,
+				type: Number || String,
 				default: ''
 			},
 			orderInfos:{

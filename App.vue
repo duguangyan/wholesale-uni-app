@@ -9,7 +9,7 @@
 			switch (uni.getSystemInfoSync().platform) {
 				case 'android':
 					console.log('运行Android上')
-					uni.setStorageSync('platformAndroid', '10')
+					uni.setStorageSync('platform', '10')
 					switch(uni.getSystemInfoSync().brand){
 						case 'OPPO':
 							console.log('运行OPPO上')

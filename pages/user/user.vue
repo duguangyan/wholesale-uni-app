@@ -162,7 +162,7 @@
 						
 						this.nickName     =  res.data.apply.enterpriseName || uni.getStorageSync('nickName')
 						let imageUrl      = uni.getStorageSync('headImgUrl')
-						this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/img/icon-user.png'
+						this.headimageUrl = imageUrl && imageUrl !== 'null' ? imageUrl : '/static/imgs/shop-avatar.png'
 						this.roleId       = uni.getStorageSync('roleId') || ''
 						
 					}
@@ -298,6 +298,7 @@
 			  position: absolute;
 			  right: 30upx;
 			  top: 100upx;
+			  z-index: 999999;
 			  >image{
 				  width: 100%;
 				  height: 100%;
@@ -358,6 +359,7 @@
 			  position: absolute;
 			  right: 30upx;
 			  top: 130upx;
+			  z-index: 999999;
 			  >image{
 				  width: 100%;
 				  height: 100%;

@@ -38,7 +38,7 @@
 						</text>
 					</view>
 					<view class="mgb-30" v-for="good in item.orderDetailList" :key="good.id" >
-						<Good :item="good" :roleId='roleId'></Good>
+						<Good :item="good" :roleId='roleId' :isAgentcy="isAgentcy" :businessType='businessType'></Good>
 					</view>
 					
 					<view class="accu fs24" v-if="(roleId == '20001' || roleId == '20004') && item.sellerId == uid">订单金额:￥<text class='fs32 fs-w'>{{(roleId == '20001' || roleId == '20004') && item.sellerId == uid?item.orderMoney:item.totalMoney}}</text></view>
@@ -46,7 +46,7 @@
 					<view class="operator">
 						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 						<!-- <view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view> -->
-						<view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view>
+						<!-- <view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view> -->
 						<view class="receive" v-if="item.status == 3 && businessType == 2" @click="postOrderConfirm(index)">确认收货</view>
 						<view class="receive" v-if="item.status == 0 && businessType == 2" @click="showPay(index)">去支付</view>
 						<view class="receive" v-if="item.status == 2 && roleId == '20002' && businessType == 1" @click="deliverGoods(index)">发货</view>
@@ -135,7 +135,8 @@
 				from:'',
 				roleId:'',
 				businessType:'',
-				userApply:''
+				userApply:'',
+				isAgentcy:''
 			}
 		},
 		components: {
@@ -176,7 +177,10 @@
 		onShow() {
 			this.roleId    = uni.getStorageSync('roleId')
 			this.uid       = uni.getStorageSync('uid')
-			this.userApply = JSON.parse(uni.getStorageSync('userApply')) 
+			if(uni.getStorageSync('userApply')){
+				this.userApply = JSON.parse(uni.getStorageSync('userApply')) 
+				this.isAgentcy = this.userApply.isAgentcy
+			}
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
 			console.log('platform:', this.platform)

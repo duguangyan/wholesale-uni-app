@@ -177,7 +177,7 @@
 				</view>
 			</view>
 			
-			<view class="logistics bb1 fs28" v-if="order.shopOrder.enterpriseStatus == 1 && order.orderShipping">
+			<view class="logistics bb1 fs28" v-if="order.shopOrder.enterpriseStatus == 1 && order.orderShipping && order.shopOrder.sendType != 1">
 				<view class="cf title">
 					<view class="fll ellipsis">收货人: {{order.orderShipping.receiver || ''}}</view>
 					<view class="flr">{{order.orderShipping.phone || ''}}</view>
@@ -206,7 +206,7 @@
 					</span>
 				</div>
 				<view class="mgb-30" v-for="good in order.shopOrder.orderDetailList" :key="good.id" >
-					<Good :item="good" :roleId="roleId"></Good>
+					<Good :item="good" :roleId="roleId" :isAgentcy="isAgentcy" ></Good>
 				</view>
 				
 				<div class="goods-price">
@@ -243,15 +243,15 @@
 
 		<div class="footer" v-if="status == 0 || status == 3 || status == 6 || status == 2">
 			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
-			<div class="btn-black btn" v-if="status == 0" @click="postOrderCancel">取消订单</div>
+			<div class="btn-black btn" v-if="status == 0 && businessType == 2" @click="postOrderCancel">取消订单</div>
 			<div class="btn-red btn" v-if="status == 0 && businessType == 2" @click="showPay">去付款</div>
 			<div class="btn-red btn" v-if="status == 3 && businessType == 2" @click="postOrderConfirm">确认收货</div>
 			<view class="btn-red btn" v-if="status == 2 && roleId == '20002' && businessType == 1" @click="deliverGoods">发货</view>
 			
 			<view class="btn-red btn" v-if="status == 2 && userApply.isAgentcy == 0 && businessType == 1" @click="deliverGoods">发货</view>
 			
-			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid" @click="sellerCancel">取消订单</view>
-			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid" @click="sellerConfirm">确认订单</view>
+			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid && businessType == 2" @click="sellerCancel">取消订单</view>
+			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid && businessType == 1" @click="sellerConfirm">确认订单</view>
 			
 		</div>
 		
@@ -360,7 +360,10 @@
 			// 用户类型
 			this.roleId    = uni.getStorageSync('roleId')
 			this.uid       = uni.getStorageSync('uid')
-			this.userApply = JSON.parse(uni.getStorageSync('userApply'))
+			if(uni.getStorageSync('userApply')){
+				this.userApply = JSON.parse(uni.getStorageSync('userApply'))
+				this.isAgentcy = this.userApply.isAgentcy
+			}
 			// 设备样式兼容
 			this.platform  = uni.getStorageSync('platform');
 			// 获取参数
