@@ -4,11 +4,11 @@
 			<view class="time">{{yearAndMonth}}</view>
 			<view class="flex fs32">
 				<view class="flex-1">
-					<view><text class="fs32">{{orderInfos.tradingOrder || 0}}</text><text class="fs24">单</text></view>
+					<view><text class="fs46">{{orderInfos.tradingOrder || 0}}</text><text class="fs24">单</text></view>
 					<view class="fs24">订单量</view>
 				</view>
 				<view class="flex-1">
-					<view><text class="fs32">{{orderInfos.tradingMoney || 0}}</text><text class="fs24">元</text></view>
+					<view><text class="fs46">{{orderInfos.tradingMoney || 0}}</text><text class="fs24">元</text></view>
 					<view class="fs24">{{roleId=='20002'?'代办费':'交易额'}}</view>
 				</view>
 				<!-- <view class="flex-1">
@@ -60,7 +60,7 @@
 		<view class="goods orders">
 			<view class="title cf" @click="goOrderList('')">
 				{{roleId=='2002'?'订单':'销售订单'}}
-				<view class="flr right"><image src="/static/imgs/right.png" mode=""></view>
+				<!-- <view class="flr right"><image src="/static/imgs/right.png" mode=""></view> -->
 			</view>
 			<view class="flex fs28">
 				<view class="flex-1" v-for="(item,index) in spOrders" :key="index" @click="goOrderList(index)">
@@ -72,7 +72,7 @@
 		</view>
 
 		<view class="bar" @click="goRelease" v-if="(roleId == '20001' || roleId == '20004') && userApply.status == 1">
-			<image src="../../static/imgs/icon-1009.png" mode=""></image>
+			<image src="../../static/imgs/icon-1009.png" mode=""></image> 
 		</view>
 	</view>
 
@@ -368,7 +368,7 @@
 					height: 44upx;
 					margin-right: 20upx;
 					position: relative;
-					top: 10upx;
+					top: 28upx;
 					>image{
 						width: 100%;
 						height: 100%;
@@ -378,7 +378,7 @@
 					width: 24upx;
 					height: 24upx;
 					position: relative;
-					top: 28upx;
+					top: 40upx;
 					/*  #ifdef  MP-WEIXIN  */
 					top: 2upx;
 					/*  #endif  */
@@ -428,7 +428,7 @@
 				line-height: 100upx;
 				height: 100upx;
 				font-size: 34upx;
-				color: #333;
+				color: #000;
 				margin: 0 0 0 30upx;
 				border-bottom: 1upx solid #F5F5F5;
 				font-weight: 600;
@@ -510,7 +510,7 @@
 				top: 50upx;
 			}
 			.flex-1 {
-				border-right: 1upx solid #fff;
+				border-right: 1px solid rgba(255,255,255,0.5);
 
 			}
 

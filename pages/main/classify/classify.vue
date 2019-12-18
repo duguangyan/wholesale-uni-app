@@ -73,7 +73,7 @@
 			// 去搜索页面
 			goSeach(item){
         let path = ''
-        if ((item.isCompany + '') === '1') {
+        if ((item.isCompany + '') === '1' && (item.isPerson + '')==='0' && (item.isAgentcy+'0')==='0') {
         	path = '/pages/order/company/company?categoryId=' + item.id
         } else {
         	path = '/pages/order/goodsList/goodsList?categoryId='+item.id + '&level=' + item.level

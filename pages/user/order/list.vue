@@ -19,11 +19,11 @@
 
 			<view class="ul">
 				<view class="li" v-for="(item, index) in orders" :key="item.id">
-					<view class="title cf fs28 text-333">
-						<text class="fll fs-w">货主:</text>
+					<view class="title cf fs32 text-333">
+						<text class="fll fs-w">货主：</text>
 						<text class="fll fs-w">{{item.sellName}} </text>
 						<view class="image fll">
-							<image src="/static/imgs/right.png" mode=""></image>
+							<!-- <image src="/static/imgs/right.png" mode=""></image> -->
 						</view>
 						<text class="status flr text-theme">
 							<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
@@ -41,8 +41,8 @@
 						<Good :item="good" :roleId='roleId'></Good>
 					</view>
 					
-					<view class="accu fs24" v-if="(roleId == '20001' || roleId == '20004') && item.sellerId == uid">订单金额:￥<text class='fs32 fs-w'>{{(roleId == '20001' || roleId == '20004') && item.sellerId == uid?item.orderMoney:item.totalMoney}}</text></view>
-					<view class="accu fs24" v-if="(roleId == '20001' || roleId == '20004') && item.sellerId != uid">订单金额:￥<text class='fs32 fs-w'>{{(roleId == '20001' || roleId == '20004') && item.sellerId != uid?item.totalMoney:item.orderMoney}}</text></view>
+					<view class="accu fs24" v-if="(roleId == '20001' || roleId == '20004') && item.sellerId == uid">订单金额:￥<text class='fs32'>{{(roleId == '20001' || roleId == '20004') && item.sellerId == uid?item.orderMoney:item.totalMoney}}</text></view>
+					<view class="accu fs24" v-if="(roleId == '20001' || roleId == '20004') && item.sellerId != uid">订单金额:￥<text class='fs32'>{{(roleId == '20001' || roleId == '20004') && item.sellerId != uid?item.totalMoney:item.orderMoney}}</text></view>
 					<view class="operator">
 						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 						<!-- <view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view> -->
@@ -553,8 +553,8 @@
 			}
 
 			.title {
-				height: 80upx;
-				line-height: 80upx;
+				// height: 80upx;
+				line-height: 100upx;
 
 				.image {
 					width: 24upx;
@@ -575,7 +575,7 @@
 				text-align: right;
 
 				span {
-					font-weight: bold;
+					// font-weight: bold;
 				}
 			}
 
