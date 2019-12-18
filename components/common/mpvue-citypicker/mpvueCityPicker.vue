@@ -4,7 +4,7 @@
 		<div class="mpvue-picker-content " :class="{'mpvue-picker-view-show':showPicker}">
 			<div class="mpvue-picker__hd" catchtouchmove="true">
 				<div class="mpvue-picker__action" @click="pickerCancel">取消</div>
-				<div class="mpvue-picker__action" :style="{color:themeColor}" @click="pickerConfirm">确定</div>
+				<div class="mpvue-picker__action" @click="pickerConfirm">确定</div>
 			</div>
 			<picker-view indicator-style="height: 40px;" class="mpvue-picker-view" :value="pickerValue" @change="pickerChange">
 				<block>
@@ -275,7 +275,7 @@
 	.mpvue-picker__action {
 		display: block;
 		flex: 1;
-		color: #1aad19;
+		color: #FE3B0B;
 	}
 
 	.mpvue-picker__action:first-child {

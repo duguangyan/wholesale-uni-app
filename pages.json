@@ -408,10 +408,10 @@
   ],
   "tabBar": {
     "color": "#797980",
-    "selectedColor": "#FC2D2D",
+    "selectedColor": "#FE3B0B",
     "backgroundColor": "#FAFAFA",
 	"borderStyle":"white",
-	"spacing":"5px",
+	"spacing":"3px",
     "list": [{
       "pagePath": "pages/main/main",
       "text": "首页",

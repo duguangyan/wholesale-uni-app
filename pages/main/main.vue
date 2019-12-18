@@ -31,7 +31,7 @@
 			<view class="uni-padding-wrap">
 				<view class="page-section swiper">
 					<view class="page-section-spacing">
-						<swiper @change="changeBanner" class="swiper" indicator-color="rgba(0,0,0,.3)" indicator-active-color='#FC2D2D'
+						<swiper @change="changeBanner" class="swiper" indicator-color="rgba(0,0,0,.3)" indicator-active-color='#FE3B0B'
 						 :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 							<swiper-item v-for="(item,index) in adSet" :key="index" @click="goNextPage(item)">
 								<view class="swiper-item">
@@ -46,7 +46,7 @@
 		</view>
 		<!-- nav导航 -->
 		<view class="nav cf">
-			<view class="li fll" v-for="(item,index) in navList" :key="index" @click="goSearchPage(item.componentId,item.isAgentcy)">
+			<view class="li fll" v-for="(item,index) in navList" :key="index" @click="goSearchPage(item.componentId,item.isCompany)">
 				<view class="img">
 					<image :src="item.imgPath"></image>
 				</view>
@@ -400,9 +400,9 @@
 				}
 			},
 			// nav 去搜索页面
-			goSearchPage(name, isAgentcy) {
+			goSearchPage(name, isCompany) {
 				let path = ''
-				if ((isAgentcy + '') === '0') {
+				if ((isCompany + '') === '1') {
 					path = '/pages/order/company/company?categoryId=' + name
 				} else {
 					path = '/pages/order/goodsList/goodsList?categoryId=' + name

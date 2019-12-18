@@ -123,7 +123,7 @@
 		},
 		onShow() {
 			// 获取版本号
-			this.version    = uni.getStorageSync('s') + ' ' + uni.getStorageSync('v')
+			this.version    = (uni.getStorageSync('s') + ' ' + uni.getStorageSync('v')).replace(/正式/,'版本')
 			// 获取缓存数据
 			this.isLogin    = uni.getStorageSync('access_token')
 			this.phone      = uni.getStorageSync('phone') || ''
@@ -301,12 +301,13 @@
   }
   .items{
 	  .title{
-		height: 60upx;
-		line-height: 60upx;
-		font-size: 28upx;
+		// height: 60upx;
+		line-height: 80upx;
+		font-size: 32upx;
 		color: #999;
 		position: relative;
 		left: 30upx;
+    // font-weight: 700;
 	  }
   }
   .list {
@@ -320,7 +321,7 @@
 		border-bottom: 1upx solid #F5F5F5;
 		.value{
 			position: relative;
-			right: 20upx;
+			// right: 20upx;
 			top: 2upx;
 		}
 		.image{
@@ -356,7 +357,7 @@
     width: 640upx;
     line-height: 80upx;
     border-radius: 40upx;
-    background-color: #FC2D2D;
+    background-color: #FE3B0B;
     text-align: center;
     margin: 40upx auto auto auto;
     color: #fff;

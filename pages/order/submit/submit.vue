@@ -606,7 +606,7 @@ export default vm;
           .p2 {
             position: absolute;
             bottom: 0upx;
-            color: #fc2d2d;
+            color: #FE3B0B;
           }
           .p3 {
             display: inline-block;
@@ -658,7 +658,7 @@ export default vm;
         flex-grow: 1;
       }
       .status {
-        color: #fc2d2d;
+        color: #FE3B0B;
       }
     }
   }
@@ -737,7 +737,7 @@ export default vm;
       right: 90upx;
     }
     .active {
-      background-color: #fc2d2d;
+      background-color: #FE3B0B;
     }
     .platform1 {
       top: 15upx !important;

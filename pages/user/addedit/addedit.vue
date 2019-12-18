@@ -280,7 +280,7 @@
 		border-radius: 40upx;
 		font-size: 32upx;
 		margin: 40upx auto auto;
-		background: #fc2d2d;
+		background: #FE3B0B;
 		position: fixed;
 		bottom: 20upx;
 		left: 50%;
@@ -344,7 +344,7 @@
     @extend .mt10;
     font-size: 28upx;
     line-height: 100upx;
-    color: #fc2d2d;
+    color: #FE3B0B;
     text-align: center;
     background-color: #fff;
   }

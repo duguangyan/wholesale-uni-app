@@ -103,7 +103,7 @@
       height: 60upx;
       line-height: 60upx;
       margin: 0 auto;
-      background: #FC2D2D;
+      background: #FE3B0B;
       border-radius: 60upx;
       color: #fff;
       margin-top: 40upx;

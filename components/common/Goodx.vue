@@ -137,7 +137,7 @@
 							/*  #endif  */
 						}
 						.platformOPPO{
-							top: -10upx !important;
+							top:0upx !important;
 						}
 						.platformXiaomi{
 							top: -20upx !important;

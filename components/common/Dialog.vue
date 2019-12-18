@@ -113,7 +113,7 @@ export default {
 		color: #333;
       }
       &.confirm {
-        background-color: #fc2d2d;
+        background-color: #FE3B0B;
         color: #fff;
       }
     }

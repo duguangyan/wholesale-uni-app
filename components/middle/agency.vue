@@ -378,7 +378,7 @@
 					width: 24upx;
 					height: 24upx;
 					position: relative;
-					top: 6upx;
+					top: 28upx;
 					/*  #ifdef  MP-WEIXIN  */
 					top: 2upx;
 					/*  #endif  */

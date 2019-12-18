@@ -71,7 +71,7 @@ export default {
         }
         .price{
           width: 95px;
-          color: #FC2D2D;
+          color: #FE3B0B;
           font-size: 18px;
           float: left;
           font-weight: bold;

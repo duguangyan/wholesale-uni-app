@@ -6,7 +6,7 @@
 					<image src="../../../static/imgs/icon-back.png" mode=""></image>
 				</view> -->
         <view class="flr" @click="isShare = true"><image src="../../../static/imgs/icon-share.png" mode=""></image></view>
-        <view class="flr" @click="navToCart"><image src="../../../static/imgs/icon-detail.png" mode=""></image></view>
+        <view class="flr mr10" @click="navToCart"><image src="../../../static/imgs/icon-detail.png" mode=""></image></view>
       </view>
       <!-- 轮播图 -->
       <scroll-view class="index-top-warp">
@@ -38,21 +38,21 @@
     <view class="overall">
       <view v-if="good.goods.showStyle == 3 || good.goods.showStyle == 1">
         <text class="price">
-          {{ good.goods.minPrice || 0 }}元
+          <text class="text-red">{{ good.goods.minPrice || 0 }}</text>元
           <text class="fs24 text-000" v-if="good.goodsSkuList.length <= 1">{{ '/' + good.goods.unitName }}</text>
         </text>
         <text v-if="good.goodsSkuList.length > 1">
           <text class="text-red">&nbsp;~&nbsp;</text>
-          <text class="price">
-            <text>{{ good.goods.maxPrice || 0 }}元</text>
-          </text>
+          <text class="price text-red">
+            {{ good.goods.maxPrice || 0 }}
+          </text>元
           <text class="unit" v-if="good.goods.unitName">{{ '/' + good.goods.unitName }}</text>
         </text>
       </view>
       <view v-if="good.goods.showStyle == 2" class="cf goodsPrice">
         <view v-for="(item, index) in good.goodsList" :key="index" class="fll" :class="{ left1: good.goodsList.length == 1, left2: good.goodsList.length == 2 }">
           <view class="multi-price">
-            <text>{{ item.price || 0 }}元</text>
+            <text class="text-red">{{ item.price || 0 }}元</text>
             <text v-if="good.goods.unitName">/{{ good.goods.unitName }}</text>
           </view>
           <view class="multi-sta">{{ item.startNum }}{{ good.goods.unitName }}起批</view>
@@ -60,8 +60,8 @@
       </view>
       <view v-if="good.goods.showStyle != 1 && good.goods.showStyle != 2 && good.goods.showStyle != 3">
         <text class="price" v-if="good.goods.minPrice">
-          {{ good.goods.minPrice || 0 }}
-          <text v-if="good.goods.maxPrice">~ {{ good.goods.maxPrice || 0 }}元</text>
+          <text class="text-red">{{ good.goods.minPrice || 0 }}</text>
+          <text class="text-red" v-if="good.goods.maxPrice">~ {{ good.goods.maxPrice || 0 }}</text>元
         </text>
         <text class="unit" v-if="good.goods.unitName">{{ '/' + good.goods.unitName }}</text>
       </view>
@@ -107,7 +107,7 @@
       <view class="tag1">
         <text>—</text>
         <text>商品属性</text>
-        <text>—</text>
+        <text></text>
       </view>
       <li v-for="(item, index) in good.goodsDetailAttrList" :key="index">
         <text>{{ item.name }}:</text>
@@ -229,9 +229,9 @@
           <view class="count">
             <text class="fg1">数量</text>
             <view class="input cf">
-              <view class="fll" v-show="nums > startNum" @tap="doDecrease">-</view>
+              <view :class="['fll',platform==1?'nmt4':'']" v-show="nums > startNum" @tap="doDecrease">-</view>
               <input class="fll" v-model="nums" type="number" @blur="checkNum($event)" />
-              <view class="flr" v-show="nums < stock" @tap="doIncrease">+</view>
+              <view :class="['flr',platform==1?'nmt4':'']" v-show="nums < stock" @tap="doIncrease">+</view>
             </view>
           </view>
           <view class="money">
@@ -329,7 +329,8 @@ var vm = {
       nav: '',
       isGoodsTitle: false,
       goodsTitle: '',
-      videoUrl: ''
+      videoUrl: '',
+      platform: -1
     };
   },
   components: {
@@ -346,6 +347,7 @@ var vm = {
   onLoad(options) {
     this.shopId = options.shopId;
     this.goodsId = options.goodsId;
+    this.platform = uni.getStorageSync('platform')*1;
   },
   onShow() {
     vm.load();
@@ -858,6 +860,10 @@ export default vm;
 </script>
 
 <style lang="scss" scoped>
+  .nmt4{
+    position: relative;
+    top: 12upx;
+  }
 .ml10 {
   margin-left: 20upx;
 }
@@ -979,11 +985,12 @@ video {
     }
     view {
       font-size: 24upx;
-      width: 120upx;
-      height: 60upx;
+      width: 140upx;
+      // height: 56upx;
+      padding: 16upx 0 ;
       color: #fe3b0b;
       border: 1px solid #fe3b0b;
-      line-height: 60upx;
+      line-height: 1;
       text-align: center;
       border-radius: 40upx;
     }
@@ -1073,7 +1080,7 @@ video {
 
   .cart-text {
     position: relative;
-    top: 8upx;
+    top: 4upx;
     & > div {
       display: block;
       position: absolute;
@@ -1081,7 +1088,7 @@ video {
       height: 28upx;
       line-height: 28upx;
       color: #fff;
-      background-color: #fc2d2d;
+      background-color: #FE3B0B;
       border-radius: 50%;
       text-align: center;
       right: 4upx;
@@ -1146,7 +1153,7 @@ video {
     line-height: 1;
     padding-top: 30upx;
     padding-bottom: 16upx;
-    color: #fc2d2d;
+    color: #FE3B0B;
     display: flex;
 
     & > div {
@@ -1180,13 +1187,13 @@ video {
     }
 
     .multi-price {
-      font-size: 28upx;
+      font-size: 32upx;
       font-weight: bold;
       color: #f5222d;
       text-align: center;
 
       text {
-        color: #000;
+        // color: #000;
         font-weight: normal;
       }
 
@@ -1399,7 +1406,8 @@ video {
       height: 44upx;
       margin: 0 auto;
       position: relative;
-      top: 2upx;
+      margin-bottom: 8upx;
+      // top: 2upx;
       > img {
         width: 100%;
         height: 100%;
@@ -1411,7 +1419,9 @@ video {
       height: 44upx;
       margin: 0 auto;
       position: relative;
-      top: 4upx;
+      margin-bottom: 8upx;
+      // top: 2upx;
+      // top: 4upx;
       > img {
         width: 100%;
         height: 100%;
@@ -1435,7 +1445,7 @@ video {
       width: 100%;
       color: #fefefe;
       font-size: 30upx;
-      background-color: #ffd07f;
+      background-color: #FFC21D;
       line-height: 100upx;
     }
 
@@ -1443,7 +1453,7 @@ video {
       width: 256upx;
       color: #fefefe;
       font-size: 30upx;
-      background-color: #fc2d2d;
+      background-color: #FE3B0B;
       line-height: 100upx;
     }
     /*  #endif  */
@@ -1460,7 +1470,7 @@ video {
       width: 256upx;
       color: #fefefe;
       font-size: 30upx;
-      background-color: #fc2d2d;
+      background-color: #FE3B0B;
       line-height: 100upx;
     }
     .buy,
@@ -1552,8 +1562,8 @@ video {
       .fll,
       .flr {
         > image {
-          width: 54upx;
-          height: 54upx;
+          width: 72upx;
+          height: 72upx;
         }
       }
 
@@ -1619,9 +1629,9 @@ video {
         transition: all 0.5s;
 
         &.actived {
-          border: 1upx solid #fc2d2d;
-          // box-shadow: 0 0 0 1upx #fc2d2d;
-          color: #fc2d2d;
+          border: 1upx solid #FE3B0B;
+          // box-shadow: 0 0 0 1upx #FE3B0B;
+          color: #FE3B0B;
         }
 
         &.disabled {
@@ -1745,7 +1755,7 @@ video {
         margin-top: 50upx;
         width: 640upx;
         line-height: 80upx;
-        background-color: #fc2d2d;
+        background-color: #FE3B0B;
         color: #fff;
         border-radius: 40upx;
         font-size: 32upx;

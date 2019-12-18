@@ -57,8 +57,8 @@ export default {
     transition: all 0.5s;
   }
   &.checked{
-    background-color: #FC2D2D;
-    box-shadow: 0 0 0 1px #FC2D2D;
+    background-color: #FE3B0B;
+    box-shadow: 0 0 0 1px #FE3B0B;
     .point{
       left: 50%;
       box-shadow: 0 0 0 1px #D60909;

@@ -341,7 +341,7 @@
 				}
 				.active{
 					border:1px solid rgba(252,45,45,1) !important;
-					color: #FC2D2D;
+					color: #FE3B0B;
 				}
 				.close{
 					background: #F5F5F5;
@@ -415,7 +415,7 @@
 					padding: 2upx 10upx;
 					display: inline-block;
 					border-radius: 50%;
-					background: #FC2D2D;
+					background: #FE3B0B;
 					color: #fff;
 					line-height: 26upx;
 					font-size: 20upx;
@@ -428,7 +428,7 @@
 				background: #FFD07F;
 			}
 			.i-4{
-				background: #FC2D2D;
+				background: #FE3B0B;
 			}
 			.flex-1{
 				font-size: 20upx;
