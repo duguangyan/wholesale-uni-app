@@ -143,6 +143,9 @@
 			uni.setStorageSync('pagePath', 'main')
 		},
 		onLoad() {
+      // 首次启动清空需要认证标记
+      uni.removeStorageSync('needIdentify')
+      
 			uni.setStorageSync('pagePath', 'main')
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
@@ -152,6 +155,12 @@
 			// #endif	
 		},
 		onShow() {
+      // 如果认证状态，打回认证
+      if(uni.getStorageSync('needIdentify')){
+        return uni.navigateTo({
+          url: '/pages/middle/identity/identity'
+        })
+      }
 			// 获取首页banner
 			this.getHomeList()
 			// 判断用户类型
@@ -400,7 +409,7 @@
 				}
 			},
 			// nav 去搜索页面
-			goSearchPage() {
+			goSearchPage(item) {
 				let path = ''
 				if ((item.isCompany + '') === '1' && (item.isPerson + '')==='0' && (item.isAgentcy+'0')==='0') {
 					path = '/pages/order/company/company?categoryId=' + item.componentId

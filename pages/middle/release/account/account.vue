@@ -208,6 +208,9 @@
 				color: #333;
 				margin-left: 30upx;
 				border-bottom: 1upx solid #f5f5f5;
+        image{
+          margin-top: 30upx;
+        }
 				.left{
 					width: 34upx;
 					height: 34upx;

@@ -97,7 +97,7 @@
 
     <view class="shop">
       <img src="@/static/imgs/shop-avatar.png" alt="" />
-      <text class="master">货主:{{ good.userRealInfoVo.realName }}</text>
+      <text class="master">货主:{{ good.userRealInfoVo.enterpriseName || good.userRealInfoVo.realName }}</text>
       <view @click="navToShop">查看店铺</view>
     </view>
 
@@ -350,6 +350,12 @@ var vm = {
     this.platform = uni.getStorageSync('platform')*1;
   },
   onShow() {
+    // 如果认证状态，打回认证
+    if(uni.getStorageSync('needIdentify')){
+      return uni.navigateTo({
+        url: '/pages/middle/identity/identity'
+      })
+    }
     vm.load();
 
     if (uni.getStorageSync('dataList')) {
@@ -817,6 +823,11 @@ var vm = {
           url: '/pages/login/login'
         });
       } else {
+        if(!uni.getStorageSync('userRealInfo')){ // 未实名引导去实名
+          return uni.navigateTo({
+            url: '/pages/middle/identity/identity'
+          })
+        }
         this.nav = nav;
         this.isSure = true;
       }
@@ -829,6 +840,11 @@ var vm = {
           url: '/pages/login/login'
         });
       } else {
+        if(!uni.getStorageSync('userRealInfo')){ // 未实名引导去实名
+          return uni.navigateTo({
+            url: '/pages/middle/identity/identity'
+          })
+        }
         let formId = e.detail.formId;
         let data = {
           userId: uni.getStorageSync('uid'),
