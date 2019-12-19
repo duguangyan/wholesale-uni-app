@@ -250,7 +250,7 @@
 			// 去审核页面
 			goRealname(){
 				
-				if(this.roleId == 20004){
+				if(this.roleId == '20004'){
 					uni.navigateTo({
 						url: '/pages/middle/identity/realname/company?hasfrom=3'
 					})

@@ -215,6 +215,7 @@
 		},
 		onLoad(options) {
 			// hafrom : 1代办 2 货主 3企业
+			
 			if(options.hasfrom) {
 				this.hasfrom = options.hasfrom
 				// this.disabled = true
@@ -230,9 +231,9 @@
 			// 获取经营类型（产品分类）
 			this.getCategoryTreeNode()
 			// 获取缓存数据
-			this.cardImgFront  = uni.getStorageSync('cardImgFront')
+			this.cardImgFront    = uni.getStorageSync('cardImgFront')
 			this.cardImgReverse  = uni.getStorageSync('cardImgReverse')
-			this.licenseImage  = uni.getStorageSync('licenseImage')
+			this.licenseImage    = uni.getStorageSync('licenseImage')
 			// if(uni.getStorageSync('userRealInfo')){
 			// 	this.userRealInfo =JSON.parse(uni.getStorageSync('userRealInfo'))
 			// 	this.cardNo   = this.userRealInfo.cardNo
@@ -299,19 +300,21 @@
 			// 判断数据
 			assessUserType(){
 				// 判断用户类型
-				let userApply             = uni.getStorageSync('userApply')
+				let userApply                 = uni.getStorageSync('userApply')
 				if(userApply){
-					this.userApply          = JSON.parse(userApply) 
-					
-					this.hasfrom            = this.userApply.type == 1 ? 2 : 1
-					this.disabled           = this.userApply.status != 3
-					this.realName           = this.userApply.realName
-					this.cardNo             = this.userApply.cardNo
-					this.categoryId         = this.userApply.categoryId
-					this.cardImgFront       = this.userApply.cardImgFront
-					this.cardImgReverse     = this.userApply.cardImgReverse
-					this.productType        = this.userApply.categoryName
-					this.fullAddress        = this.userApply.province + this.userApply.city 
+					this.userApply = JSON.parse(userApply)
+					if (this.from == '') {
+						this.disabled = this.userApply.status != 3
+					} else {
+						this.disabled = false
+					}
+					this.realName              = this.userApply.realName
+					this.cardNo                = this.userApply.cardNo
+					this.categoryId            = this.userApply.categoryId
+					this.cardImgFront          = this.userApply.cardImgFront
+					this.cardImgReverse        = this.userApply.cardImgReverse
+					this.productType           = this.userApply.categoryName
+					this.fullAddress           = this.userApply.province + this.userApply.city 
 					this.addressObj.province   = this.userApply.province
 					this.addressObj.provinceId = this.userApply.provinceId
 					this.addressObj.city       = this.userApply.city
@@ -330,12 +333,11 @@
 					// 撤回
 					if(this.userApply.status == 3) this.isSetBack = false
 					// 审核失败
-					if(this.from = 'auditFail'){
+					if(this.from == 'auditFail'){
+						
 						this.disabled = false
 						this.isSetBack = false
 					} 
-					
-					
 				}
 			},
 			chooseTypeComplete(e){

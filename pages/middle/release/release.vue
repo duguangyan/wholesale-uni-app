@@ -86,7 +86,7 @@
 				],
 				goodsImgLists:[],
 				goodsSkuList:[],
-				goodsImgs:'',
+				goodsImgs:[],
 				goodsId:'',
 				shopId:'',
 				editGoods:'' // 编辑时候请求的数据
@@ -754,11 +754,12 @@
 						this.utilGoodsImgLists(goodsImgList,1,2)		
 						this.utilGoodsImgLists(goodsImgList,1,3)
 					}
-					
+					this.goodsImgs    =  this.goodsImgList[0].imgs
 				}
 				
 				
 				console.log(this.goodsImgList)
+				
 				
 				this.assessHasData()
 			},

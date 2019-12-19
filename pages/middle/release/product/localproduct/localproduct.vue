@@ -112,10 +112,19 @@
 			shopAreaFromUserId(){
 				shopAreaFromUserId().then(res=>{
 					if(res.code == '1000'){
-						this.userAreas = []
+						this.userAreas = ''
 						if(res.data.length>0){
-							res.data.forEach(item=>{
-								this.userAreas.push(item.id)
+							res.data.forEach((item,index)=>{
+								// this.userAreas.push(item.cityId)
+								if(res.data.length <= 1){
+									this.userAreas = item.cityId
+								}else{
+									if(index == (res.data.length - 1)){
+										this.userAreas = this.userAreas + item.cityId
+									}else{
+										this.userAreas = this.userAreas + item.cityId + ','
+									}
+								}
 							})
 						}
 						this.dataInit()
@@ -268,7 +277,7 @@
 					let data = {
 						pageIndex: this.pageIndex,
 						status: this.status,
-						shopAreaId:this.userAreas
+						areaId: this.userAreas
 					}
 					getPageGoods(data).then(res=>{
 						if(res.code == '1000' && res.data){
@@ -284,7 +293,7 @@
 				}else{ // 代办
 					let data = {
 						pageIndex: this.pageIndex,
-						shopAreaId:this.userAreas
+						areaId:this.userAreas
 					}
 					// 代办农产品
 					if(this.index == 1) {
