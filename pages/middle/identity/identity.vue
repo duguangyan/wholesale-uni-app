@@ -50,7 +50,8 @@
 			
 		},
 		onShow() {
-			
+      // 需要实名标记
+			uni.setStorageSync('needIdentify','1')
 		},
 		methods:{
 			goPage(index){

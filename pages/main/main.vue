@@ -143,6 +143,9 @@
 			uni.setStorageSync('pagePath', 'main')
 		},
 		onLoad() {
+      // 首次启动清空需要认证标记
+      uni.removeStorageSync('needIdentify')
+      
 			uni.setStorageSync('pagePath', 'main')
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
@@ -152,6 +155,12 @@
 			// #endif	
 		},
 		onShow() {
+      // 如果认证状态，打回认证
+      if(uni.getStorageSync('needIdentify')){
+        return uni.navigateTo({
+          url: '/pages/middle/identity/identity'
+        })
+      }
 			// 获取首页banner
 			this.getHomeList()
 			// 判断用户类型

@@ -3,11 +3,11 @@
 		<view class="tip">本次操作需验证手机号码，我们会向你{{phone}}发送验证码</view>
 		<view class="content">
 			<view class="cf">
-				<view class="fll fs30 text-333">验证码</view>
-				<view class="fll">
-					<input class="fs30" type="number" v-model="code" placeholder="请输入验证码" />
+				<view class="no-wrap fs30 text-333">验证码</view>
+				<view class="">
+					<input :class="['fs30',platform==1?'oppo-style':'']" type="number" v-model="code" placeholder="请输入验证码" />
 				</view>
-				<view class="flr fs30 text-theme" @click="getCode">
+				<view class="no-wrap fs30 text-theme" @click="getCode">
 					<text class="getcode"  :class="{'text-999':codeNum!==''}">{{codeNum}} {{codeText}}</text>
 				</view>
 			</view>
@@ -30,7 +30,8 @@
 				codeNum: '', // 定时器时间
 				setCodeInterval:'', // 定时器
 				from:'',
-				phone:''
+				phone:'',
+        platform: '-1'
 			};
 		},
 		onHide() {
@@ -41,6 +42,7 @@
 		},
 		onLoad(options) {
 			if(options.from) this.from = options.from
+      this.platform = uni.getStorageSync('platform');
 		},
 		onShow() {
 			this.phone = uni.getStorageSync('phone').substr(0,2) + '****' + uni.getStorageSync('phone').substr(9,2)
@@ -111,6 +113,9 @@
 	.verifiy{
 		background: #fff;
 		min-height: 100vh;
+    .no-wrap{
+      white-space: nowrap;
+    }
 		.noValue{
 			background: #d9d9d9;
 		}
@@ -120,13 +125,18 @@
 			margin: 0 30upx;
 			border-bottom: 1upx solid #F5F5F5;
 			.cf{
-				.fll{
+        display: flex;
+        justify-content: space-between;
+				// .fll{
 					input{
 						position: relative;
 						top: 30upx;
 						left: 20upx;
 					}
-				}
+          .oppo-style{
+            margin-top: -8upx;
+          }
+				// }
 			}
 			
 		}
