@@ -1,12 +1,12 @@
 <template>
 	<view class="company">
-		<view v-for="item in list" :key="item.id" @click="navToList(item.shopId)">
+		<view v-for="(item,index) in list" :key="index" @click="navToList(item.shopId)">
       <view class="avatar">
         <img :src="item.url || '/static/imgs/shop-avatar.png'" alt="">
       </view>
       <view class="">
         <view class="text-000 fs30">{{item.realName}}</view>
-        <view class="fs24 text-999 mt10">{{item.categoryName}}}</view>
+        <view class="fs24 text-999 mt10">{{item.categoryName}}</view>
       </view>
     </view>
 	</view>

@@ -36,6 +36,7 @@
 	export default {
 		data() {
 			return {
+				loginClock:0,
 				access_token:'',
 				yearAndMonth:'',
 				totalPrice:'',
@@ -94,6 +95,10 @@
 		onTabItemTap(e){
 			
 			// #ifdef  MP-WEIXIN || H5
+			// #ifdef  H5
+			this.loginClock = 1
+			uni.setStorageSync('loginClock',this.loginClock)
+			// #endif
 			if(!uni.getStorageSync('access_token')){
 				uni.navigateTo({
 					url:'/pages/login/login'
@@ -105,15 +110,14 @@
 		onLoad(options) {
 			// 获取用户类型
 			if(options.roleId) this.roleId = options.roleId
-			
 		},
 		onShow() {
 			// 根据不同状态获取不同业务
 			this.getUserType()	
-			
 			// 未登录状态跳转 微信和APP不一样
-			// #ifdef  MP-WEIXIN 
+			// #ifdef  MP-WEIXIN || H5
 			if(!uni.getStorageSync('access_token')){
+				// #ifdef  MP-WEIXIN 
 				if(uni.getStorageSync('pagePath') == 'main'){
 					uni.switchTab({
 						url:'/pages/main/main'
@@ -127,6 +131,27 @@
 						url:'/pages/main/main'
 					})
 				}
+				// #endif
+				
+				// #ifdef H5
+				let loginClock = uni.getStorageSync('loginClock')
+					if(loginClock == 0){
+						if(uni.getStorageSync('pagePath') == 'main'){
+							uni.switchTab({
+								url:'/pages/main/main'
+							})
+						}else if(uni.getStorageSync('pagePath') == 'user'){
+							uni.switchTab({
+								url:'/pages/user/user'
+							})
+						} else{
+							uni.switchTab({
+								url:'/pages/main/main'
+							})
+						}
+					}
+				// #endif
+				
 			}else{
 				// 获取用户信息
 				if(uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')){
@@ -148,7 +173,8 @@
 				}
 			}
 			// #endif
-			// #ifdef APP-PLUS || H5
+			
+			// #ifdef APP-PLUS
 			if(!uni.getStorageSync('access_token')){
 				uni.navigateTo({
 					url:'/pages/login/login'

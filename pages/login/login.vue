@@ -121,6 +121,7 @@
 		},
 		onShow() {
 			uni.setStorageSync('isLogin', 0)
+			uni.setStorageSync('loginClock',0)
 		},
 		methods: {
 			doConfirm() {

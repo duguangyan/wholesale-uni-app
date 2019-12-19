@@ -10,7 +10,7 @@
 			<!-- 我的状态 -->
 			<view class="status">
 				<view class="img">
-					<image :src="headimageUrl" @click="goInfo"/>
+					<image :src="headimageUrl || '/static/img/shop-avatar.png'" @click="goInfo"/>
 				</view>
 				<view class="role" v-if="roleId == '20001'">货主</view>
 				<view class="role" v-if="roleId == '20004'">企业</view>

@@ -97,7 +97,7 @@
 
     <view class="shop">
       <img src="@/static/imgs/shop-avatar.png" alt="" />
-      <text class="master">货主:{{ good.userRealInfoVo.realName }}</text>
+      <text class="master">货主:{{ good.userRealInfoVo.type == 4 ? good.userRealInfoVo.enterpriseName: good.userRealInfoVo.realName }}</text>
       <view @click="navToShop">查看店铺</view>
     </view>
 

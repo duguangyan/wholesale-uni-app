@@ -400,9 +400,9 @@
 				}
 			},
 			// nav 去搜索页面
-			goSearchPage() {
+			goSearchPage(item) {
 				let path = ''
-				if ((item.isCompany + '') === '1' && (item.isPerson + '')==='0' && (item.isAgentcy+'0')==='0') {
+				if (item.isAgentcy == 0 && item.isCompany == 1 && item.isPerson == 0) {
 					path = '/pages/order/company/company?categoryId=' + item.componentId
 				} else {
 					path = '/pages/order/goodsList/goodsList?categoryId=' + item.componentId
@@ -412,7 +412,7 @@
 					url: path
 				})
 			},
-			// 去搜索页面
+			// 去搜索页面item.isCompany == 1 && 
 			goSearch() {
 				uni.navigateTo({
 					url: '/pages/main/search/search'

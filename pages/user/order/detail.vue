@@ -167,7 +167,7 @@
 					<text>联系买家</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="order.shopOrder.sendType && roleId != 20001 && roleId != 20004">
+			<view class="phone cf" v-if="order.shopOrder.sendType">
 				<view class="fll">物流方式:</view>
 				<view class="flr" @click="showCarInfo">
 					<text class="text-theme">{{order.shopOrder.sendType == 1 ?'平台选车':'自驾车辆'}}</text>
@@ -177,7 +177,7 @@
 				</view>
 			</view>
 			
-			<view class="logistics bb1 fs28" v-if="order.shopOrder.enterpriseStatus == 1 && order.orderShipping && order.shopOrder.sendType != 1">
+			<view class="logistics bb1 fs28" v-if="order.shopOrder.enterpriseStatus == 1 && order.orderShipping">
 				<view class="cf title">
 					<view class="fll ellipsis">收货人: {{order.orderShipping.receiver || ''}}</view>
 					<view class="flr">{{order.orderShipping.phone || ''}}</view>

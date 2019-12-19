@@ -20,8 +20,8 @@
 			<view class="ul">
 				<view class="li" v-for="(item, index) in orders" :key="index">
 					<view class="title cf fs28 text-333" @click="goToShop(item.shopId)">
-						<text class="fll fs-w">货主:</text>
-						<text class="fll fs-w">{{item.sellName}} </text>
+						<text class="fll fs-w" v-if="item.sellerId!=uid">货主:</text>
+						<text class="fll fs-w" v-if="item.sellerId!=uid">{{item.sellName}} </text>
 						<view class="image fll">
 							<!-- <image src="/static/imgs/right.png" mode=""></image> -->
 						</view>
