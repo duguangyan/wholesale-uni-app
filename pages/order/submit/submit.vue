@@ -42,7 +42,7 @@
           <div class="cf parent-title pdl-30">
             <!-- <div class="fll plat"><img :src="Plat" alt="图标" /></div>
             <span class="fll text">{{ item.shopName }}</span> -->
-            货主: {{ item.sellerName }}
+            货主: {{ item.enterpriseStatus==1?item.shopName:item.sellerName }}
           </div>
           <ul>
             <li class="cf" v-for="(it, idx) in item.goodsParamList" :key="idx">

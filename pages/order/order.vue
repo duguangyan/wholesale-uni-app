@@ -378,6 +378,35 @@
 					})
 				}
 			},
+      // 选中SKU
+      getCartHasCheckAmount(m, ids) {
+      	let data = {
+      		skuId: ids.join(',')
+      	}
+      	if (m === 1) {
+      		getCartCheck(data).then(res => {
+      			// this.list[index].items[idx].checked = m
+      			// console.log(this.list)
+      			// this.list.forEach((item, index) => {
+      			// 	this.hasShopCheckedAll(index)
+      			// })
+      			// this.hasCheckedAll()
+      		}).catch(err => {
+      			T.tips(err.message || '选中失败')
+      		})
+      	} else {
+      		getCartUncheck(data).then(res => {
+      			// this.list[index].items[idx].checked = m
+      			// console.log(this.list)
+      			// this.list.forEach((item, index) => {
+      			// 	this.hasShopCheckedAll(index)
+      			// })
+      			// this.hasCheckedAll()
+      		}).catch(err => {
+      			T.tips(err.message || '选中失败')
+      		})
+      	}
+      },
 			// 子元素选择
 			checkChildrenIcon(index, idx) {
 				let m = this.list[index].items[idx].checked === 0 ? 1 : 0
@@ -413,15 +442,19 @@
 				if (this.isCheckAll) {
 					m = 0
 				}
+        let ids = []
 				this.isCheckAll = m === 1
 				this.list.forEach((item, index) => {
 					item.checked = m
 					this.list[index].items.forEach((it, idx) => {
 						this.list[index].items[idx].checked = m;
+            ids.push(it.skuId)
 					})
 				})
+        
+        this.getCartHasCheckAmount(m,[...ids])
 
-				console.log(this.list)
+				// console.log(this.list)
 				// 计算总金额
 				this.calculationTotalMoney()
 			},
@@ -431,13 +464,17 @@
 				if (this.list[index].checked === 1) {
 					m = 0
 				}
+        let ids = []
 				this.list[index].checked = m
 				this.list[index].items.forEach(item => {
 					item.checked = m;
+          ids.push(item.skuId)
 				})
 				this.hasCheckedAll()
 				// 计算总金额
 				this.calculationTotalMoney()
+        
+        this.getCartHasCheckAmount(m,[...ids])
 			},
 			// 去首页
 			goHome() {
