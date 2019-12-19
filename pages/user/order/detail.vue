@@ -26,14 +26,21 @@
 					<div class="title" v-if="order.shopOrder && (status == 1 || status == 2 || status == 4 || status == 5)">
 						{{statusText}}
 					</div>
+					<view v-if="businessType == 2 && order.shopOrder && (status == 0 || status == 6 || status == 3)">
+						<div class="title">
+							等待货主确认
+						</div>
+					</view>
+					<view v-if="businessType == 1 && order.shopOrder && (status == 0 || status == 6 || status == 3)">
+						<div class="title" v-if="order.shopOrder && (status == 0 || status == 6 || status == 3)">
+							确认倒计时: 
+							<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
+						</div>
+						<div class="sub tick cf" v-if="status == 0 || status == 6 || status == 3">
+							<span class="fll fs24">{{statusText}}</span>
+						</div>
+					</view>
 					
-					<div class="title" v-if="order.shopOrder && (status == 0 || status == 6 || status == 3)">
-						确认倒计时: 
-						<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
-					</div>
-					<div class="sub tick cf" v-if="status == 0 || status == 6 || status == 3">
-						<span class="fll fs24">{{statusText}}</span>
-					</div>
 					
 					<div class="title" v-if="order.shopOrder && (status == -1)">
 						{{statusText}}
@@ -48,8 +55,8 @@
 						{{statusText}}
 					</div>
 					<div class="sub tick cf" v-if="status == 0">
-						<span class="fll fs24" v-if="order.shopOrder.enterpriseStatus == 0 && order.shopOrder.needAgentcy == 1">你也可以联系代办协调买家支付</span>
-						<span class="fll fs24" v-if="order.shopOrder.needAgentcy == 0">你也可以联系{{order.shopOrder.enterpriseStatus == 1?'企业':'买家'}}协调支付</span>
+						<span class="fll fs24" v-if="order.shopOrder.enterpriseStatus == 0 && order.needAgentcy == 1">你也可以联系代办协调买家支付</span>
+						<span class="fll fs24" v-if="order.needAgentcy == 0">你也可以联系{{order.shopOrder.enterpriseStatus == 1?'企业':'买家'}}协调支付</span>
 					</div>
 					<div class="sub tick cf" v-if="status == 1">
 						<span class="fll fs24">请联系代办尽快安排装车发货</span>
@@ -114,7 +121,7 @@
 			</view> -->
 			
 			
-			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.shopOrder.needAgentcy == 0">
+			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.needAgentcy == 0">
 				<view class="fll">企业: {{order.shopOrder.shopName}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
@@ -123,7 +130,7 @@
 					<text>联系企业</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.needAgentcy == 1">
+			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.needAgentcy == 1">
 				<view class="fll">代办: {{order.agentcyPhone}}</view>
 				<view class="flr" @click="callPhone(order.agentcyPhone)">
 					<view class="image">
@@ -133,7 +140,7 @@
 				</view>
 			</view>
 			
-			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 0 && order.shopOrder.needAgentcy == 0">
+			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 0 && order.needAgentcy == 0">
 				<view class="fll">货主: {{order.sellerPhone}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
