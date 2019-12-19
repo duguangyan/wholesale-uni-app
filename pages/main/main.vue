@@ -411,7 +411,7 @@
 			// nav 去搜索页面
 			goSearchPage(item) {
 				let path = ''
-				if ((item.isCompany + '') === '1' && (item.isPerson + '')==='0' && (item.isAgentcy+'0')==='0') {
+				if ((item.isCompany + '') === '1' && (item.isPerson + '')==='0' && (item.isAgentcy+'')==='0') {
 					path = '/pages/order/company/company?categoryId=' + item.componentId
 				} else {
 					path = '/pages/order/goodsList/goodsList?categoryId=' + item.componentId
