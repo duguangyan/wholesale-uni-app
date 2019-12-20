@@ -41,7 +41,7 @@
 		
 		<view class="nodata" v-if="items.length<=0">
 			<view class="image">
-				<image src="/static/imgs/localshipper.png" mode=""></image>
+				<image src="/static/imgs/icon-def-master.png" mode=""></image>
 			</view>
 			<view class="fs24 text-999" v-if="roleId != '20004'">
 				该地区还没有 {{roleId == '20002'?'货主':'代办'}}

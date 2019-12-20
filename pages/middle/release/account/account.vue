@@ -7,11 +7,13 @@
 		<view class="content">
 			
 			<view class="item cf" v-for="(item,index) in icons" :key="index" @click="doClick(index)">
-				<view class="left fll"><image :src="item.url" mode=""></image></view>
+				<view class="left fll"><image class="mt30" :src="item.url" mode=""></image></view>
 				<view class="fll">{{item.title}}</view>
-				<view class="right flr"><image src="/static/imgs/right.png"></image></view>
+				<view class="right flr"><image class="mt36" src="/static/imgs/right.png"></image></view>
 			</view>
 		</view>
+    
+    <div class="btn" @click="goCash">提现</div>
 		<Dialog :title='title' :confirmText='confirmText' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
 	</view>
 </template>
@@ -50,10 +52,10 @@
 						title:'支付密码',
 						url:'/static/imgs/icon-1013.png'
 					},
-					{
-						title:'提现',
-						url:'/static/imgs/icon-1014.png'
-					}
+					// {
+					// 	title:'提现',
+					// 	url:'/static/imgs/icon-1014.png'
+					// }
 				]
 			};
 		},
@@ -199,8 +201,10 @@
 
 <style lang="scss" scoped>
 	.account{
-		background: #fff;
+		
+    padding-bottom: 20upx;
 		.content{
+      background: #fff;
 			.item{
 				height: 100upx;
 				line-height: 100upx;
@@ -208,8 +212,11 @@
 				color: #333;
 				margin-left: 30upx;
 				border-bottom: 1upx solid #f5f5f5;
-        image{
+        .mt30{
           margin-top: 30upx;
+        }
+        .mt36{
+          margin-top: 40upx;
         }
 				.left{
 					width: 34upx;
@@ -233,12 +240,21 @@
 				}
 			}
 		}
-		.btn{
-			margin: 0 30upx;
-			margin-top: 500upx;
+		.btn {
+			width: 640upx;
+			line-height: 80upx;
+			text-align: center;
+			color: #fff;
+			background-color: #FE3B0B;
+			border-radius: 40upx;
+			margin: 40upx auto 30upx auto;
+		
+			&.actived {
+				background-color: #FE3B0B;
+			}
 		}
 		.top{
-			height: 150upx;
+			height: 136upx;
 			background: #FE3B0B;
 			color: #fff;
 			text-align: center;

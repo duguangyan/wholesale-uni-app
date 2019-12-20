@@ -38,7 +38,7 @@
 		</div>
 		<div class="no-data" v-if="hasData">
 			<img src="@/static/imgs/serach-1.png">
-			<p class="fs24 text-999">哦噢，没有搜到您的商品 换个关键词试试</p>
+			<p class="fs28 text-999">哦噢，没有搜到您的商品 换个关键词试试</p>
 		</div>
 		<Panel :platform="platform" :show="isShow" @close="panelClose" @filter="doFilter" />
 	</div>
@@ -225,7 +225,7 @@
 
 			>p {
 				width: 220upx;
-				margin: 0 auto;
+				margin: 30upx auto;
 			}
 
 			>img {
@@ -264,7 +264,7 @@
 					height: 36upx;
 					position: absolute;
 					left: 22upx;
-					top: 6upx;
+					top: 14upx;
 
 					>img {
 						width: 100%;
@@ -310,6 +310,7 @@
 			.icon-sx {
 				width: 16upx;
 				height: 20upx;
+        transform: translateY(6upx);
 			}
 
 			.general,

@@ -75,13 +75,25 @@ export default {
 		top: -12upx;
 	}
 	.navigationBar{
+		text-align: right;
+		background-color: #fff;
+		height: 88upx;
+		// padding: 7px 3px;
+		position: relative;
+		display: flex;
+		align-items: center;
 		padding-top: var(--status-bar-height);
-		height: 80upx;
-		position: fixed;
-		top: 0;
-		width: 100%;
-		background: #fff;
-		z-index: 999999;
+		// .image{
+		// 	width: 40upx;
+		// 	height: 40upx;
+		// 	position: absolute;
+		// 	left: 30upx;
+		// 	// top: var(--status-bar-height);
+		// 	// margin-top: 6upx;
+		// 	>image{
+		// 		width: 100%;
+		// 		height: 100%;
+		// 	}
 		.content{
 			height: 80upx;
 			line-height: 80upx;

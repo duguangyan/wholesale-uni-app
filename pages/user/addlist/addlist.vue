@@ -4,7 +4,7 @@
 			
 
 			<div class="no-data" v-if="!hasOrders">
-				<img src="@/static/img/icon-address-no.png" alt="图片">
+				<img src="@/static/imgs/icon-def-master.png" alt="图片">
 				<p class="text-999 fs28">还没有收货地址哦 去添加一个吧</p>
 				<div class="bg-red" @click="goAddedit(0)">添加新地址</div>
 			</div>

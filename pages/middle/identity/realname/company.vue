@@ -12,7 +12,7 @@
 		
 		<view class="user bb-20">
 			<view class="title">
-				<text>企业信息</text>
+				<text class="fs40">企业信息</text>
 			</view>
 			<view class="item-1">
 				<view class="fll">企业名称</view>
@@ -95,7 +95,7 @@
 		<view class="content pdt-30">
 			<view class="item" @click="showType">
 				<view class="title">
-					<text>经营类目</text> <text class="fs24 text-999">（审核通过后不可更改）</text>
+					<text>经营类目</text> <text class="fs28 text-999">（审核通过后不可更改）</text>
 				</view>
 				<view class="choose cf">
 					<view class="fll" :class="{'text-666':productType!=''}">{{productType == ''?'请选择类型:如农产品、蔬菜、白菜':productType}}</view>
@@ -105,13 +105,14 @@
 				</view>
 			</view>
 			<view class="item" v-for="(item,index) in areas" :key="index">
-				<view class="title">
-					<text>经营地区</text> <text class="fs24 text-999">（可通过“加号”增加经营地区）</text>
+				<view class="title block">
+					<text>经营地区</text> <text class="fs24 text-999 fg1">（可通过“加号”增加经营地区）</text>
+          <view class="flr fs24 text-theme addanddel" v-if="index==0 && !disabled" @click="addAreas">+新增地区</view>
 				</view>
 				<view class="choose cf">
 					<view class="fll" @click="showPickerAreas(index)" :class="{'text-333':item.province!=''}">{{item.province==''?'请选择经营地区':item.province + ' ' + item.city}}</view>
 					<view class="flr fs24 text-theme addanddel" v-if="index>0 && !disabled" @click="delAreas(index)">-删除</view>
-					<view class="flr fs24 text-theme addanddel" v-if="index==0 && !disabled" @click="addAreas">+新增地区</view>
+					
 					<view class="flr right" v-if="!disabled">
 						<image src="/static/imgs/right.png"></image>
 					</view>
@@ -166,7 +167,7 @@
 				code :'',        // 邀请码
 				userApply:'',    // 用户类型
 				disabled: false, // 是否可以输入
-				progress:['填写资料','提交审核','审核通过'],
+				progress:['填写资料','审核中','审核通过'],
 				isChooseType:false,
 				cityPickerValueDefault: [0, 0, 1],
 				themeColor: '#007AFF',
@@ -629,6 +630,14 @@
 </script>
 
 <style lang="scss" scoped>
+  .block{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .fg1{
+    flex-grow: 1;
+  }
 	// 货主
 	.agency {
 		background: #fff;
@@ -645,7 +654,7 @@
 			margin: 30upx;
 			margin-bottom: 50upx;
 			.title{
-				font-size: 30upx;
+				font-size: 32upx;
 				color: #333;
 				margin-bottom: 30upx;
 				.tips{
@@ -707,7 +716,7 @@
 					font-size: 28upx;
 					color: #CCCCCC;
 					border-bottom: 1upx solid #F0F0F0;
-					padding: 20upx 0;
+					padding: 30upx 0;
 					.fll{
 						width: 500upx;
 					}
@@ -716,7 +725,8 @@
 					}
 					.right{
 						position: relative;
-						right: 140upx;
+						// right: 140upx;
+            top: 4upx;
 					}
 					.flr{
 						width: 24upx;
@@ -766,11 +776,15 @@
 				height: 100upx;
 				line-height: 100upx;
 				.fll{
-					font-size: 30upx;
+					font-size: 32upx;
 					color: #333;
 					width: 25%;
 				}
 				.detailed{
+          /* #ifdef APP-PLUS */
+          position: relative;
+          top: -4upx;
+          /* #endif */
 					input{
 						border-bottom: none !important;
 					}
@@ -818,6 +832,7 @@
 					width: 24upx;
 					height: 24upx;
 					margin-left: 20upx;
+          margin-top: 56upx;
 					>image{
 						width: 100%;
 						height: 100%;

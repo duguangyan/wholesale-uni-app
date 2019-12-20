@@ -9,7 +9,7 @@
 			<img :src="good.imgUri">
 		</div>
 		<div class="content">
-			<div class="name .ellipsis-line2">{{good.name}}</div>
+			<div class="name">{{good.name}}</div>
       
       <!-- 属性 -->
       <div>
@@ -22,12 +22,12 @@
 			<div v-if="level === 2" class="ad">{{good.place}}</div> -->
 
 			<!-- 单价 -->
-			<div class="price">
+			<div class="price fs34">
 				<div v-if="good.status===undefined || good.status === 3">
-					<span class="coin">￥</span>
-					{{good.minprice}}元/{{good.unitName}}
+					<span class="coin">￥{{good.minprice}}</span>
+					<span class="fs24">元/{{good.unitName}}</span>
 				</div>
-				<span v-else class="invalid">下架商品</span>
+				<span v-else class="invalid text-24">下架商品</span>
 			</div>
       
       <!-- 店铺信息 -->
@@ -212,7 +212,7 @@
 			height: 200upx;
 			width: 100upx;
 			.name {
-				font-size: 30upx;
+				font-size: 32upx;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				line-clamp: 2;
@@ -237,7 +237,7 @@
 			}
 
 			.price {
-				font-size: 28upx;
+				// font-size: 28upx;
 				color: #f5222d;
 				position: absolute;
 				bottom: 16px;
@@ -246,7 +246,7 @@
 
 				.coin {
 					display: inline-block;
-					font-size: 20upx;
+					// font-size: 20upx;
 					margin-right: 0upx;
 				}
 			}
