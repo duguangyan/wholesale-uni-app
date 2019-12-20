@@ -278,11 +278,11 @@
     }, {
       "path": "pages/middle/identity/identity",
       "style": {
-        "navigationBarTitleText": "选择身份",
-        "navigationStyle": "custom",
-        "app-plus": {
-          "titleView": false
-        }
+        "navigationBarTitleText": "选择身份"
+        // "navigationStyle": "custom",
+        // "app-plus": {
+        //   "titleView": false
+        // }
       }
     }, {
       "path": "pages/middle/identity/realname/agency",

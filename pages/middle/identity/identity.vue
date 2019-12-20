@@ -1,6 +1,6 @@
 <template>
 	<view class="identity">
-		<NavigationBar :title="title" :isBack="isBack"></NavigationBar>
+		<!-- <NavigationBar :title="title" :isBack="isBack"></NavigationBar> -->
 		<view class="items cf">
 			<view class="item fll" v-for="(item,index) in items" :key="index" @click="goPage(index)">
 				<view class="image">
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-	import NavigationBar from "@/components/common/NavigationBar.vue"
+	// import NavigationBar from "@/components/common/NavigationBar.vue"
 	import T from "@/utils/tips.js"
 	export default {
 		data() {
@@ -31,7 +31,7 @@
 						imgUrl:'/static/imgs/icon-2.png'
 					},
 					{
-						text:'我是批发商',
+						text:'我是采购商',
 						imgUrl:'/static/imgs/icon-3.png'
 					},
 					{
@@ -41,10 +41,10 @@
 				]
 			};
 		},
-		components:{ NavigationBar },
+		// components:{ NavigationBar },
 		onBackPress(){
-			T.tips('请选择角色')
-			return true
+			// T.tips('请选择角色')
+			// return true
 		},
 		onLoad() {
 			

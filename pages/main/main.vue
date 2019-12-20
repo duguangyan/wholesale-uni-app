@@ -156,11 +156,11 @@
 		},
 		onShow() {
       // 如果认证状态，打回认证
-      if(uni.getStorageSync('needIdentify')){
-        return uni.navigateTo({
-          url: '/pages/middle/identity/identity'
-        })
-      }
+      // if(uni.getStorageSync('needIdentify')){
+      //   return uni.navigateTo({
+      //     url: '/pages/middle/identity/identity'
+      //   })
+      // }
 			// 获取首页banner
 			this.getHomeList()
 			// 判断用户类型

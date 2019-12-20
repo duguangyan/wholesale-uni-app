@@ -33,7 +33,7 @@
 			<view class="item" @click="showType">
 				<view class="fll">经营品类</view>
 				<view class="choose cf flr">
-					<view class="fll" :class="{'text-666':productType==''}">{{productType == ''?'如农产品、蔬菜、白菜':productType}}</view>
+					<view class="fll" :class="{'text-666':productType==''}">{{productType == ''?'如农产品、蔬菜':productType}}</view>
 					<view class="flr">
 						<image src="/static/imgs/right.png"></image>
 					</view>
@@ -44,7 +44,7 @@
 			<view class="item cf">
 				<view class="fll">邀请码</view>
 				<view class="flr">
-					<input type="text" @input="checkSubmit" v-model="code" placeholder="请输入邀请码">
+					<input type="text" v-model="code" placeholder="请输入邀请码">
 				</view>
 			</view>
 		</view>
@@ -53,7 +53,7 @@
 		
 		<view class="big-btn-active" :class="{noactive:isDoSubmit}"  @click="doSubmit">提交</view>
 	
-		<chooseType v-if="isChooseType" :list="categoryTree" @close="chooseTypeClose" @complete="chooseTypeComplete"></chooseType>
+		<chooseType v-if="isChooseType" :isRight="isRight" :list="categoryTree" @close="chooseTypeClose" @complete="chooseTypeComplete"></chooseType>
 	</view>
 
 </template>
@@ -68,6 +68,7 @@
 		name: 'buyer',
 		data() {
 			return {
+				isRight: false,
 				productTypeId:'',
 				productType:'',
 				categoryTree:'',
@@ -112,8 +113,9 @@
 		methods: {
 			chooseTypeComplete(e){
 				console.log(e)
-				this.productType   = e.left + '/' + e.content + '/' + e.right
+				this.productType   = e.left + '/' + e.content
 				this.productTypeId = e.id
+				this.checkSubmit()
 				this.isChooseType  = false
 			},
 			chooseTypeClose(){

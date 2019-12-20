@@ -277,7 +277,7 @@
 					let data = {
 						pageIndex: this.pageIndex,
 						status: this.status,
-						areaId: this.userAreas
+						shopRegionId: this.userAreas
 					}
 					getPageGoods(data).then(res=>{
 						if(res.code == '1000' && res.data){
@@ -288,12 +288,11 @@
 								this.hasData = true
 							}
 						}
-						
 					})
 				}else{ // 代办
 					let data = {
 						pageIndex: this.pageIndex,
-						areaId:this.userAreas
+						shopRegionId:this.userAreas
 					}
 					// 代办农产品
 					if(this.index == 1) {

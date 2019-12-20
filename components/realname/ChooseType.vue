@@ -7,12 +7,12 @@
 					<view @click="checkLeft(index)" class="item" :class="{'active':leftIndex==index}" v-for="(item,index) in left" :key="index">{{item.name}}</view>
 				</view>
 			</view>
-			<view class="content fll">
+			<view class="content fll" :class="{'isRight':!isRight}">
 				<view class="items">
 					<view @click="checkContent(index)"  class="item" :class="{'active':contentIndex==index}" v-for="(item,index) in content" :key="index">{{item.name}}</view>
 				</view>
 			</view>
-			<view class="right fll">
+			<view class="right fll" v-if="isRight">
 				<view class="items">
 					<view @click="checkRight(index)" class="item" :class="{'active':rightIndex==index}" v-for="(item,index) in right" :key="index">{{item.name}}</view>
 				</view>
@@ -30,7 +30,11 @@ export default {
     list: {
       type: Array,
       default: null
-    }
+    },
+	isRight:{
+		type: Boolean,
+		default: true
+	}
   },
   data() {
   	return {
@@ -73,6 +77,15 @@ export default {
 		  this.rightIndex = 0
 		  this.content = this.list[this.leftIndex].children
 		  this.right = this.list[this.leftIndex].children[this.contentIndex].children
+		  if(!this.isRight){
+			  let obg = {
+				  left:this.left[this.leftIndex].name,
+				  content:this.content[this.contentIndex].name,
+				  right:this.right[this.rightIndex].name,
+				  id:this.content[this.contentIndex].id
+			  }
+			  this.$emit('complete', obg)
+		  }
 	  },
 	  checkRight(index){
 		  console.log(index)
@@ -148,6 +161,9 @@ export default {
 				background: #fff;
 				color: #FE3B0B;
 			}
+		}
+		.isRight{
+			width: 550upx;
 		}
 		.right{
 			width: 300upx;

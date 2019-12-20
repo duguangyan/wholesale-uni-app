@@ -14,8 +14,8 @@
 		</view> -->
 		<!-- 已经实名 -->
 		<view v-if="userApply=='' && roleId =='20003'">
-			<view class="identity">
-				<view class="item" v-for="(item,index) in items" :key="index" @click="goPage(index)">
+			<view class="identity cf">
+				<view class="item fll" v-for="(item,index) in items" :key="index" @click="goPage(index)">
 					<view class="image">
 						<image :src="item.imgUrl"></image>
 					</view>
@@ -78,6 +78,14 @@
 					{
 						text:'我是种植户',
 						imgUrl:'/static/imgs/icon-2.png'
+					},
+					{
+						text:'我是采购商',
+						imgUrl:'/static/imgs/icon-3.png'
+					},
+					{
+						text:'我是企业',
+						imgUrl:'/static/imgs/icon-4.png'
 					}
 				],
 				spGoodsByAgency: [{
@@ -208,11 +216,44 @@
 				if(uni.getStorageSync('roleId')) this.roleId = uni.getStorageSync('roleId')
 				if(uni.getStorageSync('userRealInfo'))this.userRealInfo = uni.getStorageSync('userRealInfo')
 				if(uni.getStorageSync('access_token')) this.access_token = uni.getStorageSync('access_token')
-				if(this.access_token != '' && this.userRealInfo == ''){
-					uni.redirectTo({
-						url: '/pages/middle/identity/identity'
-					})
+				// if(this.access_token != '' && this.userRealInfo == ''){
+				// 	uni.navigateTo({
+				// 		url: '/pages/middle/identity/identity'
+				// 	})
+				// }
+				
+				if(this.roleId == '20003' && this.userRealInfo){
+					this.items=[
+						{
+							text:'我是代办',
+							imgUrl:'/static/imgs/icon-1.png'
+						},
+						{
+							text:'我是种植户',
+							imgUrl:'/static/imgs/icon-2.png'
+						}
+					]
+				}else{
+					this.items=[
+						{
+							text:'我是代办',
+							imgUrl:'/static/imgs/icon-1.png'
+						},
+						{
+							text:'我是种植户',
+							imgUrl:'/static/imgs/icon-2.png'
+						},
+						{
+							text:'我是采购商',
+							imgUrl:'/static/imgs/icon-3.png'
+						},
+						{
+							text:'我是企业',
+							imgUrl:'/static/imgs/icon-4.png'
+						}
+					]
 				}
+				
 				let userApply = ''
 				if(uni.getStorageSync('userApply')){
 					userApply = JSON.parse(uni.getStorageSync('userApply'))
@@ -432,6 +473,9 @@
 						}
 						
 						
+						
+						
+						
 						// // 统计订单状态条数
 						// this.getOrderStat()
 						// // 主页订单交易统计
@@ -465,7 +509,14 @@
 					case 2:
 						uni.navigateTo({
 							url:'/pages/middle/identity/realname/buyer'
+						})
+						break;
+					// 买家
+					case 3:
+						uni.navigateTo({
+							url:'/pages/middle/identity/realname/company'
 						})	
+						break;
 					default:
 						break;
 				}
@@ -483,6 +534,7 @@
 			.item{
 				text-align: center;
 				padding-top: 120upx;
+				width: 50%;
 				.image{
 					width: 180upx;
 					height: 180upx;

@@ -121,7 +121,7 @@
 			</view> -->
 			
 			
-			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.needAgentcy == 0">
+			<view class="phone cf" @click="goCompany(order.shopOrder.shopId)" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.needAgentcy == 0">
 				<view class="fll">企业: {{order.shopOrder.shopName}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
@@ -150,22 +150,7 @@
 				</view>
 			</view>
 			
-			
-			
-			
-			
-			
-		<!-- 	<view class="phone cf" v-if="!order.agentcyPhone && roleId != 20002">
-				<view class="fll">货主:{{order.sellerName}}</view>
-				<view class="flr" @click="callPhone(order.sellerPhone)">
-					<view class="image">
-						<image src="/static/imgs/icon-phone.png" mode=""></image>
-					</view>
-					<text>联系货主</text>
-				</view>
-			</view> -->
-			
-			<view class="phone cf" v-if="order.phone && roleId == 20002">
+			<view class="phone cf" v-if="businessType == 1 && order.phone && (roleId == 20002 || roleId == 20004)">
 				<view class="fll">买家:{{order.userName || '暂无'}}</view>
 				<view class="flr" @click="callPhone(order.phone)">
 					<view class="image">
@@ -184,7 +169,7 @@
 				</view>
 			</view>
 			
-			<view class="logistics bb1 fs28" v-if="order.shopOrder.enterpriseStatus == 1 && order.orderShipping">
+			<view class="logistics bb1 fs28" v-if="order.orderShipping.receiver">
 				<view class="cf title">
 					<view class="fll ellipsis">收货人: {{order.orderShipping.receiver || ''}}</view>
 					<view class="flr">{{order.orderShipping.phone || ''}}</view>
@@ -213,7 +198,7 @@
 					</span>
 				</div>
 				<view class="mgb-30" v-for="good in order.shopOrder.orderDetailList" :key="good.id" >
-					<Good :item="good" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber'></Good>
+					<Good :item="good" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber' :businessType="businessType"></Good>
 				</view>
 				
 				<div class="goods-price">
@@ -387,6 +372,12 @@
 			}
 		},
 		methods: {
+			// 去企业店铺
+			goCompany(id){
+				uni.navigateTo({
+					url:'/pages/shop/shop/shop?shopId='+id
+				})
+			},
 			// 重新购买
 			goSubmit(){
 				console.log(this.order)
@@ -453,7 +444,9 @@
 			showCarInfo(){
 				// 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核
 				if((this.orderId == 20002 && this.status >= 2) || this.status >= 3){
-					this.show()
+					if(this.order.shopOrder.sendType == 1){
+						this.show()
+					}
 				}
 			},
 			// 拨打联系人电话
@@ -620,7 +613,7 @@
 										this.statusText = '已支付'
 										break
 									case 2:
-										this.statusText = '等待代办发货'
+										this.statusText = this.order.needAgentcy == 0 ? '等待发货':'等待代办发货'
 										break
 									case 3:
 										this.statusText = '等待买家收货'

@@ -21,7 +21,9 @@
 				<view class="li" v-for="(item, index) in orders" :key="index">
 					<view class="title cf fs28 text-333" @click="goToShop(item.shopId)">
 						<text class="fll fs-w" v-if="item.sellerId!=uid">货主:</text>
-						<text class="fll fs-w" v-if="item.sellerId!=uid">{{item.sellName || item.shopName}} </text>
+						<text class="fll fs-w" v-if="item.sellerId!=uid">{{item.sellName}} </text>
+						<text class="fll fs-w" v-if="item.sellerId==uid">买家:</text>
+						<text class="fll fs-w" v-if="item.sellerId==uid">{{item.realName}} </text>
 						<view class="image fll">
 							<!-- <image src="/static/imgs/right.png" mode=""></image> -->
 						</view>
@@ -29,12 +31,12 @@
 							<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 							<text v-if="item.status === -1">已取消</text>
 							<text v-if="item.status === 0">待买家付款</text>
-							<text v-if="item.status === 2 && roleId != 20002">待代办发货</text>
+							<text v-if="item.status === 2 && roleId != 20002">待{{item.agentcyUserId?'代办':''}}发货</text>
 							<text v-if="item.status === 2 && roleId == 20002">待发货</text>
 							<text v-if="item.status === 3">待收货</text>
 							<text class="text-999" v-if="item.status === 4">已完成</text>
 							<text v-if="item.status === 5">已关闭</text>
-							<text v-if="item.status === 6">待货主审核</text>
+							<text v-if="item.status === 6">待货主确认</text>
 						</text>
 					</view>
 					<view class="mgb-30" v-for="good in item.orderDetailList" :key="good.id" >
@@ -193,6 +195,7 @@
 			}
 			// 获取订单列表
 			this.orders = []
+			this.pageIndex = 1
 			this.getOrders()
 			// 统计订单状态条数
 			this.getOrderStat()

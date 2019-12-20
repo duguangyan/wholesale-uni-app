@@ -12,8 +12,8 @@
 				<view class="tip fs24 text-999 ellipsis">
 					{{item.skuDesc || ''}}
 				</view>
-				<view class="cf" v-if="isAgentcy == 1">
-					<view class="fll" v-if="roleId == '20002'">
+				<view class="cf" v-if="businessType == 2">
+					<view class="fll">
 						代办费:¥{{item.agentcyPrice || '0'}} 元/<text v-if="item.goodsUnit"></text>{{item.goodsUnit || '斤'}}
 					</view>
 					<view class="flr fs24 text-999">
