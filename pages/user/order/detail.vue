@@ -291,7 +291,8 @@
 		postOrderCancel,
 		postOrderConfirm,
 		sellerConfirm,
-		sellerCancel
+		sellerCancel,
+		orderDelivery
 	} from '@/api/userApi.js'
 	import {
 		getOrderCart
@@ -460,9 +461,25 @@
 			},
 			// 发货
 			deliverGoods(){
-				uni.navigateTo({
-					url:'/pages/user/order/delivery?shopId='+this.shopId + '&orderId=' + this.orderId
-				})
+				if(this.order.shopOrder.sendType == 1){
+					uni.navigateTo({
+						url:'/pages/user/order/delivery?shopId='+this.shopId + '&orderId=' + this.orderId
+					})
+				}else{
+					let data = {
+						orderId: this.orderId,
+						shopId: this.shopId
+					}
+					orderDelivery(data).then(res=>{
+						if(res.code == '1000'){
+							T.tips('发货成功')
+							this.getOrderDetailById(this.orderId, this.shopId)
+						}else{
+							T.tips(res.message || '发货失败')
+						}
+					})
+				}
+				
 			},
 			doConfirm() {
 				let _this = this

@@ -12,19 +12,19 @@
 				<view class="tip fs24 text-999 ellipsis">
 					{{item.skuDesc || ''}}
 				</view>
-				<view class="cf" v-if="businessType == 2">
+				<view class="cf" v-if="businessType == 2 && item.agentcyPrice">
 					<view class="fll">
 						代办费:¥{{item.agentcyPrice || '0'}} 元/<text v-if="item.goodsUnit"></text>{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="flr fs24 text-999">
+					<!-- <view class="flr fs24 text-999">
 						x{{item.num}}
-					</view>
+					</view> -->
 				</view>
 				<view class="price text-theme">
 					<view class="fll"> 
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="flr fs24 text-999" v-if="!hasAgencyFee">
+					<view class="flr fs24 text-999 num">
 						x{{item.num}}
 					</view>
 				</view>
@@ -110,6 +110,10 @@
 				}
 				.price{
 					margin-top: 20upx;
+					.num{
+						position: relative;
+						top: 4upx;
+					}
 				}
 			}
 		}

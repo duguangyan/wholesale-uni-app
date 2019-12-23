@@ -82,7 +82,8 @@
 		postOrderConfirm,
 		getOrderStat,
 		sellerCancel,
-		sellerConfirm
+		sellerConfirm,
+		orderDelivery
 	} from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	export default {
@@ -259,9 +260,35 @@
 			// 发货
 			deliverGoods(index){
 				let item = this.orders[index]
-				uni.navigateTo({
-					url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
-				})
+				// uni.navigateTo({
+				// 	url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
+				// })
+				
+				if(item.sendType == 1){
+					uni.navigateTo({
+						url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
+					})
+				}else{
+					let data = {
+						orderId: item.orderId,
+						shopId: item.shopId
+					}
+					orderDelivery(data).then(res=>{
+						if(res.code == '1000'){
+							T.tips('发货成功')
+							// 获取订单列表
+							this.orders = []
+							this.pageIndex = 1
+							this.getOrders()
+							// 统计订单状态条数
+							this.getOrderStat()
+						}else{
+							T.tips(res.message || '发货失败')
+						}
+					})
+				}
+				
+				
 			},
 			// 统计订单状态条数
 			getOrderStat(){
