@@ -101,19 +101,17 @@
 		},
 		components: {agency,buyer,shipper},
 		onTabItemTap(e){
-			
-			// #ifdef  MP-WEIXIN || H5
 			// #ifdef  H5
 			this.loginClock = 1
 			uni.setStorageSync('loginClock',this.loginClock)
 			// #endif
+			// #ifdef  MP-WEIXIN || H5
 			if(!uni.getStorageSync('access_token')){
 				uni.navigateTo({
 					url:'/pages/login/login'
 				})
 			}
 			// #endif
-			
 		},
 		onLoad(options) {
 			// 获取用户类型
@@ -221,7 +219,6 @@
 				// 		url: '/pages/middle/identity/identity'
 				// 	})
 				// }
-				
 				if(this.roleId == '20003' && this.userRealInfo){
 					this.items=[
 						{

@@ -443,7 +443,7 @@
 			// 显示司机信息
 			showCarInfo(){
 				// 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核
-				if((this.orderId == 20002 && this.status >= 2) || this.status >= 3){
+				if(this.status >= 3){
 					if(this.order.shopOrder.sendType == 1){
 						this.show()
 					}
