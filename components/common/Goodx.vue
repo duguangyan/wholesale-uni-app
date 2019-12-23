@@ -133,7 +133,7 @@
 							top: -8upx; 
 							/*  #endif  */
 							/*  #ifdef  H5  */
-							top: -12upx; 
+							top: -6upx; 
 							/*  #endif  */
 						}
 						.platformOPPO{

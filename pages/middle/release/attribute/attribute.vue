@@ -1,7 +1,7 @@
 <template>
 	<view class="attribute">
 		<NavigationBar title="选择属性" :isClick="isClick" :clickTitle="clickTitle" @doClick="doClick"></NavigationBar>
-		<view class="height80"></view>
+		<!-- <view class="height80"></view> -->
 		<!-- <view class="edit fs28" @click="goAdd">新增属性</view> -->
 		<view class="address cf" @click="showPicker" v-if="hasAddress.length>0">
 			<view class="fll"> <text class="text-theme mgr-10">*</text> <text>产地</text></view>

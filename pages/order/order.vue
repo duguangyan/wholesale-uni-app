@@ -926,6 +926,10 @@
 			.total-money {
 				flex-grow: 1;
 				margin-left: 30upx;
+        margin-top: -4upx;
+        /* #ifdef APP-PLUS */
+        margin-top: -6upx;
+        /* #endif */
 				
 				span {
 					margin-left: 8upx;
@@ -953,6 +957,9 @@
 				left: -60upx;
 				top: -15upx;
 				font-size: 30upx;
+        /* #ifdef APP-PLUS */
+        top: -24upx;
+        /* #endif */
 			}
 
 			.del {

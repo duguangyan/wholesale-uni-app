@@ -142,7 +142,7 @@
 				code: '', // 邀请码
 				userApply: '', // 用户类型
 				disabled: false, // 是否可以输入
-				progress: ['填写资料', '提交审核', '审核通过'],
+				progress: ['填写资料', '审核中', '审核通过'],
 				isChooseType: false,
 				cityPickerValueDefault: [0, 0, 1],
 				themeColor: '#007AFF',
@@ -606,7 +606,7 @@
 					font-size: 28upx;
 					color: #CCCCCC;
 					border-bottom: 1upx solid #F0F0F0;
-					padding: 20upx 0;
+					padding: 30upx 0;
 
 					.flr {
 						width: 24upx;
@@ -627,7 +627,7 @@
 			border-bottom: 20upx solid #F5F5F5;
 
 			.tip {
-				line-height: 60upx;
+				line-height: 80upx;
 				margin-left: 140upx;
 			}
 
@@ -715,6 +715,7 @@
 					width: 24upx;
 					height: 24upx;
 					margin-left: 20upx;
+          margin-top: 60upx;
 
 					>image {
 						width: 100%;

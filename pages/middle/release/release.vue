@@ -24,24 +24,24 @@
 		</view>
 		<view class="content">
 			<view class="title">
-				<view class="name fs34 text-333">货品标题</view>
+				<view class="name fs38 text-000">货品标题</view>
 				<view class="input fs24"><input type="text" @input="checkTitle" @blur="checkTitle" maxlength="50" v-model="goodsTitile" placeholder="输入货品标题方便用户找到你的货品15-50个字以内"></view>
 				
 				<view class="items">
 					<view class="item cf" @click="goVarieties" >
 						<view class="fll text-theme">*</view>
 						<view class="fll fs30 text-333">{{varieties?varieties:'货品品种'}}</view>
-						<view class="flr"><image src="/static/imgs/right.png" mode=""></image></view>
+						<view class="flr mt2"><image src="/static/imgs/right.png" mode=""></image></view>
 					</view>
 					<view class="item cf" @click="goAttribute">
 						<view class="fll text-theme">*</view>
 						<view class="fll fs30 text-333 ellipsis">{{attribute?attribute:'货品属性'}}</view>
-						<view class="flr"><image src="/static/imgs/right.png" mode=""></image></view>
+						<view class="flr mt2"><image src="/static/imgs/right.png" mode=""></image></view>
 					</view>
 					<view class="item cf" @click="goPrice">
 						<view class="fll text-theme">*</view>
 						<view class="fll fs30 text-333">{{price?price:'货品价格'}}</view>
-						<view class="flr"><image src="/static/imgs/right.png" mode=""></image></view>
+						<view class="flr mt2"><image src="/static/imgs/right.png" mode=""></image></view>
 					</view>
 				</view>
 				
@@ -49,10 +49,10 @@
 		</view>
 
 		<view class="footer fs28">
-			<view class="title fs34 text-333">货品描述</view>
+			<view class="title fs38 text-000">货品描述</view>
 			<view class="tips fs20 text-999">请如实填写货品信息（图片、价格、描述等），否则会影响审核发布！</view>
 			<view class="textarea">
-				<textarea maxlength="1000" v-model="textareaValue" @input="textareaInput" @blur="textareaInput" placeholder="请对货品进行详细描述，可参考以下内容,货品介绍：如货品的优势、质量等级,经营能力：如基地/产地/企业规模、相关设施、供货能力" />
+				<textarea maxlength="1000" v-model="textareaValue" @input="textareaInput" @blur="textareaInput" placeholder="请对货品进行详细描述，可参考以下内容,货品介绍：如货品的优势、质量等级,经营能力：如基地/产地/企业规模、相关设施、供货能力" style="height: 240upx;"/>
 				<view class="num">
 					<view @click="clearTextarea">
 						<text>{{num}}/1000</text>
@@ -887,6 +887,14 @@
 
 <style lang="scss" scoped>
 	.relesase{
+    .mt2{
+      /* #ifdef H5 */
+      margin-top: 36upx;
+      /* #endif */
+      /* #ifdef APP-PLUS */
+      margin-top: 44upx;
+      /* #endif */
+    }
 		padding-bottom: 60upx;
 		.big-btn-active{
 			margin: 30upx auto;
@@ -904,7 +912,7 @@
 			}
 			.textarea{
 				background: #f5f5f5;
-				padding: 20upx;
+				padding: 20upx 20upx 10upx 20upx;
 				margin-top: 20upx;
 				position: relative;
 				textarea{
@@ -916,7 +924,7 @@
 				.num{
 					position: absolute;
 					right: 30upx;
-					bottom: 30upx;
+					bottom: 20upx;
 					z-index: 99999;
 					font-size: 20upx;
 					color: #999999;
@@ -925,7 +933,13 @@
 						width: 32upx;
 						height: 32upx;
 						position: relative;
-						top: 6upx;
+            /* #ifdef H5 */
+            top: -6upx;
+            /* #endif */
+            /* #ifdef APP-PLUS */
+            top: -12upx;
+            /* #endif */
+						
 						left: 10upx;
 						>image{
 							width: 100%;
@@ -943,8 +957,8 @@
 			.title{
 				.items{
 					.item{
-						height: 90upx;
-						line-height: 90upx;
+						height: 100upx;
+						line-height: 100upx;
 						border-top:  1upx solid #f7f7f7;
 						.ellipsis{
 							width: 600upx;

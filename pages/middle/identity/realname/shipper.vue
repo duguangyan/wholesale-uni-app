@@ -103,7 +103,7 @@
 		name: 'agency',
 		data() {
 			return {
-				progress:['填写资料','提交审核','审核通过'],
+				progress:['填写资料','审核中','审核通过'],
 				cityPickerValueDefault: [0, 0, 1],
 				themeColor: '#007AFF',
 				fullAddress:'',

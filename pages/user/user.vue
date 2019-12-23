@@ -4,20 +4,21 @@
 			<view class="img">
 				<image src="/static/img/bg-mine.png" mode=""></image>
 			</view>
-			<view class="setting" @click="goSettingPage">
+			<!-- <view class="setting" @click="goSettingPage">
 				<image src="/static/img/icon-setting.png" mode=""></image>
-			</view>
+			</view> -->
 			<!-- 我的状态 -->
 			<view class="status">
 				<view class="img">
 					<image :src="headimageUrl || '/static/img/shop-avatar.png'" @click="goInfo"/>
 				</view>
-				<view class="role" v-if="roleId == '20001'">货主</view>
-				<view class="role" v-if="roleId == '20004'">企业</view>
-				<view class="role" v-if="roleId == '20002'">代办</view>
+				
 			  <view class="content">
 			    <view v-if="isLogin" @click="goInfo">
-			      <view class="uid fs28">{{nickName || '正鼎农品'}}</view>
+			      <view class="uid fs34">{{nickName || '正鼎农品'}}</view>
+            <view class="role" v-if="roleId == '20001'">货主</view>
+            <view class="role" v-if="roleId == '20004'">企业</view>
+            <view class="role" v-if="roleId == '20002'">代办</view>
 			    </view>
 			    <view class="fs30 mgl-10" v-if="!isLogin" @click="goLogin">点击登录</view>
 			  </view>
@@ -287,7 +288,7 @@
 		.img{
 			width: 100%;
 			height: 260upx;
-			overflow: hidden;
+			// overflow: hidden;
 			position: absolute;
 			top: 0;
 			>image{
@@ -315,17 +316,21 @@
 			position: relative;
 			top: 120upx;
 			.role{
-				width:54upx;
-				height:24upx;
-				line-height: 24upx;
+        margin-top: 10upx;
+        transform: scale(0.8);
+				width:66upx;
+				// height:34upx;
+				// line-height: 34upx;
 				text-align: center;
 				background:rgba(255,219,176,1);
-				border-radius:12upx;
-				font-size:20upx;
+				border-radius:20upx;
+				font-size:24upx;
+        padding: 6upx 0;
 				color:rgba(254,59,11,1);
-				position: absolute;
-				bottom: 28upx;
-				left: 44upx;
+				// position: absolute;
+				// bottom: -14upx;
+				// left: 50%;
+        // transform: translateX(-50%);
 				z-index: 999999;
 			}
 			.img{
@@ -348,7 +353,7 @@
 		.img{
 			width: 100%;
 			height: 260upx;
-			overflow: hidden;
+			// overflow: hidden;
 			position: absolute;
 			top: 0;
 			>image{

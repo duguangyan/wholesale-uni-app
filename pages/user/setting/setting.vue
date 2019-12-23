@@ -6,7 +6,7 @@
 				<view class="list">
 				  <view class="cf li header">
 				    <view class="fll fs28">我的头像</view>
-				    <view class="icon flr">
+				    <view class="icon flr vertical-middle">
 				      <image src="/static/img/tag-go.png" />
 				    </view>
 					<view class="image flr" @click="onUpload">
@@ -34,13 +34,13 @@
 				  </view>
 				  <view class="cf li" @click="goAddress">
 				    <view class="fll fs28">收货地址</view>
-				    <view class="icon flr">
+				    <view class="icon flr vertical-middle">
 				      <image src="/static/img/tag-go.png" />
 				    </view>
 				  </view>
 				  <view class="cf li">
 				    <view class="fll fs28">手机号</view>
-				    <view class="icon flr" @click="goChangePhone">
+				    <view class="icon flr vertical-middle" @click="goChangePhone">
 				      <image src="/static/img/tag-go.png" />
 				    </view>
 				  	<view class="flr fs30 text-999 value" @click="goChangePhone">{{phone}}</view>
@@ -317,8 +317,9 @@
 		height: 100upx;
 		line-height: 100upx;
 		background: #fff;
-		padding: 0 30upx;
+		padding: 0 50upx 0 30upx;
 		border-bottom: 1upx solid #F5F5F5;
+    position: relative;
 		.value{
 			position: relative;
 			// right: 20upx;
@@ -339,8 +340,8 @@
 		.icon{
 			width: 22upx;
 			height: 22upx;
-			position: relative;
 			
+      right: 30upx;
 			z-index: 9999;
 			image{
 				width: 100%;

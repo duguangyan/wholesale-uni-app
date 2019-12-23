@@ -142,14 +142,14 @@
 
       <!-- 审核中 -->
       <view class="bottom-btn">
-        <view v-if="good.goods.status == 0" @click="rollback">撤回</view>
-        <view v-if="good.goods.status == 1" @click="modify">修改</view>
+        <view class="normal-btn" v-if="good.goods.status == 0" @click="rollback">撤回</view>
+        <view class="gray-btn" v-if="good.goods.status == 1" @click="modify">修改</view>
         <!-- 审核驳回 -->
-        <view :class="{ mr10: good.goods.status == 4 }" v-if="good.goods.status == 2 || good.goods.status == 4" @click="modify">修改</view>
+        <view class="gray-btn" :class="{ mr10: good.goods.status == 4 }" v-if="good.goods.status == 2 || good.goods.status == 4" @click="modify">修改</view>
         <!-- 已上架 -->
-        <view v-if="good.goods.status == 3" @click="unpublish">下架</view>
+        <view  class="normal-btn" v-if="good.goods.status == 3" @click="unpublish">下架</view>
         <!-- 一下机 -->
-        <view class="ml10" v-if="good.goods.status == 4" @click="publish">上架</view>
+        <view class="ml10 normal-btn" v-if="good.goods.status == 4" @click="publish">上架</view>
       </view>
     </view>
     <view class="operator flex" v-else-if="good.goods.status == 3">
@@ -972,11 +972,19 @@ video {
     font-size: 32upx;
     margin: auto;
 
-    & > view {
+    .normal-btn {
       background-color: #fe3b0b;
       width: 650upx;
       border-radius: 40upx;
     }
+    
+    .gray-btn {
+      background-color: #ccc;
+      width: 650upx;
+      border-radius: 40upx;
+      color: #000;
+    }
+    
   }
   .bottom-tips {
     position: fixed;

@@ -180,13 +180,20 @@
 					}
 				}
 				
-				/* #ifdef APP-PLUS || H5 */
+				/* #ifdef H5 */
 				.icon-30 {
 					width: 30upx;
 					height: 30upx;
-					top: 12upx;
+					top: 8upx;
 				}
 				/* #endif */
+        /* #ifdef APP-PLUS */
+        .icon-30 {
+        	width: 30upx;
+        	height: 30upx;
+        	top: 16upx;
+        }
+        /* #endif */
 				
 				.platform{
 					position: relative;

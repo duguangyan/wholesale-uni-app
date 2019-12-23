@@ -34,7 +34,7 @@
 				<view class="fll">经营品类</view>
 				<view class="choose cf flr">
 					<view class="fll" :class="{'text-666':productType==''}">{{productType == ''?'如农产品、蔬菜':productType}}</view>
-					<view class="flr">
+					<view class="flr mt1">
 						<image src="/static/imgs/right.png"></image>
 					</view>
 				</view>
@@ -189,6 +189,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .mt1{
+    margin-top: 40upx;
+  }
 	.buyer{
 		height: 100vh;
 		background: #fff;
@@ -204,6 +207,8 @@
 		.content{
 			margin: 0 60upx;
 			.item{
+        width: 100%;
+        position: relative;
 				border-bottom: 1upx solid #F0F0F0;
 				height: 100upx;
 				line-height: 100upx;
@@ -225,6 +230,7 @@
 					color: #333;
 				}
 				.choose{
+          
 					font-size: 28upx;
 					color: #333;
 					border-bottom: 1upx solid #F0F0F0;
@@ -241,7 +247,7 @@
 			}
 		}
 		.top{
-			padding: 100upx 60upx;
+			padding: 60upx 60upx;
 
 			.item{
 				.img{

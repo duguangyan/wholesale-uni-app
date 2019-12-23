@@ -425,9 +425,9 @@
 							height:54upx;
 							line-height: 54upx;
 							text-align: center;
-							border:1px solid rgba(51,51,51,1);
-							border-radius:26upx;
-							color: #333;
+							border:1px solid #666;
+							border-radius:36upx;
+							color: #666;
 							font-size: 28upx;
 						}
 					}

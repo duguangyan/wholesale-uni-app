@@ -20,7 +20,7 @@
 		<view class="account">
 			<view class="cf" v-if="userApply.status == 0" @click="goRealname">
 				<view class="fll image"><image src="/static/imgs/icon-1001.png" mode=""></image></view>
-				<view class="fll">你的资料正在审核中，审核通过后可用</view>
+				<view class="fll text-red mt-ad">你的资料正在审核中，审核通过后可用</view>
 				<view class="flr right"><image src="/static/imgs/right.png" mode=""></view>
 			</view>
 			<view class="cf" v-if="userApply.status == 1" @click="goAccount">
@@ -340,6 +340,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .mt-ad{
+    margin-top: 36upx;
+  }
 	// 货主
 	.agency {
 		background: #fff;
@@ -358,6 +361,7 @@
 					width: 24upx;
 					height: 24upx;
 					margin-right: 20upx;
+          // margin-top: 36upx;
 					>image{
 						width: 100%;
 						height: 100%;

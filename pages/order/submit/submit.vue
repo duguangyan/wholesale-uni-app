@@ -5,26 +5,29 @@
       <img src="@/static/imgs/icon-close3.png" alt="" @click="isTips = false" />
     </div>
     <div class="submit">
-      <div class="freight-style fs28">
+      <div class="freight-style fs32">
+        <div class="bottom-line"></div>
         <div>物流方式:</div>
         <radio-group @change="changeSendType">
           <label class="radio">
-            <radio value="1" checked="true" color="#FE3B0B" style="transform:scale(0.5)" />
+            <radio value="1" checked="true" color="#FE3B0B" style="transform:scale(0.6)" />
             平台找车
           </label>
           <label class="radio">
-            <radio value="2" color="#FE3B0B" style="transform:scale(0.5)" />
+            <radio value="2" color="#FE3B0B" style="transform:scale(0.6)" />
             自驾车辆
           </label>
         </radio-group>
       </div>
+      
+      
 
       <!-- 地址模块 -->
       <div v-show="sendType == 1" class="address" @click="navToAd">
-        <image class="bg-line" src="../../../static/img/bg-line.png" mode=""></image>
+        <image class="bg-line" src="../../../static/imgs/bg-line.png" mode=""></image>
         <div v-if="address == null" class="addAd" to="/adedit">请添加收货地址</div>
         <template v-else>
-          <div class="ad-title">收货人: {{ address.name }}</div>
+          <div class="ad-title">收货人: {{ address.name }}&emsp;{{address.phone}}</div>
           <div class="ad-det">收货地址:{{ address.province + address.city + address.region + address.address }}</div>
           <!-- <img class="tag-go" src="/static/imgs/tag-go.png" width="10" height="10" alt /> -->
         </template>
@@ -33,10 +36,10 @@
       <div class="list" v-if="list.length > 0">
         <div v-for="(item, index) in list" :key="index">
           <div class="gray-line"></div>
-          <div v-if="item.needAgentcy == 1" class="agent fs28">
+          <div v-if="item.needAgentcy == 1" class="agent fs32">
             <div>找&ensp;代&ensp;办:</div>
             <!-- <input class="uni-input" placeholder="请选择代办人" readonly="readonly" /> -->
-            <div :class="['uni-input', 'fs28', item.curAgent.name ? 'text-333' : 'text-999']" @click="showAgentDialog(item)">{{ item.curAgent.name || '请选择代办人' }}</div>
+            <div :class="['uni-input', 'fs32', item.curAgent.name ? 'text-333' : 'text-999']" @click="showAgentDialog(item)">{{ item.curAgent.name || '请选择代办人' }}</div>
           </div>
 
           <div class="cf parent-title pdl-30">
@@ -55,10 +58,10 @@
                   <span class="fll p4">{{ it.skuDesc || '' }}</span>
                   <!-- <span class="flr text-999 p5">x {{ it.goodsCount }}</span> -->
                 </p>
-                <p class="text-333 fs28 mgt-10">代办费&nbsp;￥{{ it.agencyPrice }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</p>
-                <p class=" fs24 p2">
+                <p v-if="item.needAgentcy == 1" class="text-333 fs32 mgt-10 agent-fee">代办费&nbsp;￥{{ it.agencyPrice }}<span class="fs24">{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</span></p>
+                <p class=" fs32 p2">
                   价格￥
-                  <span class="fs28">{{ it.price }}{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</span>
+                  {{ it.price }}<span class="fs24">{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</span>
                 </p>
                 <p class="fs28 fixed">x{{ item.totalCount }}</p>
               </div>
@@ -74,7 +77,7 @@
               <input v-model="item.postscript" type="text" maxlength="100" placeholder="请输入留言信息" />
             </div>
           </div>
-          <div class="calc text-red fs28 pdr-30">小计:￥{{ item.totalMoney }}</div>
+          <div class="calc text-red fs34 pdr-30">小计:￥{{ item.totalMoney }}</div>
         </div>
       </div>
 
@@ -399,6 +402,16 @@ export default vm;
 </script>
 
 <style lang="scss" scoped>
+  .bottom-line{
+    display: block;
+    height: 1px;
+    margin: 0 30upx;
+    background: #f5f5f5;
+    position: absolute;
+    bottom: 0;
+    left: 30upx;
+    right: 30upx;
+  }
 .tips {
   line-height: 60upx;
   background: #ffefeb;
@@ -433,7 +446,7 @@ export default vm;
     // background-repeat: no-repeat;
     // background-position: 0 100%;
     // background-size: 100% auto;
-    border-top: solid 1px #f0f0f0;
+    // border-top: solid 1px #f0f0f0;
     padding: 0 15px;
     position: relative;
     line-height: 1;
@@ -456,7 +469,7 @@ export default vm;
       transform: translateY(18px);
     }
     .ad-title {
-      margin-top: 13px;
+      padding-top: 13px;
       color: #000;
       font-size: 15px;
     }
@@ -480,16 +493,23 @@ export default vm;
     bottom: 0;
   }
   background-color: #f0f0f0;
+  
   .freight-style {
+    position: relative;
     display: flex;
     align-items: center;
     background: #fff;
     height: 130upx;
     padding-left: 30upx;
+    // margin: 0 30upx;
     line-height: 1;
-    border-bottom: 1px solid #f0f0f0;
+    // border-bottom: 1px solid #f0f0f0;
+    
     .radio {
       margin-left: 30upx;
+    }
+    &>div:first-child{
+      padding-bottom: 4upx;
     }
   }
   .agent {
@@ -497,10 +517,12 @@ export default vm;
     align-items: center;
     background: #fff;
     height: 100upx;
-    padding-left: 30upx;
+    border-bottom: 1px solid #f5f5f5;
+    // padding-left: 30upx;
+    margin: 0 30upx;
     .uni-input {
       margin-left: 30upx;
-      font-size: 28upx;
+      // font-size: 28upx;
     }
     // margin-bottom: 20upx;
   }
@@ -537,7 +559,7 @@ export default vm;
       // margin-top: 30upx;
       padding-bottom: 30upx;
       padding-top: 30upx;
-      font-size: 28upx;
+      font-size: 32upx;
 
       .text {
         margin-left: 20upx;
@@ -592,9 +614,14 @@ export default vm;
         }
         .info {
           width: 460upx;
-
+          position: relative;
+          height: 200upx;
           .s1 {
             width: 320upx;
+          }
+          .agent-fee{
+            bottom: 40upx;
+            position: absolute;
           }
           .p1 {
             // height: 80upx;
@@ -605,7 +632,7 @@ export default vm;
           }
           .p2 {
             position: absolute;
-            bottom: 0upx;
+            bottom: 0;
             color: #FE3B0B;
           }
           .p3 {
@@ -685,9 +712,10 @@ export default vm;
       align-items: center;
       display: flex;
       justify-content: flex-start;
+      font-size: 28upx;
       input {
         margin-left: 20upx;
-        font-size: 24upx;
+        font-size: 28upx;
         border: none;
         width: 88%;
         outline: none;
@@ -711,6 +739,9 @@ export default vm;
     .nums {
       color: #000;
       margin-right: 30upx;
+      /* #ifdef APP-PLUS */
+      margin-top: 2upx;
+      /* #endif */
     }
     .total-price {
       color: #000;

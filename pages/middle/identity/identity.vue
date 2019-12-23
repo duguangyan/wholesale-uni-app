@@ -51,7 +51,7 @@
 		},
 		onShow() {
       // 需要实名标记
-			uni.setStorageSync('needIdentify','1')
+			// uni.setStorageSync('needIdentify','1')
 		},
 		methods:{
 			goPage(index){
@@ -92,11 +92,12 @@
 <style lang="scss" scoped>
 	.identity{
 		background: #fff;
-		min-height: 100vh;
-		padding-top: 100upx;
+		height: 100vh;
+		// padding-top: 100upx;
 		overflow: hidden;
 		.items{
-			margin-top: 100upx;
+			margin-top: 90upx;
+      padding: 0 20upx;
 		}
 		.item{
 			text-align: center;
