@@ -99,7 +99,6 @@ var vm = {
       vm.$emit('close', false);
     },
     h5WXpay() {
-      debugger
       if (this.orderId !== '') {
         let data = {
           payChannelEnum: 'WEIXIN_PAY',
