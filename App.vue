@@ -17,7 +17,7 @@ export default {
       }
       return;
     }
-    uni.removeStorageSync('isWxWeb',navigator.userAgent.match(/MicroMessenger/i))
+    uni.removeStorageSync('isWxWeb')
     // console.log('App Launch');
     // 获取 appid
     // uni.setStorageSync('appid', 'wxce7493e1240543c2')
