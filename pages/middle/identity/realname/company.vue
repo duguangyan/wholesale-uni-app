@@ -538,6 +538,14 @@
 				// }
 				
 				//  实名认证
+				
+				
+				let areas = []
+				this.areas.forEach(item=>{
+					if(item.provinceId != ''){
+						areas.push(item)
+					}
+				})
 				let data = {
 					// cardImgFront:   this.cardImgFront,
 					// cardImgReverse: this.cardImgReverse,
@@ -555,7 +563,7 @@
 					licenseImage:   this.licenseImage,
 					categoryId:     this.productTypeId,
 					code:           this.code,
-					areas:          JSON.stringify(this.areas),
+					areas:          JSON.stringify(areas),
 					address:        this.address
 				}
 				

@@ -145,7 +145,7 @@
 							})
 						},
 						fail() {
-							this.isClock = false
+							_this.isClock = false
 						}
 					});
 				} else {
@@ -156,7 +156,7 @@
 							_this.upload(res.tempFilePath)
 						},
 						fail() {
-							this.isClock = false
+							_this.isClock = false
 						}
 					});
 				}
