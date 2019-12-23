@@ -8,14 +8,14 @@
 			<view class="content">
 				<view class="fll img-1" @click="goClassify">
 					<image :class="{nmt2:platform == 1}" src="/static/imgs/search-left-1.png" mode=""></image>
-					<view :class="['text',platform == 1?'mt10':'']">分类</view>
+					<view :class="['text',platform == 1?'mt10':platform == 2?'mt15':'']">分类</view>
 				</view>
 				<view class="img fll">
 					<image src="/static/imgs/icon-search-1.png" @click="goSearch"></image>
 				</view>
 				<view class="flr img-2" @click="goOrder">
 					<image :class="{nmt2:platform == 1}" src="/static/imgs/search-order-1.png" mode=""></image>
-					<view :class="['text',platform == 1?'mt10':'']">进货单</view>
+					<view :class="['text',platform == 1?'mt10':platform == 2?'mt15':'']">进货单</view>
 				</view>
 			</view>
 
@@ -501,6 +501,9 @@
   .mt10{
      margin-top: 10upx;
   }
+  .mt15{
+     margin-top: 20upx;
+  }
   .nmt2{
     transform: translateY(-4upx);
     // top: -8upx;
@@ -579,6 +582,9 @@
 					.text{
 						position: relative;
 						top: -6upx;
+            /* #ifdef H5 */
+            top: 0;
+            /* #endif */
 					}
 				}
 
@@ -594,11 +600,15 @@
 					}
 
 					font-size: 20upx;
+          
 					color: #48484C;
 					margin-right: 30upx;
 					.text{
 						position: relative;
 						top: -6upx;
+            /* #ifdef H5 */
+            top: 0;
+            /* #endif */
 					}
 				}
 			}
