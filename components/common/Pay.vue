@@ -16,7 +16,7 @@
 
             <span class="fg1">微信支付</span>
             <div class="img-icon flr" :class="{ platform: platform == 2 }">
-              <img v-if="isWx" :src="checkIndex === 0 ? icon.Checked : icon.Uncheck" width="20" height="20" alt="" />
+              <img :src="checkIndex === 0 ? icon.Checked : icon.Uncheck" width="20" height="20" alt="" />
             </div>
           </li>
 
@@ -51,7 +51,7 @@ var vm = {
     },
     isWx: {
       type: Boolean,
-      default: true
+      default: false
     },
     price: {
       type: Number,
@@ -99,6 +99,7 @@ var vm = {
       vm.$emit('close', false);
     },
     h5WXpay() {
+      debugger
       if (this.orderId !== '') {
         let data = {
           payChannelEnum: 'WEIXIN_PAY',

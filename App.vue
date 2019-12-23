@@ -1,9 +1,9 @@
 <script>
 export default {
   onLaunch: function() {
-    let navigator = navigator || null
-    if (navigator && navigator.userAgent.match(/MicroMessenger/i)) {
-      uni.setStorageSync('isWxWeb',navigator.userAgent.match(/MicroMessenger/i))
+    uni.removeStorageSync('isWxWeb')
+    if (window && window.navigator.userAgent.match(/MicroMessenger/i)) {
+      uni.setStorageSync('isWxWeb',window.navigator.userAgent.match(/MicroMessenger/i))
       let search = location.search;
       let reg = search.match(/code=(.*?)(&|$)/);
       let code = reg === null ? null : res[1];
@@ -17,7 +17,7 @@ export default {
       }
       return;
     }
-    uni.removeStorageSync('isWxWeb')
+    
     // console.log('App Launch');
     // 获取 appid
     // uni.setStorageSync('appid', 'wxce7493e1240543c2')
