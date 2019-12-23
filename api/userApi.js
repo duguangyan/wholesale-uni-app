@@ -437,9 +437,17 @@ const shopAreaFromUserId = data => {
 	})
 }
 
+const getOpenId = data => {
+  return request({
+    url: '/api/oauth/userConnection/providerUserId',
+    data
+  })
+}
+
 
 
 export {
+  getOpenId,
 	shopAreaFromUserId,
 	enterpriseSettledIn,
 	getUserSendValidateCode,
