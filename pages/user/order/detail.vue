@@ -163,7 +163,7 @@
 				<view class="fll">物流方式:</view>
 				<view class="flr" @click="showCarInfo">
 					<text class="text-theme">{{order.shopOrder.sendType == 1 ?'平台选车':'自驾车辆'}}</text>
-					<view class="right" v-if="(orderId == 20002 && status >= 2) || status >= 3">
+					<view class="right" v-if="order.shopOrder.sendType == 2">
 						<image src="/static/imgs/right.png" mode=""></image>
 					</view>
 				</view>
