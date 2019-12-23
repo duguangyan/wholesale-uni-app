@@ -143,6 +143,9 @@
 							tempFilePaths.forEach((item,index)=>{
 								_this.upload(item)
 							})
+						},
+						fail() {
+							this.isClock = false
 						}
 					});
 				} else {
@@ -151,6 +154,9 @@
 						sourceType: ['camera', 'album'],
 						success: function (res) {
 							_this.upload(res.tempFilePath)
+						},
+						fail() {
+							this.isClock = false
 						}
 					});
 				}
