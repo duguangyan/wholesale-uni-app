@@ -35,14 +35,15 @@ export default {
       setCodeInterval: '', // 定时器
       deviceId: '', // 数据传值deviceId
       appID: 'wx638cfb37341c1874',
-      fromWxLoginData: ''
+      fromWxLoginData: '',
+      wxCode: ''
     };
   },
   components: {},
   onLoad(options) {
     this.fromWxLoginData = JSON.parse(options.data);
     console.log('fromWxLoginData->', this.fromWxLoginData);
-    this.code = options.code;
+    this.wxCode = options.code;
   },
   onShow() {
     uni.setStorageSync('isLogin', 0);
@@ -121,17 +122,17 @@ export default {
             nickName: this.fromWxLoginData.userInfo.nickName,
             headImg: this.fromWxLoginData.userInfo.avatarUrl
           };
-        } else if (uni.getStorageSync('isWx')) {
+        } else if (uni.getStorageSync('isWxWeb')) {
           data = {
             grant_type: 'wx_mp',
             scope: '2',
             client_id: 'cwap',
             client_secret: 'xx',
             systemId: '2',
-            deviceId: this.fromWxLoginData.deviceId,
+            deviceId: this.deviceId,
             mobile: this.form.phone,
             smsCode: this.form.code,
-            wxCode: this.code,
+            wxCode: this.wxCode,
             wxScope: 'snsapi_base'
           };
           getOpenId({
