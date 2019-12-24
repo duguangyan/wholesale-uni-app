@@ -10,7 +10,7 @@
 		</view>
 		<view class="content">
 			<view class="list" v-for="(item,index) in categorys" :key="index">
-				<view class="title fs30"><text class="text-theme mgr-10">*</text> <text>{{item.name}}</text></view>
+				<view class="title fs32"><text class="text-theme mgr-10">*</text> <text>{{item.name}}</text></view>
 				<view class="items cf">
 					<view class="item fll" :class="{'active': it.isCheck}"  v-for="(it,ix) in item.valueSet" :key="ix" @click='checkIndex(index,ix,item.inputType)'>
 						{{it.value}}
@@ -370,16 +370,17 @@
 						margin-bottom: 20upx;
 					}
 					.it{
-						
-						line-height: 70upx;
-						text-align: center;
-						border:1upx solid rgba(230,230,230,1);
-						border-radius:5upx;
-						font-size: 24upx;
-						color: #666;
-						margin-right: 25upx;
-						margin-bottom: 20upx;
-						padding: 8upx 14upx;
+						    width: 152upx;
+						    line-height: 35px;
+						    text-align: center;
+						    border: 1px solid #e6e6e6;
+						    border-radius: 2px;
+						    font-size: 12px;
+						    color: #666;
+						    margin-right: 12px;
+						    margin-bottom: 10px;
+						    /* padding: 4px 7px; */
+						    display: block;
 					}
 					.active{
 						border:1upx solid rgba(254,59,11,1);
@@ -419,14 +420,16 @@
 			}
 			.fll{
 				font-size: 30upx;
-				color: #333;
+				color: #000;
 			}
 			.image{
 				width: 24upx;
 				height: 24upx;
+        margin-top: 28upx;
 				>image{
 					width: 100%;
 					height: 100%;
+          // margin-top: 12upx;
 				}
 			}
 			.flr{

@@ -11,7 +11,7 @@
 		
 		<view class="content">
 			<view class="item cf">
-				<view class="fll">姓名</view>
+				<view class="fll bold">姓名</view>
 				<view class="flr">
 					<input type="text" @input="checkSubmit" v-model="name" placeholder="请输入真实姓名">
 				</view>
@@ -24,14 +24,14 @@
 			</view> -->
 			
 			<view class="item cf">
-				<view class="fll">经营位置</view>
+				<view class="fll bold">经营位置</view>
 				<view class="flr">
 					<input type="text" @input="checkSubmit" v-model="address" placeholder="如江南水果市场1-123号">
 				</view>
 			</view>
 			
 			<view class="item" @click="showType">
-				<view class="fll">经营品类</view>
+				<view class="fll bold">经营品类</view>
 				<view class="choose cf flr">
 					<view class="fll" :class="{'text-666':productType==''}">{{productType == ''?'如农产品、蔬菜、白菜':productType}}</view>
 					<view class="flr mt1">
@@ -42,7 +42,7 @@
 			
 			
 			<view class="item cf">
-				<view class="fll">邀请码</view>
+				<view class="fll bold">邀请码</view>
 				<view class="flr">
 					<input type="text" @input="checkSubmit" v-model="code" placeholder="请输入邀请码">
 				</view>
@@ -187,6 +187,10 @@
 </script>
 
 <style lang="scss" scoped>
+  .bold{
+    font-size: 30upx;
+    color: #000;
+  }
   .mt1{
     margin-top: 40upx;
   }

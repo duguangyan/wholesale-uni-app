@@ -50,7 +50,7 @@
 
 		<view class="footer fs28">
 			<view class="title fs38 text-000">货品描述</view>
-			<view class="tips fs20 text-999">请如实填写货品信息（图片、价格、描述等），否则会影响审核发布！</view>
+			<view class="tips fs24 text-999">请如实填写货品信息（图片、价格、描述等），否则会影响审核发布！</view>
 			<view class="textarea">
 				<textarea maxlength="1000" v-model="textareaValue" @input="textareaInput" @blur="textareaInput" placeholder="请对货品进行详细描述，可参考以下内容,货品介绍：如货品的优势、质量等级,经营能力：如基地/产地/企业规模、相关设施、供货能力" style="height: 240upx;"/>
 				<view class="num">
@@ -915,7 +915,7 @@
 				position: relative;
 				textarea{
 					width: 100%;
-					font-size: 24upx;
+					font-size: 28upx;
 					color: #333;
 				}
 				

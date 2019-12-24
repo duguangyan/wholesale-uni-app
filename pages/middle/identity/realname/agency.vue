@@ -12,13 +12,13 @@
 
 		<view class="user">
 			<view class="item-1">
-				<view class="fll">姓名</view>
+				<view class="fll bold">姓名</view>
 				<view class="flr">
 					<input type="text" v-model="realName" :disabled="disabled || userRealInfo.realName" :placeholder="realNamePlaceholder">
 				</view>
 			</view>
 			<view class="item-1" v-if="!disabled && userRealInfo ==''">
-				<view class="fll">邀请码</view>
+				<view class="fll bold">邀请码</view>
 				<view class="flr">
 					<input type="text" v-model="code" :disabled="disabled" placeholder="请输入邀请码">
 				</view>
@@ -42,7 +42,7 @@
 		</view>
 		<view class="content">
 			<view class="item">
-				<view class="title">
+				<view class="title bold">
 					<text>{{hasfrom==2?'种植区域':'代办地区'}}</text>
 				</view>
 				<view class="choose cf" @click="showPicker">
@@ -55,7 +55,7 @@
 			</view>
 			<view class="item" v-if="hasfrom == 2" @click="showType">
 				<view class="title">
-					<text>种植品种</text> <text class="fs28 text-666">（审核通过后不可更改）</text>
+					<text class="bold">种植品种</text> <text class="fs28 text-666">（审核通过后不可更改）</text>
 				</view>
 				<view class="choose cf">
 					<view class="fll" :class="{'text-666':productType!=''}">{{productType == ''?'请选择类型:如农产品、蔬菜、白菜':productType}}</view>
@@ -66,7 +66,7 @@
 			</view>
 			
 			<view class="cat cf" v-if="hasfrom == 2">
-				<view class="title fll">种植面积</view>
+				<view class="title fll bold">种植面积</view>
 				<view class="input flr">
 					<input type="idcard" v-model="landArea" :disabled="disabled || userRealInfo.cardNo" placeholder="请输入种植面积"> 
 					<view class="mu flr">亩</view>
@@ -503,6 +503,10 @@
 </script>
 
 <style lang="scss" scoped>
+  .bold{
+    font-size: 30upx;
+    color: #000;
+  }
 	// 货主
 	.agency {
 		background: #fff;
