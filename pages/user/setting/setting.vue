@@ -107,7 +107,7 @@
 		data() {
 			return {
 				isLogin: false,
-				headImgUrl: '/static/img/icon-user.png',
+				headImgUrl: '',
 				phone:'',
 				roleId:'',
 				categoryName:'',

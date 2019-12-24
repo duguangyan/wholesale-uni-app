@@ -73,14 +73,14 @@
 				</view>
 			</view>
 			
-			<!-- <view class="cat cf">
+			<view class="cat cf" v-if="hasfrom == 1">
 				<view class="title fll">身份证号</view>
 				<view class="input flr">
 					<input type="idcard" v-model="cardNo" :disabled="disabled || userRealInfo.cardNo" placeholder="请输入身份证号码">
 				</view>
-			</view> -->
+			</view>
 		</view>
-		<!-- <view class="upload cf">
+		<view class="upload cf" v-if="hasfrom == 1">
 			<view class="title"><text>上传身份证</text><text class="tips">（正面）</text> </view>
 			<view class="img fll" @click="showImage(0)" v-if="userApply==''">
 				<image src="/static/imgs/cat-1.png" mode=""></image>
@@ -91,7 +91,7 @@
 
 			</view>
 		</view>
-		<view class="upload cf">
+		<view class="upload cf" v-if="hasfrom == 1">
 			<view class="title"><text>上传身份证</text><text class="tips">（反面）</text> </view>
 			<view class="img fll" @click="showImage(1)" v-if="userApply==''">
 				<image src="/static/imgs/cat-2.png" mode=""></image>
@@ -101,7 +101,7 @@
 				<image :src="cardImgReverse==''?'/static/imgs/cat-3.png':cardImgReverse" mode=""></image>
 
 			</view>
-		</view> -->
+		</view>
 		<!-- 0 待审  1 审核通过  2 不通过  3 撤回 -->
 		<view class="big-btn-active" @click="doSubmit" v-if="!disabled">提交审核</view>
 		<view class="big-btn-active" @click="setBack" v-if="disabled">撤回</view>
@@ -269,7 +269,8 @@
 					this.address.cityId     = this.userApply.cityId
 					this.address.region     = this.userApply.region
 					this.address.regionId   = this.userApply.regionId
-					this.landArea           = this.userApply.landArea
+					this.landArea           = JSON.stringify(this.userApply.landArea)
+					
 				}
 				this.realNamePlaceholder = this.hasfrom == 2 ? '请输入货主姓名' : '请输入代办姓名'
 			},
@@ -389,22 +390,30 @@
 				// 	}
 				// }
 
-				// if (this.cardNo == '') {
-				// 	T.tips('身份证号码不能为空')
-				// 	return false
-				// }
+				
 				if (this.fullAddress == '') {
 					T.tips('请选择地址')
 					return false
 				}
-				// if (this.cardImgFront == '') {
-				// 	T.tips('身份证正面照不能为空')
-				// 	return false
-				// }
-				// if (this.cardImgReverse == '') {
-				// 	T.tips('身份证反面照不能为空')
-				// 	return false
-				// }
+				
+				
+				
+				
+				if(this.hasfrom == 1){
+					if (this.cardNo == '') {
+						T.tips('身份证号码不能为空')
+						return false
+					}
+					if (this.cardImgFront == '') {
+						T.tips('身份证正面照不能为空')
+						return false
+					}
+					if (this.cardImgReverse == '') {
+						T.tips('身份证反面照不能为空')
+						return false
+					}
+				}
+				
 				//  实名认证
 				let data = {
 					// cardImgFront: this.cardImgFront,
@@ -418,6 +427,13 @@
 					region:     this.address.region,
 					regionId:   this.address.regionId
 				}
+				
+				if(this.hasfrom == 1){
+					data.cardImgFront = this.cardImgFront;
+					data.cardImgReverse = this.cardImgReverse;
+					data.cardNo = this.cardNo;
+				}
+				
 				if (!uni.getStorageSync('userRealInfo')) {
 					data.code = this.code
 				}
@@ -427,7 +443,7 @@
 				} else if (this.hasfrom == 2) {
 					data.type = 1
 					data.categoryId = this.productTypeId || this.categoryId
-					data.landArea   = this.landArea
+					data.landArea   = this.landArea || 0
 				}
 
 				if (this.userApply.status == 3 || this.from != '') { // 重新审核

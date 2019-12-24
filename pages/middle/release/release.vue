@@ -86,7 +86,7 @@
 				],
 				goodsImgLists:[],
 				goodsSkuList:[],
-				goodsImgs:'',
+				goodsImgs:[],
 				goodsId:'',
 				shopId:'',
 				editGoods:'' // 编辑时候请求的数据
@@ -620,7 +620,8 @@
 					shopId:'',
 					showStyle:2,
 					sort:1,
-					unit:goodsSkuList[0].unitId || goodsSkuList[0].unit
+					unit:goodsSkuList[0].unitId,
+					unitName:goodsSkuList[0].unit
 				}
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)
 				if(this.goodsId!='' && this.shopId!=''){  // 编辑商品
@@ -753,11 +754,12 @@
 						this.utilGoodsImgLists(goodsImgList,1,2)		
 						this.utilGoodsImgLists(goodsImgList,1,3)
 					}
-					
+					this.goodsImgs    =  this.goodsImgList[0].imgs
 				}
 				
 				
 				console.log(this.goodsImgList)
+				
 				
 				this.assessHasData()
 			},

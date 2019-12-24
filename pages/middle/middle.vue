@@ -14,8 +14,8 @@
 		</view> -->
 		<!-- 已经实名 -->
 		<view v-if="userApply=='' && roleId =='20003'">
-			<view class="identity">
-				<view class="item" v-for="(item,index) in items" :key="index" @click="goPage(index)">
+			<view class="identity cf">
+				<view class="item fll" v-for="(item,index) in items" :key="index" @click="goPage(index)">
 					<view class="image">
 						<image :src="item.imgUrl"></image>
 					</view>
@@ -36,10 +36,15 @@
 	export default {
 		data() {
 			return {
+				loginClock:0,
 				access_token:'',
 				yearAndMonth:'',
 				totalPrice:'',
-				orderInfos:'',
+				orderInfos:{
+					tradingOrder:0,
+					tradingMoney:0,
+					tradingNum:0
+				},
 				spOrders: [{
 					img: '../../static/imgs/icon-1004.png',
 					text: '待确认',
@@ -64,7 +69,7 @@
 				status: 1, // 登录用户状态
 				roleId: '',
 				userRealInfo:'',
-				userApply:'1',
+				userApply:'',
 				items:[
 					{
 						text:'我是代办',
@@ -73,6 +78,14 @@
 					{
 						text:'我是种植户',
 						imgUrl:'/static/imgs/icon-2.png'
+					},
+					{
+						text:'我是采购商',
+						imgUrl:'/static/imgs/icon-3.png'
+					},
+					{
+						text:'我是企业',
+						imgUrl:'/static/imgs/icon-4.png'
 					}
 				],
 				spGoodsByAgency: [{
@@ -88,7 +101,10 @@
 		},
 		components: {agency,buyer,shipper},
 		onTabItemTap(e){
-			
+			// #ifdef  H5
+			this.loginClock = 1
+			uni.setStorageSync('loginClock',this.loginClock)
+			// #endif
 			// #ifdef  MP-WEIXIN || H5
 			if(!uni.getStorageSync('access_token')){
 				uni.navigateTo({
@@ -96,20 +112,18 @@
 				})
 			}
 			// #endif
-			
 		},
 		onLoad(options) {
 			// 获取用户类型
 			if(options.roleId) this.roleId = options.roleId
-			
 		},
 		onShow() {
 			// 根据不同状态获取不同业务
 			this.getUserType()	
-			
 			// 未登录状态跳转 微信和APP不一样
-			// #ifdef  MP-WEIXIN 
+			// #ifdef  MP-WEIXIN || H5
 			if(!uni.getStorageSync('access_token')){
+				// #ifdef  MP-WEIXIN 
 				if(uni.getStorageSync('pagePath') == 'main'){
 					uni.switchTab({
 						url:'/pages/main/main'
@@ -123,6 +137,27 @@
 						url:'/pages/main/main'
 					})
 				}
+				// #endif
+				
+				// #ifdef H5
+				let loginClock = uni.getStorageSync('loginClock')
+					if(loginClock == 0){
+						if(uni.getStorageSync('pagePath') == 'main'){
+							uni.switchTab({
+								url:'/pages/main/main'
+							})
+						}else if(uni.getStorageSync('pagePath') == 'user'){
+							uni.switchTab({
+								url:'/pages/user/user'
+							})
+						} else{
+							uni.switchTab({
+								url:'/pages/main/main'
+							})
+						}
+					}
+				// #endif
+				
 			}else{
 				// 获取用户信息
 				if(uni.getStorageSync('roleId') == '20003' && !uni.getStorageSync('userRealInfo')){
@@ -144,7 +179,8 @@
 				}
 			}
 			// #endif
-			// #ifdef APP-PLUS || H5
+			
+			// #ifdef APP-PLUS
 			if(!uni.getStorageSync('access_token')){
 				uni.navigateTo({
 					url:'/pages/login/login'
@@ -178,11 +214,43 @@
 				if(uni.getStorageSync('roleId')) this.roleId = uni.getStorageSync('roleId')
 				if(uni.getStorageSync('userRealInfo'))this.userRealInfo = uni.getStorageSync('userRealInfo')
 				if(uni.getStorageSync('access_token')) this.access_token = uni.getStorageSync('access_token')
-				if(this.access_token != '' && this.userRealInfo == ''){
-					uni.redirectTo({
-						url: '/pages/middle/identity/identity'
-					})
+				// if(this.access_token != '' && this.userRealInfo == ''){
+				// 	uni.navigateTo({
+				// 		url: '/pages/middle/identity/identity'
+				// 	})
+				// }
+				if(this.roleId == '20003' && this.userRealInfo){
+					this.items=[
+						{
+							text:'我是代办',
+							imgUrl:'/static/imgs/icon-1.png'
+						},
+						{
+							text:'我是种植户',
+							imgUrl:'/static/imgs/icon-2.png'
+						}
+					]
+				}else{
+					this.items=[
+						{
+							text:'我是代办',
+							imgUrl:'/static/imgs/icon-1.png'
+						},
+						{
+							text:'我是种植户',
+							imgUrl:'/static/imgs/icon-2.png'
+						},
+						{
+							text:'我是采购商',
+							imgUrl:'/static/imgs/icon-3.png'
+						},
+						{
+							text:'我是企业',
+							imgUrl:'/static/imgs/icon-4.png'
+						}
+					]
 				}
+				
 				let userApply = ''
 				if(uni.getStorageSync('userApply')){
 					userApply = JSON.parse(uni.getStorageSync('userApply'))
@@ -239,7 +307,7 @@
 					}
 				}
 				statOrderInfo(data).then(res=>{
-					if(res.code == '1000'){
+					if(res.code == '1000' && res.data){
 						this.orderInfos = res.data
 					}
 				})
@@ -253,7 +321,11 @@
 					//状态 -1 已取消 0 待支付 1 已支付   2 未发货  3 已发货  4已完成  5 已关闭 6 待审核"
 					if(res.code == '1000'){
 						let list = res.data
-						let userApply = JSON.parse(uni.getStorageSync('userApply'))
+						let userApply = ''
+						if(uni.getStorageSync('userApply')){
+							userApply = JSON.parse(uni.getStorageSync('userApply'))
+						}
+						
 						this.spOrders = [{
 							img: '/static/imgs/icon-1004.png',
 							text: '待确认',
@@ -310,11 +382,14 @@
 						// uni.setStorageSync('roleId','2001')
 						this.roleId       = res.data.userRole.roleId || ''
 						this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : ''
-						this.userApply    = res.data.apply.id ? res.data.apply : ''
+						if(res.data.apply.id){
+							this.userApply = res.data.apply 
+							uni.setStorageSync('userApply', JSON.stringify(res.data.apply))
+						}
 										
 						uni.setStorageSync('roleId', roleId)
 						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
-						uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')
+						
 		
 						// 设置头部样式
 						if(!this.roleId && this.userRealInfo){
@@ -395,6 +470,9 @@
 						}
 						
 						
+						
+						
+						
 						// // 统计订单状态条数
 						// this.getOrderStat()
 						// // 主页订单交易统计
@@ -428,7 +506,14 @@
 					case 2:
 						uni.navigateTo({
 							url:'/pages/middle/identity/realname/buyer'
+						})
+						break;
+					// 买家
+					case 3:
+						uni.navigateTo({
+							url:'/pages/middle/identity/realname/company'
 						})	
+						break;
 					default:
 						break;
 				}
@@ -446,6 +531,7 @@
 			.item{
 				text-align: center;
 				padding-top: 120upx;
+				width: 50%;
 				.image{
 					width: 180upx;
 					height: 180upx;

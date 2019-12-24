@@ -12,19 +12,19 @@
 				<view class="tip fs24 text-999 ellipsis">
 					{{item.skuDesc || ''}}
 				</view>
-				<view class="cf" v-if="hasAgencyFee">
-					<view class="fll" v-if="roleId == '20002'">
+				<view class="cf" v-if="businessType == 2 && item.agentcyPrice">
+					<view class="fll">
 						代办费:¥{{item.agentcyPrice || '0'}} 元/<text v-if="item.goodsUnit"></text>{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="flr fs24 text-999">
+					<!-- <view class="flr fs24 text-999">
 						x{{item.num}}
-					</view>
+					</view> -->
 				</view>
 				<view class="price text-theme">
 					<view class="fll"> 
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="flr fs24 text-999" v-if="!hasAgencyFee">
+					<view class="flr fs24 text-999 num">
 						x{{item.num}}
 					</view>
 				</view>
@@ -48,6 +48,18 @@
 			roleId:{
 				type: String,
 				default: ''
+			},
+			businessType:{
+				type: String || Number,
+				default: ''
+			},
+			isAgentcy:{
+				type: Boolean,
+				default: true
+			},
+			goDetailNumber:{
+				type: String,
+				default: ''
 			}
 		},
 		data() {
@@ -57,9 +69,15 @@
 		},
 		methods: {
 			goGoodsDetail() {
-				uni.navigateTo({
-					url: '/pages/order/goodsDetail/goodsDetail?shopId=' + this.item.shopId + '&goodsId=' + this.item.goodsId
-				})
+				if(this.goDetailNumber == '1'){
+					uni.navigateTo({
+						url: '/pages/order/goodsDetail/goodsDetail?shopId=' + this.item.shopId + '&goodsId=' + this.item.goodsId
+					})
+				}else{
+					uni.navigateTo({
+						url: '/pages/user/order/detail?orderId=' + this.item.orderId + '&shopId=' + this.item.shopId + '&businessType='+ this.businessType
+					})
+				}
 			},
 		}
 	}
@@ -92,6 +110,10 @@
 				}
 				.price{
 					margin-top: 20upx;
+					.num{
+						position: relative;
+						top: 4upx;
+					}
 				}
 			}
 		}

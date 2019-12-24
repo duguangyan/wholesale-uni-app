@@ -26,14 +26,21 @@
 					<div class="title" v-if="order.shopOrder && (status == 1 || status == 2 || status == 4 || status == 5)">
 						{{statusText}}
 					</div>
+					<view v-if="businessType == 2 && order.shopOrder && (status == 0 || status == 6 || status == 3)">
+						<div class="title">
+							等待货主确认
+						</div>
+					</view>
+					<view v-if="businessType == 1 && order.shopOrder && (status == 0 || status == 6 || status == 3)">
+						<div class="title" v-if="order.shopOrder && (status == 0 || status == 6 || status == 3)">
+							确认倒计时: 
+							<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
+						</div>
+						<div class="sub tick cf" v-if="status == 0 || status == 6 || status == 3">
+							<span class="fll fs24">{{statusText}}</span>
+						</div>
+					</view>
 					
-					<div class="title" v-if="order.shopOrder && (status == 0 || status == 6 || status == 3)">
-						确认倒计时: 
-						<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
-					</div>
-					<div class="sub tick cf" v-if="status == 0 || status == 6 || status == 3">
-						<span class="fll fs24">{{statusText}}</span>
-					</div>
 					
 					<div class="title" v-if="order.shopOrder && (status == -1)">
 						{{statusText}}
@@ -48,8 +55,8 @@
 						{{statusText}}
 					</div>
 					<div class="sub tick cf" v-if="status == 0">
-						<span class="fll fs24" v-if="order.shopOrder.enterpriseStatus == 0 && order.shopOrder.needAgentcy == 1">你也可以联系代办协调买家支付</span>
-						<span class="fll fs24" v-if="order.shopOrder.needAgentcy == 0">你也可以联系{{order.shopOrder.enterpriseStatus == 1?'企业':'买家'}}协调支付</span>
+						<span class="fll fs24" v-if="order.shopOrder.enterpriseStatus == 0 && order.needAgentcy == 1">你也可以联系代办协调买家支付</span>
+						<span class="fll fs24" v-if="order.needAgentcy == 0">你也可以联系{{order.shopOrder.enterpriseStatus == 1?'企业':'买家'}}协调支付</span>
 					</div>
 					<div class="sub tick cf" v-if="status == 1">
 						<span class="fll fs24">请联系代办尽快安排装车发货</span>
@@ -114,7 +121,7 @@
 			</view> -->
 			
 			
-			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.shopOrder.needAgentcy == 0">
+			<view class="phone cf" @click="goCompany(order.shopOrder.shopId)" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.needAgentcy == 0">
 				<view class="fll">企业: {{order.shopOrder.shopName}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
@@ -123,7 +130,7 @@
 					<text>联系企业</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.needAgentcy == 1">
+			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.needAgentcy == 1">
 				<view class="fll">代办: {{order.agentcyPhone}}</view>
 				<view class="flr" @click="callPhone(order.agentcyPhone)">
 					<view class="image">
@@ -133,7 +140,7 @@
 				</view>
 			</view>
 			
-			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 0 && order.shopOrder.needAgentcy == 0">
+			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 0 && order.needAgentcy == 0">
 				<view class="fll">货主: {{order.sellerPhone}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
@@ -143,22 +150,7 @@
 				</view>
 			</view>
 			
-			
-			
-			
-			
-			
-		<!-- 	<view class="phone cf" v-if="!order.agentcyPhone && roleId != 20002">
-				<view class="fll">货主:{{order.sellerName}}</view>
-				<view class="flr" @click="callPhone(order.sellerPhone)">
-					<view class="image">
-						<image src="/static/imgs/icon-phone.png" mode=""></image>
-					</view>
-					<text>联系货主</text>
-				</view>
-			</view> -->
-			
-			<view class="phone cf" v-if="order.phone && roleId == 20002">
+			<view class="phone cf" v-if="businessType == 1 && order.phone && (roleId == 20002 || roleId == 20004)">
 				<view class="fll">买家:{{order.userName || '暂无'}}</view>
 				<view class="flr" @click="callPhone(order.phone)">
 					<view class="image">
@@ -167,17 +159,17 @@
 					<text>联系买家</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="order.shopOrder.sendType && roleId != 20001 && roleId != 20004">
+			<view class="phone cf" v-if="order.shopOrder.sendType">
 				<view class="fll">物流方式:</view>
 				<view class="flr" @click="showCarInfo">
 					<text class="text-theme">{{order.shopOrder.sendType == 1 ?'平台选车':'自驾车辆'}}</text>
-					<view class="right" v-if="(orderId == 20002 && status >= 2) || status >= 3">
+					<view class="right" v-if="order.shopOrder.sendType == 2">
 						<image src="/static/imgs/right.png" mode=""></image>
 					</view>
 				</view>
 			</view>
 			
-			<view class="logistics bb1 fs28" v-if="order.shopOrder.enterpriseStatus == 1 && order.orderShipping">
+			<view class="logistics bb1 fs28" v-if="order.orderShipping.receiver">
 				<view class="cf title">
 					<view class="fll ellipsis">收货人: {{order.orderShipping.receiver || ''}}</view>
 					<view class="flr">{{order.orderShipping.phone || ''}}</view>
@@ -206,7 +198,7 @@
 					</span>
 				</div>
 				<view class="mgb-30" v-for="good in order.shopOrder.orderDetailList" :key="good.id" >
-					<Good :item="good" :roleId="roleId"></Good>
+					<Good :item="good" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber' :businessType="businessType"></Good>
 				</view>
 				
 				<div class="goods-price">
@@ -243,15 +235,15 @@
 
 		<div class="footer" v-if="status == 0 || status == 3 || status == 6 || status == 2">
 			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
-			<div class="btn-black btn" v-if="status == 0" @click="postOrderCancel">取消订单</div>
+			<div class="btn-black btn" v-if="status == 0 && businessType == 2" @click="postOrderCancel">取消订单</div>
 			<div class="btn-red btn" v-if="status == 0 && businessType == 2" @click="showPay">去付款</div>
 			<div class="btn-red btn" v-if="status == 3 && businessType == 2" @click="postOrderConfirm">确认收货</div>
 			<view class="btn-red btn" v-if="status == 2 && roleId == '20002' && businessType == 1" @click="deliverGoods">发货</view>
 			
 			<view class="btn-red btn" v-if="status == 2 && userApply.isAgentcy == 0 && businessType == 1" @click="deliverGoods">发货</view>
 			
-			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid" @click="sellerCancel">取消订单</view>
-			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid" @click="sellerConfirm">确认订单</view>
+			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid && businessType == 2" @click="sellerCancel">取消订单</view>
+			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid && businessType == 1" @click="sellerConfirm">确认订单</view>
 			
 		</div>
 		
@@ -299,7 +291,8 @@
 		postOrderCancel,
 		postOrderConfirm,
 		sellerConfirm,
-		sellerCancel
+		sellerCancel,
+		orderDelivery
 	} from '@/api/userApi.js'
 	import {
 		getOrderCart
@@ -312,6 +305,7 @@
 		name: 'orddetail',
 		data() {
 			return {
+				goDetailNumber:'1',
 				uid:'',
 				businessType:'',
 				cancelReason:'',
@@ -360,7 +354,10 @@
 			// 用户类型
 			this.roleId    = uni.getStorageSync('roleId')
 			this.uid       = uni.getStorageSync('uid')
-			this.userApply = JSON.parse(uni.getStorageSync('userApply'))
+			if(uni.getStorageSync('userApply')){
+				this.userApply = JSON.parse(uni.getStorageSync('userApply'))
+				this.isAgentcy = this.userApply.isAgentcy
+			}
 			// 设备样式兼容
 			this.platform  = uni.getStorageSync('platform');
 			// 获取参数
@@ -376,6 +373,12 @@
 			}
 		},
 		methods: {
+			// 去企业店铺
+			goCompany(id){
+				uni.navigateTo({
+					url:'/pages/shop/shop/shop?shopId='+id
+				})
+			},
 			// 重新购买
 			goSubmit(){
 				console.log(this.order)
@@ -441,8 +444,10 @@
 			// 显示司机信息
 			showCarInfo(){
 				// 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核
-				if((this.orderId == 20002 && this.status >= 2) || this.status >= 3){
-					this.show()
+				if(this.status >= 3){
+					if(this.order.shopOrder.sendType == 1){
+						this.show()
+					}
 				}
 			},
 			// 拨打联系人电话
@@ -456,9 +461,25 @@
 			},
 			// 发货
 			deliverGoods(){
-				uni.navigateTo({
-					url:'/pages/user/order/delivery?shopId='+this.shopId + '&orderId=' + this.orderId
-				})
+				if(this.order.shopOrder.sendType == 1){
+					uni.navigateTo({
+						url:'/pages/user/order/delivery?shopId='+this.shopId + '&orderId=' + this.orderId
+					})
+				}else{
+					let data = {
+						orderId: this.orderId,
+						shopId: this.shopId
+					}
+					orderDelivery(data).then(res=>{
+						if(res.code == '1000'){
+							T.tips('发货成功')
+							this.getOrderDetailById(this.orderId, this.shopId)
+						}else{
+							T.tips(res.message || '发货失败')
+						}
+					})
+				}
+				
 			},
 			doConfirm() {
 				let _this = this
@@ -609,7 +630,7 @@
 										this.statusText = '已支付'
 										break
 									case 2:
-										this.statusText = '等待代办发货'
+										this.statusText = this.order.needAgentcy == 0 ? '等待发货':'等待代办发货'
 										break
 									case 3:
 										this.statusText = '等待买家收货'

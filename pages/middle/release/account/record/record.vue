@@ -1,6 +1,6 @@
 <template>
 	<view class="record">
-		<view @click="goDetail" v-if="records.length > 0" v-for="(item,index) in records" :key="index">
+		<view v-if="records.length > 0" v-for="(item,index) in records" :key="index">
 			<view class="title fs24 text-999">{{item.month}}</view>
 			<view class="items">
 				<view class="item cf" v-for="(it,ix) in item.list" :key="ix" @click="goDetail(it.id,it.type)">

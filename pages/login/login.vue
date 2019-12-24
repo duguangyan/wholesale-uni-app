@@ -111,16 +111,20 @@
 		},
 		onHide() {
 			console.log('onHide')
-			if (this.setCodeInterval != '') {
+			if (this.setCodeInterval == '') {
 				clearInterval(this.setCodeInterval)
 			}
 		},
 		onLoad(options) {
 			if (options.delta) this.delta = options.delta
 			if (options.from) this.from = options.from
+			if (this.setCodeInterval == '') {
+				clearInterval(this.setCodeInterval)
+			}
 		},
 		onShow() {
 			uni.setStorageSync('isLogin', 0)
+			uni.setStorageSync('loginClock',0)
 		},
 		methods: {
 			doConfirm() {
@@ -305,6 +309,7 @@
 								clearInterval(this.setCodeInterval)
 							} else {
 								this.codeNum--
+								console.log(this.codeNum)
 							}
 						}, 1000)
 					}

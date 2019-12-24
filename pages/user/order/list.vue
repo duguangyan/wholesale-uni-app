@@ -18,10 +18,12 @@
 		<view class="list" v-if="!hasOrders">
 
 			<view class="ul">
-				<view class="li" v-for="(item, index) in orders" :key="item.id">
-					<view class="title cf fs32 text-333">
-						<text class="fll fs-w">货主：</text>
-						<text class="fll fs-w">{{item.sellName}} </text>
+				<view class="li" v-for="(item, index) in orders" :key="index">
+					<view class="title cf fs28 text-333" @click="goToShop(item.shopId)">
+						<text class="fll fs-w" v-if="item.sellerId!=uid">货主:</text>
+						<text class="fll fs-w" v-if="item.sellerId!=uid">{{item.sellName}} </text>
+						<text class="fll fs-w" v-if="item.sellerId==uid">买家:</text>
+						<text class="fll fs-w" v-if="item.sellerId==uid">{{item.realName}} </text>
 						<view class="image fll">
 							<!-- <image src="/static/imgs/right.png" mode=""></image> -->
 						</view>
@@ -29,16 +31,16 @@
 							<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 							<text v-if="item.status === -1">已取消</text>
 							<text v-if="item.status === 0">待买家付款</text>
-							<text v-if="item.status === 2 && roleId != 20002">待代办发货</text>
+							<text v-if="item.status === 2 && roleId != 20002">待{{item.agentcyUserId?'代办':''}}发货</text>
 							<text v-if="item.status === 2 && roleId == 20002">待发货</text>
 							<text v-if="item.status === 3">待收货</text>
 							<text class="text-999" v-if="item.status === 4">已完成</text>
 							<text v-if="item.status === 5">已关闭</text>
-							<text v-if="item.status === 6">待货主审核</text>
+							<text v-if="item.status === 6">待货主确认</text>
 						</text>
 					</view>
 					<view class="mgb-30" v-for="good in item.orderDetailList" :key="good.id" >
-						<Good :item="good" :roleId='roleId'></Good>
+						<Good :item="good" :roleId='roleId' :isAgentcy="isAgentcy" :businessType='businessType'></Good>
 					</view>
 					
 					<view class="accu fs24" v-if="(roleId == '20001' || roleId == '20004') && item.sellerId == uid">订单金额:￥<text class='fs32'>{{(roleId == '20001' || roleId == '20004') && item.sellerId == uid?item.orderMoney:item.totalMoney}}</text></view>
@@ -46,7 +48,7 @@
 					<view class="operator">
 						<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 						<!-- <view tag="view" class="check-phy" v-if="item.status === 3" @click="goFreight(index)">查看物流</view> -->
-						<view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view>
+						<!-- <view tag="view" class="check-ord" @click="goDetail(index)">查看订单</view> -->
 						<view class="receive" v-if="item.status == 3 && businessType == 2" @click="postOrderConfirm(index)">确认收货</view>
 						<view class="receive" v-if="item.status == 0 && businessType == 2" @click="showPay(index)">去支付</view>
 						<view class="receive" v-if="item.status == 2 && roleId == '20002' && businessType == 1" @click="deliverGoods(index)">发货</view>
@@ -80,7 +82,8 @@
 		postOrderConfirm,
 		getOrderStat,
 		sellerCancel,
-		sellerConfirm
+		sellerConfirm,
+		orderDelivery
 	} from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	export default {
@@ -135,7 +138,8 @@
 				from:'',
 				roleId:'',
 				businessType:'',
-				userApply:''
+				userApply:'',
+				isAgentcy:''
 			}
 		},
 		components: {
@@ -176,7 +180,10 @@
 		onShow() {
 			this.roleId    = uni.getStorageSync('roleId')
 			this.uid       = uni.getStorageSync('uid')
-			this.userApply = JSON.parse(uni.getStorageSync('userApply')) 
+			if(uni.getStorageSync('userApply')){
+				this.userApply = JSON.parse(uni.getStorageSync('userApply')) 
+				this.isAgentcy = this.userApply.isAgentcy
+			}
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
 			console.log('platform:', this.platform)
@@ -189,11 +196,18 @@
 			}
 			// 获取订单列表
 			this.orders = []
+			this.pageIndex = 1
 			this.getOrders()
 			// 统计订单状态条数
 			this.getOrderStat()
 		},
 		methods: {
+			// 去店铺
+			goToShop(shopId){
+				uni.navigateTo({
+					url:'/pages/shop/shop/shop?shopId='+shopId
+				})
+			},
 			// 货主取消订单
 			sellerCancel(index){
 				let itemList = ['已断货','售罄','其他']
@@ -246,9 +260,35 @@
 			// 发货
 			deliverGoods(index){
 				let item = this.orders[index]
-				uni.navigateTo({
-					url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
-				})
+				// uni.navigateTo({
+				// 	url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
+				// })
+				
+				if(item.sendType == 1){
+					uni.navigateTo({
+						url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
+					})
+				}else{
+					let data = {
+						orderId: item.orderId,
+						shopId: item.shopId
+					}
+					orderDelivery(data).then(res=>{
+						if(res.code == '1000'){
+							T.tips('发货成功')
+							// 获取订单列表
+							this.orders = []
+							this.pageIndex = 1
+							this.getOrders()
+							// 统计订单状态条数
+							this.getOrderStat()
+						}else{
+							T.tips(res.message || '发货失败')
+						}
+					})
+				}
+				
+				
 			},
 			// 统计订单状态条数
 			getOrderStat(){

@@ -1,8 +1,8 @@
- let apiUrl = 'http://wsm.qinlvny.com'; // 微信 APP 正式
-// let apiUrl = ''; // H5正式
+// let apiUrl = 'https://wsm.qinlvny.com'; // 微信 APP 正式
+ let apiUrl = ''; // H5正式
 // let apiUrl = 'http://192.168.0.202:8000'; // 开发
 
-const versionNumber = 'V1.0.6.4'; //版本号
+const versionNumber = 'V1.0.8.2'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000/ws') {
 	uni.setStorageSync('v', versionNumber);

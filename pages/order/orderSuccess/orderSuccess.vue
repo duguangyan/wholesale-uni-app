@@ -9,7 +9,7 @@
 					订单提交成功,请等待货主确认
 				</div>
 				<div class="d2 flex text-333 fs28">
-					<p class="flex-1" v-if="isAgentcy == 1" @click="makePhoneCall">联系代办</p>
+					<!-- <p class="flex-1" v-if="isAgentcy == 1" @click="makePhoneCall">联系代办</p> -->
 					<p class="flex-1" @click="checkOrderDetal">查看订单</p>
 					<p class="flex-1" @click="goHome">返回首页</p>
 				</div>

@@ -156,11 +156,11 @@
 		},
 		onShow() {
       // 如果认证状态，打回认证
-      if(uni.getStorageSync('needIdentify')){
-        return uni.navigateTo({
-          url: '/pages/middle/identity/identity'
-        })
-      }
+      // if(uni.getStorageSync('needIdentify')){
+      //   return uni.navigateTo({
+      //     url: '/pages/middle/identity/identity'
+      //   })
+      // }
 			// 获取首页banner
 			this.getHomeList()
 			// 判断用户类型
@@ -411,7 +411,7 @@
 			// nav 去搜索页面
 			goSearchPage(item) {
 				let path = ''
-				if ((item.isCompany + '') === '1' && (item.isPerson + '')==='0' && (item.isAgentcy+'')==='0') {
+				if (item.isAgentcy == 0 && item.isCompany == 1 && item.isPerson == 0) {
 					path = '/pages/order/company/company?categoryId=' + item.componentId
 				} else {
 					path = '/pages/order/goodsList/goodsList?categoryId=' + item.componentId
@@ -421,7 +421,7 @@
 					url: path
 				})
 			},
-			// 去搜索页面
+			// 去搜索页面item.isCompany == 1 && 
 			goSearch() {
 				uni.navigateTo({
 					url: '/pages/main/search/search'

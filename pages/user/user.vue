@@ -10,8 +10,7 @@
 			<!-- 我的状态 -->
 			<view class="status">
 				<view class="img">
-					<image :src="headimageUrl" @click="goInfo"/>
-          
+					<image :src="headimageUrl || '/static/img/shop-avatar.png'" @click="goInfo"/>
 				</view>
 				
 			  <view class="content">
@@ -303,6 +302,7 @@
 			  position: absolute;
 			  right: 30upx;
 			  top: 100upx;
+			  z-index: 999999;
 			  >image{
 				  width: 100%;
 				  height: 100%;
@@ -367,6 +367,7 @@
 			  position: absolute;
 			  right: 30upx;
 			  top: 130upx;
+			  z-index: 999999;
 			  >image{
 				  width: 100%;
 				  height: 100%;

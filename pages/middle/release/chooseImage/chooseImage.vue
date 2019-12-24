@@ -89,6 +89,7 @@
 			// 保存
 			save(){
 				console.log(this.items)
+				this.isClock = false
 				if((this.items[0].imgs.length>0 || this.items[0].videos.length>0) && (this.items[1].imgs.length>0 || this.items[1].videos.length>0)){
 					uni.setStorageSync('goodsImgList',this.items)
 					uni.navigateBack({
@@ -142,6 +143,9 @@
 							tempFilePaths.forEach((item,index)=>{
 								_this.upload(item)
 							})
+						},
+						fail() {
+							_this.isClock = false
 						}
 					});
 				} else {
@@ -150,6 +154,9 @@
 						sourceType: ['camera', 'album'],
 						success: function (res) {
 							_this.upload(res.tempFilePath)
+						},
+						fail() {
+							_this.isClock = false
 						}
 					});
 				}
