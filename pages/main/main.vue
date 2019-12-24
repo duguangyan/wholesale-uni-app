@@ -455,7 +455,7 @@
 				})
         if(item.type == 6){
           uni.navigateTo({
-          	url: 'http://m.qinlvny.com/static/video.html?video=' + item.url
+          	url: '/pages/common/webview/webview?url=http://m.qinlvny.com/static/video.html?video=' + item.url
           });
 				}else if (item.type == 5) {
 					uni.navigateTo({
