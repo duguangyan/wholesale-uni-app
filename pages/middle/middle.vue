@@ -219,7 +219,7 @@
 				// 		url: '/pages/middle/identity/identity'
 				// 	})
 				// }
-				if(this.roleId == '20003' && this.userRealInfo){
+				if(this.roleId == '20003' && uni.getStorageSync('userRealInfo')){
 					this.items=[
 						{
 							text:'我是代办',

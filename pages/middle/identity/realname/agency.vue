@@ -391,15 +391,23 @@
 				// }
 
 				
-				if (this.fullAddress == '') {
-					T.tips('请选择地址')
+				if (this.hasfrom == 2 &&this.address.provinceId == '') {
+					T.tips('请选择种植区域')
+					return false
+				}
+				
+				if(this.hasfrom == 2 && this.productType == ''){
+					T.tips('请选择种植品种')
 					return false
 				}
 				
 				
-				
-				
 				if(this.hasfrom == 1){
+					if (this.address.provinceId == '') {
+						T.tips('请选择代办区域')
+						return false
+					}
+					
 					if (this.cardNo == '') {
 						T.tips('身份证号码不能为空')
 						return false
@@ -412,6 +420,7 @@
 						T.tips('身份证反面照不能为空')
 						return false
 					}
+					
 				}
 				
 				//  实名认证

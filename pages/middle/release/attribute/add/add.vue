@@ -1,6 +1,6 @@
 <template>
 	<view class="add">
-		<!-- <NavigationBar title="添加属性" :isClick="isClick" :clickTitle="clickTitle" @doClick="doClick"></NavigationBar> -->
+		<NavigationBar title="添加属性" :isClick="isClick" :clickTitle="clickTitle" @doClick="doClick"></NavigationBar>
 		<view class="content">
 			<!-- <view class="bb1">
 				<uniInput :before="'属性名'" :after="'请输入属性名称'" :name="'title'" :value="title" @input="getTitle"></uniInput>

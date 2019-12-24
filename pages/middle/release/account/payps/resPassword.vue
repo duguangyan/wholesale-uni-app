@@ -170,6 +170,8 @@
 		},
 		methods: {
 			writepwd(num) {
+				console.log(num)
+				console.log(this.numarr)
 				if (num == 12) {
 					this.close();
 					return;
@@ -183,10 +185,11 @@
 				} else {
 					this.boardlists[num - 1].checked = true;
 				}
-				this.numarr.push(num);
-				if (this.numarr.length > 6) {
-					return
+				
+				if (this.numarr.length >= 6) {
+					return false
 				}
+				this.numarr.push(num);
 				var that = this;
 				setTimeout(function() {
 					for (var i = 0; i < that.boardlists.length; i++) {

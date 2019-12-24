@@ -74,6 +74,7 @@
 	export default {
 		data() {
 			return {
+				isClock:true,
 				hasData:true,
 				goodsTitile:'',
 				num: 0,
@@ -113,6 +114,8 @@
 			
 		},
 		onShow() {
+			this.isClock = true
+			
 			if(this.goodsId!='' && this.shopId!=''){
 				uni.setNavigationBarTitle({
 				    title: '编辑商品'
@@ -624,16 +627,23 @@
 					unitName:goodsSkuList[0].unit
 				}
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)
+				
+				if(!this.isClock){
+					T.tips('请勿重复提交')
+					return false
+				}
+				this.isClock = false
 				if(this.goodsId!='' && this.shopId!=''){  // 编辑商品
 					GoodsSaveAndEditReq.goodsId = this.goodsId
 					GoodsSaveAndEditReq.shopId = this.shopId
-				
+					
 					postEditGoods(GoodsSaveAndEditReq).then(res=>{
 						if(res.code == '1000'){
 							uni.redirectTo({
 								url:'/pages/middle/release/sendSuccess/sendSuccess?id='+ res.data.id + '&shopId='+ res.data.shopId
 							})
 						}else{
+							this.isClock = true
 							T.tips(res.message || '发布失败')
 						}
 					}).catch(err=>{
@@ -648,6 +658,7 @@
 								url:'/pages/middle/release/sendSuccess/sendSuccess?id='+ res.data.id + '&shopId='+ res.data.shopId
 							})
 						}else{
+							this.isClock = true
 							T.tips(res.message || '发布失败')
 						}
 					}).catch(err=>{

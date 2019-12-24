@@ -31,7 +31,7 @@
 			<view class="uni-padding-wrap">
 				<view class="page-section swiper">
 					<view class="page-section-spacing">
-						<swiper @change="changeBanner" class="swiper" indicator-color="rgba(0,0,0,.3)" indicator-active-color='#FE3B0B'
+						<swiper @change="changeBanner" :circular="circular" class="swiper" indicator-color="rgba(0,0,0,.3)" indicator-active-color='#FE3B0B'
 						 :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 							<swiper-item v-for="(item,index) in adSet" :key="index" @click="goNextPage(item)">
 								<view class="swiper-item">
@@ -101,6 +101,7 @@
 	export default {
 		data() {
 			return {
+				circular:true,
 				goodsDetailRespList:[],
 				navList: [],
 				imgPath:'',
@@ -363,15 +364,20 @@
 																		uni.hideLoading();
 																		plus.runtime.restart();
 																	}, function(e) {
+																		uni.showToast('更新失败')
 																		uni.hideLoading();
 																		console.error('install fail...', e);
 																	});
 																}
+															},
+															fail() {
+																setTimeout(function() {
+																	uni.showToast('更新失败')
+																	uni.hideLoading();
+																}, 2000);
 															}
 														});
-														setTimeout(function() {
-															uni.hideLoading();
-														}, 2000);
+														
 													} else if (model.cancel) {
 														console.log('用户点击取消');
 														console.log(forceUpdate)

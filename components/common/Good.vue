@@ -32,7 +32,7 @@
       
       <!-- 店铺信息 -->
       <div v-if="scoped !== 'shop'" class="shop">
-        <span>{{good.realName}}</span>
+        <span>{{good.realName || good.enterpriseName}}</span>
         <span class="ml5" v-for="(area,areaIdx) in good.shopArea" :key="areaIdx">{{area}}</span>
       </div>
 
