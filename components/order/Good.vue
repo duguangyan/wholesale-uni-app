@@ -6,13 +6,16 @@
 				<image :src="item.imgUrl" mode=""></image>
 			</view>
 			<view class="fll info text-333 fs28">
+        <view class="flr fs24 text-999 num">
+        	x{{item.num}}
+        </view>
 				<view class="name ellipsis-line2">
 					{{item.goodsName || ''}}
 				</view>
 				<view class="tip fs24 text-999 ellipsis">
 					{{item.skuDesc || ''}}
 				</view>
-				<view class="cf" v-if="businessType == 2 && item.agentcyPrice">
+				<view class="cf agent-fee" v-if="businessType == 2 && item.agentcyPrice">
 					<view class="fll">
 						代办费:¥{{item.agentcyPrice || '0'}} 元/<text v-if="item.goodsUnit"></text>{{item.goodsUnit || '斤'}}
 					</view>
@@ -24,9 +27,7 @@
 					<view class="fll"> 
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="flr fs24 text-999 num">
-						x{{item.num}}
-					</view>
+					
 				</view>
 			</view>
 		</view>
@@ -85,7 +86,10 @@
 
 <style lang="scss" scoped>
 	.content {
-		
+		.agent-fee{
+      position: absolute;
+      bottom: 40upx;
+    }
 		.item{
 			.image{
 				width: 200upx;
@@ -100,6 +104,8 @@
 			.info{
 				width: 470upx;
 				margin-left: 20upx;
+        position: relative;
+        height: 204upx;
 				.name{
 					width: 470upx;
 					height: 74upx;
@@ -108,12 +114,16 @@
 					padding: 4upx 0;
 					width: 470upx;
 				}
+        .num{
+        	position: absolute;
+        	bottom: 40upx;
+          right: 0;
+        }
 				.price{
 					margin-top: 20upx;
-					.num{
-						position: relative;
-						top: 4upx;
-					}
+          position: absolute;
+          bottom: 0;
+					
 				}
 			}
 		}

@@ -45,9 +45,9 @@
 				</view>
 			</view>
 			<view class="item-1">
-				<view class="fll">详细地址</view>
+				<view class="fll bold">详细地址</view>
 				<view class="flr detailed ">
-					<input type="text" v-model="address" :disabled="disabled" placeholder="输入详细地址">
+					<input type="text" v-model="address" :disabled="disabled" placeholder="输入详细注册地址和门牌号">
 				</view>
 			</view>
 		</view>
@@ -106,12 +106,12 @@
 			</view>
 			<view class="item" v-for="(item,index) in areas" :key="index">
 				<view class="title block">
-					<text>经营地区</text> <text class="fs24 text-999 fg1">（可通过“加号”增加经营地区）</text>
+					<text>经营地区</text> <text class="fs24 text-999 fg1"><text v-if="index == 0"></text>（可通过“加号”增加经营地区）</text>
           <view class="flr fs24 text-theme addanddel" v-if="index==0 && !disabled" @click="addAreas">+新增地区</view>
+          <view class="flr fs24 text-theme addanddel" v-if="index>0 && !disabled" @click="delAreas(index)">-删除</view>
 				</view>
 				<view class="choose cf">
 					<view class="fll" @click="showPickerAreas(index)" :class="{'text-333':item.province!=''}">{{item.province==''?'请选择经营地区':item.province + ' ' + item.city}}</view>
-					<view class="flr fs24 text-theme addanddel" v-if="index>0 && !disabled" @click="delAreas(index)">-删除</view>
 					
 					<view class="flr right" v-if="!disabled">
 						<image src="/static/imgs/right.png"></image>
@@ -640,6 +640,10 @@
 </script>
 
 <style lang="scss" scoped>
+  .bold{
+    font-size: 30upx;
+    color: #333;
+  }
   .block{
     display: flex;
     justify-content: flex-start;
@@ -664,7 +668,7 @@
 			margin: 30upx;
 			margin-bottom: 50upx;
 			.title{
-				font-size: 32upx;
+				font-size: 30upx;
 				color: #333;
 				margin-bottom: 30upx;
 				.tips{
@@ -727,6 +731,10 @@
 					color: #CCCCCC;
 					border-bottom: 1upx solid #F0F0F0;
 					padding: 30upx 0;
+          .del{
+            position: relative;
+            top: -54upx;
+          }
 					.fll{
 						width: 500upx;
 					}
@@ -786,7 +794,7 @@
 				height: 100upx;
 				line-height: 100upx;
 				.fll{
-					font-size: 32upx;
+					font-size: 30upx;
 					color: #333;
 					width: 25%;
 				}

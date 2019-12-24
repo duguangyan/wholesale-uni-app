@@ -2,14 +2,14 @@
 	<view class="price">
 		
 		<view class="unit cf" @click="getUnit" >
-			<view class="fll"> <text class="text-theme mgr-10">*</text> <text>计量单位</text></view>
+			<view class="fll fs30"> <text class="text-theme mgr-10">*</text> <text>计量单位</text></view>
 			<view class="flr image"><image src="/static/imgs/right.png" mode=""></image></view>
-			<view class="flr text-999 mgr-20" :class="{'text-333':unit!=''}">{{unit?unit:'选择计量单位'}}</view>
+			<view class="flr text-999" :class="{'text-333':unit!=''}">{{unit?unit:'选择计量单位'}}</view>
 		</view>
 		
 		<view class="num cf" >
-			<view class="fll"> <text class="text-theme mgr-10">*</text> <text>库存</text></view>
-			<view class="input flr text-333 mgr-20">
+			<view class="fll"> <text class="text-theme mgr-10 fs30">*</text> <text>库存</text></view>
+			<view class="input flr text-333">
 				<input type="number" maxlength="30" @input="checkStock" v-model="stock" placeholder="请输入库存">
 			</view>
 		</view>
@@ -26,8 +26,8 @@
 				<view class="fll"><input type="number" @blur="blurStartQuantity(index)" maxlength="10" @input="checkName" v-model="item.startQuantity" /></view>
 				<view class="fll">价格(元)</view>
 				<view class="fll"><input type="digit" maxlength="10" @input="checkValue()" @blur='blurValue(index)' v-model="item.price" /></view>
-				<view class="fll add" v-if='index == 0' @click="add(index)">新增</view>
-				<view class="fll del" v-if='index != 0' @click="del(index)">删除</view>
+				<view class="flr add mr15" v-if='index == 0' @click="add(index)">新增</view>
+				<view class="flr del mr15" v-if='index != 0' @click="del(index)">删除</view>
 			</view>
 		</view>
 	
@@ -314,6 +314,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .mr15{
+    margin-right: 30upx;
+  }
 	.price{
 		background: #fff;
 		min-height: 100vh;
@@ -339,7 +342,7 @@
 			padding-top: 20upx;
 			.input{
 				width:200upx;
-				height:56upx;
+				line-height:56upx;
 				border:1upx solid rgba(230,230,230,1);
 				border-radius:28upx;
 				font-size: 30upx;
@@ -348,7 +351,7 @@
 				top: 10upx;
 				input{
 					position: relative;
-					top: 10upx;
+					// top: 10upx; 
 				}
 			}
 			.info{
@@ -363,6 +366,7 @@
 			.image{
 				width: 24upx;
 				height: 24upx;
+        margin-top: 28upx;
 				>image{
 					width: 100%;
 					height: 100%;
@@ -392,13 +396,13 @@
 			background: #eee;
 		}
 		.ul{
-			margin:0 30upx 30upx 30upx;
+			margin:0 0 30upx 30upx;
 			.li{
 				height: 56upx;
 				line-height: 56upx;
 				font-size: 28upx;
 				color: #333;
-				margin: 20upx 0;
+				margin: 30upx 0;
 				input{
 					width:160upx;
 					height:56upx;

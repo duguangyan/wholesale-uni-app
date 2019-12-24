@@ -1,4 +1,4 @@
- let apiUrl = 'https://wsm.qinlvny.com'; // 微信 APP 正式
+   let apiUrl = 'https://wsm.qinlvny.com'; // 微信 APP 正式
 // let apiUrl = ''; // H5正式
 // let apiUrl = 'http://192.168.0.202:8000'; // 开发
 

@@ -39,7 +39,7 @@
       <view v-if="good.goods.showStyle == 3 || good.goods.showStyle == 1">
         <text class="price">
           <text class="text-red">{{ good.goods.minPrice || 0 }}</text>元
-          <text class="fs24 text-000" v-if="good.goodsSkuList.length <= 1">{{ '/' + good.goods.unitName }}</text>
+          <text class="fs24 text-000 ml5" v-if="good.goodsSkuList.length <= 1">{{ '/' + good.goods.unitName }}</text>
         </text>
         <text v-if="good.goodsSkuList.length > 1">
           <text class="text-red">&nbsp;~&nbsp;</text>

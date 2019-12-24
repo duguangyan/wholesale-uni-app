@@ -163,7 +163,7 @@
 				<view class="fll">物流方式:</view>
 				<view class="flr" @click="showCarInfo">
 					<text class="text-theme">{{order.shopOrder.sendType == 1 ?'平台选车':'自驾车辆'}}</text>
-					<view class="right" v-if="order.shopOrder.sendType == 2">
+					<view class="right" v-if="order.shopOrder.sendType == 1">
 						<image src="/static/imgs/right.png" mode=""></image>
 					</view>
 				</view>
@@ -265,7 +265,7 @@
 		    >
 		    <view class="luPopupWrapper-content">
 				<view class="title">
-					<text class="text-theme fs34">司机信息</text>
+					<text class="text-theme fs36">司机信息</text>
 					<view class="close" @click="close"><image src="/static/img/tag-close2.png" mode=""></image></view>
 				</view>
 				<view class="item">
@@ -276,6 +276,7 @@
 				</view>
 				<view class="item" @click="callPhone(order.orderShipping.driverPhone)">
 					电话: {{order.orderShipping.driverPhone || ''}}
+          <view class="call-btn">立即拨打</view>
 				</view>
 			</view>
 		</luPopupWrapper>
@@ -688,6 +689,18 @@
 </script>
 
 <style lang="scss" scoped>
+  .call-btn{
+    line-height: 30px;
+    border-radius: 15px;
+    color: #FE3B0B;
+    border: 1px solid #FE3B0B;
+    font-size: 14px;
+    text-align: center;
+    width: 120px;
+    position: absolute;
+    right: 30px;
+    top: 10px;
+  }
 	.big-btn-active{
 		margin-top: 60upx;
 		margin-bottom: 60upx;
@@ -720,6 +733,7 @@
 			height: 100upx;
 			border-bottom: 1upx solid #f5f5f5;
 			color: #333333;
+      position: relative;
 		}
 		.title{
 			position: relative;
@@ -853,7 +867,7 @@
 						display: inline-block;
 						position: relative;
 						left: 10upx;
-						top: 4upx;
+						top: 38upx;
 						>image{
 							width: 100%;
 							height: 100%;
@@ -866,7 +880,7 @@
 						display: inline-block;
 						position: relative;
 						right:10upx;
-						top: 8upx;
+						top: 36upx;
 						>image{
 							width: 100%;
 							height: 100%;
@@ -1038,6 +1052,7 @@
 				color: #999;
 				font-size: 24upx;
 				margin-top: 20upx;
+        position: relative;
 			}
 		}
 

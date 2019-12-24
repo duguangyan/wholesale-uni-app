@@ -459,8 +459,11 @@
 				addHit({
 					id: item.id
 				})
-
-				if (item.type == 5) {
+        if(item.type == 6){
+          uni.navigateTo({
+          	url: '/pages/common/webview/webview?url=http://m.qinlvny.com/static/video.html?video=' + item.url
+          });
+				}else if (item.type == 5) {
 					uni.navigateTo({
 						url: '/pages/order/goodsDetail/goodsDetail?shopId=' + item.id + '&goodsId=' + item.url
 					});

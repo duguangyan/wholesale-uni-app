@@ -8,17 +8,17 @@
 					<image src="/static/imgs/agency-right.png"></image>
 				</view>
 			</view>
-		</view>
+		</view> 
 		
 		<view class="user">
 			<view class="item-1">
-				<view class="fll">姓名</view>
+				<view class="fll bold">姓名</view>
 				<view class="flr">
 					<input type="text" placeholder="请输入货主姓名">
 				</view>
 			</view>
 			<view class="item-1">
-				<view class="fll">手机号</view>
+				<view class="fll bold">手机号</view>
 				<view class="flr">
 					<input type="text" placeholder="请输入手机号">
 				</view>
@@ -34,7 +34,7 @@
 		<view class="content">
 			<view class="item">
 				<view class="title">
-					<text>经营地区</text>
+					<text class="bold">经营地区</text>
 				</view>
 				<view class="choose cf" @click="showPicker">
 					<view class="fll" :class="{'text-333':fullAddress!=''}">{{fullAddress==''?'请选择经营地区':fullAddress}}</view>
@@ -47,7 +47,7 @@
 			</view>
 			<view class="item">
 				<view class="title">
-					<text>经营类型</text> <text class="fs28 text-666">（审核通过后不可更改）</text>
+					<text class="bold">经营类型</text> <text class="fs28 text-666">（审核通过后不可更改）</text>
 				</view>
 				<view class="choose cf">
 					<view class="fll">请选择类型:如农产品、蔬菜、白菜</view>
@@ -227,6 +227,10 @@
 </script>
 
 <style lang="scss" scoped>
+  .bold{
+    font-size: 30upx;
+    color: #000;
+  }
 	// 货主
 	.agency {
 		background: #fff;

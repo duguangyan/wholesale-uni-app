@@ -41,9 +41,16 @@ export default {
   },
   components: {},
   onLoad(options) {
-    this.fromWxLoginData = JSON.parse(options.data);
-    console.log('fromWxLoginData->', this.fromWxLoginData);
-    this.wxCode = options.code;
+    this.fromWxLoginData = JSON.parse(options.data || {});
+    // console.log('fromWxLoginData->', this.fromWxLoginData);
+    // this.wxCode = options.code;
+    if(window){
+      let location = window.location;
+      let search = location.search.replace(/\?/,'');
+      let reg = new RegExp('(^|&)code=(.*?)(&|$)');
+      let res = search.match(reg);
+      this.wxCode = res?res[2]:null;
+    }
   },
   onShow() {
     uni.setStorageSync('isLogin', 0);
