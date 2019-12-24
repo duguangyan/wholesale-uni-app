@@ -292,7 +292,7 @@
 						let userApply    = JSON.parse(uni.getStorageSync('userApply')) 
 						userApply.status = 3
 						this.userApply   = userApply
-						uni.setStorageSync('userApply',userApply)
+						uni.setStorageSync('userApply',JSON.stringify(userApply))
 						this.disabled    = false
 						this.isSetBack   = false
 					}
