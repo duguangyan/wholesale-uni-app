@@ -130,8 +130,8 @@ export default {
             client_secret: 'xx',
             systemId: '2',
             deviceId: this.deviceId,
-            mobile: this.form.phone,
-            smsCode: this.form.code,
+            mobile: this.phone,
+            smsCode: this.code,
             wxCode: this.wxCode,
             wxScope: 'snsapi_base'
           };
