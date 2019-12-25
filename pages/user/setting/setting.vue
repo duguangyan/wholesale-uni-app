@@ -27,10 +27,10 @@
 					  	<view class="flr fs30 text-999 value">{{userApply.realName||''}}</view>
 					  </view> -->
           </view>
-          <view class="cf li" @click="goAddress">
+          <!-- <view class="cf li" @click="goAddress">
             <view class="fll fs28">收货地址</view>
             <view class="icon flr vertical-middle"><image src="/static/img/tag-go.png" /></view>
-          </view>
+          </view> -->
           <view class="cf li">
             <view class="fll fs28">手机号</view>
             <view class="icon flr vertical-middle" @click="goChangePhone"><image src="/static/img/tag-go.png" /></view>
