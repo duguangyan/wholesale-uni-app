@@ -127,8 +127,12 @@
         <!-- <view v-if="item.type==3" :class="{'img-con':item.type==3}" @click="show(item)">
 					<image class='img2' src="../../../static/img/play.png" mode=""></image>
 				</view> -->
-        <video v-if="item.type == 2" :src="item.imgUrl" enable-danmu danmu-btn controls></video>
-        <img v-if="item.type == 1" class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
+        <!-- <video v-if="item.type == 2" :src="item.imgUrl" enable-danmu danmu-btn controls></video> -->
+        <view class="house" @click="item.type == 3?showPlayer2(item.sort): ''">
+          <image v-if="item.type==3" class="img1" style="width: 100upx;height: 100upx;" src="../../../static/img/play.png" mode="">
+          <img class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
+        </view>
+        
       </view>
     </view>
 
@@ -369,6 +373,10 @@ var vm = {
       vm.isPlayer = true;
       vm.videoUrl = vm.videoObj[sort];
     },
+    showPlayer2(sort) {
+      vm.isPlayer = true;
+      vm.videoUrl = vm.detVideoObj[sort];
+    },
     load() {
       getGoodsDetail({
         shopId: this.shopId,
@@ -402,18 +410,13 @@ var vm = {
                 this.videoObj[item.sort] = item.imgUrl;
               }
             } else {
-              // if (item.type != 2) {
-              //   detailImageList.push(item);.push(item);
-              // } else {
-              //   this.detVideoObj[item.sort] = item.imgUrl;
-              // }
-              // if (item.type != 2) {
-              detailImageList.push(item);
-              // }
+              if (item.type != 2) {
+                detailImageList.push(item);
+              } else {
+                this.detVideoObj[item.sort] = item.imgUrl;
+              }
+              // detailImageList.push(item);
             }
-            // } else {
-            //   this.videoObj[item.sort] = item.imgUrl;
-            // }
           });
           this.imageList = imageList;
           this.detailImageList = detailImageList;
@@ -885,6 +888,12 @@ export default vm;
 }
 .mr10 {
   margin-right: 20upx;
+}
+.house{
+  position: relative;
+  img{
+    vertical-align: top;
+  }
 }
 video {
   width: 750upx;
