@@ -547,23 +547,26 @@
 				if(categorysInput.length>0){
 					
 					categorysInput.forEach((item,index)=>{
-						let obj = {
-							categoryAttrId:item.id,
-							goodsAttrValueList:[
-								{
-									categoryAttrId:item.id,
-									remark:'',
-									sort:index+1,
-									value:item.inputVal	
-								}
-							],
-							goodsId:'',
-							name:item.name,
-							nameGroup:'',
-							inputType:item.inputType,
-							sort:goodsAttrList.length + 1 + index
+						if(item.inputVal != ''){
+							let obj = {
+								categoryAttrId:item.id,
+								goodsAttrValueList:[
+									{
+										categoryAttrId:item.id,
+										remark:'',
+										sort:index+1,
+										value:item.inputVal	
+									}
+								],
+								goodsId:'',
+								name:item.name,
+								nameGroup:'',
+								inputType:item.inputType,
+								sort:goodsAttrList.length + 1 + index
+							}
+							goodsAttrList.push(obj)
 						}
-						goodsAttrList.push(obj)
+						
 					})
 				}
 				

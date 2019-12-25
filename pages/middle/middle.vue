@@ -286,7 +286,7 @@
 			getAccountSub(){
 				accountSub().then(res=>{
 					if(res.code == '1000'){
-						this.totalPrice       = res.data.balance
+						this.totalPrice       = JSON.stringify(res.data.balance)
 						// this.bankCardNum      = res.data.bankCardNum
 						// this.setPayPwd        = res.data.setPayPwd
 						// this.accountSubDates  = res.data

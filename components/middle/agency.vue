@@ -106,7 +106,7 @@
 				default: ''
 			},
 			totalPrice:{
-				type: Number || String,
+				type: String || Number,
 				default: ''
 			},
 			orderInfos:{

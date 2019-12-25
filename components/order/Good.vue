@@ -3,7 +3,7 @@
 	<view class="content" @click="goGoodsDetail">
 		<view class="item cf">
 			<view class="fll image">
-				<image :src="item.imgUrl" mode=""></image>
+				<image :src="item.imgUrl" mode="aspectFill" lazy-load></image>
 			</view>
 			<view class="fll info text-333 fs28">
         <view class="flr fs24 text-999 num">

@@ -3,14 +3,14 @@
 		<NavigationBar title="选择属性" :isClick="isClick" :clickTitle="clickTitle" @doClick="doClick"></NavigationBar>
 		<!-- <view class="height80"></view> -->
 		<!-- <view class="edit fs28" @click="goAdd">新增属性</view> -->
-		<view class="address cf" @click="showPicker" v-if="hasAddress.length>0">
-			<view class="fll"> <text class="text-theme mgr-10">*</text> <text>产地</text></view>
+		<view class="address cf" @click="showPicker" v-if="hasAddress.length>0 && hasAddress[0].status == 1">
+			<view class="fll"> <text class="text-theme mgr-10" v-if="hasAddress[0].isRequire == 1">*</text> <text>产地</text></view>
 			<view class="flr image"><image src="/static/imgs/right.png" mode=""></image></view>
 			<view class="flr text-999 mgr-20" :class="{'text-333':addressInfo!=''}">{{addressInfo?addressInfo:'请选择产地'}}</view>
 		</view>
 		<view class="content">
-			<view class="list" v-for="(item,index) in categorys" :key="index">
-				<view class="title fs32"><text class="text-theme mgr-10">*</text> <text>{{item.name}}</text></view>
+			<view class="list" v-for="(item,index) in categorys" :key="index" v-if="item.status == 1">
+				<view class="title fs32"><text class="text-theme mgr-10" v-if="item.isRequire == 1">*</text> <text>{{item.name}}</text></view>
 				<view class="items cf">
 					<view class="item fll" :class="{'active': it.isCheck}"  v-for="(it,ix) in item.valueSet" :key="ix" @click='checkIndex(index,ix,item.inputType)'>
 						{{it.value}}
@@ -18,10 +18,10 @@
 				</view>
 			</view>
 			
-			<view class="list" v-for="(item,index) in categorysInput" :key="index">
-				<view class="title fs30">{{item.name}}</view>
+			<view class="list" v-for="(item,index) in categorysInput" :key="index" v-if="item.status == 1">
+				<view class="title fs30"><text class="text-theme mgr-10" v-if="item.isRequire == 1">*</text> <text>{{item.name}}</text></view>
 				<view class="items">
-					<input type="text" @input="doInputValue" v-model="item.inputVal" placeholder="自定义输入">
+					<input type="text" @input="doInputValue" maxlength="20" v-model="item.inputVal" placeholder="自定义输入(最多20个字符)">
 				</view>
 			</view>
 			
@@ -211,13 +211,18 @@
 			// 判断是否选完数据
 			assessHasData(){
 				let n = 0
+				let m = 0
 				 this.categorysInput.forEach(item=>{
-					if(item.inputVal !=''){
-						n++
-					}
+					 if(item.isRequire == 1){
+						 m++
+						 if(item.inputVal !=''){
+						 	n++
+						 }
+					 }
+					
 				 })
 				 let isFalse = true
-				 if(n == this.categorysInput.length){
+				 if(n == m){
 					isFalse = false
 				 }
 				 
