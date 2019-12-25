@@ -1,5 +1,5 @@
 <template>
-    <view class="mine">
+  <view class="mine">
 		<view class="top">
 			<view class="img">
 				<image src="/static/img/bg-mine.png" mode=""></image>
@@ -10,7 +10,7 @@
 			<!-- 我的状态 -->
 			<view class="status">
 				<view class="img">
-					<image :src="headimageUrl || '/static/img/shop-avatar.png'" @click="goInfo"/>
+					<image :src="headimageUrl || '/static/img/shop-avatar.png'" @click="goInfo"></image>
 				</view>
 				
 			  <view class="content">
@@ -24,39 +24,40 @@
 			  </view>
 			</view>
 		</view>
-        <!-- 我的订单 -->
-        <view class="order">
-          <view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
-            <view class="p1 fll fs36">我的订单</view>
-			<view class="img flr" :class="{platformOPPO: platform == 1}" >
-				<image src="/static/img/tag-go.png"/>
-			</view>
-			<view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
-          </view>
-          <view class="tags">
-            <view class="li" v-for="(item,index) in titles" :key="index" @click="goOrderList(index)">
-				<view class="img" :class="{'Android4': platform == 1}">
-					<image :src="item.u"/>
-				</view>
-				<view class="tip" v-if="item.tip!=''">{{item.tip}}</view>
-              <view class="fs24 mgt-10" :class="{'Android3': platform == 1}">{{item.t}}</view>
-            </view>
-          </view>
+    <!-- 我的订单 -->
+    <view class="order">
+      <view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
+        <view class="p1 fll fs36">我的订单</view>
+        <view class="img flr" :class="{platformOPPO: platform == 1}" >
+          <image src="/static/img/tag-go.png"/>
         </view>
-    
-        <!-- 我的收藏 -->
-       <!-- <view class="collection">
-          <view class="body cf" @click="goCollection">
-            <view class="fs36 fll fs28" :class="{'Android2': platform == 1}">我的收藏</view>
-            <view class="img flr">
-              <image src="../../static/img/tag-go.png"/>
-            </view>
-          </view>
-        </view> -->
-		 <!-- <TabBar :checkIndex='checkIndex'></TabBar> -->
       </view>
-	 
-	</view>  
+			<view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
+
+      <view class="tags">
+        <view class="li" v-for="(item,index) in titles" :key="index" @click="goOrderList(index)">
+          <view class="img" :class="{'Android4': platform == 1}">
+            <image :src="item.u"></image>
+          </view>
+          <view class="tip" v-if="item.tip!=''">{{item.tip}}</view>
+          <view class="fs24 mgt-10" :class="{'Android3': platform == 1}">{{item.t}}</view>
+          
+        </view>
+      </view>
+    </view>
+      
+      
+    <!--  -->
+    <view class="gray-line"></view> 
+    <view class="single-item fir-item" @click="navToAd">
+      <text>我的地址</text>
+      <image src="/static/img/tag-go.png"/>
+    </view>
+    <view class="single-item" @click="navToSys">
+      <text>系统设置</text>
+      <image src="/static/img/tag-go.png"/>
+    </view>
+	</view>
 </template>
 
 <script>
@@ -123,6 +124,16 @@
 		    }
 		},
         methods: {
+       navToAd(){
+         uni.navigateTo({
+           url: '/pages/user/addlist/addlist'
+         })
+       },
+       navToSys(){
+         uni.navigateTo({
+           url: '/pages/user/sys/sys'
+         })
+       },
 			// 获取用户信息
 			getUserInfoDates() {
 				if(this.roleId){
@@ -243,6 +254,31 @@
 </script>
 
 <style lang="scss" scoped>
+.gray-line{
+  height: 20upx;
+  width: 100%;
+  background: #f5f5f5;
+}
+.fir-item{
+  margin-top: 60upx;
+  border-bottom: 1px solid #f5f5f5;
+}
+.single-item{
+  line-height: 100upx;
+  color: #333;
+  font-size: 30upx;
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 30upx;
+  align-items: center;
+  image{
+    width: 40upx;
+    height: 40upx;
+  }
+  &>text{
+    flex-grow: 1;
+  }
+}
 .Android1{
 	position: relative;
 	top: 24upx !important;
