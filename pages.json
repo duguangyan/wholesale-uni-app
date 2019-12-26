@@ -161,7 +161,7 @@
     }, {
       "path": "pages/common/webview/webview",
       "style": {
-        "navigationBarTitleText": "网络地址"
+        "navigationBarTitleText": ""
       }
     }, {
       "path": "pages/login/binding/binding",

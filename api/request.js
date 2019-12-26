@@ -2,9 +2,9 @@
 // let apiUrl = ''; // H5正式
 // let apiUrl = 'http://192.168.0.202:8000'; // 开发
 
-const versionNumber = 'V1.0.8'; //版本号
+const versionNumber = 'V1.0.9.2'; //版本号
 
-if (apiUrl == 'http://192.168.0.202:8000/ws') {
+if (apiUrl == 'http://192.168.0.202:8000') {
 	uni.setStorageSync('v', versionNumber);
 	uni.setStorageSync('s', '开发');
 } else {
