@@ -272,8 +272,8 @@
   margin: 0 30upx;
   align-items: center;
   image{
-    width: 40upx;
-    height: 40upx;
+    width: 20upx;
+    height: 20upx;
   }
   &>text{
     flex-grow: 1;
