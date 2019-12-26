@@ -105,6 +105,7 @@ export default {
     },
     // 登录
     dologin: function() {
+      let self = this
       if (this.isRight) {
         //#ifdef APP-PLUS
         var uuid = plus.device.uuid;
@@ -142,11 +143,31 @@ export default {
             wxCode: this.wxCode,
             wxScope: 'snsapi_base'
           };
-          getOpenId({
-            providerId: 'weixinmp'
-          }).then(data => {
-            uni.setStorageSync('openId', open.data.providerUserId)
-          });
+          postUserLogin(data)
+            .then(res => {
+              uni.setStorageSync('access_token', res.access_token);
+              //uni.setStorageSync('access_token', res.refresh_token)
+              uni.setStorageSync('uid', res.id);
+              uni.setStorageSync('phone', self.phone);
+              if (self.setCodeInterval != '') {
+                clearInterval(self.setCodeInterval);
+              }
+              // 获取用户信息
+              getOpenId({
+                providerId: 'weixinmp'
+              }).then(data => {
+                uni.setStorageSync('openId', open.data.providerUserId)
+                self.getUserInfo();
+              });
+              
+            })
+            .catch(err => {
+              console.log(JSON.stringify(err));
+              T.tips(err.message || '登录错误');
+            });
+          
+          
+          return 
         } else {
           // APP
           data = {
