@@ -33,6 +33,15 @@
           "titleView": false
         }
       }
+    },{
+      "path": "pages/user/sys/sys",
+      "style": {
+        "navigationBarTitleText": "系统设置",
+        // "navigationStyle": "custom",
+        "app-plus": {
+          "titleView": false
+        }
+      }
     }, {
       "path": "pages/user/setting/setting",
       "style": {
