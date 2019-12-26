@@ -229,38 +229,46 @@
 			},
 			// 编辑商品详情 ->货品属性
 			assembleAttrList(res){
+				
+				
+				let attrList        = res.data.goodsDetail.goodsDetailAttrList
+				let categorysValues = []
+				let categorysInput  = []
+				attrList.forEach(item=>{
+					// 地址
+					if(item.inputType==0){
+						let address = []
+						item.goodsDetailAttrValueList.forEach((it,ix)=>{
+							let obj = {"province":"","provinceId":"","city":it.remark,"cityId": it.value}
+							address.push(obj)
+						})
+						
+						uni.setStorageSync('addCategoryAddress',address)
+					}
+					// 后台属性
+					if(item.inputType==2 || item.inputType==1){
+						categorysValues.push(item)
+					}
+					// 填写的属性
+					if(item.inputType==4){
+						item.inputVal = item.goodsDetailAttrValueList[0].value
+						categorysInput.push(item)
+					}
+					
+					if(item.inputType!=0){
+						this.attribute = ''
+						item.goodsDetailAttrValueList.forEach(it=>{
+							this.attribute += ' ' + it.value
+						})
+					}
+				})
+				
+				
 				if(uni.getStorageSync('categorysValues')){
 					if(uni.getStorageSync('attribute')) this.attribute = uni.getStorageSync('attribute')
-				}else{
-					let attrList        = res.data.goodsDetail.goodsDetailAttrList
-					let categorysValues = []
-					let categorysInput  = []
-					attrList.forEach(item=>{
-						// 地址
-						if(item.inputType==0){
-							let address = {"province":"","provinceId":"","city":item.goodsDetailAttrValueList[0].remark,"cityId": item.goodsDetailAttrValueList[0].value}
-							uni.setStorageSync('addCategoryAddress',JSON.stringify(address))
-						}
-						// 后台属性
-						if(item.inputType==2 || item.inputType==1 || item.inputType==null){
-							categorysValues.push(item)
-						}
-						// 填写的属性
-						if(item.inputType==4){
-							categorysInput.push(item)
-						}
-						
-						if(item.inputType!=0){
-							item.goodsDetailAttrValueList.forEach(it=>{
-								this.attribute += ' ' + it.value
-							})
-						}
-					})
-					uni.setStorageSync('categorysValues',categorysValues)
-					uni.setStorageSync('categorysInput',categorysInput)
 				}
-				
-				
+				uni.setStorageSync('categorysValues',categorysValues)
+				uni.setStorageSync('categorysInput',categorysInput)
 				
 			},
 			// 编辑商品详情 ->货品品种
@@ -419,8 +427,8 @@
 				
 				// 数据处理 适配后台DTO
 				let goodsAttrList = []
-				if(addCategoryAddress){
-					addCategoryAddress = JSON.parse(addCategoryAddress)
+				if(addCategoryAddress.length>0){
+					
 					let categorysDates = uni.getStorageSync('categorysDates')
 					let categoryAttrId = ''
 					if(categorysDates && categorysDates.length>0){
@@ -430,24 +438,26 @@
 							}
 						})
 					}
+					addCategoryAddress.forEach((item,index)=>{
+						let obj = {
+							categoryAttrId,
+							goodsAttrValueList:[
+								{
+									categoryAttrId,
+									remark:item.city,
+									sort:1,
+									value:item.cityId	
+								}
+							],
+							goodsId:'',
+							name:'产地',
+							nameGroup:'',
+							inputType:0,
+							sort:1
+						}
+						goodsAttrList.push(obj)
+					})
 					
-					let obj = {
-						categoryAttrId,
-						goodsAttrValueList:[
-							{
-								categoryAttrId,
-								remark:addCategoryAddress.province + addCategoryAddress.city,
-								sort:1,
-								value:addCategoryAddress.cityId	
-							}
-						],
-						goodsId:'',
-						name:'产地',
-						nameGroup:'',
-						inputType:0,
-						sort:1
-					}
-					goodsAttrList.push(obj)
 				}
 				if(categorysValues.length>0){
 					console.log(categorysValues)
@@ -626,7 +636,7 @@
 					shopId:'',
 					showStyle:2,
 					sort:1,
-					unit:goodsSkuList[0].unitId,
+					unit:this.editGoods.unit || goodsSkuList[0].unitId,
 					unitName:goodsSkuList[0].unit
 				}
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)

@@ -66,16 +66,19 @@
 			this.getCategoryUnitList()
 			// 获取缓存数据
 			if(uni.getStorageSync('goodsSkuList')){
-				let goodsSkuList = uni.getStorageSync('goodsSkuList')
-				this.stock = goodsSkuList[0].stock
-				this.unit  = goodsSkuList[0].unit
+				let goodsSkuList  = uni.getStorageSync('goodsSkuList')
+				this.stock        = goodsSkuList[0].stock
+				this.unit         = goodsSkuList[0].unit
+				this.unitId       = goodsSkuList[0].unitId 
 				this.priceExpList = goodsSkuList[0].priceExpList
 				this.assessHasData()
 			}
 		},
 		methods:{
 			checkName(){
-				this.assessHasData()
+				setTimeout(()=>{
+					this.assessHasData()
+				},10)
 			},
 			blurStartQuantity(index){
 				if(index > 0){
@@ -121,7 +124,10 @@
 				
 			},
 			checkValue(index){
-				this.assessHasData()
+				setTimeout(()=>{
+					this.assessHasData()
+				},10)
+				
 			},
 			// 库存输入框
 			checkStock(){
@@ -200,7 +206,6 @@
 						res.data.forEach(item=>{
 							this.unitList.push(item.name)
 						})
-						 
 					}
 				})
 			},

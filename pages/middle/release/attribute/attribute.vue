@@ -3,10 +3,10 @@
 		<NavigationBar title="选择属性" :isClick="isClick" :clickTitle="clickTitle" @doClick="doClick"></NavigationBar>
 		<!-- <view class="height80"></view> -->
 		<!-- <view class="edit fs28" @click="goAdd">新增属性</view> -->
-		<view class="address cf" @click="showPicker" v-if="hasAddress.length>0 && hasAddress[0].status == 1">
-			<view class="fll"> <text class="text-theme mgr-10" v-if="hasAddress[0].isRequire == 1">*</text> <text>产地</text></view>
+		<view class="address cf" @click="showPicker(index)" v-for="(item,index) in hasAddress" :key="index" v-if="hasAddress.length>0 && item.status == 1">
+			<view class="fll"> <text class="text-theme mgr-10" v-if="item.isRequire == 1">*</text> <text>产地</text></view>
 			<view class="flr image"><image src="/static/imgs/right.png" mode=""></image></view>
-			<view class="flr text-999 mgr-20" :class="{'text-333':addressInfo!=''}">{{addressInfo?addressInfo:'请选择产地'}}</view>
+			<view class="flr text-999 mgr-20" :class="{'text-333':item.city!=''}">{{item.city?item.city:'请选择产地'}}</view>
 		</view>
 		<view class="content">
 			<view class="list" v-for="(item,index) in categorys" :key="index" v-if="item.status == 1">
@@ -18,7 +18,7 @@
 				</view>
 			</view>
 			
-			<view class="list" v-for="(item,index) in categorysInput" :key="index" v-if="item.status == 1">
+			<view class="list" v-for="(item) in categorysInput" :key="item.id" v-if="item.status == 1">
 				<view class="title fs30"><text class="text-theme mgr-10" v-if="item.isRequire == 1">*</text> <text>{{item.name}}</text></view>
 				<view class="items">
 					<input type="text" @input="doInputValue" maxlength="20" v-model="item.inputVal" placeholder="自定义输入(最多20个字符)">
@@ -71,7 +71,8 @@
 				categorys:[],
 				categorysInput:[],
 				addCategoryAttributes:[],
-				hasAddress:[]
+				hasAddress:[],
+				showPickerIndex:0
 			};
 		},
 		components: {mpvueCityPicker, NavigationBar},
@@ -84,11 +85,7 @@
 			// 获取自定义属性
 			this.addCategoryAttributes = uni.getStorageSync('addCategoryAttributes') || []
 			
-			// 如果缓存有地址
-			if(uni.getStorageSync('addCategoryAddress')){
-				this.address = JSON.parse(uni.getStorageSync('addCategoryAddress'))
-				this.addressInfo = this.address.province + ' ' + this.address.city
-			}
+			
 			
 			
 		},
@@ -105,6 +102,7 @@
 					status: 1,
 					categoryId: JSON.parse(uni.getStorageSync('varieties')).id   
 				}
+				this.hasAddress = []
 				getByCategoryId(data).then(res=>{
 					if(res.code == '1000'){
 						uni.setStorageSync('categorysDates',res.data)
@@ -119,6 +117,8 @@
 								item.inputVal = ''
 								categorysInput.push(item)
 							}else if(item.inputType == 0){
+								item.city = ''
+								item.cityId = ''
 								this.hasAddress.push(item)
 							}else{
 								if(item.valueSet.length>0){
@@ -129,6 +129,19 @@
 								categorys.push(item)
 							}
 						})
+						
+						// 如果缓存有地址
+						let addCategoryAddress = uni.getStorageSync('addCategoryAddress')
+						if(addCategoryAddress && addCategoryAddress.length>0){
+							this.hasAddress.forEach((item,index)=>{
+								item.city = addCategoryAddress[index].city
+								item.cityId = addCategoryAddress[index].cityId
+							})
+							
+							// this.addressInfo = this.address.province + ' ' + this.address.city
+						}
+						
+						
 						// 如果缓存有输出数据
 						if(uni.getStorageSync('categorysValues') && uni.getStorageSync('categorysValues').length>0){
 							let categorysSync = uni.getStorageSync('categorysValues')
@@ -161,6 +174,15 @@
 						
 						if(uni.getStorageSync('categorysInput') && uni.getStorageSync('categorysInput').length>0){
 							this.categorysInput = uni.getStorageSync('categorysInput')
+							this.categorysInput.forEach((item,index)=>{
+								categorysInput.forEach((it,ix)=>{
+									if(item.categoryAttrId == it.id){
+										item.isRequire = it.isRequire
+										item.status    = it.status
+										item.inputVal  = item.goodsDetailAttrValueList[0].value
+									}
+								})
+							})
 						}else{
 							this.categorysInput = categorysInput
 						}
@@ -196,7 +218,10 @@
 				this.address.cityId = e.ids[1] || 67748
 				this.addressInfo = this.address.province + '-' + this.address.city
 				
-				uni.setStorageSync('addCategoryAddress', JSON.stringify(this.address))
+				this.hasAddress[this.showPickerIndex].city   = this.address.province + '-' + this.address.city
+				this.hasAddress[this.showPickerIndex].cityId = e.ids[1]
+				
+				uni.setStorageSync('addCategoryAddress', this.hasAddress)
 				// 区
 				// this.address.region = arr[2]
 				// this.address.regionId = e.ids[2]
@@ -205,30 +230,50 @@
 				
 			},
 			doInputValue(){
+
 				uni.setStorageSync('categorysInput',this.categorysInput)
-				this.assessHasData()
+				setTimeout(() => {
+					this.assessHasData()
+				}, 10);
+				
 			},
 			// 判断是否选完数据
 			assessHasData(){
 				let n = 0
 				let m = 0
 				 this.categorysInput.forEach(item=>{
-					 if(item.isRequire == 1){
+					 if(item.isRequire == 1 && item.status == 1){
 						 m++
 						 if(item.inputVal !=''){
 						 	n++
 						 }
 					 }
-					
 				 })
 				 let isFalse = true
 				 if(n == m){
 					isFalse = false
 				 }
 				 
-				 this.hasData = this.addressInfo =='' || isFalse
+				 let nn = 0
+				 let mm = 0
+				 this.hasAddress.forEach(item=>{
+					 if(item.isRequire == 1 && item.status == 1){
+						 mm++
+						 if(item.city !=''){
+							nn++
+						 }
+					 }
+				 })
+				 let isAddressFalse = true
+				 if(nn == mm){
+				 	isAddressFalse = false
+				 }
+				
+				 this.hasData = isAddressFalse || isFalse
+				
 			},
-			showPicker(){
+			showPicker(index){
+				this.showPickerIndex = index
 				this.$refs.mpvueCityPicker.show()
 			},
 			// 保存
