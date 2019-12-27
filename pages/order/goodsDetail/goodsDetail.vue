@@ -14,7 +14,7 @@
           <view class="page-section swiper">
             <view class="page-section-spacing">
               <swiper @change="changeBanner" class="swiper" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
-                <swiper-item v-for="(item, index) in imageList" :key="index" @click="showPlayer(item.sort)">
+                <swiper-item v-for="(item, index) in imageList" :key="index" @click="showPlayer(item)">
                   <view class="swiper-item">
                     <!-- type 1:图片；2::视频；3.贴图 -->
                     <view v-if="item.type == 3">
@@ -128,7 +128,7 @@
 					<image class='img2' src="../../../static/img/play.png" mode=""></image>
 				</view> -->
         <!-- <video v-if="item.type == 2" :src="item.imgUrl" enable-danmu danmu-btn controls></video> -->
-        <view class="house" @click="item.type == 3?showPlayer2(item.sort): ''">
+        <view class="house" @click="showPlayer2(item)">
           <image v-if="item.type==3" class="img1" style="width: 100upx;height: 100upx;" src="../../../static/img/play.png" mode="">
           <img class="img" mode="widthFix" :src="item.imgUrl" width="100%" alt />
         </view>
@@ -369,13 +369,18 @@ var vm = {
     }
   },
   methods: {
-    showPlayer(sort) {
-      vm.isPlayer = true;
-      vm.videoUrl = vm.videoObj[sort];
+    showPlayer(item) {
+      if(item.type == 3){
+        vm.isPlayer = true;
+        vm.videoUrl = vm.videoObj[item.sort];
+      }
     },
-    showPlayer2(sort) {
-      vm.isPlayer = true;
-      vm.videoUrl = vm.detVideoObj[sort];
+    showPlayer2(item) {
+      if(item.type == 3){
+        vm.isPlayer = true;
+        vm.videoUrl = vm.detVideoObj[item.sort];
+      }
+      
     },
     load() {
       getGoodsDetail({
