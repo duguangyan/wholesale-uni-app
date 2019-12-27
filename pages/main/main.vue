@@ -459,9 +459,11 @@
 				addHit({
 					id: item.id
 				})
+        // url: '/pages/common/webview/webview?url=http://m.qinlvny.com/static/video.html#' + item.url
         if(item.type == 6){
           uni.navigateTo({
-          	url: '/pages/common/webview/webview?url=http://m.qinlvny.com/static/video.html?video=' + item.url
+            url: '/pages/common/webview/webview?url=http://m.qinlvny.com/static/video.html#' + item.url
+            
           });
 				}else if (item.type == 5) {
 					uni.navigateTo({
@@ -511,7 +513,7 @@
      margin-top: 10upx;
   }
   .mt15{
-     margin-top: 20upx;
+     margin-top: 14upx;
   }
   .nmt2{
     transform: translateY(-4upx);
