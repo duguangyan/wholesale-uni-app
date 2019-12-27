@@ -29,8 +29,8 @@
 			<view class="list" v-for="(item,index) in addCategoryAttributes" :key="index"  v-if="addCategoryAttributes.length>0">
 				<view class="title fs30">{{item.name}}</view>
 				<view class="items">
-					<text class="it active" v-for="(it,ix) in item.values" :key="ix" @click="goEdit(index,ix)">
-						{{it}}
+					<text class="it active" v-for="(it,ix) in item.goodsDetailAttrValueList" :key="ix" @click="goEdit(index,ix)">
+						{{it.value}}
 					</text>
 				</view>
 			</view>
@@ -225,7 +225,6 @@
 				// 区
 				// this.address.region = arr[2]
 				// this.address.regionId = e.ids[2]
-				
 				this.assessHasData()
 				
 			},
@@ -312,9 +311,9 @@
 					if(addCategoryAttributes){
 						addCategoryAttributes.forEach((item,index)=>{
 							if(attribute==''){
-								attribute = item.values[0]
+								attribute = item.name
 							}else{
-								attribute = attribute + ',' +  item.values[0]
+								attribute = attribute + ',' +  item.name
 							}
 						})
 					}

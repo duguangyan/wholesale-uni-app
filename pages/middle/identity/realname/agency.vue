@@ -432,11 +432,12 @@
 					province:   this.address.province,
 					provinceId: this.address.provinceId,
 					city:       this.address.city,
-					cityId:     this.address.cityId,
-					region:     this.address.region,
-					regionId:   this.address.regionId
+					cityId:     this.address.cityId
 				}
-				
+				if(this.hasfrom != 1){
+					data.region   = this.address.region
+					data.regionId = this.address.regionId
+				}
 				if(this.hasfrom == 1){
 					data.cardImgFront = this.cardImgFront;
 					data.cardImgReverse = this.cardImgReverse;

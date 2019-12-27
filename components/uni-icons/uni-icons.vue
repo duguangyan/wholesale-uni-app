@@ -26,7 +26,7 @@ export default {
   },
   onShow() {
   	let x = this.type
-	debugger
+	
   },
   methods: {
     _onClick () {

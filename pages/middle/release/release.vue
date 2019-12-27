@@ -192,7 +192,7 @@
 					goodsSkuList = [
 						{
 							id:'',
-							unitId:sku[0].attrValueList[0].skuId,
+							unitId:res.data.goodsDetail.goods.unit,
 							price:'',
 							priceType:2,
 							sort:1,
@@ -234,20 +234,31 @@
 				let attrList        = res.data.goodsDetail.goodsDetailAttrList
 				let categorysValues = []
 				let categorysInput  = []
+				let addCategoryAttributes = []
+				this.attribute = ''
 				attrList.forEach(item=>{
 					// 地址
 					if(item.inputType==0){
 						let address = []
 						item.goodsDetailAttrValueList.forEach((it,ix)=>{
-							let obj = {"province":"","provinceId":"","city":it.remark,"cityId": it.value}
+							let obj = {id:it.categoryAttrId,"province":"","provinceId":"","city":it.remark,"cityId": it.value,"valueSet":item.goodsDetailAttrValueList}
 							address.push(obj)
 						})
 						
 						uni.setStorageSync('addCategoryAddress',address)
 					}
 					// 后台属性
-					if(item.inputType==2 || item.inputType==1){
-						categorysValues.push(item)
+					if(item.inputType!=0 && item.inputType!=4){
+						item.id = item.categoryAttrId
+						item.goodsDetailAttrValueList.forEach((it,ix)=>{
+							it.id = it.categoryAttrId
+						})
+						if(item.inputType==5){
+							addCategoryAttributes.push(item)
+						}else{
+							categorysValues.push(item)
+						}
+						
 					}
 					// 填写的属性
 					if(item.inputType==4){
@@ -256,7 +267,7 @@
 					}
 					
 					if(item.inputType!=0){
-						this.attribute = ''
+						
 						item.goodsDetailAttrValueList.forEach(it=>{
 							this.attribute += ' ' + it.value
 						})
@@ -269,6 +280,7 @@
 				}
 				uni.setStorageSync('categorysValues',categorysValues)
 				uni.setStorageSync('categorysInput',categorysInput)
+				uni.setStorageSync('addCategoryAttributes',addCategoryAttributes)
 				
 			},
 			// 编辑商品详情 ->货品品种
@@ -440,20 +452,26 @@
 					}
 					addCategoryAddress.forEach((item,index)=>{
 						let obj = {
-							categoryAttrId,
-							goodsAttrValueList:[
-								{
-									categoryAttrId,
-									remark:item.city,
-									sort:1,
-									value:item.cityId	
-								}
-							],
+							categoryAttrId:item.id || categoryAttrId,
+							goodsAttrValueList:[],
 							goodsId:'',
 							name:'产地',
 							nameGroup:'',
 							inputType:0,
 							sort:1
+						}
+						let goodsAttrValueList = []
+						if(item.valueSet && item.valueSet.length>0){
+							item.valueSet.forEach((it,ix)=>{
+								goodsAttrValueList.push({
+									//id:it.id,
+									categoryAttrId:item.id || categoryAttrId,
+									remark:item.city,
+									sort:1,
+									value:item.cityId	
+								})
+							})
+							obj.goodsAttrValueList = goodsAttrValueList
 						}
 						goodsAttrList.push(obj)
 					})
@@ -461,6 +479,16 @@
 				}
 				if(categorysValues.length>0){
 					console.log(categorysValues)
+					
+					let categorysDates = uni.getStorageSync('categorysDates')
+					let categoryAttrId = ''
+					// if(categorysDates && categorysDates.length>0){
+					// 	categorysDates.forEach(item=>{
+					// 		if(item.inputType != 0){
+					// 			categoryAttrId = item.id
+					// 		}
+					// 	})
+					// }
 					
 					categorysValues.forEach((item,index)=>{
 						if(item.valueSet){
@@ -470,6 +498,7 @@
 								item.valueSet.forEach((it,ix)=>{
 									if(it.isCheck){
 										let obj = {
+											//id:it.id,
 											categoryAttrId:item.id,
 											remark:'',
 											sort:ix+1,
@@ -498,7 +527,8 @@
 								let goodsAttrValueList = []
 								item.goodsDetailAttrValueList.forEach((it,ix)=>{
 									let obj = {
-										categoryAttrId:item.id,
+										//id:it.id,
+										categoryAttrId:item.id ,
 										remark:'',
 										sort:ix+1,
 										value:it.value
@@ -507,7 +537,7 @@
 								})
 								
 								let obj = {
-									categoryAttrId:item.id,
+									categoryAttrId:item.id ,
 									goodsAttrValueList,
 									goodsId:'',
 									name:item.name,
@@ -531,7 +561,7 @@
 							categoryAttrId:'',
 							remark:'',
 							sort:index+1,
-							value:item.values[0]
+							value:item.goodsDetailAttrValueList[0].value
 						}
 						goodsAttrValueList.push(obj)
 						
@@ -549,20 +579,22 @@
 						
 					})
 					
-					
-					
-					
 				}
 				
 				if(categorysInput.length>0){
+					console.log(categorysInput)
 					
 					categorysInput.forEach((item,index)=>{
 						if(item.inputVal != ''){
+							let id = item.id
+							if(this.goodsId!=''){
+								id = item.categoryAttrId
+							}
 							let obj = {
-								categoryAttrId:item.id,
+								categoryAttrId:id,
 								goodsAttrValueList:[
 									{
-										categoryAttrId:item.id,
+										categoryAttrId:id,
 										remark:'',
 										sort:index+1,
 										value:item.inputVal	
@@ -636,8 +668,8 @@
 					shopId:'',
 					showStyle:2,
 					sort:1,
-					unit:this.editGoods.unit || goodsSkuList[0].unitId,
-					unitName:goodsSkuList[0].unit
+					unit: goodsSkuList[0].unitId || this.editGoods.unitId,
+					unitName: goodsSkuList[0].unit || this.editGoods.unit
 				}
 				console.log('GoodsSaveAndEditReq',GoodsSaveAndEditReq)
 				
@@ -648,8 +680,8 @@
 				this.isClock = false
 				if(this.goodsId!='' && this.shopId!=''){  // 编辑商品
 					GoodsSaveAndEditReq.goodsId = this.goodsId
-					GoodsSaveAndEditReq.shopId = this.shopId
-					
+					GoodsSaveAndEditReq.shopId  = this.shopId
+					 
 					postEditGoods(GoodsSaveAndEditReq).then(res=>{
 						if(res.code == '1000'){
 							uni.redirectTo({
