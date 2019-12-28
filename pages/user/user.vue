@@ -54,10 +54,11 @@
       <text>我的地址</text>
       <image src="/static/img/tag-go.png"/>
     </view>
-    <view class="single-item" @click="navToSys">
+    <view class="single-item fir-item" @click="navToSys">
       <text>系统设置</text>
       <image src="/static/img/tag-go.png"/>
     </view>
+	
 	<!-- <view class="single-item" @click="goQQ">
 	  <text>QQ客服</text>
 	  <image src="/static/img/tag-go.png"/>
@@ -72,6 +73,7 @@
     export default {
         data() {
             return {
+				v:'',
 				checkIndex:2,
               titles:[
                 {t: '待确认', u: '/static/imgs/icon-1008.png',tip:''},
@@ -94,6 +96,7 @@
 			
 		},
 		onShow() {
+			
 			// 设备样式兼容
 			this.platform     = uni.getStorageSync('platform');
 			// 获取phone 和 uid

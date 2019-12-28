@@ -76,6 +76,7 @@
 			// 全部提现
 			getAllCash(){
 				this.totalPrice = this.accountSubDates.availableBalance
+				this.assessData()
 			},
 			//获取银行卡信息
 			getBankCardList(){
