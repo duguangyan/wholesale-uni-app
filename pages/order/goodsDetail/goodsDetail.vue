@@ -162,6 +162,10 @@
           <img class="icon-18" src="@/static/imgs/icon-shop.png" />
           <view>店铺</view>
         </view>
+		<!-- <view @click="navToCustomerService">
+		  <img class="icon-18" src="@/static/imgs/icon-phone.png" />
+		  <view>客服</view>
+		</view> -->
         <view tag="div" @click="callMaster(good.userRealInfoVo.phone)">
           <view class="icon-15"><img class="icon-order" src="@/static/imgs/icon-phone.png" /></view>
           <view class="cart-text">
@@ -369,6 +373,10 @@ var vm = {
     }
   },
   methods: {
+	// 联系客服
+	navToCustomerService(){
+		
+	},
     showPlayer(sort) {
       vm.isPlayer = true;
       vm.videoUrl = vm.videoObj[sort];

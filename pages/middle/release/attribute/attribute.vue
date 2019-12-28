@@ -145,8 +145,11 @@
 						// 如果缓存有输出数据
 						if(uni.getStorageSync('categorysValues') && uni.getStorageSync('categorysValues').length>0){
 							let categorysSync = uni.getStorageSync('categorysValues')
+							
 							try{
+								
 								categorys.forEach((item,index)=>{
+									
 									item.valueSet.forEach((it,ix)=>{
 										if(it.id == categorysSync[index].valueSet[ix].id){
 											it.isCheck = categorysSync[index].valueSet[ix].isCheck
@@ -166,8 +169,9 @@
 							}
 							
 							this.categorys = categorys
-							
+							uni.setStorageSync('categorysValues',this.categorys)
 						}else{
+							
 							this.categorys = categorys
 						}
 						// this.categorys = categorys

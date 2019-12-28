@@ -4,11 +4,13 @@
       <text>服务条款与协议</text>
       <image src="/static/img/tag-go.png"/>
     </view>
-    <view class="single-item" @click="navToAbout">
+    <view class="single-item fir-item" @click="navToAbout">
       <text>关于我们</text>
       <image src="/static/img/tag-go.png"/>
     </view>
-    
+    <view class="single-item">
+      <text>版本号: {{v}} </text>
+    </view>
   </view>
 </template>
 
@@ -17,7 +19,7 @@
     name: 'sys',
     data(){
       return {
-        
+        v:''
       }
     },
     methods:{
@@ -33,7 +35,8 @@
       }
     },
     onShow(){
-      
+      // 版本号
+      this.v = uni.getStorageSync('v')
     }
   }
 </script>

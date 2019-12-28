@@ -539,7 +539,7 @@
 		margin: 0 auto;
 		overflow-x: hidden;
 		background: #fff;
-
+		min-height: 100vh;
 		// padding-bottom: 100upx;
 		.bb1 {
 			position: fixed;
