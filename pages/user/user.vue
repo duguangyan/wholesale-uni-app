@@ -31,8 +31,9 @@
         <view class="img flr" :class="{platformOPPO: platform == 1}" >
           <image src="/static/img/tag-go.png"/>
         </view>
+        <view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
       </view>
-			<view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
+			
 
       <view class="tags">
         <view class="li" v-for="(item,index) in titles" :key="index" @click="goOrderList(index)">
