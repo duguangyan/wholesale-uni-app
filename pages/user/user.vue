@@ -57,6 +57,10 @@
       <text>系统设置</text>
       <image src="/static/img/tag-go.png"/>
     </view>
+	<!-- <view class="single-item" @click="goQQ">
+	  <text>QQ客服</text>
+	  <image src="/static/img/tag-go.png"/>
+	</view> -->
 	</view>
 </template>
 
@@ -124,6 +128,12 @@
 		    }
 		},
         methods: {
+			// 去QQ客服
+			goQQ(){
+				uni.navigateTo({
+					url:'/pages/common/webview/webview?url=http://wsm.qinlvny.com/static/qq.html'
+				})
+			},
        navToAd(){
          uni.navigateTo({
            url: '/pages/user/addlist/addlist'

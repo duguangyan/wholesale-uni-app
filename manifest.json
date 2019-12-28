@@ -2,8 +2,8 @@
     "name" : "正鼎农品",
     "appid" : "__UNI__C5ABF62",
     "description" : "正鼎农品专业的红薯销售平台，提供全国最优质的红薯",
-    "versionName" : "1.0.8",
-    "versionCode" : 108,
+    "versionName" : "1.0.91",
+    "versionCode" : 1091,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
