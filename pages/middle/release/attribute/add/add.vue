@@ -67,7 +67,7 @@
 				this.isClick = true
 				this.hasVal = true
 				this.name = this.categoryAttributes[this.index].name
-				this.val = this.categoryAttributes[this.index].values[this.ix]
+				this.val = this.categoryAttributes[this.index].goodsDetailAttrValueList[this.ix].value
 			}
 		},
 		methods:{
@@ -77,7 +77,7 @@
 				let arr = [
 					{
 						name:'',
-						values:[]
+						goodsDetailAttrValueList:[]
 					}
 				];
 				// 如果有历史记录
@@ -85,12 +85,12 @@
 				if(categoryAttributes){
 					if(this.index !=''){
 						categoryAttributes[this.index].name = this.name
-						categoryAttributes[this.index].values[this.ix] = this.val
+						categoryAttributes[this.index].goodsDetailAttrValueList[this.ix].value = this.val
 						uni.setStorageSync('addCategoryAttributes',categoryAttributes)
 					}else{
 						let obj = {
 							name: this.name,
-							values:[this.val]
+							goodsDetailAttrValueList:[{"id":"","categoryAttrId":"","value":this.val,"remark":"","sort":1}]
 						}
 						categoryAttributes.push(obj)
 						uni.setStorageSync('addCategoryAttributes',categoryAttributes)
@@ -100,7 +100,7 @@
 				}else{
 					// 没有历史记录
 					arr[0].name = this.name
-					arr[0].values.push(this.val)
+					arr[0].goodsDetailAttrValueList.push({"id":"","categoryAttrId":"","value":this.val,"remark":"","sort":1})
 					uni.setStorageSync('addCategoryAttributes',arr)
 				}
 				
