@@ -24,15 +24,16 @@
 				</view>
 			</view>
 		</view>
-		<!-- 我的订单 -->
-		<view class="order">
-			<view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
-				<view class="p1 fll fs36">我的订单</view>
-				<view class="img flr" :class="{platformOPPO: platform == 1}">
-					<image src="/static/img/tag-go.png" />
-				</view>
-			</view>
-			<view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
+    <!-- 我的订单 -->
+    <view class="order">
+      <view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
+        <view class="p1 fll fs36">我的订单</view>
+        <view class="img flr" :class="{platformOPPO: platform == 1}" >
+          <image src="/static/img/tag-go.png"/>
+        </view>
+        <view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
+      </view>
+			
 
 			<view class="tags">
 				<view class="li" v-for="(item,index) in titles" :key="index" @click="goOrderList(index)">

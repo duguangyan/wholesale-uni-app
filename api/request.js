@@ -1,3 +1,4 @@
+
 let apiUrl = ''
 // #ifdef  APP-PLUS || MP-WEIXIN
 	apiUrl = 'https://wsm.qinlvny.com'; // 微信 APP 正式
@@ -6,7 +7,6 @@ let apiUrl = ''
 // #ifdef  H5
 	apiUrl = ''; // H5正式
 // #endif
-
 
 // let apiUrl = 'http://192.168.0.202:8000'; // 开发
 
