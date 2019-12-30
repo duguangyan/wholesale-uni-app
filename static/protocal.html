@@ -150,5 +150,16 @@ tuiguang@cnhnkj.com
 根据需要，将随时修改本隐私声明。我们建议用户定期上网查看最新的隐私政策于使用条款
 规定。未来任何条款如有更新，我们将不主动提醒用户，亦不会回溯应用在之前所发生的情
 形，同时不会改变我们对于之前所收集的资料之处理方式。
+<!-- <div id="go">点击跳回首页</div> -->
   </body>
+  <script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"></script>
+  <script>
+	   document.addEventListener('UniAppJSBridgeReady', function() {  
+				document.getElementById('go').onclick = function(){
+					uni.switchTab({
+					    url:'/pages/main/main'  
+					})  
+				}
+	    });
+  </script>
 </html>
