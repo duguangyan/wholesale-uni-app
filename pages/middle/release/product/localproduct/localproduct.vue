@@ -36,7 +36,6 @@
 		<view class="bar" @click="goRelease" v-if="(roleId == '20001' || roleId == '20004') && userApply.status == 1">
 			<image src="/static/imgs/icon-1009.png" mode=""></image>
 		</view>
-		
 		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
 	</view>
 </template>
@@ -308,6 +307,7 @@
 							if(res.data.records.length>0 && res.data){
 								res.data.records.forEach((item,index)=>{
 									if(item.sellTime){
+										// #ifdef  H5 || MP-WEIXIN
 										let pass = (new Date(item.sellTime)).getTime()
 										let now  = (new Date(util.getNowFormatDate())).getTime()
 										let time = parseInt(now - pass)
@@ -318,6 +318,10 @@
 											time = '<1'
 										}
 										item.createTimeName = time
+										// #endif
+										// #ifdef  APP-PLUS
+										item.createTimeName = this.getCreateTimeName(item.sellTime)
+										// #endif
 									}
 								})
 								
@@ -334,6 +338,43 @@
 					})
 				}
 				
+			},
+			getCreateTimeName(time){
+				let sellTimeArr = time.split("")
+				
+				let Y_1 = sellTimeArr[0].split("-")[0]
+				let M_1 = sellTimeArr[0].split("-")[1]
+				let D_1 = sellTimeArr[0].split("-")[2]
+				
+				let h_1 = sellTimeArr[1].split("-")[0]
+				let m_1 = sellTimeArr[1].split("-")[1]
+				let s_1 = sellTimeArr[1].split("-")[2]
+				
+				var date   = new Date();
+				var year   = date.getFullYear();
+				var month  = date.getMonth()+1;
+				var day    = date.getDate();
+				var hour   = date.getHours();
+				var minute = date.getMinutes();
+				var second = date.getSeconds(); 
+				
+				if(parseInt(Y_1)> parseInt(year)){
+					return '>24'
+				}else{
+					if(parseInt(M_1)> parseInt(month)){
+						return '>24'
+					}else{
+						if(parseInt(D_1)> parseInt(day)){
+							return '>24'
+						}else{
+							if(parseInt(h_1)> parseInt(hour)){
+								return h_1
+							}else{
+								return '<1'
+							}
+						}
+					}
+				}
 			},
 			// 获取用户角色信息
 			getShopInfo(){

@@ -2,18 +2,10 @@
   <view class="navigationBar">
 	  <view class="content cf">
 		  <view class="img fll" @click="goBack" v-if="isBack">
-			  <!--  #ifdef  APP-PLUS || H5 -->
-			  <image src="../../../../static/img/tag-back.png"></image>
-			  <!--  #endif -->
-			  <!--  #ifdef  MP-WEIXIN -->
-			  <image src="../../static/img/tag-back.png"></image>
-			  <!--  #endif -->
+			<image src="/static/img/tag-back.png"></image>
 		  </view>
 		  <view class="title fs28" :class="{'Android': platform == 1}">{{title}}</view>
-		  <!--  #ifdef  APP-PLUS || H5 || MP-WEIXIN -->
 		  <view class="click flr fs24" v-if="isClick" @click="doClick">{{clickTitle}}</view>
-		  <!--  #endif -->
-		  
 	  </view>
 	  
   </view>
