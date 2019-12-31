@@ -151,10 +151,12 @@ export default {
             let records = uni.getStorageSync('records');
             let platform = uni.getStorageSync('platform');
             let dialogIsShow = uni.getStorageSync('dialogIsShow');
+			let v = uni.getStorageSync('v');
             uni.clearStorageSync(); // 清除缓存
             uni.setStorageSync('records', records);
             uni.setStorageSync('platform', platform);
             uni.setStorageSync('dialogIsShow', dialogIsShow);
+            uni.setStorageSync('v', v);
             // uni.switchTab({
             // 	url:'/pages/user/user'
             // })

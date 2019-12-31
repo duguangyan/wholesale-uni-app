@@ -254,7 +254,12 @@
 							it.id = it.categoryAttrId
 						})
 						if(item.inputType==5){
-							addCategoryAttributes.push(item)
+							if(uni.getStorageSync('addCategoryAttributes')){
+								addCategoryAttributes = uni.getStorageSync('addCategoryAttributes')
+							}else{
+								addCategoryAttributes.push(item)
+							}
+							
 						}else{
 							categorysValues.push(item)
 						}
@@ -277,8 +282,11 @@
 				
 				if(uni.getStorageSync('categorysValues')){
 					if(uni.getStorageSync('attribute')) this.attribute = uni.getStorageSync('attribute')
+					
+				}else{
+					uni.setStorageSync('categorysValues',categorysValues)
 				}
-				uni.setStorageSync('categorysValues',categorysValues)
+				
 				uni.setStorageSync('categorysInput',categorysInput)
 				uni.setStorageSync('addCategoryAttributes',addCategoryAttributes)
 				

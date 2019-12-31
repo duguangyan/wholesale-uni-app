@@ -1,7 +1,7 @@
 <template>
 	<view class="middle" v-if="roleId!=''">
 		<!-- 代办 -->
-		<!-- <view v-if="roleId==2002">
+		<!-- <view v-if="roleId==20002">
 			<agency></agency>
 		</view> -->
 		<!-- 货主 -->
@@ -117,9 +117,10 @@
 			// 获取用户类型
 			if(options.roleId) this.roleId = options.roleId
 		},
-		onShow() {
+		onShow() {	
 			// 根据不同状态获取不同业务
-			this.getUserType()	
+			this.items = []
+			this.getUserType()
 			// 未登录状态跳转 微信和APP不一样
 			// #ifdef  MP-WEIXIN || H5
 			if(!uni.getStorageSync('access_token')){
@@ -382,6 +383,7 @@
 						// uni.setStorageSync('roleId','2001')
 						this.roleId       = res.data.userRole.roleId || ''
 						this.userRealInfo = res.data.userRealInfo ? res.data.userRealInfo : ''
+						
 						if(res.data.apply.id){
 							this.userApply = res.data.apply 
 							uni.setStorageSync('userApply', JSON.stringify(res.data.apply))
@@ -390,7 +392,7 @@
 						uni.setStorageSync('roleId', roleId)
 						uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
 						
-		
+							
 						// 设置头部样式
 						if(!this.roleId && this.userRealInfo){
 							uni.setNavigationBarColor({
@@ -471,7 +473,8 @@
 						
 						
 						
-						
+						// 根据不同状态获取不同业务
+						this.getUserType()
 						
 						// // 统计订单状态条数
 						// this.getOrderStat()

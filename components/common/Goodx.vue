@@ -144,7 +144,7 @@
 						}
 					}
 					.ellipsis{
-						width: 70%;
+						width: 66%;
 					}
 				}
 				.with300{

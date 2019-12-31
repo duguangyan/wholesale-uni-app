@@ -10,7 +10,7 @@
 		<view class="num cf" >
 			<view class="fll"> <text class="text-theme mgr-10 fs30">*</text> <text>库存</text></view>
 			<view class="input flr text-333">
-				<input type="number" maxlength="30" @input="checkStock" v-model="stock" placeholder="请输入库存">
+				<input type="number" maxlength="10" @input="checkStock" v-model="stock" placeholder="请输入库存">
 			</view>
 		</view>
 		

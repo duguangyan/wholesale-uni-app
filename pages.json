@@ -414,7 +414,19 @@
         "navigationBarTitleText": "选择企业"
       }
     }
-  ],
+      ,{
+            "path" : "pages/user/chat/chat",
+            "style" : {
+				"navigationBarTitleText": "消息"
+			}
+        }
+        ,{
+            "path" : "pages/user/chatList/chatList",
+            "style" : {
+				"navigationBarTitleText": "消息列表"
+			}
+        }
+    ],
   "tabBar": {
     "color": "#797980",
     "selectedColor": "#FE3B0B",

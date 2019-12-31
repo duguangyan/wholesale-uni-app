@@ -85,11 +85,13 @@
 				if(categoryAttributes){
 					if(this.index !=''){
 						categoryAttributes[this.index].name = this.name
+						categoryAttributes[this.index].inputType = 5
 						categoryAttributes[this.index].goodsDetailAttrValueList[this.ix].value = this.val
 						uni.setStorageSync('addCategoryAttributes',categoryAttributes)
 					}else{
 						let obj = {
 							name: this.name,
+							inputType: 5,
 							goodsDetailAttrValueList:[{"id":"","categoryAttrId":"","value":this.val,"remark":"","sort":1}]
 						}
 						categoryAttributes.push(obj)
@@ -100,6 +102,7 @@
 				}else{
 					// 没有历史记录
 					arr[0].name = this.name
+					arr[0].inputType = 5
 					arr[0].goodsDetailAttrValueList.push({"id":"","categoryAttrId":"","value":this.val,"remark":"","sort":1})
 					uni.setStorageSync('addCategoryAttributes',arr)
 				}
@@ -116,8 +119,8 @@
 			},
 			// 点击删除属性
 			doClick(){
-				this.categoryAttributes[this.index].values.splice(this.ix,1)
-				if(this.categoryAttributes[this.index].values.length <=0){
+				this.categoryAttributes[this.index].goodsDetailAttrValueList.splice(this.ix,1)
+				if(this.categoryAttributes[this.index].goodsDetailAttrValueList.length <=0){
 					this.categoryAttributes.splice(this.index,1)
 				}
 				uni.setStorageSync('addCategoryAttributes',this.categoryAttributes)
