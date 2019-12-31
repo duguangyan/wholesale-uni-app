@@ -33,7 +33,7 @@
 						<image :class="{'platformOPPO':platform == 1, 'platformXiaomi':platform == 5}" :src="'/static/imgs/main-icon-1.png'" mode=""></image>
 					</view>
 					<view class="fll fs24 text-999 ellipsis">{{item.realName || ''}}<text class="mgl-10" v-for="(area,areaIdx) in item.shopArea" :key="areaIdx">{{area}}</text> </view>
-					<view class="flr fs24 text-999" v-if="item.sellTime">{{item.createTimeName}}小时前</view>
+					<view class="flr fs24 text-999" v-if="item.createTimeName">{{item.createTimeName}}小时前</view>
 				</view>
 			</view>
 		</view>

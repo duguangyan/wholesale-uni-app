@@ -27,8 +27,15 @@
 						{{statusText}}
 					</div>
 					<view v-if="businessType == 2 && order.shopOrder && (status == 0 || status == 6 || status == 3)">
-						<div class="title">
+						<div class="title" v-if="status == 6">
 							等待货主确认
+						</div>
+						<div class="title" v-if="status == 0 || status == 3">
+							确认倒计时: 
+							<span v-if="order.expiresTime && order.expiresTime>0">{{expiresTime}}</span>
+						</div>
+						<div class="sub tick cf" v-if="status == 0 || status == 3">
+							<span class="fll fs24">{{statusText}}</span>
 						</div>
 					</view>
 					<view v-if="businessType == 1 && order.shopOrder && (status == 0 || status == 6 || status == 3)">
@@ -226,7 +233,7 @@
 				<div class="item">订单编号：{{order.shopOrder.orderId || ''}}</div>
 				<div class="item">下单时间：{{order.shopOrder.createTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.payTime">支付时间：{{order.shopOrder.payTime || ''}}</div>
-				<div class="item" v-if="order.shopOrder.payTime">货主确认：{{order.shopOrder.payTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.payTime">货主确认：{{order.shopOrder.comfirmTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.sendTime">发货时间：{{order.shopOrder.sendTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.finishTime">收货时间：{{order.shopOrder.finishTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.closeTime">取消订单：{{order.shopOrder.closeTime || ''}}</div>

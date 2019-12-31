@@ -1,7 +1,7 @@
 <template>
 	<view class="middle" v-if="roleId!=''">
 		<!-- 代办 -->
-		<!-- <view v-if="roleId==2002">
+		<!-- <view v-if="roleId==20002">
 			<agency></agency>
 		</view> -->
 		<!-- 货主 -->
