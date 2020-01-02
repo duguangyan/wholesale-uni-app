@@ -2,13 +2,14 @@
 let apiUrl = ''
 // #ifdef  APP-PLUS || MP-WEIXIN
 	apiUrl = 'https://wsm.qinlvny.com'; // 微信 APP 正式
+	// apiUrl = 'http://192.168.0.202:8000'; // 开发
 // #endif
 
 // #ifdef  H5
 	apiUrl = ''; // H5正式
 // #endif
 
-// let apiUrl = 'http://192.168.0.202:8000'; // 开发
+
 
 const versionNumber = 'V1.0.93'; //版本号
 
@@ -126,8 +127,8 @@ const request = function(params = {}) {
 										header,
 										success(res) {
 											console.log('2',res)
-											if(res.data.code == '1000'){
-												resolve(res.data);
+											if(res.code == '1000'){
+												resolve(res);
 											}
 										},
 										fail() {

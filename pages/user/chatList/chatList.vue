@@ -12,9 +12,10 @@
 			};
 		},
 		onLoad(options) {
-			uni.showModal({
-				content:decodeURIComponent(options.url)
-			})
+			// uni.showModal({
+			// 	content:decodeURIComponent(options.url)
+			// })
+			console.log(decodeURIComponent(options.url))
 			this.url = decodeURIComponent(options.url)
 		},
 		methods:{

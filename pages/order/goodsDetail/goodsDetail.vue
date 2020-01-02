@@ -162,10 +162,10 @@
           <img class="icon-18" src="@/static/imgs/icon-shop.png" />
           <view>店铺</view>
         </view>
-		<!-- <view @click="navToCustomerService">
-		  <img class="icon-18" src="@/static/imgs/icon-phone.png" />
+		<view @click="goCart">
+		  <img class="icon-18" src="@/static/imgs/icon-1021.png" />
 		  <view>客服</view>
-		</view> -->
+		</view>
         <view tag="div" @click="callMaster(good.userRealInfoVo.phone)">
           <view class="icon-15"><img class="icon-order" src="@/static/imgs/icon-phone.png" /></view>
           <view class="cart-text">
@@ -787,9 +787,13 @@ var vm = {
           url: '/pages/login/login'
         });
       } else {
-        uni.switchTab({
-          url: '/pages/order/order'
-        });
+		  let id  = uni.getStorageSync('uid')
+		  let tk  = uni.getStorageSync('access_token')
+		  let tid = this.good.goods.id 
+		  let url = 'http://192.168.0.202:9000/#/chat/p2p-'+tid+'?id='+id+'&tk='+tk
+		uni.navigateTo({
+			url:'/pages/user/chat/chat?url=' + url
+		})
       }
     },
     goPostSetting(id) {

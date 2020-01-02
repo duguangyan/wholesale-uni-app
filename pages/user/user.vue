@@ -58,10 +58,10 @@
 			<text>系统设置</text>
 			<image src="/static/img/tag-go.png" />
 		</view>
-		<!-- <view class="single-item" @click="goChat">
+		<view class="single-item fir-item" @click="goChatList">
 			<text>消息</text>
 			<image src="/static/img/tag-go.png" />
-		</view> -->
+		</view>
 		<!-- <view class="single-item" @click="goQQ">
 	  <text>QQ客服</text>
 	  <image src="/static/img/tag-go.png"/>
@@ -179,16 +179,13 @@
 		},
 		methods: {
 			// 去消息
-			goChat() {
+			goChatList() {
 				let token = uni.getStorageSync('access_token')
 				if (token) {
-					let account  = uni.getStorageSync('uid')
-					let password = token
-					let nickname = uni.getStorageSync('nickName')
-					let url = encodeURIComponent('http://duu-u.imwork.net:20123/webdemo/h5/index.html#/session?account=qinlv1&password=123456')
+					let uid  = uni.getStorageSync('uid')
+					let url = encodeURIComponent('http://192.168.0.202:9000/#/session?id='+uid+'&tk='+token)
 					//let url = encodeURIComponent('http://duu-u.imwork.net:20123/webdemo/h5/index.html#/chat/p2p-duguangyan1?account=qinlv1&password=123456')
 					//let url = encodeURIComponent('http://duu-u.imwork.net:20123/webdemo/h5/index.html#/session?account='+account+'&password='+password+'&nickname='+nickname)
-					
 					uni.navigateTo({
 						url: "/pages/user/chatList/chatList?url="+url
 					})
