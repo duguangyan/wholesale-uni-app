@@ -28,16 +28,19 @@
 			
 			 <view class="big-btn-active" :class="{novalue: !hasVal}" @click="save">{{index == ''?'添加属性':'修改属性'}}</view>
 		</view>
-		
+		<Dialog :title='title' :isShow='isShow' @doConfirm="doConfirm" @doCancel="doCancel"> </Dialog>
 	</view>
 </template>
 
 <script>
 	import uniInput from '@/components/hnfly-input/uni-input.vue';
 	import NavigationBar from '@/components/common/NavigationBar.vue'
+	import Dialog from '@/components/common/Dialog.vue'
 	export default {
 		data() {
 			return {
+				isShow:false,
+				title:'确认删除属性吗?',
 				name:'',
 				val:'',
 				isClick: false,
@@ -49,7 +52,7 @@
 			};
 		},
 		components: {
-		    uniInput,NavigationBar
+		    uniInput,NavigationBar,Dialog
 		},
 		onLoad(options) {
 			if(options.index){
@@ -71,6 +74,21 @@
 			}
 		},
 		methods:{
+			doConfirm(){
+				this.isShow = false
+				this.categoryAttributes[this.index].goodsDetailAttrValueList.splice(this.ix,1)
+				if(this.categoryAttributes[this.index].goodsDetailAttrValueList.length <=0){
+					this.categoryAttributes.splice(this.index,1)
+				}
+				uni.setStorageSync('addCategoryAttributes',this.categoryAttributes)
+				// 返回上一页
+				uni.navigateBack({
+					delta:1
+				})
+			},
+			doCancel(){
+				this.isShow = false
+			},
 			// 添加属性
 			save(){
 				// 组装数据
@@ -119,15 +137,9 @@
 			},
 			// 点击删除属性
 			doClick(){
-				this.categoryAttributes[this.index].goodsDetailAttrValueList.splice(this.ix,1)
-				if(this.categoryAttributes[this.index].goodsDetailAttrValueList.length <=0){
-					this.categoryAttributes.splice(this.index,1)
-				}
-				uni.setStorageSync('addCategoryAttributes',this.categoryAttributes)
-				// 返回上一页
-				uni.navigateBack({
-					delta:1
-				})
+				
+				this.isShow = true
+				
 			},
 			getTitle(e){
 				var value = e.detail.value;

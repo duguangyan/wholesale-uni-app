@@ -73,7 +73,8 @@
 	import TabBar from '@/components/common/TabBar.vue'
 	import {
 		getOrderStat,
-		getUserRealInfoAll
+		getUserRealInfoAll,
+		getImToken
 	} from '@/api/userApi.js'
 	import T from '@/utils/tips.js'
 	export default {
@@ -182,12 +183,19 @@
 			goChatList() {
 				let token = uni.getStorageSync('access_token')
 				if (token) {
-					let uid  = uni.getStorageSync('uid')
-					let url = encodeURIComponent('http://192.168.0.202:9000/#/session?id='+uid+'&tk='+token)
-					//let url = encodeURIComponent('http://duu-u.imwork.net:20123/webdemo/h5/index.html#/chat/p2p-duguangyan1?account=qinlv1&password=123456')
-					//let url = encodeURIComponent('http://duu-u.imwork.net:20123/webdemo/h5/index.html#/session?account='+account+'&password='+password+'&nickname='+nickname)
-					uni.navigateTo({
-						url: "/pages/user/chatList/chatList?url="+url
+					getImToken().then(res=>{
+						if(res.code == '1000'){
+							let uid  = uni.getStorageSync('uid')
+							let url = encodeURIComponent('http://im.qinlvny.com/#/session?id='+uid+'&tk='+res.data)
+							//let url = encodeURIComponent('http://duu-u.imwork.net:20123/webdemo/h5/index.html#/chat/p2p-duguangyan1?account=qinlv1&password=123456')
+							//let url = encodeURIComponent('http://duu-u.imwork.net:20123/webdemo/h5/index.html#/session?account='+account+'&password='+password+'&nickname='+nickname)
+							console.log('url',url)
+							uni.navigateTo({
+								url: "/pages/user/chatList/chatList?url="+url
+							})
+						}else{
+							T.tips("请求IM数据失败")
+						}
 					})
 				} else {
 					T.tips("请先登录")
@@ -201,9 +209,15 @@
 				})
 			},
 			navToAd() {
-				uni.navigateTo({
-					url: '/pages/user/addlist/addlist'
-				})
+				let token = uni.getStorageSync('access_token')
+				if (token) {
+					uni.navigateTo({
+						url: '/pages/user/addlist/addlist'
+					})
+				}else{
+					T.tips("请先登录")
+				}
+				
 			},
 			navToSys() {
 				uni.navigateTo({

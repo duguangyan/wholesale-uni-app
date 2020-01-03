@@ -11,7 +11,7 @@ let apiUrl = ''
 
 
 
-const versionNumber = 'V1.0.93'; //版本号
+const versionNumber = 'V1.0.94'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000') {
 	uni.setStorageSync('v', versionNumber);
@@ -127,8 +127,8 @@ const request = function(params = {}) {
 										header,
 										success(res) {
 											console.log('2',res)
-											if(res.code == '1000'){
-												resolve(res);
+											if(res.data.code == '1000'){
+												resolve(res.data);
 											}
 										},
 										fail() {
