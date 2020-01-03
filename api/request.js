@@ -9,11 +9,7 @@ let apiUrl = ''
 	apiUrl = ''; // H5正式
 // #endif
 
-<<<<<<< HEAD
 apiUrl = 'http://192.168.0.202:5001'; // 开发
-=======
->>>>>>> 1c3faa9959097d6d7806032d4776482cf0fd64f0
-
 
 const versionNumber = 'V1.0.94'; //版本号
 
