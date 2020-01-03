@@ -1,26 +1,16 @@
 <template>
-	<div class="list">
+	<div class="refund">
 		<div class="top cf">
-			<div class="search fll">
-				<div class="icon-30">
-					<img src="@/static/img/icon-search2.png" width="15" height="15" alt />
-				</div>
-				<input class="fs28" type='text' confirm-type="search" @confirm="doSearch($event)" v-model="search.keywords"
-				 :placeholder="search.keywords || '请输入搜索内容'" />
-			</div>
-			<div class="flr">
-				<div class="icon fs28 text-333" @click="doSearch($event)">搜索</div>
-			</div>
+			
 		</div>
 
-		<div class="list" v-if="!hasData">
-			<Good v-for="(item,index) in list" :key="item.id" :item="item" :level="2" />
+		<div class="list" v-if="list.length>0">
 			<p class='center-p fs20 text-999'>{{loading?'数据加载中...':'数据加载完毕'}}</p>
 		</div>
     
-		<div class="no-data" v-if="hasData">
-			<img src="@/static/imgs/serach-1.png">
-			<p class="fs28 text-999">哦噢，没有搜到您的商品 换个关键词试试</p>
+		<div class="no-data" v-else>
+			<img src="/static/imgs/img-no-fund.png">
+			<p class="fs28 text-999">啊哦,没有退款中数据哦,继续保持^^</p>
 		</div>
 	</div>
 </template>
@@ -95,4 +85,16 @@
 </script>
 
 <style lang="scss" scoped>
+  .refund{
+    .no-data{
+      padding-top: 300upx;
+      font-size: 32upx;
+      color: #000;
+      text-align: center;
+      img{
+        width: 200upx;
+        margin-bottom: 20upx;
+      }
+    }
+  }
 </style>

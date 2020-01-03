@@ -427,7 +427,7 @@
 			}
         }
         ,{
-            "path" : "pages/refund/refund/refund",
+            "path" : "pages/refund/refund",
             "style" : {}
         }
     ],
