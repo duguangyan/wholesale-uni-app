@@ -13,6 +13,15 @@ const postUserLogin = data => {
 	})
 }
 
+// 获取IM TOKEN
+const getImToken = data => {
+	return request({
+		url: '/api/upms/im/imtoken',
+		data
+	})
+}
+
+
 // 用户获取验证码
 const postUserSms = data => {
 	return request({
@@ -447,7 +456,8 @@ const getOpenId = data => {
 
 
 export {
-  getOpenId,
+	getImToken,
+	getOpenId,
 	shopAreaFromUserId,
 	enterpriseSettledIn,
 	getUserSendValidateCode,

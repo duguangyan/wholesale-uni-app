@@ -10,11 +10,18 @@
     </div>
     <div class="count fs30 text-999">供应({{ totalProduct }})</div>
     <div class="list"><Good v-for="(item, index) in list" :key="item.id" :item="item" :level="2" scoped="shop" /></div>
+  
+	<div class="operator flex">
+		<div class="flex-1 li" @click="goChat">聊一聊</div>
+		<div class="flex-1" @click="makeCall">联系货主</div>
+	</div>
+  
   </div>
 </template>
 
 <script>
 import { getList, getShopInfo } from '@/api/goodsApi.js';
+import { getImToken } from '@/api/userApi.js'
 import Good from '@/components/common/Good.vue';
 
 var vm = {
@@ -25,7 +32,10 @@ var vm = {
         shopName: '',
         categoryName: '',
         address: '',
-        area: ''
+        area: '',
+		userId:'',
+		userName:'',
+		phone:''
       },
       list: [],
       shopId: '',
@@ -35,6 +45,30 @@ var vm = {
     };
   },
   methods: {
+	  // 去聊天窗口
+	  goChat(){
+		  getImToken().then(res => {
+		  	if (res.code == "1000") {
+		  		let id  = uni.getStorageSync('uid')
+		  		let tk  = res.data
+				let tid = this.shopInfo.userId
+		  		let url = 'http://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
+		  		console.log('url', url)
+		  		uni.navigateTo({
+		  			url: '/pages/user/chat/chat?url=' + url
+		  		})
+		  	} else {
+		  		T.tips("请求IM数据失败")
+		  	}
+		  
+		  })
+	  },
+	  // 联系货主，拨打电话
+	  makeCall(){
+		  uni.makePhoneCall({
+		  	phoneNumber: this.shopInfo.phone
+		  })
+	  },
     load() {
       getList({
         shopId: vm.shopId,
@@ -77,11 +111,15 @@ var vm = {
     getShopInfo({
       shopId: vm.shopId
     }).then(data => {
-      let info = data.data;
-      vm.shopInfo.shopName = info.name;
+      let info                 = data.data;
+      vm.shopInfo.shopName     = info.name;
       vm.shopInfo.categoryName = info.categoryName;
       // vm.shopInfo.address = `${info.province}${info.city}${info.region}`;
-      vm.shopInfo.area = info.area
+      vm.shopInfo.area         = info.area
+      vm.shopInfo.userId       = info.userId
+      vm.shopInfo.userName     = info.userName
+      vm.shopInfo.phone        = info.phone
+	  
     });
 
     // 加载商品信息
@@ -93,10 +131,25 @@ export default vm;
 
 <style lang="scss" scoped>
 .shop {
+	padding-bottom: 100upx;
+	.operator{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		height: 100upx;
+		line-height: 100upx;
+		text-align: center;
+		background: #fff;
+		z-index: 9999;
+		.li{
+			border-right:1upx solid #f5f5f5;
+		}
+	}
   .count {
     line-height: 70upx;
     padding-left: 30upx;
     background-color: #f5f5f5;
+	
   }
   .info {
     height: 130upx;

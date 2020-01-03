@@ -50,16 +50,18 @@
 		},
 		methods: {
 			goGoodsDetail(item) {
-				if(item.type == 1){
-					uni.navigateTo({
-						url:'/pages/common/webview/webview?url='+item.url
-					})
-				} else {
-					uni.navigateTo({
-						url:'/pages/order/goodsDetail/goodsDetail?shopId='+item.shopId + '&goodsId='+ item.id
-					})
-				}
-				
+				// if(item.type == 1){
+				// 	uni.navigateTo({
+				// 		url:'/pages/common/webview/webview?url='+item.url
+				// 	})
+				// } else {
+				// 	uni.navigateTo({
+				// 		url:'/pages/order/goodsDetail/goodsDetail?shopId='+item.shopId + '&goodsId='+ item.id
+				// 	})
+				// }
+				uni.navigateTo({
+					url:'/pages/order/goodsDetail/goodsDetail?shopId='+item.shopId + '&goodsId='+ item.id
+				})
 			},
 			// 获取严选好物列表
 			getPageLayoutList() {

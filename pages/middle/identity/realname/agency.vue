@@ -181,11 +181,12 @@
 		},
 		onLoad(options) {
 			// hafrom : 1代办 2 货主
-			if (options.hasfrom) {
+			if(options.from)this.from = options.from
+			if (options.hasfrom || this.from == "auditFail") {
 				this.hasfrom = options.hasfrom
 				this.hasArea = this.hasfrom == 2
 				// 如果是货主获取经营类型（产品分类）
-				if (this.hasfrom == 2) {
+				if (this.hasfrom == 2 || this.from == "auditFail") {
 					let data = {
 						roleType: '20001'
 					}
