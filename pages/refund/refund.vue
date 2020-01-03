@@ -1,25 +1,31 @@
 <template>
-	<div class="refund">
-		<div class="top cf">
+	<view class="refund">
+		<view class="top cf">
 			
-		</div>
+		</view>
 
-		<div class="list" v-if="list.length>0">
-			<p class='center-p fs20 text-999'>{{loading?'数据加载中...':'数据加载完毕'}}</p>
-		</div>
+		<view class="list" v-if="list.length>0">
+      <view class="li">
+        <view class="company"></view>
+        <view class="good"></view>
+        <view class="reason"></view>
+        <view class="btn"></view>
+      </view>
+			<view class='center-p fs20 text-999'>{{loading?'数据加载中...':'数据加载完毕'}}</view>
+		</view>
     
-		<div class="no-data" v-else>
-			<img src="/static/imgs/img-no-fund.png">
+		<view class="no-data" v-else>
+			<image src="/static/imgs/img-no-fund.png" />
 			<p class="fs28 text-999">啊哦,没有退款中数据哦,继续保持^^</p>
-		</div>
-	</div>
+		</view>
+	</view>
 </template>
 
 <script>
 
 	import {
-		getList
-	} from "@/api/goodsApi.js";
+		getRefundList
+	} from "@/api/refund.js";
 	import T from '@/utils/tips.js'
 	export default {
 		data() {
@@ -54,21 +60,15 @@
 
 		
 			load() {
-				let params = {};
-				for (let k in this.search) {
-					if (this.search[k] !== "") {
-						params[k] = this.search[k];
-					}
-				}
-				getList(params).then(data => {
+				let params = {
+          
+        };
+				getRefundList(params).then(data => {
 					if (data.code == '1000') {
-
 						this.list = this.list.concat(data.data.records)
-						this.hasData = this.list.length <= 0
 						this.loading = this.list.length < data.data.total
 					} else {
 						T.tips(data.message || '操作失败')
-						this.hasData = this.list.length <= 0
 					}
 
 				});
@@ -85,15 +85,59 @@
 </script>
 
 <style lang="scss" scoped>
+  .title{
+    color: #333;
+    font-size: 28upx;
+  }
   .refund{
+    min-height: 100vh;
+    background: #f5f5f5;
     .no-data{
       padding-top: 300upx;
       font-size: 32upx;
       color: #000;
       text-align: center;
-      img{
+      image{
         width: 200upx;
         margin-bottom: 20upx;
+      }
+    }
+    .li{
+      padding: 30upx;
+      background: #fff;
+      margin-top: 20upx;
+      .icon{
+        margin: 10upx;
+      }
+      .good-name{
+        @extend .title;
+      }
+      .company,
+      .good{
+        display: flex;
+        justify-content: flex-start;
+      }
+      .company{
+        font-weight: bold;
+        margin-bottom: 26upx;
+        @extend .title
+      }
+      .photo{
+        width: 200upx;
+        height: 200upx;
+        border-radius: 20upx;
+        margin-right: 20upx;
+      }
+      .good-desc{
+        position: relative;
+      }
+      .good-attr{
+        position: absolute;
+        top: 70upx;
+      }
+      .price{
+        position: absolute;
+        bottom: 0;
       }
     }
   }
