@@ -205,7 +205,7 @@
 					</span>
 				</div>
 				<view class="mgb-30" v-for="good in order.shopOrder.orderDetailList" :key="good.id" >
-					<Good :item="good" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber' :businessType="businessType"></Good>
+					<Good :item="good" :status="order.status" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber' :businessType="businessType"></Good>
 				</view>
 				
 				<div class="goods-price">

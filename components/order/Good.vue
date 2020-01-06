@@ -26,7 +26,7 @@
 					<view class="fll">
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="refund flr" v-if="item.isAfterSale == 0" @click.stop="goRefund">{{refundText}}</view>
+					<view class="refund flr" v-if="item.isAfterSale == '0' && (status==2||status==3)" @click.stop="goRefund">{{refundText}}</view>
 				</view>
 			</view>
 		</view>
@@ -60,6 +60,10 @@
 			},
 			goDetailNumber: {
 				type: String,
+				default: ''
+			},
+			status: {
+				type: String || Number,
 				default: ''
 			}
 		},
