@@ -103,8 +103,8 @@
 						tip: ''
 					},
 					{
-						t: '已完成',
-						u: '/static/imgs/icon-1004.png',
+						t: '退款',
+						u: '/static/imgs/icon-10099.png',
 						tip: ''
 					},
 				],
@@ -315,12 +315,20 @@
 			// 去订单页面
 			goOrderList(index) {
 				if (uni.getStorageSync('access_token')) {
-					let i = index === '' ? '' : index + 1
-					if (index == 4) i = ''
-					uni.setStorageSync('orderNavIndex', i)
-					uni.navigateTo({
-						url: '/pages/user/order/list?from=user&businessType=2'
-					})
+					if(index == 4){ // 去退款页面
+						uni.navigateTo({
+							url:'/pages/refund/refund?businessType=2'
+						})
+					}else{
+						let i = index === '' ? '' : index + 1
+						if (index == 4) i = ''
+						uni.setStorageSync('orderNavIndex', i)
+						uni.navigateTo({
+							url: '/pages/user/order/list?from=user&businessType=2'
+						})
+					}
+					
+					
 				} else {
 					T.tips('请先登录')
 				}

@@ -46,24 +46,28 @@
 					tradingNum:0
 				},
 				spOrders: [{
-					img: '../../static/imgs/icon-1004.png',
+					img: '/static/imgs/icon-1004.png',
 					text: '待确认',
 					tip: ''
 				}, {
-					img: '../../static/imgs/icon-1005.png',
+					img: '/static/imgs/icon-1005.png',
 					text: '待买家支付',
 					tip: ''
 				}, {
-					img: '../../static/imgs/icon-1006.png',
+					img: '/static/imgs/icon-1006.png',
 					text: '代办发货',
 					tip: ''
 				}, {
-					img: '../../static/imgs/icon-1007.png',
+					img: '/static/imgs/icon-1007.png',
 					text: '待买家收货',
 					tip: ''
 				}, {
-					img: '../../static/imgs/icon-1008.png',
+					img: '/static/imgs/icon-1008.png',
 					text: '已完成',
+					tip: ''
+				}, {
+					img: '/static/imgs/icon-10099.png',
+					text: '退款',
 					tip: ''
 				}],
 				status: 1, // 登录用户状态
@@ -346,6 +350,10 @@
 						}, {
 							img: '/static/imgs/icon-1008.png',
 							text: '已完成',
+							tip: ''
+						}, {
+							img: '/static/imgs/icon-10099.png',
+							text: '退款',
 							tip: ''
 						}]
 						
