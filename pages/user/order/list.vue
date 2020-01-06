@@ -40,7 +40,7 @@
 						</text>
 					</view>
 					<view class="mgb-30" v-for="good in item.orderDetailList" :key="good.id" >
-						<Good :item="good" :roleId='roleId' :isAgentcy="isAgentcy" :businessType='businessType'></Good>
+						<Good :item="good" :status="status" :roleId='roleId' :isAgentcy="isAgentcy" :businessType='businessType'></Good>
 					</view>
 					
 					<view class="accu fs24" v-if="(roleId == '20001' || roleId == '20004') && item.sellerId == uid">订单金额:￥<text class='fs32'>{{(roleId == '20001' || roleId == '20004') && item.sellerId == uid?item.orderMoney:item.totalMoney}}</text></view>

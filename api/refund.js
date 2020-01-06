@@ -43,7 +43,18 @@ const loadRefundInfo = data => {
     url: url,
     method: 'post',
     data,
-    // type: 'form'
+    type: 'form'
+  })
+}
+
+
+const getRefundDetail = data => {
+	let url = '/api/ws/order/afterSale/appDetail/' + data.id;
+  return request({
+    url: url,
+    method: 'post',
+    data,
+    type: 'form'
   })
 }
 
@@ -104,4 +115,4 @@ const checkRefund = data => {
   })
 }
 
-export {getRefundList,applyPlatform,loadRefundInfo,closeRefund,cancelRefund,sendRefund,checkRefund }
+export {getRefundList,applyPlatform,loadRefundInfo,closeRefund,cancelRefund,sendRefund,checkRefund,getRefundDetail }
