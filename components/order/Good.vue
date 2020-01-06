@@ -26,7 +26,7 @@
 					<view class="fll">
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="refund flr" v-if="item.isAfterSale == 0" @click.stop="goRefund">退款</view>
+					<view class="refund flr" v-if="item.isAfterSale == 0" @click.stop="goRefund">{{refundText}}</view>
 				</view>
 			</view>
 		</view>
@@ -65,7 +65,7 @@
 		},
 		data() {
 			return {
-
+				refundText: '退款'
 			}
 		},
 		methods: {
