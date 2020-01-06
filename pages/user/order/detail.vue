@@ -236,6 +236,7 @@
 				<div class="item" v-if="order.shopOrder.payTime">货主确认：{{order.shopOrder.comfirmTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.sendTime">发货时间：{{order.shopOrder.sendTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.finishTime">收货时间：{{order.shopOrder.finishTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.sellCancelTime">货主取消：{{order.shopOrder.sellCancelTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.closeTime">取消订单：{{order.shopOrder.closeTime || ''}}</div>
 			</div>
 		</div>

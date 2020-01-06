@@ -10,7 +10,7 @@
 		<view class="num cf" >
 			<view class="fll"> <text class="text-theme mgr-10 fs30">*</text> <text>库存</text></view>
 			<view class="input flr text-333">
-				<input type="number" maxlength="10" @input="checkStock" v-model="stock" placeholder="请输入库存">
+				<input type="number" maxlength="8" @input="checkStock" @blur="blurStock" v-model="stock" placeholder="请输入库存">
 			</view>
 		</view>
 		
@@ -23,9 +23,9 @@
 		<view class="ul fs24">
 			<view class="li cf"  v-for="(item,index) in priceExpList" :key="index">
 				<view class="fll">起批量</view>
-				<view class="fll"><input type="number" @blur="blurStartQuantity(index)" maxlength="10" @input="checkName" v-model="item.startQuantity" /></view>
+				<view class="fll"><input type="number" @input="inputStartQuantity($event,index)" @blur="blurStartQuantity($event,index)" maxlength="8" @input="checkName" v-model="item.startQuantity" /></view>
 				<view class="fll">价格(元)</view>
-				<view class="fll"><input type="digit" maxlength="10" @input="checkValue()" @blur='blurValue(index)' v-model="item.price" /></view>
+				<view class="fll"><input type="digit" maxlength="8" @input="checkValue($event,index)" @blur='blurValue($event,index)' v-model="item.price" /></view>
 				<view class="flr add mr15" v-if='index == 0' @click="add(index)">新增</view>
 				<view class="flr del mr15" v-if='index != 0' @click="del(index)">删除</view>
 			</view>
@@ -80,7 +80,24 @@
 					this.assessHasData()
 				},10)
 			},
-			blurStartQuantity(index){
+			inputStartQuantity(e,index){
+				let val = e.target.value + ''
+				let startQuantity = ''
+				if(val[0] != '0'){
+					startQuantity = val.replace(/[^\d]/g,'');
+				}
+				this.$nextTick(function(){
+					this.priceExpList[index].startQuantity = startQuantity
+				})
+				
+			},
+			blurStartQuantity(e,index){
+				
+				let value = e.target.value.replace(/[^\d]/g,'');
+				this.$nextTick(function(){
+					this.priceExpList[index].startQuantity = value
+				})
+
 				if(index > 0){
 					let n = this.priceExpList[index].startQuantity
 					let m = this.priceExpList[index - 1].startQuantity
@@ -91,22 +108,32 @@
 					}
 				}
 			},
-			blurValue(index){
-				let price = this.priceExpList[index].price + ''
-				if(price.indexOf('.') != -1){
-					let arr = price.split('.')
-					if(arr[0] == '')arr[0] = '0'
-					price = arr[0] + '.' + arr[1].substr(0,2)
-				}
-				if(price == 0 || price == 0.0 || price == 0.00) price = '0.01'
+			blurValue(e,index){
 				
-				let reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
-				let bool = reg.test(price)
-				if(!bool) {
-					price = '0.01'
-				}
+				// let price = this.priceExpList[index].price + ''
+				// if(price.indexOf('.') != -1){
+				// 	let arr = price.split('.')
+				// 	if(arr[0] == '')arr[0] = '0'
+				// 	price = arr[0] + '.' + arr[1].substr(0,2)
+				// }
+				// if(price == 0 || price == 0.0 || price == 0.00) price = '0.01'
 				
-				this.priceExpList[index].price = price
+				// let reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
+				// let bool = reg.test(price)
+				// if(!bool) {
+				// 	price = '0.01'
+				// }
+				// this.priceExpList[index].price = price
+				
+				let price = e.target.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+				price = price.replace(/^\./g,""); //验证第一个字符是数字
+				price = price.replace(/\.{2,}/g,""); //只保留第一个, 清除多余的
+				price = price.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+				price = price.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+				this.$nextTick(function(){
+					this.priceExpList[index].price = price
+				})
+				
 				
 				if(index>0){
 					// this.priceExpList[index].price = this.priceExpList[index].price >= this.priceExpList[index - 1].price ? util.accSub(this.priceExpList[index - 1].price,0.01) : this.priceExpList[index].price
@@ -118,28 +145,52 @@
 							this.hasData = true
 						} 
 					}
-					
-					
+				}
+			},
+			checkValue(e,index){
+				
+				let val = e.target.value + ''
+				let price = ''
+				if(val[0] != '0'){
+					price = val.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
+					price = price.replace(/^\./g,""); //验证第一个字符是数字
+					price = price.replace(/\.{2,}/g,""); //只保留第一个, 清除多余的
+					price = price.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+					price = price.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
 				}
 				
-			},
-			checkValue(index){
+				this.$nextTick(function(){
+					this.priceExpList[index].price = price
+				})
 				setTimeout(()=>{
 					this.assessHasData()
 				},10)
 				
 			},
 			// 库存输入框
-			checkStock(){
+			checkStock(e){
+				let val = e.target.value + ''
+				let stock = ''
+				if(val[0] != '0'){
+					stock = val.replace(/[^\d]/g,'');
+				}
+				this.$nextTick(function(){
+					this.stock = stock
+				})
 				this.assessHasData()
+				console.log(this.stock )
+			},
+			blurStock(e){
+				let stock = e.target.value.replace(/[^\d]/g,'');
+				this.$nextTick(function(){
+					this.stock = stock
+				})
 			},
 			// 判断数据是否完整
 			assessHasData(){
-				this.hasData =  this.unit == '' || this.stock == '' || this.priceExpList[0].name =='' || this.priceExpList[0].value ==''
+				this.hasData = this.unit == '' || this.stock == '' || this.priceExpList[0].name == '' || this.priceExpList[0].value == ''
 				// 判断价格和起批量
 				this.assessPriceExpList()
-				
-				
 			},
 			// 判断价格和起批量
 			assessPriceExpList(){
