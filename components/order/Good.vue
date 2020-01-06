@@ -26,7 +26,7 @@
 					<view class="fll">
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="refund flr" v-if="item.isAfterSale == 0" @click.stop="goRefund">退款</view>
+					<view class="refund flr" v-if="item.isAfterSale == 0" @click.stop="applyRefund(item)">退款</view>
 				</view>
 			</view>
 		</view>
@@ -70,8 +70,10 @@
 		},
 		methods: {
 			// 去申请退款页面
-			goRefund(){
-				
+			applyRefund(item){
+				uni.navigateTo({
+				  url: '/pages/refund/apply?orderId=' + item.orderId
+				})
 			},
 			// 去商品详细页面
 			goGoodsDetail() {

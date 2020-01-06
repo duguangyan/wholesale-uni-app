@@ -430,6 +430,10 @@
             "path" : "pages/refund/refund",
             "style" : {}
         }
+        ,{
+            "path" : "pages/refund/apply",
+            "style" : {}
+        }
     ],
   "tabBar": {
     "color": "#797980",
