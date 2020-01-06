@@ -11,9 +11,16 @@
     <div class="count fs30 text-999">供应({{ totalProduct }})</div>
     <div class="list"><Good v-for="(item, index) in list" :key="item.id" :item="item" :level="2" scoped="shop" /></div>
   
-	<div class="operator flex">
-		<div class="flex-1 li" @click="goChat">聊一聊</div>
-		<div class="flex-1" @click="makeCall">联系货主</div>
+	<div class="operator flex" v-if="shopInfo.phone!=phone">
+		<div class="flex-1 li" @click="goChat">
+			<div class="img"><image src="/static/imgs/icon-message.png" mode=""></image></div>
+			<div>聊一聊</div>
+			<div class="line"></div>
+		</div>
+		<div class="flex-1" @click="makeCall">
+			<div class="img"><image src="/static/imgs/icon-phone.png" mode=""></image></div>
+			<div>联系货主</div>
+		</div>
 	</div>
   
   </div>
@@ -43,6 +50,11 @@ var vm = {
       isLoadMore: true,
       totalProduct: 0
     };
+  },
+  computed:{
+	  phone(){
+		  return uni.getStorageSync('phone')
+	  }
   },
   methods: {
 	  // 去聊天窗口
@@ -137,12 +149,34 @@ export default vm;
 		bottom: 0;
 		width: 100%;
 		height: 100upx;
-		line-height: 100upx;
+		// line-height: 100upx;
 		text-align: center;
 		background: #fff;
 		z-index: 9999;
+		font-size: 20upx;
+		border-top:1upx solid #f5f5f5;
 		.li{
-			border-right:1upx solid #f5f5f5;
+			
+		}
+		.flex-1{
+			position: relative;
+			.line{
+				width: 2upx;
+				height: 50upx;
+				background: #f5f5f5;
+				position: absolute;
+				right: 0;
+				top: 15upx;
+			}
+			.img{
+				margin: 10upx auto;
+				width: 36upx;
+				height: 36upx;
+				>image{
+					width: 100%;
+					height: 100%;
+				}
+			}
 		}
 	}
   .count {

@@ -58,10 +58,10 @@
 			<text>系统设置</text>
 			<image src="/static/img/tag-go.png" />
 		</view>
-		<view class="single-item fir-item" @click="goChatList">
+		<!-- <view class="single-item fir-item" @click="goChatList">
 			<text>消息</text>
 			<image src="/static/img/tag-go.png" />
-		</view>
+		</view> -->
 		<!-- <view class="single-item" @click="goQQ">
 	  <text>QQ客服</text>
 	  <image src="/static/img/tag-go.png"/>
