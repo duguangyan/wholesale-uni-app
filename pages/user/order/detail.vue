@@ -251,7 +251,7 @@
 			
 			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid && businessType == 2" @click="sellerCancel">取消订单</view>
 			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid && businessType == 1" @click="sellerConfirm">确认订单</view>
-			
+
 		</div>
 		
 		<div class="big-btn-active" v-if="status == -1 && businessType == 2" @click="goSubmit">重新购买</div>
@@ -381,6 +381,10 @@
 			}
 		},
 		methods: {
+			// 退款
+			refundMoney(){
+				
+			},
 			// 去企业店铺
 			goCompany(id){
 				uni.navigateTo({

@@ -1,14 +1,13 @@
-
 <template>
-	<view class="content" @click="goGoodsDetail">
+	<view class="content cf" @click="goGoodsDetail">
 		<view class="item cf">
 			<view class="fll image">
 				<image :src="item.imgUrl" mode="aspectFill" lazy-load></image>
 			</view>
 			<view class="fll info text-333 fs28">
-        <view class="flr fs24 text-999 num">
-        	x{{item.num}}
-        </view>
+				<view class="flr fs24 text-999 num">
+					x{{item.num}}
+				</view>
 				<view class="name ellipsis-line2">
 					{{item.goodsName || ''}}
 				</view>
@@ -24,13 +23,14 @@
 					</view> -->
 				</view>
 				<view class="price text-theme">
-					<view class="fll"> 
+					<view class="fll">
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-					
+					<view class="refund flr" v-if="item.isAfterSale == 0" @click.stop="goRefund">退款</view>
 				</view>
 			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -42,41 +42,48 @@
 				type: Object,
 				default: null
 			},
-			hasAgencyFee:{
+			hasAgencyFee: {
 				type: Boolean,
 				default: true
 			},
-			roleId:{
+			roleId: {
 				type: String,
 				default: ''
 			},
-			businessType:{
+			businessType: {
 				type: String || Number,
 				default: ''
 			},
-			isAgentcy:{
+			isAgentcy: {
 				type: Boolean,
 				default: true
 			},
-			goDetailNumber:{
+			goDetailNumber: {
 				type: String,
 				default: ''
 			}
 		},
 		data() {
 			return {
-			
+
 			}
 		},
 		methods: {
+			// 去申请退款页面
+			goRefund(){
+				
+			},
+			// 去商品详细页面
 			goGoodsDetail() {
-				if(this.goDetailNumber == '1'){
+				
+				if (this.goDetailNumber == '1') {
 					uni.navigateTo({
 						url: '/pages/order/goodsDetail/goodsDetail?shopId=' + this.item.shopId + '&goodsId=' + this.item.goodsId
 					})
-				}else{
+				} else {
 					uni.navigateTo({
-						url: '/pages/user/order/detail?orderId=' + this.item.orderId + '&shopId=' + this.item.shopId + '&businessType='+ this.businessType
+						url: '/pages/user/order/detail?orderId=' + this.item.orderId + '&shopId=' + this.item.shopId + '&businessType=' +
+							this.businessType
 					})
 				}
 			},
@@ -86,48 +93,66 @@
 
 <style lang="scss" scoped>
 	.content {
-		.agent-fee{
-      position: absolute;
-      bottom: 40upx;
-    }
-		.item{
-			.image{
+		.refund{
+			width: 100upx;
+			height: 30upx;
+			line-height: 28upx;
+			border: 1upx solid #FE3B0B;
+			border-radius: 30upx;
+			color: #FE3B0B;
+			text-align: center;
+			font-size: 20upx;
+			position: relative;
+			top: 4upx;
+		}
+		.agent-fee {
+			position: absolute;
+			bottom: 40upx;
+		}
+		
+		.item {
+			.image {
 				width: 200upx;
 				height: 200upx;
-				border-radius:10upx;
+				border-radius: 10upx;
 				overflow: hidden;
-				>image{
+
+				>image {
 					width: 100%;
 					height: 100%;
 				}
 			}
-			.info{
+
+			.info {
 				width: 470upx;
 				margin-left: 20upx;
-        position: relative;
-        height: 204upx;
-				.name{
+				position: relative;
+				height: 204upx;
+
+				.name {
 					width: 470upx;
 					height: 74upx;
 				}
-				.tip{
+
+				.tip {
 					padding: 4upx 0;
 					width: 470upx;
 				}
-        .num{
-        	position: absolute;
-        	bottom: 40upx;
-          right: 0;
-        }
-				.price{
+
+				.num {
+					position: absolute;
+					bottom: 40upx;
+					right: 0;
+				}
+
+				.price {
 					margin-top: 20upx;
-          position: absolute;
-          bottom: 0;
-					
+					position: absolute;
+					bottom: 0;
+					width: 100%;
 				}
 			}
 		}
-		
+
 	}
 </style>
-

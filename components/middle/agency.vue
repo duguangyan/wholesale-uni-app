@@ -187,12 +187,19 @@
 		methods: {
 			// 去订单页面
 			goOrderList(index) {
-			  let i = index === '' ? '' : index + 1
-			  if(index == 4) i = ''
-			  uni.setStorageSync('orderNavIndex', i)
-			  uni.navigateTo({
-			  	url:'/pages/user/order/list?from=user&businessType=1'
-			  })
+				if(index == 5){
+					uni.navigateTo({
+						url:'/pages/refund/refund?businessType=1'
+					})
+				}else{
+					let i = index === '' ? '' : index + 1
+					if(index == 4) i = ''
+					uni.setStorageSync('orderNavIndex', i)
+					uni.navigateTo({
+						url:'/pages/user/order/list?from=user&businessType=1'
+					})
+				}
+			  
 			},
 			// 获取年月
 			getYearAndMonth(){

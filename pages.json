@@ -450,8 +450,8 @@
     }, {
 	  "pagePath": "pages/user/chatList/chatList",
 	  "text": "消息",
-	  "iconPath": "static/img/2.1.png",
-	  "selectedIconPath": "static/img/2.2.png"
+	  "iconPath": "static/img/5.1.png",
+	  "selectedIconPath": "static/img/5.2.png"
 	}, {
       "pagePath": "pages/user/user",
       "text": "我的",
