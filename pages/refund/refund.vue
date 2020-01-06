@@ -99,6 +99,7 @@
       text-align: center;
       image{
         width: 200upx;
+        height: 200upx;
         margin-bottom: 20upx;
       }
     }

@@ -300,7 +300,7 @@
 		getDetail,
 		getGoodNums,
 		getPostItem,
-		getHasCollect,
+		// getHasCollect,
 		getGoodsDetail
 	} from '@/api/goodsApi.js';
 	import {
@@ -580,9 +580,9 @@
 						this.good.goods.detail = util.formatRichText(this.good.goods.detail);
 						console.log(this.good.goods.detail);
 						// 判断商品是否备收藏
-						if (uni.getStorageSync('access_token')) {
-							this.getHasCollect(this.goodsId);
-						}
+						// if (uni.getStorageSync('access_token')) {
+						// 	this.getHasCollect(this.goodsId);
+						// }
 					}
 				});
 			},
@@ -651,14 +651,14 @@
 				}, 500);
 			},
 			// 判断是否备收藏
-			getHasCollect(id) {
-				let data = {
-					targetId: id
-				};
-				getHasCollect(data).then(res => {
-					this.good.hasColletion = res.data;
-				});
-			},
+			// getHasCollect(id) {
+			// 	let data = {
+			// 		targetId: id
+			// 	};
+			// 	getHasCollect(data).then(res => {
+			// 		this.good.hasColletion = res.data;
+			// 	});
+			// },
 			closePlayer() {
 				this.isPlayer = false;
 				this.videoUrl = '';
