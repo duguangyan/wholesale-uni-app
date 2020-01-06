@@ -240,7 +240,7 @@
 			</div>
 		</div>
 
-		<div class="footer" v-if="status == 0 || status == 3 || status == 6 || status == 2 || good.isAfterSale == 0">
+		<div class="footer" v-if="status == 0 || status == 3 || status == 6 || status == 2">
 			<!-- 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 			<div class="btn-black btn" v-if="status == 0 && businessType == 2" @click="postOrderCancel">取消订单</div>
 			<div class="btn-red btn" v-if="status == 0 && businessType == 2" @click="showPay">去付款</div>
@@ -251,9 +251,7 @@
 			
 			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid && businessType == 2" @click="sellerCancel">取消订单</view>
 			<view class="btn-red btn" v-if="status == 6 && (roleId == '20001' || roleId == '20004') && order.shopOrder.sellerId == uid && businessType == 1" @click="sellerConfirm">确认订单</view>
-			
-			<view class="btn-red btn" v-if="good.isAfterSale == 0 && businessType == 2" @click="refundMoney">退款</view>
-			
+
 		</div>
 		
 		<div class="big-btn-active" v-if="status == -1 && businessType == 2" @click="goSubmit">重新购买</div>
