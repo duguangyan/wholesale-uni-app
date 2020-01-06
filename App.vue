@@ -1,22 +1,22 @@
 <script>
 export default {
   onLaunch: function() {
-    // uni.removeStorageSync('isWxWeb')
-    // if (window && window.navigator.userAgent.match(/MicroMessenger/i)) {
-    //   uni.setStorageSync('isWxWeb',window.navigator.userAgent.match(/MicroMessenger/i))
-    //   let search = location.search;
-    //   let reg = search.match(/code=(.*?)(&|$)/);
-    //   let code = reg === null ? null : res[1];
-    //   if (!uni.getStorageSync('openId')) {
-    //     if (!code) {
-    //       // let domain = document.domain;
-    //       let domain = 'wsm.qinlvny.com/'
-    //       let redirect = encodeURIComponent('http://' + domain + '?#/pages/login/binding/binding');
-    //       location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx638cfb37341c1874&redirect_uri=${redirect}&response_type=code&scope=snsapi_base&state=#wechat_redirect`;
-    //     }
-    //   }
-    //   return;
-    // }
+    uni.removeStorageSync('isWxWeb')
+    if (window && window.navigator.userAgent.match(/MicroMessenger/i)) {
+      uni.setStorageSync('isWxWeb',window.navigator.userAgent.match(/MicroMessenger/i))
+      let search = location.search;
+      let reg = search.match(/code=(.*?)(&|$)/);
+      let code = reg === null ? null : res[1];
+      if (!uni.getStorageSync('openId')) {
+        if (!code) {
+          let domain = document.domain;
+          // let domain = 'wsm.qinlvny.com/'
+          let redirect = encodeURIComponent('http://' + domain + '?#/pages/login/binding/binding');
+          location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx638cfb37341c1874&redirect_uri=${redirect}&response_type=code&scope=snsapi_base&state=#wechat_redirect`;
+        }
+      }
+      return;
+    }
     
     // console.log('App Launch');
     // 获取 appid
