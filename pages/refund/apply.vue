@@ -28,7 +28,7 @@
       </view>
       <view class="refund-money text-999 fs28">
         退款金额:&emsp;
-        <text class="text-red"></text>
+        <text class="text-red">{{good.refundMoney}}</text>
       </view>
       <view class="refund-com text-999 fs28">
         含商品金额:&emsp;
