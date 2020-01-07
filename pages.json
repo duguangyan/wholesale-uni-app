@@ -428,15 +428,21 @@
         }
         ,{
             "path" : "pages/refund/refund",
-            "style" : {}
+            "style" : {
+              "navigationBarTitleText": "退款列表"
+            }
         }
         ,{
             "path" : "pages/refund/apply",
-            "style" : {}
+            "style" : {
+              "navigationBarTitleText": "申请退款"
+            }
         }
         ,{
-            "path" : "pages/refund/detail/detail",
-            "style" : {}
+            "path" : "pages/refund/detail",
+            "style" : {
+              "navigationBarTitleText": "退款详情"
+            }
         }
     ],
   "tabBar": {

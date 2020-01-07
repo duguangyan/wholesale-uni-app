@@ -14,7 +14,7 @@
       </view>
     </view>
     <view class="info">
-      <view class="state">
+      <view v-if="isRecive" class="state">
         <text>货物状态</text>
         <text class="mark">(必填)</text>
         <view class="sub" @click="showDialog2">{{state || '请选择'}}</view>
@@ -28,11 +28,13 @@
       </view>
       <view class="refund-money text-999 fs28">
         退款金额:&emsp;
-        <text class="text-red">{{good.refundMoney}}</text>
+        <text class="text-red">￥{{good.refundMoney}}</text>
       </view>
       <view class="refund-com text-999 fs28">
         含商品金额:&emsp;
-        <text class="text-000"></text>
+        <text class="text-red">￥{{good.goodsMoney}}</text>
+        &emsp;代办费:&emsp;
+        <text class="text-red">￥{{good.agentcyFee}}</text>
       </view>
       <view class="text-000 fs30">退款说明:</view>
       <view class="spec"><input v-model="descs" type="text" value="" /></view>
@@ -43,13 +45,13 @@
 
       <view class="iden">
         <view class="item" v-if="photos.length > 0" v-for="(item, index) in photos" :key="index">
-          <view class="del" @click="deletePhoto(index)">x</view>
+          <image class="icon-delete" src="/static/img/icon-clean.png" mode="" @click="deletePhoto(index)"></image>
           <image class="upload-img" :src="item.url" mode="" @click="chooseImage(index)"></image>
         </view>
         <view class="demo" v-if="photos.length < limit" @click="chooseImage(-1)"><image src="/static/imgs/cat-3.png" mode=""></image></view>
       </view>
     </view>
-    <view class="btn">提交</view>
+    <view class="btn" @click="submit">提交</view>
     
     
     <view class="dialog" v-if="isReason">
@@ -86,11 +88,16 @@
 
 <script>
 import { loadRefundInfo,sendRefund } from '@/api/refund.js';
+import Toast from '@/utils/tips.js'
 var vm = {
   data() {
     vm = this;
     return {
-      good: {},
+      good: {
+        orderDetail: {
+          
+        }
+      },
       photos: [],
       limit: 6,
       reason: '',
@@ -101,7 +108,8 @@ var vm = {
       isReason: false,
       states: ['未收到货','已收到货'],
       state: '',
-      isState: false
+      isState: false,
+      isRecive: false
     };
   },
   methods: {
@@ -181,10 +189,12 @@ var vm = {
         refundNum: vm.good.orderDetail.num,
         imgList: vm.photos
       }).then(data=>{
-        debugger
-        uni.navigateTo({
-          url: '/pages/refund/detail'
-        })
+        if(data.code == 1000){
+          return uni.navigateTo({
+            url: '/pages/refund/detail?id=' + data.data.orderId
+          })
+        }
+        Toast.tip('提交失败,请稍后再试或联系客服MM')
       })
     },
     chooseReason(reason){
@@ -207,6 +217,7 @@ var vm = {
     },
   },
   onLoad(options) {
+    vm.isRecive = options.status != 3
     loadRefundInfo({
       orderDetailId: options.orderId
     }).then(data => {
@@ -226,42 +237,43 @@ export default vm;
     align-items: center;
     padding: 30upx;
     background: #fff;
-  }
-  .photo {
-    width: 200upx;
-    height: 200upx;
-    overflow: hidden;
-    border-radius: 20upx;
-    margin-right: 20upx;
-    image {
+    .photo {
       width: 200upx;
       height: 200upx;
+      overflow: hidden;
+      border-radius: 20upx;
+      margin-right: 20upx;
+      image {
+        width: 200upx;
+        height: 200upx;
+      }
+    }
+    .content {
+      height: 200upx;
+      flex-grow: 1;
+      position: relative;
+      .price {
+        position: absolute;
+        bottom: 0;
+        color: #fe3b0b;
+        font-size: 24upx;
+      }
+      .attr {
+        position: absolute;
+        font-size: 24upx;
+        color: #999;
+        bottom: 60upx;
+      }
+      .count {
+        color: #999;
+        position: absolute;
+        right: 30upx;
+        bottom: 0;
+        font-size: 24upx;
+      }
     }
   }
-  .content {
-    height: 200upx;
-    flex-grow: 1;
-    position: relative;
-    .price {
-      position: absolute;
-      bottom: 0;
-      color: #fe3b0b;
-      font-size: 24upx;
-    }
-    .attr {
-      position: absolute;
-      font-size: 24upx;
-      color: #999;
-      bottom: 60upx;
-    }
-    .count {
-      color: #999;
-      position: absolute;
-      right: 30upx;
-      bottom: 0;
-      font-size: 24upx;
-    }
-  }
+  
   .info {
     background: #fff;
     margin-top: 40upx;
@@ -327,6 +339,14 @@ export default vm;
     // padding: 40upx 0 30upx 0;
     display: flex;
     flex-wrap: wrap;
+    .icon-delete{
+      width: 40upx;
+      height: 40upx;
+      position: absolute;
+      z-index: 2;
+      right: -20upx;
+      top: -20upx;
+    }
     .item,
     .demo {
       width: 140upx;
@@ -340,12 +360,6 @@ export default vm;
     }
     .item {
       position: relative;
-    }
-    .del {
-      position: absolute;
-      z-index: 2;
-      right: -10upx;
-      top: -20upx;
     }
 
     .demo {

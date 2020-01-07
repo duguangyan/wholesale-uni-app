@@ -5,18 +5,18 @@ import {request}  from './request.js'
 id: 退款单号
 pageIndex: 当前页
 pageSize: 每页条数
-sellPhone: 商家账号
+sellName: 商家账号
 status: -1 关闭 0 取消 1 新建 2商家审核中 3商家审核通过 4 商家审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 8 进行中 9 平台退款失败 默认查全部
 timeEnd: 申请时间(止)
 timeStart: 申请时间(起)
 userId: 用户id
-userPhone: 买家账
+userName: 买家账
 */
 const getRefundList = data => {
 	let url = '/api/ws/order/afterSale/saleList';
   return request({
     url: url,
-    method: 'post',
+    method: 'get',
     data,
     // type: 'form'
   })
@@ -47,14 +47,14 @@ const loadRefundInfo = data => {
   })
 }
 
-
+// 退款详情
 const getRefundDetail = data => {
 	let url = '/api/ws/order/afterSale/appDetail/' + data.id;
   return request({
     url: url,
-    method: 'post',
-    data,
-    type: 'form'
+    method: 'get',
+    // data,
+    // type: 'form'
   })
 }
 
@@ -64,7 +64,7 @@ const closeRefund = data => {
   return request({
     url: url,
     method: 'post',
-    data,
+    // data,
     // type: 'form'
   })
 }
@@ -116,4 +116,16 @@ const checkRefund = data => {
   })
 }
 
-export {getRefundList,applyPlatform,loadRefundInfo,closeRefund,cancelRefund,sendRefund,checkRefund,getRefundDetail }
+// 获取协商历史列表
+// afterSaleId: 售后ID
+const getNegoList = data => {
+	let url = '/api/ws/order/afterSale/appDetail/' + data.id;
+  return request({
+    url: url,
+    method: 'get',
+    // data,
+    // type: 'form'
+  })
+}
+
+export {getRefundList,applyPlatform,loadRefundInfo,closeRefund,cancelRefund,sendRefund,checkRefund,getRefundDetail,getNegoList }
