@@ -86,6 +86,7 @@ descs: 说明描述
 orderDetailId: 订单商品Id
 reason: 理由
 refundNum: 退款数量
+imgList: 凭证
 */
 const sendRefund = data => {
 	let url = '/api/ws/order/afterSale/applyRefund/';

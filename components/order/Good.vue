@@ -76,7 +76,6 @@
 		methods: {
 			// 去申请退款页面
 			applyRefund(item){
-        debugger
 				uni.navigateTo({
 				  url: '/pages/refund/apply?orderId=' + item.id
 				})

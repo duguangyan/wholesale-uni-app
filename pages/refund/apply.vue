@@ -17,7 +17,7 @@
       <view class="state">
         <text>货物状态</text>
         <text class="mark">(必填)</text>
-        <view class="sub">请选择</view>
+        <view class="sub" @click="showDialog2">{{state || '请选择'}}</view>
         <image src="/static/imgs/right.png" mode=""></image>
       </view>
       <view class="reason">
@@ -44,7 +44,7 @@
       <view class="iden">
         <view class="item" v-if="photos.length > 0" v-for="(item, index) in photos" :key="index">
           <view class="del" @click="deletePhoto(index)">x</view>
-          <image class="upload-img" :src="item" mode="" @click="chooseImage(index)"></image>
+          <image class="upload-img" :src="item.url" mode="" @click="chooseImage(index)"></image>
         </view>
         <view class="demo" v-if="photos.length < limit" @click="chooseImage(-1)"><image src="/static/imgs/cat-3.png" mode=""></image></view>
       </view>
@@ -66,6 +66,21 @@
         <view class="btn-close" @click="closeDialog">关闭</view>
       </view>
     </view>
+    
+    <view class="dialog" v-if="isState">
+      <view class="mask" @click="closeDialog2"></view>
+      <view class="body">
+        <view class="title">退款原因</view>
+        <view class="li" v-for="item in states" :key="item" @click="chooseState(item)">
+          <text>
+            {{item}}
+          </text>
+          <image v-if="item == state" src="/static/img/icon-checked.png" mode=""></image>
+          <image v-else src="/static/img/icon-uncheck.png" mode=""></image>
+        </view>
+        <view class="btn-close" @click="closeDialog2">关闭</view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -83,7 +98,10 @@ var vm = {
       isClock: false,
       descs: '',
       reasons: ['多拍/错拍','地址填写错误','迟迟未发货','其他'],
-      isReason: false
+      isReason: false,
+      states: ['未收到货','已收到货'],
+      state: '',
+      isState: false
     };
   },
   methods: {
@@ -124,9 +142,13 @@ var vm = {
           let res = JSON.parse(uploadFileRes.data);
           if (res.code == '1000') {
             if (index == -1) {
-              vm.photos.unshift(res.data.url);
+              vm.photos.unshift({
+                url: res.data.url
+              });
             } else {
-              vm.photos.splice(index, 1, res.data.url);
+              vm.photos.splice(index, 1, {
+                url: res.data.url
+              });
             }
 
             vm.isClock = false;
@@ -156,8 +178,10 @@ var vm = {
         descs: vm.descs,
         orderDetailId: vm.good.orderDetailId,
         reason: vm.reason,
-        refundNum: vm.good.orderDetail.num
+        refundNum: vm.good.orderDetail.num,
+        imgList: vm.photos
       }).then(data=>{
+        debugger
         uni.navigateTo({
           url: '/pages/refund/detail'
         })
@@ -166,12 +190,21 @@ var vm = {
     chooseReason(reason){
       vm.reason = reason
     },
+    chooseState(state){
+      vm.state = state
+    },
     closeDialog(){
       vm.isReason = false
     },
     showDialog(){
       vm.isReason = true
-    }
+    },
+    showDialog2(){
+      vm.isState = true
+    },
+    closeDialog2(){
+      vm.isState = false
+    },
   },
   onLoad(options) {
     loadRefundInfo({
