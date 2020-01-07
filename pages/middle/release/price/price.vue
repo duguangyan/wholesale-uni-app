@@ -23,7 +23,7 @@
 		<view class="ul fs24">
 			<view class="li cf"  v-for="(item,index) in priceExpList" :key="index">
 				<view class="fll">起批量</view>
-				<view class="fll"><input type="number" @input="inputStartQuantity($event,index)" @blur="blurStartQuantity($event,index)" maxlength="8" @input="checkName" v-model="item.startQuantity" /></view>
+				<view class="fll"><input type="number" @input="inputStartQuantity($event,index)" @blur="blurStartQuantity($event,index)" maxlength="8" v-model="item.startQuantity" /></view>
 				<view class="fll">价格(元)</view>
 				<view class="fll"><input type="digit" maxlength="8" @input="checkValue($event,index)" @blur='blurValue($event,index)' v-model="item.price" /></view>
 				<view class="flr add mr15" v-if='index == 0' @click="add(index)">新增</view>
