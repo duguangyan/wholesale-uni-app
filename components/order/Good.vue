@@ -77,7 +77,7 @@
 			// 去申请退款页面
 			applyRefund(item){
 				uni.navigateTo({
-				  url: '/pages/refund/apply?orderId=' + item.id
+				  url: '/pages/refund/apply?orderId=' + item.id +"&status=" + this.status
 				})
 			},
 			// 去商品详细页面

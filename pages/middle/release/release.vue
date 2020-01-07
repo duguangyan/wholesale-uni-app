@@ -822,7 +822,7 @@
 				}
 				
 				
-				console.log(this.goodsImgList)
+				// console.log(this.goodsImgList)
 				
 				
 				this.assessHasData()

@@ -277,11 +277,6 @@
 						]
 					}
 				}
-				
-				
-				
-				
-				
 			},
 			// 获取年月
 			getYearAndMonth(){
@@ -395,6 +390,8 @@
 						if(res.data.apply.id){
 							this.userApply = res.data.apply 
 							uni.setStorageSync('userApply', JSON.stringify(res.data.apply))
+						}else{
+							uni.setStorageSync('userApply', '')
 						}
 										
 						uni.setStorageSync('roleId', roleId)
