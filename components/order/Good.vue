@@ -26,7 +26,8 @@
 					<view class="fll">
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="refund flr" v-if="item.isAfterSale == '0' && (status==2||status==3)" @click.stop="goRefund">{{refundText}}</view>
+
+					<view class="refund flr" v-if="item.isAfterSale == '0' && (status=='2'||status=='3')" @click.stop="applyRefund(item)">{{refundText}}</view>
 				</view>
 			</view>
 		</view>
@@ -63,7 +64,7 @@
 				default: ''
 			},
 			status: {
-				type: String || Number,
+				type: String | Number,
 				default: ''
 			}
 		},
@@ -74,8 +75,10 @@
 		},
 		methods: {
 			// 去申请退款页面
-			goRefund(){
-				
+			applyRefund(item){
+				uni.navigateTo({
+				  url: '/pages/refund/apply?orderId=' + item.id
+				})
 			},
 			// 去商品详细页面
 			goGoodsDetail() {

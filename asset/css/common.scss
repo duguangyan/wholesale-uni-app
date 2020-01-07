@@ -41,3 +41,15 @@ image{
   top:50%;
   transform: translateY(-50%);
 }
+
+.good-title{
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  font-size: 28upx;
+  color: #333;
+}

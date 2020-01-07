@@ -42,8 +42,14 @@
 					</view>
 					<view class="tip" v-if="item.tip!=''">{{item.tip}}</view>
 					<view class="fs24 mgt-10" :class="{'Android3': platform == 1}">{{item.t}}</view>
-
 				</view>
+        <view class="li" @click="navToRefund">
+        	<view class="img" :class="{'Android4': platform == 1}">
+        		<image src="/static/imgs/icon-refund.png"></image>
+        	</view>
+        	<view class="fs24 mgt-10" :class="{'Android3': platform == 1}">退款</view>
+        
+        </view>
 			</view>
 		</view>
 
@@ -163,12 +169,7 @@
 						t: '待收货',
 						u: '/static/imgs/icon-1007.png',
 						tip: ''
-					},
-					{
-						t: '已完成',
-						u: '/static/imgs/icon-1004.png',
-						tip: ''
-					},
+					}
 				]
 				this.$eventHub.$off('goBlack');
 			})
@@ -180,6 +181,11 @@
 		},
 		methods: {
 			// 去消息
+      navToRefund(){
+        uni.navigateTo({
+          url: '/pages/refund/refund'
+        })
+      },
 			goChatList() {
 				let token = uni.getStorageSync('access_token')
 				if (token) {

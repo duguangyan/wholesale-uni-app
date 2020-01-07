@@ -426,6 +426,18 @@
 				"navigationBarTitleText": "消息列表"
 			}
         }
+        ,{
+            "path" : "pages/refund/refund",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/refund/apply",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/refund/detail/detail",
+            "style" : {}
+        }
     ],
   "tabBar": {
     "color": "#797980",
