@@ -158,7 +158,21 @@ export default {
                 providerId: 'weixinmp'
               }).then(data => {
                 uni.setStorageSync('openId', open.data.providerUserId)
-                self.getUserInfo();
+                getUserInfoData()
+                  .then(res => {
+                    if (res.code == '1000') {
+                      console.log(JSON.stringify(res));
+                      uni.setStorageSync('nickName', res.data.nickName);
+                      uni.setStorageSync('headImgUrl', res.data.headImgUrl);
+                      // 返回上一页
+                      uni.redirectTo({
+                        url: '/'
+                      })
+                    }
+                  })
+                  .catch(err => {
+                    T.tips(err.message || '获取用户信息错误');
+                  });
               });
               
             })
