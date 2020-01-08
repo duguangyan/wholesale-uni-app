@@ -108,11 +108,6 @@
 						u: '/static/imgs/icon-1007.png',
 						tip: ''
 					},
-					{
-						t: '退款',
-						u: '/static/imgs/icon-10099.png',
-						tip: ''
-					},
 				],
 				isLogin: false,
 				uid: '',
@@ -183,7 +178,7 @@
 			// 去消息
       navToRefund(){
         uni.navigateTo({
-          url: '/pages/refund/refund'
+          url: '/pages/refund/refund?businessType=2'
         })
       },
 			goChatList() {
