@@ -107,12 +107,12 @@ refuseReason: 拒绝原因
 status: 审核状态(1:审核通过,0:审核不过
 */
 const checkRefund = data => {
-	let url = '/api/ws/order/afterSale/appAudit/';
+	let url = '/api/ws/order/afterSale/appAudit';
   return request({
     url: url,
     method: 'post',
     data,
-    // type: 'form'
+    type: 'form'
   })
 }
 

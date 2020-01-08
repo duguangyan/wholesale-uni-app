@@ -76,6 +76,7 @@
 
 <script>
 import { getRefundDetail, cancelRefund, closeRefund,applyPlatform,checkRefund } from '@/api/refund.js';
+import {accountSub} from '@/api/payApi.js'
 var vm = {
   data() {
     vm = this;
@@ -160,24 +161,24 @@ var vm = {
             vm.isDialog = false;
           });
       }else if(vm.curType == 4){
-        // checkRefund({
-        //   auditorType: 2,
-        //   id: '',
-        //   refundMoney: ''
-        //   refuseReason: ''
-        //   status: 0
-        // })
         uni.navigateTo({
-          url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}price=${vm.detail.afterSaleDetail.price}`
+          url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}&price=${vm.detail.afterSaleDetail.price}`
         })
       }else if(vm.curType == 5){
-        checkRefund({
-          auditorType: 2,
-          id: '',
-          refundMoney: '',
-          refuseReason: '',
-          status: 1
+        accountSub().then(res=>{
+          vm.refund = res.data
+          
+          
+          // 同意退款后叼这个
+          checkRefund({
+            auditorType: 2,
+            id: '',
+            refundMoney: '',
+            refuseReason: '',
+            status: 1
+          })
         })
+        
       }
     }
   },

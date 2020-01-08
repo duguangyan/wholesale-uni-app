@@ -7,6 +7,7 @@
 
 <script>
   import { checkRefund } from '@/api/refund.js';
+  import Toast from '@/utils/tips.js'
   var vm = {
     data(){
       vm = this
@@ -22,14 +23,18 @@
     },
     methods:{
       submit(){
-        
         checkRefund({
           auditorType: 2,
           id: vm.id,
           refundMoney: vm.refundMoney,
           refuseReason: vm.refuseReason,
           status: 0
-        }).then(data=>{
+        }).then(res=>{
+          if(res.code == 1000){
+            uni.navigateBack()
+          }else{
+            Toast.tip('拒绝失败!')
+          }
           
         })
       }
@@ -40,6 +45,8 @@
 
 <style lang="scss" scoped>
   .refuse{
+    background: #fff;
+    height: 100vh;
     padding: 30upx;
     textarea::place-holder{
       color: #999;
@@ -50,10 +57,16 @@
       font-size: 28upx;
       border-radius: 20upx;
       background: #F5F5F5;
+      width: 100%;
+      // padding: 30upx;
+      text-indent: 30upx;
+      padding-top: 30upx;
     }
    .btn{
      position: fixed;
      width: 640upx;
+     left: 55upx;
+     bottom: 60upx;
      line-height: 64upx;
      border-radius: 64upx;
      background: #FE3B0B;
