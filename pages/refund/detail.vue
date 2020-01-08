@@ -106,7 +106,7 @@ var vm = {
         '4': ['是否拒绝退款?'],
         '5': ['是否同意退款?'],
       },
-      curType: '' // 弹窗类型 1:撤销申请；2:关闭申请；3:平台介入；4.拒绝退款；5.同意退款
+      curType: '', // 弹窗类型 1:撤销申请；2:关闭申请；3:平台介入；4.拒绝退款；5.同意退款
     };
   },
   methods: {
@@ -185,6 +185,7 @@ var vm = {
   onLoad(options) {
     vm.detailId = options.id;
     vm.businessType = options.businessType
+    
   },
   onShow() {
     vm.load();

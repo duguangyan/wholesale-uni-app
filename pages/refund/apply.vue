@@ -217,7 +217,7 @@ var vm = {
     },
   },
   onLoad(options) {
-    vm.isRecive = options.status != 3
+    vm.isRecive = options.status != 2
     loadRefundInfo({
       orderDetailId: options.orderId
     }).then(data => {
