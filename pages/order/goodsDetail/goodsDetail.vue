@@ -170,7 +170,7 @@
 					<view>店铺</view>
 				</view> -->
 				<view @click="goCart(good.userRealInfoVo.userId)">
-					<img class="icon-18" src="@/static/imgs/icon-1021.png" />
+					<img class="icon-18" src="@/static/imgs/icon-message.png" />
 					<view>聊一聊</view>
 				</view>
 				<view tag="div" @click="callMaster(good.userRealInfoVo.phone)">
@@ -816,7 +816,7 @@
 						if (res.code == "1000") {
 							let id = uni.getStorageSync('uid')
 							let tk = res.data
-							let url = 'http://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
+							let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
 							console.log('url', url)
 							uni.navigateTo({
 								url: '/pages/user/chat/chat?url=' + url

@@ -154,18 +154,20 @@ const request = function(params = {}) {
 							}
 						})
 					} else {
-						if(res.code != '9999') {
-							if(!uni.getStorageSync('access_token')){
-								// 防止重复进入错误页面
-								if(uni.getStorageSync('err') != 1){
-									uni.navigateTo({
-										url:'/pages/common/err/err?redirect=' + JSON.stringify(params)
-									})
-								}
-							}
-						}
+						// if(res.code != '9999') {
+						// 	if(!uni.getStorageSync('access_token')){
+						// 		// 防止重复进入错误页面
+						// 		if(uni.getStorageSync('err') != 1){
+						// 			uni.navigateTo({
+						// 				url:'/pages/common/err/err?redirect=' + JSON.stringify(params)
+						// 			})
+						// 		}
+						// 	}
+						// }
+						
+						
 					}
-					resolve(res);
+					reject(res);
 				}
 			},
 			fail(err) {

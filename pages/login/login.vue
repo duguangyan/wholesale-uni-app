@@ -328,9 +328,9 @@
 					}
 
 					//#ifdef APP-PLUS  
-					var uuid = plus.device.uuid;
+					this.deviceId = plus.device.uuid;
 					//#endif
-					//#ifdef MP-WEIXIN
+					//#ifdef MP-WEIXIN || H5
 					this.deviceId = this.getUUID()
 					//#endif
 					let data = {

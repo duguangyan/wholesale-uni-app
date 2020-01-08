@@ -109,32 +109,17 @@
 				}
 			},
 			blurValue(e,index){
-				
-				// let price = this.priceExpList[index].price + ''
-				// if(price.indexOf('.') != -1){
-				// 	let arr = price.split('.')
-				// 	if(arr[0] == '')arr[0] = '0'
-				// 	price = arr[0] + '.' + arr[1].substr(0,2)
-				// }
-				// if(price == 0 || price == 0.0 || price == 0.00) price = '0.01'
-				
-				// let reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/;
-				// let bool = reg.test(price)
-				// if(!bool) {
-				// 	price = '0.01'
-				// }
-				// this.priceExpList[index].price = price
-				
-				let price = e.target.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
-				price = price.replace(/^\./g,""); //验证第一个字符是数字
-				price = price.replace(/\.{2,}/g,""); //只保留第一个, 清除多余的
-				price = price.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-				price = price.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+				let price = ''
+				let val = e.target.value + ''
+				if(val[0]== '0' && val[1]== '0'){
+					price = 0
+				}else{
+					price = this.limitFloat(e.target.value)
+				}
+				//this.priceExpList[index].price = price
 				this.$nextTick(function(){
 					this.priceExpList[index].price = price
 				})
-				
-				
 				if(index>0){
 					// this.priceExpList[index].price = this.priceExpList[index].price >= this.priceExpList[index - 1].price ? util.accSub(this.priceExpList[index - 1].price,0.01) : this.priceExpList[index].price
 					if(this.priceExpList[index].price >= this.priceExpList[index - 1].price){
@@ -148,24 +133,42 @@
 				}
 			},
 			checkValue(e,index){
-				
-				let val = e.target.value + ''
 				let price = ''
-				if(val[0] != '0'){
-					price = val.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
-					price = price.replace(/^\./g,""); //验证第一个字符是数字
-					price = price.replace(/\.{2,}/g,""); //只保留第一个, 清除多余的
-					price = price.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-					price = price.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
-				}
+				let val = e.target.value + ''
 				
+				console.log(val[0])
+				console.log(val[0])
+				console.log(val[0]== '0' && val[1]== '0')
+				if(val[0]== '0' && val[1]== '0'){
+					price = 0
+				}else{
+					price = this.limitFloat(e.target.value)
+				}
+				//this.priceExpList[index].price = price
 				this.$nextTick(function(){
 					this.priceExpList[index].price = price
 				})
+				
 				setTimeout(()=>{
 					this.assessHasData()
 				},10)
 				
+			},
+			limitFloat(val){
+			  let sNum = val.toString(); //先转换成字符串类型
+			  if (sNum.indexOf('.') == 0) {//第一位就是 .
+			    console.log('first str is .')
+			    sNum = '0' + sNum
+			  }
+			  sNum = sNum.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
+			  sNum = sNum.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
+			  sNum = sNum.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+			  sNum = sNum.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数
+			  //以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+			  if(sNum.indexOf(".")< 0 && sNum !=""){
+			    sNum = parseFloat(sNum);
+			  }
+			  return sNum
 			},
 			// 库存输入框
 			checkStock(e){
