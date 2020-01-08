@@ -191,7 +191,7 @@ var vm = {
       }).then(data=>{
         if(data.code == 1000){
           return uni.navigateTo({
-            url: '/pages/refund/detail?id=' + data.data.orderId
+            url: `/pages/refund/detail?id=${data.data.id}&businessType=2`
           })
         }
         Toast.tip('提交失败,请稍后再试或联系客服MM')

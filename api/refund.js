@@ -119,11 +119,11 @@ const checkRefund = data => {
 // 获取协商历史列表
 // afterSaleId: 售后ID
 const getNegoList = data => {
-	let url = '/api/ws/order/afterSale/appDetail/' + data.id;
+	let url = '/api/ws/order/afterSaleAudit/getAuditByAfterSaleId';
   return request({
     url: url,
     method: 'get',
-    // data,
+    data,
     // type: 'form'
   })
 }

@@ -3,7 +3,8 @@
     <view class="banner">
       <view>
         <!-- -1 关闭 0 取消 1 新建 2商家审核中 3商家审核通过 4 商家审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 -->
-        <view class="fs34">{{ result['' + detail.status] }}</view>
+        <!-- <view class="fs34">{{ result['' + detail.status] }}</view> -->
+        <view class="fs34">{{detail.statusStr}}</view>
         <view class="fs24">{{ detail.afterSaleDetail.applyRefundTime }}</view>
       </view>
       <image src="/static/imgs/icon-refund-detail.png" mode=""></image>
@@ -12,11 +13,23 @@
     <view class="result">
       <view class="text1">{{ detail.texts[0] }}</view>
       <view class="text2" v-if="detail.texts[1]">{{ detail.texts[1] }}</view>
-      <!-- <view v-if="detail.status == 2" class="btn-con"><view class="btn-red" @click="showDialog(1)">撤回申请</view></view> -->
-      <view v-if="detail.status == 4" class="btn-con">
-        <view class="mgr-30 btn-black" @click="showDialog(3)">平台介入</view>
-        <view class="btn-red" @click="showDialog(2)">关闭退款</view>
-      </view>
+      <template v-if="businessType == 2">
+        <view v-if="detail.status == 2" class="btn-con"><view class="btn-red" @click="showDialog(1)">撤回申请</view></view>
+        <view v-if="detail.status == 4 || detail.status == 5" class="btn-con">
+          <view v-if="detail.status == 4" class="btn-black" @click="showDialog(3)">平台介入</view>
+          <view class="btn-red mgl-30" @click="showDialog(2)">关闭退款</view>
+        </view>
+      </template>
+      <template v-else>
+        <view v-if="detail.status == 2" class="btn-con">
+          <view class="mgr-30 btn-black" @click="showDialog(4)">拒绝退款</view>
+          <view class="btn-red" @click="showDialog(5)">同意退款</view>
+        </view>
+        <!-- <view v-if="detail.status == 4" class="btn-con">
+          <view class="mgr-30 btn-black" @click="showDialog(3)">平台介入</view>
+          <view class="btn-red" @click="showDialog(2)">关闭退款</view>
+        </view> -->
+      </template>
     </view>
 
     <view class="history" @click="navToHistory">
@@ -62,15 +75,16 @@
 </template>
 
 <script>
-import { getRefundDetail, cancelRefund, closeRefund,applyPlatform } from '@/api/refund.js';
+import { getRefundDetail, cancelRefund, closeRefund,applyPlatform,checkRefund } from '@/api/refund.js';
 var vm = {
   data() {
     vm = this;
     return {
       detail: {
         afterSaleDetail: {},
-        texts: []
+        texts: [],
       },
+      businessType: '',
       detailId: '',
       result: {
         '-1': '关闭',
@@ -87,15 +101,17 @@ var vm = {
       dialog: {
         '1': ['确定取消本次申请吗?', '取消后，订单将正常发货.'],
         '2': ['确定关闭退款申请吗?', '关闭后将不能再次申请'],
-        '3': ['是否申请平台介入?', '介入后将由平台审核']
+        '3': ['是否申请平台介入?', '介入后将由平台审核'],
+        '4': ['是否拒绝退款?'],
+        '5': ['是否同意退款?'],
       },
-      curType: '' // 弹窗类型 1:撤销申请；2:关闭申请；3:平台介入
+      curType: '' // 弹窗类型 1:撤销申请；2:关闭申请；3:平台介入；4.拒绝退款；5.同意退款
     };
   },
   methods: {
     navToHistory(){
       uni.navigateTo({
-        url: '/pages/refund/history?id=' + detial.afterSaleDetail.afterSaleId
+        url: '/pages/refund/history?id=' + vm.detail.afterSaleDetail.afterSaleId
       })
     },
     showDialog(type) {
@@ -132,7 +148,7 @@ var vm = {
           .catch(data => {
             vm.isDialog = false;
           });
-      }else{
+      }else if(vm.curType == 3){
         applyPlatform({
           id: vm.detailId
         })
@@ -143,11 +159,31 @@ var vm = {
           .catch(data => {
             vm.isDialog = false;
           });
+      }else if(vm.curType == 4){
+        // checkRefund({
+        //   auditorType: 2,
+        //   id: '',
+        //   refundMoney: ''
+        //   refuseReason: ''
+        //   status: 0
+        // })
+        uni.navigateTo({
+          url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}price=${vm.detail.afterSaleDetail.price}`
+        })
+      }else if(vm.curType == 5){
+        checkRefund({
+          auditorType: 2,
+          id: '',
+          refundMoney: '',
+          refuseReason: '',
+          status: 1
+        })
       }
     }
   },
   onLoad(options) {
     vm.detailId = options.id;
+    vm.businessType = options.businessType
   },
   onShow() {
     vm.load();

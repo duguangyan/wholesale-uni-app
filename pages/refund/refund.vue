@@ -43,6 +43,7 @@
 		data() {
       vm = this
 			return {
+        businessType: /*1:卖家;2:买家*/ '1',
 				loading: false,
 				search: {
 					pageIndex: 1,
@@ -54,12 +55,13 @@
 			};
 		},
 		onLoad(options) {
-			
+			vm.businessType = options.businessType
 		},
 		onReachBottom() {
 			this.loadMore()
 		},
 		onShow() {
+      vm.list = []
       // 如果认证状态，打回认证
       if(uni.getStorageSync('needIdentify')){
         return uni.navigateTo({
@@ -74,11 +76,11 @@
 		methods: {
       navToDetail(id){
         uni.navigateTo({
-          url: '/pages/refund/detail?id=' + id
+          url: '/pages/refund/detail?id=' + id + '&businessType=' + vm.businessType
         })
       },
 			load() {
-				getRefundList(vm.search).then(data => {
+				getRefundList(Object.assign(vm.search,{businessType:vm.businessType})).then(data => {
 					if (data.code == '1000') {
 						vm.list = vm.list.concat(data.data.records)
 						vm.loading = vm.list.length < data.data.total
@@ -106,8 +108,13 @@
     font-size: 28upx;
   }
   .refund{
+    
     min-height: 100vh;
     background: #f5f5f5;
+    .center-p{
+      text-align: center;
+      padding: 20upx 0;
+     }
     .no-data{
       padding-top: 300upx;
       font-size: 32upx;

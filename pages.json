@@ -33,7 +33,7 @@
           "titleView": false
         }
       }
-    },{
+    }, {
       "path": "pages/user/sys/sys",
       "style": {
         "navigationBarTitleText": "系统设置",
@@ -214,9 +214,9 @@
       "path": "pages/middle/release/attribute/add/add",
       "style": {
         "navigationBarTitleText": "添加属性",
-        "navigationStyle":"custom",
-        "app-plus":{
-        	"titleView":false
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleView": false
         }
       }
     }, {
@@ -413,44 +413,51 @@
       "style": {
         "navigationBarTitleText": "选择企业"
       }
+    }, {
+      "path": "pages/user/chat/chat",
+      "style": {
+        "navigationBarTitleText": "消息"
+      }
+    }, {
+      "path": "pages/user/chatList/chatList",
+      "style": {
+        "navigationBarTitleText": "消息列表"
+      }
+    }, {
+      "path": "pages/refund/refund",
+      "style": {
+        "navigationBarTitleText": "退款列表"
+      }
+    }, {
+      "path": "pages/refund/apply",
+      "style": {
+        "navigationBarTitleText": "申请退款"
+      }
+    }, {
+      "path": "pages/refund/detail",
+      "style": {
+        "navigationBarTitleText": "退款详情"
+      }
+    },
+    {
+      "path": "pages/refund/history",
+      "style": {
+        "navigationBarTitleText": "协商历史"
+      }
+    },
+    {
+      "path": "pages/refund/refuse",
+      "style": {
+        "navigationBarTitleText": "拒绝原因"
+      }
     }
-      ,{
-            "path" : "pages/user/chat/chat",
-            "style" : {
-				"navigationBarTitleText": "消息"
-			}
-        }
-        ,{
-            "path" : "pages/user/chatList/chatList",
-            "style" : {
-				"navigationBarTitleText": "消息列表"
-			}
-        }
-        ,{
-            "path" : "pages/refund/refund",
-            "style" : {
-              "navigationBarTitleText": "退款列表"
-            }
-        }
-        ,{
-            "path" : "pages/refund/apply",
-            "style" : {
-              "navigationBarTitleText": "申请退款"
-            }
-        }
-        ,{
-            "path" : "pages/refund/detail",
-            "style" : {
-              "navigationBarTitleText": "退款详情"
-            }
-        }
-    ],
+  ],
   "tabBar": {
     "color": "#797980",
     "selectedColor": "#FE3B0B",
     "backgroundColor": "#FAFAFA",
-	"borderStyle":"white",
-	"spacing":"3px",
+    "borderStyle": "white",
+    "spacing": "3px",
     "list": [{
       "pagePath": "pages/main/main",
       "text": "首页",
@@ -462,11 +469,11 @@
       "iconPath": "static/img/2.1.png",
       "selectedIconPath": "static/img/2.2.png"
     }, {
-	  "pagePath": "pages/user/chatList/chatList",
-	  "text": "消息",
-	  "iconPath": "static/img/5.1.png",
-	  "selectedIconPath": "static/img/5.2.png"
-	}, {
+      "pagePath": "pages/user/chatList/chatList",
+      "text": "消息",
+      "iconPath": "static/img/5.1.png",
+      "selectedIconPath": "static/img/5.2.png"
+    }, {
       "pagePath": "pages/user/user",
       "text": "我的",
       "iconPath": "static/img/3.1.png",
