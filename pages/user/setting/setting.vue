@@ -92,6 +92,7 @@
 
 <script>
 import { postUpdateNickname } from '@/api/userApi.js';
+import T from '@/utils/tips.js'
 export default {
   data() {
     return {
@@ -197,23 +198,23 @@ export default {
     onUpload(e) {
       let _this = this;
       // #ifdef H5
-      let file = e.target.files[0];
-      let formdata = new FormData();
-      formdata.append('file', file);
-      postUserImgUpload(formdata)
-        .then(res => {
-          if (res.code == '1000') {
-            this.uploadUserHeadImg(res.data);
-          } else {
-            T.tips(res.message || '上传图片失败');
-          }
-        })
-        .catch(err => {
-          T.tips(err.message || '上传图片失败');
-        });
+      // let file = e.target.files[0];
+      // let formdata = new FormData();
+      // formdata.append('file', file);
+      // postUserImgUpload(formdata)
+      //   .then(res => {
+      //     if (res.code == '1000') {
+      //       this.uploadUserHeadImg(res.data);
+      //     } else {
+      //       T.tips(res.message || '上传图片失败');
+      //     }
+      //   })
+      //   .catch(err => {
+      //     T.tips(err.message || '上传图片失败');
+      //   });
       // #endif
 
-      // #ifdef APP-PLUS || MP-WEIXIN
+      // #ifdef APP-PLUS || MP-WEIXIN || H5
 
       uni.chooseImage({
         count: 1, //默认9

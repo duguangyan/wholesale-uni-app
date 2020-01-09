@@ -39,7 +39,7 @@
 				getImToken().then(res=>{
 					if(res.code == '1000'){
 						let uid  = uni.getStorageSync('uid')
-						this.url = 'http://im.qinlvny.com/#/session?id='+uid+'&tk='+res.data
+						this.url = 'https://im.qinlvny.com/#/session?id='+uid+'&tk='+res.data
 						console.log(this.url)
 						}else{
 						T.tips("请求IM数据失败")
