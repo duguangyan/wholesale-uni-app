@@ -5,7 +5,8 @@
         <!-- -1 关闭 0 取消 1 新建 2商家审核中 3商家审核通过 4 商家审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 -->
         <!-- <view class="fs34">{{ result['' + detail.status] }}</view> -->
         <view class="fs34">{{detail.statusStr}}</view>
-        <view class="fs24">{{ detail.afterSaleDetail.applyRefundTime }}</view>
+        <view v-if="detail.status == 2 || detail.status>>1 == 2" class="fs24">{{ calcTime(detail.expiresTime)}}</view>
+        <view v-else class="fs24">{{detail.platformAuditTime || detail.merchantAuditTime}}</view>
       </view>
       <image src="/static/imgs/icon-refund-detail.png" mode=""></image>
     </view>
@@ -38,10 +39,10 @@
     </view>
 
     <view class="good">
-      <view class="photo"><image :src="detail.afterSaleDetail.imgUrl" mode=""></image></view>
+      <view class="photo" @click="navToGood()"><image :src="detail.afterSaleDetail.imgUrl" mode=""></image></view>
       <view class="content">
         <view class="good-title">{{ detail.afterSaleDetail.goodsName }}</view>
-        <view class="attr"></view>
+        <view class="good-attr">{{detail.afterSaleDetail.skuDesc}}</view>
         <view class="price">
           价格￥
           <text class="fs32">{{ detail.afterSaleDetail.price }}</text>
@@ -53,7 +54,10 @@
 
     <view class="info">
       <view>退款原因：{{ detail.afterSaleDetail.reason }}</view>
-      <view>退款金额：￥{{ detail.afterSaleDetail.price }}</view>
+      
+      <view v-if="businessType != 2">退款金额：￥{{ detail.afterSaleDetail.refundMoney - detail.afterSaleDetail.agentcyMoney }}</view>
+      <view v-else>退款金额：￥{{ detail.afterSaleDetail.refundMoney }}(包含商品金额:￥{{detail.afterSaleDetail.price}},代办费:{{detail.afterSaleDetail.agentcyMoney}})</view>
+      
       <view>申请时间：{{ detail.afterSaleDetail.applyRefundTime }}</view>
       <view>退款说明：{{ detail.afterSaleDetail.descs }}</view>
       <view>退款单号：{{ detail.afterSaleDetail.afterSaleId }}</view>
@@ -110,6 +114,25 @@ var vm = {
     };
   },
   methods: {
+    navToGood(){
+      uni.navigateTo({
+        url: `/pages/order/goodsDetail/goodsDetail?shopId=${vm.detail.afterSaleDetail.shopId}&goodsId=${vm.detail.afterSaleDetail.goodsId}`
+      })
+    },
+    calcTime(time){
+      let day,hour,minute,second,redundent;
+      let curTime = new Date().getTime()
+      time = (time - curTime) / 1000
+      if(time<=0){
+        return '已超时'
+      }
+      day = Math.floor(time/(60*60*24))
+      redundent = time % (60*60*24)
+      hour = Math.floor(redundent / (60*60))
+      redundent = redundent % (60*60)
+      minute = Math.floor(redundent / 60)
+      return `${day}天${hour}时${minute}分`
+    },
     navToHistory(){
       uni.navigateTo({
         url: '/pages/refund/history?id=' + vm.detail.afterSaleDetail.afterSaleId
@@ -121,7 +144,8 @@ var vm = {
     },
     load() {
       getRefundDetail({
-        id: vm.detailId
+        id: vm.detailId,
+        businessType: vm.businessType
       }).then(data => {
         vm.detail = data.data;
       });
@@ -255,6 +279,7 @@ export default vm;
     padding: 30upx;
     background: #fff;
     .photo {
+      min-width: 200upx;
       width: 200upx;
       height: 200upx;
       overflow: hidden;
@@ -275,11 +300,9 @@ export default vm;
         color: #fe3b0b;
         font-size: 24upx;
       }
-      .attr {
+      .good-attr {
         position: absolute;
-        font-size: 24upx;
-        color: #999;
-        bottom: 60upx;
+        top: 80upx;
       }
       .count {
         color: #999;

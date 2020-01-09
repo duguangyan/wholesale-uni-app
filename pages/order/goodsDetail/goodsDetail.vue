@@ -637,7 +637,7 @@
 			},
 			navToShop() {
 				uni.navigateTo({
-					url: '/pages/shop/shop/shop?shopId=' + this.shopId
+					url: '/pages/shop/shop?shopId=' + this.shopId
 				});
 			},
 			navToCart() {

@@ -1,6 +1,6 @@
 <template>
   <view class="history">
-    <view v-for="item in list" :key="item.id+item.afterSaleId" class="li">
+    <view v-for="(item,index) in list" :key="index" class="li">
       <view class="flex">
         <view class="master">
           {{item.auditorName}}
