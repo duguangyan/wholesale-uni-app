@@ -205,7 +205,7 @@
 			// 去店铺
 			goToShop(shopId){
 				uni.navigateTo({
-					url:'/pages/shop/shop/shop?shopId='+shopId
+					url:'/pages/shop/shop?shopId='+shopId
 				})
 			},
 			// 货主取消订单

@@ -190,7 +190,7 @@ var vm = {
         imgList: vm.photos
       }).then(data=>{
         if(data.code == 1000){
-          return uni.navigateTo({
+          return uni.redirectTo({
             url: `/pages/refund/detail?id=${data.data.id}&businessType=2`
           })
         }

@@ -1,10 +1,10 @@
 <template>
 	<view class="refund">
     <view class="list" v-if="list.length>0">
-      <view v-for="(item,index) in list" :key="item.id + index" class="li" >
-        <view class="company">
+      <view v-for="(item,index) in list" :key="index" class="li" >
+        <view class="company" @click="item.shopName?navToShop(item.shopId):''">
           <image src="/static/imgs/icon-shop.png" mode=""></image>
-          <text>{{item.shopName}}</text>
+          <text>{{item.shopName || item.realName}}</text>
         </view>
         <view class="good">
           <view class="photo">
@@ -12,8 +12,11 @@
           </view>
           <view class="content">
             <view class="good-title">{{item.goodsName}}</view>
-            <view class="good-attr"></view>
-            <view class="good-price">退款: <text class="text-red fs32">￥{{item.refundMoney}}</text></view>
+            <view class="good-attr">{{item.skuDesc}}</view>
+            <view class="good-price">
+              退款: 
+              <text class="text-red fs32">￥{{businessType == 2?item.refundMoney:(item.refundMoney - item.agentcyRefundMoney)}}</text>
+            </view>
           </view>
         </view>
         <view class="reason">
@@ -74,6 +77,11 @@
       
 		},
 		methods: {
+      navToShop(shopId){
+        uni.navigateTo({
+          url: '/pages/shop/shop?shopId=' + shopId
+        })
+      },
       navToDetail(id){
         uni.navigateTo({
           url: '/pages/refund/detail?id=' + id + '&businessType=' + vm.businessType
@@ -160,6 +168,7 @@
         position: relative;
       }
       .photo{
+        min-width: 200upx;
         width: 200upx;
         height: 200upx;
         border-radius: 20upx;
@@ -175,7 +184,9 @@
       }
       .good-attr{
         position: absolute;
-        top: 70upx;
+        top: 80upx;
+        font-size: 24upx;
+        color: #999;
       }
       .good-price{
         position: absolute;

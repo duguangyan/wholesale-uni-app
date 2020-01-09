@@ -396,7 +396,7 @@
     }
 
     , {
-      "path": "pages/shop/shop/shop",
+      "path": "pages/shop/shop",
       "style": {
         "navigationBarTitleText": "经营店铺"
       }

@@ -49,11 +49,10 @@ const loadRefundInfo = data => {
 
 // 退款详情
 const getRefundDetail = data => {
-	let url = '/api/ws/order/afterSale/appDetail/' + data.id;
+	let url = '/api/ws/order/afterSale/appDetail/' + data.id + '/' + data.businessType;
   return request({
     url: url,
     method: 'get',
-    // data,
     // type: 'form'
   })
 }

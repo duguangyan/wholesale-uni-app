@@ -389,7 +389,7 @@
 			// 去企业店铺
 			goCompany(id){
 				uni.navigateTo({
-					url:'/pages/shop/shop/shop?shopId='+id
+					url:'/pages/shop/shop?shopId='+id
 				})
 			},
 			// 重新购买

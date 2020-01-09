@@ -1,7 +1,7 @@
 <template>
   <div class="shop">
     <div class="info">
-      <div class="avatar"><img src="../../../static/imgs/shop-avatar.png" width="100%" alt="" /></div>
+      <div class="avatar"><img src="../../static/imgs/shop-avatar.png" width="100%" alt="" /></div>
       <div>
         <div class="shop-name fs30">{{ shopInfo.shopName }}</div>
         <div class="shop-cla fs24">主营:&nbsp;{{ shopInfo.categoryName }}</div>

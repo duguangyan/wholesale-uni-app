@@ -53,3 +53,14 @@ image{
   font-size: 28upx;
   color: #333;
 }
+.good-attr{
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  overflow: hidden;
+  font-size: 24upx;
+  color: #999;
+}
