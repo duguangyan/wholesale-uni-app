@@ -13,7 +13,7 @@
           <view class="content">
             <view class="good-title">{{item.goodsName}}</view>
             <view class="good-attr"></view>
-            <view class="good-price">退款: <text class="text-red fs32">￥{{item.price}}</text></view>
+            <view class="good-price">退款: <text class="text-red fs32">￥{{item.refundMoney}}</text></view>
           </view>
         </view>
         <view class="reason">
