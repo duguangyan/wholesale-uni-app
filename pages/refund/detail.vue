@@ -5,7 +5,8 @@
         <!-- -1 关闭 0 取消 1 新建 2商家审核中 3商家审核通过 4 商家审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 -->
         <!-- <view class="fs34">{{ result['' + detail.status] }}</view> -->
         <view class="fs34">{{detail.statusStr}}</view>
-        <view class="fs24">{{ detail.afterSaleDetail.applyRefundTime }}</view>
+        <view v-if="detail.status == 2 || detail.status>>1 == 2" class="fs24">{{ detail.expiresTime}}</view>
+        <view v-else class="fs24">{{detail.afterSaleDetail.applyRefundTime}}</view>
       </view>
       <image src="/static/imgs/icon-refund-detail.png" mode=""></image>
     </view>
