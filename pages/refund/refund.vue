@@ -1,7 +1,7 @@
 <template>
 	<view class="refund">
     <view class="list" v-if="list.length>0">
-      <view v-for="(item,index) in list" :key="item.id + index" class="li" >
+      <view v-for="(item,index) in list" :key="item.id" class="li" >
         <view class="company">
           <image src="/static/imgs/icon-shop.png" mode=""></image>
           <text>{{item.shopName}}</text>
@@ -75,6 +75,7 @@
 		},
 		methods: {
       navToDetail(id){
+		  
         uni.navigateTo({
           url: '/pages/refund/detail?id=' + id + '&businessType=' + vm.businessType
         })

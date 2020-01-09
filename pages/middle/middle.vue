@@ -31,6 +31,7 @@
 	import buyer from '@/components/middle/buyer.vue'
 	import shipper from '@/components/middle/shipper.vue'
 	import util from '@/utils/util.js'
+	import T from '@/utils/tips.js'
 	import { getUserRealInfoAll, getShopIdByUser, getOrderStat, statOrderInfo } from '@/api/userApi.js'
 	import { accountSub } from '@/api/payApi.js'
 	export default {
@@ -290,7 +291,11 @@
 						// this.bankCardNum      = res.data.bankCardNum
 						// this.setPayPwd        = res.data.setPayPwd
 						// this.accountSubDates  = res.data
+					}else{
+						T.tips(res.message || '请求错误')
 					}
+				}).catch(err=>{
+					T.tips(err.message || '请求错误')
 				})
 			},
 			// 主页订单交易统计

@@ -56,6 +56,7 @@
 		mapActions
 	} from 'vuex';
 	import { deleteBank,validPayPwd,postPayApply } from '@/api/payApi.js'
+	import { checkRefund } from '@/api/refund.js';
 	import T from '@/utils/tips.js'
 	export default {
 
@@ -64,6 +65,7 @@
 		},
 		data() {
 			return {
+				refundId:'',
 				old_trade_pwd:'',
 				tip:'',
 				from:'',
@@ -152,7 +154,12 @@
 					this.amount            = options.amount
 					this.receiveAccount    = options.receiveAccount
 				}
-				if(this.from == 'addBank' || this.from == 'delBank' || this.from == 'cash' || this.from == 'revise'){
+				
+				if(this.from == 'refund'){
+					this.refundId = options.refundId
+				}
+				
+				if(this.from == 'addBank' || this.from == 'delBank' || this.from == 'cash' || this.from == 'revise' || this.from == 'refund'){
 					uni.setNavigationBarTitle({
 					    title: '输入支付密码'
 					});
@@ -364,6 +371,37 @@
 				})
 				
 			},
+			// 退款
+			doRefund(){
+				let data = {
+					password: this.trade_pwd
+				}
+				validPayPwd(data).then(res=>{
+					if(res.code == '1000'){
+						checkRefund({
+						  auditorType: 2,
+						  id: this.refundId,
+						  refundMoney: '',
+						  refuseReason: '',
+						  status: 1
+						}).then(res=>{
+							if(res.code == '1000'){
+								uni.navigateBack({
+									delta:1
+								})
+							}else{
+								T.tips(res.message || '退款失败')
+							}
+						})
+					}else{
+						T.tips(res.message || '输入错误')
+					}
+					
+				})
+				
+				
+				
+			},
 			// 确认执行的方法
 			setpwd() {
 				if (this.trade_pwd.length < 6) {
@@ -399,6 +437,10 @@
 					case 'revise':
 						// 删除银行卡
 						this.doRevise()
+						break;	
+					case 'refund':
+						// 删除银行卡
+						this.doRefund()
 						break;	
 					default:
 						// 重置设置密码

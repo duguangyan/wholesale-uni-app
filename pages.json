@@ -448,7 +448,13 @@
         "navigationBarTitleText": "拒绝原因"
       }
     }
-  ],
+      ,{
+            "path" : "pages/common/bridge/bridge",
+            "style" : {
+				"navigationBarTitleText": "跳转页面"
+			}
+        }
+    ],
   "tabBar": {
     "color": "#797980",
     "selectedColor": "#FE3B0B",
