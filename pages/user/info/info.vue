@@ -26,7 +26,7 @@
 			<div class="list">
 				<li @click='goNickName'>
 					<span>我的昵称</span>
-					<span class="gray">{{person.nickName || "上上农夫"}}</span>
+					<span class="gray">{{person.nickName || "正鼎农品"}}</span>
 					<div class="icon">
 						<img src="@/static/img/tag-go.png" width="10" height="10" alt />
 					</div>

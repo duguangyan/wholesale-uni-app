@@ -27,7 +27,7 @@
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
 
-					<view class="refund flr" v-if="item.isAfterSale == '0' && (status=='2'||status=='3')" @click.stop="applyRefund(item)">{{refundText}}</view>
+					<view class="refund flr" v-if="businessType == 2 &&item.isAfterSale == '0' && (status=='2'||status=='3')" @click.stop="applyRefund(item)">{{refundText}}</view>
 				</view>
 			</view>
 		</view>

@@ -418,7 +418,11 @@
     }, {
       "path": "pages/user/chatList/chatList",
       "style": {
-        "navigationBarTitleText": "消息列表"
+        "navigationBarTitleText": "消息列表",
+		"navigationStyle": "custom",
+		"app-plus": {
+		  "titleView": false
+		}
       }
     }, {
       "path": "pages/refund/refund",
