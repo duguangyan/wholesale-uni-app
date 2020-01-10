@@ -205,7 +205,7 @@
 					</span>
 				</div>
 				<view class="mgb-30" v-for="good in order.shopOrder.orderDetailList" :key="good.id" >
-					<Good :item="good" :status="order.status" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber' :businessType="businessType"></Good>
+					<Good :item="good" :status="order.status" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber' :isDeatail="isDeatail" :businessType="businessType"></Good>
 				</view>
 				
 				<div class="goods-price">
@@ -314,6 +314,7 @@
 		name: 'orddetail',
 		data() {
 			return {
+				isDeatail:'1',
 				goDetailNumber:'1',
 				uid:'',
 				businessType:'',
@@ -589,7 +590,8 @@
 			getOrderDetailById(orderId, shopId) {
 				let _this = this
 				let data = {
-					orderId
+					orderId,
+					businessType: this.businessType
 				}
 				if (shopId) {
 					data.shopId = shopId

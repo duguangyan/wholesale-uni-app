@@ -123,6 +123,8 @@ var vm = {
     getShopInfo({
       shopId: vm.shopId
     }).then(data => {
+		console.log('1111111111111111111111111')
+		console.log(data)
       let info                 = data.data;
       vm.shopInfo.shopName     = info.name;
       vm.shopInfo.categoryName = info.categoryName;

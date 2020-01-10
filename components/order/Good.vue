@@ -26,12 +26,11 @@
 					<view class="fll">
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-
-					<view class="refund flr" v-if="businessType == 2 &&item.isAfterSale == '0' && (status=='2'||status=='3')" @click.stop="applyRefund(item)">{{refundText}}</view>
+					<view class="refund flr" v-if="isDeatail!=1 && businessType == 2 &&item.isAfterSale == '0' && (status=='2'||status=='3')" @click.stop="applyRefund(item)">退款</view>
+					<view class="refund flr" v-if="isDeatail==1 && item.statusStr" @click.stop="goRefundDetail(item)">{{item.statusStr}}</view>
 				</view>
 			</view>
 		</view>
-		
 	</view>
 </template>
 
@@ -39,6 +38,10 @@
 	export default {
 		name: 'goodx',
 		props: {
+			isDeatail:{
+				type: String || Number,
+				default: '0'
+			},
 			item: {
 				type: Object,
 				default: null
@@ -74,6 +77,12 @@
 			}
 		},
 		methods: {
+			// 去退款详细
+			goRefundDetail(item){
+				uni.navigateTo({
+					url:'/pages/refund/detail?businessType=2&id=' + item.id
+				})
+			},
 			// 去申请退款页面
 			applyRefund(item){
 				uni.navigateTo({
