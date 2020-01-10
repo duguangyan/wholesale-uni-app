@@ -418,7 +418,11 @@
     }, {
       "path": "pages/user/chatList/chatList",
       "style": {
-        "navigationBarTitleText": "消息列表"
+        "navigationBarTitleText": "消息列表",
+		"navigationStyle": "custom",
+		"app-plus": {
+		  "titleView": false
+		}
       }
     }, {
       "path": "pages/refund/refund",
@@ -448,7 +452,13 @@
         "navigationBarTitleText": "拒绝原因"
       }
     }
-  ],
+      ,{
+            "path" : "pages/common/bridge/bridge",
+            "style" : {
+				"navigationBarTitleText": "跳转页面"
+			}
+        }
+    ],
   "tabBar": {
     "color": "#797980",
     "selectedColor": "#FE3B0B",

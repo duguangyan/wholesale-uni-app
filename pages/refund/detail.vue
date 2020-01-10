@@ -204,20 +204,26 @@ var vm = {
           });
       } else if (vm.curType == 4) {
         uni.navigateTo({
-          url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}&price=${vm.detail.afterSaleDetail.price}&businessType=${vm.businessType}`
+          url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}&price=${vm.detail.afterSaleDetail.price}`
         });
       } else if (vm.curType == 5) {
         accountSub().then(res => {
           vm.refund = res.data;
-
-          // 同意退款后叼这个
-          checkRefund({
-            auditorType: 2,
-            id: '',
-            refundMoney: '',
-            refuseReason: '',
-            status: 1
-          });
+          if (!res.data.setPayPwd) {
+            // 没有设置密码
+            vm.isDialog = false;
+            uni.navigateTo({
+              url: '/pages/middle/release/account/payps/verifiyPhone'
+            });
+          } else {
+            // 已设置密码
+            if (vm.detailId) {
+              vm.isDialog = false;
+              uni.navigateTo({
+                url: '/pages/middle/release/account/payps/resPassword?from=refund&refundId=' + vm.detailId
+              });
+            }
+          }
         });
       }
     }
@@ -239,10 +245,10 @@ export default vm;
     width: 100%;
     /* #ifdef MP-WEIXIN || APP-PLUS */
     position: absolute;
-    /* #endif */ 
+    /* #endif */
     /* #ifdef H5 */
     position: fixed;
-    /* #endif */ 
+    /* #endif */
     top: 0;
     left: 0;
   }

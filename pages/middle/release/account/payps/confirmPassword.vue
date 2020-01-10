@@ -240,6 +240,8 @@
 						}else{
 							T.tips(res.message || '密码修改失败')
 						}
+					}).catch(err=>{
+						T.tips(err.message || '密码修改失败')
 					})
 				}else{
 					let data = {
@@ -257,6 +259,8 @@
 						}else{
 							T.tips(res.message || '密码重置失败')
 						}
+					}).catch(err=>{
+						T.tips(err.message || '密码修改失败')
 					})
 				}
 				

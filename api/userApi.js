@@ -372,6 +372,17 @@ const getShopInfo = data => {
 	})
 }
 
+// 根据userID获取店铺信息
+const getShopInfoByUserId = data => {
+	return request({
+		url: '/api/ws/goods/shop/getByUserId',
+		data,
+		type: 'form',
+	})
+}
+
+
+
 // 根据店铺ID获取地区代办列表
 const fromIdGetAgent = data => {
 	return request({
@@ -456,6 +467,7 @@ const getOpenId = data => {
 
 
 export {
+	getShopInfoByUserId,
 	getImToken,
 	getOpenId,
 	shopAreaFromUserId,

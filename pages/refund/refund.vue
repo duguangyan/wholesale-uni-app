@@ -83,6 +83,7 @@
         })
       },
       navToDetail(id){
+		  
         uni.navigateTo({
           url: '/pages/refund/detail?id=' + id + '&businessType=' + vm.businessType
         })
