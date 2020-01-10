@@ -56,7 +56,7 @@
       <view>退款原因：{{ detail.afterSaleDetail.reason }}</view>
 
       <view v-if="businessType != 2">退款金额：￥{{ (detail.afterSaleDetail.refundMoney * 100 - detail.afterSaleDetail.agentcyMoney * 100) / 100 }}</view>
-      <view v-else>退款金额：￥{{ detail.afterSaleDetail.refundMoney }}(包含商品金额:￥{{ detail.afterSaleDetail.price }},代办费:{{ detail.afterSaleDetail.agentcyMoney }})</view>
+      <view v-else>退款金额：￥{{ detail.afterSaleDetail.refundMoney }}(包含商品金额:￥{{ detail.afterSaleDetail.goodsMoney }},代办费:{{ detail.afterSaleDetail.agentcyMoney }})</view>
 
       <view>申请时间：{{ detail.afterSaleDetail.applyRefundTime }}</view>
       <view>退款说明：{{ detail.afterSaleDetail.descs }}</view>
@@ -205,7 +205,7 @@ var vm = {
       } else if (vm.curType == 4) {
         vm.isDialog = false
         uni.navigateTo({
-          url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}&price=${vm.detail.afterSaleDetail.price}`
+          url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}&price=${vm.detail.afterSaleDetail.goodsMoney}`
         });
       } else if (vm.curType == 5) {
         accountSub().then(res => {
