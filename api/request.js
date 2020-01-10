@@ -10,7 +10,6 @@ let apiUrl = ''
 
 // apiUrl = 'http://192.168.0.202:5001'; // 开发
 
-
 const versionNumber = 'V1.0.95'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000') {

@@ -15,7 +15,7 @@
             <view class="good-attr">{{item.skuDesc}}</view>
             <view class="good-price">
               退款: 
-              <text class="text-red fs32">￥{{businessType == 2?item.refundMoney:(item.refundMoney - item.agentcyRefundMoney)}}</text>
+              <text class="text-red fs32">￥{{businessType == 2?item.refundMoney:(item.refundMoney*100 - item.agentcyRefundMoney*100)/100}}</text>
             </view>
           </view>
         </view>
@@ -51,7 +51,7 @@
 				search: {
 					pageIndex: 1,
 					pageSize: 10,
-          status: '', //-1 关闭 0 取消 1 新建 2商家审核中 3商家审核通过 4 商家审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 8 进行中 9 平台退款失败 默认查全部
+          status: '', //-1 关闭 0 取消 1 新建 2货主审核中 3货主审核通过 4 货主审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 8 进行中 9 平台退款失败 默认查全部
 				},
 				list: [],
 				platform: '0'

@@ -14,12 +14,14 @@
       return {
         id: '',
         refuseMoney: '',
-        refuseReason: ''
+        refuseReason: '',
+        businessType: ''
       }
     },
     onLoad(options){
       vm.id = options.id
       vm.refundMoney = options.price
+      vm.businessType = options.businessType
     },
     methods:{
       submit(){
@@ -31,7 +33,9 @@
           status: 0
         }).then(res=>{
           if(res.code == 1000){
-            uni.navigateBack()
+            uni.redirectTo({
+              url: `/pages/refund/detail?id=${vm.id}&businessType=${vm.businessType}`
+            })
           }else{
             Toast.tip('拒绝失败!')
           }

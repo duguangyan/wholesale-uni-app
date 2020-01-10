@@ -5,8 +5,8 @@ import {request}  from './request.js'
 id: 退款单号
 pageIndex: 当前页
 pageSize: 每页条数
-sellName: 商家账号
-status: -1 关闭 0 取消 1 新建 2商家审核中 3商家审核通过 4 商家审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 8 进行中 9 平台退款失败 默认查全部
+sellName: 货主账号
+status: -1 关闭 0 取消 1 新建 2货主审核中 3货主审核通过 4 货主审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 8 进行中 9 平台退款失败 默认查全部
 timeEnd: 申请时间(止)
 timeStart: 申请时间(起)
 userId: 用户id
@@ -99,7 +99,7 @@ const sendRefund = data => {
 
 // app-退款审核
 /*
-auditorType: 操作人类型:1 平台 2商家 3系统,4,买家
+auditorType: 操作人类型:1 平台 2货主 3系统,4,买家
 id: 退款单号
 refundMoney: 退款金额
 refuseReason: 拒绝原因
