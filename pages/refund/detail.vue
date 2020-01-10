@@ -204,7 +204,7 @@ var vm = {
           });
       } else if (vm.curType == 4) {
         uni.navigateTo({
-          url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}&price=${vm.detail.afterSaleDetail.price}`
+          url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}&price=${vm.detail.afterSaleDetail.price}&businessType=${vm.businessType}`
         });
       } else if (vm.curType == 5) {
         accountSub().then(res => {
