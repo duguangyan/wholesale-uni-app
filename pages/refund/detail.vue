@@ -2,7 +2,7 @@
   <view class="refund-detail">
     <view class="banner">
       <view>
-        <!-- -1 关闭 0 取消 1 新建 2商家审核中 3商家审核通过 4 商家审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 -->
+        <!-- -1 关闭 0 取消 1 新建 2货主审核中 3货主审核通过 4 货主审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 -->
         <!-- <view class="fs34">{{ result['' + detail.status] }}</view> -->
         <view class="fs34">{{ detail.statusStr }}</view>
         <view v-if="detail.status == 2 || detail.status >> 1 == 2" class="fs24">{{ calcTime(detail.expiresTime) }}</view>
@@ -106,9 +106,9 @@ var vm = {
         '-1': '关闭',
         '0': '取消',
         '1': '新建',
-        '2': '商家审核中',
-        '3': '商家审核通过',
-        '4': '商家审核不通过',
+        '2': '货主审核中',
+        '3': '货主审核通过',
+        '4': '货主审核不通过',
         '5': '平台审核',
         '6': '平台审核通过',
         '7': '平台审核不通过'
@@ -203,6 +203,7 @@ var vm = {
             vm.isDialog = false;
           });
       } else if (vm.curType == 4) {
+        vm.isDialog = false
         uni.navigateTo({
           url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}&price=${vm.detail.afterSaleDetail.price}`
         });

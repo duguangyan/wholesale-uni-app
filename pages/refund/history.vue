@@ -49,6 +49,7 @@
       position: relative;
       background: #fff;
       padding: 20upx 30upx;
+      border-bottom: 1px solid #d9d9d9;
       .master{
         font-size: 34upx;
         color: #000;

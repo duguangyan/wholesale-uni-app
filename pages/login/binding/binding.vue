@@ -138,7 +138,7 @@ export default {
             client_id: 'cwap',
             client_secret: 'xx',
             systemId: '4',
-            deviceId: this.deviceId,
+            deviceId: this.getUUID(),
             mobile: this.phone,
             smsCode: this.code,
             wxCode: this.wxCode,
