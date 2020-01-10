@@ -4,9 +4,9 @@
       <view>
         <!-- -1 关闭 0 取消 1 新建 2商家审核中 3商家审核通过 4 商家审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 -->
         <!-- <view class="fs34">{{ result['' + detail.status] }}</view> -->
-        <view class="fs34">{{detail.statusStr}}</view>
-        <view v-if="detail.status == 2 || detail.status>>1 == 2" class="fs24">{{ calcTime(detail.expiresTime)}}</view>
-        <view v-else class="fs24">{{detail.platformAuditTime || detail.merchantAuditTime}}</view>
+        <view class="fs34">{{ detail.statusStr }}</view>
+        <view v-if="detail.status == 2 || detail.status >> 1 == 2" class="fs24">{{ calcTime(detail.expiresTime) }}</view>
+        <view v-else class="fs24">{{ detail.platformAuditTime || detail.merchantAuditTime }}</view>
       </view>
       <image src="/static/imgs/icon-refund-detail.png" mode=""></image>
     </view>
@@ -42,7 +42,7 @@
       <view class="photo" @click="navToGood()"><image :src="detail.afterSaleDetail.imgUrl" mode=""></image></view>
       <view class="content">
         <view class="good-title">{{ detail.afterSaleDetail.goodsName }}</view>
-        <view class="good-attr">{{detail.afterSaleDetail.skuDesc}}</view>
+        <view class="good-attr">{{ detail.afterSaleDetail.skuDesc }}</view>
         <view class="price">
           价格￥
           <text class="fs32">{{ detail.afterSaleDetail.price }}</text>
@@ -54,40 +54,51 @@
 
     <view class="info">
       <view>退款原因：{{ detail.afterSaleDetail.reason }}</view>
-      
-      <view v-if="businessType != 2">退款金额：￥{{ detail.afterSaleDetail.refundMoney - detail.afterSaleDetail.agentcyMoney }}</view>
-      <view v-else>退款金额：￥{{ detail.afterSaleDetail.refundMoney }}(包含商品金额:￥{{detail.afterSaleDetail.price}},代办费:{{detail.afterSaleDetail.agentcyMoney}})</view>
-      
+
+      <view v-if="businessType != 2">退款金额：￥{{ (detail.afterSaleDetail.refundMoney * 100 - detail.afterSaleDetail.agentcyMoney * 100) / 100 }}</view>
+      <view v-else>退款金额：￥{{ detail.afterSaleDetail.refundMoney }}(包含商品金额:￥{{ detail.afterSaleDetail.price }},代办费:{{ detail.afterSaleDetail.agentcyMoney }})</view>
+
       <view>申请时间：{{ detail.afterSaleDetail.applyRefundTime }}</view>
       <view>退款说明：{{ detail.afterSaleDetail.descs }}</view>
       <view>退款单号：{{ detail.afterSaleDetail.afterSaleId }}</view>
+
+      <view class="upload-iden">凭证</view>
+      <view class="iden">
+        <view class="item" v-if="detail.afterSaleDetail.afterSaleImgs" v-for="(item, index) in detail.afterSaleDetail.afterSaleImgs" :key="index" @click="showBigImg(item.url)">
+          <image class="upload-img" :src="item.url" mode=""></image>
+        </view>
+      </view>
     </view>
 
     <view v-if="isDialog" class="dialog">
       <view class="mask" @click="isDialog = false"></view>
 
       <view class="body">
-        <view class="title">{{dialog[curType][0]}}</view>
-        <view class="title">{{dialog[curType][1]}}</view>
+        <view class="title">{{ dialog[curType][0] }}</view>
+        <view class="title">{{ dialog[curType][1] }}</view>
         <view class="footer">
           <view class="cancel btn" @click="isDialog = false">取消</view>
           <view class="confirm btn" @click="doConfirm">确认</view>
         </view>
       </view>
     </view>
+
+    <cover-image v-if="isImage" class="big-img" :src="curSrc" @click="hideImage"></cover-image>
   </view>
 </template>
 
 <script>
-import { getRefundDetail, cancelRefund, closeRefund,applyPlatform,checkRefund } from '@/api/refund.js';
-import {accountSub} from '@/api/payApi.js'
+import { getRefundDetail, cancelRefund, closeRefund, applyPlatform, checkRefund } from '@/api/refund.js';
+import { accountSub } from '@/api/payApi.js';
 var vm = {
   data() {
     vm = this;
     return {
+      isImage: false,
+      curSrc: '',
       detail: {
         afterSaleDetail: {},
-        texts: [],
+        texts: []
       },
       businessType: '',
       detailId: '',
@@ -108,35 +119,42 @@ var vm = {
         '2': ['确定关闭退款申请吗?', '关闭后将不能再次申请'],
         '3': ['是否申请平台介入?', '介入后将由平台审核'],
         '4': ['是否拒绝退款?'],
-        '5': ['是否同意退款?'],
+        '5': ['是否同意退款?']
       },
-      curType: '', // 弹窗类型 1:撤销申请；2:关闭申请；3:平台介入；4.拒绝退款；5.同意退款
+      curType: '' // 弹窗类型 1:撤销申请；2:关闭申请；3:平台介入；4.拒绝退款；5.同意退款
     };
   },
   methods: {
-    navToGood(){
+    hideImage() {
+      vm.isImage = false;
+    },
+    showBigImg(imgUrl) {
+      vm.isImage = true;
+      vm.curSrc = imgUrl;
+    },
+    navToGood() {
       uni.navigateTo({
         url: `/pages/order/goodsDetail/goodsDetail?shopId=${vm.detail.afterSaleDetail.shopId}&goodsId=${vm.detail.afterSaleDetail.goodsId}`
-      })
+      });
     },
-    calcTime(time){
-      let day,hour,minute,second,redundent;
-      let curTime = new Date().getTime()
-      time = (time - curTime) / 1000
-      if(time<=0){
-        return '已超时'
+    calcTime(time) {
+      let day, hour, minute, second, redundent;
+      let curTime = new Date().getTime();
+      time = (time - curTime) / 1000;
+      if (time <= 0) {
+        return '已超时';
       }
-      day = Math.floor(time/(60*60*24))
-      redundent = time % (60*60*24)
-      hour = Math.floor(redundent / (60*60))
-      redundent = redundent % (60*60)
-      minute = Math.floor(redundent / 60)
-      return `${day}天${hour}时${minute}分`
+      day = Math.floor(time / (60 * 60 * 24));
+      redundent = time % (60 * 60 * 24);
+      hour = Math.floor(redundent / (60 * 60));
+      redundent = redundent % (60 * 60);
+      minute = Math.floor(redundent / 60);
+      return `${day}天${hour}时${minute}分`;
     },
-    navToHistory(){
+    navToHistory() {
       uni.navigateTo({
         url: '/pages/refund/history?id=' + vm.detail.afterSaleDetail.afterSaleId
-      })
+      });
     },
     showDialog(type) {
       vm.curType = '' + type;
@@ -162,7 +180,7 @@ var vm = {
           .catch(data => {
             vm.isDialog = false;
           });
-      }else if(vm.curType == 2){
+      } else if (vm.curType == 2) {
         closeRefund({
           id: vm.detailId
         })
@@ -173,7 +191,7 @@ var vm = {
           .catch(data => {
             vm.isDialog = false;
           });
-      }else if(vm.curType == 3){
+      } else if (vm.curType == 3) {
         applyPlatform({
           id: vm.detailId
         })
@@ -184,15 +202,14 @@ var vm = {
           .catch(data => {
             vm.isDialog = false;
           });
-      }else if(vm.curType == 4){
+      } else if (vm.curType == 4) {
         uni.navigateTo({
           url: `/pages/refund/refuse?id=${vm.detail.afterSaleDetail.afterSaleId}&price=${vm.detail.afterSaleDetail.price}`
-        })
-      }else if(vm.curType == 5){
-        accountSub().then(res=>{
-          vm.refund = res.data
-          
-          
+        });
+      } else if (vm.curType == 5) {
+        accountSub().then(res => {
+          vm.refund = res.data;
+
           // 同意退款后叼这个
           checkRefund({
             auditorType: 2,
@@ -200,16 +217,14 @@ var vm = {
             refundMoney: '',
             refuseReason: '',
             status: 1
-          })
-        })
-        
+          });
+        });
       }
     }
   },
   onLoad(options) {
     vm.detailId = options.id;
-    vm.businessType = options.businessType
-    
+    vm.businessType = options.businessType;
   },
   onShow() {
     vm.load();
@@ -217,9 +232,63 @@ var vm = {
 };
 export default vm;
 </script>
-
 <style lang="scss" scoped>
 .refund-detail {
+  .big-img {
+    height: 100%;
+    width: 100%;
+    /* #ifdef MP-WEIXIN || APP-PLUS */
+    position: absolute;
+    /* #endif */ 
+    /* #ifdef H5 */
+    position: fixed;
+    /* #endif */ 
+    top: 0;
+    left: 0;
+  }
+  .upload-iden {
+    margin-top: 48upx;
+    margin-bottom: 20upx;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    font-size: 34upx;
+    color: #000;
+  }
+  .iden {
+    // padding: 40upx 0 30upx 0;
+    display: flex;
+    flex-wrap: wrap;
+    .icon-delete {
+      width: 40upx;
+      height: 40upx;
+      position: absolute;
+      z-index: 2;
+      right: -20upx;
+      top: -20upx;
+    }
+    .item,
+    .demo {
+      width: 140upx;
+      height: 140upx;
+      // overflow: hidden;
+      margin: 30upx;
+    }
+    .upload-img {
+      height: 140upx;
+      width: 140upx;
+    }
+    .item {
+      position: relative;
+    }
+
+    .demo {
+      image {
+        width: 140upx;
+        height: 140upx;
+      }
+    }
+  }
   .banner {
     margin-bottom: 20upx;
     height: 200upx;

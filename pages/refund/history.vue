@@ -6,7 +6,7 @@
           {{item.auditorName}}
         </view>
         <view class="time">
-          
+          {{item.createTime}}
         </view>
       </view>
       

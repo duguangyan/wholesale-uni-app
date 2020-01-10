@@ -15,7 +15,7 @@
             <view class="good-attr">{{item.skuDesc}}</view>
             <view class="good-price">
               退款: 
-              <text class="text-red fs32">￥{{businessType == 2?item.refundMoney:(item.refundMoney - item.agentcyRefundMoney)}}</text>
+              <text class="text-red fs32">￥{{businessType == 2?item.refundMoney:(item.refundMoney*100 - item.agentcyRefundMoney*100)/100}}</text>
             </view>
           </view>
         </view>

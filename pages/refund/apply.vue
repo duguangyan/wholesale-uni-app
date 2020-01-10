@@ -72,7 +72,7 @@
     <view class="dialog" v-if="isState">
       <view class="mask" @click="closeDialog2"></view>
       <view class="body">
-        <view class="title">退款原因</view>
+        <view class="title">货物状态</view>
         <view class="li" v-for="item in states" :key="item" @click="chooseState(item)">
           <text>
             {{item}}
@@ -104,7 +104,7 @@ var vm = {
       uploadTaskProgress: 0,
       isClock: false,
       descs: '',
-      reasons: ['多拍/错拍','地址填写错误','迟迟未发货','其他'],
+      reasons: [],
       isReason: false,
       states: ['未收到货','已收到货'],
       state: '',
@@ -161,12 +161,12 @@ var vm = {
 
             vm.isClock = false;
           } else {
-            T.tips(res.message || '上传图片失败');
+            Toast.tips(res.message || '上传图片失败');
             vm.isClock = false;
           }
         },
         fail: err => {
-          T.tips('上传图片失败');
+          Toast.tips('上传图片失败');
           vm.isClock = false;
         },
         complete: () => {
@@ -182,6 +182,15 @@ var vm = {
       });
     },
     submit(){
+      if(!vm.isRecive){
+        if(!vm.reason){
+          return Toast.tips('请选择退货原因')
+        }
+      }else{
+        if(!vm.state){
+          return Toast.tips('请选择货物状态')
+        }
+      }
       sendRefund({
         descs: vm.descs,
         orderDetailId: vm.good.orderDetailId,
@@ -194,14 +203,16 @@ var vm = {
             url: `/pages/refund/detail?id=${data.data.id}&businessType=2`
           })
         }
-        Toast.tip('提交失败,请稍后再试或联系客服MM')
+        Toast.tips('提交失败,请稍后再试或联系客服MM')
       })
     },
     chooseReason(reason){
       vm.reason = reason
+      vm.isReason = false
     },
     chooseState(state){
       vm.state = state
+      vm.isState = false
     },
     closeDialog(){
       vm.isReason = false
@@ -218,6 +229,11 @@ var vm = {
   },
   onLoad(options) {
     vm.isRecive = options.status != 2
+    if(vm.isRecive){
+      vm.reasons = ['卖家发错货','货品不新鲜/有损坏','商品与描述严重不符','其他']
+    }else{
+      vm.reasons = ['多拍/错拍','地址填写错误','迟迟未发货','其他']
+    }
     loadRefundInfo({
       orderDetailId: options.orderId
     }).then(data => {
