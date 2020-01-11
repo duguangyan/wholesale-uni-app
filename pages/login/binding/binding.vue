@@ -165,7 +165,7 @@ export default {
                       uni.setStorageSync('nickName', res.data.nickName);
                       uni.setStorageSync('headImgUrl', res.data.headImgUrl);
                       // 返回上一页
-                      uni.redirectTo({
+                      uni.switchTab({
                         url: '/'
                       })
                     }
