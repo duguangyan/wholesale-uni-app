@@ -115,7 +115,7 @@ var vm = {
       },
       isDialog: false,
       dialog: {
-        '1': ['确定取消本次申请吗?', '取消后，订单将正常发货.'],
+        '1': ['确定取消本次申请吗?'],
         '2': ['确定关闭退款申请吗?', '关闭后将不能再次申请'],
         '3': ['是否申请平台介入?', '介入后将由平台审核'],
         '4': ['是否拒绝退款?'],
@@ -232,8 +232,10 @@ var vm = {
   onLoad(options) {
     vm.detailId = options.id;
     vm.businessType = options.businessType;
+    vm.status = options.status
   },
   onShow() {
+    vm.dialog['1'][1] = (vm.status==1 || vm.status == 2)?'取消后，订单将正常发货.':''
     vm.load();
   }
 };

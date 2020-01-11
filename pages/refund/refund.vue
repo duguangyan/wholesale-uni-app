@@ -28,7 +28,7 @@
           </view>
         </view>
         <view class="reason">{{ item.statusReason }}</view>
-        <view class="btn" @click="navToDetail(item.id)">查看详情</view>
+        <view class="btn" @click="navToDetail(item.id,item.status)">查看详情</view>
       </view>
       <view class="center-p fs20 text-999">{{ loading ? '数据加载中...' : '数据加载完毕' }}</view>
     </view>
@@ -84,9 +84,9 @@ var vm = {
         url: '/pages/shop/shop?shopId=' + shopId
       });
     },
-    navToDetail(id) {
+    navToDetail(id,status) {
       uni.navigateTo({
-        url: '/pages/refund/detail?id=' + id + '&businessType=' + vm.businessType
+        url: `/pages/refund/detail?id=${id}&businessType=${vm.businessType}&status=${status}`
       });
     },
     triLoad(status){
