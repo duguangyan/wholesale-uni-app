@@ -107,7 +107,7 @@ var vm = {
         };
         if (this.isWxWeb) {
           // 如果是微信网页端
-          payWXpayByWap({
+          payAlipayByWap({
             openId: uni.getStorageSync('openId'),
             orderId: this.orderId,
             payChannelEnum: 'WEIXIN_PAY',
