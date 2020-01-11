@@ -80,7 +80,7 @@
 			// 去退款详细
 			goRefundDetail(item){
 				uni.navigateTo({
-					url:'/pages/refund/detail?businessType=2&id=' + item.id
+					url:'/pages/refund/detail?businessType=2&id=' + item.afterSaleId + '&status=' + status
 				})
 			},
 			// 去申请退款页面
@@ -110,7 +110,7 @@
 <style lang="scss" scoped>
 	.content {
 		.refund{
-			width: 100upx;
+			min-width: 100upx;
 			height: 30upx;
 			line-height: 28upx;
 			border: 1upx solid #FE3B0B;
