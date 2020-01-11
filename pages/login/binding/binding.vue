@@ -23,7 +23,7 @@
 <script>
 import validator from '@/utils/validator.js';
 import T from '@/utils/tips.js';
-import { postUserLogin, getUserInfoData, postUserSms, weixinLogin, getOpenId } from '@/api/userApi.js';
+import { postUserLogin, getUserInfoData, postUserSms, weixinLogin, getOpenId,getUserRealInfoAll } from '@/api/userApi.js';
 export default {
   data() {
     return {
@@ -158,20 +158,33 @@ export default {
                 providerId: 'weixinMP'
               }).then(open => {
                 uni.setStorageSync('openId', open.data.providerUserId)
-                getUserInfoData()
-                  .then(res => {
-                    if (res.code == '1000') {
-                      uni.setStorageSync('nickName', res.data.nickName);
-                      uni.setStorageSync('headImgUrl', res.data.headImgUrl);
-                      // 返回上一页
-                      uni.switchTab({
-                        url: '/'
-                      })
-                    }
-                  })
-                  .catch(err => {
-                    T.tips(err.message || '获取用户信息错误');
-                  });
+                // getUserInfoData()
+                //   .then(res => {
+                //     if (res.code == '1000') {
+                //       uni.setStorageSync('nickName', res.data.nickName);
+                //       uni.setStorageSync('headImgUrl', res.data.headImgUrl);
+                //       // 返回上一页
+                //       uni.switchTab({
+                //         url: '/'
+                //       })
+                //     }
+                //   })
+                //   .catch(err => {
+                //     T.tips(err.message || '获取用户信息错误');
+                //   });
+                getUserRealInfoAll().then((res) => {
+                	if (res.code === '1000') {
+                		let roleId = res.data.userRole.roleId || ''
+                		uni.setStorageSync('nickName', res.data.user.realName || (res.data.userRealInfo?res.data.userRealInfo.realName:'') || res.data.apply.realName)
+                		uni.setStorageSync('headImgUrl', res.data.user.headImgUrl)
+                		uni.setStorageSync('roleId', roleId)
+                		uni.setStorageSync('userRealInfo',res.data.userRealInfo ? JSON.stringify(res.data.userRealInfo) : '')	
+                		uni.setStorageSync('userApply', res.data.apply.id ? JSON.stringify(res.data.apply) : '')	
+                    uni.switchTab({
+                      url: '/'
+                    })
+                	}
+                })
               });
               
             })
