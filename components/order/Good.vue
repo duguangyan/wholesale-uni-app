@@ -86,7 +86,7 @@
 			// 去申请退款页面
 			applyRefund(item){
 				uni.navigateTo({
-				  url: '/pages/refund/apply?orderId=' + item.id +"&status=" + this.status
+				  url: '/pages/refund/apply?orderId=' + item.afterSaleId +"&status=" + this.status
 				})
 			},
 			// 去商品详细页面
@@ -111,6 +111,7 @@
 	.content {
 		.refund{
 			min-width: 100upx;
+			padding: 0 6upx;
 			height: 30upx;
 			line-height: 28upx;
 			border: 1upx solid #FE3B0B;
