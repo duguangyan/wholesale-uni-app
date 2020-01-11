@@ -38,18 +38,26 @@
 					console.log(res)
 					uni.hideLoading()
 					if(res.code == '1000' && res.data){
-						uni.navigateTo({
-							url:'/pages/shop/shop/shop?userId='+ res.data.id 
+						uni.redirectTo({
+							url:'/pages/shop/shop?shopId='+ res.data.id 
 						})
 					}else{
-						uni.switchTab({
-							url: '/pages/user/chatList/chatList'
-						})
+						T.tips("获取店铺信息失败,3秒后自动返回聊天窗")
+						
+						setTimeout(()=>{
+							uni.navigateBack({
+								delta:1
+							})
+						},2500)
 					}
 				}).catch(err=>{		
-					uni.switchTab({
-						url: '/pages/user/chatList/chatList'
-					})
+					T.tips("获取店铺信息失败,3秒后自动返回聊天窗")
+					
+					setTimeout(()=>{
+						uni.navigateBack({
+							delta:1
+						})
+					},2500)
 				})
 			}
 		}

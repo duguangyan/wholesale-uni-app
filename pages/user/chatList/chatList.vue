@@ -29,8 +29,8 @@
 			// uni.showModal({
 			// 	content:decodeURIComponent(options.url)
 			// })
-			console.log(decodeURIComponent(options.url))
-			this.url = decodeURIComponent(options.url)
+			// console.log(decodeURIComponent(options.url))
+			// this.url = decodeURIComponent(options.url)
 		},
 		onShow() {
 			this.token = uni.getStorageSync('access_token')

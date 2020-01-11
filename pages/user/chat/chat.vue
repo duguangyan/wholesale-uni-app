@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<web-view :src="url"></web-view>
+		<web-view :src="url" @message="getMessage"></web-view>
 	</view>
 </template>
 
@@ -13,6 +13,11 @@
 		},
 		onLoad(options) {
 			this.url = decodeURIComponent(options.url)
+		},
+		methods:{
+			getMessage(e){
+				  console.log(e.detail.data);
+			}
 		}
 	}
 </script>
