@@ -155,13 +155,12 @@ export default {
               }
               // 获取用户信息
               getOpenId({
-                providerId: 'weixinmp'
-              }).then(data => {
+                providerId: 'weixinMP'
+              }).then(open => {
                 uni.setStorageSync('openId', open.data.providerUserId)
                 getUserInfoData()
                   .then(res => {
                     if (res.code == '1000') {
-                      console.log(JSON.stringify(res));
                       uni.setStorageSync('nickName', res.data.nickName);
                       uni.setStorageSync('headImgUrl', res.data.headImgUrl);
                       // 返回上一页
