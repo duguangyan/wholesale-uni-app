@@ -99,17 +99,18 @@ var vm = {
       vm.$emit('close', false);
     },
     h5WXpay() {
-      if (this.orderId !== '') {
+      let self = this
+      if (self.orderId !== '') {
         let data = {
           payChannelEnum: 'WEIXIN_PAY',
           payWay: 'WAP_PAY',
-          orderId: this.orderId
+          orderId: self.orderId
         };
-        if (this.isWxWeb) {
+        if (self.isWxWeb) {
           // 如果是微信网页端
           payAlipayByWap({
             openId: uni.getStorageSync('openId'),
-            orderId: this.orderId,
+            orderId: self.orderId,
             payChannelEnum: 'WEIXIN_PAY',
             payWay: 'JSAPI'
           }).then(config => {
@@ -131,10 +132,13 @@ var vm = {
                     if (data.err_msg == 'get_brand_wcpay_request:ok') {
                       // 使用以上方式判断前端返回,微信团队郑重提示：
                       //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                      uni.redirectTo({
+                        url: `/pages/user/order/success?order=${self.orderId}&shopId=${self.shopId}`
+                      })
                     }
-                    vm.$loading.close();
-                    let { orderId, shopId } = this.$route.query;
-                    this.getOrderDetailById(orderId, shopId);
+                    // vm.$loading.close();
+                    // let { orderId, shopId } = this.$route.query;
+                    // this.getOrderDetailById(orderId, shopId);
                   }
                 );
               }
