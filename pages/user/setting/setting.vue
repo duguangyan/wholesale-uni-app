@@ -84,8 +84,10 @@
 		      </view>
 		    </view> -->
       <view class="version">{{ version }}</view>
+      <template v-if="!isWXWeb">
       <view class="footer-btn" @click="showDialog" v-if="isLogin">退出登录</view>
       <view class="footer-btn" @click="showDialog2" v-if="isLogin">注销账户</view>
+      </template>
     </view>
   </view>
 </template>
@@ -108,10 +110,12 @@ export default {
       nickName: '',
       userApply: '',
       userRealInfo: '',
-      areas: ''
+      areas: '',
+      isWXWeb: false
     };
   },
   onShow() {
+    this.isWXWeb = uni.getStorageSync('isWxWeb')
     // 获取版本号
     this.version = (uni.getStorageSync('s') + ' ' + uni.getStorageSync('v')).replace(/正式/, '版本');
     // 获取缓存数据
