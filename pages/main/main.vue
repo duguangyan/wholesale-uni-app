@@ -31,8 +31,9 @@
 			<view class="uni-padding-wrap">
 				<view class="page-section swiper">
 					<view class="page-section-spacing">
-						<swiper @change="changeBanner" :circular="circular" class="swiper" indicator-color="rgba(0,0,0,.3)" indicator-active-color='#FE3B0B'
-						 :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+						<swiper @change="changeBanner" :circular="circular" class="swiper" indicator-color="rgba(0,0,0,.3)"
+						 indicator-active-color='#FE3B0B' :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
+						 :duration="duration">
 							<swiper-item v-for="(item,index) in adSet" :key="index" @click="goNextPage(item)">
 								<view class="swiper-item">
 									<image :src="item.path"></image>
@@ -44,6 +45,17 @@
 			</view>
 			<SwiperDot class="dot" :listWidth="listWidth" :current="cur" :list="adSet"></SwiperDot>
 		</view>
+		<!-- <view class="passageways flex">
+			<view class="items flex-1" v-for="(item,index) in passageways" :key="index" @click="goPassageway(index)">
+				<view class="txt">{{item.txt}}</view>
+				<view class="img">
+					<image :src="item.img" mode=""></image>
+				</view>
+			</view>
+		</view>
+		<view class="recommend">
+			热门推荐
+		</view> -->
 		<!-- nav导航 -->
 		<view class="nav cf">
 			<view class="li fll" v-for="(item,index) in navList" :key="index" @click="goSearchPage(item)">
@@ -56,8 +68,7 @@
 
 		<!-- 广告 -->
 		<view class="advs" v-if="adSet2.length>0" @click="goadSet(adSet2[0])">
-			<image :src="adSet2[0].path"
-			 mode=""></image>
+			<image :src="adSet2[0].path" mode=""></image>
 		</view>
 		<!-- 精选 -->
 		<view class="seles">
@@ -101,12 +112,12 @@
 	export default {
 		data() {
 			return {
-				circular:true,
-				goodsDetailRespList:[],
+				circular: true,
+				goodsDetailRespList: [],
 				navList: [],
-				imgPath:'',
+				imgPath: '',
 				adSet: '',
-				adSet2:'',
+				adSet2: '',
 				hasSlot: true,
 				dialogTitle: '服务协议和隐私政策',
 				dialogIsShow: false,
@@ -132,6 +143,23 @@
 					'蓝': '30,30,255',
 					'紫': '200,50,248',
 				},
+				passageways: [{
+						txt: '附近的人',
+						img: 'http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png'
+					},
+					{
+						txt: '订单种植',
+						img: 'http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png'
+					},
+					{
+						txt: '采购大厅',
+						img: 'http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png'
+					},
+					{
+						txt: '供货大厅',
+						img: 'http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png'
+					}
+				]
 			}
 		},
 		components: {
@@ -144,9 +172,9 @@
 			uni.setStorageSync('pagePath', 'main')
 		},
 		onLoad() {
-      // 首次启动清空需要认证标记
-      uni.removeStorageSync('needIdentify')
-      
+			// 首次启动清空需要认证标记
+			uni.removeStorageSync('needIdentify')
+
 			uni.setStorageSync('pagePath', 'main')
 			// 设备样式兼容
 			this.platform = uni.getStorageSync('platform');
@@ -156,12 +184,12 @@
 			// #endif	
 		},
 		onShow() {
-      // 如果认证状态，打回认证
-      // if(uni.getStorageSync('needIdentify')){
-      //   return uni.navigateTo({
-      //     url: '/pages/middle/identity/identity'
-      //   })
-      // }
+			// 如果认证状态，打回认证
+			// if(uni.getStorageSync('needIdentify')){
+			//   return uni.navigateTo({
+			//     url: '/pages/middle/identity/identity'
+			//   })
+			// }
 			// 获取首页banner
 			this.getHomeList()
 			// 判断用户类型
@@ -177,6 +205,23 @@
 			}, 1000);
 		},
 		methods: {
+			// 跳转
+			goPassageway(index){
+				switch (index){
+					case 0:
+						uni.navigateTo({
+							url:'/pages/nearby/nearby'
+						})
+						break;
+					case 1:
+						uni.navigateTo({
+							url:'/pages/common/webview/webview?url=http://m.qinlvny.com/static/toxic.html'
+						})
+						break;
+					default:
+						break;
+				}
+			},
 			// 隐私协议
 			goPrivacy() {
 				uni.navigateTo({
@@ -377,7 +422,7 @@
 																}, 2000);
 															}
 														});
-														
+
 													} else if (model.cancel) {
 														console.log('用户点击取消');
 														console.log(forceUpdate)
@@ -440,15 +485,15 @@
 				}).then((res) => {
 					if (res.code == '1000') {
 						this.homeList = res.data
-						this.adSet    = this.homeList.list[0].list[0].list[0].adPosition.adSet
-						this.adSet2   = this.homeList.list[2].list[0].list[0].adPosition.adSet
-						this.navList  = this.homeList.list[1].list[0].list
-						this.imgPath  = this.homeList.list[3].list[0].list[0].imgPath
+						this.adSet = this.homeList.list[0].list[0].list[0].adPosition.adSet
+						this.adSet2 = this.homeList.list[2].list[0].list[0].adPosition.adSet
+						this.navList = this.homeList.list[1].list[0].list
+						this.imgPath = this.homeList.list[3].list[0].list[0].imgPath
 						this.goodsDetailRespList = this.homeList.list[3].list[1].goodsDetailRespList
 						this.goodsDetailRespList.forEach((item, index) => {
 							item.valueAddr = item.valueAddr.substring(0, 5)
 						})
-						
+
 						this.listWidth = uni.upx2px(this.adSet.length * 30) + 'px';
 
 					}
@@ -459,13 +504,13 @@
 				addHit({
 					id: item.id
 				})
-        // url: '/pages/common/webview/webview?url=http://m.qinlvny.com/static/video.html#' + item.url
-        if(item.type == 6){
-          uni.navigateTo({
-            url: '/pages/common/webview/webview?url=http://m.qinlvny.com/static/video.html#' + item.url
-            
-          });
-				}else if (item.type == 5) {
+				// url: '/pages/common/webview/webview?url=http://m.qinlvny.com/static/video.html#' + item.url
+				if (item.type == 6) {
+					uni.navigateTo({
+						url: '/pages/common/webview/webview?url=http://m.qinlvny.com/static/video.html#' + item.url
+
+					});
+				} else if (item.type == 5) {
 					uni.navigateTo({
 						url: '/pages/order/goodsDetail/goodsDetail?shopId=' + item.id + '&goodsId=' + item.url
 					});
@@ -508,17 +553,19 @@
 	.dialog-txt {
 		color: #1AAD19;
 	}
-  
-  .mt10{
-     margin-top: 10upx;
-  }
-  .mt15{
-     margin-top: 14upx;
-  }
-  .nmt2{
-    transform: translateY(-4upx);
-    // top: -8upx;
-  }
+
+	.mt10 {
+		margin-top: 10upx;
+	}
+
+	.mt15 {
+		margin-top: 14upx;
+	}
+
+	.nmt2 {
+		transform: translateY(-4upx);
+		// top: -8upx;
+	}
 
 	.dot {
 		position: absolute;
@@ -540,6 +587,18 @@
 		overflow-x: hidden;
 		background: #fff;
 		min-height: 100vh;
+		.passageways{
+			.items{
+				.img{
+					width: 44upx;
+					height: 44upx;
+					image{
+						width: 100%;
+						height: 100%;
+					}
+				}
+			}
+		}
 		// padding-bottom: 100upx;
 		.bb1 {
 			position: fixed;
@@ -586,16 +645,17 @@
 						position: relative;
 						top: 2upx;
 					}
-					
+
 					margin-left: 30upx;
 					font-size: 20upx;
 					color: #48484C;
-					.text{
+
+					.text {
 						position: relative;
 						top: -6upx;
-            /* #ifdef H5 */
-            top: 0;
-            /* #endif */
+						/* #ifdef H5 */
+						top: 0;
+						/* #endif */
 					}
 				}
 
@@ -611,15 +671,16 @@
 					}
 
 					font-size: 20upx;
-          
+
 					color: #48484C;
 					margin-right: 30upx;
-					.text{
+
+					.text {
 						position: relative;
 						top: -6upx;
-            /* #ifdef H5 */
-            top: 0;
-            /* #endif */
+						/* #ifdef H5 */
+						top: 0;
+						/* #endif */
 					}
 				}
 			}
@@ -664,7 +725,8 @@
 
 
 		.seles {
-      margin-top: -20upx;
+			margin-top: -20upx;
+
 			.content {
 
 

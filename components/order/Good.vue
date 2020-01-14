@@ -26,8 +26,9 @@
 					<view class="fll">
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
-					<view class="refund flr" v-if="isDeatail!=1 && businessType == 2 &&item.isAfterSale == '0' && (status=='2'||status=='3')" @click.stop="applyRefund(item)">退款</view>
-					<view class="refund flr" v-if="isDeatail==1 && item.statusStr" @click.stop="goRefundDetail(item)">{{item.statusStr}}</view>
+					<view class="refund flr" v-if="isDeatail==1 && businessType == 2 &&item.isAfterSale == '0' && (status=='2'||status=='3')" @click.stop="applyRefund(item)">退款</view>
+					<view class="refund flr" v-if="isDeatail==1 &&item.isAfterSale == '1' && item.statusStr" @click.stop="goRefundDetail(item)">{{item.statusStr}}</view>
+					<view class="refund flr" v-if="isDeatail!=1 && item.statusStr">{{item.statusStr}}</view>
 				</view>
 			</view>
 		</view>
@@ -80,13 +81,13 @@
 			// 去退款详细
 			goRefundDetail(item){
 				uni.navigateTo({
-					url:'/pages/refund/detail?businessType=2&id=' + item.afterSaleId + '&status=' + status
+					url:'/pages/refund/detail?businessType=2&id=' + item.afterSaleId + '&status=' + this.status
 				})
 			},
 			// 去申请退款页面
 			applyRefund(item){
 				uni.navigateTo({
-				  url: '/pages/refund/apply?orderId=' + item.id +"&status=" + this.status
+				  url: '/pages/refund/apply?id=' + item.id +"&status=" + this.status
 				})
 			},
 			// 去商品详细页面
@@ -111,6 +112,7 @@
 	.content {
 		.refund{
 			min-width: 100upx;
+			padding: 0 6upx;
 			height: 30upx;
 			line-height: 28upx;
 			border: 1upx solid #FE3B0B;

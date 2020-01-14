@@ -454,6 +454,43 @@
 				"navigationBarTitleText": "跳转页面"
 			}
         }
+        ,{
+            "path" : "pages/nearby/nearby",
+            "style" : {
+				"navigationBarTitleText": "附近的人",
+				"navigationStyle": "custom",
+				"app-plus": {
+				  "titleView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/nearby/detail/detail",
+            "style" : {
+				"navigationStyle": "custom",
+				"app-plus": {
+				  "titleView": false
+				}
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/product/replacesale/replacesale",
+            "style" : {
+				"navigationBarTitleText": "我的代卖"
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/product/replacesale/detail/detail",
+            "style" : {
+				"navigationBarTitleText": "代卖详情"
+			}
+        }
+        ,{
+            "path" : "pages/middle/release/product/replacesale/send/send",
+            "style" : {
+				"navigationBarTitleText": "发布供货信息"
+			}
+        }
     ],
   "tabBar": {
     "color": "#797980",

@@ -238,7 +238,7 @@ var vm = {
       vm.reasons = ['多拍/错拍','地址填写错误','迟迟未发货','其他']
     }
     loadRefundInfo({
-      orderDetailId: options.orderId
+      orderDetailId: options.id
     }).then(data => {
       vm.good = data.data;
     });
