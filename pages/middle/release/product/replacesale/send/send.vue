@@ -14,7 +14,7 @@
 				<view class="fll"><text class="text-theme">*</text>货品品种</view>
 				<view class="fll text-999 mgl-30"><input type="text" placeholder="请选择"></view>
 			</view>
-			<view class="item cf fs24">
+			<view class="item cf fs24" @click="checkAddress">
 				<view class="fll"><text class="text-theme">*</text>产&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp地</view>
 				<view class="fll text-999 mgl-30">请选择</view>
 				<view class="arrow-right flr"></view>
@@ -37,26 +37,28 @@
 			<view class="warp cf">
 				<view class="imgs fll">
 					<view class="cf">
-						<view class="li fll" @click="chooseImgs">
-							<image src="/static/imgs/icon-1036.png" mode=""></image>
-						</view>
 						<view class="li fll" v-for="(item,index) in imgs" :key="index" v-if="imgs.length>0" @click="chooseImgs">
 							<image :src="item.url" mode=""></image>
 						</view>
-					</view>
-					
-				</view>
-				<view class="videos fll">
-					<view class="cf">
-						<view class="li fll" @click="chooseVideos">
-							<image src="/static/imgs/icon-1037.png" mode=""></image>
+						<view class="li fll" v-if="isSendResources" @click="chooseImgs">
+							<image src="/static/imgs/icon-1036.png" mode=""></image>
+							<view class="progress" v-if="uploadTaskProgressOne>0 && uploadTaskProgressOne<=99">
+								<cmd-circle cid="circle10" type="circle" :percent="uploadTaskProgressOne"></cmd-circle>
+							</view>
 						</view>
+						
 						<view class="li fll" v-for="(item,index) in videos" :key="index" v-if="videos.length>0"  @click="chooseVideos">
-							<image :src="item.url" mode=""></image>
+							<image :src="item.zipUrl" mode=""></image>
+						</view>
+						<view class="li fll" v-if="isSendResources" @click="chooseVideos">
+							<image src="/static/imgs/icon-1037.png" mode=""></image>
+							<view class="progress" v-if="uploadTaskProgressTwo>0 && uploadTaskProgressTwo<=99">
+								<cmd-circle cid="circle10" type="circle" :percent="uploadTaskProgressTwo"></cmd-circle>
+							</view>
 						</view>
 					</view>
-					
 				</view>
+				
 			</view>
 			
 		</view>
@@ -75,14 +77,18 @@
 	export default {
 		data() {
 			return {
+				isSendResources: true,
 				hasArea: false,
 				themeColor: '#007AFF',
 				cityPickerValueDefault: [0, 0, 1],
+				uploadTaskProgressOne:0,  // 进度条
+				uploadTaskProgressTwo:0,  // 进度条
 				isFullAddress: false,
 				isTip: true,
 				isClock: false,
 				imgs: [],
-				videos: []
+				videos: [],
+				count: 9
 			};
 		},
 		components: {cmdCircle, mpvueCityPicker},
@@ -93,6 +99,20 @@
 			
 		},
 		methods:{
+			// 产地弹窗确认
+			onConfirm(e) {
+				this.fullAddress = e.label
+				// full地址
+				let arr = this.fullAddress.split('-')
+			},
+			// 产地弹窗取消
+			onCancel(){
+				
+			},
+			// 选择产地
+			checkAddress(){
+				this.$refs.mpvueCityPicker.show()
+			},
 			// 选择货品名称
 			goCategory(){
 				uni.navigateTo({
@@ -108,13 +128,14 @@
 				if(this.isClock){
 					return false
 				}
-				// if(this.uploadTaskProgress > 0 && this.uploadTaskProgress < 100){
-				// 	T.tips('图片或视频正在上传中，请稍等...')
-				// 	return false
-				// }
+				let len = this.imgs.length + this.videos.length
+				if(len>=9){
+					this.isSendResources = false
+					return false
+				}
 				let _this = this
 				uni.chooseImage({
-					count: 9 , //默认9
+					count: this.count , //默认9
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: ['album','camera'], //从相册选择
 					success: function (res) {
@@ -122,7 +143,7 @@
 						let tempFilePaths = res.tempFilePaths;
 						let arr = [];
 						tempFilePaths.forEach((item,index)=>{
-							_this.upload(item)
+							_this.upload(item,1)
 						})
 					},
 					fail() {
@@ -137,26 +158,23 @@
 				}
 				let len = this.imgs.length + this.videos.length
 				if(len>=9){
-					this.isSend = false
+					this.isSendResources = false
 					return false
 				}
-				// if(this.uploadTaskProgress > 0 && this.uploadTaskProgress < 100){
-				// 	T.tips('图片或视频正在上传中，请稍等...')
-				// 	return false
-				// }
 				let _this = this
 				uni.chooseVideo({
-					count: 9,
+					count: this.count,
 					sourceType: ['camera', 'album'],
 					success: function (res) {
-						_this.upload(res.tempFilePath)
+						_this.upload(res.tempFilePath,2)
 					},
 					fail() {
 						_this.isClock = false
 					}
 				});
 			},
-			upload(tempFilePath){
+			// 上传资源
+			upload(tempFilePath,index){
 				let _this = this
 				let url = ''
 				url = uni.getStorageSync('s') == '开发' ? 'http://192.168.0.202:8000/ws/goods/goodImg/fileUpload' : 'http://wsm.qinlvny.com/ws/goods/goodImg/fileUpload'
@@ -166,32 +184,59 @@
 					filePath: tempFilePath,
 					name: 'file',
 					success: (uploadFileRes) => {
-					
+						let res = JSON.parse(uploadFileRes.data)
+						if(res.code == '1000'){
+							let len = this.imgs.length + this.videos.length
+							this.count = 9 - len
+							if(len>=9){
+								this.isSendResources = false
+								return false
+							}
+							if(this.isSendResources){
+								if(index == 1){ // 图片
+									T.tips(res.message || '图片上传成功')
+									this.imgs.push(res.data)
+								}else{ // 视频
+									T.tips(res.message || '视频上传成功')
+									this.videos.push(res.data)
+								}
+							}
+						}
 					},
 					fail:(err) => {
-						T.tips('上传图片失败')
+						T.tips(err.message || '上传图片失败')
 						_this.isClock = false
 					},
 					complete:() => {
 						_this.isClock = false
+						
+						let len = this.imgs.length + this.videos.length
+						this.count = 9 - len
+						if(len>=9){
+							this.isSendResources = false
+							return false
+						}
+						
 					}
 				});
-				
 				
 				uploadTask.onProgressUpdate((res) => {
-					 console.log('上传进度' + res.progress);
-					// console.log('已经上传的数据长度' + res.totalBytesSent);
-					// console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend);
-					this.uploadTaskProgress = res.progress
-					if(this.uploadTaskProgress >= 100){
-						this.uploadTaskProgress = 0
+					this.isClock = true
+					if(index == 1){
+						this.uploadTaskProgressOne = res.progress
+						if(this.uploadTaskProgressOne >= 100){
+							this.uploadTaskProgressOne = 0
+							this.isClock = false
+						}
+					}else{
+						this.uploadTaskProgressTwo = res.progress
+						if(this.uploadTaskProgressTwo >= 100){
+							this.uploadTaskProgressTwo = 0
+							this.isClock = false
+						}
 					}
-					// 测试条件，取消上传任务。
-					// if (res.progress > 50) {
-					// 	uploadTask.abort();
-					// }
+					
 				});
-				
 			},
 			// 隐藏tip
 			hideTip(){
@@ -207,10 +252,11 @@
 			position: fixed;
 			bottom: 20upx;
 			left: 60upx;
+			z-index: 99999;
 		}
 		.desc{
 			.warp{
-				
+				padding-bottom: 300upx;
 			}
 			border-top: 20upx solid #F0F0F0;
 			.title{
@@ -222,12 +268,23 @@
 					width: 160upx;
 					height: 160upx;
 					margin-left: 20upx;
+					margin-top: 20upx;
+					position: relative;
 					image{
 						width: 100%;
 						height: 100%;
+						position: absolute;
+						top: 0;
+						left: 0;
+						z-index: 9;
+					}
+					.progress{
+						position: absolute;
+						top: 0;
+						left: 0;
+						z-index: 999;
 					}
 				}
-				
 			}
 		}
 		.items{
