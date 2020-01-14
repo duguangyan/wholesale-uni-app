@@ -421,6 +421,12 @@
 				// 密码长度为6位以后执行方法
 				console.log(this.trade_pwd);
 				
+				if(this.code != ''){
+					uni.redirectTo({
+						url:'/pages/middle/release/account/payps/confirmPassword?code='+this.code + '&trade_pwd=' + this.trade_pwd
+					})
+				}
+				
 				switch (this.from){
 					case 'cash':
 						// 提现
