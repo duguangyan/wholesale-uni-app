@@ -219,8 +219,8 @@
 				<div class="total-price bb1">
 					<span class="fs28">订单总价</span>
 					<!-- <span class="fs32" v-if="order.shopOrder.sellerId == uid">￥{{(roleId == '20001' || roleId == '20004')? order.shopOrder.orderMoney : order.shopOrder.totalMoney}}</span> -->
-					<span class="fs32" v-if="order.shopOrder.sellerId == uid">￥{{order.shopOrder.orderMoney}}</span>
-					<span class="fs32" v-if="order.shopOrder.sellerId != uid">￥{{(roleId == '20001' || roleId == '20004')? order.shopOrder.orderMoney : order.shopOrder.totalMoney}}</span>
+					<span class="fs32" v-if="businessType == 1">￥{{order.shopOrder.orderMoney}}</span>
+					<span class="fs32" v-if="businessType == 2">￥{{order.shopOrder.totalMoney}}</span>
 				</div>
 				<div class="msg cf">
 					<span class="span-1 fll">买家留言</span>
