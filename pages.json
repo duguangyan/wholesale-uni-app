@@ -447,14 +447,35 @@
       "style": {
         "navigationBarTitleText": "拒绝原因"
       }
-    }
-      ,{
-            "path" : "pages/common/bridge/bridge",
-            "style" : {
-				"navigationBarTitleText": "跳转页面"
-			}
-        }
-    ],
+    }, {
+      "path": "pages/common/bridge/bridge",
+      "style": {
+        "navigationBarTitleText": "跳转页面"
+      }
+    }, {
+      "path": "pages/supply/index",
+      "style": {}
+    },
+    {
+      "path": "pages/procurement/index",
+      "style": {
+        "navigationBarTitleText": "采购大厅"
+      }
+    }，
+    {
+      "path": "pages/procurement/detail",
+      "style": {
+        "navigationBarTitleText": "采购详情"
+      }
+    },
+    {
+      "path": "pages/procurement/statement",
+      "style": {
+        "navigationBarTitleText": "采购状态"
+      }
+    },
+    
+  ],
   "tabBar": {
     "color": "#797980",
     "selectedColor": "#FE3B0B",
