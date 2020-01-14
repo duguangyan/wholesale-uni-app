@@ -79,7 +79,7 @@
 					<div class="title" v-if="order.shopOrder && (status == -1)">
 						{{statusText}}
 					</div>
-					<div class="sub tick cf" v-if="status == -1">
+					<div class="sub tick cf" v-if="status == -1 && cancelReason">
 						<span class="fll fs24">原因:{{cancelReason != null?cancelReason:''}}</span>
 					</div>
 				</view>
@@ -237,7 +237,7 @@
 				<div class="item" v-if="order.shopOrder.sendTime">发货时间：{{order.shopOrder.sendTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.finishTime">收货时间：{{order.shopOrder.finishTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.sellCancelTime">货主取消：{{order.shopOrder.sellCancelTime || ''}}</div>
-				<div class="item" v-if="order.shopOrder.buyerCancelTime">卖家取消：{{order.shopOrder.buyerCancelTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.buyerCancelTime">买家取消：{{order.shopOrder.buyerCancelTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.closeTime">取消订单：{{order.shopOrder.closeTime || ''}}</div>
 			</div>
 		</div>
