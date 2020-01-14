@@ -8,22 +8,28 @@
 			<view class="item cf fs24">
 				<view class="fll"><text class="text-theme">*</text>货品名称</view>
 				<view class="fll text-999 mgl-30">请选择</view>
+				<view class="arrow-right flr"></view>
 			</view>
 			<view class="item cf fs24">
 				<view class="fll"><text class="text-theme">*</text>货品品种</view>
-				<view class="fll text-999 mgl-30">请选择</view>
+				<view class="fll text-999 mgl-30"><input type="text" placeholder="请选择"></view>
 			</view>
 			<view class="item cf fs24">
-				<view class="fll"><text class="text-theme">*</text>产地</view>
+				<view class="fll"><text class="text-theme">*</text>产&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp地</view>
 				<view class="fll text-999 mgl-30">请选择</view>
+				<view class="arrow-right flr"></view>
 			</view>
 			<view class="item cf fs24">
 				<view class="fll"><text class="text-theme">*</text>供货能力</view>
-				<view class="fll text-999 mgl-30">请选择</view>
+				<view class="fll text-999 mgl-30">
+					<input type="text" placeholder="请选择">
+				</view>
 			</view>
 			<view class="item cf fs24">
 				<view class="fll"><text class="text-theme">*</text>规格描述</view>
-				<view class="fll text-999 mgl-30">请选择</view>
+				<view class="fll text-999 mgl-30">
+					<input type="text" placeholder="请选择">
+				</view>
 			</view>
 		</view>
 		<view class="desc">
@@ -217,6 +223,14 @@
 				height: 100upx;
 				line-height: 100upx;
 				border-bottom: 1upx solid #F0F0F0;
+				input{
+					width: 570upx;
+					height: 100upx;
+				}
+				.arrow-right{
+					position: relative;
+					top: 40upx;
+				}
 			}
 			.item:last-child{
 				border-bottom: none;

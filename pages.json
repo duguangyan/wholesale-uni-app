@@ -491,6 +491,10 @@
 				"navigationBarTitleText": "发布供货信息"
 			}
         }
+        ,{
+            "path" : "pages/middle/release/product/replacesale/category/category",
+            "style" : {}
+        }
     ],
   "tabBar": {
     "color": "#797980",
