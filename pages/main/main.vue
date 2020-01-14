@@ -182,6 +182,9 @@
 			// #ifdef APP-PLUS
 			this.updataApp()
 			// #endif	
+			
+			
+			
 		},
 		onShow() {
 			// 如果认证状态，打回认证
@@ -194,6 +197,18 @@
 			this.getHomeList()
 			// 判断用户类型
 			this.assessUserType()
+			
+			uni.getLocation({
+			    type: 'wgs84',
+				geocode: true,
+			    success: function (res) {
+					console.log('userLocation',res)
+					uni.setStorageSync('userLocation', JSON.stringify(res))
+			        console.log('当前位置的经度：' + res.longitude);
+			        console.log('当前位置的纬度：' + res.latitude);
+			    }
+			});
+			
 		},
 		onPullDownRefresh() {
 			//监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次

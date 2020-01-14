@@ -13,8 +13,18 @@ const supplyListApp = data => {
 	})
 }
 
+// 保存用户定位信息
+const userPositionAdd = data => {
+	return request({
+		url: 'upms/userPosition/add',
+		method: 'post',
+		data,
+		type: 'form'
+	})
+}
 
 
 export {
-	supplyListApp
+	supplyListApp,
+	userPositionAdd
 }
