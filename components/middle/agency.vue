@@ -141,11 +141,11 @@
 					{
 						img: '/static/imgs/icon-1033.png',
 						text: '货主'
+					},
+					{
+						img: '/static/imgs/icon-10333.png',
+						text: '代卖'
 					}
-					// {
-					// 	img: '/static/imgs/icon-10333.png',
-					// 	text: '代卖'
-					// }
 				]
 				// spOrders: [{
 				// 	img: '../../static/imgs/icon-1004.png',

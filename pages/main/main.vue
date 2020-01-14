@@ -45,7 +45,7 @@
 			</view>
 			<SwiperDot class="dot" :listWidth="listWidth" :current="cur" :list="adSet"></SwiperDot>
 		</view>
-		<!-- <view class="passageways flex">
+		<view class="passageways flex">
 			<view class="items flex-1" v-for="(item,index) in passageways" :key="index" @click="goPassageway(index)">
 				<view class="txt">{{item.txt}}</view>
 				<view class="img">
@@ -55,7 +55,7 @@
 		</view>
 		<view class="recommend">
 			热门推荐
-		</view> -->
+		</view>
 		<!-- nav导航 -->
 		<view class="nav cf">
 			<view class="li fll" v-for="(item,index) in navList" :key="index" @click="goSearchPage(item)">
