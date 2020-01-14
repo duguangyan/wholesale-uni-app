@@ -190,6 +190,9 @@ var vm = {
         if(!vm.state){
           return Toast.tips('请选择货物状态')
         }
+        if(!vm.reason){
+          return Toast.tips('请选择退货原因')
+        }
       }
       sendRefund({
         descs: vm.descs,

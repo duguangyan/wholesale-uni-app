@@ -63,7 +63,7 @@
                   价格￥
                   {{ it.price }}<span class="fs24">{{ it.goodsUnit ? `/${it.goodsUnit}` : '' }}</span>
                 </p>
-                <p class="fs28 fixed">x{{ item.totalCount }}</p>
+                <p class="fs28 fixed">x{{ it.goodsCount }}</p>
               </div>
             </li>
           </ul>
