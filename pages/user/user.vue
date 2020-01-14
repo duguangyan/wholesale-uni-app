@@ -33,8 +33,6 @@
         </view>
         <view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
       </view>
-			
-
 			<view class="tags">
 				<view class="li" v-for="(item,index) in titles" :key="index" @click="goOrderList(index)">
 					<view class="img" :class="{'Android4': platform == 1}">

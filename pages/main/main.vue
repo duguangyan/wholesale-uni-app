@@ -104,6 +104,7 @@
 	import {
 		appUpdate
 	} from '../../api/userApi.js'
+	import { userPositionAdd } from '@/api/supply.js'
 	import T from '@/utils/tips.js'
 	import TabBar from '@/components/common/TabBar.vue'
 	import SwiperDot from "@/components/common/SwiperDotByMain.vue"
@@ -182,9 +183,6 @@
 			// #ifdef APP-PLUS
 			this.updataApp()
 			// #endif	
-			
-			
-			
 		},
 		onShow() {
 			// 如果认证状态，打回认证
@@ -197,18 +195,6 @@
 			this.getHomeList()
 			// 判断用户类型
 			this.assessUserType()
-			
-			uni.getLocation({
-			    type: 'wgs84',
-				geocode: true,
-			    success: function (res) {
-					console.log('userLocation',res)
-					uni.setStorageSync('userLocation', JSON.stringify(res))
-			        console.log('当前位置的经度：' + res.longitude);
-			        console.log('当前位置的纬度：' + res.latitude);
-			    }
-			});
-			
 		},
 		onPullDownRefresh() {
 			//监听下拉刷新动作的执行方法，每次手动下拉刷新都会执行一次
@@ -220,6 +206,40 @@
 			}, 1000);
 		},
 		methods: {
+			// 获取用户定位信息
+			getLocationByUser(){
+				uni.getLocation({
+				    type: 'wgs84',
+					geocode: true,
+				    success: function (res) {
+						console.log('userLocation',res)
+						uni.setStorageSync('userLocation', JSON.stringify(res))
+						if(res.address && res.address.street){
+							let nearbyAddress = []
+								nearbyAddress[0] = res.address.province
+								nearbyAddress[1] = res.address.city
+							uni.setStorageSync('nearbyAddress',nearbyAddress)	
+							let data = {
+								address: res.address.street + res.address.streetNum,
+								city: res.address.city,
+								lat: res.latitude,
+								lng: res.longitude,
+								province: res.address.province,
+								region: res.address.district
+							}
+							userPositionAdd(data).then(res=>{
+								if(res.code == '1000'){
+									console.log('userPositionAdd',res)
+								}else{
+									T.tips(res.message)
+								}
+							})
+						}
+						
+						
+				    }
+				});
+			},
 			// 跳转
 			goPassageway(index){
 				switch (index){
@@ -499,6 +519,10 @@
 					parentId: 1
 				}).then((res) => {
 					if (res.code == '1000') {
+						// 获取地址
+						if(uni.getStorageSync('access_token')){
+							this.getLocationByUser()
+						}
 						this.homeList = res.data
 						this.adSet = this.homeList.list[0].list[0].list[0].adPosition.adSet
 						this.adSet2 = this.homeList.list[2].list[0].list[0].adPosition.adSet
@@ -510,7 +534,6 @@
 						})
 
 						this.listWidth = uni.upx2px(this.adSet.length * 30) + 'px';
-
 					}
 				})
 			},
