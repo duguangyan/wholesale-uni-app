@@ -62,12 +62,14 @@
       <view>退款说明：{{ detail.afterSaleDetail.descs }}</view>
       <view>退款单号：{{ detail.afterSaleDetail.afterSaleId }}</view>
 
-      <view class="upload-iden">凭证</view>
-      <view class="iden">
-        <view class="item" v-if="detail.afterSaleDetail.afterSaleImgs" v-for="(item, index) in detail.afterSaleDetail.afterSaleImgs" :key="index" @click="showBigImg(item.url)">
-          <image class="upload-img" :src="item.url" mode=""></image>
+      <template v-if="detail.afterSaleDetail.afterSaleImgs && detail.afterSaleDetail.afterSaleImgs.length>0">
+        <view class="upload-iden">凭证</view>
+        <view class="iden">
+          <view class="item" v-for="(item, index) in detail.afterSaleDetail.afterSaleImgs" :key="index" @click="showBigImg(item.url)">
+            <image class="upload-img" :src="item.url" mode=""></image>
+          </view>
         </view>
-      </view>
+      </template>
     </view>
 
     <view v-if="isDialog" class="dialog">
