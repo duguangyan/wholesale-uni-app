@@ -5,7 +5,7 @@
 			我有货,找市场代卖
 		</view>
 		<view class="items">
-			<view class="item cf fs24">
+			<view class="item cf fs24" @click="goCategory">
 				<view class="fll"><text class="text-theme">*</text>货品名称</view>
 				<view class="fll text-999 mgl-30">请选择</view>
 				<view class="arrow-right flr"></view>
@@ -63,22 +63,29 @@
 		<view class="big-btn" @click="send">
 			发布供货需求
 		</view>
+		<mpvue-city-picker :hasArea="hasArea" :themeColor="themeColor" ref="mpvueCityPicker" :isFullAddress='isFullAddress' :pickerValueDefault="cityPickerValueDefault"
+		 @onCancel="onCancel" @onConfirm="onConfirm"></mpvue-city-picker>
 	</view>
 </template>
 
 <script>
 	import T from '@/utils/tips.js'
 	import cmdCircle from "@/components/cmd-circle/cmd-circle.vue"
+	import mpvueCityPicker from '@/components/common/mpvue-citypicker/mpvueCityPicker.vue'
 	export default {
 		data() {
 			return {
+				hasArea: false,
+				themeColor: '#007AFF',
+				cityPickerValueDefault: [0, 0, 1],
+				isFullAddress: false,
 				isTip: true,
 				isClock: false,
 				imgs: [],
 				videos: []
 			};
 		},
-		components: {cmdCircle},
+		components: {cmdCircle, mpvueCityPicker},
 		onLoad() {
 			
 		},
@@ -86,6 +93,12 @@
 			
 		},
 		methods:{
+			// 选择货品名称
+			goCategory(){
+				uni.navigateTo({
+					url:'/pages/middle/release/product/replacesale/category/category'
+				})
+			},
 			// 发布供货需求
 			send(){
 				

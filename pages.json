@@ -493,7 +493,9 @@
         }
         ,{
             "path" : "pages/middle/release/product/replacesale/category/category",
-            "style" : {}
+            "style" : {
+				"navigationBarTitleText": "选择品类"
+			}
         }
     ],
   "tabBar": {

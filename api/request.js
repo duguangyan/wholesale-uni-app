@@ -8,7 +8,7 @@ let apiUrl = ''
 	apiUrl = ''; // H5正式
 // #endif
 
- apiUrl = 'http://192.168.0.202:5001'; // 开发
+// apiUrl = 'http://192.168.0.202:5001'; // 开发
 
 const versionNumber = 'V1.0.97'; //版本号
 
@@ -99,6 +99,7 @@ const request = function(params = {}) {
 							grant_type:'refresh_token',
 							scope: '4',
 							client_id: 'bwap',
+							systemId: '4',
 							client_secret:'xx',
 							refresh_token: uni.getStorageSync('refresh_token')
 						}
