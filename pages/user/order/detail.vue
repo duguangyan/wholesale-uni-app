@@ -195,17 +195,17 @@
 					<span class="platform">{{order.shopOrder.shopName || ''}}</span> -->
 					<!-- // 状态 -1 已取消 0 待支付 1 已支付 2 未发货 3 已发货 4已完成 5 已关闭 6 待审核 -->
 					<span class="status">
-						<span v-if="order.status == -1">已取消</span>
-						<span v-if="order.status == 0">待付款</span>
-						<span v-if="order.status == 2">待发货</span>
-						<span v-if="order.status == 3">待收货</span>
-						<span v-if="order.status == 4">已完成</span>
-						<span v-if="order.status == 5">已关闭</span>
-						<span v-if="order.status == 6">待审核</span>
+						<span v-if="order.shopOrder.status == -1">已取消</span>
+						<span v-if="order.shopOrder.status == 0">待付款</span>
+						<span v-if="order.shopOrder.status == 2">待发货</span>
+						<span v-if="order.shopOrder.status == 3">待收货</span>
+						<span v-if="order.shopOrder.status == 4">已完成</span>
+						<span v-if="order.shopOrder.status == 5">已关闭</span>
+						<span v-if="order.shopOrder.status == 6">待审核</span>
 					</span>
 				</div>
 				<view class="mgb-30" v-for="good in order.shopOrder.orderDetailList" :key="good.id" >
-					<Good :item="good" :status="order.status" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber' :isDeatail="isDeatail" :businessType="businessType"></Good>
+					<Good :item="good" :status="order.shopOrder.status" :roleId="roleId" :isAgentcy="isAgentcy" :goDetailNumber='goDetailNumber' :isDeatail="isDeatail" :businessType="businessType"></Good>
 				</view>
 				
 				<div class="goods-price">
@@ -232,11 +232,12 @@
 				<div class="title">订单信息</div>
 				<div class="item">订单编号：{{order.shopOrder.orderId || ''}}</div>
 				<div class="item">下单时间：{{order.shopOrder.createTime || ''}}</div>
-				<div class="item" v-if="order.shopOrder.payTime">支付时间：{{order.shopOrder.payTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.payTime">货主确认：{{order.shopOrder.comfirmTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.payTime">支付时间：{{order.shopOrder.payTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.sendTime">发货时间：{{order.shopOrder.sendTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.finishTime">收货时间：{{order.shopOrder.finishTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.sellCancelTime">货主取消：{{order.shopOrder.sellCancelTime || ''}}</div>
+				<div class="item" v-if="order.shopOrder.buyerCancelTime">卖家取消：{{order.shopOrder.buyerCancelTime || ''}}</div>
 				<div class="item" v-if="order.shopOrder.closeTime">取消订单：{{order.shopOrder.closeTime || ''}}</div>
 			</div>
 		</div>
@@ -475,24 +476,35 @@
 			},
 			// 发货
 			deliverGoods(){
-				if(this.order.shopOrder.sendType == 1){
-					uni.navigateTo({
-						url:'/pages/user/order/delivery?shopId='+this.shopId + '&orderId=' + this.orderId
-					})
-				}else{
-					let data = {
-						orderId: this.orderId,
-						shopId: this.shopId
+				let n = 0
+				this.order.shopOrder.orderDetailList.forEach(item=>{
+					if(item.isAfterSale == 1){
+						n++
+						T.tips("该订单有部分商品退款未完成，无法进行发货")
+						return false
 					}
-					orderDelivery(data).then(res=>{
-						if(res.code == '1000'){
-							T.tips('发货成功')
-							this.getOrderDetailById(this.orderId, this.shopId)
-						}else{
-							T.tips(res.message || '发货失败')
+				})
+				if(n == 0){
+					if(this.order.shopOrder.sendType == 1){
+						uni.navigateTo({
+							url:'/pages/user/order/delivery?shopId='+this.shopId + '&orderId=' + this.orderId
+						})
+					}else{
+						let data = {
+							orderId: this.orderId,
+							shopId: this.shopId
 						}
-					})
+						orderDelivery(data).then(res=>{
+							if(res.code == '1000'){
+								T.tips('发货成功')
+								this.getOrderDetailById(this.orderId, this.shopId)
+							}else{
+								T.tips(res.message || '发货失败')
+							}
+						})
+					}
 				}
+				
 				
 			},
 			doConfirm() {
@@ -564,9 +576,21 @@
 			},
 			// 确认收货
 			postOrderConfirm() {
-				this.isShow = true
-				this.title = '确认收货吗?'
-				this.isOrderDialog = 1
+				let n = 0
+				this.order.shopOrder.orderDetailList.forEach(item=>{
+					if(item.isAfterSale == 1){
+						n++
+						T.tips("该订单有部分商品退款未完成，无法进行收货")
+						return false
+					}
+				})
+				
+				if(n == 0){
+					this.isShow = true
+					this.title = '确认收货吗?'
+					this.isOrderDialog = 1
+				}
+				
 			},
 			// 去物流信息页面
 			goFreight() {

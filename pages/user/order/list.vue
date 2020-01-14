@@ -259,36 +259,39 @@
 			},
 			// 发货
 			deliverGoods(index){
-				let item = this.orders[index]
-				// uni.navigateTo({
-				// 	url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
-				// })
-				
-				if(item.sendType == 1){
-					uni.navigateTo({
-						url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
-					})
-				}else{
-					let data = {
-						orderId: item.orderId,
-						shopId: item.shopId
+				let n = 0
+				let item = this.orders[index].orderDetailList.forEach(item=>{
+					if(item.isAfterSale == 1){
+						n++
+						T.tips("该订单有部分商品退款未完成，无法进行发货")
+						return false
 					}
-					orderDelivery(data).then(res=>{
-						if(res.code == '1000'){
-							T.tips('发货成功')
-							// 获取订单列表
-							this.orders = []
-							this.pageIndex = 1
-							this.getOrders()
-							// 统计订单状态条数
-							this.getOrderStat()
-						}else{
-							T.tips(res.message || '发货失败')
+				})
+				if(n==0){
+					if(item.sendType == 1){
+						uni.navigateTo({
+							url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId
+						})
+					}else{
+						let data = {
+							orderId: item.orderId,
+							shopId: item.shopId
 						}
-					})
+						orderDelivery(data).then(res=>{
+							if(res.code == '1000'){
+								T.tips('发货成功')
+								// 获取订单列表
+								this.orders = []
+								this.pageIndex = 1
+								this.getOrders()
+								// 统计订单状态条数
+								this.getOrderStat()
+							}else{
+								T.tips(res.message || '发货失败')
+							}
+						})
+					}
 				}
-				
-				
 			},
 			// 统计订单状态条数
 			getOrderStat(){
@@ -355,6 +358,7 @@
 				})
 			},
 			doConfirm() {
+				
 				let data = {
 					orderId: this.orderId,
 					shopId: this.shopId
@@ -406,11 +410,19 @@
 			},
 			// 确认收货
 			postOrderConfirm(index) {
-
-				this.isShow = true;
-				this.orderId = this.orders[index].orderId;
-				this.shopId = this.orders[index].shopId;
-
+				let n = 0
+				let item = this.orders[index].orderDetailList.forEach(item=>{
+					if(item.isAfterSale == 1){
+						n++
+						T.tips("该订单有部分商品退款未完成，无法进行收货")
+						return false
+					}
+				})
+				if(n == 0){
+					this.isShow = true;
+					this.orderId = this.orders[index].orderId;
+					this.shopId = this.orders[index].shopId;
+				}
 			},
 			// 显示支付弹窗
 			showPay(index) {

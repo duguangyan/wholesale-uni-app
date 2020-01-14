@@ -142,6 +142,10 @@
 						img: '/static/imgs/icon-1033.png',
 						text: '货主'
 					}
+					// {
+					// 	img: '/static/imgs/icon-10333.png',
+					// 	text: '代卖'
+					// }
 				]
 				// spOrders: [{
 				// 	img: '../../static/imgs/icon-1004.png',
@@ -322,8 +326,20 @@
 							url:'/pages/middle/release/product/localproduct/localproduct'
 						})
 					}else if(index === 1){
+						let userApply = JSON.parse(uni.getStorageSync("userApply"))
+						if(userApply.isAgentcy == 1){
+							uni.navigateTo({
+								url:'/pages/middle/release/product/localshipper/localshipper'
+							})
+						}else{
+							uni.navigateTo({
+								url:'/pages/middle/release/product/replacesale/replacesale'
+							})
+						}
+						
+					}else if(index === 2){
 						uni.navigateTo({
-							url:'/pages/middle/release/product/localshipper/localshipper'
+							url:'/pages/middle/release/product/replacesale/replacesale'
 						})
 					}
 				}else if(this.roleId == 20002){
@@ -338,6 +354,10 @@
 					}else if(index === 2){
 						uni.navigateTo({
 							url:'/pages/middle/release/product/localshipper/localshipper'
+						})
+					}else if(index === 3){
+						uni.navigateTo({
+							url:'/pages/middle/release/product/replacesale/replacesale'
 						})
 					}
 				}

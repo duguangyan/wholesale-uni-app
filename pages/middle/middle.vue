@@ -265,6 +265,10 @@
 								img: '/static/imgs/icon-1003.png',
 								text: '我的货品'
 							}
+							// {
+							// 	img: '/static/imgs/icon-10333.png',
+							// 	text: '代卖'
+							// }
 						]
 					}else{
 						this.spGoodsByAgency =[{
@@ -275,6 +279,10 @@
 								img: '/static/imgs/icon-1002.png',
 								text: '本地代办'
 							}
+							// {
+							// 	img: '/static/imgs/icon-10333.png',
+							// 	text: '代卖'
+							// }
 						]
 					}
 				}
