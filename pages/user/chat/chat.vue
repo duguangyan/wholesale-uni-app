@@ -13,6 +13,8 @@
 		},
 		onLoad(options) {
 			this.url = decodeURIComponent(options.url)
+			console.log('decodeURIComponent-------------')
+			console.log(this.url)
 		},
 		methods:{
 			getMessage(e){

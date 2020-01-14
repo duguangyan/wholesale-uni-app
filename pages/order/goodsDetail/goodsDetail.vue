@@ -817,7 +817,8 @@
 							let id = uni.getStorageSync('uid')
 							let tk = res.data
 							let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
-							console.log('url', url)
+							console.log('encodeURIComponent:url', url)
+							url = encodeURIComponent(url)
 							uni.navigateTo({
 								url: '/pages/user/chat/chat?url=' + url
 							})
