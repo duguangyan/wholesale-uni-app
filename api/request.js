@@ -119,26 +119,32 @@ const request = function(params = {}) {
 									header = {
 										'Authorization': 'Bearer ' + uni.getStorageSync("access_token") || ''
 									};
+									var pages = getCurrentPages();//当前页
+									var nowPage = pages[pages.length - 1]
+									nowPage.onShow()
+									console.log(nowPage)
 									
-									uni.request({
-										url: apiUrl + newUrl,
-										method: params.method || 'GET',
-										data: params.data,
-										header,
-										success(res) {
-											console.log('2',res)
-											if(res.data.code == '1000'){
-												resolve(res.data);
-											}
-										},
-										fail() {
-											uni.showToast({
-											    title: '请求数据错误',
-											    duration: 2000,
-												icon :'none'
-											});
-										}
-									})
+									// uni.request({
+									// 	url: apiUrl + newUrl,
+									// 	method: params.method || 'GET',
+									// 	data: params.data,
+									// 	header,
+									// 	success(res) {
+									// 		console.log('2',res)
+									// 		if(res.data.code == '1000'){
+												
+												
+									// 			resolve(res.data.data);
+									// 		}
+									// 	},
+									// 	fail() {
+									// 		uni.showToast({
+									// 		    title: '请求数据错误',
+									// 		    duration: 2000,
+									// 			icon :'none'
+									// 		});
+									// 	}
+									// })
 								} else {
 									uni.navigateTo({
 										url:'/pages/login/login'
