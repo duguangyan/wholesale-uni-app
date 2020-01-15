@@ -571,7 +571,7 @@
 			goFinshPage(index) {
 				// orderId, shopId
 				uni.navigateTo({
-					url: '/pages/user/order/success?orderId=' + this.order.shopOrder.orderId + '&shopId' + this.order.shopOrder.shopId
+					url: '/pages/user/order/success?orderId=' + this.orderId + '&shopId=' + this.shopId
 				})
 			},
 			// 确认收货

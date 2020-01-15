@@ -100,6 +100,7 @@ const request = function(params = {}) {
 							scope: '4',
 							client_id: 'bwap',
 							client_secret:'xx',
+							systemId: '4',
 							refresh_token: uni.getStorageSync('refresh_token')
 						}
 						

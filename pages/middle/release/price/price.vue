@@ -25,7 +25,7 @@
 				<view class="fll">起批量</view>
 				<view class="fll"><input type="number" @input="inputStartQuantity($event,index)" @blur="blurStartQuantity($event,index)" maxlength="8" v-model="item.startQuantity" /></view>
 				<view class="fll">价格(元)</view>
-				<view class="fll"><input type="digit" maxlength="8" @input="checkValue($event,index)" @blur='blurValue($event,index)' v-model="item.price" /></view>
+				<view class="fll"><input type="digit" maxlength="12" @input="checkValue($event,index)" @blur='blurValue($event,index)' v-model="item.price" /></view>
 				<view class="flr add mr15" v-if='index == 0' @click="add(index)">新增</view>
 				<view class="flr del mr15" v-if='index != 0' @click="del(index)">删除</view>
 			</view>
@@ -135,10 +135,6 @@
 			checkValue(e,index){
 				let price = ''
 				let val = e.target.value + ''
-				
-				console.log(val[0])
-				console.log(val[0])
-				console.log(val[0]== '0' && val[1]== '0')
 				if(val[0]== '0' && val[1]== '0'){
 					price = 0
 				}else{
@@ -160,6 +156,7 @@
 			    console.log('first str is .')
 			    sNum = '0' + sNum
 			  }
+			  
 			  sNum = sNum.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符
 			  sNum = sNum.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
 			  sNum = sNum.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
@@ -168,6 +165,19 @@
 			  if(sNum.indexOf(".")< 0 && sNum !=""){
 			    sNum = parseFloat(sNum);
 			  }
+			  if(sNum.indexOf('.') != -1){
+			  	let arr = sNum.split('.');
+				let n = ''
+				let m = ''
+				if(arr[0].length>8){
+					n = arr[0].substr(0,8)
+				}
+				if(arr[1].length>2){
+					m = arr[1].substr(0,2)
+				}	
+				sNum = n + '.' + m	 
+			  }
+			  
 			  return sNum
 			},
 			// 库存输入框
