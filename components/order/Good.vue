@@ -80,9 +80,12 @@
 		methods: {
 			// 去退款详细
 			goRefundDetail(item){
-				uni.navigateTo({
-					url:'/pages/refund/detail?businessType=1&id=' + item.afterSaleId + '&status=' + this.status
-				})
+				if(this.isDeatail == 1){
+					uni.navigateTo({
+						url:'/pages/refund/detail?businessType=1&id=' + item.afterSaleId + '&status=' + this.status
+					})
+				}
+				
 			},
 			// 去申请退款页面
 			applyRefund(item){

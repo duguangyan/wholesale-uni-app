@@ -577,13 +577,13 @@
 			// 确认收货
 			postOrderConfirm() {
 				let n = 0
-				this.order.shopOrder.orderDetailList.forEach(item=>{
-					if(item.isAfterSale == 1){
-						n++
-						T.tips("该订单有部分商品退款未完成，无法进行收货")
-						return false
-					}
-				})
+				// this.order.shopOrder.orderDetailList.forEach(item=>{
+				// 	if(item.isAfterSale == 1){
+				// 		n++
+				// 		T.tips("该订单有部分商品退款未完成，无法进行收货")
+				// 		return false
+				// 	}
+				// })
 				
 				if(n == 0){
 					this.isShow = true

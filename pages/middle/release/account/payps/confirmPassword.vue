@@ -212,13 +212,13 @@
 					return;
 				}
 				
-				let reg = /^(\d)\1{5}$/; // 不重复6位 类似111111,222222
-				let str = '0123456789_9876543210'; // str.indexOf(value) > -1 不连续判断 类似123456
+				// let reg = /^(\d)\1{5}$/; // 不重复6位 类似111111,222222
+				// let str = '0123456789_9876543210'; // str.indexOf(value) > -1 不连续判断 类似123456
 				 
-				if (this.trade_pwd.length!==6 || reg.test(this.trade_pwd) || str.indexOf(this.trade_pwd) > -1) {
-				    T.tips('请输入正确的密码')
-					return
-				} 
+				// if (this.trade_pwd.length!==6 || reg.test(this.trade_pwd) || str.indexOf(this.trade_pwd) > -1) {
+				//     T.tips('请输入正确的密码')
+				// 	return
+				// } 
 				
 				
 				// 密码长度为6位以后执行方法
