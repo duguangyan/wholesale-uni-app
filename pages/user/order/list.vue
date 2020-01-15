@@ -412,13 +412,13 @@
 			// 确认收货
 			postOrderConfirm(index) {
 				let n = 0
-				// let item = this.orders[index].orderDetailList.forEach(item=>{
-				// 	if(item.isAfterSale == 1){
-				// 		n++
-				// 		T.tips("该订单有部分商品退款未完成，无法进行收货")
-				// 		return false
-				// 	}
-				// })
+				let item = this.orders[index].orderDetailList.forEach(item=>{
+					if(item.isAfterSale == 1){
+						n++
+						T.tips("该订单有部分商品退款未完成，无法进行收货")
+						return false
+					}
+				})
 				if(n == 0){
 					this.isShow = true;
 					this.orderId = this.orders[index].orderId;
@@ -447,6 +447,8 @@
 				this.allLoaded = false
 				this.loadText = '上拉加载更多...'
 				this.getOrders()
+				// 统计订单状态条数
+				this.getOrderStat()
 			},
 			// 下拉加载更多
 			loadBottom() {
