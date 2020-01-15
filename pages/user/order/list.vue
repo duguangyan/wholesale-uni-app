@@ -411,18 +411,32 @@
 			},
 			// 确认收货
 			postOrderConfirm(index) {
+				let _this = this
 				let n = 0
 				let item = this.orders[index].orderDetailList.forEach(item=>{
-					if(item.isAfterSale == 1){
+					if(item.status == 2 || item.status == 4 || item.status == 5){
 						n++
-						T.tips("该订单有部分商品退款未完成，无法进行收货")
-						return false
+						//T.tips("该订单有部分商品退款未完成，无法进行收货")
+						//return false
 					}
 				})
+				this.orderId = this.orders[index].orderId;
+				this.shopId  = this.orders[index].shopId;
 				if(n == 0){
-					this.isShow = true;
-					this.orderId = this.orders[index].orderId;
-					this.shopId = this.orders[index].shopId;
+					this.isShow  = true;
+				}else{
+					uni.showModal({
+					    title: '',
+					    content: '订单有退款中的商品，确认收货后将关闭退款',
+					    success: function (res) {
+					        if (res.confirm) {
+					            console.log('用户点击确定');
+								_this.doConfirm()
+					        } else if (res.cancel) {
+					            console.log('用户点击取消');
+					        }
+					    }
+					});
 				}
 			},
 			// 显示支付弹窗

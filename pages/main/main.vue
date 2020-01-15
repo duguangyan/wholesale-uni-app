@@ -542,8 +542,6 @@
 						this.listWidth = uni.upx2px(this.adSet.length * 30) + 'px';
 						
 					}
-				}).catch(err=>{
-					T.tips(err.message || '服务器出错啦')
 				})
 			},
 			goNextPage(item) {

@@ -12,7 +12,7 @@
 			</view>
 			<view class="code">
 				<input class="fs30" v-model="code" @input="doIsLogin" type="number" placeholder="请输入验证码" />
-				<text class="getcode" @click="getCode" :class="{'text-theme':codeNum!==''}">{{codeNum}} {{codeText}}</text>
+				<text class="getcode" @click="getCode" :class="{'text-theme':codeNum!==''}"><text v-if="codeNum!=''">{{codeNum}}</text> {{codeText}}</text>
 			</view>
 			<view class="protocal">
 				登录表示同意
@@ -304,7 +304,7 @@
 						this.codeText = '重新发送'
 						this.codeNum = 59
 						this.setCodeInterval = setInterval(() => {
-							if (this.codeNum === 0) {
+							if (this.codeNum == 0) {
 								this.codeNum = ''
 								clearInterval(this.setCodeInterval)
 							} else {
