@@ -8,7 +8,7 @@ let apiUrl = ''
 	apiUrl = ''; // H5正式
 // #endif
 
- apiUrl = 'http://192.168.0.202:8000'; // 开发
+// apiUrl = 'http://192.168.0.202:5001'; // 开发
 
 const versionNumber = 'V1.0.98'; //版本号
 
@@ -70,6 +70,7 @@ const request = function(params = {}) {
 		// }
 		
 		// #endif
+
 		uni.request({
 			url: apiUrl + newUrl,
 			method: params.method || 'GET',
@@ -98,8 +99,8 @@ const request = function(params = {}) {
 							grant_type:'refresh_token',
 							scope: '4',
 							client_id: 'bwap',
-							systemId: '4',
 							client_secret:'xx',
+							systemId: '4',
 							refresh_token: uni.getStorageSync('refresh_token')
 						}
 						
@@ -118,26 +119,32 @@ const request = function(params = {}) {
 									header = {
 										'Authorization': 'Bearer ' + uni.getStorageSync("access_token") || ''
 									};
+									var pages = getCurrentPages();//当前页
+									var nowPage = pages[pages.length - 1]
+									nowPage.onShow()
+									console.log(nowPage)
 									
-									uni.request({
-										url: apiUrl + newUrl,
-										method: params.method || 'GET',
-										data: params.data,
-										header,
-										success(res) {
-											console.log('2',res)
-											if(res.data.code == '1000'){
-												resolve(res.data.data);
-											}
-										},
-										fail() {
-											uni.showToast({
-											    title: '请求数据错误',
-											    duration: 2000,
-												icon :'none'
-											});
-										}
-									})
+									// uni.request({
+									// 	url: apiUrl + newUrl,
+									// 	method: params.method || 'GET',
+									// 	data: params.data,
+									// 	header,
+									// 	success(res) {
+									// 		console.log('2',res)
+									// 		if(res.data.code == '1000'){
+												
+												
+									// 			resolve(res.data.data);
+									// 		}
+									// 	},
+									// 	fail() {
+									// 		uni.showToast({
+									// 		    title: '请求数据错误',
+									// 		    duration: 2000,
+									// 			icon :'none'
+									// 		});
+									// 	}
+									// })
 								} else {
 									uni.navigateTo({
 										url:'/pages/login/login'
@@ -170,7 +177,7 @@ const request = function(params = {}) {
 				}
 			},
 			fail(err) {
-				 reject(err)
+				reject(err)
 			},
 			complete(res) {
 				// 请求结束
