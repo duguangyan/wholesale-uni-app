@@ -529,19 +529,17 @@
 							this.getLocationByUser()
 						}
 						
-						this.$nextTick(function(){
-							this.homeList = res.data
-							this.adSet = this.homeList.list[0].list[0].list[0].adPosition.adSet
-							this.adSet2 = this.homeList.list[2].list[0].list[0].adPosition.adSet
-							this.navList = this.homeList.list[1].list[0].list
-							this.imgPath = this.homeList.list[3].list[0].list[0].imgPath
-							this.goodsDetailRespList = this.homeList.list[3].list[1].goodsDetailRespList
-							this.goodsDetailRespList.forEach((item, index) => {
-								item.valueAddr = item.valueAddr.substring(0, 5)
-							})
-							
-							this.listWidth = uni.upx2px(this.adSet.length * 30) + 'px';
+						this.homeList = res.data
+						this.adSet = this.homeList.list[0].list[0].list[0].adPosition.adSet
+						this.adSet2 = this.homeList.list[2].list[0].list[0].adPosition.adSet
+						this.navList = this.homeList.list[1].list[0].list
+						this.imgPath = this.homeList.list[3].list[0].list[0].imgPath
+						this.goodsDetailRespList = this.homeList.list[3].list[1].goodsDetailRespList
+						this.goodsDetailRespList.forEach((item, index) => {
+							item.valueAddr = item.valueAddr.substring(0, 5)
 						})
+						
+						this.listWidth = uni.upx2px(this.adSet.length * 30) + 'px';
 						
 					}
 				})

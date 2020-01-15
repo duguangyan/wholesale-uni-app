@@ -70,7 +70,6 @@ const request = function(params = {}) {
 		// }
 		
 		// #endif
-
 		uni.request({
 			url: apiUrl + newUrl,
 			method: params.method || 'GET',
@@ -128,7 +127,7 @@ const request = function(params = {}) {
 										success(res) {
 											console.log('2',res)
 											if(res.data.code == '1000'){
-												resolve(res.data);
+												resolve(res.data.data);
 											}
 										},
 										fail() {
