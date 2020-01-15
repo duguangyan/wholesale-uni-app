@@ -54,8 +54,9 @@
 				<view class="txt">{{item.txt}}</view>
 			</view>
 		</view>
-		<view class="recommend">
-			热门推荐
+		<!-- 热门推荐 -->
+		<view class="passage">
+			<image src="/static/imgs/passageways-5.png" mode=""></image>
 		</view>
 		<!-- nav导航 -->
 		<view class="nav cf">
@@ -73,8 +74,11 @@
 		</view>
 		<!-- 精选 -->
 		<view class="seles">
-			<view class="title">
+			<!-- <view class="title">
 				<image :src="imgPath"></image>
+			</view> -->
+			<view class="passage">
+				<image src="/static/imgs/passageways-5.png" mode=""></image>
 			</view>
 			<view class="content">
 				<view v-for="(item,index) in goodsDetailRespList" :key="index" @click="goGoodsDetail(item.shopId,item.id)">
@@ -626,6 +630,15 @@
 		overflow-x: hidden;
 		background: #fff;
 		min-height: 100vh;
+		.passage{
+			width: 320upx;
+			height: 80upx;
+			margin: 26upx auto 18upx auto;
+			image{
+				width: 100%;
+				height: 100%;
+			}
+		}
 		.passageways{
 			.items{
 				.img{

@@ -24,15 +24,15 @@
 				</view>
 			</view>
 		</view>
-    <!-- 我的订单 -->
-    <view class="order">
-      <view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
-        <view class="p1 fll fs36">我的订单</view>
-        <view class="img flr" :class="{platformOPPO: platform == 1}" >
-          <image src="/static/img/tag-go.png"/>
-        </view>
-        <view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
-      </view>
+		<!-- 我的订单 -->
+		<view class="order">
+			<view class="title cf" @click="goOrderList('')" :class="{'Android1': platform == 1}">
+				<view class="p1 fll fs36">我的订单</view>
+				<view class="img flr" :class="{platformOPPO: platform == 1}">
+					<image src="/static/img/tag-go.png" />
+				</view>
+				<view :class="['p2','text-999','fs24','flr',platform==1?'nmt':'']">全部订单</view>
+			</view>
 			<view class="tags">
 				<view class="li" v-for="(item,index) in titles" :key="index" @click="goOrderList(index)">
 					<view class="img" :class="{'Android4': platform == 1}">
@@ -41,16 +41,15 @@
 					<view class="tip" v-if="item.tip!=''">{{item.tip}}</view>
 					<view class="fs24 mgt-10" :class="{'Android3': platform == 1}">{{item.t}}</view>
 				</view>
-        <view class="li" @click="navToRefund">
-        	<view class="img" :class="{'Android4': platform == 1}">
-        		<image src="/static/imgs/icon-refund.png"></image>
-        	</view>
-        	<view class="fs24 mgt-10" :class="{'Android3': platform == 1}">退款</view>
-        
-        </view>
+				<view class="li" @click="navToRefund">
+					<view class="img" :class="{'Android4': platform == 1}">
+						<image src="/static/imgs/icon-refund.png"></image>
+					</view>
+					<view class="fs24 mgt-10" :class="{'Android3': platform == 1}">退款</view>
+
+				</view>
 			</view>
 		</view>
-
 
 		<!--  -->
 		<view class="gray-line"></view>
@@ -58,8 +57,19 @@
 			<text>我的地址</text>
 			<image src="/static/img/tag-go.png" />
 		</view>
+
+		<view class="single-item fir-item" @click="navPurchase">
+			<text>我的采购</text>
+			<image src="/static/img/tag-go.png" />
+		</view>
+
+		<view class="single-item fir-item" @click="navCustomer">
+			<text>客服</text>
+			<image src="/static/img/tag-go.png" />
+		</view>
+
 		<view class="single-item fir-item" @click="navToSys">
-			<text>系统设置</text>
+			<text>设置</text>
 			<image src="/static/img/tag-go.png" />
 		</view>
 		<!-- <view class="single-item fir-item" @click="goChatList">
@@ -173,26 +183,36 @@
 			}
 		},
 		methods: {
+			// 去采购
+			navPurchase() {
+
+			},
+			// 联系客服
+			navCustomer() {
+				uni.makePhoneCall({
+					phoneNumber: '19866060601'
+				});
+			},
 			// 去消息
-      navToRefund(){
-        uni.navigateTo({
-          url: '/pages/refund/refund?businessType=2'
-        })
-      },
+			navToRefund() {
+				uni.navigateTo({
+					url: '/pages/refund/refund?businessType=2'
+				})
+			},
 			goChatList() {
 				let token = uni.getStorageSync('access_token')
 				if (token) {
-					getImToken().then(res=>{
-						if(res.code == '1000'){
-							let uid  = uni.getStorageSync('uid')
-							let url = encodeURIComponent('http://im.qinlvny.com/#/session?id='+uid+'&tk='+res.data)
+					getImToken().then(res => {
+						if (res.code == '1000') {
+							let uid = uni.getStorageSync('uid')
+							let url = encodeURIComponent('http://im.qinlvny.com/#/session?id=' + uid + '&tk=' + res.data)
 							//let url = encodeURIComponent('http://duu-u.imwork.net:20123/webdemo/h5/index.html#/chat/p2p-duguangyan1?account=qinlv1&password=123456')
 							//let url = encodeURIComponent('http://duu-u.imwork.net:20123/webdemo/h5/index.html#/session?account='+account+'&password='+password+'&nickname='+nickname)
-							console.log('url',url)
+							console.log('url', url)
 							uni.navigateTo({
-								url: "/pages/user/chatList/chatList?url="+url
+								url: "/pages/user/chatList/chatList?url=" + url
 							})
-						}else{
+						} else {
 							T.tips("请求IM数据失败")
 						}
 					})
@@ -213,10 +233,10 @@
 					uni.navigateTo({
 						url: '/pages/user/addlist/addlist'
 					})
-				}else{
+				} else {
 					T.tips("请先登录")
 				}
-				
+
 			},
 			navToSys() {
 				uni.navigateTo({
@@ -314,11 +334,11 @@
 			// 去订单页面
 			goOrderList(index) {
 				if (uni.getStorageSync('access_token')) {
-					if(index == 4){ // 去退款页面
+					if (index == 4) { // 去退款页面
 						uni.navigateTo({
-							url:'/pages/refund/refund?businessType=2'
+							url: '/pages/refund/refund?businessType=2'
 						})
-					}else{
+					} else {
 						let i = index === '' ? '' : index + 1
 						if (index == 4) i = ''
 						uni.setStorageSync('orderNavIndex', i)
@@ -326,8 +346,8 @@
 							url: '/pages/user/order/list?from=user&businessType=2'
 						})
 					}
-					
-					
+
+
 				} else {
 					T.tips('请先登录')
 				}
