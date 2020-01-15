@@ -47,10 +47,11 @@
 		</view>
 		<view class="passageways flex">
 			<view class="items flex-1" v-for="(item,index) in passageways" :key="index" @click="goPassageway(index)">
-				<view class="txt">{{item.txt}}</view>
+				
 				<view class="img">
 					<image :src="item.img" mode=""></image>
 				</view>
+				<view class="txt">{{item.txt}}</view>
 			</view>
 		</view>
 		<view class="recommend">
@@ -146,19 +147,19 @@
 				},
 				passageways: [{
 						txt: '附近的人',
-						img: 'http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png'
+						img: '/static/imgs/passageways-3.png'
 					},
 					{
 						txt: '订单种植',
-						img: 'http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png'
+						img: '/static/imgs/passageways-2.png'
 					},
 					{
 						txt: '采购大厅',
-						img: 'http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png'
+						img: '/static/imgs/passageways-1.png'
 					},
 					{
 						txt: '供货大厅',
-						img: 'http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png'
+						img: '/static/imgs/passageways-4.png'
 					}
 				]
 			}
@@ -628,12 +629,19 @@
 		.passageways{
 			.items{
 				.img{
-					width: 44upx;
-					height: 44upx;
+					width: 96upx;
+					height: 96upx;
+					margin: 0 auto;
+					margin-top: 20upx;
+					margin-bottom: 10upx;
 					image{
 						width: 100%;
 						height: 100%;
 					}
+				}
+				.txt{
+					text-align: center;
+					font-size: 24upx;
 				}
 			}
 		}

@@ -2,7 +2,7 @@
 	<view class="nearby">
 		<NavigationBar :title="title" :isArrow="isArrow" :isClick="isClick" :clickTitle="clickTitle" @doClick="doNavBarClick"></NavigationBar>
 		
-		<view class="items" v-if="list.length>0">
+		<view class="items" v-if="shippers.length>0">
 			<view class="title cf fs28 text-333" @click="goNearbyDetail(1)">
 				<view class="fll">本地货主</view>
 				<view class="flr arrow-right"></view>
@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		
-		<view class="items" v-if="list.length>0">
+		<view class="items" v-if="agencys.length>0">
 			<view class="title cf fs28 text-333" @click="goNearbyDetail(2)">
 				<view class="fll">代办</view>
 				<view class="flr arrow-right"></view>
@@ -22,15 +22,60 @@
 			</view>
 		</view>
 		
-		<view class="items" v-if="list.length>0">
+		<view class="items" v-if="purchasers.length>0">
 			<view class="title cf fs28 text-333" @click="goNearbyDetail(3)">
 				<view class="fll">采购商</view>
 				<view class="flr arrow-right"></view>
 			</view>
 			<view class="item cf" v-for="(item,index) in purchasers" :key="index">
-				{{item}}
+				<view>
+					<image :src="item.headImgUrl" mode=""></image>
+				</view>
+				<view>{{item.nickName || item.username}}</view>
+				
 			</view>
 		</view>
+		
+		<view class="items">
+			<view class="title cf fs28 text-333" @click="goNearbyDetail(3)">
+				<view class="fll">采购商</view>
+				<view class="flr arrow-right"></view>
+			</view>
+			<view class="item cf">
+				<view class="li fll">
+					<view class="image">
+						<image src="http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png" mode=""></image>
+					</view>
+					<view class="text ellipsis">xxxxxx</view>
+				</view>
+				<view class="li fll">
+					<view class="image">
+						<image src="http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png" mode=""></image>
+					</view>
+					<view class="text ellipsis">xxxxxxxxxxxxxxxxxxxxxxxxx</view>
+				</view>
+				<view class="li fll">
+					<view class="image">
+						<image src="http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png" mode=""></image>
+					</view>
+					<view class="text ellipsis">xxxxxx</view>
+				</view>
+				<view class="li fll">
+					<view class="image">
+						<image src="http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png" mode=""></image>
+					</view>
+					<view class="text ellipsis">xxxxxx</view>
+				</view>
+				<view class="li fll">
+					<view class="image">
+						<image src="http://wsgoods.qinlvny.com/act/73d6c36cb8b04127848553f2f77fdc93.png" mode=""></image>
+					</view>
+					<view class="text ellipsis">xxxxxx</view>
+				</view>
+				
+			</view>
+		</view>
+		
 	</view>
 </template>
 
@@ -38,7 +83,7 @@
 	import NavigationBar from '@/components/common/NavigationBar.vue'
 	import T from '@/utils/tips.js'
 	// import mpvueCityPicker from '@/components/common/mpvue-citypicker/mpvueCityPicker.vue'
-	import { getUserRealByArea } from '@/api/supply.js'
+	import { getUserRealByArea, getUser4Area } from '@/api/supply.js'
 	export default {
 		data() {
 			return {
@@ -55,7 +100,7 @@
 				purchasers:[],
 				nearbyAddress:[],
 				pageIndex:1,
-				pageSize:5
+				pageSize:6
 			};
 		},
 		components: {

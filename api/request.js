@@ -8,7 +8,7 @@ let apiUrl = ''
 	apiUrl = ''; // H5正式
 // #endif
 
-// apiUrl = 'http://192.168.0.202:8000'; // 开发
+ apiUrl = 'http://192.168.0.202:8000'; // 开发
 
 const versionNumber = 'V1.0.98'; //版本号
 
