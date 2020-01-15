@@ -409,44 +409,52 @@
 					return;
 				}
 				
-				let reg = /^(\d)\1{5}$/; // 不重复6位 类似111111,222222
-				let str = '0123456789_9876543210'; // str.indexOf(value) > -1 不连续判断 类似123456
+				// let reg = /^(\d)\1{5}$/; // 不重复6位 类似111111,222222
+				// let str = '0123456789_9876543210'; // str.indexOf(value) > -1 不连续判断 类似123456
 				 
-				if (this.trade_pwd.length!==6 || reg.test(this.trade_pwd) || str.indexOf(this.trade_pwd) > -1) {
-				    T.tips('请输入正确的密码')
-					return 
-				} 
+				// if (this.trade_pwd.length!==6 || reg.test(this.trade_pwd) || str.indexOf(this.trade_pwd) > -1) {
+				//     T.tips('请输入正确的密码')
+				// 	return 
+				// } 
 				
 				
 				// 密码长度为6位以后执行方法
 				console.log(this.trade_pwd);
 				
-				switch (this.from){
-					case 'cash':
-						// 提现
-						this.doCash()
-						break;
-					case 'addBank':
-						// 添加银行卡
-						this.addBankCat()
-						break;
-					case 'delBank':
-						// 删除银行卡
-						this.delBankCat()
-						break;
-					case 'revise':
-						// 删除银行卡
-						this.doRevise()
-						break;	
-					case 'refund':
-						// 删除银行卡
-						this.doRefund()
-						break;	
-					default:
-						// 重置设置密码
-						this.setPassword()
-						break;
+				if(this.code != ''){
+					uni.redirectTo({
+						url:'/pages/middle/release/account/payps/confirmPassword?code='+this.code + '&trade_pwd=' + this.trade_pwd
+					})
+				}else{
+					switch (this.from){
+						case 'cash':
+							// 提现
+							this.doCash()
+							break;
+						case 'addBank':
+							// 添加银行卡
+							this.addBankCat()
+							break;
+						case 'delBank':
+							// 删除银行卡
+							this.delBankCat()
+							break;
+						case 'revise':
+							// 删除银行卡
+							this.doRevise()
+							break;	
+						case 'refund':
+							// 删除银行卡
+							this.doRefund()
+							break;	
+						default:
+							// 重置设置密码
+							this.setPassword()
+							break;
+					}
 				}
+				
+				
 
 			},
 

@@ -119,21 +119,28 @@
 				}else{
 					if(this.roleId == '20004'){ // 企业
 						let data = {
-							pageIndex:1
+							pageIndex:1 
 						}
-						getBankList(data).then(res=>{
-							if(res.code == '1000'){
-								if(res.data[0].status == 3){ // 打款完成
-									uni.navigateTo({
-										url:'/pages/middle/release/account/bankcard/paid?item='+ JSON.stringify(res.data[0])
-									})
-								}else{ // 审核 1完成 2失败  0中
-									uni.navigateTo({
-										url:'/pages/middle/release/account/bankcard/bankcard'
-									})
+						if(this.bankCardNum == 0) {
+							uni.navigateTo({
+								url:'/pages/middle/release/account/bankcard/bankcard'
+							})
+						}else{
+							getBankList(data).then(res=>{
+								if(res.code == '1000'){
+									if(res.data[0].status == 3){ // 打款完成
+										uni.navigateTo({
+											url:'/pages/middle/release/account/bankcard/paid?item='+ JSON.stringify(res.data[0])
+										})
+									}else{ // 审核 1完成 2失败  0中
+										uni.navigateTo({
+											url:'/pages/middle/release/account/bankcard/bankcard'
+										})
+									}
 								}
-							}
-						})
+							})
+						}
+						
 					}else{ // 个人
 						uni.navigateTo({
 							url:'/pages/middle/release/account/bankcard/bankcard'

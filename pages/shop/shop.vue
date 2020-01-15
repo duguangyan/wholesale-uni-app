@@ -64,10 +64,10 @@ var vm = {
 		  		let id  = uni.getStorageSync('uid')
 		  		let tk  = res.data
 				let tid = this.shopInfo.userId
-		  		let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
-		  		console.log('url', url)
+		  		// let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
+		  		// console.log('url', url)
 		  		uni.navigateTo({
-		  			url: '/pages/user/chat/chat?url=' + url
+		  			url: '/pages/user/chat/chat?tid=' + tid + '&id=' + id + '&tk=' + tk
 		  		})
 		  	} else {
 		  		T.tips("请求IM数据失败")

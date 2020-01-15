@@ -97,6 +97,7 @@
 			},
 			addInfo(){
 				let _this = this
+				let cardNo = this.cardNo.replace(/\s*/g,"");
 				if(this.from != '') { // 企业审核
 					uni.showModal({
 					    title: '提示',
@@ -137,7 +138,7 @@
 							return false
 						}
 						data = {
-							cardNo:this.cardNo,
+							cardNo: cardNo,
 							realName:this.realName,
 							bankName:this.bankName
 						}
@@ -150,6 +151,8 @@
 								}else{
 									T.tips(res.message || '银行卡新增失败')
 								}
+							}).catch(err=>{
+								T.tips(err.message || '银行卡新增失败')
 							})
 						}else{  // 提交
 							enterpriseInsert(data).then(res=>{
@@ -160,13 +163,15 @@
 								}else{
 									T.tips(res.message || '银行卡新增失败')
 								}
+							}).catch(err=>{
+								T.tips(err.message || '银行卡新增失败')
 							})
 						}
 						
 						
 					}else{// 个人
 						data = {
-							acctPan:this.cardNo,
+							acctPan:cardNo,
 							acctName:this.realName
 						}
 						
@@ -178,6 +183,8 @@
 							}else{
 								T.tips(res.message || '银行卡新增失败')
 							}
+						}).catch(err=>{
+							T.tips(err.message || '银行卡新增失败')
 						})
 					}
 				}
