@@ -102,8 +102,7 @@
 					})
 				} else {
 					uni.navigateTo({
-						url: '/pages/user/order/detail?orderId=' + this.item.orderId + '&shopId=' + this.item.shopId + '&businessType=' +
-							this.businessType
+						url: '/pages/user/order/detail?orderId=' + this.item.orderId + '&shopId=' + this.item.shopId + '&businessType=2'
 					})
 				}
 			},
