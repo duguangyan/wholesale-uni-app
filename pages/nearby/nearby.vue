@@ -25,13 +25,15 @@
 		<view class="items" v-if="purchasers.length>0">
 			<view class="title cf fs28 text-333" @click="goNearbyDetail(3)">
 				<view class="fll">采购商</view>
-				<view class="flr arrow-right"></view>
+				<view class="flr arrow-right" v-if="purchasers.length>5"></view>
 			</view>
 			<view class="item cf" v-for="(item,index) in purchasers" :key="index">
-				<view>
-					<image :src="item.headImgUrl" mode=""></image>
+				<view class="li fll">
+					<view class="image">
+						<image :src="item.headImgUrl" mode=""></image>
+					</view>
+					<view class="text ellipsis">{{item.nickName || item.username}}</view>
 				</view>
-				<view>{{item.nickName || item.username}}</view>
 				
 			</view>
 		</view>
@@ -113,6 +115,7 @@
 			// 获取附近的人列表
 			console.log(uni.getStorageSync('nearbyAddress'))
 			if(uni.getStorageSync('nearbyAddress')){
+				this.clickTitle = uni.getStorageSync('nearbyAddress')[1]
 				this.nearbyAddress = uni.getStorageSync('nearbyAddress')
 				this.userRealByArea(1)
 				this.userRealByArea(2)
