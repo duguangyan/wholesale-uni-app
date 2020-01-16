@@ -169,7 +169,7 @@
 					<img class="icon-18" src="@/static/imgs/icon-shop.png" />
 					<view>店铺</view>
 				</view> -->
-				<view @click="goCart(good.userRealInfoVo.userId)">
+				<view @click="goCart(good.userRealInfoVo)">
 					<img class="icon-18" src="@/static/imgs/icon-message.png" />
 					<view>聊一聊</view>
 				</view>
@@ -727,14 +727,20 @@
 						}
 					});
 				} else {
-					this.curs.forEach((cur, index) => {
-						node = node[cur['key']];
-						if (index == this.curs.length - 1) {
-							this.stock = node.stock;
-							!reset && (this.nums = node.disabled ? 0 : node.startNum);
-							cur.disabled = node.disabled;
-						}
-					});
+					try{
+						this.curs.forEach((cur, index) => {
+							node = node[cur['key']];
+							if (index == this.curs.length - 1) {
+								this.stock = node.stock;
+								
+								!reset && (this.nums = node.disabled ? 0 : node.startNum);
+								cur.disabled = node.disabled;
+							}
+						});
+					}catch(e){
+						//TODO handle the exception
+					}
+					
 
 					let list = [...this.good.goodsList];
 					let first = list[0];
@@ -806,7 +812,7 @@
 				}
 			},
 
-			goCart(tid) {
+			goCart(obj) {
 				if (!uni.getStorageSync('access_token')) {
 					uni.navigateTo({
 						url: '/pages/login/login'
@@ -816,11 +822,12 @@
 						if (res.code == "1000") {
 							let id = uni.getStorageSync('uid')
 							let tk = res.data
+							let name = obj.realName || obj.phone
 							// let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
 							// console.log('encodeURIComponent:url', url)
 							// url = encodeURIComponent(url)
 							uni.navigateTo({
-								url: '/pages/user/chat/chat?tid=' + tid + '&id=' + id + '&tk=' + tk
+								url: '/pages/user/chat/chat?tid=' + obj.userId + '&id=' + id + '&tk=' + tk + '&name=' + name
 							})
 						} else {
 							T.tips("请求IM数据失败")

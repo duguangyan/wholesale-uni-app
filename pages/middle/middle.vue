@@ -174,14 +174,7 @@
 					// 获取用户信息
 					this.getUserRealInfoAll()
 					
-					// 统计订单状态条数
-					this.getOrderStat()
-					// 主页订单交易统计
-					this.getStatOrderInfo()
-					// 获取资金账户
-					this.getAccountSub()
-					// 获取年月
-					this.getYearAndMonth()
+					
 				}
 			}
 			// #endif
@@ -201,14 +194,7 @@
 					// 获取用户信息
 					this.getUserRealInfoAll()
 			
-					// 统计订单状态条数
-					this.getOrderStat()
-					// 主页订单交易统计
-					this.getStatOrderInfo()
-					// 获取资金账户
-					this.getAccountSub()
-					// 获取年月
-					this.getYearAndMonth()
+				
 				}
 				
 			}
@@ -264,11 +250,11 @@
 						this.spGoodsByAgency = [{
 								img: '/static/imgs/icon-1003.png',
 								text: '我的货品'
-							},
-							{
-								img: '/static/imgs/icon-10333.png',
-								text: '代卖'
 							}
+							// {
+							// 	img: '/static/imgs/icon-10333.png',
+							// 	text: '代卖'
+							// }
 						]
 					}else{
 						this.spGoodsByAgency =[{
@@ -278,11 +264,11 @@
 							{
 								img: '/static/imgs/icon-1002.png',
 								text: '本地代办'
-							},
-							{
-								img: '/static/imgs/icon-10333.png',
-								text: '代卖'
 							}
+							// {
+							// 	img: '/static/imgs/icon-10333.png',
+							// 	text: '代卖'
+							// }
 						]
 					}
 				}
@@ -394,6 +380,15 @@
 			getUserRealInfoAll(){
 				getUserRealInfoAll().then((res) => {
 					if(res.code == '1000'){
+						// 统计订单状态条数
+						this.getOrderStat()
+						// 主页订单交易统计
+						this.getStatOrderInfo()
+						// 获取资金账户
+						this.getAccountSub()
+						// 获取年月
+						this.getYearAndMonth()
+						
 						let roleId = res.data.userRole.roleId || ''
 						// 获取用户角色状态  2001 货主 2002 代办
 						// uni.setStorageSync('roleId','2001')

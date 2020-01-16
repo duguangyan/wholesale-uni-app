@@ -26,7 +26,7 @@
       <div v-show="sendType == 1" class="address" @click="navToAd">
         <image class="bg-line" src="../../../static/imgs/bg-line.png" mode=""></image>
         <div v-if="address == null" class="addAd" to="/adedit">请添加收货地址</div>
-        <template v-else>
+        <template v-if="address != null && address.name">
           <div class="ad-title">收货人: {{ address.name }}&emsp;{{address.phone}}</div>
           <div class="ad-det">收货地址:{{ address.province + address.city + address.region + address.address }}</div>
           <!-- <img class="tag-go" src="/static/imgs/tag-go.png" width="10" height="10" alt /> -->

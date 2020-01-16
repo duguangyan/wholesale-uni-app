@@ -1,11 +1,10 @@
 <template>
 	<view class="bankcard">
-		<!-- v-if="item.accountType == 2 && item.status != 1" -->
-		<!-- 0 认证中 1认证通过 2不通过 -->
-		<view class="tips" @click="toDetail(records[0])" v-if="roleId == '20004' && records[0].status == 0">您的账户认证中， <text class="text-theme">查看进度</text></view>
-		<view class="tips" @click="toDetail(records[0])" v-if="roleId == '20004' && records[0].status == 2">您的账户认证失败， <text class="text-theme">查看进度</text></view>
+		<view class="tips" @click="toDetail()" v-if="roleId == '20004' && status == '0' && status!=''">您的账户认证中， <text class="text-theme">查看进度</text></view>
+		<view class="tips" @click="toDetail()" v-if="roleId == '20004' && status == '2' && status!=''">您的账户认证失败， <text class="text-theme">查看进度</text></view>
+		
 		<view class="items">
-			<view class="item cf" :style="{color:item.sizColor,background:item.bgcolor}" v-for="(item,index) in records" :key="index" @click="goDel(item)">
+			<view class="item cf" :style="{color:item.sizColor || '',background:item.bgcolor || ''}" v-for="(item,index) in records" :key="index" @click="goDel(item)">
 				<view class="left fll">
 					<view class="image">
 						<image :src="item.bankLogo || '/static/imgs/bank-icon.png'" mode="aspectFit"></image>
@@ -27,9 +26,9 @@
 		<view class="footer">
 			<view class="big-btn-active" @click="addBankcard">+添加银行卡</view>
 		</view>
-		
 	</view>
 </template>
+
 
 <script>
 	import { getBankList } from '@/api/payApi.js'
@@ -39,8 +38,13 @@
 			return {
 				pageIndex:1,
 				records:[],
+				record:'',
+				status:'',
 				roleId:''
 			};
+		},
+		onLoad() {
+			
 		},
 		onShow() {
 			// 用户类型
@@ -52,10 +56,13 @@
 		},
 		methods:{
 			// 查看进度
-			toDetail(item){
-				uni.navigateTo({
-					url:'/pages/middle/release/account/bankcard/add?from=toDetail&item='+ JSON.stringify(item)
-				})
+			toDetail(){
+				if(this.record){
+					let item = this.record;
+					uni.navigateTo({
+						url:'/pages/middle/release/account/bankcard/add?from=toDetail&item='+ JSON.stringify(item)
+					})
+				}
 			},
 			//删除银行卡
 			goDel(item){
@@ -197,8 +204,12 @@
 							})
 							
 						})
-						
 						this.records = this.records.concat(list)
+						if(this.records.length>0) {
+							this.record = this.records[0]
+							this.status = this.record.status
+						}
+						
 					}
 				})
 			},
@@ -208,19 +219,26 @@
 
 <style lang="scss" scoped>
 	.bankcard{
+		min-height: 100vh;
+		.height200{
+			height: 200upx;
+		}
 		.tips{
 			height: 60upx;
 			line-height: 60upx;
 			padding: 0 40upx;
 			background: #fff;
+			font-size: 24upx;
 		}
 		.footer{
 			position: fixed;
 			bottom: 30upx;
 			left: 55upx;
+			z-index: 99999;
+			margin-left: 30upx 0 30upx 55upx;
 		}
 		.items{
-			margin-bottom: 160upx;
+			
 			margin-top: 20upx;
 			.item{
 				background:#fff;
@@ -253,3 +271,4 @@
 		}
 	}
 </style>
+

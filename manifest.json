@@ -199,7 +199,11 @@
                 }
             }
         },
-        "domain" : "wsm.qinlvny.com"
+        "domain" : "wsm.qinlvny.com",
+        "router" : {
+            "mode" : "hash",
+            "base" : ""
+        }
     },
     "channel_list" : [
         {

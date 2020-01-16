@@ -61,18 +61,18 @@ var vm = {
 	  goChat(){
 		  getImToken().then(res => {
 		  	if (res.code == "1000") {
-		  		let id  = uni.getStorageSync('uid')
-		  		let tk  = res.data
-				let tid = this.shopInfo.userId
+		  		let id   = uni.getStorageSync('uid')
+		  		let tk   = res.data
+				let tid  = this.shopInfo.userId
+				let name = this.shopInfo.realName || this.shopInfo.phone
 		  		// let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
 		  		// console.log('url', url)
 		  		uni.navigateTo({
-		  			url: '/pages/user/chat/chat?tid=' + tid + '&id=' + id + '&tk=' + tk
+		  			url: '/pages/user/chat/chat?tid=' + tid + '&id=' + id + '&tk=' + tk + '&name=' + name
 		  		})
 		  	} else {
 		  		T.tips("请求IM数据失败")
 		  	}
-		  
 		  })
 	  },
 	  // 联系货主，拨打电话

@@ -119,11 +119,17 @@ const request = function(params = {}) {
 									header = {
 										'Authorization': 'Bearer ' + uni.getStorageSync("access_token") || ''
 									};
+									
+									
+									// #ifdef  MP-WEIXIN || APP-PLUS
 									var pages = getCurrentPages();//当前页
 									var nowPage = pages[pages.length - 1]
 									nowPage.onShow()
 									console.log(nowPage)
-									
+									// #endif
+									// #ifdef  H5
+									window.location.reload() 
+									// #endif
 									// uni.request({
 									// 	url: apiUrl + newUrl,
 									// 	method: params.method || 'GET',
@@ -171,7 +177,11 @@ const request = function(params = {}) {
 						// 	}
 						// }
 						
-						
+						uni.showToast({
+						    title: res.message || '网络错误,请稍后再试',
+							icon:'none',
+						    duration: 2000
+						});
 					}
 					reject(res);
 				}

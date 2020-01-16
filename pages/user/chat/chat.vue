@@ -16,10 +16,11 @@
 			// console.log('decodeURIComponent-------------')
 			// console.log(this.url)
 			
-			let tid = options.tid
-			let id = options.id
-			let tk = options.tk
-			this.url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
+			let tid  = options.tid
+			let id   = options.id
+			let tk   = options.tk
+			let name = options.name
+			this.url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk + '&name=' + name
 			console.log('chatUrl',this.url)
 		},
 		methods:{

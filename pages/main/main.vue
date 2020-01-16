@@ -45,7 +45,7 @@
 			</view>
 			<SwiperDot class="dot" :listWidth="listWidth" :current="cur" :list="adSet"></SwiperDot>
 		</view>
-		<view class="passageways flex">
+		<!-- <view class="passageways flex">
 			<view class="items flex-1" v-for="(item,index) in passageways" :key="index" @click="goPassageway(index)">
 				
 				<view class="img">
@@ -53,11 +53,11 @@
 				</view>
 				<view class="txt">{{item.txt}}</view>
 			</view>
-		</view>
+		</view> -->
 		<!-- 热门推荐 -->
-		<view class="passage">
+		<!-- <view class="passage">
 			<image src="/static/imgs/passageways-5.png" mode=""></image>
-		</view>
+		</view> -->
 		<!-- nav导航 -->
 		<view class="nav cf">
 			<view class="li fll" v-for="(item,index) in navList" :key="index" @click="goSearchPage(item)">

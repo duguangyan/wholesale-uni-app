@@ -27,12 +27,12 @@
 			</view>
 			<view class="item">
 				打款金额:  
-				<view class="input"> <input @input="changeInput" @blur="changeBlur" v-model="price" type="digit" placeholder="输入0.01~0.99" /></view>   
+				<view class="input"> <input @input="changeInput" @blur="changeBlur" v-model="price" type="digit" maxlength="4" placeholder="输入0.01~0.99" /></view>   
 				元
 			</view>
 		</view>
 		
-		<view class="big-btn-active" :class="{'hasData': !hasData}" @click="doSubmit">
+		<view class="big-btn-active" @click="doSubmit">
 			提交认证
 		</view>
 	</view>
@@ -45,7 +45,7 @@
 		data() {
 			return {
 				price: '',
-				hasData: false,
+				hasData: true,
 				item:''
 			};
 		},
@@ -57,33 +57,77 @@
 		},
 		methods:{
 			doSubmit(){
-				if(this.hasData){
-					let data = {
-						id: this.item.id,
-						transferAmount: this.price
+				if(this.price.indexOf('.')>0){
+					let arr = this.price.split('.')
+					arr[1] = arr[1].substr(0,2)
+					if(arr[0] == 0 && arr[1]>0){
+						this.price = '0.' + arr[1]
+					}else{
+						T.tips('输入0.01~0.99的金额')
+						return false
 					}
-					enterpriseAuditCheckUp(data).then(res=>{
-						if(res.code == '1000'){
-							uni.redirectTo({
-								url: '/pages/middle/release/account/bankcard/bankcard'
-							});
-						}else{
-							if(res.code== 'pay-1009'){
-								uni.navigateTo({
-									url:'/pages/middle/release/account/bankcard/add?from=toDetail&item='+ JSON.stringify(this.item)
-								})
-							}else{
-								T.tips(res.message || '提交失败')
-							}
-							
-						}
-					})
+				}else{
+					T.tips('输入0.01~0.99的金额')
+					return false
 				}
+				
+				let data = {
+					id: this.item.id,
+					transferAmount: this.price
+				}
+				enterpriseAuditCheckUp(data).then(res=>{
+					if(res.code == '1000'){
+						uni.redirectTo({
+							url: '/pages/middle/release/account/bankcard/bankcard'
+						});
+					}else{
+						if(res.code== 'pay-1009'){
+							uni.navigateTo({
+								url:'/pages/middle/release/account/bankcard/add?from=toDetail&item='+ JSON.stringify(this.item)
+							})
+						}else{
+							T.tips(res.message || '提交失败')
+						}
+						
+					}
+				})
 			},
 			changeInput(){
-				let reg = /^0\.(?!00)\d{1,2}$/;
-				this.hasData = reg.test(this.price) && this.price!='0.0'
-				
+				// if(this.price.indexOf('.')>0){
+				// 	this.hasData = true
+				// 	let arr = this.price.split('.')
+				// 	arr[1] = arr[1].substr(0,2)
+				// 	if(arr[0] == 0 && arr[1]>0){
+				// 		this.hasData = true
+				// 		this.price = '0.' + arr[1]
+				// 	}else{
+				// 		this.hasData = false
+				// 	}
+				// }else{
+				// 	this.hasData = false
+				// }
+			},
+			limitFloat(obj) {
+				this.maxlength = 8
+			
+				obj = obj.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+				obj = obj.replace(/^\./g, ""); //验证第一个字符是数字而不是字符
+				obj = obj.replace(/\.{2,}/g, "."); //只保留第一个.清除多余的
+				obj = obj.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+				obj = obj.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+			
+				if (obj.indexOf(".") < 0 && obj != "") { //以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+					if (obj.length > 1) {
+						obj = obj.replace(/\b(0+)/gi, "")
+					}
+				}
+				if (obj[0] == '0' && obj[1] == '0') {
+					obj = '0'
+				}
+				if (obj == '0.00' || obj == '00') {
+					obj = '0'
+				}
+				return obj
 			},
 			changeBlur(){
 				let reg = /^0\.(?!00)\d{1,2}$/;
