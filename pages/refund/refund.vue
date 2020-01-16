@@ -61,6 +61,7 @@ var vm = {
   },
   onLoad(options) {
     vm.businessType = options.businessType;
+	console.log('businessType',vm.businessType)
   },
   onReachBottom() {
     this.loadMore();

@@ -20,7 +20,7 @@
 
 <script>
 	import { postUserSms } from '@/api/userApi.js'
-	import { postAccountSubSendSms } from '@/api/payApi.js'
+	import { postAccountSubSendSms, validSmsCode } from '@/api/payApi.js'
 	import T from '@/utils/tips.js'
 	export default {
 		data() {
@@ -53,12 +53,28 @@
 				if(this.code == ''){
 					return false
 				}
-				let url = '/pages/middle/release/account/payps/resPassword?code='+this.code
-				if(this.from == 'cash'){
-					url += '&from=cash'
+				let data = {
+					smsCode: this.code
 				}
-				uni.redirectTo({
-					url
+				if(this.from == 'cash'){
+					data.type = 2
+				}else if(this.from == 'bank'){
+					data.type = 3
+				}else{
+					data.type = 1
+				}
+				validSmsCode(data).then(res=>{
+					if(res.code == '1000'){
+						let url = '/pages/middle/release/account/payps/resPassword?code='+this.code
+						if(this.from == 'cash'){
+							url += '&from=cash'
+						}
+						uni.redirectTo({
+							url
+						})
+					}else{
+						T.tips(res.message || '验证码错误')
+					}
 				})
 			},
 			// 获取验证码

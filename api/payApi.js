@@ -176,7 +176,19 @@ const enterpriseAuditCheckUp = data => {
 	})
 }
 
+// 验证短信
+const validSmsCode = data => {
+	return request({
+		method: 'post',
+		url: '/api/pay/accountSub/validSmsCode',
+		data,
+		type: 'form',
+	})
+}
+
+
 export {
+	validSmsCode,
 	enterpriseAuditCheckUp,
 	enterpriseUpdate,
 	enterpriseInsert,

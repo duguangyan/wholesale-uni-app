@@ -58,7 +58,7 @@
 			<image src="/static/img/tag-go.png" />
 		</view>
 
-		<view class="single-item fir-item" @click="navPurchase">
+		<!-- <view class="single-item fir-item" @click="navPurchase">
 			<text>我的采购</text>
 			<image src="/static/img/tag-go.png" />
 		</view>
@@ -66,7 +66,7 @@
 		<view class="single-item fir-item" @click="navCustomer">
 			<text>客服</text>
 			<image src="/static/img/tag-go.png" />
-		</view>
+		</view>  -->
 
 		<view class="single-item fir-item" @click="navToSys">
 			<text>设置</text>
@@ -311,6 +311,11 @@
 							if (item.status == 0) this.titles[1].tip = item.num
 							if (item.status == 3) this.titles[3].tip = item.num
 						})
+						
+						this.$nextTick(function() {
+							this.titles = this.titles
+						})
+						
 					}
 				})
 			},

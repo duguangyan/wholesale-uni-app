@@ -157,7 +157,7 @@
 			goPayps(){
 				if(!this.setPayPwd){
 					uni.navigateTo({
-						url:'/pages/middle/release/account/payps/verifiyPhone'
+						url:'/pages/middle/release/account/payps/verifiyPhone?from=bank'
 					})
 				}else{
 					uni.navigateTo({

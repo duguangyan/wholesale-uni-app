@@ -429,21 +429,27 @@
 						}
 						// 设置底部tab样式
 						if(this.roleId == '20002'){
-							if(uni.getStorageSync('platform') == '1'){
-								uni.setTabBarItem({
-								  index: 1,
-								  text: '代办',
-								  iconPath: 'static/img/2.2.png',
-								  selectedIconPath: 'static/img/2.1.png'
-								})
-							}else{
-								uni.setTabBarItem({
-								  index: 1,
-								  text: '代办',
-								  iconPath: 'static/img/2.1.png',
-								  selectedIconPath: 'static/img/2.2.png'
-								})
-							}
+							// if(uni.getStorageSync('platform') == '1'){
+							// 	uni.setTabBarItem({
+							// 	  index: 1,
+							// 	  text: '代办',
+							// 	  iconPath: 'static/img/2.2.png',
+							// 	  selectedIconPath: 'static/img/2.1.png'
+							// 	})
+							// }else{
+							// 	uni.setTabBarItem({
+							// 	  index: 1,
+							// 	  text: '代办',
+							// 	  iconPath: 'static/img/2.1.png',
+							// 	  selectedIconPath: 'static/img/2.2.png'
+							// 	})
+							// }
+							uni.setTabBarItem({
+							  index: 1,
+							  text: '代办',
+							  iconPath: 'static/img/2.1.png',
+							  selectedIconPath: 'static/img/2.2.png'
+							})
 							
 						}else if( this.roleId == '20003'){
 							
@@ -464,23 +470,28 @@
 							}
 							
 						} else if(this.roleId == '20001' || this.roleId == '20004'){
+							uni.setTabBarItem({
+							  index: 1,
+							  text: '发布',
+							  iconPath: 'static/img/4.1.png',
+							  selectedIconPath: 'static/img/4.2.png'
+							})
 							
-							
-							if(uni.getStorageSync('platform') == '1'|| uni.getStorageSync('platform') == '5'){
-								uni.setTabBarItem({
-								  index: 1,
-								  text: '发布',
-								  iconPath: 'static/img/4.2.png',
-								  selectedIconPath: 'static/img/4.1.png'
-								})
-							}else{
-								uni.setTabBarItem({
-								  index: 1,
-								  text: '发布',
-								  iconPath: 'static/img/4.1.png',
-								  selectedIconPath: 'static/img/4.2.png'
-								})
-							}
+							// if(uni.getStorageSync('platform') == '1'|| uni.getStorageSync('platform') == '5'){
+							// 	uni.setTabBarItem({
+							// 	  index: 1,
+							// 	  text: '发布',
+							// 	  iconPath: 'static/img/4.2.png',
+							// 	  selectedIconPath: 'static/img/4.1.png'
+							// 	})
+							// }else{
+							// 	uni.setTabBarItem({
+							// 	  index: 1,
+							// 	  text: '发布',
+							// 	  iconPath: 'static/img/4.1.png',
+							// 	  selectedIconPath: 'static/img/4.2.png'
+							// 	})
+							// }
 							
 						}
 						

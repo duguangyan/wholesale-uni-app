@@ -12,7 +12,7 @@
 			</view>
 			<view class="code">
 				<input class="fs30" v-model="code" @input="doIsLogin" type="number" placeholder="请输入验证码" />
-				<text class="getcode" @click="getCode" :class="{'text-theme':codeNum!==''}"><text v-if="codeNum!=''">{{codeNum}}</text> {{codeText}}</text>
+				<text class="getcode" @click="getCode" :class="{'text-theme':codeNum!==''}"><text v-if="codeNum!=''">{{codeNum + 's'}}</text> <text v-if="codeNum==''">{{codeText}}</text> </text>
 			</view>
 			<view class="protocal">
 				登录表示同意

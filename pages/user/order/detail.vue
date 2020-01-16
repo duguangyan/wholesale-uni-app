@@ -358,8 +358,9 @@
 		onLoad(options) {
 			this.orderId      = options.orderId
 			this.shopId       = options.shopId || 1
-			this.businessType = options.businessType || 2
-			console.log(this.orderId,this.shopId,this.businessType)
+			this.businessType = uni.getStorageSync('businessType')
+			console.log(this.orderId,this.shopId)
+			console.log('this.businessType',this.businessType)
 		},
 		onShow() {
 			// 用户类型

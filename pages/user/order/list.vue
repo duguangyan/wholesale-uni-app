@@ -163,8 +163,11 @@
 		onLoad(options) {
 			if(options.from) this.from = options.from
 			// (1:销售订单,2:我的订单)"
-			if(options.businessType) this.businessType = options.businessType
-			
+			if(options.businessType) {
+				this.businessType = options.businessType
+				uni.setStorageSync('businessType',this.businessType)
+			}
+			console.log('this.businessType',this.businessType)
 			if(this.businessType == 1){
 				// 设置头部内容
 				uni.setNavigationBarTitle({

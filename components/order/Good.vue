@@ -27,11 +27,11 @@
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}
 					</view>
 					<view class="refund flr" v-if="isDeatail==1 && businessType == 2 &&item.isAfterSale == '0' && (status=='2'||status=='3')" @click.stop="applyRefund(item)">退款</view>
-					<view class="refund flr" v-if="item.isAfterSale == '1' && item.statusStr" @click.stop="goRefundDetail(item)">{{item.statusStr}}</view>
+					<view class="refund flr" v-if="businessType == 2 && item.isAfterSale == '1' && item.statusStr" @click.stop="goRefundDetail(item)">{{item.statusStr}}</view>
 					<!-- <view class="refund flr" v-if="isDeatail!=1 && item.statusStr">{{item.statusStr}}</view> -->
 				</view>
 			</view>
-		</view>
+		</view> 
 	</view>
 </template>
 
@@ -81,8 +81,9 @@
 			// 去退款详细
 			goRefundDetail(item){
 				if(this.isDeatail == 1){
+					let businessType = uni.getStorageSync('businessType')
 					uni.navigateTo({
-						url:'/pages/refund/detail?businessType=1&id=' + item.afterSaleId + '&status=' + this.status
+						url:'/pages/refund/detail?businessType='+ businessType +'&id=' + item.afterSaleId + '&status=' + this.status
 					})
 				}
 				

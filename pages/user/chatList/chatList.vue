@@ -22,7 +22,8 @@
 		data() {
 			return {
 				url:'',
-				token:''
+				token:'',
+				roleId:'',
 			};
 		},
 		onLoad(options) {
@@ -48,6 +49,36 @@
 			} else {
 				T.tips("请先登录")
 			}
+			
+			// this.roleId = uni.getStorageSync('roleId')
+			// if (this.roleId) {
+			// 	// 设置底部tab样式
+			// 	if (this.roleId == '20002') {
+			// 		uni.setTabBarItem({
+			// 			index: 1,
+			// 			text: '代办',
+			// 			iconPath: 'static/img/2.1.png',
+			// 			selectedIconPath: 'static/img/2.2.png'
+			// 		})
+			// 	}
+			// 	if (this.roleId == '20003') {
+			// 		uni.setTabBarItem({
+			// 			index: 1,
+			// 			text: '入驻',
+			// 			iconPath: 'static/img/2.1.png',
+			// 			selectedIconPath: 'static/img/2.2.png'
+			// 		})
+			// 	} else if (this.roleId == '20001' || this.roleId == '20004') {
+			// 		uni.setTabBarItem({
+			// 			index: 1,
+			// 			text: '发布',
+			// 			iconPath: 'static/img/4.1.png',
+			// 			selectedIconPath: 'static/img/4.2.png'
+			// 		})
+			// 	}
+			// }
+			
+			
 			
 		},
 		methods:{

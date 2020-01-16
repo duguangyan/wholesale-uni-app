@@ -525,9 +525,9 @@
 				}).then((res) => {
 					if (res.code == '1000') {
 						// 获取地址
-						if(uni.getStorageSync('access_token')){
-							this.getLocationByUser()
-						}
+						// if(uni.getStorageSync('access_token')){
+						// 	this.getLocationByUser()
+						// }
 						
 						this.homeList = res.data
 						this.adSet = this.homeList.list[0].list[0].list[0].adPosition.adSet
