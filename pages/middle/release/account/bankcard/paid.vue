@@ -4,7 +4,7 @@
 			<image src="/static/imgs/icon-1019.png" mode=""></image>
 		</view>
 		<view class="title fs28 text-333">
-			沁绿农业已于2019年12月3号向{{item.realName}}（{{item.cardNo}}）提交一笔1元以下的打款申请，请于到账后 <text class="text-theme">7日内</text>在此确认打款金额
+			沁绿农业已于{{item.transferTime}}向{{item.realName}}（{{item.cardNo}}）提交一笔1元以下的打款申请，请于到账后 <text class="text-theme">7日内</text>在此确认打款金额
 		</view>
 		<view class="tip fs24 text-999">
 			<view>

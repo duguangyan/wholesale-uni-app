@@ -10,7 +10,7 @@ let apiUrl = ''
 
 // apiUrl = 'http://192.168.0.202:5001'; // 开发
 
-const versionNumber = 'V1.0.94'; //版本号
+const versionNumber = 'V1.0.95'; //版本号
 
 if (apiUrl == 'http://192.168.0.202:8000') {
 	uni.setStorageSync('v', versionNumber);
@@ -177,11 +177,14 @@ const request = function(params = {}) {
 						// 	}
 						// }
 						
-						uni.showToast({
-						    title: res.message || '网络错误,请稍后再试',
-							icon:'none',
-						    duration: 2000
-						});
+						if(res.message!='token过期请重新登录' && res.code != 'oauth-1003'){
+							uni.showToast({
+							    title: res.message || '网络错误,请稍后再试',
+								icon:'none',
+							    duration: 2000
+							});
+						}
+						
 					}
 					reject(res);
 				}
