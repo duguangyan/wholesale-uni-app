@@ -461,7 +461,7 @@
       "style": {
         "navigationBarTitleText": "采购大厅"
       }
-    }，
+    },
     {
       "path": "pages/procurement/detail",
       "style": {
@@ -474,6 +474,12 @@
         "navigationBarTitleText": "采购状态"
       }
     },
+    {
+      "path": "pages/procurement/publishment",
+      "style": {
+        "navigationBarTitleText": "发布采购"
+      }
+    }
     
   ],
   "tabBar": {

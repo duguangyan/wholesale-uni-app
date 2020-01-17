@@ -1,48 +1,47 @@
-.big-btn{
-	width:640upx;
-	height:80upx;
-	line-height: 80upx;
-	text-align: center;
-	margin: 0 auto;
-	background:rgba(254,59,11,1);
-	border-radius:40upx;
-	color: #fff;
-	font-size: 32upx;
+.big-btn {
+  width: 640upx;
+  height: 80upx;
+  line-height: 80upx;
+  text-align: center;
+  margin: 0 auto;
+  background: rgba(254, 59, 11, 1);
+  border-radius: 40upx;
+  color: #fff;
+  font-size: 32upx;
 }
-.big-btn-active{
-	width:640upx;
-	height:80upx;
-	line-height: 80upx;
-	text-align: center;
-	margin: 0 auto;
-	background:#FE3B0B;
-	border-radius:40upx;
-	color: #fff;
-	font-size: 32upx;
+.big-btn-active {
+  width: 640upx;
+  height: 80upx;
+  line-height: 80upx;
+  text-align: center;
+  margin: 0 auto;
+  background: #fe3b0b;
+  border-radius: 40upx;
+  color: #fff;
+  font-size: 32upx;
 }
-.small-btn{
-	
+.small-btn {
 }
-ul{
+ul {
   margin: 0;
   padding: 0;
 }
-.gray-line{
+.gray-line {
   background-color: #f0f0f0;
   height: 20upx;
   width: 100%;
 }
 
-image{
+image {
   vertical-align: top;
 }
-.vertical-middle{
+.vertical-middle {
   position: absolute;
-  top:50%;
+  top: 50%;
   transform: translateY(-50%);
 }
 
-.good-title{
+.good-title {
   word-break: break-all;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -53,7 +52,7 @@ image{
   font-size: 28upx;
   color: #333;
 }
-.good-attr{
+.good-attr {
   word-break: break-all;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -65,12 +64,30 @@ image{
   color: #999;
 }
 
-uni-cover-image{
-  background: rgba(0,0,0,0.7);
+uni-cover-image {
+  background: rgba(0, 0, 0, 0.7);
 }
 uni-cover-image img {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   height: auto;
+}
+
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+.dialog .mask {
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
