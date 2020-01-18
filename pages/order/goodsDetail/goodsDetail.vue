@@ -813,6 +813,7 @@
 			},
 
 			goCart(obj) {
+				console.log('----------------------',obj)
 				if (!uni.getStorageSync('access_token')) {
 					uni.navigateTo({
 						url: '/pages/login/login'
@@ -820,22 +821,18 @@
 				} else {
 					getImToken().then(res => {
 						if (res.code == "1000") {
-							let id = uni.getStorageSync('uid')
-							let tk = res.data
-							let name = obj.realName || obj.phone
-							// let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
-							// console.log('encodeURIComponent:url', url)
-							// url = encodeURIComponent(url)
+							let id   = uni.getStorageSync('uid')
+							let tk   = res.data
+							let tid  = obj.userId
+							let name = obj.phone || obj.realName
+							
 							uni.navigateTo({
-								url: '/pages/user/chat/chat?tid=' + obj.userId + '&id=' + id + '&tk=' + tk + '&name=' + name
+								url: '/pages/user/chat/chat?tid=' + tid + '&id=' + id + '&tk=' + tk + '&name=' + name
 							})
 						} else {
 							T.tips("请求IM数据失败")
 						}
-
 					})
-
-
 				}
 			},
 			goPostSetting(id) {

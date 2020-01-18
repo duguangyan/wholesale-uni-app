@@ -12,10 +12,14 @@
     </view>
     <view class="list" v-if="list.length > 0">
       <view v-for="(item, index) in list" :key="index" class="li">
-        <view class="company" @click="item.shopName ? navToShop(item.shopId) : ''">
+        <view class="company" v-if="roleId != '20001' && businessType != 2" @click="item.shopName ? navToShop(item.shopId) : ''">
           <image src="/static/imgs/icon-shop.png" mode=""></image>
-          <text>{{ item.shopName || item.realName }}</text>
+          <text>{{ item.shopName }}</text>
         </view>
+		<view class="company" v-if="item.realName">
+		  <image src="/static/img/3.2.png" mode=""></image>
+		  <text>{{ item.realName}}</text>
+		</view>
         <view class="good">
           <view class="photo"><image :src="item.imgUrl" mode=""></image></view>
           <view class="content">
@@ -23,7 +27,7 @@
             <view class="good-attr">{{ item.skuDesc }}</view>
             <view class="good-price">
               退款:
-              <text class="text-red fs32">￥{{ businessType == 2 ? item.refundMoney : (item.refundMoney * 100 - item.agentcyRefundMoney * 100) / 100 }}</text>
+              <text class="text-red fs32">￥{{ roleId != '20001' ? item.refundMoney : (item.refundMoney * 100 - item.agentcyRefundMoney * 100) / 100 }}</text>
             </view>
           </view>
         </view>
@@ -56,17 +60,21 @@ var vm = {
         status: '8' //-1 关闭 0 取消 1 新建 2货主审核中 3货主审核通过 4 货主审核不通过 5 平台审核 6 平台审核通过 7 平台审核不通过 8 进行中 9 平台退款失败 默认查全部
       },
       list: [],
-      platform: '0'
+      platform: '0',
+	  roleId: ''
     };
   },
   onLoad(options) {
-    vm.businessType = options.businessType;
+    
+	vm.businessType = options.businessType
 	console.log('businessType',vm.businessType)
   },
   onReachBottom() {
     this.loadMore();
   },
   onShow() {
+	vm.roleId = uni.getStorageSync('roleId')
+	//vm.businessType = uni.getStorageSync('businessType')
     vm.search.status = vm.businessType == 2?'':'8'
     vm.list = [];
     // 如果认证状态，打回认证
@@ -117,6 +125,7 @@ var vm = {
       if (vm.loading) {
         vm.search.pageIndex++;
         vm.load();
+		
       }
     }
   }

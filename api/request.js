@@ -177,7 +177,7 @@ const request = function(params = {}) {
 						// 	}
 						// }
 						
-						if(res.message!='token过期请重新登录' && res.code != 'oauth-1003'){
+						if(res.message!='token过期请重新登录' && res.code != 'oauth-1003' && res.code != '1017'){
 							uni.showToast({
 							    title: res.message || '网络错误,请稍后再试',
 								icon:'none',

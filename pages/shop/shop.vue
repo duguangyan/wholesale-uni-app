@@ -64,7 +64,7 @@ var vm = {
 		  		let id   = uni.getStorageSync('uid')
 		  		let tk   = res.data
 				let tid  = this.shopInfo.userId
-				let name = this.shopInfo.realName || this.shopInfo.phone
+				let name = this.shopInfo.phone
 		  		// let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
 		  		// console.log('url', url)
 		  		uni.navigateTo({

@@ -1,7 +1,7 @@
 <template>
 	<view class="bankcard">
-		<view class="tips" @click="toDetail()" v-if="roleId == '20004' && status == 0">您的账户认证中， <text class="text-theme">查看进度</text></view>
-		<view class="tips" @click="toDetail()" v-if="roleId == '20004' && status == 2">您的账户认证失败， <text class="text-theme">查看进度</text></view>
+		<view class="tips" @click="toDetail()" v-if="roleId == '20004' && status == '0'">您的账户认证中， <text class="text-theme">查看进度</text></view>
+		<view class="tips" @click="toDetail()" v-if="roleId == '20004' && status == '2'">您的账户认证失败， <text class="text-theme">查看进度</text></view>
 		
 		<view class="items">
 			<view class="item cf" :style="{color:item.sizColor || '',background:item.bgcolor || ''}" v-for="(item,index) in records" :key="index" @click="goDel(item)">
@@ -212,7 +212,7 @@
 						this.records = this.records.concat(list)
 						if(this.records.length>0) {
 							this.record = this.records[0]
-							this.status = this.record.status
+							this.status = JSON.stringify(this.record.status) 
 						}
 						
 					}

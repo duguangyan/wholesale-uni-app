@@ -262,16 +262,11 @@
 			},
 			// 发货
 			deliverGoods(index){
-				let n = 0
-				// this.orders[index].orderDetailList.forEach(item=>{
-				// 	if(item.isAfterSale == 1){
-				// 		n++
-				// 		T.tips("该订单有部分商品退款未完成，无法进行发货")
-				// 		return false
-				// 	}
-				// })
-				let item = this.orders[index]
-				if(n==0){
+				if(this.orders[index].deliverStatus == 0){
+					T.tips("该订单有部分商品退款未完成，无法进行发货")
+					return false
+				}else{
+					let item = this.orders[index]
 					if(item.sendType == 1){
 						uni.navigateTo({
 							url:'/pages/user/order/delivery?shopId='+item.shopId + '&orderId=' + item.orderId

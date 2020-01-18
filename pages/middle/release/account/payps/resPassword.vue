@@ -243,7 +243,7 @@
 					password: this.trade_pwd
 				}
 				validPayPwd(data).then(res=>{
-					if(res.code == '1000' && res.data){
+					if(res.code == '1000'){ // && res.data
 						let dto = {
 							id: this.id,
 							password: this.trade_pwd
@@ -251,11 +251,9 @@
 						deleteBank(dto).then(res=>{
 							if(res.code == '1000') {
 								T.tips('解绑成功')
-								setTimeout(function() {
-									uni.navigateBack({
-										delta:1
-									})
-								}, 1000);
+								uni.navigateBack({
+									delta:1
+								})
 								
 							}else{
 								T.tips(res.message || ' 删除失败')
@@ -440,11 +438,11 @@
 							this.delBankCat()
 							break;
 						case 'revise':
-							// 删除银行卡
+							// 重置密码
 							this.doRevise()
 							break;	
 						case 'refund':
-							// 删除银行卡
+							// 退款
 							this.doRefund()
 							break;	
 						default:

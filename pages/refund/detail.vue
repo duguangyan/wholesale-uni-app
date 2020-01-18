@@ -22,7 +22,7 @@
         </view>
       </template>
       <template v-else>
-        <view v-if="detail.status == 2" class="btn-con">
+        <view v-if="detail.status == 2 && roleId != '20002' && businessType == '1'" class="btn-con">
           <view class="mgr-30 btn-black" @click="showDialog(4)">拒绝退款</view>
           <view class="btn-red" @click="showDialog(5)">同意退款</view>
         </view>
@@ -55,8 +55,9 @@
     <view class="info">
       <view>退款原因：{{ detail.afterSaleDetail.reason }}</view>
 
-      <view v-if="businessType != 2">退款金额：￥{{ (detail.afterSaleDetail.refundMoney * 100 - detail.afterSaleDetail.agentcyMoney * 100) / 100 }}</view>
-      <view v-else>退款金额：￥{{ detail.afterSaleDetail.refundMoney }}(包含商品金额:￥{{ detail.afterSaleDetail.goodsMoney }},代办费:{{ detail.afterSaleDetail.agentcyMoney }})</view>
+      <view v-if="roleId != '20002' && businessType != 2">退款金额：￥{{ (detail.afterSaleDetail.refundMoney * 100 - detail.afterSaleDetail.agentcyMoney * 100) / 100 }}</view>
+      <view v-if="businessType == 2">退款金额：￥{{ detail.afterSaleDetail.refundMoney }}(包含商品金额:￥{{ detail.afterSaleDetail.goodsMoney }},代办费:{{ detail.afterSaleDetail.agentcyMoney }})</view>
+      <view v-if="roleId == '20002' && businessType != 2">退款金额：￥{{ detail.afterSaleDetail.refundMoney }}(包含商品金额:￥{{ detail.afterSaleDetail.goodsMoney }},代办费:{{ detail.afterSaleDetail.agentcyMoney }})</view>
 
       <view>申请时间：{{ detail.afterSaleDetail.applyRefundTime }}</view>
       <view>退款说明：{{ detail.afterSaleDetail.descs }}</view>
@@ -103,6 +104,7 @@ var vm = {
         texts: []
       },
       businessType: '',
+	  roleId: '',
       detailId: '',
       result: {
         '-1': '关闭',
@@ -239,6 +241,8 @@ var vm = {
   onShow() {
     vm.dialog['1'][1] = (vm.status==1 || vm.status == 2)?'取消后，订单将正常发货.':''
     vm.load();
+	vm.roleId = uni.getStorageSync('roleId')
+	vm.businessType = uni.getStorageSync('businessType')
   }
 };
 export default vm;
