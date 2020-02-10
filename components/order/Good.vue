@@ -14,14 +14,18 @@
 				<view class="tip fs24 text-999 ellipsis">
 					{{item.skuDesc || ''}}
 				</view>
-				<view class="cf agent-fee" v-if="businessType == 2 && item.agentcyPrice">
+				<view class="cf agent-fee" v-if=" item.agentcyPrice && businessType == 1 && (roleId==20002 || roleId == 20003)">
 					<view class="fll">
 						代办费:¥{{item.agentcyPrice || '0'}} 元/<text v-if="item.goodsUnit"></text>{{item.goodsUnit || '斤'}}
 					</view>
-					<!-- <view class="flr fs24 text-999">
-						x{{item.num}}
-					</view> -->
 				</view>
+				
+				<view class="cf agent-fee" v-if="item.agentcyPrice && businessType == 2">
+					<view class="fll">
+						代办费:¥{{item.agentcyPrice || '0'}} 元/<text v-if="item.goodsUnit"></text>{{item.goodsUnit || '斤'}}
+					</view>
+				</view>
+				
 				<view class="price text-theme">
 					<view class="fll">
 						价格:¥{{item.price || '0'}}元/{{item.goodsUnit || '斤'}}

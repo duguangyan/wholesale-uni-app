@@ -128,7 +128,7 @@
 			</view> -->
 			
 			
-			<view class="phone cf" @click="goCompany(order.shopOrder.shopId)" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 1 && order.needAgentcy == 0">
+			<view class="phone cf" @click="goCompany(order.shopOrder.shopId)" v-if="roleId == 20002 && order.shopOrder.enterpriseStatus == 1">
 				<view class="fll">企业: {{order.shopOrder.shopName}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
@@ -137,7 +137,7 @@
 					<text>联系企业</text>
 				</view>
 			</view>
-			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.needAgentcy == 1">
+			<view class="phone cf" v-if="roleId == 20001 || roleId == 20004 || roleId == 20003">
 				<view class="fll">代办: {{order.agentcyPhone}}</view>
 				<view class="flr" @click="callPhone(order.agentcyPhone)">
 					<view class="image">
@@ -147,7 +147,7 @@
 				</view>
 			</view>
 			
-			<view class="phone cf" v-if="businessType == 2 && roleId != 20002 && order.shopOrder.enterpriseStatus == 0 && order.needAgentcy == 0">
+			<view class="phone cf" v-if="roleId == 20002 && order.shopOrder.enterpriseStatus == 0">
 				<view class="fll">货主: {{order.sellerPhone}}</view>
 				<view class="flr" @click="callPhone(order.sellerPhone)">
 					<view class="image">
@@ -157,7 +157,7 @@
 				</view>
 			</view>
 			
-			<view class="phone cf" v-if="businessType == 1 && order.phone && (roleId == 20002 || roleId == 20004)">
+			<view class="phone cf" v-if="roleId != 20001 && roleId != 20004 && roleId != 20003">
 				<view class="fll">买家:{{order.userName || '暂无'}}</view>
 				<view class="flr" @click="callPhone(order.phone)">
 					<view class="image">
@@ -219,8 +219,14 @@
 				<div class="total-price bb1">
 					<span class="fs28">订单总价</span>
 					<!-- <span class="fs32" v-if="order.shopOrder.sellerId == uid">￥{{(roleId == '20001' || roleId == '20004')? order.shopOrder.orderMoney : order.shopOrder.totalMoney}}</span> -->
-					<span class="fs32" v-if="businessType == 1">￥{{order.shopOrder.orderMoney}}</span>
-					<span class="fs32" v-if="businessType == 2">￥{{order.shopOrder.totalMoney}}</span>
+					<div v-if="businessType == 1">
+						<span class="fs32" v-if="roleId == 20002">￥{{order.shopOrder.totalMoney}}</span>
+						<span class="fs32" v-if="roleId == 20001 || roleId == 20004">￥{{order.shopOrder.orderMoney}}</span>
+					</div>
+					<div v-if="businessType == 2">
+					<!-- 	<span class="fs32" v-if="roleId == 20003 || roleId ==20002">￥{{order.shopOrder.totalMoney}}</span> -->
+						<span class="fs32">￥{{order.shopOrder.totalMoney}}</span>
+					</div>
 				</div>
 				<div class="msg cf">
 					<span class="span-1 fll">买家留言</span>
@@ -358,11 +364,12 @@
 		onLoad(options) {
 			this.orderId      = options.orderId
 			this.shopId       = options.shopId || 1
-			this.businessType = uni.getStorageSync('businessType')
+			
 			console.log(this.orderId,this.shopId)
-			console.log('this.businessType',this.businessType)
 		},
 		onShow() {
+			this.businessType = uni.getStorageSync('businessType')
+			console.log('this.businessType',this.businessType)
 			// 用户类型
 			this.roleId    = uni.getStorageSync('roleId')
 			this.uid       = uni.getStorageSync('uid')
@@ -577,13 +584,20 @@
 			postOrderConfirm() {
 				let _this = this
 				let n = 0
-				this.order.shopOrder.orderDetailList.forEach(item=>{
-					if(item.isAfterSale == 1){
-						n++
-						// T.tips("该订单有部分商品退款未完成，无法进行收货")
-						// return false
-					}
-				})
+				
+				if(this.order.deliverStatus == 0){
+					n++
+					// T.tips("该订单有部分商品退款未完成，无法进行收货")
+					// return false3.
+				}
+				
+				// this.order.shopOrder.orderDetailList.forEach(item=>{
+				// 	if(item.isAfterSale == 1){
+				// 		n++
+				// 		// T.tips("该订单有部分商品退款未完成，无法进行收货")
+				// 		// return false
+				// 	}
+				// })
 				this.isOrderDialog = 1
 				if(n == 0){
 					this.isShow = true
