@@ -8,7 +8,12 @@
 				<view class="flr arrow-right"></view>
 			</view>
 			<view class="item cf" v-for="(item,index) in shippers" :key="index">
-				{{item}}
+				<view class="li fll" @click="goChat(item)">
+					<view class="image">
+						<image :src="item.headImgUrl" mode=""></image>
+					</view>
+					<view class="text ellipsis">{{item.nickName || item.username}}</view>
+				</view>
 			</view>
 		</view>
 		
@@ -18,7 +23,12 @@
 				<view class="flr arrow-right"></view>
 			</view>
 			<view class="item cf" v-for="(item,index) in agencys" :key="index">
-				{{item}}
+				<view class="li fll" @click="goChat(item)">
+					<view class="image">
+						<image :src="item.headImgUrl" mode=""></image>
+					</view>
+					<view class="text ellipsis">{{item.nickName || item.username}}</view>
+				</view>
 			</view>
 		</view>
 		
@@ -28,7 +38,7 @@
 				<view class="flr arrow-right" v-if="purchasers.length>5"></view>
 			</view>
 			<view class="item cf" v-for="(item,index) in purchasers" :key="index">
-				<view class="li fll">
+				<view class="li fll" @click="goChat(item)">
 					<view class="image">
 						<image :src="item.headImgUrl" mode=""></image>
 					</view>
@@ -86,6 +96,7 @@
 	import T from '@/utils/tips.js'
 	// import mpvueCityPicker from '@/components/common/mpvue-citypicker/mpvueCityPicker.vue'
 	import { getUserRealByArea, getUser4Area } from '@/api/supply.js'
+	import { getImToken } from '@/api/userApi.js'
 	export default {
 		data() {
 			return {
@@ -123,6 +134,24 @@
 			}
 		},
 		methods:{
+			// 去聊天窗口
+			goChat(item){
+			  getImToken().then(res => {
+				if (res.code == "1000") {
+					let id   = uni.getStorageSync('uid')
+					let tk   = res.data
+					let tid  = item.id
+					let name = item.nickName || item.username
+					// let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
+					// console.log('url', url)
+					uni.navigateTo({
+						url: '/pages/user/chat/chat?tid=' + tid + '&id=' + id + '&tk=' + tk + '&name=' + name
+					})
+				} else {
+					T.tips("请求IM数据失败")
+				}
+			  })
+			},
 			// 获取附近的人列表  type 1:货主 2:代办
 			userRealByArea(type){ 
 				let data = {
@@ -132,7 +161,8 @@
 					type: type, 
 					pageSize: this.pageSize
 				}
-				getUserRealByArea(data).then(res=>{debugger
+				getUserRealByArea(data).then(res=>{
+					console.log('getUserRealByArea',res)
 					if(res.code == '1000'){
 						if(type == 1) {
 							this.shippers = res.data
@@ -156,6 +186,7 @@
 					pageSize: this.pageSize
 				}
 				getUser4Area(data).then(res=>{
+					console.log('getUser4Area',res)
 					if(res.code == "1000"){
 						this.purchasers = res.data
 					}

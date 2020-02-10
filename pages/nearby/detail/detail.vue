@@ -24,6 +24,7 @@
 
 <script>
 	import NavigationBar from '@/components/common/NavigationBar.vue'
+	import { getImToken } from '@/api/userApi.js'
 	export default {
 		data() {
 			return {
@@ -36,13 +37,38 @@
 		components:{
 			NavigationBar
 		},
-		onLoad() {
-			
+		onLoad(options) {
+			console.log(options)
+			if(options.index == 1){
+				this.title = '本地货主'
+			}else if(options.index == 2){
+				this.title = '代办'
+			}else if(options.index == 3){
+				this.title = '采购商'
+			}
 		},
 		onShow() {
 			
 		},
 		methods:{
+			// 去聊天窗口
+			goChat(item){
+			  getImToken().then(res => {
+				if (res.code == "1000") {
+					let id   = uni.getStorageSync('uid')
+					let tk   = res.data
+					let tid  = item.id
+					let name = item.nickName || item.username
+					// let url = 'https://im.qinlvny.com/#/chat/p2p-' + tid + '?id=' + id + '&tk=' + tk
+					// console.log('url', url)
+					uni.navigateTo({
+						url: '/pages/user/chat/chat?tid=' + tid + '&id=' + id + '&tk=' + tk + '&name=' + name
+					})
+				} else {
+					T.tips("请求IM数据失败")
+				}
+			  })
+			},
 			doNavBarClick(){
 				
 			}
