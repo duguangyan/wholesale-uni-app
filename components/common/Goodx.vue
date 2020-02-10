@@ -122,7 +122,7 @@
 					.img{
 						width: 28upx;
 						height: 24upx;
-            vertical-align: top;
+						vertical-align: top;
 						margin-right: 6upx;
 						>image{
 							width: 100%;
@@ -130,7 +130,7 @@
 							position: relative;
 							top: 4upx; 
 							/*  #ifdef  MP-WEIXIN  */
-							top: -8upx; 
+							top: 4upx; 
 							/*  #endif  */
 							/*  #ifdef  H5  */
 							top: -6upx; 
